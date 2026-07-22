@@ -1,9 +1,21 @@
 package entities;
 
 /**
- * Abstract class representing a user of the app.
+ * Interface representing a user of the app.
  */
 
-public abstract class User {
+public interface User {
+
+    /**
+     * Returns the username of the user.
+     * @return the username of the user.
+     */
+    String getName();
+
+    /**
+     * Returns the password of the user.
+     * @return the password of the user.
+     */
+    String getPassword();
 
 }
