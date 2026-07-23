@@ -1,19 +1,14 @@
-package use_case.logout;
+package use_case.change_password;
 
 /**
- * DAO for the Logout Use Case.
+ * The Change Password Use Case.
  */
-public interface LogoutUserDataAccessInterface {
+public interface ChangePasswordInputBoundary {
 
     /**
-     * Returns the username of the curren user of the application.
-     * @return the username of the current user
+     * Execute the Change Password Use Case.
+     * @param changePasswordInputData the input data for this use case
      */
-    String getCurrentUsername();
+    void execute(ChangePasswordInputData changePasswordInputData);
 
-    /**
-     * Sets the username indicating who is the current user of the application.
-     * @param username the new current username
-     */
-    void setCurrentUsername(String username);
 }
