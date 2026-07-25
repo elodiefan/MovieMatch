@@ -16,12 +16,12 @@ public class SignupViewModel {
     public static final String SIGNUP_BUTTON_LABEL = "Sign up";
     public static final String CANCEL_BUTTON_LABEL = "Cancel";
     public static final String TO_LOGIN_BUTTON_LABEL = "Go to login";
-    public static final String[] SECURITY_QUESTION_OPTIONS = {
-            "What was the name of your first pet?",
-            "What city were you born in?",
-            "What was the name of your first school?",
-            "What is your favourite movie?",
-            "What is your favourite TV show?"
+    private static final String[] SECURITY_QUESTION_OPTIONS = {
+        "What was the name of your first pet?",
+        "What city were you born in?",
+        "What was the name of your first school?",
+        "What is your favourite movie?",
+        "What is your favourite TV show?",
     };
 
     private SignupState state = new SignupState();
@@ -42,6 +42,15 @@ public class SignupViewModel {
      */
     public void setState(SignupState state) {
         this.state = state;
+    }
+
+    /**
+     * Returns the available security question options.
+     *
+     * @return a copy of the security question options
+     */
+    public String[] getSecurityQuestionOptions() {
+        return SECURITY_QUESTION_OPTIONS.clone();
     }
 
     /**
