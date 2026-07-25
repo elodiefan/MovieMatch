@@ -6,13 +6,7 @@ import java.awt.event.ActionListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
-import javax.swing.BoxLayout;
-import javax.swing.JButton;
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-import javax.swing.JPasswordField;
-import javax.swing.JTextField;
+import javax.swing.*;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 
@@ -28,8 +22,10 @@ public class SignupView extends JPanel implements ActionListener, PropertyChange
 
     private final SignupViewModel signupViewModel;
     private final JTextField usernameInputField = new JTextField(15);
+    private final JTextField displayNameInputField = new JTextField(15);
     private final JPasswordField passwordInputField = new JPasswordField(15);
     private final JPasswordField repeatPasswordInputField = new JPasswordField(15);
+    private final JComboBox<String> secutiryQuestionComboBox = new JComboBox<>();
     private SignupController signupController;
 
     private final JButton signUp;
@@ -45,10 +41,14 @@ public class SignupView extends JPanel implements ActionListener, PropertyChange
 
         final LabelTextPanel usernameInfo = new LabelTextPanel(
                 new JLabel(SignupViewModel.USERNAME_LABEL), usernameInputField);
+        final LabelTextPanel displayNameInfo = new LabelTextPanel(
+                new JLabel(SignupViewModel.DISPLAY_NAME_LABEL), displayNameInputField);
         final LabelTextPanel passwordInfo = new LabelTextPanel(
                 new JLabel(SignupViewModel.PASSWORD_LABEL), passwordInputField);
         final LabelTextPanel repeatPasswordInfo = new LabelTextPanel(
                 new JLabel(SignupViewModel.REPEAT_PASSWORD_LABEL), repeatPasswordInputField);
+        final LabelComboBoxPanel secutiryQuestionInfo = new LabelComboBoxPanel(
+                new JLabel(SignupViewModel.SECURITY_QUESTION_LABEL), secutiryQuestionComboBox);
 
         final JPanel buttons = new JPanel();
         toLogin = new JButton(SignupViewModel.TO_LOGIN_BUTTON_LABEL);
@@ -93,8 +93,10 @@ public class SignupView extends JPanel implements ActionListener, PropertyChange
 
         this.add(title);
         this.add(usernameInfo);
+        this.add(displayNameInfo);
         this.add(passwordInfo);
         this.add(repeatPasswordInfo);
+        this.add(secutiryQuestionInfo);
         this.add(buttons);
     }
 
@@ -175,6 +177,8 @@ public class SignupView extends JPanel implements ActionListener, PropertyChange
             }
         });
     }
+
+    private void addSecurityQuestionListener() {}
 
     @Override
     public void actionPerformed(ActionEvent evt) {
