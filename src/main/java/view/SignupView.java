@@ -70,7 +70,7 @@ public class SignupView extends JPanel implements ActionListener, PropertyChange
                                     currentState.getUsername(),
                                     currentState.getDisplayName(),
                                     currentState.getPassword(),
-                                    currentState.getRepeatPassword()
+                                    currentState.getRepeatPassword(),
                                     currentState.getSecurityAnswer()
                             );
                         }
@@ -209,14 +209,12 @@ public class SignupView extends JPanel implements ActionListener, PropertyChange
         });
     }
 
-    private void addSecurityQuestionListener(ActionEvent e) {
-//        if (e.getSource().equals(securityQuestionComboBox)) {
-//            securityQuestionComboBox.getSelectedItem();
-//        }
+    private void addSecurityQuestionListener() {
         securityQuestionInputField.getDocument().addDocumentListener(new DocumentListener() {
 
             private void documentListenerHelper() {
                 final SignupState currentState = signupViewModel.getState();
+                currentState.setSecurityQuestion(securityQuestionComboBox.getSelectedItem().toString());
                 currentState.setSecurityAnswer(securityQuestionInputField.getText());
                 signupViewModel.setState(currentState);
             }
