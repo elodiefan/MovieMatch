@@ -12,8 +12,8 @@ public class SignupState {
     private String passwordError;
     private String repeatPassword = "";
     private String repeatPasswordError;
-//    private String securityQuestion = "";
-//    private String securityQuestionError;
+    private String securityQuestion = "";
+    private String securityQuestionError;
     private String securityAnswer = "";
     private String securityAnswerError;
 
@@ -43,6 +43,14 @@ public class SignupState {
 
     public String getRepeatPasswordError() {
         return repeatPasswordError;
+    }
+
+    public String getSecurityQuestion() {
+        return securityQuestion;
+    }
+
+    public String getSecurityQuestionError() {
+        return securityQuestionError;
     }
 
     public String getSecurityAnswer() {
@@ -83,6 +91,14 @@ public class SignupState {
 
     public void setRepeatPasswordError(String repeatPasswordError) {
         this.repeatPasswordError = repeatPasswordError;
+    }
+
+    public void setSecurityQuestion(String securityQuestion) {
+        this.securityQuestion = securityQuestion;
+    }
+
+    public void setSecurityQuestionError(String securityQuestionError) {
+        this.securityQuestionError = securityQuestionError;
     }
 
     public void setSecurityAnswer(String securityAnswer) {
