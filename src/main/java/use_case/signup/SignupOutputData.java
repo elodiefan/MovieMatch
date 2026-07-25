@@ -7,19 +7,16 @@ public class SignupOutputData {
 
     private final String username;
     private final String displayName;
-    private final boolean useCaseFailed;
 
     /**
      * Creates the output data for a signup result.
      *
      * @param username the username of the created account
      * @param displayName the display name of the created account
-     * @param useCaseFailed whether the signup use case failed
      */
-    public SignupOutputData(String username, String displayName, boolean useCaseFailed) {
+    public SignupOutputData(String username, String displayName) {
         this.username = username;
         this.displayName = displayName;
-        this.useCaseFailed = useCaseFailed;
     }
 
     /**
@@ -38,14 +35,5 @@ public class SignupOutputData {
      */
     public String getDisplayName() {
         return displayName;
-    }
-
-    /**
-     * Returns whether the signup use case failed.
-     *
-     * @return true if the use case failed; false otherwise
-     */
-    public boolean isUseCaseFailed() {
-        return useCaseFailed;
     }
 }
