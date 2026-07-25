@@ -11,7 +11,7 @@ public class SignupInteractor implements SignupInputBoundary {
     private static final int MAX_USERNAME_LENGTH = 20;
     private static final int MAX_DISPLAY_NAME_LENGTH = 30;
     private static final int MIN_PASSWORD_LENGTH = 8;
-    private static final int MAX_PASSWORD_LENGTH = 64;
+    private static final int MAX_PASSWORD_LENGTH = 32;
     private static final int MAX_SECURITY_ANSWER_LENGTH = 100;
     private static final String USERNAME_PATTERN = "\\w+";
 
