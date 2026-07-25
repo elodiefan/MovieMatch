@@ -26,6 +26,12 @@ public class SignupView extends JPanel implements ActionListener {
     private static final int FIELD_COLUMNS = 20;
     private static final int BORDER_GAP = 12;
     private static final int ROW_GAP = 6;
+    private static final int USERNAME_ROW = 0;
+    private static final int DISPLAY_NAME_ROW = 1;
+    private static final int PASSWORD_ROW = 2;
+    private static final int REPEAT_PASSWORD_ROW = 3;
+    private static final int SECURITY_QUESTION_ROW = 4;
+    private static final int SECURITY_ANSWER_ROW = 5;
 
     private final SignupViewModel signupViewModel;
     private final JTextField usernameInputField = new JTextField(FIELD_COLUMNS);
@@ -97,12 +103,15 @@ public class SignupView extends JPanel implements ActionListener {
      */
     private JPanel createFormPanel() {
         final JPanel formPanel = new JPanel(new GridBagLayout());
-        addFormRow(formPanel, SignupViewModel.USERNAME_LABEL, usernameInputField, 0);
-        addFormRow(formPanel, SignupViewModel.DISPLAY_NAME_LABEL, displayNameInputField, 1);
-        addFormRow(formPanel, SignupViewModel.PASSWORD_LABEL, passwordInputField, 2);
-        addFormRow(formPanel, SignupViewModel.REPEAT_PASSWORD_LABEL, repeatPasswordInputField, 3);
-        addFormRow(formPanel, SignupViewModel.SECURITY_QUESTION_LABEL, securityQuestionComboBox, 4);
-        addFormRow(formPanel, SignupViewModel.SECURITY_ANSWER_LABEL, securityAnswerInputField, 5);
+        addFormRow(formPanel, SignupViewModel.USERNAME_LABEL, usernameInputField, USERNAME_ROW);
+        addFormRow(formPanel, SignupViewModel.DISPLAY_NAME_LABEL, displayNameInputField, DISPLAY_NAME_ROW);
+        addFormRow(formPanel, SignupViewModel.PASSWORD_LABEL, passwordInputField, PASSWORD_ROW);
+        addFormRow(formPanel, SignupViewModel.REPEAT_PASSWORD_LABEL, repeatPasswordInputField,
+                REPEAT_PASSWORD_ROW);
+        addFormRow(formPanel, SignupViewModel.SECURITY_QUESTION_LABEL, securityQuestionComboBox,
+                SECURITY_QUESTION_ROW);
+        addFormRow(formPanel, SignupViewModel.SECURITY_ANSWER_LABEL, securityAnswerInputField,
+                SECURITY_ANSWER_ROW);
         return formPanel;
     }
 
