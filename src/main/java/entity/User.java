@@ -24,4 +24,15 @@ public interface User {
      */
     String getPassword();
 
+    /**
+     * Returns the chosen security question of the user.
+     * @return the chosen security question of the user.
+     */
+    String getSecurityQuestion();
+
+    /**
+     * Returns the answer to the user's chosen security question.
+     * @return the answer to the user's chosen security question.
+     */
+    String getSecurityQuestionAnswer();
 }
