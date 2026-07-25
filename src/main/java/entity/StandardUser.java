@@ -6,17 +6,24 @@ package entity;
 
 public class StandardUser implements User {
 
-    private final String name;
+    private final String username;
+    private final String displayName;
     private final String password;
 
-    public StandardUser(String name, String password) {
-        this.name = name;
+    public StandardUser(String username, String displayName, String password) {
+        this.username = username;
+        this.displayName = displayName;
         this.password = password;
     }
 
     @Override
-    public String getName() {
-        return name;
+    public String getUsername() {
+        return username;
+    }
+
+    @Override
+    public String getDisplayName() {
+        return displayName;
     }
 
     @Override

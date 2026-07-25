@@ -10,7 +10,13 @@ public interface User {
      * Returns the username of the user.
      * @return the username of the user.
      */
-    String getName();
+    String getUsername();
+
+    /**
+     * Returns the display name of the user.
+     * @return the display name of the user.
+     */
+    String getDisplayName();
 
     /**
      * Returns the password of the user.
