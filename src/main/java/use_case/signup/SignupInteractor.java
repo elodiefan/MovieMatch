@@ -60,7 +60,7 @@ public class SignupInteractor implements SignupInputBoundary {
             );
             userDataAccessObject.save(user);
 
-            final SignupOutputData signupOutputData = new SignupOutputData(user.getName(), false);
+            final SignupOutputData signupOutputData = new SignupOutputData(user.getName(), displayName, false);
             userPresenter.prepareSuccessView(signupOutputData);
         }
         else {
