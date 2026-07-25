@@ -47,54 +47,10 @@ public class SignupInteractor implements SignupInputBoundary {
         final String securityAnswer = trimToEmpty(signupInputData.getSecurityAnswer());
         final String password = signupInputData.getPassword();
         final String repeatPassword = signupInputData.getRepeatPassword();
+        final String errorMessage = validateSignupData(username, displayName, password,
+                repeatPassword, securityQuestion, securityAnswer);
 
-        if (isBlank(username)) {
-            userPresenter.prepareFailView("Username cannot be empty.");
-        }
-        else if (!isValidUsername(username)) {
-            userPresenter.prepareFailView(
-                    "Username must be 3 to 20 characters and use only letters, numbers, or underscores."
-            );
-        }
-        else if (isBlank(displayName)) {
-            userPresenter.prepareFailView("Display name cannot be empty.");
-        }
-        else if (displayName.length() > MAX_DISPLAY_NAME_LENGTH) {
-            userPresenter.prepareFailView("Display name cannot be longer than 30 characters.");
-        }
-        else if (isBlank(password)) {
-            userPresenter.prepareFailView("Password cannot be empty.");
-        }
-        else if (hasLeadingOrTrailingWhitespace(password)) {
-            userPresenter.prepareFailView("Password cannot start or end with spaces.");
-        }
-        else if (!isValidPassword(password)) {
-            userPresenter.prepareFailView(
-                    "Password must be 8 to 64 characters and include at least one letter and one number."
-            );
-        }
-        else if (isBlank(repeatPassword)) {
-            userPresenter.prepareFailView("Repeated password cannot be empty.");
-        }
-        else if (hasLeadingOrTrailingWhitespace(repeatPassword)) {
-            userPresenter.prepareFailView("Repeated password cannot start or end with spaces.");
-        }
-        else if (isBlank(securityQuestion)) {
-            userPresenter.prepareFailView("Security question cannot be empty.");
-        }
-        else if (isBlank(securityAnswer)) {
-            userPresenter.prepareFailView("Security answer cannot be empty.");
-        }
-        else if (securityAnswer.length() > MAX_SECURITY_ANSWER_LENGTH) {
-            userPresenter.prepareFailView("Security answer cannot be longer than 100 characters.");
-        }
-        else if (userDataAccessObject.existsByUsername(username)) {
-            userPresenter.prepareFailView("Username already exists.");
-        }
-        else if (!password.equals(repeatPassword)) {
-            userPresenter.prepareFailView("Passwords don't match.");
-        }
-        else {
+        if (errorMessage == null) {
             final User user = userFactory.create(
                     username,
                     displayName,
@@ -106,6 +62,9 @@ public class SignupInteractor implements SignupInputBoundary {
 
             final SignupOutputData signupOutputData = new SignupOutputData(user.getName(), false);
             userPresenter.prepareSuccessView(signupOutputData);
+        }
+        else {
+            userPresenter.prepareFailView(errorMessage);
         }
     }
 
@@ -125,6 +84,136 @@ public class SignupInteractor implements SignupInputBoundary {
      */
     private boolean isBlank(String value) {
         return value == null || value.trim().isEmpty();
+    }
+
+    /**
+     * Validates all submitted signup fields.
+     *
+     * @param username the trimmed username to validate
+     * @param displayName the trimmed display name to validate
+     * @param password the password to validate
+     * @param repeatPassword the repeated password to validate
+     * @param securityQuestion the trimmed security question to validate
+     * @param securityAnswer the trimmed security answer to validate
+     * @return an error message if validation fails; null otherwise
+     */
+    private String validateSignupData(String username, String displayName, String password,
+                                      String repeatPassword, String securityQuestion,
+                                      String securityAnswer) {
+        String errorMessage = validateUsername(username);
+        if (errorMessage == null) {
+            errorMessage = validateDisplayName(displayName);
+        }
+        if (errorMessage == null) {
+            errorMessage = validatePassword(password, repeatPassword);
+        }
+        if (errorMessage == null) {
+            errorMessage = validateSecurityInformation(securityQuestion, securityAnswer);
+        }
+        if (errorMessage == null && userDataAccessObject.existsByUsername(username)) {
+            errorMessage = "Username already exists.";
+        }
+        return errorMessage;
+    }
+
+    /**
+     * Validates a submitted username.
+     *
+     * @param username the trimmed username to validate
+     * @return an error message if validation fails; null otherwise
+     */
+    private String validateUsername(String username) {
+        String errorMessage = null;
+        if (isBlank(username)) {
+            errorMessage = "Username cannot be empty.";
+        }
+        else if (!isValidUsername(username)) {
+            errorMessage = "Username must be 3 to 20 characters and use only letters, numbers, or underscores.";
+        }
+        return errorMessage;
+    }
+
+    /**
+     * Validates a submitted display name.
+     *
+     * @param displayName the trimmed display name to validate
+     * @return an error message if validation fails; null otherwise
+     */
+    private String validateDisplayName(String displayName) {
+        String errorMessage = null;
+        if (isBlank(displayName)) {
+            errorMessage = "Display name cannot be empty.";
+        }
+        else if (displayName.length() > MAX_DISPLAY_NAME_LENGTH) {
+            errorMessage = "Display name cannot be longer than 30 characters.";
+        }
+        return errorMessage;
+    }
+
+    /**
+     * Validates submitted password fields.
+     *
+     * @param password the password to validate
+     * @param repeatPassword the repeated password to validate
+     * @return an error message if validation fails; null otherwise
+     */
+    private String validatePassword(String password, String repeatPassword) {
+        String errorMessage = null;
+        if (isBlank(password)) {
+            errorMessage = "Password cannot be empty.";
+        }
+        else if (hasLeadingOrTrailingWhitespace(password)) {
+            errorMessage = "Password cannot start or end with spaces.";
+        }
+        else {
+            errorMessage = validatePasswordStrength(password, repeatPassword);
+        }
+        return errorMessage;
+    }
+
+    /**
+     * Validates submitted password strength and confirmation.
+     *
+     * @param password the password to validate
+     * @param repeatPassword the repeated password to validate
+     * @return an error message if validation fails; null otherwise
+     */
+    private String validatePasswordStrength(String password, String repeatPassword) {
+        String errorMessage = null;
+        if (!isValidPassword(password)) {
+            errorMessage = "Password must be 8 to 64 characters and include at least one letter and one number.";
+        }
+        else if (isBlank(repeatPassword)) {
+            errorMessage = "Repeated password cannot be empty.";
+        }
+        else if (hasLeadingOrTrailingWhitespace(repeatPassword)) {
+            errorMessage = "Repeated password cannot start or end with spaces.";
+        }
+        else if (!password.equals(repeatPassword)) {
+            errorMessage = "Passwords don't match.";
+        }
+        return errorMessage;
+    }
+
+    /**
+     * Validates submitted security question information.
+     *
+     * @param securityQuestion the trimmed security question to validate
+     * @param securityAnswer the trimmed security answer to validate
+     * @return an error message if validation fails; null otherwise
+     */
+    private String validateSecurityInformation(String securityQuestion, String securityAnswer) {
+        String errorMessage = null;
+        if (isBlank(securityQuestion)) {
+            errorMessage = "Security question cannot be empty.";
+        }
+        else if (isBlank(securityAnswer)) {
+            errorMessage = "Security answer cannot be empty.";
+        }
+        else if (securityAnswer.length() > MAX_SECURITY_ANSWER_LENGTH) {
+            errorMessage = "Security answer cannot be longer than 100 characters.";
+        }
+        return errorMessage;
     }
 
     /**
@@ -159,12 +248,13 @@ public class SignupInteractor implements SignupInputBoundary {
      * @return true if the password contains a letter; false otherwise
      */
     private boolean containsLetter(String password) {
+        boolean foundLetter = false;
         for (int i = 0; i < password.length(); i++) {
             if (Character.isLetter(password.charAt(i))) {
-                return true;
+                foundLetter = true;
             }
         }
-        return false;
+        return foundLetter;
     }
 
     /**
@@ -174,12 +264,13 @@ public class SignupInteractor implements SignupInputBoundary {
      * @return true if the password contains a number; false otherwise
      */
     private boolean containsNumber(String password) {
+        boolean foundNumber = false;
         for (int i = 0; i < password.length(); i++) {
             if (Character.isDigit(password.charAt(i))) {
-                return true;
+                foundNumber = true;
             }
         }
-        return false;
+        return foundNumber;
     }
 
     /**
@@ -199,9 +290,13 @@ public class SignupInteractor implements SignupInputBoundary {
      * @return the trimmed value, or an empty string if the value is null
      */
     private String trimToEmpty(String value) {
+        String trimmedValue = "";
         if (value == null) {
-            return "";
+            trimmedValue = "";
         }
-        return value.trim();
+        else {
+            trimmedValue = value.trim();
+        }
+        return trimmedValue;
     }
 }
