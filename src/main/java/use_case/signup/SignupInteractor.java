@@ -13,7 +13,7 @@ public class SignupInteractor implements SignupInputBoundary {
     private static final int MIN_PASSWORD_LENGTH = 8;
     private static final int MAX_PASSWORD_LENGTH = 64;
     private static final int MAX_SECURITY_ANSWER_LENGTH = 100;
-    private static final String USERNAME_PATTERN = "[A-Za-z0-9_]+";
+    private static final String USERNAME_PATTERN = "\\w+";
 
     private final SignupUserDataAccessInterface userDataAccessObject;
     private final SignupOutputBoundary userPresenter;
@@ -123,12 +123,40 @@ public class SignupInteractor implements SignupInputBoundary {
      * @return an error message if validation fails; null otherwise
      */
     private String validateUsername(String username) {
-        String errorMessage = null;
+        return validateUsernameFormat(username);
+    }
+
+    /**
+     * Validates a submitted username's content and length.
+     *
+     * @param username the trimmed username to validate
+     * @return an error message if validation fails; null otherwise
+     */
+    private String validateUsernameFormat(String username) {
+        final String errorMessage;
         if (isBlank(username)) {
             errorMessage = "Username cannot be empty.";
         }
-        else if (!isValidUsername(username)) {
-            errorMessage = "Username must be 3 to 20 characters and use only letters, numbers, or underscores.";
+        else {
+            errorMessage = validateNonBlankUsername(username);
+        }
+        return errorMessage;
+    }
+
+    /**
+     * Validates a submitted username after confirming it is not blank.
+     *
+     * @param username the trimmed username to validate
+     * @return an error message if validation fails; null otherwise
+     */
+    private String validateNonBlankUsername(String username) {
+        final String errorMessage;
+        if (!isValidUsername(username)) {
+            errorMessage = "Username must be 3 to 20 characters and use only letters, numbers, "
+                    + "or underscores.";
+        }
+        else {
+            errorMessage = null;
         }
         return errorMessage;
     }
@@ -140,12 +168,15 @@ public class SignupInteractor implements SignupInputBoundary {
      * @return an error message if validation fails; null otherwise
      */
     private String validateDisplayName(String displayName) {
-        String errorMessage = null;
+        final String errorMessage;
         if (isBlank(displayName)) {
             errorMessage = "Display name cannot be empty.";
         }
         else if (displayName.length() > MAX_DISPLAY_NAME_LENGTH) {
             errorMessage = "Display name cannot be longer than 30 characters.";
+        }
+        else {
+            errorMessage = null;
         }
         return errorMessage;
     }
@@ -158,7 +189,7 @@ public class SignupInteractor implements SignupInputBoundary {
      * @return an error message if validation fails; null otherwise
      */
     private String validatePassword(String password, String repeatPassword) {
-        String errorMessage = null;
+        final String errorMessage;
         if (isBlank(password)) {
             errorMessage = "Password cannot be empty.";
         }
@@ -179,7 +210,7 @@ public class SignupInteractor implements SignupInputBoundary {
      * @return an error message if validation fails; null otherwise
      */
     private String validatePasswordStrength(String password, String repeatPassword) {
-        String errorMessage = null;
+        final String errorMessage;
         if (!isValidPassword(password)) {
             errorMessage = "Password must be 8 to 64 characters and include at least one letter and one number.";
         }
@@ -192,6 +223,9 @@ public class SignupInteractor implements SignupInputBoundary {
         else if (!password.equals(repeatPassword)) {
             errorMessage = "Passwords don't match.";
         }
+        else {
+            errorMessage = null;
+        }
         return errorMessage;
     }
 
@@ -203,7 +237,7 @@ public class SignupInteractor implements SignupInputBoundary {
      * @return an error message if validation fails; null otherwise
      */
     private String validateSecurityInformation(String securityQuestion, String securityAnswer) {
-        String errorMessage = null;
+        final String errorMessage;
         if (isBlank(securityQuestion)) {
             errorMessage = "Security question cannot be empty.";
         }
@@ -212,6 +246,9 @@ public class SignupInteractor implements SignupInputBoundary {
         }
         else if (securityAnswer.length() > MAX_SECURITY_ANSWER_LENGTH) {
             errorMessage = "Security answer cannot be longer than 100 characters.";
+        }
+        else {
+            errorMessage = null;
         }
         return errorMessage;
     }
@@ -290,7 +327,7 @@ public class SignupInteractor implements SignupInputBoundary {
      * @return the trimmed value, or an empty string if the value is null
      */
     private String trimToEmpty(String value) {
-        String trimmedValue = "";
+        final String trimmedValue;
         if (value == null) {
             trimmedValue = "";
         }
