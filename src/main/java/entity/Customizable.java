@@ -1,4 +1,4 @@
-package entities;
+package entity;
 
 /**
  * Represents user accounts that support profile customization.

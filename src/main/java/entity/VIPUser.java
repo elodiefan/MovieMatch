@@ -1,4 +1,4 @@
-package entities;
+package entity;
 
 /**
  * Represents a VIP user of the app. Includes bonus features exclusive to VIP.
