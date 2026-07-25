@@ -13,6 +13,13 @@ public class SignupViewModel extends ViewModel<SignupState> {
     public static final String PASSWORD_LABEL = "Choose password";
     public static final String REPEAT_PASSWORD_LABEL = "Enter password again";
     public static final String SECURITY_QUESTION_LABEL = "Choose a security question";
+    public static final String[] SECURITY_QUESTION_OPTIONS = {
+            "What year did you get a bob?",
+            "Which celebrity has the best bob?",
+            "What is your mother's maiden name?",
+            "What was your first car?",
+            "What was the name of your first pet?"
+    };
 
     public static final String SIGNUP_BUTTON_LABEL = "Sign up";
     public static final String CANCEL_BUTTON_LABEL = "Cancel";

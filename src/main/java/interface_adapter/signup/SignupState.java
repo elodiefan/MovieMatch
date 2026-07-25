@@ -6,10 +6,16 @@ package interface_adapter.signup;
 public class SignupState {
     private String username = "";
     private String usernameError;
+    private String displayName = "";
+    private String displayNameError;
     private String password = "";
     private String passwordError;
     private String repeatPassword = "";
     private String repeatPasswordError;
+//    private String securityQuestion = "";
+//    private String securityQuestionError;
+    private String securityAnswer = "";
+    private String securityAnswerError;
 
     public String getUsername() {
         return username;
@@ -18,6 +24,10 @@ public class SignupState {
     public String getUsernameError() {
         return usernameError;
     }
+
+    public String getDisplayName() { return displayName; }
+
+    public String getDisplayNameError() { return displayNameError; }
 
     public String getPassword() {
         return password;
@@ -35,12 +45,28 @@ public class SignupState {
         return repeatPasswordError;
     }
 
+    public String getSecurityAnswer() {
+        return securityAnswer;
+    }
+
+    public String getSecurityAnswerError() {
+        return securityAnswerError;
+    }
+
     public void setUsername(String username) {
         this.username = username;
     }
 
     public void setUsernameError(String usernameError) {
         this.usernameError = usernameError;
+    }
+
+    public void setDisplayName(String displayName) {
+        this.displayName = displayName;
+    }
+
+    public void setDisplayNameError(String displayNameError) {
+        this.displayNameError = displayNameError;
     }
 
     public void setPassword(String password) {
@@ -59,12 +85,22 @@ public class SignupState {
         this.repeatPasswordError = repeatPasswordError;
     }
 
+    public void setSecurityAnswer(String securityAnswer) {
+        this.securityAnswer = securityAnswer;
+    }
+
+    public void setSecurityAnswerError(String securityAnswerError) {
+        this.securityAnswerError = securityAnswerError;
+    }
+
     @Override
     public String toString() {
         return "SignupState{"
                 + "username='" + username + '\''
+                + "displayName='" + displayName + '\''
                 + ", password='" + password + '\''
                 + ", repeatPassword='" + repeatPassword + '\''
+                + "securityAnswer='" + securityAnswer + '\''
                 + '}';
     }
 }

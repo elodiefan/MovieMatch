@@ -25,7 +25,8 @@ public class SignupView extends JPanel implements ActionListener, PropertyChange
     private final JTextField displayNameInputField = new JTextField(15);
     private final JPasswordField passwordInputField = new JPasswordField(15);
     private final JPasswordField repeatPasswordInputField = new JPasswordField(15);
-    private final JComboBox<String> secutiryQuestionComboBox = new JComboBox<>();
+    private final JComboBox<String> securityQuestionComboBox = new JComboBox<>(SignupViewModel.SECURITY_QUESTION_OPTIONS);
+    private final JTextField securityQuestionInputField = new JTextField(15);
     private SignupController signupController;
 
     private final JButton signUp;
@@ -47,8 +48,8 @@ public class SignupView extends JPanel implements ActionListener, PropertyChange
                 new JLabel(SignupViewModel.PASSWORD_LABEL), passwordInputField);
         final LabelTextPanel repeatPasswordInfo = new LabelTextPanel(
                 new JLabel(SignupViewModel.REPEAT_PASSWORD_LABEL), repeatPasswordInputField);
-        final LabelComboBoxPanel secutiryQuestionInfo = new LabelComboBoxPanel(
-                new JLabel(SignupViewModel.SECURITY_QUESTION_LABEL), secutiryQuestionComboBox);
+        final LabelComboBoxTextPanel securityQuestionInfo = new LabelComboBoxTextPanel(
+                new JLabel(SignupViewModel.SECURITY_QUESTION_LABEL), securityQuestionComboBox, securityQuestionInputField);
 
         final JPanel buttons = new JPanel();
         toLogin = new JButton(SignupViewModel.TO_LOGIN_BUTTON_LABEL);
@@ -67,8 +68,10 @@ public class SignupView extends JPanel implements ActionListener, PropertyChange
 
                             signupController.execute(
                                     currentState.getUsername(),
+                                    currentState.getDisplayName(),
                                     currentState.getPassword(),
                                     currentState.getRepeatPassword()
+                                    currentState.getSecurityAnswer()
                             );
                         }
                     }
@@ -86,8 +89,10 @@ public class SignupView extends JPanel implements ActionListener, PropertyChange
         cancel.addActionListener(this);
 
         addUsernameListener();
+        addDisplayNameListener();
         addPasswordListener();
         addRepeatPasswordListener();
+        addSecurityQuestionListener();
 
         this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 
@@ -96,7 +101,7 @@ public class SignupView extends JPanel implements ActionListener, PropertyChange
         this.add(displayNameInfo);
         this.add(passwordInfo);
         this.add(repeatPasswordInfo);
-        this.add(secutiryQuestionInfo);
+        this.add(securityQuestionInfo);
         this.add(buttons);
     }
 
@@ -106,6 +111,32 @@ public class SignupView extends JPanel implements ActionListener, PropertyChange
             private void documentListenerHelper() {
                 final SignupState currentState = signupViewModel.getState();
                 currentState.setUsername(usernameInputField.getText());
+                signupViewModel.setState(currentState);
+            }
+
+            @Override
+            public void insertUpdate(DocumentEvent e) {
+                documentListenerHelper();
+            }
+
+            @Override
+            public void removeUpdate(DocumentEvent e) {
+                documentListenerHelper();
+            }
+
+            @Override
+            public void changedUpdate(DocumentEvent e) {
+                documentListenerHelper();
+            }
+        });
+    }
+
+    private void addDisplayNameListener() {
+        displayNameInputField.getDocument().addDocumentListener(new DocumentListener() {
+
+            private void documentListenerHelper() {
+                final SignupState currentState = signupViewModel.getState();
+                currentState.setDisplayName(displayNameInputField.getText());
                 signupViewModel.setState(currentState);
             }
 
@@ -178,7 +209,34 @@ public class SignupView extends JPanel implements ActionListener, PropertyChange
         });
     }
 
-    private void addSecurityQuestionListener() {}
+    private void addSecurityQuestionListener(ActionEvent e) {
+//        if (e.getSource().equals(securityQuestionComboBox)) {
+//            securityQuestionComboBox.getSelectedItem();
+//        }
+        securityQuestionInputField.getDocument().addDocumentListener(new DocumentListener() {
+
+            private void documentListenerHelper() {
+                final SignupState currentState = signupViewModel.getState();
+                currentState.setSecurityAnswer(securityQuestionInputField.getText());
+                signupViewModel.setState(currentState);
+            }
+
+            @Override
+            public void insertUpdate(DocumentEvent e) {
+                documentListenerHelper();
+            }
+
+            @Override
+            public void removeUpdate(DocumentEvent e) {
+                documentListenerHelper();
+            }
+
+            @Override
+            public void changedUpdate(DocumentEvent e) {
+                documentListenerHelper();
+            }
+        });
+    }
 
     @Override
     public void actionPerformed(ActionEvent evt) {
