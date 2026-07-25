@@ -1,4 +1,4 @@
-package entities;
+package entity;
 
 /**
  * Factory for creating VIPUser objects.

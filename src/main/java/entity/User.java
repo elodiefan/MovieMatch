@@ -1,4 +1,4 @@
-package entities;
+package entity;
 
 /**
  * Interface representing a user of the app.
