@@ -34,5 +34,5 @@ public interface User {
      * Returns the answer to the user's chosen security question.
      * @return the answer to the user's chosen security question.
      */
-    String getSecurityQuestionAnswer();
+    String getSecurityAnswer();
 }

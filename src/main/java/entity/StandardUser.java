@@ -10,15 +10,15 @@ public class StandardUser implements User {
     private final String displayName;
     private final String password;
     private final String securityQuestion;
-    private final String securityQuestionAnswer;
+    private final String securityAnswer;
 
     public StandardUser(String username, String displayName, String password,
-                        String securityQuestion, String securityQuestionAnswer) {
+                        String securityQuestion, String securityAnswer) {
         this.username = username;
         this.displayName = displayName;
         this.password = password;
         this.securityQuestion = securityQuestion;
-        this.securityQuestionAnswer = securityQuestionAnswer;
+        this.securityAnswer = securityAnswer;
     }
 
     @Override
@@ -42,7 +42,7 @@ public class StandardUser implements User {
     }
 
     @Override
-    public String getSecurityQuestionAnswer() {
-        return securityQuestionAnswer;
+    public String getSecurityAnswer() {
+        return securityAnswer;
     }
 }
