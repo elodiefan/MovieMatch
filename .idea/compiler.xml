@@ -6,8 +6,11 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-        <module name="CSC207-Project" />
+        <module name="movie-match" />
       </profile>
     </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="CSC207-Project" target="1.8" />
+    </bytecodeTargetLevel>
   </component>
 </project>
