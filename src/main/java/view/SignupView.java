@@ -6,6 +6,8 @@ import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -22,7 +24,7 @@ import interface_adapter.signup.SignupViewModel;
 /**
  * Swing view for the Signup Use Case.
  */
-public class SignupView extends JPanel implements ActionListener {
+public class SignupView extends JPanel implements ActionListener, PropertyChangeListener {
     private static final int FIELD_COLUMNS = 20;
     private static final int BORDER_GAP = 12;
     private static final int ROW_GAP = 6;
@@ -52,6 +54,7 @@ public class SignupView extends JPanel implements ActionListener {
      */
     public SignupView(SignupViewModel signupViewModel) {
         this.signupViewModel = signupViewModel;
+        this.signupViewModel.addPropertyChangeListener(this);
         this.securityQuestionComboBox = new JComboBox<>(signupViewModel.getSecurityQuestionOptions());
         setLayout(new BorderLayout(BORDER_GAP, BORDER_GAP));
         add(new JLabel(SignupViewModel.TITLE_LABEL), BorderLayout.NORTH);
@@ -75,6 +78,20 @@ public class SignupView extends JPanel implements ActionListener {
         }
         else if (eventSource == toLoginButton && signupController != null) {
             signupController.switchToLoginView();
+        }
+    }
+
+    /**
+     * Responds to changes in the signup view model.
+     *
+     * @param event the property change event
+     */
+    @Override
+    public void propertyChange(PropertyChangeEvent event) {
+        final SignupState state = (SignupState) event.getNewValue();
+        setFields(state);
+        if (state.getSignupError() != null) {
+            JOptionPane.showMessageDialog(this, state.getSignupError());
         }
     }
 
@@ -186,7 +203,6 @@ public class SignupView extends JPanel implements ActionListener {
             final SignupState state = signupViewModel.getState();
             signupController.execute(state.getUsername(), state.getDisplayName(), state.getPassword(),
                     state.getRepeatPassword(), state.getSecurityQuestion(), state.getSecurityAnswer());
-            showSignupErrorIfPresent();
         }
     }
 
@@ -223,13 +239,17 @@ public class SignupView extends JPanel implements ActionListener {
     }
 
     /**
-     * Shows the current signup error if one exists.
+     * Updates the visible signup fields from the current signup state.
+     *
+     * @param state the current signup state
      */
-    private void showSignupErrorIfPresent() {
-        final String signupError = signupViewModel.getState().getSignupError();
-        if (signupError != null) {
-            JOptionPane.showMessageDialog(this, signupError);
-        }
+    private void setFields(SignupState state) {
+        usernameInputField.setText(state.getUsername());
+        displayNameInputField.setText(state.getDisplayName());
+        passwordInputField.setText(state.getPassword());
+        repeatPasswordInputField.setText(state.getRepeatPassword());
+        securityQuestionComboBox.setSelectedItem(state.getSecurityQuestion());
+        securityAnswerInputField.setText(state.getSecurityAnswer());
     }
 
     /**
@@ -242,5 +262,6 @@ public class SignupView extends JPanel implements ActionListener {
         repeatPasswordInputField.setText("");
         securityAnswerInputField.setText("");
         signupViewModel.setState(new SignupState());
+        signupViewModel.firePropertyChanged();
     }
 }

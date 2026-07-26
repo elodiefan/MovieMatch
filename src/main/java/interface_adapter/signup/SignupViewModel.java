@@ -1,9 +1,11 @@
 package interface_adapter.signup;
 
+import interface_adapter.ViewModel;
+
 /**
  * View model for the Signup View.
  */
-public class SignupViewModel {
+public class SignupViewModel extends ViewModel<SignupState> {
 
     public static final String VIEW_NAME = "sign up";
     public static final String TITLE_LABEL = "Sign Up";
@@ -24,24 +26,12 @@ public class SignupViewModel {
         "What is your favourite TV show?",
     };
 
-    private SignupState state = new SignupState();
-
     /**
-     * Returns the current signup state.
-     *
-     * @return the current signup state
+     * Creates a signup view model.
      */
-    public SignupState getState() {
-        return state;
-    }
-
-    /**
-     * Updates the current signup state.
-     *
-     * @param state the new signup state
-     */
-    public void setState(SignupState state) {
-        this.state = state;
+    public SignupViewModel() {
+        super(VIEW_NAME);
+        setState(new SignupState());
     }
 
     /**
@@ -51,14 +41,5 @@ public class SignupViewModel {
      */
     public String[] getSecurityQuestionOptions() {
         return SECURITY_QUESTION_OPTIONS.clone();
-    }
-
-    /**
-     * Returns the name used to identify the signup view.
-     *
-     * @return the signup view name
-     */
-    public String getViewName() {
-        return VIEW_NAME;
     }
 }
