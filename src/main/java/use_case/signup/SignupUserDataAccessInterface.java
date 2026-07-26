@@ -1,6 +1,6 @@
 package use_case.signup;
 
-import entities.User;
+import entity.User;
 
 /**
  * Data access interface for the Signup Use Case.
