@@ -1,0 +1,11 @@
+# --- Secrets ---
+mongo.properties
+
+# --- Build output ---
+target/
+out/
+*.class
+
+# --- IDE ---
+.idea/
+*.iml
