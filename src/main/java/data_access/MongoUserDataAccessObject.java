@@ -82,6 +82,18 @@ public class MongoUserDataAccessObject implements UserDataAccessObject {
         return users.find(Filters.eq(USERNAME, username)).first() != null;
     }
 
+    /**
+     * Same check as {@link #existsByName}, under the name the login use case
+     * uses. Signup calls it existsByName and login calls it existsByUsername,
+     * so both are provided; there is only one implementation.
+     * @param username the account to look for
+     * @return true if the account exists
+     */
+    @Override
+    public boolean existsByUsername(String username) {
+        return existsByName(username);
+    }
+
     @Override
     public void save(User user) {
         // Insert a brand-new account, or overwrite the fields of an existing one.
@@ -131,17 +143,11 @@ public class MongoUserDataAccessObject implements UserDataAccessObject {
                 Updates.set(PASSWORD, user.getPassword()));
     }
 
-    // ---------- Delete account ----------
+    // ---------- Reset password (after the security question is answered) ----------
 
     @Override
-    public void deleteAccount(User user) {
-        users.deleteOne(Filters.eq(USERNAME, user.getUsername()));
-    }
-
-    @Override
-    public String getCurrentSecurityAnswer() {
-        final Document doc = users.find(Filters.eq(USERNAME, currentUsername)).first();
-        return doc.getString(ANSWER);
+    public void changePassword(String username, String newPassword) {
+        users.updateOne(Filters.eq(USERNAME, username), Updates.set(PASSWORD, newPassword));
     }
 
     // ---------- Helpers ----------
