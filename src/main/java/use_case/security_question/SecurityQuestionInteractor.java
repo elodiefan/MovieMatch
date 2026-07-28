@@ -1,8 +1,5 @@
 package use_case.security_question;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import entity.AccountLockout;
 import entity.User;
 
@@ -17,22 +14,22 @@ import entity.User;
  *     <li>lock the account once too many attempts fail.</li>
  * </ul>
  * <p>
- * The counting and timing rules live in {@link AccountLockout}; this class only
- * decides which rule to apply and what to report back. The lock-out records are
- * held per username for the lifetime of the app, so restarting clears them.
+ * The counting and timing rules live in {@link AccountLockout}, and the records
+ * themselves are kept by a {@link LockoutTracker}. This class holds no state of
+ * its own: it only decides which rule to apply and what to report back.
  */
 public class SecurityQuestionInteractor implements SecurityQuestionInputBoundary {
 
     private final SecurityQuestionUserDataAccessInterface userDataAccessObject;
     private final SecurityQuestionOutputBoundary presenter;
-
-    /** username -> that account's lock-out record. */
-    private final Map<String, AccountLockout> lockouts = new HashMap<>();
+    private final LockoutTracker lockoutTracker;
 
     public SecurityQuestionInteractor(SecurityQuestionUserDataAccessInterface userDataAccessObject,
-                                      SecurityQuestionOutputBoundary presenter) {
+                                      SecurityQuestionOutputBoundary presenter,
+                                      LockoutTracker lockoutTracker) {
         this.userDataAccessObject = userDataAccessObject;
         this.presenter = presenter;
+        this.lockoutTracker = lockoutTracker;
     }
 
     @Override
@@ -101,8 +98,8 @@ public class SecurityQuestionInteractor implements SecurityQuestionInputBoundary
         return expected != null && actual != null && expected.trim().equalsIgnoreCase(actual.trim());
     }
 
-    /** @return this account's lock-out record, creating a fresh one on first use. */
+    /** @return this account's lock-out record. */
     private AccountLockout lockoutFor(String username) {
-        return lockouts.computeIfAbsent(username, key -> new AccountLockout());
+        return lockoutTracker.forUser(username);
     }
 }
