@@ -51,6 +51,7 @@ public class DeleteAccountInteractor implements DeleteAccountInputBoundary {
                 }
             }
             else {
+                incorrectCount = 0;
                 final User user = userFactory.create(username, displayName, password, securityQuestion, securityAnswer);
                 userDataAccessObject.setCurrentUsername(null);
                 final DeleteAccountOutputData deleteAccountOutputData = new DeleteAccountOutputData(username, false);

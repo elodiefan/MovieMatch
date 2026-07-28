@@ -131,6 +131,19 @@ public class MongoUserDataAccessObject implements UserDataAccessObject {
                 Updates.set(PASSWORD, user.getPassword()));
     }
 
+    // ---------- Delete account ----------
+
+    @Override
+    public void deleteAccount(User user) {
+        users.deleteOne(Filters.eq(USERNAME, user.getUsername()));
+    }
+
+    @Override
+    public String getCurrentSecurityAnswer() {
+        final Document doc = users.find(Filters.eq(USERNAME, currentUsername)).first();
+        return doc.getString(ANSWER);
+    }
+
     // ---------- Helpers ----------
 
     /** Turns a MongoDB document into a User entity. */
