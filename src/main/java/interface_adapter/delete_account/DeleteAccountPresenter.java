@@ -39,7 +39,7 @@ public class DeleteAccountPresenter implements DeleteAccountOutputBoundary {
         signupViewModel.setState(signupState);
         signupViewModel.firePropertyChanged();
 
-        // This code tells the View Manager to switch to the LoginView.
+        // This code tells the View Manager to switch to the Signup View.
         this.viewManagerModel.setState(signupViewModel.getViewName());
         this.viewManagerModel.firePropertyChanged();
     }
@@ -49,5 +49,11 @@ public class DeleteAccountPresenter implements DeleteAccountOutputBoundary {
         final LoggedInState loggedInState = loggedInViewModel.getState();
         loggedInState.deleteAccountError(error);
         loggedInViewModel.firePropertyChanged();
+    }
+
+    @Override
+    public void switchToSignupView() {
+        viewManagerModel.setState(signupViewModel.getViewName());
+        viewManagerModel.firePropertyChanged();
     }
 }

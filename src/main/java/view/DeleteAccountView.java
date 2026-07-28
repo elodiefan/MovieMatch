@@ -69,6 +69,8 @@ public class DeleteAccountView extends JPanel implements PropertyChangeListener 
 
                         this.deleteAccountController.execute(
                                 currentState.getUsername(),
+                                currentState.getDisplayName(),
+                                currentState.getPassword(),
                                 currentState.getSecurityQuestion(),
                                 currentState.getSecurityAnswer()
                         );

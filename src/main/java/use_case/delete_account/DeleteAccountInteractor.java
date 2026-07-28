@@ -3,6 +3,9 @@ package use_case.delete_account;
 import entity.User;
 import entity.UserFactory;
 
+import java.util.Timer;
+import java.util.TimerTask;
+
 /**
  * Interactor for Delete Account Use Case.
  */
@@ -11,6 +14,11 @@ public class DeleteAccountInteractor implements DeleteAccountInputBoundary {
     private final DeleteAccountUserDataAccessInterface userDataAccessObject;
     private final DeleteAccountOutputBoundary userPresenter;
     private final UserFactory userFactory;
+
+    private boolean isLockedOut;
+
+    private int incorrectCount;
+    private static final int incorrectLimit = 3;
 
     public DeleteAccountInteractor(DeleteAccountUserDataAccessInterface deleteAccountDataAccessInterface,
                                    DeleteAccountOutputBoundary deleteAccountOutputBoundary,
@@ -27,19 +35,47 @@ public class DeleteAccountInteractor implements DeleteAccountInputBoundary {
     @Override
     public void execute(DeleteAccountInputData deleteAccountInputData) {
         final String username = deleteAccountInputData.getUsername();
+        final String displayName = deleteAccountInputData.getDisplayName();
         final String password = deleteAccountInputData.getPassword();
+        final String securityQuestion = deleteAccountInputData.getSecurityQuestion();
         final String securityAnswer = deleteAccountInputData.getSecurityAnswer();
 
-        if (!userDataAccessObject.getCurrentSecurityAnswer().equals(securityAnswer)) {
-            userPresenter.prepareFailView("Incorrect security answer for \"" + username + "\".");
+        if (!isLockedOut) {
+            if (!userDataAccessObject.getCurrentSecurityAnswer().equals(securityAnswer)) {
+                userPresenter.prepareFailView("Incorrect security answer for \"" + username + "\".");
+                incorrectCount++;
+                if (incorrectCount >= incorrectLimit) {
+                    isLockedOut = true;
+                    userPresenter.prepareFailView("Answered incorrectly 3 times. Try again in 1 minute.");
+                    lockOut();
+                }
+            }
+            else {
+                final User user = userFactory.create(username, displayName, password, securityQuestion, securityAnswer);
+                userDataAccessObject.setCurrentUsername(null);
+                final DeleteAccountOutputData deleteAccountOutputData = new DeleteAccountOutputData(username, false);
+                userDataAccessObject.deleteAccount(user);
+                userPresenter.prepareSuccessView(deleteAccountOutputData);
+            }
         }
-        else {
-            final User user = userFactory.create(username, password);
-            userDataAccessObject.setCurrentUsername(null);
-            final DeleteAccountOutputData deleteAccountOutputData = new DeleteAccountOutputData(username, false);
-            userDataAccessObject.deleteAccount(user);
-            userPresenter.prepareSuccessView(deleteAccountOutputData);
-        }
+    }
+
+    private void lockOut() {
+        final Timer timer = new Timer();
+        final TimerTask task = new TimerTask() {
+            private int count = 1;
+            @Override
+            public void run() {
+                incorrectCount = 0;
+                isLockedOut = false;
+                count--;
+                if (count <= 0) {
+                    timer.cancel();
+                }
+            }
+        };
+        final int lockOutTime = 60000;
+        timer.schedule(task, lockOutTime);
     }
 
     /**
