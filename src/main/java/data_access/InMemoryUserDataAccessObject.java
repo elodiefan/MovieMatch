@@ -1,0 +1,64 @@
+package data_access;
+
+import java.util.HashMap;
+import java.util.Map;
+
+import entity.User;
+
+/**
+ * In-memory implementation of {@link UserDataAccessObject}.
+ * <p>
+ * Stores users in a plain map, so the app and its tests can run with no network
+ * and no database. Because it implements the same interface as
+ * {@link MongoUserDataAccessObject}, switching between them is a one-line change
+ * in {@code AppBuilder}. All data is lost when the program exits.
+ */
+public class InMemoryUserDataAccessObject implements UserDataAccessObject {
+
+    private final Map<String, User> users = new HashMap<>();
+
+    private String currentUsername;
+
+    // ---------- Signup + Login ----------
+
+    @Override
+    public boolean existsByName(String username) {
+        return users.containsKey(username);
+    }
+
+    @Override
+    public void save(User user) {
+        users.put(user.getUsername(), user);
+    }
+
+    @Override
+    public User get(String username) {
+        return users.get(username);
+    }
+
+    // ---------- Logout ----------
+
+    @Override
+    public String getCurrentUsername() {
+        return currentUsername;
+    }
+
+    @Override
+    public void setCurrentUsername(String username) {
+        this.currentUsername = username;
+    }
+
+    // ---------- Change password ----------
+
+    @Override
+    public void changePassword(User user) {
+        users.put(user.getUsername(), user);
+    }
+
+    // ---------- Nothing to release ----------
+
+    @Override
+    public void close() {
+        // No resources to free for an in-memory store.
+    }
+}
