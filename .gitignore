@@ -9,3 +9,6 @@ out/
 # --- IDE ---
 .idea/
 *.iml
+
+# API keys / secrets
+config.properties
