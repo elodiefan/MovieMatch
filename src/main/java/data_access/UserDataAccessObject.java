@@ -1,9 +1,10 @@
 package data_access;
 
-import entity.User;
 import use_case.change_password.ChangePasswordUserDataAccessInterface;
-import use_case.delete_account.DeleteAccountUserDataAccessInterface;
+import use_case.login.LoginUserDataAccessInterface;
 import use_case.logout.LogoutUserDataAccessInterface;
+import use_case.reset_password.ResetPasswordUserDataAccessInterface;
+import use_case.security_question.SecurityQuestionUserDataAccessInterface;
 import use_case.signup.SignupUserDataAccessInterface;
 
 /**
@@ -26,23 +27,11 @@ import use_case.signup.SignupUserDataAccessInterface;
  */
 public interface UserDataAccessObject extends
         SignupUserDataAccessInterface,
+        LoginUserDataAccessInterface,
         LogoutUserDataAccessInterface,
         ChangePasswordUserDataAccessInterface,
-        DeleteAccountUserDataAccessInterface {
-
-    // NOTE: LoginUserDataAccessInterface is deliberately not extended yet.
-    // The file use_case/login/LoginUserDataAccessInterface.java currently holds
-    // a copy of the Logout interface, so the Login type does not exist to
-    // extend. Once that file declares LoginUserDataAccessInterface properly,
-    // add it to the extends list above and delete the get(...) declaration
-    // below, which it already provides. Everything else stays the same.
-
-    /**
-     * Returns the user with the given username.
-     * @param username the account to look up
-     * @return the matching user, or null if there is no such account
-     */
-    User get(String username);
+        SecurityQuestionUserDataAccessInterface,
+        ResetPasswordUserDataAccessInterface {
 
     /**
      * Releases any resources held by this data store, such as an open database
