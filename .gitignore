@@ -1,0 +1,9 @@
+# IntelliJ files
+.idea/
+*.iml
+
+# API keys / secrets
+config.properties
+
+# Build files
+target/
