@@ -2,6 +2,7 @@ package data_access;
 
 import entity.User;
 import use_case.change_password.ChangePasswordUserDataAccessInterface;
+import use_case.delete_account.DeleteAccountUserDataAccessInterface;
 import use_case.logout.LogoutUserDataAccessInterface;
 import use_case.signup.SignupUserDataAccessInterface;
 
@@ -26,7 +27,8 @@ import use_case.signup.SignupUserDataAccessInterface;
 public interface UserDataAccessObject extends
         SignupUserDataAccessInterface,
         LogoutUserDataAccessInterface,
-        ChangePasswordUserDataAccessInterface {
+        ChangePasswordUserDataAccessInterface,
+        DeleteAccountUserDataAccessInterface {
 
     // NOTE: LoginUserDataAccessInterface is deliberately not extended yet.
     // The file use_case/login/LoginUserDataAccessInterface.java currently holds
