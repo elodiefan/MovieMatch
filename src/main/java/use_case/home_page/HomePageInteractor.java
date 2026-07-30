@@ -1,13 +1,12 @@
 package use_case.home_page;
 
-import entity.User;
 import entity.UserFactory;
 
 /**
  * The Home Page Interactor.
  */
 public class HomePageInteractor implements HomePageInputBoundary {
-    private final HomePageDataAccessInterface userDataAccessObject;
+    private final HomePageUserDataAccessInterface userDataAccessObject;
     private final HomePageOutputBoundary userPresenter;
     private final UserFactory userFactory;
 
@@ -19,7 +18,12 @@ public class HomePageInteractor implements HomePageInputBoundary {
     }
 
     @Override
-    public void execute(HomePageInputData homePageInputData) {
-        if (homePageInputData.)
+    public void switchToSearchView() {
+        userPresenter.switchToSearchView();
+    }
+
+    @Override
+    public void switchToAccountView() {
+        userPresenter.switchToAccountView();
     }
 }

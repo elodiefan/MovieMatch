@@ -7,7 +7,6 @@ public class HomePageInputData {
 
     private final String username;
     private final String password;
-    private int 
 
     public HomePageInputData(String username, String password) {
         this.username = username;

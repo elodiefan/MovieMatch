@@ -6,7 +6,6 @@ import interface_adapter.search.SearchViewModel;
 import interface_adapter.account.AccountState;
 import interface_adapter.account.AccountViewModel;
 import use_case.home_page.HomePageOutputBoundary;
-import use_case.home_page.HomePageOutputData;
 
 /**
  * The Presenter for the Home Page Use Case.
@@ -29,29 +28,15 @@ public class HomePagePresenter implements HomePageOutputBoundary {
     }
 
     @Override
-    public void prepareSearchSuccessView(HomePageOutputData response) {
-        final SearchState searchState = searchViewModel.getState();
-        searchViewModel.setState(searchState);
-        searchViewModel.firePropertyChanged();
-
+    public void switchToSearchView() {
         viewManagerModel.setState(searchViewModel.getViewName());
         viewManagerModel.firePropertyChanged();
     }
 
     @Override
-    public void prepareAccountSuccessView(HomePageOutputData response) {
-        final AccountState accountState = accountViewModel.getState();
-        accountViewModel.setState(accountState);
-        accountViewModel.firePropertyChanged();
-
+    public void switchToAccountView() {
         viewManagerModel.setState(accountViewModel.getViewName());
         viewManagerModel.firePropertyChanged();
-    }
-
-    @Override
-    public void prepareRecommendationsView(HomePageOutputData response) {
-        final HomePageState homePageState = homePageViewModel.getState();
-        homePageViewModel.firePropertyChanged();
     }
 }
 

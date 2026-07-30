@@ -6,8 +6,12 @@ package use_case.home_page;
 public interface HomePageInputBoundary {
 
     /**
-     * Executes the home page use case.
-     * @param homePageInputData the input data
+     * Executes the switch to search use case.
      */
-    void execute(HomePageInputData homePageInputData);
+    void switchToSearchView();
+
+    /**
+     * Executes the switch to personal account use case.
+     */
+    void switchToAccountView();
 }

@@ -38,7 +38,7 @@ public class HomePageView extends JPanel implements PropertyChangeListener {
 
         final JPanel recommendationsPanel = new JPanel();
         recommendationsHeader = new JLabel(HomePageViewModel.RECOMMENDATIONS_LABEL);
-        // TODO: Populate list with recommendations and maybe when click on media brings you to media's page.
+        // TODO: Populate list with recommendations and *maybe* when click on media brings you to media's page.
         listOfRecommendations = new JList();
         recommendationsPanel.add(recommendationsHeader);
         recommendationsPanel.add(listOfRecommendations);
@@ -49,89 +49,40 @@ public class HomePageView extends JPanel implements PropertyChangeListener {
         buttons.add(searchButton);
         buttons.add(accountButton);
 
-        deleteAccountButton.addActionListener(
-                // This creates an anonymous subclass of ActionListener and instantiates it.
-                evt -> {
-                    if (evt.getSource().equals(deleteAccountButton)) {
-                        final DeleteAccountState currentState = deleteAccountViewModel.getState();
-
-                        this.deleteAccountController.execute(
-                                currentState.getUsername(),
-                                currentState.getDisplayName(),
-                                currentState.getPassword(),
-                                currentState.getSecurityQuestion(),
-                                currentState.getSecurityAnswer()
-                        );
-                    }
-                }
-        );
-
-        cancelButton.addActionListener(
+        searchButton.addActionListener(
                 new ActionListener() {
                     public void actionPerformed(ActionEvent e) {
-                        deleteAccountController.switchToSignupView();
+                        homePageController.switchToSearchView();
                     }
                 }
         );
 
-        addSecurityQuestionListener();
+        accountButton.addActionListener(
+                new ActionListener() {
+                    public void actionPerformed(ActionEvent e) {
+                        homePageController.switchToAccountView();
+                    }
+                }
+        );
 
         this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 
         this.add(title);
-        this.add(noticePanel);
-        this.add(securityQuestionTitle);
-        this.add(securityQuestionInfo);
-        this.add(securityQuestionErrorField);
+        this.add(recommendationsPanel);
         this.add(buttons);
     }
 
-    private void addSecurityQuestionListener() {
-        securityQuestionInputField.getDocument().addDocumentListener(new DocumentListener() {
-
-            private void documentListenerHelper() {
-                final DeleteAccountState currentState = deleteAccountViewModel.getState();
-                currentState.setSecurityAnswer(securityQuestionInputField.getText());
-                deleteAccountViewModel.setState(currentState);
-            }
-
-            @Override
-            public void insertUpdate(DocumentEvent e) {
-                documentListenerHelper();
-            }
-
-            @Override
-            public void removeUpdate(DocumentEvent e) {
-                documentListenerHelper();
-            }
-
-            @Override
-            public void changedUpdate(DocumentEvent e) {
-                documentListenerHelper();
-            }
-        });
-    }
-
+    // TODO: Implement if program allows for user to be brought to media page when click on recommendations???
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
-        if (evt.getPropertyName().equals("state")) {
-            final DeleteAccountState state = (DeleteAccountState) evt.getNewValue();
-            username.setText(state.getUsername());
-            securityQuestion.setText(state.getSecurityQuestion());
-        }
-        else if (evt.getPropertyName().equals("password")) {
-            final DeleteAccountState state = (DeleteAccountState) evt.getNewValue();
-            JOptionPane.showMessageDialog(null, "deleted account for " + state.getUsername());
-        }
 
     }
 
     public String getViewName() {
         return viewName;
     }
-}
 
-/**
- * need search button that brings to search page, popup that shows list (unclickable just text) of recommendations,
- * button that brings to user acc,
- */
+    public void setHomePageController(HomePageController homePageController) {
+        this.homePageController = homePageController;
+    }
+}

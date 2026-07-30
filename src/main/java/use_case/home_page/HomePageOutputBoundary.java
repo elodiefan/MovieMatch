@@ -5,15 +5,14 @@ package use_case.home_page;
  */
 
 public interface HomePageOutputBoundary {
-    /**
-     * Prepares the search success view for the Home Page Use Case.
-     * @param outputData the output data
-     */
-    void prepareSearchSuccessView(HomePageOutputData outputData);
 
     /**
-     * Prepares the account success view for the Home Page Use Case.
-     * @param outputData the output data
+     * Switches to the Search View.
      */
-    void prepareAccountSuccessView(HomePageOutputData outputData);
+    void switchToSearchView();
+
+    /**
+     * Switches to the Account View.
+     */
+    void switchToAccountView();
 }
