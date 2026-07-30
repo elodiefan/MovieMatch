@@ -60,6 +60,7 @@ public class DeleteAccountView extends JPanel implements PropertyChangeListener 
         deleteAccountButton = new JButton(DeleteAccountViewModel.DELETE_ACCOUNT_BUTTON);
         cancelButton = new JButton(DeleteAccountViewModel.CANCEL_BUTTON);
         buttons.add(deleteAccountButton);
+        buttons.add(cancelButton);
 
         deleteAccountButton.addActionListener(
                 // This creates an anonymous subclass of ActionListener and instantiates it.
