@@ -32,7 +32,7 @@ public class AccountView extends JPanel implements PropertyChangeListener {
     private final JLabel displayName;
     private final JLabel password;
     private final JLabel premiumUpgrade;
-    private final Jlabel customizeProfile;
+    private final JLabel customizeProfile;
     private final JLabel listsAvailable;
 
 //    private final JLabel securityQuestionErrorField = new JLabel();
