@@ -1,8 +1,8 @@
 package interface_adapter.delete_account;
 
 import interface_adapter.ViewManagerModel;
-import interface_adapter.change_password.LoggedInState;
-import interface_adapter.change_password.LoggedInViewModel;
+import interface_adapter.logged_in.LoggedInState;
+import interface_adapter.logged_in.LoggedInViewModel;
 import interface_adapter.signup.SignupState;
 import interface_adapter.signup.SignupViewModel;
 import use_case.delete_account.DeleteAccountOutputBoundary;

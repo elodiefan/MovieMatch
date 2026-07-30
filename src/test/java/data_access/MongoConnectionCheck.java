@@ -52,8 +52,7 @@ public final class MongoConnectionCheck {
             System.out.println("      answer           = " + saved.getSecurityAnswer());
 
             // 3. Change the password — the part this branch is really testing.
-            dao.changePassword(new StandardUser(TEST_USERNAME, "Test User", NEW_PASSWORD,
-                    saved.getSecurityQuestion(), saved.getSecurityAnswer()));
+            dao.changePassword(TEST_USERNAME, NEW_PASSWORD);
             System.out.println("3. changed password to: " + NEW_PASSWORD);
 
             // 4. Read it again to prove the change reached the database.
