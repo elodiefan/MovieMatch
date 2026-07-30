@@ -24,7 +24,7 @@ public class AccountPresenter implements AccountOutputBoundary {
     }
 
 
-    // idk if i need the
+    // idk if i need this one tbh
     @Override
     public void prepareSuccessView(AccountOutputData response) {
         // On success, switch to the logged in view.
