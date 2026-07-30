@@ -1,8 +1,6 @@
 package interface_adapter.account;
 
 import interface_adapter.ViewManagerModel;
-import interface_adapter.account.AccountState;
-import interface_adapter.account.AccountViewModel;
 import use_case.account.AccountOutputBoundary;
 import use_case.account.AccountOutputData;
 
@@ -12,17 +10,13 @@ import use_case.account.AccountOutputData;
 public class AccountPresenter implements AccountOutputBoundary {
 
     private final AccountViewModel accountViewModel;
-    private final AccountViewModel accountViewModel;
     private final ViewManagerModel viewManagerModel;
 
     public AccountPresenter(ViewManagerModel viewManagerModel,
-                          AccountViewModel accountViewModel,
                           AccountViewModel accountViewModel) {
         this.viewManagerModel = viewManagerModel;
         this.accountViewModel = accountViewModel;
-        this.accountViewModel = accountViewModel;
     }
-
 
     // idk if i need this one tbh
     @Override

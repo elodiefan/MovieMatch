@@ -23,6 +23,6 @@ public class AccountController {
         final AccountInputData accountInputData = new AccountInputData(
                 username, password);
 
-        accountUseCaseInteractor.execute(loginInputData);
+        accountUseCaseInteractor.execute(accountInputData);
     }
 }
