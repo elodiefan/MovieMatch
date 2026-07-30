@@ -23,26 +23,6 @@ public class AccountPresenter implements AccountOutputBoundary {
     }
 
     @Override
-    public void prepareSuccessView(AccountOutputData response) {
-        // On success, switch to the logged in view.
-
-        final AccountState accountState = accountViewModel.getState();
-        accountState.setUsername(response.getUsername());
-        this.accountViewModel.setState(accountState);
-        this.accountViewModel.firePropertyChanged();
-
-        this.viewManagerModel.setState(accountViewModel.getViewName());
-        this.viewManagerModel.firePropertyChanged();
-    }
-
-    @Override
-    public void prepareFailView(String error) {
-        final AccountState accountState = accountViewModel.getState();
-        accountState.setAccountError(error);
-        accountViewModel.firePropertyChanged();
-    }
-
-    @Override
     public void switchToResetPasswordView() {
         viewManagerModel.setState(resetPasswordViewModel.getViewName());
         viewManagerModel.firePropertyChanged();
