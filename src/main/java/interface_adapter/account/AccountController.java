@@ -1,7 +1,7 @@
 package interface_adapter.account;
 
 import use_case.account.AccountInputBoundary;
-import use_case.login.LoginInputData;
+import use_case.account.AccountInputData;
 
 /**
  * The controller for the Account Use Case.
