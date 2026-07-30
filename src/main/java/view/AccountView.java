@@ -18,6 +18,7 @@ import javax.swing.event.DocumentListener;
 import interface_adapter.account.AccountController;
 import interface_adapter.account.AccountState;
 import interface_adapter.account.AccountViewModel;
+import interface_adapter.delete_account.DeleteAccountState;
 
 /**
  * The View for when the user wants to delete their account.
@@ -30,13 +31,14 @@ public class AccountView extends JPanel implements PropertyChangeListener {
 
     private final JLabel username;
     private final JLabel displayName;
-    private final JLabel password;
-    private final JLabel premiumUpgrade;
-    private final JLabel customizeProfile;
-    private final JLabel listsAvailable;
-
-//    private final JLabel securityQuestionErrorField = new JLabel();
-//
+    private final JButton customizeButton;
+    private final JButton logoutButton;
+    private final JButton resetPasswordButton;
+    private final JButton deleteAccountButton;
+    private final JButton watchlistButton;
+    private final JButton watchHistoryButton;
+    private final JButton reviewsButton;
+    private final JButton blockedUsersButton;
 
     public AccountView(AccountViewModel accountViewModel) {
         this.accountViewModel = accountViewModel;
@@ -45,20 +47,31 @@ public class AccountView extends JPanel implements PropertyChangeListener {
         final JLabel title = new JLabel(AccountViewModel.TITLE_LABEL);
         title.setAlignmentX(Component.CENTER_ALIGNMENT);
 
-        final JPanel noticePanel = new JPanel();
-        accountNotice = new JLabel(accountViewModel.DESCRIPTION);
+        final JPanel profilePanel = new JPanel();
         username = new JLabel();
-        noticePanel.add(accountNotice);
-        noticePanel.add(username);
+        displayName = new JLabel();
+        profilePanel.add(username);
+        profilePanel.add(displayName);
 
-//        final JLabel securityQuestionTitle = new JLabel(AccountViewModel.SECURITY_TITLE);
-//        securityQuestion = new JLabel();
-//        final LabelTextPanel securityQuestionInfo = new LabelTextPanel(securityQuestion, securityQuestionInputField);
-//
-//        final JPanel buttons = new JPanel();
-//        accountButton = new JButton(DeleteAccountViewModel.DELETE_ACCOUNT_BUTTON);
-//        cancelButton = new JButton(DeleteAccountViewModel.CANCEL_BUTTON);
-//        buttons.add(deleteAccountButton);
+        final JPanel listOptionsPanel = new JPanel();
+        watchlistButton = new JButton(AccountViewModel.WATCHLIST_BUTTON);
+        watchHistoryButton = new JButton(AccountViewModel.WATCH_HISTORY_BUTTON);
+        reviewsButton = new JButton(AccountViewModel.REVIEWS_BUTTON);
+        blockedUsersButton = new JButton(AccountViewModel.BLOCKED_USERS_BUTTON);
+        listOptionsPanel.add(watchlistButton);
+        listOptionsPanel.add(watchHistoryButton);
+        listOptionsPanel.add(reviewsButton);
+        listOptionsPanel.add(blockedUsersButton);
+
+        final JPanel accountOptionsPanel = new JPanel();
+        customizeButton = new JButton(AccountViewModel.CUSTOMIZE_BUTTON);
+        logoutButton = new JButton(AccountViewModel.LOGOUT_BUTTON);
+        resetPasswordButton = new JButton(AccountViewModel.RESET_PASSWORD_BUTTON);
+        deleteAccountButton = new JButton(AccountViewModel.DELETE_ACCOUNT_BUTTON);
+        accountOptionsPanel.add(customizeButton);
+        accountOptionsPanel.add(logoutButton);
+        accountOptionsPanel.add(resetPasswordButton);
+        accountOptionsPanel.add(deleteAccountButton);
 
         deleteAccountButton.addActionListener(
                 // This creates an anonymous subclass of ActionListener and instantiates it.
@@ -77,10 +90,10 @@ public class AccountView extends JPanel implements PropertyChangeListener {
                 }
         );
 
-        cancelButton.addActionListener(
+        resetPasswordButton.addActionListener(
                 new ActionListener() {
                     public void actionPerformed(ActionEvent e) {
-                        deleteAccountController.switchToSignupView();
+                        AccountController.switchToLogoutView();
                     }
                 }
         );
@@ -90,24 +103,22 @@ public class AccountView extends JPanel implements PropertyChangeListener {
         this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 
         this.add(title);
-        this.add(noticePanel);
-        this.add(securityQuestionTitle);
-        this.add(securityQuestionInfo);
-        this.add(securityQuestionErrorField);
-        this.add(buttons);
+        this.add(profilePanel);
+        this.add(listOptionsPanel);
+        this.add(accountOptionsPanel);
     }
 
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
         if (evt.getPropertyName().equals("state")) {
-            final accountState state = (accountState) evt.getNewValue();
+            final AccountState state = (AccountState) evt.getNewValue();
             username.setText(state.getUsername());
-            securityQuestion.setText(state.getSecurityQuestion());
+            displayName.setText(state.getDisplayName());
         }
-        else if (evt.getPropertyName().equals("password")) {
-            final AccountState state = (DeleteAccountState) evt.getNewValue();
-            JOptionPane.showMessageDialog(null, "deleted account for " + state.getUsername());
-        }
+//        else if (evt.getPropertyName().equals("password")) {
+//            final DeleteAccountState state = (DeleteAccountState) evt.getNewValue();
+//            JOptionPane.showMessageDialog(null, "deleted account for " + state.getUsername());
+//        }
 
     }
 

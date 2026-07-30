@@ -1,6 +1,8 @@
 package interface_adapter.account;
 
 import interface_adapter.ViewManagerModel;
+import interface_adapter.delete_account.DeleteAccountViewModel;
+import interface_adapter.reset_password.ResetPasswordViewModel;
 import use_case.account.AccountOutputBoundary;
 import use_case.account.AccountOutputData;
 
@@ -11,6 +13,8 @@ public class AccountPresenter implements AccountOutputBoundary {
 
     private final AccountViewModel accountViewModel;
     private final ViewManagerModel viewManagerModel;
+    private final ResetPasswordViewModel resetPasswordViewModel;
+    private final DeleteAccountViewModel deleteAccountViewModel;
 
     public AccountPresenter(ViewManagerModel viewManagerModel,
                           AccountViewModel accountViewModel) {
@@ -18,7 +22,6 @@ public class AccountPresenter implements AccountOutputBoundary {
         this.accountViewModel = accountViewModel;
     }
 
-    // idk if i need this one tbh
     @Override
     public void prepareSuccessView(AccountOutputData response) {
         // On success, switch to the logged in view.
@@ -37,5 +40,17 @@ public class AccountPresenter implements AccountOutputBoundary {
         final AccountState accountState = accountViewModel.getState();
         accountState.setAccountError(error);
         accountViewModel.firePropertyChanged();
+    }
+
+    @Override
+    public void switchToResetPasswordView() {
+        viewManagerModel.setState(resetPasswordViewModel.getViewName());
+        viewManagerModel.firePropertyChanged();
+    }
+
+    @Override
+    public void switchToDeleteAccountView() {
+        viewManagerModel.setState(deleteAccountViewModel.getViewName());
+        viewManagerModel.firePropertyChanged();
     }
 }

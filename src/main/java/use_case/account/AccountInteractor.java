@@ -38,4 +38,21 @@ public class AccountInteractor implements AccountInputBoundary {
             }
         }
     }
+
+    /**
+     * Switches from account view to reset password view.
+     */
+    @Override
+    public void switchToResetPasswordView() {
+        accountPresenter.switchToResetPasswordView();
+    }
+
+    /**
+     * Switches from account view to delete account view.
+     */
+    @Override
+    public void switchToDeleteAccountView() {
+        accountPresenter.switchToDeleteAccountView();
+    }
+
 }

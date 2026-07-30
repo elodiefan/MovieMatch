@@ -5,15 +5,15 @@ package interface_adapter.account;
  */
 public class AccountState {
     private String username = "";
-    private String accountError;
+    private String displayName = "";
     private String password = "";
 
     public String getUsername() {
         return username;
     }
 
-    public String getAccountError() {
-        return accountError;
+    public String getDisplayName() {
+        return displayName;
     }
 
     public String getPassword() {
@@ -24,8 +24,8 @@ public class AccountState {
         this.username = username;
     }
 
-    public void setAccountError(String usernameError) {
-        this.accountError = usernameError;
+    public void setDisplayName(String displayName) {
+        this.displayName = displayName;
     }
 
     public void setPassword(String password) {

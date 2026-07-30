@@ -15,4 +15,14 @@ public interface AccountOutputBoundary {
      * @param errorMessage the explanation of the failure
      */
     void prepareFailView(String errorMessage);
+
+    /**
+     * Switches to the Reset Password View.
+     */
+    void switchToResetPasswordView();
+
+    /**
+     * Switches to Delete Account View.
+     */
+    void switchToDeleteAccountView();
 }

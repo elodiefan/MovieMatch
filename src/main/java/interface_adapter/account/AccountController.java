@@ -2,6 +2,7 @@ package interface_adapter.account;
 
 import use_case.account.AccountInputBoundary;
 import use_case.account.AccountInputData;
+import use_case.account.AccountInteractor;
 
 /**
  * The controller for the Account Use Case.
@@ -24,5 +25,13 @@ public class AccountController {
                 username, password);
 
         accountUseCaseInteractor.execute(accountInputData);
+    }
+
+    public void switchToResetPasswordView() {
+        accountUseCaseInteractor.switchToResetPasswordView();
+    }
+
+    public void switchToDeleteAccountView() {
+        accountUseCaseInteractor.switchToDeleteAccountView();
     }
 }
