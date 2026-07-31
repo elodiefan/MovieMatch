@@ -1,17 +1,19 @@
 package view;
 
-import interface_adapter.home_page.HomePageController;
-import interface_adapter.home_page.HomePageState;
-import interface_adapter.home_page.HomePageViewModel;
-
-import javax.swing.*;
-import javax.swing.event.DocumentEvent;
-import javax.swing.event.DocumentListener;
-import java.awt.*;
+import java.awt.Component;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+
+import javax.swing.BoxLayout;
+import javax.swing.JButton;
+import javax.swing.JLabel;
+import javax.swing.JList;
+import javax.swing.JPanel;
+
+import interface_adapter.home_page.HomePageController;
+import interface_adapter.home_page.HomePageViewModel;
 
 /**
  * The View for the homepage.
@@ -51,6 +53,7 @@ public class HomePageView extends JPanel implements PropertyChangeListener {
 
         searchButton.addActionListener(
                 new ActionListener() {
+                    @Override
                     public void actionPerformed(ActionEvent e) {
                         homePageController.switchToSearchView();
                     }
@@ -59,6 +62,7 @@ public class HomePageView extends JPanel implements PropertyChangeListener {
 
         accountButton.addActionListener(
                 new ActionListener() {
+                    @Override
                     public void actionPerformed(ActionEvent e) {
                         homePageController.switchToAccountView();
                     }

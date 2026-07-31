@@ -8,5 +8,4 @@ import entity.User;
 
 public interface HomePageUserDataAccessInterface {
 
-
 }

@@ -13,10 +13,16 @@ public class HomePageController {
         this.homePageUseCaseInteractor = homePageUseCaseInteractor;
     }
 
+    /**
+     * Swtiches view to Search View.
+     */
     public void switchToSearchView() {
         homePageUseCaseInteractor.switchToSearchView();
     }
 
+    /**
+     * Switches view to personal Account View.
+     */
     public void switchToAccountView() {
         homePageUseCaseInteractor.switchToAccountView();
     }
