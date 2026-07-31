@@ -1,15 +1,14 @@
-package use_case.change_password;
+package use_case.reset_password;
 
 /**
- * Output Data for the Change Password Use Case.
+ * Output data for the Reset Password use case.
  */
-public class ChangePasswordOutputData {
+public class ResetPasswordOutputData {
 
     private final String username;
-
     private final boolean useCaseFailed;
 
-    public ChangePasswordOutputData(String username, boolean useCaseFailed) {
+    public ResetPasswordOutputData(String username, boolean useCaseFailed) {
         this.username = username;
         this.useCaseFailed = useCaseFailed;
     }

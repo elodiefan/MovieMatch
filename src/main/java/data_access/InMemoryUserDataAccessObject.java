@@ -3,6 +3,7 @@ package data_access;
 import java.util.HashMap;
 import java.util.Map;
 
+import entity.StandardUser;
 import entity.User;
 
 /**
@@ -24,6 +25,18 @@ public class InMemoryUserDataAccessObject implements UserDataAccessObject {
     @Override
     public boolean existsByName(String username) {
         return users.containsKey(username);
+    }
+
+    /**
+     * Same check as {@link #existsByName}, under the name the login use case
+     * uses. Signup calls it existsByName and login calls it existsByUsername,
+     * so both are provided; there is only one implementation.
+     * @param username the account to look for
+     * @return true if the account exists
+     */
+    @Override
+    public boolean existsByUsername(String username) {
+        return existsByName(username);
     }
 
     @Override
@@ -53,6 +66,19 @@ public class InMemoryUserDataAccessObject implements UserDataAccessObject {
     @Override
     public void changePassword(User user) {
         users.put(user.getUsername(), user);
+    }
+
+    // ---------- Reset password (after the security question is answered) ----------
+
+    @Override
+    public void changePassword(String username, String newPassword) {
+        final User old = users.get(username);
+        if (old == null) {
+            return;
+        }
+        // StandardUser is immutable, so rebuild it with the new password.
+        users.put(username, new StandardUser(old.getUsername(), old.getDisplayName(),
+                newPassword, old.getSecurityQuestion(), old.getSecurityAnswer()));
     }
 
     // ---------- Nothing to release ----------
