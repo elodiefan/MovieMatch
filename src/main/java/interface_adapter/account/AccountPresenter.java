@@ -17,9 +17,13 @@ public class AccountPresenter implements AccountOutputBoundary {
     private final DeleteAccountViewModel deleteAccountViewModel;
 
     public AccountPresenter(ViewManagerModel viewManagerModel,
-                          AccountViewModel accountViewModel) {
+                            AccountViewModel accountViewModel,
+                            ResetPasswordViewModel resetPasswordViewModel,
+                            DeleteAccountViewModel deleteAccountViewModel) {
         this.viewManagerModel = viewManagerModel;
         this.accountViewModel = accountViewModel;
+        this.resetPasswordViewModel = resetPasswordViewModel;
+        this.deleteAccountViewModel = deleteAccountViewModel;
     }
 
     @Override
