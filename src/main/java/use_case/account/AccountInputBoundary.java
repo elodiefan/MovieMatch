@@ -6,6 +6,11 @@ package use_case.account;
 public interface AccountInputBoundary {
 
     /**
+     * Executes the switch to reviews view use case.
+     */
+    void switchToReviewsView();
+
+    /**
      * Executes the switch to login view use case.
      */
     void switchToLoginView();

@@ -6,15 +6,21 @@ package use_case.account;
 public class AccountInputData {
 
     private final String username;
+    private final String displayName;
     private final String password;
 
-    public AccountInputData(String username, String password) {
+    public AccountInputData(String username, String displayName, String password) {
         this.username = username;
+        this.displayName = displayName;
         this.password = password;
     }
 
     String getUsername() {
         return username;
+    }
+
+    String getDisplayName() {
+        return displayName;
     }
 
     String getPassword() {

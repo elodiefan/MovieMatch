@@ -13,20 +13,29 @@ public class AccountPresenter implements AccountOutputBoundary {
 
     private final AccountViewModel accountViewModel;
     private final ViewManagerModel viewManagerModel;
+    private final ReviewsViewModel reviewsViewModel;
     private final LoginViewModel loginViewModel;
     private final ResetPasswordViewModel resetPasswordViewModel;
     private final DeleteAccountViewModel deleteAccountViewModel;
 
     public AccountPresenter(ViewManagerModel viewManagerModel,
                             AccountViewModel accountViewModel,
+                            ReviewsViewModel reviewsViewModel,
                             LoginViewModel loginViewModel,
                             ResetPasswordViewModel resetPasswordViewModel,
                             DeleteAccountViewModel deleteAccountViewModel) {
         this.viewManagerModel = viewManagerModel;
         this.accountViewModel = accountViewModel;
+        this.reviewsViewModel = reviewsViewModel;
         this.loginViewModel = loginViewModel;
         this.resetPasswordViewModel = resetPasswordViewModel;
         this.deleteAccountViewModel = deleteAccountViewModel;
+    }
+
+    @Override
+    public void switchToReviewsView() {
+        viewManagerModel.setState(reviewsViewModel.getViewName());
+        viewManagerModel.firePropertyChanged();
     }
 
     @Override

@@ -9,16 +9,11 @@ import java.beans.PropertyChangeListener;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JLabel;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-import javax.swing.JTextField;
-import javax.swing.event.DocumentEvent;
-import javax.swing.event.DocumentListener;
 
 import interface_adapter.account.AccountController;
 import interface_adapter.account.AccountState;
 import interface_adapter.account.AccountViewModel;
-import interface_adapter.delete_account.DeleteAccountState;
 
 /**
  * The View for when the user wants to delete their account.
@@ -73,19 +68,47 @@ public class AccountView extends JPanel implements PropertyChangeListener {
         accountOptionsPanel.add(resetPasswordButton);
         accountOptionsPanel.add(deleteAccountButton);
 
-        deleteAccountButton.addActionListener(
-                // This creates an anonymous subclass of ActionListener and instantiates it.
-                evt -> {
-                    if (evt.getSource().equals(deleteAccountButton)) {
-                        final DeleteAccountState currentState = deleteAccountViewModel.getState();
+        watchlistButton.addActionListener(
+                new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        // not implemented yet
+                    }
+                }
+        );
 
-                        this.deleteAccountController.execute(
-                                currentState.getUsername(),
-                                currentState.getDisplayName(),
-                                currentState.getPassword(),
-                                currentState.getSecurityQuestion(),
-                                currentState.getSecurityAnswer()
-                        );
+        watchHistoryButton.addActionListener(
+                new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        // not implemented yet
+                    }
+                }
+        );
+
+        reviewsButton.addActionListener(
+                new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        accountController.switchToReviewsView();
+                    }
+                }
+        );
+
+        blockedUsersButton.addActionListener(
+                new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        // not implemented yet
+                    }
+                }
+        );
+
+        customizeButton.addActionListener(
+                new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        // not implemented yet
                     }
                 }
         );
@@ -117,8 +140,6 @@ public class AccountView extends JPanel implements PropertyChangeListener {
                 }
         );
 
-        // addSecurityQuestionListener();
-
         this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 
         this.add(title);
@@ -134,11 +155,6 @@ public class AccountView extends JPanel implements PropertyChangeListener {
             username.setText(state.getUsername());
             displayName.setText(state.getDisplayName());
         }
-//        else if (evt.getPropertyName().equals("password")) {
-//            final DeleteAccountState state = (DeleteAccountState) evt.getNewValue();
-//            JOptionPane.showMessageDialog(null, "deleted account for " + state.getUsername());
-//        }
-
     }
 
     public String getViewName() {

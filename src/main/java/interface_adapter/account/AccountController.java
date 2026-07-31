@@ -14,6 +14,13 @@ public class AccountController {
     }
 
     /**
+     * Executes the reviews view use case.
+     */
+    public void switchToReviewsView() {
+        accountUseCaseInteractor.switchToReviewsView();
+    }
+
+    /**
      * Executes the log in view use case.
      */
     public void switchToLoginView() {

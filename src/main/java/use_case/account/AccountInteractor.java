@@ -14,6 +14,14 @@ public class AccountInteractor implements AccountInputBoundary {
     }
 
     /**
+     * Switches from account view to reviews view.
+     */
+    @Override
+    public void switchToReviewsView() {
+        accountPresenter.switchToReviewsView();
+    }
+
+    /**
      * Switches from account view to reset password view.
      */
     @Override
