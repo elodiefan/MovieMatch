@@ -22,8 +22,10 @@ public class DeleteAccountController {
      * @param securityQuestion the security question for the user's account
      * @param securityAnswer the security answer for the user's account
      */
-    public void execute(String username, String displayName, String password, String securityQuestion, String securityAnswer) {
-        final DeleteAccountInputData deleteAccountInputData = new DeleteAccountInputData(username, displayName, password, securityQuestion, securityAnswer);
+    public void execute(String username, String displayName, String password, String securityQuestion,
+                        String securityAnswer) {
+        final DeleteAccountInputData deleteAccountInputData = new DeleteAccountInputData(username, displayName,
+                password, securityQuestion, securityAnswer);
         deleteAccountUseCaseInteractor.execute(deleteAccountInputData);
     }
 

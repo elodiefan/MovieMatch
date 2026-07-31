@@ -81,6 +81,7 @@ public class DeleteAccountView extends JPanel implements PropertyChangeListener 
 
         cancelButton.addActionListener(
                 new ActionListener() {
+                    @Override
                     public void actionPerformed(ActionEvent e) {
                         deleteAccountController.switchToSignupView();
                     }

@@ -1,16 +1,18 @@
 package use_case.delete_account;
 
-import entity.User;
-import entity.UserFactory;
-
 import java.util.Timer;
 import java.util.TimerTask;
+
+import entity.User;
+import entity.UserFactory;
 
 /**
  * Interactor for Delete Account Use Case.
  */
 
 public class DeleteAccountInteractor implements DeleteAccountInputBoundary {
+    private static final int INCORRECT_LIMIT = 3;
+
     private final DeleteAccountUserDataAccessInterface userDataAccessObject;
     private final DeleteAccountOutputBoundary userPresenter;
     private final UserFactory userFactory;
@@ -18,7 +20,6 @@ public class DeleteAccountInteractor implements DeleteAccountInputBoundary {
     private boolean isLockedOut;
 
     private int incorrectCount;
-    private static final int incorrectLimit = 3;
 
     public DeleteAccountInteractor(DeleteAccountUserDataAccessInterface deleteAccountDataAccessInterface,
                                    DeleteAccountOutputBoundary deleteAccountOutputBoundary,
@@ -44,7 +45,7 @@ public class DeleteAccountInteractor implements DeleteAccountInputBoundary {
             if (!userDataAccessObject.getCurrentSecurityAnswer().equals(securityAnswer)) {
                 userPresenter.prepareFailView("Incorrect security answer for \"" + username + "\".");
                 incorrectCount++;
-                if (incorrectCount >= incorrectLimit) {
+                if (incorrectCount >= INCORRECT_LIMIT) {
                     isLockedOut = true;
                     userPresenter.prepareFailView("Answered incorrectly 3 times. Try again in 1 minute.");
                     lockOut();
