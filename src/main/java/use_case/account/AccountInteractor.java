@@ -25,8 +25,8 @@ public class AccountInteractor implements AccountInputBoundary {
      * Switches from account view to reset password view.
      */
     @Override
-    public void switchToLoginView() {
-        accountPresenter.switchToLoginView();
+    public void switchToLogOutConfirmView() {
+        accountPresenter.switchToLogOutConfirmView();
     }
 
     /**

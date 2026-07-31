@@ -11,9 +11,9 @@ public interface AccountInputBoundary {
     void switchToReviewsView();
 
     /**
-     * Executes the switch to login view use case.
+     * Executes the switch to log out view use case.
      */
-    void switchToLoginView();
+    void switchToLogOutConfirmView();
 
     /**
      * Executes the switch to reset password view use case.

@@ -21,10 +21,10 @@ public class AccountController {
     }
 
     /**
-     * Executes the log in view use case.
+     * Executes the log out view use case.
      */
-    public void switchToLoginView() {
-        accountUseCaseInteractor.switchToLoginView();
+    public void switchToLogOutConfirmView() {
+        accountUseCaseInteractor.switchToLogOutConfirmView();
     }
 
     /**

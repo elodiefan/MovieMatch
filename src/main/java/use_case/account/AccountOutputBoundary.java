@@ -11,9 +11,9 @@ public interface AccountOutputBoundary {
     void switchToReviewsView();
 
     /**
-     * Switches to the Login View.
+     * Switches to the Log Out Confirm View.
      */
-    void switchToLoginView();
+    void switchToLogOutConfirmView();
 
     /**
      * Switches to the Reset Password View.

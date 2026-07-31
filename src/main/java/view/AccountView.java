@@ -117,7 +117,7 @@ public class AccountView extends JPanel implements PropertyChangeListener {
                 new ActionListener() {
                     @Override
                     public void actionPerformed(ActionEvent e) {
-                        accountController.switchToLoginView();
+                        accountController.switchToLogOutConfirmView();
                     }
                 }
         );
