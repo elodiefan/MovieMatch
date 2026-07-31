@@ -25,4 +25,11 @@ public class LoginController {
 
         loginUseCaseInteractor.execute(loginInputData);
     }
+
+    /**
+     * Executes the sign up view use case.
+     */
+    public void switchToSignUpView() {
+        loginUseCaseInteractor.switchToSignUpView();
+    }
 }
