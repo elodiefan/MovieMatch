@@ -1,8 +1,8 @@
 package interface_adapter.delete_account;
 
 import interface_adapter.ViewManagerModel;
-import interface_adapter.change_password.LoggedInState;
-import interface_adapter.change_password.LoggedInViewModel;
+import interface_adapter.delete_account.DeleteAccountState;
+import interface_adapter.delete_account.DeleteAccountViewModel;
 import interface_adapter.signup.SignupState;
 import interface_adapter.signup.SignupViewModel;
 import use_case.delete_account.DeleteAccountOutputBoundary;
@@ -14,24 +14,24 @@ import use_case.delete_account.DeleteAccountOutputData;
 
 public class DeleteAccountPresenter implements DeleteAccountOutputBoundary {
 
-    private LoggedInViewModel loggedInViewModel;
+    private DeleteAccountViewModel deleteAccountViewModel;
     private ViewManagerModel viewManagerModel;
     private SignupViewModel signupViewModel;
 
     public DeleteAccountPresenter(ViewManagerModel viewManagerModel,
-                                  LoggedInViewModel loggedInViewModel,
+                                  DeleteAccountViewModel deleteAccountViewModel,
                                   SignupViewModel signupViewModel) {
-        this.loggedInViewModel = loggedInViewModel;
+        this.deleteAccountViewModel = deleteAccountViewModel;
         this.viewManagerModel = viewManagerModel;
         this.signupViewModel = signupViewModel;
     }
 
     @Override
     public void prepareSuccessView(DeleteAccountOutputData response) {
-        final LoggedInState loggedInState = loggedInViewModel.getState();
-        loggedInState.setUsername("");
-        loggedInViewModel.setState(loggedInState);
-        loggedInViewModel.firePropertyChanged();
+        final DeleteAccountState deleteAccountState = deleteAccountViewModel.getState();
+        deleteAccountState.setUsername("");
+        deleteAccountViewModel.setState(deleteAccountState);
+        deleteAccountViewModel.firePropertyChanged();
 
         final SignupState signupState = signupViewModel.getState();
         signupState.setUsername("");
@@ -46,9 +46,9 @@ public class DeleteAccountPresenter implements DeleteAccountOutputBoundary {
 
     @Override
     public void prepareFailView(String error) {
-        final LoggedInState loggedInState = loggedInViewModel.getState();
-        loggedInState.deleteAccountError(error);
-        loggedInViewModel.firePropertyChanged();
+        final DeleteAccountState deleteAccountState = deleteAccountViewModel.getState();
+        deleteAccountState.setDeleteAccountError(error);
+        deleteAccountViewModel.firePropertyChanged();
     }
 
     @Override
