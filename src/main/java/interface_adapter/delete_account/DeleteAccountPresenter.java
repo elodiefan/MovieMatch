@@ -1,8 +1,6 @@
 package interface_adapter.delete_account;
 
 import interface_adapter.ViewManagerModel;
-import interface_adapter.delete_account.DeleteAccountState;
-import interface_adapter.delete_account.DeleteAccountViewModel;
 import interface_adapter.signup.SignupState;
 import interface_adapter.signup.SignupViewModel;
 import use_case.delete_account.DeleteAccountOutputBoundary;

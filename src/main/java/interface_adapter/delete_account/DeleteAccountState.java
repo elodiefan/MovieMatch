@@ -6,6 +6,10 @@ package interface_adapter.delete_account;
 
 public class DeleteAccountState {
     private String username;
+    private String displayName;
+    private String password;
+    private String securityQuestion;
+    private String securityAnswer;
     private String deleteAccountError;
 
     public String getUsername() {
@@ -14,6 +18,38 @@ public class DeleteAccountState {
 
     public void setUsername(String username) {
         this.username = username;
+    }
+
+    public String getDisplayName() {
+        return displayName;
+    }
+
+    public void setDisplayName(String displayName) {
+        this.displayName = displayName;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public String getSecurityQuestion() {
+        return securityQuestion;
+    }
+
+    public void setSecurityQuestion(String securityQuestion) {
+        this.securityQuestion = securityQuestion;
+    }
+
+    public String getSecurityAnswer() {
+        return securityAnswer;
+    }
+
+    public void setSecurityAnswer(String securityAnswer) {
+        this.securityAnswer = securityAnswer;
     }
 
     public String getDeleteAccountError() {
