@@ -6,11 +6,9 @@ package use_case.account;
 public class AccountOutputData {
 
     private final String username;
-    private final boolean useCaseFailed;
 
-    public AccountOutputData(String username, boolean useCaseFailed) {
+    public AccountOutputData(String username) {
         this.username = username;
-        this.useCaseFailed = useCaseFailed;
     }
 
     public String getUsername() {

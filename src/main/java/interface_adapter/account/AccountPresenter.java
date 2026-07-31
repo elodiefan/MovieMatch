@@ -2,9 +2,9 @@ package interface_adapter.account;
 
 import interface_adapter.ViewManagerModel;
 import interface_adapter.delete_account.DeleteAccountViewModel;
+import interface_adapter.login.LoginViewModel;
 import interface_adapter.reset_password.ResetPasswordViewModel;
 import use_case.account.AccountOutputBoundary;
-import use_case.account.AccountOutputData;
 
 /**
  * The Presenter for the Account Use Case.
@@ -13,17 +13,26 @@ public class AccountPresenter implements AccountOutputBoundary {
 
     private final AccountViewModel accountViewModel;
     private final ViewManagerModel viewManagerModel;
+    private final LoginViewModel loginViewModel;
     private final ResetPasswordViewModel resetPasswordViewModel;
     private final DeleteAccountViewModel deleteAccountViewModel;
 
     public AccountPresenter(ViewManagerModel viewManagerModel,
                             AccountViewModel accountViewModel,
+                            LoginViewModel loginViewModel,
                             ResetPasswordViewModel resetPasswordViewModel,
                             DeleteAccountViewModel deleteAccountViewModel) {
         this.viewManagerModel = viewManagerModel;
         this.accountViewModel = accountViewModel;
+        this.loginViewModel = loginViewModel;
         this.resetPasswordViewModel = resetPasswordViewModel;
         this.deleteAccountViewModel = deleteAccountViewModel;
+    }
+
+    @Override
+    public void switchToLoginView() {
+        viewManagerModel.setState(loginViewModel.getViewName());
+        viewManagerModel.firePropertyChanged();
     }
 
     @Override

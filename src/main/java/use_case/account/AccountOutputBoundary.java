@@ -6,6 +6,11 @@ package use_case.account;
 public interface AccountOutputBoundary {
 
     /**
+     * Switches to the Login View.
+     */
+    void switchToLoginView();
+
+    /**
      * Switches to the Reset Password View.
      */
     void switchToResetPasswordView();

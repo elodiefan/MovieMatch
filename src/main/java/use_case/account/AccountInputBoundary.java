@@ -6,10 +6,9 @@ package use_case.account;
 public interface AccountInputBoundary {
 
     /**
-     * Executes the account use case.
-     * @param accountInputData the input data
+     * Executes the switch to login view use case.
      */
-    void execute(AccountInputData accountInputData);
+    void switchToLoginView();
 
     /**
      * Executes the switch to reset password view use case.

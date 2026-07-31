@@ -90,15 +90,34 @@ public class AccountView extends JPanel implements PropertyChangeListener {
                 }
         );
 
-        resetPasswordButton.addActionListener(
+        logoutButton.addActionListener(
                 new ActionListener() {
+                    @Override
                     public void actionPerformed(ActionEvent e) {
-                        AccountController.switchToLogoutView();
+                        accountController.switchToLoginView();
                     }
                 }
         );
 
-        addSecurityQuestionListener();
+        resetPasswordButton.addActionListener(
+                new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        accountController.switchToResetPasswordView();
+                    }
+                }
+        );
+
+        deleteAccountButton.addActionListener(
+                new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        accountController.switchToDeleteAccountView();
+                    }
+                }
+        );
+
+        // addSecurityQuestionListener();
 
         this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 
