@@ -1,6 +1,7 @@
 package entity;
 
-import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -8,12 +9,14 @@ import java.util.Set;
  * Represents a comment reply of a review on a piece of media.
  */
 public class Comment {
+    private static final ZoneId TORONTO_ZONE = ZoneId.of("America/Toronto");
+
     private final String commentId;
     private final String reviewId;
     private final String parentCommentId;
     private final String authorUsername;
     private final String authorDisplayName;
-    private final LocalDateTime createdAt;
+    private final ZonedDateTime createdAt;
     private final Set<String> likedByUsernames;
     private String commentText;
 
@@ -30,7 +33,7 @@ public class Comment {
      */
     public Comment(String commentId, String reviewId, String parentCommentId,
                    String authorUsername, String authorDisplayName, String commentText,
-                   LocalDateTime createdAt, Set<String> likedByUsernames) {
+                   ZonedDateTime createdAt, Set<String> likedByUsernames) {
         this.commentId = commentId;
         this.reviewId = reviewId;
         this.parentCommentId = parentCommentId;
@@ -39,6 +42,14 @@ public class Comment {
         this.commentText = commentText;
         this.createdAt = createdAt;
         this.likedByUsernames = new HashSet<>(likedByUsernames);
+    }
+
+    /**
+     * Returns the current date and time in Toronto.
+     * @return the current Toronto date and time
+     */
+    public static ZonedDateTime getCurrentTorontoTime() {
+        return ZonedDateTime.now(TORONTO_ZONE);
     }
 
     /**
@@ -93,7 +104,7 @@ public class Comment {
      * Returns the time the comment was created.
      * @return the creation time
      */
-    public LocalDateTime getCreatedAt() {
+    public ZonedDateTime getCreatedAt() {
         return createdAt;
     }
 

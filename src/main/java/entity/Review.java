@@ -1,6 +1,7 @@
 package entity;
 
-import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -8,18 +9,20 @@ import java.util.Set;
  * Represents a user's review on a piece of media.
  */
 public class Review {
+    private static final ZoneId TORONTO_ZONE = ZoneId.of("America/Toronto");
+
     private final String reviewId;
     private final int mediaId;
     private final String mediaType;
     private final String mediaTitle;
     private final String authorUsername;
     private final String authorDisplayName;
-    private final LocalDateTime createdAt;
+    private final ZonedDateTime createdAt;
     private final String source;
     private final Set<String> likedByUsernames;
     private double rating;
     private String reviewText;
-    private LocalDateTime updatedAt;
+    private ZonedDateTime updatedAt;
 
     /**
      * Creates a review.
@@ -38,7 +41,7 @@ public class Review {
      */
     public Review(String reviewId, int mediaId, String mediaType, String mediaTitle,
                   String authorUsername, String authorDisplayName, double rating,
-                  String reviewText, LocalDateTime createdAt, LocalDateTime updatedAt,
+                  String reviewText, ZonedDateTime createdAt, ZonedDateTime updatedAt,
                   String source, Set<String> likedByUsernames) {
         this.reviewId = reviewId;
         this.mediaId = mediaId;
@@ -52,6 +55,14 @@ public class Review {
         this.updatedAt = updatedAt;
         this.source = source;
         this.likedByUsernames = new HashSet<>(likedByUsernames);
+    }
+
+    /**
+     * Returns the current date and time in Toronto.
+     * @return the current Toronto date and time
+     */
+    public static ZonedDateTime getCurrentTorontoTime() {
+        return ZonedDateTime.now(TORONTO_ZONE);
     }
 
     /**
@@ -122,7 +133,7 @@ public class Review {
      * Returns the time the review was created.
      * @return the creation time
      */
-    public LocalDateTime getCreatedAt() {
+    public ZonedDateTime getCreatedAt() {
         return createdAt;
     }
 
@@ -130,7 +141,7 @@ public class Review {
      * Returns the time the review was last updated.
      * @return the last update time
      */
-    public LocalDateTime getUpdatedAt() {
+    public ZonedDateTime getUpdatedAt() {
         return updatedAt;
     }
 
@@ -164,7 +175,7 @@ public class Review {
      * @param newReviewText the updated review text
      * @param newUpdatedAt the updated timestamp
      */
-    public void edit(double newRating, String newReviewText, LocalDateTime newUpdatedAt) {
+    public void edit(double newRating, String newReviewText, ZonedDateTime newUpdatedAt) {
         this.rating = newRating;
         this.reviewText = newReviewText;
         this.updatedAt = newUpdatedAt;
