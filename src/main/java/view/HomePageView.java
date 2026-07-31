@@ -13,6 +13,7 @@ import javax.swing.JList;
 import javax.swing.JPanel;
 
 import interface_adapter.home_page.HomePageController;
+import interface_adapter.home_page.HomePageState;
 import interface_adapter.home_page.HomePageViewModel;
 
 /**
@@ -24,6 +25,8 @@ public class HomePageView extends JPanel implements PropertyChangeListener {
     private final String viewName = "homepage";
     private final HomePageViewModel homePageViewModel;
     private HomePageController homePageController;
+
+    private final JLabel username;
 
     private final JList listOfRecommendations;
     private final JLabel recommendationsHeader;
@@ -37,6 +40,9 @@ public class HomePageView extends JPanel implements PropertyChangeListener {
 
         final JLabel title = new JLabel(HomePageViewModel.TITLE_LABEL);
         title.setAlignmentX(Component.CENTER_ALIGNMENT);
+
+        final JLabel usernameInfo = new JLabel("Hi, ");
+        username = new JLabel();
 
         final JPanel recommendationsPanel = new JPanel();
         recommendationsHeader = new JLabel(HomePageViewModel.RECOMMENDATIONS_LABEL);
@@ -64,7 +70,11 @@ public class HomePageView extends JPanel implements PropertyChangeListener {
                 new ActionListener() {
                     @Override
                     public void actionPerformed(ActionEvent e) {
-                        homePageController.switchToAccountView();
+                        if (e.getSource().equals(accountButton)) {
+                            final HomePageState currentState = homePageViewModel.getState();
+
+                            homePageController.switchToAccountView(currentState.getUsername(), currentState.getDisplayName());
+                        }
                     }
                 }
         );
@@ -72,6 +82,8 @@ public class HomePageView extends JPanel implements PropertyChangeListener {
         this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 
         this.add(title);
+        this.add(usernameInfo);
+        this.add(username);
         this.add(recommendationsPanel);
         this.add(buttons);
     }
@@ -79,7 +91,8 @@ public class HomePageView extends JPanel implements PropertyChangeListener {
     // TODO: Implement if program allows for user to be brought to media page when click on recommendations???
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
-
+        final HomePageState state = (HomePageState) evt.getNewValue();
+        username.setText(state.getUsername());
     }
 
     public String getViewName() {

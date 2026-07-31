@@ -13,6 +13,7 @@ public interface HomePageOutputBoundary {
 
     /**
      * Switches to the Account View.
+     * @param response the home page output data
      */
-    void switchToAccountView();
+    void switchToAccountView(HomePageOutputData response);
 }

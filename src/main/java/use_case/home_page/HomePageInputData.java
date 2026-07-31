@@ -6,18 +6,18 @@ package use_case.home_page;
 public class HomePageInputData {
 
     private final String username;
-    private final String password;
+    private final String displayName;
 
-    public HomePageInputData(String username, String password) {
+    public HomePageInputData(String username, String displayName) {
         this.username = username;
-        this.password = password;
+        this.displayName = displayName;
     }
 
     String getUsername() {
         return username;
     }
 
-    String getPassword() {
-        return password;
+    String getDisplayName() {
+        return displayName;
     }
 }
