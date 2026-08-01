@@ -13,12 +13,16 @@ public class Main {
     public static void main(String[] args) {
         final AppBuilder appBuilder = new AppBuilder();
         final JFrame application = appBuilder
+                .addAccountView()
+                .addDeleteAccountView()
+                .addHomePageView()
                 .addLoginView()
                 .addSignupView()
-                .addLoggedInView()
-                .addSignupUseCase()
+                .addAccountUseCase()
+                .addDeleteAccountUseCase()
+                .addHomePageUseCase()
                 .addLoginUseCase()
-                .addLogoutUseCase()
+                .addSignupUseCase()
                 .build();
 
         application.pack();
