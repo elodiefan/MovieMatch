@@ -115,7 +115,7 @@ public class ReviewsView extends JPanel implements PropertyChangeListener {
         final JPanel card = new JPanel();
         card.setLayout(new BoxLayout(card, BoxLayout.Y_AXIS));
         card.add(new JLabel(review.getMediaTitle()));
-        card.add(new JLabel("Rating: " + review.getRating() + " / 5"));
+        card.add(new JLabel("Rating: " + review.getRating() + "%"));
         card.add(new JLabel(formatTime(review.getCreatedAt())));
         card.add(new JLabel(review.getReviewText()));
         return card;
