@@ -24,7 +24,8 @@ public class HomePageInteractor implements HomePageInputBoundary {
 
     @Override
     public void switchToAccountView(HomePageInputData response) {
-        final HomePageOutputData homePageOutputData = new HomePageOutputData(response.getUsername(), false);
+        final HomePageOutputData homePageOutputData = new HomePageOutputData(response.getUsername(),
+                response.getDisplayName(), false);
         userPresenter.switchToAccountView(homePageOutputData);
     }
 }
