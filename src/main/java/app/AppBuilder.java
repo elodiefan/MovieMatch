@@ -10,9 +10,16 @@ import data_access.InMemoryUserDataAccessObject;
 import interface_adapter.account.AccountController;
 import interface_adapter.account.AccountPresenter;
 import interface_adapter.account.AccountViewModel;
+import interface_adapter.delete_account.DeleteAccountController;
 import interface_adapter.delete_account.DeleteAccountPresenter;
 import interface_adapter.delete_account.DeleteAccountViewModel;
+import interface_adapter.home_page.HomePageController;
+import interface_adapter.home_page.HomePagePresenter;
+import interface_adapter.reset_password.ResetPasswordController;
+import interface_adapter.reset_password.ResetPasswordPresenter;
 import interface_adapter.reset_password.ResetPasswordViewModel;
+import interface_adapter.security_question.SecurityQuestionController;
+import interface_adapter.security_question.SecurityQuestionPresenter;
 import interface_adapter.security_question.SecurityQuestionViewModel;
 import entity.StandardUserFactory;
 import entity.UserFactory;
@@ -29,12 +36,24 @@ import interface_adapter.signup.SignupViewModel;
 import use_case.account.AccountInputBoundary;
 import use_case.account.AccountInteractor;
 import use_case.account.AccountOutputBoundary;
+import use_case.delete_account.DeleteAccountInputBoundary;
+import use_case.delete_account.DeleteAccountInteractor;
+import use_case.delete_account.DeleteAccountOutputBoundary;
+import use_case.home_page.HomePageInputBoundary;
+import use_case.home_page.HomePageInteractor;
+import use_case.home_page.HomePageOutputBoundary;
 import use_case.login.LoginInputBoundary;
 import use_case.login.LoginInteractor;
-import use_case.login.DeleteAccountOutputBoundary;
+import use_case.login.LoginOutputBoundary;
 //import use_case.logout.LogoutInputBoundary;
 //import use_case.logout.LogoutInteractor;
 //import use_case.logout.LogoutOutputBoundary;
+import use_case.reset_password.ResetPasswordInputBoundary;
+import use_case.reset_password.ResetPasswordInteractor;
+import use_case.reset_password.ResetPasswordOutputBoundary;
+import use_case.security_question.SecurityQuestionInputBoundary;
+import use_case.security_question.SecurityQuestionInteractor;
+import use_case.security_question.SecurityQuestionOutputBoundary;
 import use_case.signup.SignupInputBoundary;
 import use_case.signup.SignupInteractor;
 import use_case.signup.SignupOutputBoundary;
@@ -186,12 +205,12 @@ public class AppBuilder {
      */
     public AppBuilder addDeleteAccountUseCase() {
         final DeleteAccountOutputBoundary deleteAccountOutputBoundary = new DeleteAccountPresenter(viewManagerModel,
-                homePageViewModel, loginViewModel);
-        final LoginInputBoundary loginInteractor = new LoginInteractor(
-                userDataAccessObject, loginOutputBoundary);
+                deleteAccountViewModel, signupViewModel);
+        final DeleteAccountInputBoundary deleteAccountInteractor = new DeleteAccountInteractor(
+                userDataAccessObject, deleteAccountOutputBoundary, userFactory);
 
-        final LoginController loginController = new LoginController(loginInteractor);
-        loginView.setLoginController(loginController);
+        final DeleteAccountController deleteAccountController = new DeleteAccountController(deleteAccountInteractor);
+        deleteAccountView.setDeleteAccountController(deleteAccountController);
         return this;
     }
 
@@ -200,13 +219,13 @@ public class AppBuilder {
      * @return this builder
      */
     public AppBuilder addHomePageUseCase() {
-        final DeleteAccountOutputBoundary loginOutputBoundary = new LoginPresenter(viewManagerModel,
-                homePageViewModel, loginViewModel);
-        final LoginInputBoundary loginInteractor = new LoginInteractor(
-                userDataAccessObject, loginOutputBoundary);
+        final HomePageOutputBoundary homePageOutputBoundary = new HomePagePresenter(viewManagerModel,
+                homePageViewModel, accountViewModel);
+        final HomePageInputBoundary homePageInteractor = new HomePageInteractor(
+                userDataAccessObject, homePageOutputBoundary, userFactory);
 
-        final LoginController loginController = new LoginController(loginInteractor);
-        loginView.setLoginController(loginController);
+        final HomePageController homePageController = new HomePageController(homePageInteractor);
+        homePageView.setHomePageController(homePageController);
         return this;
     }
 
@@ -215,7 +234,7 @@ public class AppBuilder {
      * @return this builder
      */
     public AppBuilder addLoginUseCase() {
-        final DeleteAccountOutputBoundary loginOutputBoundary = new LoginPresenter(viewManagerModel,
+        final LoginOutputBoundary loginOutputBoundary = new LoginPresenter(viewManagerModel,
                 homePageViewModel, loginViewModel);
         final LoginInputBoundary loginInteractor = new LoginInteractor(
                 userDataAccessObject, loginOutputBoundary);
@@ -225,35 +244,40 @@ public class AppBuilder {
         return this;
     }
 
-    /**
-     * Adds the Reset Password Use Case to the application.
-     * @return this builder
-     */
-    public AppBuilder addResetPasswordUseCase() {
-        final DeleteAccountOutputBoundary loginOutputBoundary = new LoginPresenter(viewManagerModel,
-                homePageViewModel, loginViewModel);
-        final LoginInputBoundary loginInteractor = new LoginInteractor(
-                userDataAccessObject, loginOutputBoundary);
+//  TODO: FOR ENZO -> Fix [...] on line 254. ResetPasswordPresenter takes in PasswordResetCompletedHandler
+//    but I don't know what that is.
+//    /**
+//     * Adds the Reset Password Use Case to the application.
+//     * @return this builder
+//     */
+//    public AppBuilder addResetPasswordUseCase() {
+//        final ResetPasswordOutputBoundary resetPasswordOutputBoundary = new ResetPasswordPresenter(
+//        resetPasswordViewModel, [...]);
+//        final ResetPasswordInputBoundary resetPasswordInteractor = new ResetPasswordInteractor(
+//                userDataAccessObject, resetPasswordOutputBoundary);
+//        final ResetPasswordController resetPasswordController = new ResetPasswordController(resetPasswordInteractor);
+//        resetPasswordView.setResetPasswordController(resetPasswordController);
+//        return this;
+//    }
 
-        final LoginController loginController = new LoginController(loginInteractor);
-        loginView.setLoginController(loginController);
-        return this;
-    }
 
-    /**
-     * Adds the Security Question Use Case to the application.
-     * @return this builder
-     */
-    public AppBuilder addSecurityQuestionUseCase() {
-        final DeleteAccountOutputBoundary loginOutputBoundary = new LoginPresenter(viewManagerModel,
-                homePageViewModel, loginViewModel);
-        final LoginInputBoundary loginInteractor = new LoginInteractor(
-                userDataAccessObject, loginOutputBoundary);
-
-        final LoginController loginController = new LoginController(loginInteractor);
-        loginView.setLoginController(loginController);
-        return this;
-    }
+// TODO: FOR ENZO -> Fix [...] on line 275. SecurityQuestionInteractor takes in LockoutTracker,
+//  but I don't know what that is.
+//    /**
+//     * Adds the Security Question Use Case to the application.
+//     * @return this builder
+//     */
+//    public AppBuilder addSecurityQuestionUseCase() {
+//        final SecurityQuestionOutputBoundary securityQuestionOutputBoundary = new SecurityQuestionPresenter(
+//                securityQuestionViewModel,
+//                resetPasswordViewModel, viewManagerModel);
+//        final SecurityQuestionInputBoundary securityQuestionInteractor = new SecurityQuestionInteractor(
+//                userDataAccessObject, securityQuestionOutputBoundary, [...]);
+//        final SecurityQuestionController securityQuestionController = new SecurityQuestionController(
+//                securityQuestionInteractor);
+//        securityQuestionView.setSecurityQuestionController(securityQuestionController);
+//        return this;
+//    }
 
     /**
      * Adds the Signup Use Case to the application.
@@ -265,8 +289,8 @@ public class AppBuilder {
         final SignupInputBoundary userSignupInteractor = new SignupInteractor(
                 userDataAccessObject, signupOutputBoundary, userFactory);
 
-        final SignupController controller = new SignupController(userSignupInteractor);
-        signupView.setSignupController(controller);
+        final SignupController signupController = new SignupController(userSignupInteractor);
+        signupView.setSignupController(signupController);
         return this;
     }
 
