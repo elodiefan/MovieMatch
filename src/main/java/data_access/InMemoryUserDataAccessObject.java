@@ -81,6 +81,18 @@ public class InMemoryUserDataAccessObject implements UserDataAccessObject {
                 newPassword, old.getSecurityQuestion(), old.getSecurityAnswer()));
     }
 
+    // ---------- Delete account (after the security question is answered) ----------
+    @Override
+    public void deleteAccount(User user) {
+        users.remove(user.getUsername());
+    }
+
+    @Override
+    public String getCurrentSecurityAnswer() {
+        final User currentUser = users.get(currentUsername);
+        return currentUser.getSecurityAnswer();
+    }
+
     // ---------- Nothing to release ----------
 
     @Override

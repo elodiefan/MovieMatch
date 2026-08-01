@@ -1,5 +1,6 @@
 package data_access;
 
+import use_case.delete_account.DeleteAccountUserDataAccessInterface;
 import use_case.login.LoginUserDataAccessInterface;
 import use_case.logout.LogoutUserDataAccessInterface;
 import use_case.reset_password.ResetPasswordUserDataAccessInterface;
@@ -29,7 +30,8 @@ public interface UserDataAccessObject extends
         LoginUserDataAccessInterface,
         LogoutUserDataAccessInterface,
         SecurityQuestionUserDataAccessInterface,
-        ResetPasswordUserDataAccessInterface {
+        ResetPasswordUserDataAccessInterface,
+        DeleteAccountUserDataAccessInterface {
 
     /**
      * Releases any resources held by this data store, such as an open database
