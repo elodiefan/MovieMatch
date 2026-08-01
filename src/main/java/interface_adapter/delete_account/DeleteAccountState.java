@@ -10,7 +10,7 @@ public class DeleteAccountState {
     private String password = "";
     private String securityQuestion = "";
     private String securityAnswer = "";
-    private String securityAnswerError = "";
+    private String deleteAccountError = "";
 
     public String getUsername() {
         return username;
@@ -52,11 +52,11 @@ public class DeleteAccountState {
         this.securityAnswer = securityAnswer;
     }
 
-    public String getSecurityAnswerError() {
-        return securityAnswerError;
+    public String getDeleteAccountError() {
+        return deleteAccountError;
     }
 
-    public void setSecurityAnswerError(String securityAnswerError) {
-        this.securityAnswerError = securityAnswerError;
+    public void setDeleteAccountError(String deleteAccountError) {
+        this.deleteAccountError = deleteAccountError;
     }
 }

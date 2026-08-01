@@ -5,15 +5,15 @@ package use_case.account;
  */
 public interface AccountOutputBoundary {
 
-    /**
-     * Switches to the Reviews View.
-     */
-    void switchToReviewsView();
-
-    /**
-     * Switches to the Log Out Confirm View.
-     */
-    void switchToLogOutConfirmView();
+//    /**
+//     * Switches to the Reviews View.
+//     */
+//    void switchToReviewsView();
+//
+//    /**
+//     * Switches to the Log Out Confirm View.
+//     */
+//    void switchToLogOutConfirmView();
 
     /**
      * Switches to the Reset Password View.

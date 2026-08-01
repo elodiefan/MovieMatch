@@ -7,6 +7,7 @@ package use_case.home_page;
 public class HomePageOutputData {
 
     private String username;
+    private String displayName;
     private boolean useCaseFailed;
 
     public HomePageOutputData(String username, boolean useCaseFailed) {
@@ -16,6 +17,10 @@ public class HomePageOutputData {
 
     public String getUsername() {
         return username;
+    }
+
+    public String getDisplayName() {
+        return displayName;
     }
 
     public boolean isUseCaseFailed() {
