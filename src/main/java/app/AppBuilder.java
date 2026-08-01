@@ -10,6 +10,7 @@ import data_access.InMemoryUserDataAccessObject;
 import interface_adapter.account.AccountController;
 import interface_adapter.account.AccountPresenter;
 import interface_adapter.account.AccountViewModel;
+import interface_adapter.account.ReviewsViewModel;
 import interface_adapter.delete_account.DeleteAccountController;
 import interface_adapter.delete_account.DeleteAccountPresenter;
 import interface_adapter.delete_account.DeleteAccountViewModel;
@@ -62,6 +63,7 @@ import view.DeleteAccountView;
 import view.HomePageView;
 import view.LoginView;
 import view.ResetPasswordView;
+import view.ReviewsView;
 import view.SecurityQuestionView;
 import view.SignupView;
 import view.ViewManager;
@@ -90,6 +92,8 @@ public class AppBuilder {
 
     private AccountView accountView;
     private AccountViewModel accountViewModel;
+    private ReviewsView reviewsView;
+    private ReviewsViewModel reviewsViewModel;
     private DeleteAccountView deleteAccountView;
     private DeleteAccountViewModel deleteAccountViewModel;
     private HomePageView homePageView;
@@ -115,6 +119,17 @@ public class AppBuilder {
         accountViewModel = new AccountViewModel();
         accountView = new AccountView(accountViewModel);
         cardPanel.add(accountView, accountView.getViewName());
+        return this;
+    }
+
+    /**
+     * Adds the Reviews View to the application.
+     * @return this builder
+     */
+    public AppBuilder addReviewsView() {
+        reviewsViewModel = new ReviewsViewModel();
+        reviewsView = new ReviewsView(reviewsViewModel);
+        cardPanel.add(reviewsView, reviewsView.getViewName());
         return this;
     }
 
@@ -189,7 +204,8 @@ public class AppBuilder {
      * @return this builder
      */
     public AppBuilder addAccountUseCase() {
-        final AccountOutputBoundary accountOutputBoundary = new AccountPresenter(viewManagerModel, accountViewModel,
+        final AccountOutputBoundary accountOutputBoundary = new AccountPresenter(
+                viewManagerModel, accountViewModel, reviewsViewModel, null,
                 resetPasswordViewModel, deleteAccountViewModel);
         final AccountInputBoundary accountInteractor = new AccountInteractor(
                 userDataAccessObject, accountOutputBoundary);
