@@ -135,14 +135,6 @@ public class MongoUserDataAccessObject implements UserDataAccessObject {
         this.currentUsername = username;
     }
 
-    // ---------- Change password ----------
-
-    @Override
-    public void changePassword(User user) {
-        users.updateOne(Filters.eq(USERNAME, user.getUsername()),
-                Updates.set(PASSWORD, user.getPassword()));
-    }
-
     // ---------- Reset password (after the security question is answered) ----------
 
     @Override

@@ -61,13 +61,6 @@ public class InMemoryUserDataAccessObject implements UserDataAccessObject {
         this.currentUsername = username;
     }
 
-    // ---------- Change password ----------
-
-    @Override
-    public void changePassword(User user) {
-        users.put(user.getUsername(), user);
-    }
-
     // ---------- Reset password (after the security question is answered) ----------
 
     @Override

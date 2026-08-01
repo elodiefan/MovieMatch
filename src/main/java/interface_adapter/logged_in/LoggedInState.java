@@ -8,11 +8,13 @@ public class LoggedInState {
 
     private String password = "";
     private String passwordError;
+    private String deleteAccountError;
 
     public LoggedInState(LoggedInState copy) {
         username = copy.username;
         password = copy.password;
         passwordError = copy.passwordError;
+        deleteAccountError = copy.deleteAccountError;
     }
 
     // Because of the previous copy constructor, the default constructor must be explicit.
@@ -38,5 +40,17 @@ public class LoggedInState {
 
     public String getPassword() {
         return password;
+    }
+
+    /**
+     * Records why deleting the account failed, so the logged-in view can show it.
+     * @param deleteAccountError the explanation of the failure
+     */
+    public void deleteAccountError(String deleteAccountError) {
+        this.deleteAccountError = deleteAccountError;
+    }
+
+    public String getDeleteAccountError() {
+        return deleteAccountError;
     }
 }
