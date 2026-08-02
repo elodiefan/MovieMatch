@@ -12,7 +12,7 @@ public interface DeleteAccountInputBoundary {
     void execute(DeleteAccountInputData deleteAccountInputData);
 
     /**
-     * Executes the switch to signup view use case.
+     * Executes the switch to Account view.
      */
-    void switchToSignupView();
+    void switchToAccountView();
 }

@@ -205,7 +205,7 @@ public class AppBuilder {
      */
     public AppBuilder addDeleteAccountUseCase() {
         final DeleteAccountOutputBoundary deleteAccountOutputBoundary = new DeleteAccountPresenter(viewManagerModel,
-                deleteAccountViewModel, signupViewModel);
+                deleteAccountViewModel, signupViewModel, accountViewModel);
         final DeleteAccountInputBoundary deleteAccountInteractor = new DeleteAccountInteractor(
                 userDataAccessObject, deleteAccountOutputBoundary, userFactory);
 

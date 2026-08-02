@@ -18,7 +18,7 @@ public interface DeleteAccountOutputBoundary {
     void prepareFailView(String errorMessage);
 
     /**
-     * Swtiches to the Sign Up View.
+     * Swtiches to the Account View.
      */
-    void switchToSignupView();
+    void switchToAccountView();
 }
