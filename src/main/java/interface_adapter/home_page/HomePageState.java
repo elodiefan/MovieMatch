@@ -1,16 +1,16 @@
-package interface_adapter.delete_account;
+package interface_adapter.home_page;
 
 /**
- * The state for the Delete Account View Model.
+ * The state for the Home Page View Model.
  */
 
-public class DeleteAccountState {
+public class HomePageState {
     private String username = "";
     private String displayName = "";
     private String password = "";
     private String securityQuestion = "";
     private String securityAnswer = "";
-    private String deleteAccountError = "";
+    private String securityAnswerError = "";
 
     public String getUsername() {
         return username;
@@ -52,11 +52,11 @@ public class DeleteAccountState {
         this.securityAnswer = securityAnswer;
     }
 
-    public String getDeleteAccountError() {
-        return deleteAccountError;
+    public String getSecurityAnswerError() {
+        return securityAnswerError;
     }
 
-    public void setDeleteAccountError(String deleteAccountError) {
-        this.deleteAccountError = deleteAccountError;
+    public void setSecurityAnswerError(String securityAnswerError) {
+        this.securityAnswerError = securityAnswerError;
     }
 }
