@@ -1,25 +1,16 @@
 package entity;
 
-import java.time.ZoneId;
 import java.time.ZonedDateTime;
-import java.util.HashSet;
 import java.util.Set;
 
 /**
  * Represents a user's review on a piece of media.
  */
 public class Review extends UserContent {
-    private static final ZoneId TORONTO_ZONE = ZoneId.of("America/Toronto");
-
-    private final String reviewId;
     private final int mediaId;
     private final String mediaType;
     private final String mediaTitle;
-    private final String authorUsername;
-    private final String authorDisplayName;
-    private final ZonedDateTime createdAt;
     private final String source;
-    private final Set<String> likedByUsernames;
     private double rating;
     private String reviewText;
     private ZonedDateTime updatedAt;
@@ -43,26 +34,14 @@ public class Review extends UserContent {
                   String authorUsername, String authorDisplayName, double rating,
                   String reviewText, ZonedDateTime createdAt, ZonedDateTime updatedAt,
                   String source, Set<String> likedByUsernames) {
-        this.reviewId = reviewId;
+        super(reviewId, authorUsername, authorDisplayName, createdAt, likedByUsernames);
         this.mediaId = mediaId;
         this.mediaType = mediaType;
         this.mediaTitle = mediaTitle;
-        this.authorUsername = authorUsername;
-        this.authorDisplayName = authorDisplayName;
         this.rating = rating;
         this.reviewText = reviewText;
-        this.createdAt = createdAt;
         this.updatedAt = updatedAt;
         this.source = source;
-        this.likedByUsernames = new HashSet<>(likedByUsernames);
-    }
-
-    /**
-     * Returns the current date and time in Toronto.
-     * @return the current Toronto date and time
-     */
-    public static ZonedDateTime getCurrentTorontoTime() {
-        return ZonedDateTime.now(TORONTO_ZONE);
     }
 
     /**
@@ -70,7 +49,7 @@ public class Review extends UserContent {
      * @return the review id
      */
     public String getReviewId() {
-        return reviewId;
+        return getContentId();
     }
 
     /**
@@ -98,22 +77,6 @@ public class Review extends UserContent {
     }
 
     /**
-     * Returns the username of the review author.
-     * @return the author's username
-     */
-    public String getAuthorUsername() {
-        return authorUsername;
-    }
-
-    /**
-     * Returns the display name of the review author.
-     * @return the author's display name
-     */
-    public String getAuthorDisplayName() {
-        return authorDisplayName;
-    }
-
-    /**
      * Returns the rating left by the author.
      * @return the review rating
      */
@@ -127,14 +90,6 @@ public class Review extends UserContent {
      */
     public String getReviewText() {
         return reviewText;
-    }
-
-    /**
-     * Returns the time the review was created.
-     * @return the creation time
-     */
-    public ZonedDateTime getCreatedAt() {
-        return createdAt;
     }
 
     /**
@@ -154,22 +109,6 @@ public class Review extends UserContent {
     }
 
     /**
-     * Returns the usernames of users who liked this review.
-     * @return a copy of the liked-by usernames
-     */
-    public Set<String> getLikedByUsernames() {
-        return new HashSet<>(likedByUsernames);
-    }
-
-    /**
-     * Returns the number of likes on this review.
-     * @return the like count
-     */
-    public int getLikeCount() {
-        return likedByUsernames.size();
-    }
-
-    /**
      * Updates the editable review fields.
      * @param newRating the updated rating
      * @param newReviewText the updated review text
@@ -181,19 +120,4 @@ public class Review extends UserContent {
         this.updatedAt = newUpdatedAt;
     }
 
-    /**
-     * Adds a like from a user.
-     * @param username the username liking the review
-     */
-    public void like(String username) {
-        likedByUsernames.add(username);
-    }
-
-    /**
-     * Removes a like from a user.
-     * @param username the username unliking the review
-     */
-    public void unlike(String username) {
-        likedByUsernames.remove(username);
-    }
 }
