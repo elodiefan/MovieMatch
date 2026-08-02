@@ -68,6 +68,8 @@ public class DeleteAccountView extends JPanel implements PropertyChangeListener 
                     if (evt.getSource().equals(deleteAccountButton)) {
                         final DeleteAccountState currentState = deleteAccountViewModel.getState();
 
+                        JOptionPane.showMessageDialog(null, "Successfully deleted account " + currentState.getUsername());
+
                         this.deleteAccountController.execute(
                                 currentState.getUsername(),
                                 currentState.getDisplayName(),
