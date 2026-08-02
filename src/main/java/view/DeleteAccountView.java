@@ -70,8 +70,6 @@ public class DeleteAccountView extends JPanel implements PropertyChangeListener 
                     if (evt.getSource().equals(deleteAccountButton)) {
                         final DeleteAccountState currentState = deleteAccountViewModel.getState();
 
-                        JOptionPane.showMessageDialog(this, "Successfully deleted account");
-
                         this.deleteAccountController.execute(
                                 currentState.getUsername(),
                                 currentState.getDisplayName(),
@@ -130,20 +128,16 @@ public class DeleteAccountView extends JPanel implements PropertyChangeListener 
 
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
-//        if (evt.getPropertyName().equals("state")) {
-//            final DeleteAccountState state = (DeleteAccountState) evt.getNewValue();
-//            username.setText(state.getUsername());
-//            securityQuestion.setText(state.getSecurityQuestion());
-//        }
-//        else if (evt.getPropertyName().equals("password")) {
-//            final DeleteAccountState state = (DeleteAccountState) evt.getNewValue();
-//            JOptionPane.showMessageDialog(null, "deleted account for " + state.getUsername());
-//        }
-        final DeleteAccountState state = (DeleteAccountState) evt.getNewValue();
-        username.setText(state.getUsername());
-        securityQuestion.setText(state.getSecurityQuestion());
-        if (state.getDeleteAccountError() != null) {
-            JOptionPane.showMessageDialog(this, state.getDeleteAccountError());
+        if (evt.getPropertyName().equals("state")) {
+            final DeleteAccountState state = (DeleteAccountState) evt.getNewValue();
+            username.setText(state.getUsername());
+            securityQuestion.setText(state.getSecurityQuestion());
+            if (state.getDeleteAccountError() != null) {
+                JOptionPane.showMessageDialog(this, state.getDeleteAccountError());
+            }
+        }
+        else if (evt.getPropertyName().equals("delete account")) {
+            JOptionPane.showMessageDialog(this, "Successfully deleted account.");
         }
     }
 

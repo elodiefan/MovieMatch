@@ -43,7 +43,7 @@ public class DeleteAccountInteractor implements DeleteAccountInputBoundary {
 
         if (!isLockedOut) {
             if (!userDataAccessObject.getCurrentSecurityAnswer().equals(securityAnswer)) {
-                userPresenter.prepareFailView("Incorrect security answer");
+                userPresenter.prepareFailView("Incorrect security answer.");
                 incorrectCount++;
                 if (incorrectCount >= INCORRECT_LIMIT) {
                     isLockedOut = true;

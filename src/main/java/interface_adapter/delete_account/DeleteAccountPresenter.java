@@ -32,7 +32,7 @@ public class DeleteAccountPresenter implements DeleteAccountOutputBoundary {
         final DeleteAccountState deleteAccountState = deleteAccountViewModel.getState();
         deleteAccountState.setUsername("");
         deleteAccountViewModel.setState(deleteAccountState);
-        deleteAccountViewModel.firePropertyChanged();
+        deleteAccountViewModel.firePropertyChanged("delete account");
 
         final SignupState signupState = signupViewModel.getState();
         signupState.setUsername("");
