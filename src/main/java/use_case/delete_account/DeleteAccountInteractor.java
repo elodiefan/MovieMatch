@@ -81,10 +81,10 @@ public class DeleteAccountInteractor implements DeleteAccountInputBoundary {
     }
 
     /**
-     * Switches from delete account view to signup view.
+     * Switches from delete account view to account view.
      */
     @Override
-    public void switchToSignupView() {
-        userPresenter.switchToSignupView();
+    public void switchToAccountView() {
+        userPresenter.switchToAccountView();
     }
 }

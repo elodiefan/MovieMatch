@@ -30,9 +30,9 @@ public class DeleteAccountController {
     }
 
     /**
-     * Temporary, later change this to switch to user's profile page.
+     * Switches view back to user's account page.
      */
-    public void switchToSignupView() {
-        deleteAccountUseCaseInteractor.switchToSignupView();
+    public void switchToAccountView() {
+        deleteAccountUseCaseInteractor.switchToAccountView();
     }
 }

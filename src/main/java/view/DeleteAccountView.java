@@ -83,7 +83,7 @@ public class DeleteAccountView extends JPanel implements PropertyChangeListener 
                 new ActionListener() {
                     @Override
                     public void actionPerformed(ActionEvent e) {
-                        deleteAccountController.switchToSignupView();
+                        deleteAccountController.switchToAccountView();
                     }
                 }
         );
@@ -128,16 +128,21 @@ public class DeleteAccountView extends JPanel implements PropertyChangeListener 
 
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
-        if (evt.getPropertyName().equals("state")) {
-            final DeleteAccountState state = (DeleteAccountState) evt.getNewValue();
-            username.setText(state.getUsername());
-            securityQuestion.setText(state.getSecurityQuestion());
+//        if (evt.getPropertyName().equals("state")) {
+//            final DeleteAccountState state = (DeleteAccountState) evt.getNewValue();
+//            username.setText(state.getUsername());
+//            securityQuestion.setText(state.getSecurityQuestion());
+//        }
+//        else if (evt.getPropertyName().equals("password")) {
+//            final DeleteAccountState state = (DeleteAccountState) evt.getNewValue();
+//            JOptionPane.showMessageDialog(null, "deleted account for " + state.getUsername());
+//        }
+        final DeleteAccountState state = (DeleteAccountState) evt.getNewValue();
+        username.setText(state.getUsername());
+        securityQuestion.setText(state.getSecurityQuestion());
+        if (state.getDeleteAccountError() != null) {
+            JOptionPane.showMessageDialog(this, state.getDeleteAccountError());
         }
-        else if (evt.getPropertyName().equals("password")) {
-            final DeleteAccountState state = (DeleteAccountState) evt.getNewValue();
-            JOptionPane.showMessageDialog(null, "deleted account for " + state.getUsername());
-        }
-
     }
 
     public String getViewName() {
