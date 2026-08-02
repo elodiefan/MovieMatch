@@ -26,7 +26,7 @@ public class AccountInteractor implements AccountInputBoundary {
      */
     @Override
     public void switchToLogOutConfirmView() {
-        accountPresenter.switchToLogOutConfirmView();
+        accountPresenter.switchToLogoutConfirmView();
     }
 
     /**

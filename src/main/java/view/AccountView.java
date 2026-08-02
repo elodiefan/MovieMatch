@@ -20,7 +20,7 @@ import interface_adapter.account.AccountViewModel;
  */
 public class AccountView extends JPanel implements PropertyChangeListener {
 
-    private final String viewName = "user account";
+    private final String viewName = "account";
     private final AccountViewModel accountViewModel;
     private AccountController accountController;
 

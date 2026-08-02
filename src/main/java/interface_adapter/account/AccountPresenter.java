@@ -14,20 +14,20 @@ public class AccountPresenter implements AccountOutputBoundary {
     private final AccountViewModel accountViewModel;
     private final ViewManagerModel viewManagerModel;
     private final ReviewsViewModel reviewsViewModel;
-    private final LogOutConfirmViewModel logOutConfirmViewModel;
+    private final LogoutConfirmViewModel logoutConfirmViewModel;
     private final ResetPasswordViewModel resetPasswordViewModel;
     private final DeleteAccountViewModel deleteAccountViewModel;
 
     public AccountPresenter(ViewManagerModel viewManagerModel,
                             AccountViewModel accountViewModel,
                             ReviewsViewModel reviewsViewModel,
-                            LogOutConfirmViewModel logOutConfirmViewModel,
+                            LogoutConfirmViewModel logoutConfirmViewModel,
                             ResetPasswordViewModel resetPasswordViewModel,
                             DeleteAccountViewModel deleteAccountViewModel) {
         this.viewManagerModel = viewManagerModel;
         this.accountViewModel = accountViewModel;
         this.reviewsViewModel = reviewsViewModel;
-        this.logOutConfirmViewModel = logOutConfirmViewModel;
+        this.logoutConfirmViewModel = logoutConfirmViewModel;
         this.resetPasswordViewModel = resetPasswordViewModel;
         this.deleteAccountViewModel = deleteAccountViewModel;
     }
@@ -48,8 +48,8 @@ public class AccountPresenter implements AccountOutputBoundary {
     }
 
     @Override
-    public void switchToLogOutConfirmView() {
-        viewManagerModel.setState(logOutConfirmViewModel.getViewName());
+    public void switchToLogoutConfirmView() {
+        viewManagerModel.setState(logoutConfirmViewModel.getViewName());
         viewManagerModel.firePropertyChanged();
     }
 

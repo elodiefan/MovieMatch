@@ -14,15 +14,16 @@ public class Main {
         final AppBuilder appBuilder = new AppBuilder();
         final JFrame application = appBuilder
                 .addAccountView()
-                .addReviewsView()
                 .addDeleteAccountView()
                 .addHomePageView()
                 .addLoginView()
+                .addReviewsView()
                 .addSignupView()
                 .addAccountUseCase()
                 .addDeleteAccountUseCase()
                 .addHomePageUseCase()
                 .addLoginUseCase()
+                .addReviewsUseCase()
                 .addSignupUseCase()
                 .build();
 

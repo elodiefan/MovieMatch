@@ -13,7 +13,7 @@ public interface AccountOutputBoundary {
     /**
      * Switches to the Log Out Confirm View.
      */
-    void switchToLogOutConfirmView();
+    void switchToLogoutConfirmView();
 
     /**
      * Switches to the Reset Password View.

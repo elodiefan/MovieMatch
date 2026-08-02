@@ -7,6 +7,7 @@ import interface_adapter.ViewModel;
  */
 public class AccountViewModel extends ViewModel<AccountState> {
 
+    public static final String VIEW_NAME = "account";
     public static final String TITLE_LABEL = "My Account";
     public static final String CUSTOMIZE_BUTTON = "Customize Profile";
     public static final String LOGOUT_BUTTON = "Logout";
