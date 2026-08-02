@@ -8,7 +8,7 @@ import java.util.Set;
 /**
  * Represents a comment reply of a review on a piece of media.
  */
-public class Comment {
+public class Comment extends UserContent {
     private static final ZoneId TORONTO_ZONE = ZoneId.of("America/Toronto");
 
     private final String commentId;
