@@ -75,6 +75,7 @@ public class InMemoryUserDataAccessObject implements UserDataAccessObject {
     }
 
     // ---------- Delete account (after the security question is answered) ----------
+
     @Override
     public void deleteAccount(User user) {
         users.remove(user.getUsername());
@@ -84,6 +85,18 @@ public class InMemoryUserDataAccessObject implements UserDataAccessObject {
     public String getCurrentSecurityAnswer() {
         final User currentUser = users.get(currentUsername);
         return currentUser.getSecurityAnswer();
+    }
+
+    // ---------- Home page ----------
+    @Override
+    public String getDisplayName() {
+        return users.get(currentUsername).getDisplayName();
+    }
+
+    // ---------- Account page ----------
+    @Override
+    public String getSecurityQuestion() {
+        return users.get(currentUsername).getSecurityQuestion();
     }
 
     // ---------- Nothing to release ----------

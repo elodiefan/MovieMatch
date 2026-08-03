@@ -96,6 +96,7 @@ public class DeleteAccountView extends JPanel implements PropertyChangeListener 
 
         this.add(title);
         this.add(noticePanel);
+        this.add(securityQuestionTitle);
         this.add(securityQuestionPanel);
         this.add(buttons);
     }

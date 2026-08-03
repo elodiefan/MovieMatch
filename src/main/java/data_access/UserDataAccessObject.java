@@ -1,6 +1,8 @@
 package data_access;
 
+import use_case.account.AccountUserDataAccessInterface;
 import use_case.delete_account.DeleteAccountUserDataAccessInterface;
+import use_case.home_page.HomePageUserDataAccessInterface;
 import use_case.login.LoginUserDataAccessInterface;
 import use_case.logout.LogoutUserDataAccessInterface;
 import use_case.reset_password.ResetPasswordUserDataAccessInterface;
@@ -26,12 +28,14 @@ import use_case.signup.SignupUserDataAccessInterface;
  * classes. Nothing else needs to change.
  */
 public interface UserDataAccessObject extends
+        AccountUserDataAccessInterface,
+        DeleteAccountUserDataAccessInterface,
+        HomePageUserDataAccessInterface,
         SignupUserDataAccessInterface,
         LoginUserDataAccessInterface,
         LogoutUserDataAccessInterface,
         SecurityQuestionUserDataAccessInterface,
-        ResetPasswordUserDataAccessInterface,
-        DeleteAccountUserDataAccessInterface {
+        ResetPasswordUserDataAccessInterface {
 
     /**
      * Releases any resources held by this data store, such as an open database

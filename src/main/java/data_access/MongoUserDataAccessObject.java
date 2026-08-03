@@ -154,6 +154,18 @@ public class MongoUserDataAccessObject implements UserDataAccessObject {
         return doc.getString(ANSWER);
     }
 
+    // ---------- Home page ----------
+    @Override
+    public String getDisplayName() {
+        return users.find(Filters.eq(USERNAME, DISPLAY_NAME)).first().getString(DISPLAY_NAME);
+    }
+
+    // ---------- Account page ----------
+    @Override
+    public String getSecurityQuestion() {
+        return users.find(Filters.eq(USERNAME, SECURITY_QUESTION)).first().getString(DISPLAY_NAME);
+    }
+
     // ---------- Helpers ----------
 
     /** Turns a MongoDB document into a User entity. */

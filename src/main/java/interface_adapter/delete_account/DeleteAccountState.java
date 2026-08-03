@@ -5,12 +5,12 @@ package interface_adapter.delete_account;
  */
 
 public class DeleteAccountState {
-    private String username;
-    private String displayName;
-    private String password;
-    private String securityQuestion;
-    private String securityAnswer;
-    private String deleteAccountError;
+    private String username = "";
+    private String displayName = "";
+    private String password = "";
+    private String securityQuestion = "";
+    private String securityAnswer = "";
+    private String deleteAccountError = "";
 
     public String getUsername() {
         return username;
