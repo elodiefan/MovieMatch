@@ -71,7 +71,7 @@ public class InMemoryUserDataAccessObject implements UserDataAccessObject {
         }
         // StandardUser is immutable, so rebuild it with the new password.
         users.put(username, new StandardUser(old.getUsername(), old.getDisplayName(),
-                newPassword, old.getSecurityQuestion(), old.getSecurityAnswer()));
+                newPassword, old.getSecurityQuestion(), old.getAnswer()));
     }
 
     // ---------- Nothing to release ----------

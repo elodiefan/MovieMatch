@@ -1,5 +1,6 @@
 package entity;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -12,16 +13,27 @@ public class StandardUser implements User {
     private final String displayName;
     private final String password;
     private final String securityQuestion;
-    private final String securityAnswer;
-    private final UserLists userLists;
+    private final String answer;
+    private UserLists userLists;
 
     public StandardUser(String username, String displayName, String password,
-                        String securityQuestion, String securityAnswer, UserLists userLists) {
+                        String securityQuestion, String answer) {
         this.username = username;
         this.displayName = displayName;
         this.password = password;
         this.securityQuestion = securityQuestion;
-        this.securityAnswer = securityAnswer;
+        this.answer = answer;
+        this.userLists = new UserLists(username, new ArrayList<>(), new ArrayList<>(),
+                new ArrayList<>(), new ArrayList<>());
+    }
+
+    public StandardUser(String username, String displayName, String password,
+                        String securityQuestion, String answer, UserLists userLists) {
+        this.username = username;
+        this.displayName = displayName;
+        this.password = password;
+        this.securityQuestion = securityQuestion;
+        this.answer = answer;
         this.userLists = userLists;
     }
 
@@ -46,8 +58,8 @@ public class StandardUser implements User {
     }
 
     @Override
-    public String getSecurityAnswer() {
-        return securityAnswer;
+    public String getAnswer() {
+        return answer;
     }
 
     @Override
@@ -73,5 +85,10 @@ public class StandardUser implements User {
     @Override
     public List<String> getBlockedUsers() {
         return userLists.getBlockedUsers();
+    }
+
+    @Override
+    public void setUserLists(UserLists userLists) {
+        this.userLists = userLists;
     }
 }

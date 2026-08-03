@@ -36,7 +36,7 @@ public interface User {
      * Returns the answer to the user's chosen security question.
      * @return the answer to the user's chosen security question.
      */
-    String getSecurityAnswer();
+    String getAnswer();
 
     /**
      * Returns the object storing all of the given user's lists: watchlist, watch history, reviews, and blocked users.
@@ -67,4 +67,10 @@ public interface User {
      * @return the user's list of blocked users.
      */
     List<String> getBlockedUsers();
+
+    /**
+     * Sets the user's user lists.
+     * @param userLists the object storing the user's lists.
+     */
+    void setUserLists(UserLists userLists);
 }

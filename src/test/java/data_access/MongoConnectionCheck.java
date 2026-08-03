@@ -49,7 +49,7 @@ public final class MongoConnectionCheck {
             System.out.println("      displayName      = " + saved.getDisplayName());
             System.out.println("      password         = " + saved.getPassword());
             System.out.println("      securityQuestion = " + saved.getSecurityQuestion());
-            System.out.println("      answer           = " + saved.getSecurityAnswer());
+            System.out.println("      answer           = " + saved.getAnswer());
 
             // 3. Change the password — the part this branch is really testing.
             dao.changePassword(TEST_USERNAME, NEW_PASSWORD);

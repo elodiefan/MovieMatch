@@ -103,14 +103,14 @@ public class MongoUserDataAccessObject implements UserDataAccessObject {
                             Updates.set(DISPLAY_NAME, user.getDisplayName()),
                             Updates.set(PASSWORD, user.getPassword()),
                             Updates.set(SECURITY_QUESTION, user.getSecurityQuestion()),
-                            Updates.set(ANSWER, user.getSecurityAnswer())));
+                            Updates.set(ANSWER, user.getAnswer())));
         }
         else {
             users.insertOne(new Document(USERNAME, user.getUsername())
                     .append(DISPLAY_NAME, user.getDisplayName())
                     .append(PASSWORD, user.getPassword())
                     .append(SECURITY_QUESTION, user.getSecurityQuestion())
-                    .append(ANSWER, user.getSecurityAnswer()));
+                    .append(ANSWER, user.getAnswer()));
         }
     }
 
