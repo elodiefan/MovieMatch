@@ -1,10 +1,12 @@
 package interface_adapter.account;
 
 import interface_adapter.ViewManagerModel;
+import interface_adapter.delete_account.DeleteAccountState;
 import interface_adapter.delete_account.DeleteAccountViewModel;
 // import interface_adapter.login.LoginViewModel;
 import interface_adapter.reset_password.ResetPasswordViewModel;
 import use_case.account.AccountOutputBoundary;
+import use_case.account.AccountOutputData;
 
 /**
  * The Presenter for the Account Use Case.
@@ -51,7 +53,13 @@ public class AccountPresenter implements AccountOutputBoundary {
     }
 
     @Override
-    public void switchToDeleteAccountView() {
+    public void switchToDeleteAccountView(AccountOutputData response) {
+        final DeleteAccountState deleteAccountState = deleteAccountViewModel.getState();
+        deleteAccountState.setUsername(response.getUsername());
+        deleteAccountState.setSecurityQuestion(response.getSecuirtyQuestion());
+        deleteAccountViewModel.setState(deleteAccountState);
+        deleteAccountViewModel.firePropertyChanged();
+
         viewManagerModel.setState(deleteAccountViewModel.getViewName());
         viewManagerModel.firePropertyChanged();
     }

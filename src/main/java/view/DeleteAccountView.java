@@ -34,7 +34,6 @@ public class DeleteAccountView extends JPanel implements PropertyChangeListener 
 
     private final JLabel securityQuestion;
     private final JTextField securityQuestionInputField = new JTextField(15);
-    private final JLabel securityQuestionErrorField = new JLabel();
 
     private final JButton deleteAccountButton;
     private final JButton cancelButton;
@@ -52,10 +51,12 @@ public class DeleteAccountView extends JPanel implements PropertyChangeListener 
         noticePanel.add(deleteAccountNotice);
         noticePanel.add(username);
 
+        final JPanel securityQuestionPanel = new JPanel();
         final JLabel securityQuestionTitle = new JLabel(DeleteAccountViewModel.SECURITY_TITLE);
         securityQuestion = new JLabel();
-        // TODO
-        final LabelTextPanel securityLabelTextPanel = new LabelTextPanel(username, securityQuestionInputField);
+        securityQuestionPanel.add(securityQuestionTitle);
+        securityQuestionPanel.add(securityQuestion);
+        securityQuestionPanel.add(securityQuestionInputField);
 
         final JPanel buttons = new JPanel();
         deleteAccountButton = new JButton(DeleteAccountViewModel.DELETE_ACCOUNT_BUTTON);
@@ -96,8 +97,7 @@ public class DeleteAccountView extends JPanel implements PropertyChangeListener 
         this.add(title);
         this.add(noticePanel);
         this.add(securityQuestionTitle);
-        this.add(securityLabelTextPanel);
-        this.add(securityQuestionErrorField);
+        this.add(securityQuestionPanel);
         this.add(buttons);
     }
 

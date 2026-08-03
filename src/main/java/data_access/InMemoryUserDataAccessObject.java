@@ -87,6 +87,18 @@ public class InMemoryUserDataAccessObject implements UserDataAccessObject {
         return currentUser.getSecurityAnswer();
     }
 
+    // ---------- Home page ----------
+    @Override
+    public String getDisplayName() {
+        return users.get(currentUsername).getDisplayName();
+    }
+
+    // ---------- Account page ----------
+    @Override
+    public String getSecurityQuestion() {
+        return users.get(currentUsername).getSecurityQuestion();
+    }
+
     // ---------- Nothing to release ----------
 
     @Override

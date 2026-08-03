@@ -10,8 +10,9 @@ public class HomePageOutputData {
     private String displayName;
     private boolean useCaseFailed;
 
-    public HomePageOutputData(String username, boolean useCaseFailed) {
+    public HomePageOutputData(String username, String displayName, boolean useCaseFailed) {
         this.username = username;
+        this.displayName = displayName;
         this.useCaseFailed = useCaseFailed;
     }
 
