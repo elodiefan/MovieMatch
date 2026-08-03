@@ -206,9 +206,11 @@ public class AppBuilder {
      * @return this builder
      */
     public AppBuilder addAccountUseCase() {
+//        final AccountOutputBoundary accountOutputBoundary = new AccountPresenter(
+//                viewManagerModel, accountViewModel, reviewsViewModel, null,
+//                resetPasswordViewModel, deleteAccountViewModel);
         final AccountOutputBoundary accountOutputBoundary = new AccountPresenter(
-                viewManagerModel, accountViewModel, reviewsViewModel, null,
-                resetPasswordViewModel, deleteAccountViewModel);
+                viewManagerModel, accountViewModel, resetPasswordViewModel, deleteAccountViewModel);
         final AccountInputBoundary accountInteractor = new AccountInteractor(
                 userDataAccessObject, accountOutputBoundary);
 
@@ -238,8 +240,10 @@ public class AppBuilder {
      * @return this builder
      */
     public AppBuilder addHomePageUseCase() {
+//        final HomePageOutputBoundary homePageOutputBoundary = new HomePagePresenter(viewManagerModel,
+//                homePageViewModel, searchViewModel, accountViewModel);
         final HomePageOutputBoundary homePageOutputBoundary = new HomePagePresenter(viewManagerModel,
-                homePageViewModel, searchViewModel, accountViewModel);
+                homePageViewModel, accountViewModel);
         final HomePageInputBoundary homePageInteractor = new HomePageInteractor(
                 userDataAccessObject, homePageOutputBoundary, userFactory);
 
@@ -263,55 +267,54 @@ public class AppBuilder {
         return this;
     }
 
-    // TODO: For Elodie -> Implement reviews files.
-    /**
-     * Adds the Reviews Use Case to the application.
-     * @return this builder
-     */
-    public AppBuilder addReviewsUseCase() {
-        final ReviewsOutputBoundary reviewsOutputBoundary = new ReviewsPresenter(viewManagerModel, reviewsViewModel);
-        final ReviewsInputBoundary reviewsInteractor = new ReviewsInteractor(
-                userDataAccessObject, reviewsOutputBoundary);
+//    // TODO: For Elodie -> Implement reviews files.
+//    /**
+//     * Adds the Reviews Use Case to the application.
+//     * @return this builder
+//     */
+//    public AppBuilder addReviewsUseCase() {
+//        final ReviewsOutputBoundary reviewsOutputBoundary = new ReviewsPresenter(viewManagerModel, reviewsViewModel);
+//        final ReviewsInputBoundary reviewsInteractor = new ReviewsInteractor(
+//                userDataAccessObject, reviewsOutputBoundary);
+//
+//        final ReviewsController reviewsController = new ReviewsController(reviewsInteractor);
+//        reviewsView.setReviewsController(reviewsController);
+//        return this;
+//    }
 
-        final ReviewsController reviewsController = new ReviewsController(reviewsInteractor);
-        reviewsView.setReviewsController(reviewsController);
-        return this;
-    }
+////  TODO: FOR ENZO -> Fix error on line 254. ResetPasswordPresenter takes in PasswordResetCompletedHandler
+////    but I don't know what that is.
+//    /**
+//     * Adds the Reset Password Use Case to the application.
+//     * @return this builder
+//     */
+//    public AppBuilder addResetPasswordUseCase() {
+//        final ResetPasswordOutputBoundary resetPasswordOutputBoundary = new ResetPasswordPresenter(
+//        resetPasswordViewModel, passwordResetCompletedHandler);
+//        final ResetPasswordInputBoundary resetPasswordInteractor = new ResetPasswordInteractor(
+//                userDataAccessObject, resetPasswordOutputBoundary);
+//        final ResetPasswordController resetPasswordController = new ResetPasswordController(resetPasswordInteractor);
+//        resetPasswordView.setResetPasswordController(resetPasswordController);
+//        return this;
+//    }
 
-//  TODO: FOR ENZO -> Fix error on line 254. ResetPasswordPresenter takes in PasswordResetCompletedHandler
-//    but I don't know what that is.
-    /**
-     * Adds the Reset Password Use Case to the application.
-     * @return this builder
-     */
-    public AppBuilder addResetPasswordUseCase() {
-        final ResetPasswordOutputBoundary resetPasswordOutputBoundary = new ResetPasswordPresenter(
-        resetPasswordViewModel, passwordResetCompletedHandler);
-        final ResetPasswordInputBoundary resetPasswordInteractor = new ResetPasswordInteractor(
-                userDataAccessObject, resetPasswordOutputBoundary);
-        final ResetPasswordController resetPasswordController = new ResetPasswordController(resetPasswordInteractor);
-        resetPasswordView.setResetPasswordController(resetPasswordController);
-        return this;
-    }
-
-
-// TODO: FOR ENZO -> Fix error on line 275. SecurityQuestionInteractor takes in LockoutTracker,
-//  but I don't know what that is.
-    /**
-     * Adds the Security Question Use Case to the application.
-     * @return this builder
-     */
-    public AppBuilder addSecurityQuestionUseCase() {
-        final SecurityQuestionOutputBoundary securityQuestionOutputBoundary = new SecurityQuestionPresenter(
-                securityQuestionViewModel,
-                resetPasswordViewModel, viewManagerModel);
-        final SecurityQuestionInputBoundary securityQuestionInteractor = new SecurityQuestionInteractor(
-                userDataAccessObject, securityQuestionOutputBoundary, lockoutTracker);
-        final SecurityQuestionController securityQuestionController = new SecurityQuestionController(
-                securityQuestionInteractor);
-        securityQuestionView.setSecurityQuestionController(securityQuestionController);
-        return this;
-    }
+//// TODO: FOR ENZO -> Fix error on line 275. SecurityQuestionInteractor takes in LockoutTracker,
+////  but I don't know what that is.
+//    /**
+//     * Adds the Security Question Use Case to the application.
+//     * @return this builder
+//     */
+//    public AppBuilder addSecurityQuestionUseCase() {
+//        final SecurityQuestionOutputBoundary securityQuestionOutputBoundary = new SecurityQuestionPresenter(
+//                securityQuestionViewModel,
+//                resetPasswordViewModel, viewManagerModel);
+//        final SecurityQuestionInputBoundary securityQuestionInteractor = new SecurityQuestionInteractor(
+//                userDataAccessObject, securityQuestionOutputBoundary, lockoutTracker);
+//        final SecurityQuestionController securityQuestionController = new SecurityQuestionController(
+//                securityQuestionInteractor);
+//        securityQuestionView.setSecurityQuestionController(securityQuestionController);
+//        return this;
+//    }
 
     /**
      * Adds the Signup Use Case to the application.

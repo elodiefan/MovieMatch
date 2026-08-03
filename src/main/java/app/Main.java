@@ -23,7 +23,7 @@ public class Main {
                 .addDeleteAccountUseCase()
                 .addHomePageUseCase()
                 .addLoginUseCase()
-                .addReviewsUseCase()
+//                .addReviewsUseCase()
                 .addSignupUseCase()
                 .build();
 
