@@ -1,0 +1,2 @@
+tmdb.api.key=YOUR_TMDB_API_KEY_HERE
+tmdb.bearer.token=YOUR_TMDB_READ_ACCESS_TOKEN_HERE
