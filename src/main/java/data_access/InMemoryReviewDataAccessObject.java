@@ -14,6 +14,9 @@ import entity.Review;
  */
 public class InMemoryReviewDataAccessObject {
     private final Map<String, Review> reviews = new LinkedHashMap<>();
+    // creates the actual in memory database for reviews
+    // LinkedHashMap instead of regular HashMap because LinkedHashMap remembers insertion order
+    // so later if we call getAllReviews() they will be returned in order
 
     /**
      * Saves a review.
@@ -21,6 +24,7 @@ public class InMemoryReviewDataAccessObject {
      */
     public void saveReview(Review review) {
         reviews.put(review.getReviewId(), review);
+        // reviews.put(key, value)
     }
 
     /**
@@ -39,6 +43,9 @@ public class InMemoryReviewDataAccessObject {
      */
     public Optional<Review> getReviewById(String reviewId) {
         return Optional.ofNullable(reviews.get(reviewId));
+        // Optional.ofNullable(...) is used because a review could exist or not exist, so this method
+        // is there to make sure it will return an Optional with the review if it exists, otherwise
+        // it will return an empty Optional
     }
 
     /**
@@ -48,6 +55,7 @@ public class InMemoryReviewDataAccessObject {
      */
     public List<Review> getReviewsByUsername(String username) {
         final List<Review> matchingReviews = new ArrayList<>();
+        // so that this variable name cannot be reassigned to a different list later
 
         for (Review review : reviews.values()) {
             if (review.getAuthorUsername().equals(username)) {
@@ -109,6 +117,13 @@ public class InMemoryReviewDataAccessObject {
         }
 
         return reviewExists;
+        // a user cannot only delete the rating while still keep the review text
+        // a review can have a rating without review text, but not vice versa
+        // if only "delete" the review text while keeping the rating, that's an edit, not delete
+        // delete deletes the whole thing
+
+        // also note that editing a rating to 0% means they gave this media a rating of 0
+        // this doesn't mean the rating got deleted
     }
 
     /**
