@@ -54,6 +54,7 @@ public class DeleteAccountView extends JPanel implements PropertyChangeListener 
         final JPanel securityQuestionPanel = new JPanel();
         final JLabel securityQuestionTitle = new JLabel(DeleteAccountViewModel.SECURITY_TITLE);
         securityQuestion = new JLabel();
+        securityQuestionInputField.setText("");
         securityQuestionPanel.add(securityQuestionTitle);
         securityQuestionPanel.add(securityQuestion);
         securityQuestionPanel.add(securityQuestionInputField);
