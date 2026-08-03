@@ -3,6 +3,7 @@ package interface_adapter.account;
 import interface_adapter.ViewManagerModel;
 import interface_adapter.delete_account.DeleteAccountViewModel;
 import interface_adapter.login.LoginViewModel;
+import interface_adapter.logout.LogoutViewModel;
 import interface_adapter.reset_password.ResetPasswordViewModel;
 import use_case.account.AccountOutputBoundary;
 
@@ -14,14 +15,14 @@ public class AccountPresenter implements AccountOutputBoundary {
     private final AccountViewModel accountViewModel;
     private final ViewManagerModel viewManagerModel;
     private final ReviewsViewModel reviewsViewModel;
-    private final LogoutConfirmViewModel logoutConfirmViewModel;
+    private final LogoutViewModel logoutConfirmViewModel;
     private final ResetPasswordViewModel resetPasswordViewModel;
     private final DeleteAccountViewModel deleteAccountViewModel;
 
     public AccountPresenter(ViewManagerModel viewManagerModel,
                             AccountViewModel accountViewModel,
                             ReviewsViewModel reviewsViewModel,
-                            LogoutConfirmViewModel logoutConfirmViewModel,
+                            LogoutViewModel logoutConfirmViewModel,
                             ResetPasswordViewModel resetPasswordViewModel,
                             DeleteAccountViewModel deleteAccountViewModel) {
         this.viewManagerModel = viewManagerModel;

@@ -144,8 +144,6 @@ public class AppBuilder {
         return this;
     }
 
-    // TODO: For Yidan -> Fix error on line 154. LogoutConfirmView takes in a String
-    //  but should maybe take in a view model.
     /**
      * Adds the Logout View to the application.
      * @return this builder
