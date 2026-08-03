@@ -86,6 +86,7 @@ public class DeleteAccountView extends JPanel implements PropertyChangeListener 
                     @Override
                     public void actionPerformed(ActionEvent e) {
                         deleteAccountController.switchToAccountView();
+                        securityQuestionInputField.setText("");
                     }
                 }
         );
@@ -139,6 +140,7 @@ public class DeleteAccountView extends JPanel implements PropertyChangeListener 
         }
         else if (evt.getPropertyName().equals("delete account")) {
             JOptionPane.showMessageDialog(this, "Successfully deleted account.");
+            securityQuestionInputField.setText("");
         }
     }
 
