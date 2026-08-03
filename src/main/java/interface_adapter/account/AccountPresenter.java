@@ -1,10 +1,12 @@
 package interface_adapter.account;
 
 import interface_adapter.ViewManagerModel;
+import interface_adapter.delete_account.DeleteAccountState;
 import interface_adapter.delete_account.DeleteAccountViewModel;
-import interface_adapter.login.LoginViewModel;
+// import interface_adapter.login.LoginViewModel;
 import interface_adapter.reset_password.ResetPasswordViewModel;
 import use_case.account.AccountOutputBoundary;
+import use_case.account.AccountOutputData;
 
 /**
  * The Presenter for the Account Use Case.
@@ -13,21 +15,21 @@ public class AccountPresenter implements AccountOutputBoundary {
 
     private final AccountViewModel accountViewModel;
     private final ViewManagerModel viewManagerModel;
-    private final ReviewsViewModel reviewsViewModel;
-    private final LogoutConfirmViewModel logoutConfirmViewModel;
+    // private final ReviewsViewModel reviewsViewModel;
+    // private final LogOutConfirmViewModel logOutConfirmViewModel;
     private final ResetPasswordViewModel resetPasswordViewModel;
     private final DeleteAccountViewModel deleteAccountViewModel;
 
     public AccountPresenter(ViewManagerModel viewManagerModel,
                             AccountViewModel accountViewModel,
-                            ReviewsViewModel reviewsViewModel,
-                            LogoutConfirmViewModel logoutConfirmViewModel,
+                           // ReviewsViewModel reviewsViewModel,
+                           // LogOutConfirmViewModel logOutConfirmViewModel,
                             ResetPasswordViewModel resetPasswordViewModel,
                             DeleteAccountViewModel deleteAccountViewModel) {
         this.viewManagerModel = viewManagerModel;
         this.accountViewModel = accountViewModel;
-        this.reviewsViewModel = reviewsViewModel;
-        this.logoutConfirmViewModel = logoutConfirmViewModel;
+      //  this.reviewsViewModel = reviewsViewModel;
+      //  this.logOutConfirmViewModel = logOutConfirmViewModel;
         this.resetPasswordViewModel = resetPasswordViewModel;
         this.deleteAccountViewModel = deleteAccountViewModel;
     }
@@ -60,7 +62,13 @@ public class AccountPresenter implements AccountOutputBoundary {
     }
 
     @Override
-    public void switchToDeleteAccountView() {
+    public void switchToDeleteAccountView(AccountOutputData response) {
+        final DeleteAccountState deleteAccountState = deleteAccountViewModel.getState();
+        deleteAccountState.setUsername(response.getUsername());
+        deleteAccountState.setSecurityQuestion(response.getSecuirtyQuestion());
+        deleteAccountViewModel.setState(deleteAccountState);
+        deleteAccountViewModel.firePropertyChanged();
+
         viewManagerModel.setState(deleteAccountViewModel.getViewName());
         viewManagerModel.firePropertyChanged();
     }

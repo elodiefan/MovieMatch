@@ -22,15 +22,17 @@ public class DeleteAccountController {
      * @param securityQuestion the security question for the user's account
      * @param securityAnswer the security answer for the user's account
      */
-    public void execute(String username, String displayName, String password, String securityQuestion, String securityAnswer) {
-        final DeleteAccountInputData deleteAccountInputData = new DeleteAccountInputData(username, displayName, password, securityQuestion, securityAnswer);
+    public void execute(String username, String displayName, String password, String securityQuestion,
+                        String securityAnswer) {
+        final DeleteAccountInputData deleteAccountInputData = new DeleteAccountInputData(username, displayName,
+                password, securityQuestion, securityAnswer);
         deleteAccountUseCaseInteractor.execute(deleteAccountInputData);
     }
 
     /**
-     * Temporary, later change this to switch to user's profile page.
+     * Switches view back to user's account page.
      */
-    public void switchToSignupView() {
-        deleteAccountUseCaseInteractor.switchToSignupView();
+    public void switchToAccountView() {
+        deleteAccountUseCaseInteractor.switchToAccountView();
     }
 }

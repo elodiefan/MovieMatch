@@ -34,7 +34,6 @@ public class DeleteAccountView extends JPanel implements PropertyChangeListener 
 
     private final JLabel securityQuestion;
     private final JTextField securityQuestionInputField = new JTextField(15);
-    private final JLabel securityQuestionErrorField = new JLabel();
 
     private final JButton deleteAccountButton;
     private final JButton cancelButton;
@@ -52,14 +51,18 @@ public class DeleteAccountView extends JPanel implements PropertyChangeListener 
         noticePanel.add(deleteAccountNotice);
         noticePanel.add(username);
 
+        final JPanel securityQuestionPanel = new JPanel();
         final JLabel securityQuestionTitle = new JLabel(DeleteAccountViewModel.SECURITY_TITLE);
         securityQuestion = new JLabel();
-        final LabelTextPanel securityQuestionInfo = new LabelTextPanel(securityQuestion, securityQuestionInputField);
+        securityQuestionPanel.add(securityQuestionTitle);
+        securityQuestionPanel.add(securityQuestion);
+        securityQuestionPanel.add(securityQuestionInputField);
 
         final JPanel buttons = new JPanel();
         deleteAccountButton = new JButton(DeleteAccountViewModel.DELETE_ACCOUNT_BUTTON);
         cancelButton = new JButton(DeleteAccountViewModel.CANCEL_BUTTON);
         buttons.add(deleteAccountButton);
+        buttons.add(cancelButton);
 
         deleteAccountButton.addActionListener(
                 // This creates an anonymous subclass of ActionListener and instantiates it.
@@ -80,8 +83,9 @@ public class DeleteAccountView extends JPanel implements PropertyChangeListener 
 
         cancelButton.addActionListener(
                 new ActionListener() {
+                    @Override
                     public void actionPerformed(ActionEvent e) {
-                        deleteAccountController.switchToSignupView();
+                        deleteAccountController.switchToAccountView();
                     }
                 }
         );
@@ -93,8 +97,7 @@ public class DeleteAccountView extends JPanel implements PropertyChangeListener 
         this.add(title);
         this.add(noticePanel);
         this.add(securityQuestionTitle);
-        this.add(securityQuestionInfo);
-        this.add(securityQuestionErrorField);
+        this.add(securityQuestionPanel);
         this.add(buttons);
     }
 
@@ -130,12 +133,13 @@ public class DeleteAccountView extends JPanel implements PropertyChangeListener 
             final DeleteAccountState state = (DeleteAccountState) evt.getNewValue();
             username.setText(state.getUsername());
             securityQuestion.setText(state.getSecurityQuestion());
+            if (state.getDeleteAccountError() != null) {
+                JOptionPane.showMessageDialog(this, state.getDeleteAccountError());
+            }
         }
-        else if (evt.getPropertyName().equals("password")) {
-            final DeleteAccountState state = (DeleteAccountState) evt.getNewValue();
-            JOptionPane.showMessageDialog(null, "deleted account for " + state.getUsername());
+        else if (evt.getPropertyName().equals("delete account")) {
+            JOptionPane.showMessageDialog(this, "Successfully deleted account.");
         }
-
     }
 
     public String getViewName() {

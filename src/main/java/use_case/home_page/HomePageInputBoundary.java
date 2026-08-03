@@ -5,10 +5,10 @@ package use_case.home_page;
  */
 public interface HomePageInputBoundary {
 
-    /**
-     * Executes the switch to search use case.
-     */
-    void switchToSearchView();
+//    /**
+//     * Executes the switch to search use case.
+//     */
+//    void switchToSearchView();
 
     /**
      * Executes the switch to personal account use case.

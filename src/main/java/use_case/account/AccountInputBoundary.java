@@ -5,15 +5,15 @@ package use_case.account;
  */
 public interface AccountInputBoundary {
 
-    /**
-     * Executes the switch to reviews view use case.
-     */
-    void switchToReviewsView();
-
-    /**
-     * Executes the switch to log out view use case.
-     */
-    void switchToLogOutConfirmView();
+//    /**
+//     * Executes the switch to reviews view use case.
+//     */
+//    void switchToReviewsView();
+//
+//    /**
+//     * Executes the switch to log out view use case.
+//     */
+//    void switchToLogOutConfirmView();
 
     /**
      * Executes the switch to reset password view use case.
