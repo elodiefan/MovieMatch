@@ -14,7 +14,7 @@ public class AccountViewModel extends ViewModel<AccountState> {
     public static final String RESET_PASSWORD_BUTTON = "Reset Password";
     public static final String DELETE_ACCOUNT_BUTTON = "Delete Account";
 
-    public static final String WATCHLIST_BUTTON = "View watch list";
+    public static final String WATCHLIST_BUTTON = "View watchlist";
     public static final String WATCH_HISTORY_BUTTON = "View watch history";
     public static final String REVIEWS_BUTTON = "View reviews";
     public static final String BLOCKED_USERS_BUTTON = "View blocked users";
