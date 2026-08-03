@@ -22,7 +22,7 @@ import interface_adapter.home_page.HomePageViewModel;
 
 public class HomePageView extends JPanel implements PropertyChangeListener {
 
-    private final String viewName = "homepage";
+    private final String viewName = "home page";
     private final HomePageViewModel homePageViewModel;
     private HomePageController homePageController;
 
@@ -57,14 +57,14 @@ public class HomePageView extends JPanel implements PropertyChangeListener {
         buttons.add(searchButton);
         buttons.add(accountButton);
 
-        searchButton.addActionListener(
-                new ActionListener() {
-                    @Override
-                    public void actionPerformed(ActionEvent e) {
-                        homePageController.switchToSearchView();
-                    }
-                }
-        );
+//        searchButton.addActionListener(
+//                new ActionListener() {
+//                    @Override
+//                    public void actionPerformed(ActionEvent e) {
+//                        homePageController.switchToSearchView();
+//                    }
+//                }
+//        );
 
         accountButton.addActionListener(
                 new ActionListener() {

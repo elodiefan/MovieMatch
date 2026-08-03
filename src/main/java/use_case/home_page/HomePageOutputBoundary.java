@@ -6,10 +6,10 @@ package use_case.home_page;
 
 public interface HomePageOutputBoundary {
 
-    /**
-     * Switches to the Search View.
-     */
-    void switchToSearchView();
+//    /**
+//     * Switches to the Search View.
+//     */
+//    void switchToSearchView();
 
     /**
      * Switches to the Account View.

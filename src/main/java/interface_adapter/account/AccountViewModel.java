@@ -7,7 +7,9 @@ import interface_adapter.ViewModel;
  */
 public class AccountViewModel extends ViewModel<AccountState> {
 
+    public static final String VIEW_NAME = "account";
     public static final String TITLE_LABEL = "My Account";
+    public static final String UPGRADE_TO_PREMIUM_BUTTON = "Upgrade to Premium";
     public static final String CUSTOMIZE_BUTTON = "Customize Profile";
     public static final String LOGOUT_BUTTON = "Logout";
     public static final String RESET_PASSWORD_BUTTON = "Reset Password";
