@@ -57,6 +57,7 @@ public class AccountPresenter implements AccountOutputBoundary {
         final DeleteAccountState deleteAccountState = deleteAccountViewModel.getState();
         deleteAccountState.setUsername(response.getUsername());
         deleteAccountState.setSecurityQuestion(response.getSecuirtyQuestion());
+        deleteAccountState.setDeleteAccountError(null);
         deleteAccountViewModel.setState(deleteAccountState);
         deleteAccountViewModel.firePropertyChanged();
 
