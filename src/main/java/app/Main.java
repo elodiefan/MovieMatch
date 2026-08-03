@@ -17,11 +17,13 @@ public class Main {
                 .addDeleteAccountView()
                 .addHomePageView()
                 .addLoginView()
+                .addReviewsView()
                 .addSignupView()
                 .addAccountUseCase()
                 .addDeleteAccountUseCase()
                 .addHomePageUseCase()
                 .addLoginUseCase()
+                .addReviewsUseCase()
                 .addSignupUseCase()
                 .build();
 

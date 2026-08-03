@@ -8,24 +8,26 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import interface_adapter.logout.LogoutController;
+import interface_adapter.logout.LogoutState;
+import interface_adapter.logout.LogoutViewModel;
 
 /**
  * The View for confirming logout.
  */
 public class LogoutConfirmView extends JPanel implements ActionListener {
 
-    private final String username;
-
     private final String viewName = "logout confirm";
+
+    private final LogoutViewModel logoutViewModel;
 
     private final JButton confirm;
     private final JButton cancel;
 
     private LogoutController logoutController;
 
-    public LogoutConfirmView(String username) {
+    public LogoutConfirmView(LogoutViewModel logoutViewModel) {
 
-        this.username = username;
+        this.logoutViewModel = logoutViewModel;
 
         final JLabel message = new JLabel(
                 "confirming the log out"
@@ -46,7 +48,13 @@ public class LogoutConfirmView extends JPanel implements ActionListener {
     public void actionPerformed(ActionEvent evt) {
 
         if (evt.getSource().equals(confirm)) {
-            logoutController.execute(username);
+
+            final LogoutState currentState =
+                    logoutViewModel.getState();
+
+            logoutController.execute(
+                    currentState.getUsername()
+            );
         }
     }
 
