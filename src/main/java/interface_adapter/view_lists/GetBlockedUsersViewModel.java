@@ -5,7 +5,7 @@ import interface_adapter.ViewModel;
 /**
  * The View Model for the Watchlist View.
  */
-public class GetBlockedUsersViewModel extends ViewModel<ViewListsState> {
+public class GetBlockedUsersViewModel extends ViewModel<GetListsState> {
 
     public static final String VIEW_NAME = "watchlist";
     public static final String BLOCKED_USERS = "'s blocked users";
@@ -13,7 +13,7 @@ public class GetBlockedUsersViewModel extends ViewModel<ViewListsState> {
 
     public GetBlockedUsersViewModel() {
         super("watchlist");
-        setState(new ViewListsState());
+        setState(new GetListsState());
     }
 
 }

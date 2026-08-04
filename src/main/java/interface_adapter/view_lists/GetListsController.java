@@ -2,16 +2,15 @@ package interface_adapter.view_lists;
 
 import use_case.get_watchlist.GetWatchlistInputBoundary;
 import use_case.get_watchlist.GetWatchlistInputData;
-import use_case.login.LoginInputData;
 
 /**
  * The controller for the lists view.
  */
-public class ViewListsController {
+public class GetListsController {
 
     private final GetWatchlistInputBoundary getWatchlistUseCaseInteractor;
 
-    public ViewListsController(GetWatchlistInputBoundary getWatchlistUseCaseInteractor) {
+    public GetListsController(GetWatchlistInputBoundary getWatchlistUseCaseInteractor) {
         this.getWatchlistUseCaseInteractor = getWatchlistUseCaseInteractor;
     }
 

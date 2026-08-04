@@ -6,37 +6,37 @@ import interface_adapter.account.AccountViewModel;
 import use_case.get_watchlist.GetWatchlistOutputBoundary;
 import use_case.get_watchlist.GetWatchlistOutputData;
 
-public class ViewListsPresenter implements GetWatchlistOutputBoundary {
+public class GetListsPresenter implements GetWatchlistOutputBoundary {
 
     private final ViewManagerModel viewManagerModel;
-    private final ViewListsViewModel viewListsViewModel;
+    private final GetListsViewModel getListsViewModel;
     private final AccountViewModel accountViewModel;
 
-    public ViewListsPresenter(ViewManagerModel viewManagerModel,
-                              ViewListsViewModel viewListsViewModel,
-                              AccountViewModel accountViewModel) {
+    public GetListsPresenter(ViewManagerModel viewManagerModel,
+                             GetListsViewModel getListsViewModel,
+                             AccountViewModel accountViewModel) {
         this.viewManagerModel = viewManagerModel;
-        this.viewListsViewModel = viewListsViewModel;
+        this.getListsViewModel = getListsViewModel;
         this.accountViewModel = accountViewModel;
     }
 
     @Override
     public void prepareSuccessView(GetWatchlistOutputData response) {
         // On success, switch to the view lists view.
-        final ViewListsState viewListsState = viewListsViewModel.getState();
-        viewListsState.setUsername(response.getUsername());
-        viewListsState.setDisplayName(response.getDisplayName());
-        viewListsState.setDisplayText(response.getWatchlist());
-        this.viewListsViewModel.setState(viewListsState);
-        this.viewListsViewModel.firePropertyChanged();
-        this.viewManagerModel.setState(viewListsViewModel.getViewName());
+        final GetListsState getListsState = getListsViewModel.getState();
+        getListsState.setUsername(response.getUsername());
+        getListsState.setDisplayName(response.getDisplayName());
+        getListsState.setDisplayText(response.getWatchlist());
+        this.getListsViewModel.setState(getListsState);
+        this.getListsViewModel.firePropertyChanged();
+        this.viewManagerModel.setState(getListsViewModel.getViewName());
         this.viewManagerModel.firePropertyChanged();
     }
 
     @Override
     public void switchToAccountView() {
         final AccountState accountState = accountViewModel.getState();
-        accountState.setUsername(viewListsViewModel.getState().getUsername());
+        accountState.setUsername(getListsViewModel.getState().getUsername());
         accountViewModel.setState(accountState);
         accountViewModel.firePropertyChanged();
         viewManagerModel.setState(accountViewModel.getViewName());

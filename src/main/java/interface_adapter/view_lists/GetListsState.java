@@ -1,6 +1,6 @@
 package interface_adapter.view_lists;
 
-public class ViewListsState {
+public class GetListsState {
 
     private String username = "";
     private String displayName = "";
