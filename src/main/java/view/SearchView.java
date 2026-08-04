@@ -15,12 +15,15 @@ import interface_adapter.search.SearchViewModel;
  */
 public class SearchView extends JPanel {
 
-    private final String viewName = "search";
+    private SearchController searchController;
+
+    private final String viewName = SearchViewModel.VIEW_NAME;
 
     private final SearchViewModel searchViewModel;
 
     private final JTextField searchInput;
     private final JButton searchConfirmButton;
+    private final JButton backButton;
 
     public SearchView(SearchViewModel searchViewModel) {
 
@@ -31,16 +34,26 @@ public class SearchView extends JPanel {
 
         searchInput = new JTextField(20);
         searchConfirmButton = new JButton("confirm");
+        backButton = new JButton("Back");
 
         final JPanel searchPanel = new JPanel();
 
         searchPanel.add(searchInput);
         searchPanel.add(searchConfirmButton);
 
+        final JPanel buttonPanel = new JPanel();
+
+        buttonPanel.add(backButton);
+
         this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 
         this.add(title);
         this.add(searchPanel);
+        this.add(buttonPanel);
+    }
+
+    public void setSearchController(SearchController searchController) {
+        this.searchController = searchController;
     }
 
     public String getViewName() {
