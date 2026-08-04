@@ -7,9 +7,9 @@ public class GetWatchlistOutputData {
 
     private final String username;
     private final String displayName;
-    private final Object watchlist;
+    private final String watchlist;
 
-    public GetWatchlistOutputData(String username, String displayName, Object watchlist) {
+    public GetWatchlistOutputData(String username, String displayName, String watchlist) {
         this.username = username;
         this.displayName = displayName;
         this.watchlist = watchlist;
@@ -23,7 +23,7 @@ public class GetWatchlistOutputData {
         return displayName;
     }
 
-    public Object getWatchlist() {
+    public String getWatchlist() {
         return watchlist;
     }
 }

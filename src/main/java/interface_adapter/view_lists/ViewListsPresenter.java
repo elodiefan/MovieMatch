@@ -3,10 +3,8 @@ package interface_adapter.view_lists;
 import interface_adapter.ViewManagerModel;
 import interface_adapter.account.AccountState;
 import interface_adapter.account.AccountViewModel;
-import interface_adapter.home_page.HomePageState;
 import use_case.get_watchlist.GetWatchlistOutputBoundary;
 import use_case.get_watchlist.GetWatchlistOutputData;
-import use_case.login.LoginOutputData;
 
 public class ViewListsPresenter implements GetWatchlistOutputBoundary {
 
@@ -24,13 +22,14 @@ public class ViewListsPresenter implements GetWatchlistOutputBoundary {
 
     @Override
     public void prepareSuccessView(GetWatchlistOutputData response) {
-        // On success, switch to the home page view.
-
-        final HomePageState homePageState = homePageViewModel.getState();
-        homePageState.setUsername(response.getUsername());
-        this.homePageViewModel.setState(homePageState);
-        this.homePageViewModel.firePropertyChanged();
-        this.viewManagerModel.setState(homePageViewModel.getViewName());
+        // On success, switch to the view lists view.
+        final ViewListsState viewListsState = viewListsViewModel.getState();
+        viewListsState.setUsername(response.getUsername());
+        viewListsState.setDisplayName(response.getDisplayName());
+        viewListsState.setDisplayText(response.getWatchlist());
+        this.viewListsViewModel.setState(viewListsState);
+        this.viewListsViewModel.firePropertyChanged();
+        this.viewManagerModel.setState(viewListsViewModel.getViewName());
         this.viewManagerModel.firePropertyChanged();
     }
 

@@ -20,9 +20,9 @@ public class GetWatchlistInteractor implements GetWatchlistInputBoundary {
         final String username = getWatchlistInputData.getUsername();
         final String displayName = getWatchlistInputData.getDislayName();
         final String watchlist = userDataAccessObject.getLists(username).getWatchlist();
-        final GetWatchlistOutputData getWatchlistOutputData = new GetWatchlistOutputData(username, displayName, watchlist);
+        final GetWatchlistOutputData getWatchlistOutputData = new GetWatchlistOutputData(username,
+                displayName, watchlist);
         viewListsPresenter.prepareSuccessView(getWatchlistOutputData);
-
     }
 
     /**

@@ -3,21 +3,31 @@ package interface_adapter.view_lists;
 public class ViewListsState {
 
     private String username = "";
-    private String buttonClicked = "";
+    private String displayName = "";
+
+    private String displayText = "";
 
     public String getUsername() {
         return username;
     }
 
-    public String getButtonClicked() {
-        return buttonClicked;
+    public String getDisplayName() {
+        return displayName;
+    }
+
+    public String getDisplayText() {
+        return displayText;
     }
 
     public void setUsername(String username) {
         this.username = username;
     }
 
-    public void setButtonClicked(String buttonClicked) {
-        this.buttonClicked = buttonClicked;
+    public void setDisplayName(String displayName) {
+        this.displayName = displayName;
+    }
+
+    public void setDisplayText(String displayText) {
+        this.displayText = displayText;
     }
 }

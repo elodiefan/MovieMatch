@@ -29,11 +29,13 @@ public class ViewListsView extends JPanel implements PropertyChangeListener {
 
     // private final JLabel username;
     private final JLabel viewMessage;
+    private final JTextArea userList;
 
     public ViewListsView(GetWatchlistViewModel getWatchlistViewModel) {
         this.getWatchlistViewModel = getWatchlistViewModel;
         this.getWatchlistViewModel.addPropertyChangeListener(this);
         viewMessage = new JLabel();
+        userList = new JTextArea();
         setUpView(viewMessage);
     }
 
@@ -42,12 +44,12 @@ public class ViewListsView extends JPanel implements PropertyChangeListener {
         labelPanel.add(viewMessage);
 
         final JPanel listPanel = new JPanel();
-        final JTextArea userList = new JTextArea();
         final JScrollPane scrollPane = new JScrollPane(listPanel);
         add(scrollPane, BorderLayout.CENTER);
 
         final JPanel returnPanel = new JPanel();
         final JButton returnButton = new JButton(ViewListsViewModel.RETURN_BUTTON);
+        returnPanel.add(returnButton);
 
         returnButton.addActionListener(
                 new ActionListener() {
@@ -69,7 +71,7 @@ public class ViewListsView extends JPanel implements PropertyChangeListener {
     public void propertyChange(PropertyChangeEvent evt) {
         if (evt.getPropertyName().equals("state")) {
             final ViewListsState state = (ViewListsState) evt.getNewValue();
-            viewMessage.setText(state.getUsername() + ViewListsViewModel.);
+            viewMessage.setText(state.getUsername() + state.getDisplayText());
         }
     }
 }
