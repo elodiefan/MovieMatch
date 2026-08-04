@@ -156,8 +156,8 @@ public class MongoUserDataAccessObject implements UserDataAccessObject {
 
     // ---------- Home page ----------
     @Override
-    public String getDisplayName() {
-        return users.find(Filters.eq(USERNAME, DISPLAY_NAME)).first().getString(DISPLAY_NAME);
+    public String getDisplayName(String username) {
+        return users.find(Filters.eq(username, DISPLAY_NAME)).first().getString(DISPLAY_NAME);
     }
 
     // ---------- Account page ----------

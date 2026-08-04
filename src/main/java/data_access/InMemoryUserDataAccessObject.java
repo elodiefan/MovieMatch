@@ -89,8 +89,8 @@ public class InMemoryUserDataAccessObject implements UserDataAccessObject {
 
     // ---------- Home page ----------
     @Override
-    public String getDisplayName() {
-        return users.get(currentUsername).getDisplayName();
+    public String getDisplayName(String username) {
+        return users.get(username).getDisplayName();
     }
 
     // ---------- Account page ----------

@@ -73,7 +73,7 @@ public class HomePageView extends JPanel implements PropertyChangeListener {
                         if (e.getSource().equals(accountButton)) {
                             final HomePageState currentState = homePageViewModel.getState();
 
-                            homePageController.switchToAccountView(currentState.getUsername(), currentState.getDisplayName());
+                            homePageController.switchToPersonalAccountView(currentState.getUsername(), currentState.getDisplayName());
                         }
                     }
                 }
