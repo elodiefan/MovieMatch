@@ -17,7 +17,8 @@ public class DeleteReviewInteractor {
      * @param reviews the reviews to search through
      * @return true if the review was deleted
      */
-    public boolean deleteReview(String reviewId, String username, List<Review> reviews) {
+    public boolean deleteReview(final String reviewId, final String username,
+                                final List<Review> reviews) {
         final String trimmedReviewId = trimToEmpty(reviewId);
         final String trimmedUsername = trimToEmpty(username);
         validateDeleteReviewData(trimmedReviewId, trimmedUsername, reviews);
@@ -42,12 +43,12 @@ public class DeleteReviewInteractor {
      * @param username the username of the user deleting the review
      * @return true if the review matches the id and author
      */
-    private boolean canDeleteReview(Review review, String reviewId, String username) {
+    private boolean canDeleteReview(final Review review, final String reviewId,
+                                    final String username) {
         final boolean canDelete;
         if (review == null) {
             canDelete = false;
-        }
-        else {
+        } else {
             canDelete = review.getReviewId().equals(reviewId)
                     && review.getAuthorUsername().equals(username);
         }
@@ -60,14 +61,14 @@ public class DeleteReviewInteractor {
      * @param username the username to validate
      * @param reviews the review list to validate
      */
-    private void validateDeleteReviewData(String reviewId, String username, List<Review> reviews) {
+    private void validateDeleteReviewData(final String reviewId,
+                                          final String username,
+                                          final List<Review> reviews) {
         if (isBlank(reviewId)) {
             throw new IllegalArgumentException("Review id cannot be empty.");
-        }
-        else if (isBlank(username)) {
+        } else if (isBlank(username)) {
             throw new IllegalArgumentException("Username cannot be empty.");
-        }
-        else if (reviews == null) {
+        } else if (reviews == null) {
             throw new IllegalArgumentException("Reviews cannot be null.");
         }
     }
@@ -77,7 +78,7 @@ public class DeleteReviewInteractor {
      * @param value the value to check
      * @return true if the value is blank
      */
-    private boolean isBlank(String value) {
+    private boolean isBlank(final String value) {
         return value == null || value.trim().isEmpty();
     }
 
@@ -86,12 +87,11 @@ public class DeleteReviewInteractor {
      * @param value the value to trim
      * @return the trimmed value
      */
-    private String trimToEmpty(String value) {
+    private String trimToEmpty(final String value) {
         final String trimmedValue;
         if (value == null) {
             trimmedValue = "";
-        }
-        else {
+        } else {
             trimmedValue = value.trim();
         }
         return trimmedValue;

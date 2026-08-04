@@ -10,6 +10,9 @@ import entity.Review;
  * Interactor for loading reviews for one media item.
  */
 public class GetMediaReviewsInteractor {
+    /**
+     * Smallest valid media id.
+     */
     private static final int MIN_MEDIA_ID = 0;
 
     /**
@@ -19,7 +22,9 @@ public class GetMediaReviewsInteractor {
      * @param reviews the reviews to search through
      * @return the matching media reviews
      */
-    public List<Review> getMediaReviews(int mediaId, String mediaType, List<Review> reviews) {
+    public List<Review> getMediaReviews(final int mediaId,
+                                        final String mediaType,
+                                        final List<Review> reviews) {
         final String trimmedMediaType = trimToEmpty(mediaType);
         validateGetMediaReviewsData(mediaId, trimmedMediaType, reviews);
 
@@ -30,7 +35,8 @@ public class GetMediaReviewsInteractor {
             }
         }
 
-        matchingReviews.sort(Comparator.comparing(Review::getCreatedAt).reversed());
+        matchingReviews.sort(Comparator.comparing(Review::getCreatedAt)
+                .reversed());
         return matchingReviews;
     }
 
@@ -41,12 +47,13 @@ public class GetMediaReviewsInteractor {
      * @param mediaType the reviewed media's type
      * @return true if the review belongs to the requested media item
      */
-    private boolean isMatchingMediaReview(Review review, int mediaId, String mediaType) {
+    private boolean isMatchingMediaReview(final Review review,
+                                          final int mediaId,
+                                          final String mediaType) {
         final boolean matchingReview;
         if (review == null) {
             matchingReview = false;
-        }
-        else {
+        } else {
             matchingReview = review.getMediaId() == mediaId
                     && review.getMediaType().equals(mediaType);
         }
@@ -59,15 +66,14 @@ public class GetMediaReviewsInteractor {
      * @param mediaType the media type to validate
      * @param reviews the review list to validate
      */
-    private void validateGetMediaReviewsData(int mediaId, String mediaType,
-                                             List<Review> reviews) {
+    private void validateGetMediaReviewsData(final int mediaId,
+                                             final String mediaType,
+                                             final List<Review> reviews) {
         if (mediaId < MIN_MEDIA_ID) {
             throw new IllegalArgumentException("Media id cannot be negative.");
-        }
-        else if (isBlank(mediaType)) {
+        } else if (isBlank(mediaType)) {
             throw new IllegalArgumentException("Media type cannot be empty.");
-        }
-        else if (reviews == null) {
+        } else if (reviews == null) {
             throw new IllegalArgumentException("Reviews cannot be null.");
         }
     }
@@ -77,7 +83,7 @@ public class GetMediaReviewsInteractor {
      * @param value the value to check
      * @return true if the value is blank
      */
-    private boolean isBlank(String value) {
+    private boolean isBlank(final String value) {
         return value == null || value.trim().isEmpty();
     }
 
@@ -86,12 +92,11 @@ public class GetMediaReviewsInteractor {
      * @param value the value to trim
      * @return the trimmed value
      */
-    private String trimToEmpty(String value) {
+    private String trimToEmpty(final String value) {
         final String trimmedValue;
         if (value == null) {
             trimmedValue = "";
-        }
-        else {
+        } else {
             trimmedValue = value.trim();
         }
         return trimmedValue;

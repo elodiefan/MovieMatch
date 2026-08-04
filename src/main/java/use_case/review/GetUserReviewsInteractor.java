@@ -17,7 +17,8 @@ public class GetUserReviewsInteractor {
      * @param reviews the reviews to search through
      * @return the user's matching reviews
      */
-    public List<Review> getUserReviews(String username, List<Review> reviews) {
+    public List<Review> getUserReviews(final String username,
+                                       final List<Review> reviews) {
         final String trimmedUsername = trimToEmpty(username);
         validateGetUserReviewsData(trimmedUsername, reviews);
 
@@ -28,7 +29,8 @@ public class GetUserReviewsInteractor {
             }
         }
 
-        matchingReviews.sort(Comparator.comparing(Review::getCreatedAt).reversed());
+        matchingReviews.sort(Comparator.comparing(Review::getCreatedAt)
+                .reversed());
         return matchingReviews;
     }
 
@@ -37,11 +39,11 @@ public class GetUserReviewsInteractor {
      * @param username the username to validate
      * @param reviews the review list to validate
      */
-    private void validateGetUserReviewsData(String username, List<Review> reviews) {
+    private void validateGetUserReviewsData(final String username,
+                                            final List<Review> reviews) {
         if (isBlank(username)) {
             throw new IllegalArgumentException("Username cannot be empty.");
-        }
-        else if (reviews == null) {
+        } else if (reviews == null) {
             throw new IllegalArgumentException("Reviews cannot be null.");
         }
     }
@@ -51,7 +53,7 @@ public class GetUserReviewsInteractor {
      * @param value the value to check
      * @return true if the value is blank
      */
-    private boolean isBlank(String value) {
+    private boolean isBlank(final String value) {
         return value == null || value.trim().isEmpty();
     }
 
@@ -60,12 +62,11 @@ public class GetUserReviewsInteractor {
      * @param value the value to trim
      * @return the trimmed value
      */
-    private String trimToEmpty(String value) {
+    private String trimToEmpty(final String value) {
         final String trimmedValue;
         if (value == null) {
             trimmedValue = "";
-        }
-        else {
+        } else {
             trimmedValue = value.trim();
         }
         return trimmedValue;
