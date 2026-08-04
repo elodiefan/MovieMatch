@@ -14,7 +14,8 @@ public class CreateCommentInteractor {
     /**
      * Creates a new comment on a review.
      * @param reviewId the id of the review being commented on
-     * @param parentCommentId the parent comment id, or null for a top-level comment
+     * @param parentCommentId the parent comment id, or null for a top-level
+     *                         comment
      * @param authorUsername the comment author's username
      * @param authorDisplayName the comment author's display name
      * @param commentText the comment text
@@ -53,9 +54,11 @@ public class CreateCommentInteractor {
         if (isBlank(reviewId)) {
             throw new IllegalArgumentException("Review id cannot be empty.");
         } else if (isBlank(authorUsername)) {
-            throw new IllegalArgumentException("Author username cannot be empty.");
+            throw new IllegalArgumentException(
+                    "Author username cannot be empty.");
         } else if (isBlank(authorDisplayName)) {
-            throw new IllegalArgumentException("Author display name cannot be empty.");
+            throw new IllegalArgumentException(
+                    "Author display name cannot be empty.");
         } else if (isBlank(commentText)) {
             throw new IllegalArgumentException("Comment text cannot be empty.");
         }

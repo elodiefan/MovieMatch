@@ -10,8 +10,19 @@ import entity.UserContent;
  * Interactor for creating a review.
  */
 public class CreateReviewInteractor {
+    /**
+     * Smallest valid rating percentage.
+     */
     private static final double MIN_RATING = 0.0;
+
+    /**
+     * Largest valid rating percentage.
+     */
     private static final double MAX_RATING = 100.0;
+
+    /**
+     * Source label for reviews created inside MovieMatch.
+     */
     private static final String MOVIEMATCH_SOURCE = "moviematch";
 
     /**
@@ -25,9 +36,12 @@ public class CreateReviewInteractor {
      * @param reviewText the written review text
      * @return the created review
      */
-    public Review createReview(int mediaId, String mediaType, String mediaTitle,
-                               String authorUsername, String authorDisplayName,
-                               double rating, String reviewText) {
+    public Review createReview(final int mediaId, final String mediaType,
+                               final String mediaTitle,
+                               final String authorUsername,
+                               final String authorDisplayName,
+                               final double rating,
+                               final String reviewText) {
         final String trimmedMediaType = trimToEmpty(mediaType);
         final String trimmedMediaTitle = trimToEmpty(mediaTitle);
         final String trimmedAuthorUsername = trimToEmpty(authorUsername);
@@ -36,10 +50,13 @@ public class CreateReviewInteractor {
         validateReviewData(mediaId, trimmedMediaType, trimmedMediaTitle,
                 trimmedAuthorUsername, trimmedAuthorDisplayName, rating);
 
-        return new Review(UUID.randomUUID().toString(), mediaId, trimmedMediaType,
-                trimmedMediaTitle, trimmedAuthorUsername, trimmedAuthorDisplayName,
-                rating, trimmedReviewText, UserContent.getCurrentTorontoTime(),
-                UserContent.getCurrentTorontoTime(), MOVIEMATCH_SOURCE, new HashSet<>());
+        final String reviewId = UUID.randomUUID().toString();
+        return new Review(reviewId, mediaId, trimmedMediaType,
+                trimmedMediaTitle, trimmedAuthorUsername,
+                trimmedAuthorDisplayName, rating, trimmedReviewText,
+                UserContent.getCurrentTorontoTime(),
+                UserContent.getCurrentTorontoTime(), MOVIEMATCH_SOURCE,
+                new HashSet<>());
     }
 
     /**
@@ -51,26 +68,26 @@ public class CreateReviewInteractor {
      * @param authorDisplayName the review author's display name
      * @param rating the submitted rating
      */
-    private void validateReviewData(int mediaId, String mediaType, String mediaTitle,
-                                    String authorUsername, String authorDisplayName,
-                                    double rating) {
+    private void validateReviewData(final int mediaId, final String mediaType,
+                                    final String mediaTitle,
+                                    final String authorUsername,
+                                    final String authorDisplayName,
+                                    final double rating) {
         if (mediaId < 0) {
             throw new IllegalArgumentException("Media id cannot be negative.");
-        }
-        else if (isBlank(mediaType)) {
+        } else if (isBlank(mediaType)) {
             throw new IllegalArgumentException("Media type cannot be empty.");
-        }
-        else if (isBlank(mediaTitle)) {
+        } else if (isBlank(mediaTitle)) {
             throw new IllegalArgumentException("Media title cannot be empty.");
-        }
-        else if (isBlank(authorUsername)) {
-            throw new IllegalArgumentException("Author username cannot be empty.");
-        }
-        else if (isBlank(authorDisplayName)) {
-            throw new IllegalArgumentException("Author display name cannot be empty.");
-        }
-        else if (rating < MIN_RATING || rating > MAX_RATING) {
-            throw new IllegalArgumentException("Rating must be between 0 and 100.");
+        } else if (isBlank(authorUsername)) {
+            throw new IllegalArgumentException(
+                    "Author username cannot be empty.");
+        } else if (isBlank(authorDisplayName)) {
+            throw new IllegalArgumentException(
+                    "Author display name cannot be empty.");
+        } else if (rating < MIN_RATING || rating > MAX_RATING) {
+            throw new IllegalArgumentException(
+                    "Rating must be between 0 and 100.");
         }
     }
 
@@ -79,7 +96,7 @@ public class CreateReviewInteractor {
      * @param value the value to check
      * @return true if the value is blank
      */
-    private boolean isBlank(String value) {
+    private boolean isBlank(final String value) {
         return value == null || value.trim().isEmpty();
     }
 
@@ -88,12 +105,11 @@ public class CreateReviewInteractor {
      * @param value the value to trim
      * @return the trimmed value
      */
-    private String trimToEmpty(String value) {
+    private String trimToEmpty(final String value) {
         final String trimmedValue;
         if (value == null) {
             trimmedValue = "";
-        }
-        else {
+        } else {
             trimmedValue = value.trim();
         }
         return trimmedValue;
