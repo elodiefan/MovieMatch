@@ -11,7 +11,7 @@ import use_case.delete_account.DeleteAccountUserDataAccessInterface;
  * The Block User Interactor.
  */
 
-public class BlockUserInteractor {
+public class BlockUserInteractor implements BlockUserInputBoundary {
 
     private final BlockUserUserDataAccessInterface userDataAccessObject;
     private final BlockUserOutputBoundary userPresenter;

@@ -5,13 +5,13 @@ import interface_adapter.delete_account.DeleteAccountState;
 import interface_adapter.delete_account.DeleteAccountViewModel;
 // import interface_adapter.login.LoginViewModel;
 import interface_adapter.reset_password.ResetPasswordViewModel;
-import use_case.account.AccountOutputBoundary;
-import use_case.account.AccountOutputData;
+import use_case.get_security_question.GetSecurityQuestionOutputBoundary;
+import use_case.get_security_question.GetSecurityQuestionOutputData;
 
 /**
  * The Presenter for the Account Use Case.
  */
-public class PersonalAccountPresenter implements AccountOutputBoundary {
+public class PersonalAccountPresenter implements GetSecurityQuestionOutputBoundary {
 
     private final PersonalAccountViewModel accountViewModel;
     private final ViewManagerModel viewManagerModel;
@@ -55,14 +55,14 @@ public class PersonalAccountPresenter implements AccountOutputBoundary {
 //        viewManagerModel.firePropertyChanged();
 //    }
 
-    @Override
-    public void switchToResetPasswordView() {
-        viewManagerModel.setState(resetPasswordViewModel.getViewName());
-        viewManagerModel.firePropertyChanged();
-    }
+//    @Override
+//    public void switchToResetPasswordView() {
+//        viewManagerModel.setState(resetPasswordViewModel.getViewName());
+//        viewManagerModel.firePropertyChanged();
+//    }
 
     @Override
-    public void switchToDeleteAccountView(AccountOutputData response) {
+    public void switchToDeleteAccountView(GetSecurityQuestionOutputData response) {
         final DeleteAccountState deleteAccountState = deleteAccountViewModel.getState();
         deleteAccountState.setUsername(response.getUsername());
         deleteAccountState.setSecurityQuestion(response.getSecuirtyQuestion());

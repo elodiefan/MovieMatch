@@ -5,6 +5,9 @@ package interface_adapter.personal_account;
 //import use_case.get_reviews.GetReviewsInputBoundary;
 //import use_case.customize.CustomizeInputBoundary;
 
+import interface_adapter.ViewManagerModel;
+import use_case.get_security_question.GetSecurityQuestionInputBoundary;
+
 /**
  * The controller for the Account Use Case.
  */
@@ -16,9 +19,13 @@ public class PersonalAccountController {
 //    private final GetWatchHistoryInputBoundary getWatchHistoryInteractor;
 //    private final GetReviewsInputBoundary getReviewsInteractor;
 //    private final CustomizeInputBoundary customizeInteractor;
+    private final GetSecurityQuestionInputBoundary getSecurityQuestionInteractor;
+    private final ViewManagerModel viewManagerModel;
+    private final String resetPasswordViewName = "reset password";
+    private final String homePageViewName = "home page";
 
-    public PersonalAccountController() {
-
+    public PersonalAccountController(GetSecurityQuestionInputBoundary getSecurityQuestionInteractor, ViewManagerModel viewManagerModel) {
+        this.getSecurityQuestionInteractor = getSecurityQuestionInteractor;
     }
 
 //    /**
@@ -39,18 +46,20 @@ public class PersonalAccountController {
      * Executes the reset password view use case.
      */
     public void switchToResetPasswordView() {
-        accountUseCaseInteractor.switchToResetPasswordView();
+        viewManagerModel.switchView(resetPasswordViewName);
     }
 
     /**
      * Executes the delete account view use case.
      */
     public void switchToDeleteAccountView() {
-        accountUseCaseInteractor.switchToDeleteAccountView();
+        getSecurityQuestionInteractor.switchToDeleteAccountView();
     }
 
-    // TODO: switch to homepage view
+    /**
+     * Switches view to home page.
+     */
     public void switchToHomePageView() {
-
+        viewManagerModel.switchView(homePageViewName);
     }
 }

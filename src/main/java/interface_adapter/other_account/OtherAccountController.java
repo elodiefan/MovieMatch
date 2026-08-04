@@ -16,7 +16,7 @@ public class OtherAccountController {
     //private final GetWatchlistInputBoundary getWatchlistInteractor;
     //private final GetWatchHistoryInputBoundary getWatchHistoryInteractor;
     //private final GetReviewsInputBoundary getReviewsInteractor;
-    //private final SendMessageInputBoundary sendMessageInteractor;
+    //private final AccessMessageChatInputBoundary accessMessageChatInteractor;
 
     public OtherAccountController(BlockUserInputBoundary blockUserInteractor) {
         this.blockUserInteractor = blockUserInteractor;
@@ -38,7 +38,7 @@ public class OtherAccountController {
     // TODO: get user reviews use case
 
     // TODO: send messages use case
-    public void executeMessaging() {
+    public void goToMessages() {
 
     }
 

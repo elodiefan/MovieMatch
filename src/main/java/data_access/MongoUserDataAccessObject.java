@@ -154,16 +154,32 @@ public class MongoUserDataAccessObject implements UserDataAccessObject {
         return doc.getString(ANSWER);
     }
 
-    // ---------- Home page ----------
+    // ---------- Get user profile ----------
     @Override
     public String getDisplayName(String username) {
         return users.find(Filters.eq(username, DISPLAY_NAME)).first().getString(DISPLAY_NAME);
     }
 
-    // ---------- Account page ----------
+    // ---------- Get security question ----------
     @Override
     public String getSecurityQuestion() {
         return users.find(Filters.eq(USERNAME, SECURITY_QUESTION)).first().getString(DISPLAY_NAME);
+    }
+
+    // ---------- Block user ----------
+    @Override
+    public boolean alreadyBlocked(String otherUsername) {
+
+    }
+
+    @Override
+    public void addToBlockList(String otherUsername) {
+
+    }
+
+    @Override
+    public void removeFromBlockList(String otherUsername) {
+
     }
 
     // ---------- Helpers ----------
