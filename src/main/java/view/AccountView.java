@@ -16,7 +16,7 @@ import interface_adapter.account.AccountState;
 import interface_adapter.account.AccountViewModel;
 
 /**
- * The View for when the user wants to delete their account.
+ * The View for a user's personal account.
  */
 public class AccountView extends JPanel implements PropertyChangeListener {
 
