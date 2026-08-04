@@ -20,4 +20,9 @@ public interface LoginOutputBoundary {
      * Executes the switch to reviews view use case.
      */
     void switchToSignUpView();
+
+    /**
+     * Executes the switch to reviews view use case.
+     */
+    void switchToHomePageView();
 }
