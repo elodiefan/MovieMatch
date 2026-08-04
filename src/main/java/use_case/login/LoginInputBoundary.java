@@ -16,4 +16,9 @@ public interface LoginInputBoundary {
      */
     void switchToSignUpView();
 
+    /**
+     * Executes the switch to home page view use case.
+     */
+    void switchToHomePageView();
+
 }

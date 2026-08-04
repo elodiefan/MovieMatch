@@ -160,6 +160,32 @@ public class MongoUserDataAccessObject implements UserDataAccessObject {
         return toUserLists(username, watchlist, watchHistory, blockedUsers);
     }
 
+
+
+    // ---------- Delete account (after the security question is answered) ----------
+    @Override
+    public void deleteAccount(User user) {
+        users.deleteOne(Filters.eq(USERNAME, user.getUsername()));
+    }
+
+    @Override
+    public String getCurrentSecurityAnswer() {
+        Document doc = users.find(Filters.eq(USERNAME, ANSWER)).first();
+        return doc.getString(ANSWER);
+    }
+
+    // ---------- Home page ----------
+    @Override
+    public String getDisplayName() {
+        return users.find(Filters.eq(USERNAME, DISPLAY_NAME)).first().getString(DISPLAY_NAME);
+    }
+
+    // ---------- Account page ----------
+    @Override
+    public String getSecurityQuestion() {
+        return users.find(Filters.eq(USERNAME, SECURITY_QUESTION)).first().getString(DISPLAY_NAME);
+    }
+
     // ---------- Helpers ----------
 
     /** Turns a MongoDB document into a User entity. */
@@ -174,6 +200,11 @@ public class MongoUserDataAccessObject implements UserDataAccessObject {
 
     private UserLists toUserLists(String username, List<Document> watchlist, List<Document> watchHistory,
                                   List<String> blockedUsers) {
+        final String userWatchlist = MongoDataCleaning.convertWatchlistToString(watchlist);
+        final String userWatchHistory = MongoDataCleaning.convertWatchHistoryToString(watchHistory);
+        final String userBlockedUsers = MongoDataCleaning.convertBlockedUsersToString(blockedUsers);
+        return new UserLists(username, userWatchlist, userWatchHistory, userBlockedUsers);
+    }
 
     @Override
     public void close() {
