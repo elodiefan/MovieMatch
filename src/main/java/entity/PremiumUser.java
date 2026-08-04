@@ -1,7 +1,5 @@
 package entity;
 
-import java.util.ArrayList;
-
 /**
  * Represents a premium user of the app. Includes bonus features exclusive to VIP.
  */
@@ -13,8 +11,7 @@ public class PremiumUser extends StandardUser implements Customizable {
     public PremiumUser(String username, String displayName, String password,
                        String securityQuestion, String answer) {
         super(username, displayName, password, securityQuestion, answer);
-        final UserLists userLists = new UserLists(username, new ArrayList<>(), new ArrayList<>(),
-                new ArrayList<>(), new ArrayList<>());
+        final UserLists userLists = new UserLists(username, "", "", "");
         setUserLists(userLists);
         profileColour = "#FFFFFF";
     }

@@ -1,8 +1,5 @@
 package entity;
 
-import java.util.ArrayList;
-import java.util.List;
-
 /**
  * Represents a standard user of the app.
  */
@@ -23,8 +20,7 @@ public class StandardUser implements User {
         this.password = password;
         this.securityQuestion = securityQuestion;
         this.answer = answer;
-        this.userLists = new UserLists(username, new ArrayList<>(), new ArrayList<>(),
-                new ArrayList<>(), new ArrayList<>());
+        this.userLists = new UserLists(username, "", "", "");
     }
 
     public StandardUser(String username, String displayName, String password,
@@ -68,22 +64,17 @@ public class StandardUser implements User {
     }
 
     @Override
-    public List<Integer> getWatchlist() {
+    public String getWatchlist() {
         return userLists.getWatchlist();
     }
 
     @Override
-    public List<Integer> getWatchHistory() {
+    public String getWatchHistory() {
         return userLists.getWatchHistory();
     }
 
     @Override
-    public List<Integer> getReviews() {
-        return userLists.getReviews();
-    }
-
-    @Override
-    public List<String> getBlockedUsers() {
+    public String getBlockedUsers() {
         return userLists.getBlockedUsers();
     }
 

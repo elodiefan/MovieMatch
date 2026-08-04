@@ -3,6 +3,7 @@ package data_access;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.List;
 import java.util.Properties;
 
 import org.bson.Document;
@@ -13,9 +14,9 @@ import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
 import com.mongodb.client.model.Filters;
 import com.mongodb.client.model.Updates;
-
 import entity.StandardUser;
 import entity.User;
+import entity.UserLists;
 
 /**
  * MongoDB Atlas implementation of {@link UserDataAccessObject}.
@@ -43,6 +44,14 @@ public class MongoUserDataAccessObject implements UserDataAccessObject {
     private static final String PASSWORD = "password";
     private static final String SECURITY_QUESTION = "securityQuestion";
     private static final String ANSWER = "answer";
+    private static final String WATCHLIST = "watchlist";
+    private static final String WATCH_HISTORY = "watchHistory";
+    private static final String REVIEWS = "reviews";
+    private static final String BLOCKED_USERS = "blockedUsers";
+    private static final String MEDIA_TITLE = "mediaTitle";
+    private static final String ADDED_AT = "addedAt";
+    private static final int INDEX_OF_DATE = 10;
+    private static final String NEW_LINE = "\n";
 
     private final MongoClient mongoClient;
     private final MongoCollection<Document> users;
@@ -142,6 +151,18 @@ public class MongoUserDataAccessObject implements UserDataAccessObject {
         users.updateOne(Filters.eq(USERNAME, username), Updates.set(PASSWORD, newPassword));
     }
 
+    // ---------- Get watchlist ----------
+
+    @Override
+    public UserLists getLists(String username) {
+        final Document doc = users.find(Filters.eq(USERNAME, username)).first();
+        final List<Document> watchlist = doc.get(WATCHLIST, List.class);
+        final List<Document> watchHistory = doc.get(WATCH_HISTORY, List.class);
+        final List<String> blockedUsers = doc.get(BLOCKED_USERS, List.class);
+
+        return toUserLists(username, watchlist, watchHistory, blockedUsers);
+    }
+
     // ---------- Helpers ----------
 
     /** Turns a MongoDB document into a User entity. */
@@ -154,6 +175,39 @@ public class MongoUserDataAccessObject implements UserDataAccessObject {
                 doc.getString(ANSWER));
     }
 
+    private UserLists toUserLists(String username, List<Document> watchlist, List<Document> watchHistory,
+                                  List<String> blockedUsers) {
+        final StringBuilder userWatchlist = new StringBuilder();
+        // assuming the database stores from oldest to newest, i will reverse it so it outputs newest to oldest??
+        for (Document mediaToWatch: watchlist.reversed()) {
+            final String date = formatDate(mediaToWatch.get(ADDED_AT, String.class));
+            userWatchlist.append(mediaToWatch.get(MEDIA_TITLE, String.class));
+            userWatchlist.append("-- ");
+            userWatchlist.append(date);
+            userWatchlist.append(NEW_LINE);
+        }
+        final StringBuilder userWatchHistory = new StringBuilder();
+        for (Document mediaWatched: watchHistory.reversed()) {
+            final String date = formatDate(mediaWatched.get(ADDED_AT, String.class));
+            userWatchHistory.append(mediaWatched.get(MEDIA_TITLE, String.class));
+            userWatchHistory.append("-- ");
+            userWatchHistory.append(date);
+            userWatchHistory.append(NEW_LINE);
+        }
+        final StringBuilder userBlockedUsers = new StringBuilder();
+        for (String blockedUser: blockedUsers) {
+            userBlockedUsers.append(blockedUser);
+            userBlockedUsers.append(NEW_LINE);
+        }
+        return new UserLists(username, userWatchlist.toString(), userWatchHistory.toString(),
+                userBlockedUsers.toString());
+    }
+
+    private String formatDate(String rawDateData) {
+        // "2026-07-01T09:07:00-04:00"
+        return rawDateData.substring(0, INDEX_OF_DATE);
+
+    }
     @Override
     public void close() {
         mongoClient.close();

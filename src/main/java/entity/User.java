@@ -1,7 +1,5 @@
 package entity;
 
-import java.util.List;
-
 /**
  * Interface representing a user of the app.
  */
@@ -48,25 +46,19 @@ public interface User {
      * Returns the user's watchlist.
      * @return the user's watchlist.
      */
-    List<Integer> getWatchlist();
+    String getWatchlist();
 
     /**
      * Returns the user's watch history.
      * @return the user's watch history.
      */
-    List<Integer> getWatchHistory();
-
-    /**
-     * Returns the user's reviews.
-     * @return the user's reviews.
-     */
-    List<Integer> getReviews();
+    String getWatchHistory();
 
     /**
      * Returns the user's list of blocked users.
      * @return the user's list of blocked users.
      */
-    List<String> getBlockedUsers();
+    String getBlockedUsers();
 
     /**
      * Sets the user's user lists.

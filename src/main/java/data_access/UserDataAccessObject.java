@@ -2,6 +2,7 @@ package data_access;
 
 import use_case.account.AccountUserDataAccessInterface;
 import use_case.delete_account.DeleteAccountUserDataAccessInterface;
+import use_case.get_watchlist.GetWatchlistUserDataAccessInterface;
 import use_case.home_page.HomePageUserDataAccessInterface;
 import use_case.login.LoginUserDataAccessInterface;
 import use_case.logout.LogoutUserDataAccessInterface;
@@ -30,6 +31,7 @@ import use_case.signup.SignupUserDataAccessInterface;
 public interface UserDataAccessObject extends
         AccountUserDataAccessInterface,
         DeleteAccountUserDataAccessInterface,
+        GetWatchlistUserDataAccessInterface,
         HomePageUserDataAccessInterface,
         SignupUserDataAccessInterface,
         LoginUserDataAccessInterface,
