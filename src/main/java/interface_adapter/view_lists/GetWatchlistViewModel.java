@@ -11,7 +11,7 @@ public class GetWatchlistViewModel extends ViewModel<ViewListsState> {
     public static final String WATCHLIST = "'s watchlist";
     public static final String RETURN_BUTTON = "Return to account";
 
-    public GetBlockedUsersViewModel() {
+    public GetWatchlistViewModel() {
         super("watchlist");
         setState(new ViewListsState());
     }
