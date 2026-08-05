@@ -1,5 +1,6 @@
 package view;
 
+import java.awt.Color;
 import java.awt.Component;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -16,6 +17,7 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.JToggleButton;
 
 import interface_adapter.comments.CommentsPresenter;
 import interface_adapter.comments.CommentsState;
@@ -25,6 +27,9 @@ import interface_adapter.comments.CommentsViewModel;
  * Swing panel for comments on a review.
  */
 public class CommentsPanel extends JPanel implements PropertyChangeListener {
+    private static final String HEART_UNSELECTED = "\u2661";
+    private static final String HEART_SELECTED = "\u2665";
+
     private static final int CARD_GAP = 10;
     private static final int COMMENT_INDENT = 24;
     private static final int REPLY_INDENT = 48;
@@ -149,25 +154,45 @@ public class CommentsPanel extends JPanel implements PropertyChangeListener {
                 new JButton(CommentsViewModel.REPLY_BUTTON_LABEL);
         final JButton deleteButton =
                 new JButton(CommentsViewModel.DELETE_BUTTON_LABEL);
-        final JButton likeButton =
-                new JButton(CommentsViewModel.LIKE_BUTTON_LABEL);
-        final JButton unlikeButton =
-                new JButton(CommentsViewModel.UNLIKE_BUTTON_LABEL);
+        final JToggleButton heartButton = createHeartButton();
 
         replyButton.addActionListener(new SelectCommentListener(
                 comment.getCommentId(), true));
         deleteButton.addActionListener(new SelectCommentListener(
                 comment.getCommentId(), false));
-        likeButton.addActionListener(new SelectCommentListener(
-                comment.getCommentId(), false));
-        unlikeButton.addActionListener(new SelectCommentListener(
-                comment.getCommentId(), false));
+        heartButton.addActionListener(new HeartCommentListener(
+                comment.getCommentId()));
 
         buttonPanel.add(replyButton);
         buttonPanel.add(deleteButton);
-        buttonPanel.add(likeButton);
-        buttonPanel.add(unlikeButton);
+        buttonPanel.add(heartButton);
         return buttonPanel;
+    }
+
+    /**
+     * Creates an unselected heart button for liking content.
+     * @return the heart button
+     */
+    private JToggleButton createHeartButton() {
+        final JToggleButton heartButton = new JToggleButton(HEART_UNSELECTED);
+        heartButton.setToolTipText(CommentsViewModel.LIKE_BUTTON_LABEL);
+        return heartButton;
+    }
+
+    /**
+     * Updates the heart button's selected appearance.
+     * @param heartButton the heart button
+     */
+    private void updateHeartButton(final JToggleButton heartButton) {
+        if (heartButton.isSelected()) {
+            heartButton.setText(HEART_SELECTED);
+            heartButton.setForeground(Color.RED);
+            heartButton.setToolTipText(CommentsViewModel.UNLIKE_BUTTON_LABEL);
+        } else {
+            heartButton.setText(HEART_UNSELECTED);
+            heartButton.setForeground(null);
+            heartButton.setToolTipText(CommentsViewModel.LIKE_BUTTON_LABEL);
+        }
     }
 
     /**
@@ -245,6 +270,28 @@ public class CommentsPanel extends JPanel implements PropertyChangeListener {
             if (reply) {
                 state.setParentCommentId(commentId);
             }
+            commentsViewModel.firePropertyChanged();
+        }
+    }
+
+    /**
+     * Toggles a comment heart and selects the comment.
+     */
+    private final class HeartCommentListener implements ActionListener {
+        private final String commentId;
+
+        private HeartCommentListener(final String commentId) {
+            this.commentId = commentId;
+        }
+
+        @Override
+        public void actionPerformed(final ActionEvent event) {
+            final JToggleButton heartButton =
+                    (JToggleButton) event.getSource();
+            updateHeartButton(heartButton);
+
+            final CommentsState state = commentsViewModel.getState();
+            state.setSelectedCommentId(commentId);
             commentsViewModel.firePropertyChanged();
         }
     }

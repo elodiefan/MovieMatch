@@ -1,5 +1,6 @@
 package view;
 
+import java.awt.Color;
 import java.awt.Component;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -16,6 +17,7 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.JToggleButton;
 
 import interface_adapter.comments.CommentsPresenter;
 import interface_adapter.comments.CommentsViewModel;
@@ -27,6 +29,9 @@ import interface_adapter.media_reviews.MediaReviewsViewModel;
  * Swing panel for reviews shown on a media page.
  */
 public class MediaReviewsPanel extends JPanel implements PropertyChangeListener {
+    private static final String HEART_UNSELECTED = "\u2661";
+    private static final String HEART_SELECTED = "\u2665";
+
     private static final int CARD_GAP = 10;
     private static final int COMMENT_GAP = 6;
     private static final int COMMENT_INDENT = 24;
@@ -164,24 +169,19 @@ public class MediaReviewsPanel extends JPanel implements PropertyChangeListener 
                 new JButton(MediaReviewsViewModel.EDIT_BUTTON_LABEL);
         final JButton deleteButton =
                 new JButton(MediaReviewsViewModel.DELETE_BUTTON_LABEL);
-        final JButton likeButton =
-                new JButton(MediaReviewsViewModel.LIKE_BUTTON_LABEL);
-        final JButton unlikeButton =
-                new JButton(MediaReviewsViewModel.UNLIKE_BUTTON_LABEL);
+        final JToggleButton heartButton = createHeartButton(
+                MediaReviewsViewModel.LIKE_BUTTON_LABEL);
 
         editButton.addActionListener(new SelectReviewListener(
                 review.getReviewId()));
         deleteButton.addActionListener(new SelectReviewListener(
                 review.getReviewId()));
-        likeButton.addActionListener(new SelectReviewListener(
-                review.getReviewId()));
-        unlikeButton.addActionListener(new SelectReviewListener(
+        heartButton.addActionListener(new HeartReviewListener(
                 review.getReviewId()));
 
         buttonPanel.add(editButton);
         buttonPanel.add(deleteButton);
-        buttonPanel.add(likeButton);
-        buttonPanel.add(unlikeButton);
+        buttonPanel.add(heartButton);
         return buttonPanel;
     }
 
@@ -249,25 +249,51 @@ public class MediaReviewsPanel extends JPanel implements PropertyChangeListener 
                 new JButton(CommentsViewModel.REPLY_BUTTON_LABEL);
         final JButton deleteButton =
                 new JButton(CommentsViewModel.DELETE_BUTTON_LABEL);
-        final JButton likeButton =
-                new JButton(CommentsViewModel.LIKE_BUTTON_LABEL);
-        final JButton unlikeButton =
-                new JButton(CommentsViewModel.UNLIKE_BUTTON_LABEL);
+        final JToggleButton heartButton = createHeartButton(
+                CommentsViewModel.LIKE_BUTTON_LABEL);
 
         replyButton.addActionListener(new SelectCommentListener(
                 comment.getCommentId(), true));
         deleteButton.addActionListener(new SelectCommentListener(
                 comment.getCommentId(), false));
-        likeButton.addActionListener(new SelectCommentListener(
-                comment.getCommentId(), false));
-        unlikeButton.addActionListener(new SelectCommentListener(
-                comment.getCommentId(), false));
+        heartButton.addActionListener(new HeartCommentListener(
+                comment.getCommentId()));
 
         buttonPanel.add(replyButton);
         buttonPanel.add(deleteButton);
-        buttonPanel.add(likeButton);
-        buttonPanel.add(unlikeButton);
+        buttonPanel.add(heartButton);
         return buttonPanel;
+    }
+
+    /**
+     * Creates an unselected heart button for liking content.
+     * @param tooltip the button tooltip
+     * @return the heart button
+     */
+    private JToggleButton createHeartButton(final String tooltip) {
+        final JToggleButton heartButton = new JToggleButton(HEART_UNSELECTED);
+        heartButton.setToolTipText(tooltip);
+        return heartButton;
+    }
+
+    /**
+     * Updates the heart button's selected appearance.
+     * @param heartButton the heart button
+     * @param selectedTooltip the tooltip for the selected state
+     * @param unselectedTooltip the tooltip for the unselected state
+     */
+    private void updateHeartButton(final JToggleButton heartButton,
+                                   final String selectedTooltip,
+                                   final String unselectedTooltip) {
+        if (heartButton.isSelected()) {
+            heartButton.setText(HEART_SELECTED);
+            heartButton.setForeground(Color.RED);
+            heartButton.setToolTipText(selectedTooltip);
+        } else {
+            heartButton.setText(HEART_UNSELECTED);
+            heartButton.setForeground(null);
+            heartButton.setToolTipText(unselectedTooltip);
+        }
     }
 
     /**
@@ -332,6 +358,30 @@ public class MediaReviewsPanel extends JPanel implements PropertyChangeListener 
     }
 
     /**
+     * Toggles a review heart and selects the review.
+     */
+    private final class HeartReviewListener implements ActionListener {
+        private final String reviewId;
+
+        private HeartReviewListener(final String reviewId) {
+            this.reviewId = reviewId;
+        }
+
+        @Override
+        public void actionPerformed(final ActionEvent event) {
+            final JToggleButton heartButton =
+                    (JToggleButton) event.getSource();
+            updateHeartButton(heartButton,
+                    MediaReviewsViewModel.UNLIKE_BUTTON_LABEL,
+                    MediaReviewsViewModel.LIKE_BUTTON_LABEL);
+
+            final MediaReviewsState state = mediaReviewsViewModel.getState();
+            state.setSelectedReviewId(reviewId);
+            mediaReviewsViewModel.firePropertyChanged();
+        }
+    }
+
+    /**
      * Selects a comment in the comments view model state.
      */
     private final class SelectCommentListener implements ActionListener {
@@ -351,6 +401,31 @@ public class MediaReviewsPanel extends JPanel implements PropertyChangeListener 
                 if (reply) {
                     commentsViewModel.getState().setParentCommentId(commentId);
                 }
+                commentsViewModel.firePropertyChanged();
+            }
+        }
+    }
+
+    /**
+     * Toggles a comment heart and selects the comment.
+     */
+    private final class HeartCommentListener implements ActionListener {
+        private final String commentId;
+
+        private HeartCommentListener(final String commentId) {
+            this.commentId = commentId;
+        }
+
+        @Override
+        public void actionPerformed(final ActionEvent event) {
+            final JToggleButton heartButton =
+                    (JToggleButton) event.getSource();
+            updateHeartButton(heartButton,
+                    CommentsViewModel.UNLIKE_BUTTON_LABEL,
+                    CommentsViewModel.LIKE_BUTTON_LABEL);
+
+            if (commentsViewModel != null) {
+                commentsViewModel.getState().setSelectedCommentId(commentId);
                 commentsViewModel.firePropertyChanged();
             }
         }
