@@ -168,23 +168,41 @@ public class MongoUserDataAccessObject implements UserDataAccessObject {
 
     @Override
     public String getCurrentSecurityAnswer() {
-        Document doc = users.find(Filters.eq(USERNAME, ANSWER)).first();
-        return doc.getString(ANSWER);
+        return currentUserField(ANSWER);
     }
 
     // ---------- Home page ----------
     @Override
     public String getDisplayName() {
-        return users.find(Filters.eq(USERNAME, DISPLAY_NAME)).first().getString(DISPLAY_NAME);
+        return currentUserField(DISPLAY_NAME);
     }
 
     // ---------- Account page ----------
     @Override
     public String getSecurityQuestion() {
-        return users.find(Filters.eq(USERNAME, SECURITY_QUESTION)).first().getString(DISPLAY_NAME);
+        return currentUserField(SECURITY_QUESTION);
     }
 
     // ---------- Helpers ----------
+
+    /**
+     * Reads one field off the logged-in user's document.
+     * <p>
+     * These three getters take no username: they all mean "for whoever is logged
+     * in right now", which is {@link #currentUsername}.
+     * @param field the document field to read
+     * @return the stored value, or null if nobody is logged in or the account is gone
+     */
+    private String currentUserField(String field) {
+        String value = null;
+        if (currentUsername != null) {
+            final Document doc = users.find(Filters.eq(USERNAME, currentUsername)).first();
+            if (doc != null) {
+                value = doc.getString(field);
+            }
+        }
+        return value;
+    }
 
     /** Turns a MongoDB document into a User entity. */
     private User toUser(Document doc) {

@@ -12,6 +12,8 @@ import javax.swing.JPasswordField;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 
+import interface_adapter.ViewManagerModel;
+import interface_adapter.login.LoginViewModel;
 import interface_adapter.reset_password.ResetPasswordController;
 import interface_adapter.reset_password.ResetPasswordState;
 import interface_adapter.reset_password.ResetPasswordViewModel;
@@ -32,12 +34,18 @@ public class ResetPasswordView extends JPanel implements PropertyChangeListener 
     private final JLabel messageLabel = new JLabel(" ");
 
     private final JButton submit;
+    private final JButton back;
 
     private ResetPasswordController resetPasswordController;
 
-    public ResetPasswordView(ResetPasswordViewModel resetPasswordViewModel) {
+    /** Used for the "back to login" jump, which carries no data of its own. */
+    private final ViewManagerModel viewManagerModel;
+
+    public ResetPasswordView(ResetPasswordViewModel resetPasswordViewModel,
+                             ViewManagerModel viewManagerModel) {
         this.resetPasswordViewModel = resetPasswordViewModel;
         this.resetPasswordViewModel.addPropertyChangeListener(this);
+        this.viewManagerModel = viewManagerModel;
 
         final JLabel title = new JLabel("Set a New Password");
         title.setAlignmentX(Component.CENTER_ALIGNMENT);
@@ -50,6 +58,8 @@ public class ResetPasswordView extends JPanel implements PropertyChangeListener 
         final JPanel buttons = new JPanel();
         submit = new JButton("change password");
         buttons.add(submit);
+        back = new JButton(ResetPasswordViewModel.BACK_BUTTON);
+        buttons.add(back);
 
         // Submit: hand the two typed passwords to the controller for validation + save.
         submit.addActionListener(evt -> {
@@ -58,6 +68,15 @@ public class ResetPasswordView extends JPanel implements PropertyChangeListener 
                     state.getUsername(),
                     new String(newPasswordField.getPassword()),
                     new String(confirmPasswordField.getPassword()));
+        });
+
+        // "Back": abandon the reset. Clear the typed passwords so they do not
+        // linger in the form if the user returns.
+        back.addActionListener(evt -> {
+            resetPasswordViewModel.setState(new ResetPasswordState());
+            resetPasswordViewModel.firePropertyChanged();
+            viewManagerModel.setState(LoginViewModel.VIEW_NAME);
+            viewManagerModel.firePropertyChanged();
         });
 
         // Keep state in sync with the "new password" field.
