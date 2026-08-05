@@ -6,19 +6,25 @@ package use_case.account;
 public class AccountOutputData {
 
     private final String username;
-    private final String secuirtyQuestion;
+    private final String displayName;
+    private final String securityQuestion;
 
-    public AccountOutputData(String username, String secuirtyQuestion) {
+    public AccountOutputData(String username, String displayName, String securityQuestion) {
         this.username = username;
-        this.secuirtyQuestion = secuirtyQuestion;
+        this.displayName = displayName;
+        this.securityQuestion = securityQuestion;
     }
 
     public String getUsername() {
         return username;
     }
 
-    public String getSecuirtyQuestion() {
-        return secuirtyQuestion;
+    public String getDisplayName() {
+        return displayName;
+    }
+
+    public String getSecurityQuestion() {
+        return securityQuestion;
     }
 
 }

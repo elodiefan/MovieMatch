@@ -73,7 +73,7 @@ public class AccountView extends JPanel implements PropertyChangeListener {
                 new ActionListener() {
                     @Override
                     public void actionPerformed(ActionEvent e) {
-                        // not implemented yet
+                        accountController.switchToGetListsView();
                     }
                 }
         );

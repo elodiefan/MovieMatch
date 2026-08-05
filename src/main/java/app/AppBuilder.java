@@ -16,6 +16,8 @@ import interface_adapter.account.ReviewsViewModel;
 import interface_adapter.delete_account.DeleteAccountController;
 import interface_adapter.delete_account.DeleteAccountPresenter;
 import interface_adapter.delete_account.DeleteAccountViewModel;
+import interface_adapter.get_lists.GetListsPresenter;
+import interface_adapter.get_lists.GetListsViewModel;
 import interface_adapter.home_page.HomePageController;
 import interface_adapter.home_page.HomePagePresenter;
 import interface_adapter.reset_password.ResetPasswordController;
@@ -43,6 +45,9 @@ import use_case.account.AccountOutputBoundary;
 import use_case.delete_account.DeleteAccountInputBoundary;
 import use_case.delete_account.DeleteAccountInteractor;
 import use_case.delete_account.DeleteAccountOutputBoundary;
+import use_case.get_lists.GetListsOutputBoundary;
+import use_case.get_lists.get_watchlist.GetWatchlistInputBoundary;
+import use_case.get_lists.get_watchlist.GetWatchlistInteractor;
 import use_case.home_page.HomePageInputBoundary;
 import use_case.home_page.HomePageInteractor;
 import use_case.home_page.HomePageOutputBoundary;
@@ -88,6 +93,8 @@ public class AppBuilder {
     private AccountViewModel accountViewModel;
     private DeleteAccountView deleteAccountView;
     private DeleteAccountViewModel deleteAccountViewModel;
+    private GetListsView getListsView;
+    private GetListsViewModel getListsViewModel;
     private HomePageView homePageView;
     private HomePageViewModel homePageViewModel;
     private LoginView loginView;
@@ -126,6 +133,17 @@ public class AppBuilder {
         deleteAccountViewModel = new DeleteAccountViewModel();
         deleteAccountView = new DeleteAccountView(deleteAccountViewModel);
         cardPanel.add(deleteAccountView, deleteAccountView.getViewName());
+        return this;
+    }
+
+    /**
+     * Adds the Get Lists View to the application.
+     * @return this builder
+     */
+    public AppBuilder addGetListsView() {
+        getListsViewModel = new GetListsViewModel();
+        getListsView = new GetListsView(getListsViewModel);
+        cardPanel.add(getListsView, getListsView.getViewName());
         return this;
     }
 
@@ -235,6 +253,21 @@ public class AppBuilder {
                 deleteAccountViewModel, signupViewModel, accountViewModel);
         final DeleteAccountInputBoundary deleteAccountInteractor = new DeleteAccountInteractor(
                 userDataAccessObject, deleteAccountOutputBoundary, userFactory);
+
+        final DeleteAccountController deleteAccountController = new DeleteAccountController(deleteAccountInteractor);
+        deleteAccountView.setDeleteAccountController(deleteAccountController);
+        return this;
+    }
+
+    /**
+     * Adds the Get Lists Use Case to the application.
+     * @return this builder
+     */
+    public AppBuilder addGetListsUseCase() {
+        final GetListsOutputBoundary getListsOutputBoundary = new GetListsPresenter(viewManagerModel,
+                getListsViewModel, accountViewModel);
+        final GetWatchlistInputBoundary getWatchlistInteractor = new GetWatchlistInteractor(
+                userDataAccessObject, userFactory);
 
         final DeleteAccountController deleteAccountController = new DeleteAccountController(deleteAccountInteractor);
         deleteAccountView.setDeleteAccountController(deleteAccountController);

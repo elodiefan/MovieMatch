@@ -46,9 +46,18 @@ public class AccountInteractor implements AccountInputBoundary {
     @Override
     public void switchToDeleteAccountView() {
         final String username = userDataAccessObject.getCurrentUsername();
-        final String secuirtyQuestion = userDataAccessObject.getSecurityQuestion();
-        final AccountOutputData accountOutputData = new AccountOutputData(username, secuirtyQuestion);
+        final String displayName = userDataAccessObject.getDisplayName();
+        final String securityQuestion = userDataAccessObject.getSecurityQuestion();
+        final AccountOutputData accountOutputData = new AccountOutputData(username, displayName, securityQuestion);
         accountPresenter.switchToDeleteAccountView(accountOutputData);
     }
 
+    @Override
+    public void switchToGetListsView() {
+        final String username = userDataAccessObject.getCurrentUsername();
+        final String displayName = userDataAccessObject.getDisplayName();
+        final String securityQuestion = userDataAccessObject.getSecurityQuestion();
+        final AccountOutputData accountOutputData = new AccountOutputData(username, displayName, securityQuestion);
+        accountPresenter.switchToGetListsView(accountOutputData);
+    }
 }

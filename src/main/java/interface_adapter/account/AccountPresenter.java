@@ -4,9 +4,13 @@ import interface_adapter.ViewManagerModel;
 import interface_adapter.delete_account.DeleteAccountState;
 import interface_adapter.delete_account.DeleteAccountViewModel;
 // import interface_adapter.login.LoginViewModel;
+import interface_adapter.get_lists.GetListsState;
+import interface_adapter.get_lists.GetListsViewModel;
 import interface_adapter.reset_password.ResetPasswordViewModel;
 import use_case.account.AccountOutputBoundary;
 import use_case.account.AccountOutputData;
+import view.AccountView;
+import view.GetListsView;
 
 /**
  * The Presenter for the Account Use Case.
@@ -19,19 +23,22 @@ public class AccountPresenter implements AccountOutputBoundary {
     // private final LogOutConfirmViewModel logOutConfirmViewModel;
     private final ResetPasswordViewModel resetPasswordViewModel;
     private final DeleteAccountViewModel deleteAccountViewModel;
+    private final GetListsViewModel getListsViewModel;
 
     public AccountPresenter(ViewManagerModel viewManagerModel,
                             AccountViewModel accountViewModel,
                            // ReviewsViewModel reviewsViewModel,
                            // LogOutConfirmViewModel logOutConfirmViewModel,
                             ResetPasswordViewModel resetPasswordViewModel,
-                            DeleteAccountViewModel deleteAccountViewModel) {
+                            DeleteAccountViewModel deleteAccountViewModel,
+                            GetListsViewModel getListsViewModel) {
         this.viewManagerModel = viewManagerModel;
         this.accountViewModel = accountViewModel;
       //  this.reviewsViewModel = reviewsViewModel;
       //  this.logOutConfirmViewModel = logOutConfirmViewModel;
         this.resetPasswordViewModel = resetPasswordViewModel;
         this.deleteAccountViewModel = deleteAccountViewModel;
+        this.getListsViewModel = getListsViewModel;
     }
 
 //    @Override
@@ -65,12 +72,18 @@ public class AccountPresenter implements AccountOutputBoundary {
     public void switchToDeleteAccountView(AccountOutputData response) {
         final DeleteAccountState deleteAccountState = deleteAccountViewModel.getState();
         deleteAccountState.setUsername(response.getUsername());
-        deleteAccountState.setSecurityQuestion(response.getSecuirtyQuestion());
+        deleteAccountState.setSecurityQuestion(response.getSecurityQuestion());
         deleteAccountState.setDeleteAccountError(null);
         deleteAccountViewModel.setState(deleteAccountState);
         deleteAccountViewModel.firePropertyChanged();
 
         viewManagerModel.setState(deleteAccountViewModel.getViewName());
+        viewManagerModel.firePropertyChanged();
+    }
+
+    @Override
+    public void switchToGetListsView(AccountOutputData response) {
+        viewManagerModel.setState(getListsViewModel.getViewName());
         viewManagerModel.firePropertyChanged();
     }
 }

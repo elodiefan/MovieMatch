@@ -1,6 +1,8 @@
 package use_case.get_lists.get_watch_history;
 
-public interface GetWatchHistoryOutputBoundary {
+import use_case.get_lists.GetListsOutputBoundary;
+
+public interface GetWatchHistoryOutputBoundary extends GetListsOutputBoundary {
 
     /**
      * Prepares the success view when calling the watch history use case.
@@ -11,5 +13,6 @@ public interface GetWatchHistoryOutputBoundary {
     /**
      * Switches to the Account View.
      */
+    @Override
     void switchToAccountView();
 }

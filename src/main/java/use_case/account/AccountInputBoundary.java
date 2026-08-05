@@ -24,4 +24,9 @@ public interface AccountInputBoundary {
      * Executes the switch to delete account view use case.
      */
     void switchToDeleteAccountView();
+
+    /**
+     * Executes the switch to get lists account view use case.
+     */
+    void switchToGetListsView();
 }

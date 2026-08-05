@@ -1,6 +1,8 @@
 package use_case.get_lists.get_blocked_users;
 
-public interface GetBlockedUsersOutputBoundary {
+import use_case.get_lists.GetListsOutputBoundary;
+
+public interface GetBlockedUsersOutputBoundary extends GetListsOutputBoundary {
 
     /**
      * Prepares the success view when calling the blocked users use case.
@@ -11,5 +13,6 @@ public interface GetBlockedUsersOutputBoundary {
     /**
      * Switches to the Account View.
      */
+    @Override
     void switchToAccountView();
 }

@@ -45,4 +45,9 @@ public interface AccountUserDataAccessInterface {
      */
     String getSecurityQuestion();
 
+    /**
+     * Gets the display name of the current user.
+     * @return the display name of the current user.
+     */
+    String getDisplayName();
 }

@@ -1,6 +1,7 @@
 package use_case.get_lists.get_watch_history;
 
-import use_case.get_lists.*;
+import use_case.get_lists.GetListsInputData;
+import use_case.get_lists.GetListsUserDataAccessInterface;
 import use_case.get_lists.get_watchlist.GetWatchListOutputBoundary;
 import use_case.get_lists.get_watchlist.GetWatchlistInputBoundary;
 import use_case.get_lists.get_watchlist.GetWatchlistOutputData;

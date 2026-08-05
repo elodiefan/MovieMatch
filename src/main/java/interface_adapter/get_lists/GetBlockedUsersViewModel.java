@@ -7,12 +7,12 @@ import interface_adapter.ViewModel;
  */
 public class GetBlockedUsersViewModel extends ViewModel<GetListsState> {
 
-    public static final String VIEW_NAME = "watchlist";
+    public static final String VIEW_NAME = "blocked users";
     public static final String BLOCKED_USERS = "'s blocked users";
     public static final String RETURN_BUTTON = "Return to account";
 
     public GetBlockedUsersViewModel() {
-        super("watchlist");
+        super("blocked users");
         setState(new GetListsState());
     }
 

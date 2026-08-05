@@ -131,4 +131,8 @@ public class GetListsView extends JPanel implements PropertyChangeListener {
     public void setGetListsController(GetListsController getListsController) {
         this.getListsController = getListsController;
     }
+
+    public String getViewName() {
+        return viewName;
+    }
 }
