@@ -1,8 +1,10 @@
 package interface_adapter.get_lists;
 
 import interface_adapter.ViewManagerModel;
-import interface_adapter.account.AccountState;
-import interface_adapter.account.AccountViewModel;
+import interface_adapter.other_account.OtherAccountState;
+import interface_adapter.other_account.OtherAccountViewModel;
+import interface_adapter.personal_account.PersonalAccountState;
+import interface_adapter.personal_account.PersonalAccountViewModel;
 import use_case.get_lists.get_blocked_users.GetBlockedUsersOutputBoundary;
 import use_case.get_lists.get_blocked_users.GetBlockedUsersOutputData;
 import use_case.get_lists.get_watch_history.GetWatchHistoryOutputBoundary;
@@ -15,14 +17,17 @@ public class GetListsPresenter implements GetWatchListOutputBoundary, GetWatchHi
 
     private final ViewManagerModel viewManagerModel;
     private final GetListsViewModel getListsViewModel;
-    private final AccountViewModel accountViewModel;
+    private final PersonalAccountViewModel personalAccountViewModel;
+    private final OtherAccountViewModel otherAccountViewModel;
 
     public GetListsPresenter(ViewManagerModel viewManagerModel,
                              GetListsViewModel getListsViewModel,
-                             AccountViewModel accountViewModel) {
+                             PersonalAccountViewModel personalAccountViewModel,
+                             OtherAccountViewModel otherAccountViewModel) {
         this.viewManagerModel = viewManagerModel;
         this.getListsViewModel = getListsViewModel;
-        this.accountViewModel = accountViewModel;
+        this.personalAccountViewModel = personalAccountViewModel;
+        this.otherAccountViewModel = otherAccountViewModel;
     }
 
     @Override
@@ -65,12 +70,22 @@ public class GetListsPresenter implements GetWatchListOutputBoundary, GetWatchHi
     }
 
     @Override
-    public void switchToAccountView() {
-        final AccountState accountState = accountViewModel.getState();
-        accountState.setUsername(getListsViewModel.getState().getUsername());
-        accountViewModel.setState(accountState);
-        accountViewModel.firePropertyChanged();
-        viewManagerModel.setState(accountViewModel.getViewName());
+    public void switchToPersonalAccountView() {
+        final PersonalAccountState personalAccountState = personalAccountViewModel.getState();
+        personalAccountState.setUsername(getListsViewModel.getState().getUsername());
+        personalAccountViewModel.setState(personalAccountState);
+        personalAccountViewModel.firePropertyChanged();
+        viewManagerModel.setState(personalAccountViewModel.getViewName());
+        viewManagerModel.firePropertyChanged();
+    }
+
+    @Override
+    public void switchToOtherAccountView() {
+        final OtherAccountState otherAccountState = otherAccountViewModel.getState();
+        otherAccountState.setUsername(getListsViewModel.getState().getUsername());
+        otherAccountViewModel.setState(otherAccountState);
+        otherAccountViewModel.firePropertyChanged();
+        viewManagerModel.setState(otherAccountViewModel.getViewName());
         viewManagerModel.firePropertyChanged();
     }
 }

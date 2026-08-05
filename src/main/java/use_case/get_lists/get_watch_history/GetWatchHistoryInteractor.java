@@ -35,7 +35,12 @@ public class GetWatchHistoryInteractor implements GetWatchlistInputBoundary {
      * Switches from list view to account view.
      */
     @Override
-    public void switchToAccountView() {
-        getListsPresenter.switchToAccountView();
+    public void switchToAccountView(GetListsInputData getListsInputData) {
+        if (userDataAccessObject.getCurrentUsername().equals(getListsInputData.getUsername())) {
+            getListsPresenter.switchToPersonalAccountView();
+        }
+        else {
+            getListsPresenter.switchToOtherAccountView();
+        }
     }
 }

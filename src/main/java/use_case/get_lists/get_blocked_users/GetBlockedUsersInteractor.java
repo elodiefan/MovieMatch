@@ -12,7 +12,7 @@ public class GetBlockedUsersInteractor implements GetBlockedUsersInputBoundary {
     private final GetBlockedUsersOutputBoundary getListsPresenter;
 
     public GetBlockedUsersInteractor(GetListsUserDataAccessInterface userDataAccessInterface,
-                                  GetBlockedUsersOutputBoundary getBlockedUsersOutputBoundary) {
+                                     GetBlockedUsersOutputBoundary getBlockedUsersOutputBoundary) {
         this.userDataAccessObject = userDataAccessInterface;
         this.getListsPresenter = getBlockedUsersOutputBoundary;
     }
@@ -31,7 +31,12 @@ public class GetBlockedUsersInteractor implements GetBlockedUsersInputBoundary {
      * Switches from list view to account view.
      */
     @Override
-    public void switchToAccountView() {
-        getListsPresenter.switchToAccountView();
+    public void switchToAccountView(GetListsInputData getListsInputData) {
+        if (userDataAccessObject.getCurrentUsername().equals(getListsInputData.getUsername())) {
+            getListsPresenter.switchToPersonalAccountView();
+        }
+        else {
+            getListsPresenter.switchToOtherAccountView();
+        }
     }
 }

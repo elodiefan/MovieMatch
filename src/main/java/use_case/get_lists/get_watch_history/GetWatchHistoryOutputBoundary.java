@@ -11,8 +11,14 @@ public interface GetWatchHistoryOutputBoundary extends GetListsOutputBoundary {
     void prepareSuccessView(GetWatchHistoryOutputData response);
 
     /**
-     * Switches to the Account View.
+     * Switches to the Personal Account View.
      */
     @Override
-    void switchToAccountView();
+    void switchToPersonalAccountView();
+
+    /**
+     * Switches to the Other Account View.
+     */
+    @Override
+    void switchToOtherAccountView();
 }

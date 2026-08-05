@@ -14,7 +14,6 @@ public class GetListsController {
     private GetWatchHistoryInputBoundary getWatchHistoryInteractor;
     private GetBlockedUsersInputBoundary getBlockedUsersInteractor;
 
-
     public GetListsController(GetWatchlistInputBoundary getWatchlistUseCaseInteractor) {
         this.getWatchlistUseCaseInteractor = getWatchlistUseCaseInteractor;
     }

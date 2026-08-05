@@ -15,7 +15,8 @@ public interface GetBlockedUsersInputBoundary {
 
     /**
      * Executes the switch to account view use case.
+     * @param getListsInputData the input date for the use case.
      */
-    void switchToAccountView();
+    void switchToAccountView(GetListsInputData getListsInputData);
 }
 

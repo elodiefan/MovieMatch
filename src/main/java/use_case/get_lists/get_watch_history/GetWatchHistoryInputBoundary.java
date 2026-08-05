@@ -11,7 +11,8 @@ public interface GetWatchHistoryInputBoundary {
 
     /**
      * Executes the switch to account view use case.
+     * @param getListsInputData the input data for the use case.
      */
-    void switchToAccountView();
+    void switchToAccountView(GetListsInputData getListsInputData);
 }
 

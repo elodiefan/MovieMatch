@@ -5,8 +5,13 @@ package use_case.get_lists;
  */
 public interface GetListsOutputBoundary {
     /**
-     * Switches to the Account View.
+     * Switches to the Personal Account View.
      */
-    void switchToAccountView();
+    void switchToPersonalAccountView();
+
+    /**
+     * Switches to the Other Account View.
+     */
+    void switchToOtherAccountView();
 }
 

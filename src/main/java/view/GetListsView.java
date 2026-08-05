@@ -65,61 +65,6 @@ public class GetListsView extends JPanel implements PropertyChangeListener {
         this.add(returnPanel);
     }
 
-//    public GetListsView(GetWatchlistViewModel getWatchlistViewModel) {
-//        this.getWatchlistViewModel = getWatchlistViewModel;
-//        this.getWatchlistViewModel.addPropertyChangeListener(this);
-//        viewMessage = new JLabel();
-//        userList = new JTextArea();
-//        setUpView();
-//    }
-//
-//    public GetListsView(GetWatchHistoryViewModel getWatchHistoryViewModel) {
-//        this.getWatchHistoryViewModel = getWatchHistoryViewModel;
-//        this.getWatchHistoryViewModel.addPropertyChangeListener(this);
-//        viewMessage = new JLabel();
-//        userList = new JTextArea();
-//        setUpView();
-//    }
-//
-//    public GetListsView(GetBlockedUsersViewModel getBlockedUsersViewModel) {
-//        this.getBlockedUsersViewModel = getBlockedUsersViewModel;
-//        this.getBlockedUsersViewModel.addPropertyChangeListener(this);
-//        viewMessage = new JLabel();
-//        userList = new JTextArea();
-//        setUpView();
-//    }
-
-//    /**
-//     * Sets up list view template for user.
-//     */
-//    public void setUpView() {
-//        final JPanel labelPanel = new JPanel();
-//        labelPanel.add(viewMessage);
-//
-//        final JPanel listPanel = new JPanel();
-//        final JScrollPane scrollPane = new JScrollPane(listPanel);
-//        add(scrollPane, BorderLayout.CENTER);
-//
-//        final JPanel returnPanel = new JPanel();
-//        final JButton returnButton = new JButton("Return to account");
-//        returnPanel.add(returnButton);
-//
-//        returnButton.addActionListener(
-//                new ActionListener() {
-//                    @Override
-//                    public void actionPerformed(ActionEvent e) {
-//                        getListsController.switchToAccountView();
-//                    }
-//                }
-//        );
-//
-//        this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
-//
-//        this.add(labelPanel);
-//        this.add(scrollPane);
-//        this.add(returnPanel);
-//    }
-
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
         if (evt.getPropertyName().equals("state")) {

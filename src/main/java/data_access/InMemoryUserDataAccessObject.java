@@ -1,17 +1,15 @@
 package data_access;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
-import com.mongodb.client.model.Filters;
 import entity.StandardUser;
 import entity.User;
 import entity.UserLists;
-import org.bson.Document;
 
 /**
  * In-memory implementation of {@link UserDataAccessObject}.
+ *
  * <p>
  * Stores users in a plain map, so the app and its tests can run with no network
  * and no database. Because it implements the same interface as
@@ -112,10 +110,10 @@ public class InMemoryUserDataAccessObject implements UserDataAccessObject {
     }
 
     // ---------- Block user ----------
-    @Override
-    public boolean alreadyBlocked(String otherUsername) {
-
-    }
+//    @Override
+//    public boolean alreadyBlocked(String otherUsername) {
+//
+//    }
 
     @Override
     public void addToBlockList(String otherUsername) {
