@@ -14,6 +14,8 @@ import javax.swing.JTextField;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 
+import interface_adapter.ViewManagerModel;
+import interface_adapter.login.LoginViewModel;
 import interface_adapter.security_question.SecurityQuestionController;
 import interface_adapter.security_question.SecurityQuestionState;
 import interface_adapter.security_question.SecurityQuestionViewModel;
@@ -44,12 +46,18 @@ public class SecurityQuestionView extends JPanel implements PropertyChangeListen
 
     private final JButton showQuestion;
     private final JButton verify;
+    private final JButton back;
 
     private SecurityQuestionController securityQuestionController;
 
-    public SecurityQuestionView(SecurityQuestionViewModel securityQuestionViewModel) {
+    /** Used for the "back to login" jump, which carries no data of its own. */
+    private final ViewManagerModel viewManagerModel;
+
+    public SecurityQuestionView(SecurityQuestionViewModel securityQuestionViewModel,
+                                ViewManagerModel viewManagerModel) {
         this.securityQuestionViewModel = securityQuestionViewModel;
         this.securityQuestionViewModel.addPropertyChangeListener(this);
+        this.viewManagerModel = viewManagerModel;
 
         final JLabel title = new JLabel("Recover Password");
         title.setAlignmentX(Component.CENTER_ALIGNMENT);
@@ -64,6 +72,8 @@ public class SecurityQuestionView extends JPanel implements PropertyChangeListen
         buttons.add(showQuestion);
         verify = new JButton("verify");
         buttons.add(verify);
+        back = new JButton(SecurityQuestionViewModel.BACK_BUTTON);
+        buttons.add(back);
 
         // "Show question": look up the account and display its security question.
         showQuestion.addActionListener(evt -> {
@@ -75,6 +85,15 @@ public class SecurityQuestionView extends JPanel implements PropertyChangeListen
         verify.addActionListener(evt -> {
             final SecurityQuestionState currentState = securityQuestionViewModel.getState();
             securityQuestionController.verify(currentState.getUsername(), currentState.getAnswer());
+        });
+
+        // "Back": abandon the recovery attempt. Clear the half-filled form first,
+        // so returning later does not show the previous user's question.
+        back.addActionListener(evt -> {
+            securityQuestionViewModel.setState(new SecurityQuestionState());
+            securityQuestionViewModel.firePropertyChanged();
+            viewManagerModel.setState(LoginViewModel.VIEW_NAME);
+            viewManagerModel.firePropertyChanged();
         });
 
         // Keep the state's username in sync with the text field.
