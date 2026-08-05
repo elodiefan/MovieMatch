@@ -160,8 +160,6 @@ public class MongoUserDataAccessObject implements UserDataAccessObject {
         return toUserLists(username, watchlist, watchHistory, blockedUsers);
     }
 
-
-
     // ---------- Delete account (after the security question is answered) ----------
     @Override
     public void deleteAccount(User user) {

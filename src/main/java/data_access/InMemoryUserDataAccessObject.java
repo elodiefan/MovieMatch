@@ -1,10 +1,14 @@
 package data_access;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
+import com.mongodb.client.model.Filters;
 import entity.StandardUser;
 import entity.User;
+import entity.UserLists;
+import org.bson.Document;
 
 /**
  * In-memory implementation of {@link UserDataAccessObject}.
@@ -74,6 +78,14 @@ public class InMemoryUserDataAccessObject implements UserDataAccessObject {
                 newPassword, old.getSecurityQuestion(), old.getAnswer()));
     }
 
+    // ---------- Get watchlist ----------
+
+    @Override
+    public UserLists getLists(String username) {
+        final User user = users.get(username);
+        return user.getUserLists();
+    }
+
     // ---------- Delete account (after the security question is answered) ----------
 
     @Override
@@ -84,7 +96,7 @@ public class InMemoryUserDataAccessObject implements UserDataAccessObject {
     @Override
     public String getCurrentSecurityAnswer() {
         final User currentUser = users.get(currentUsername);
-        return currentUser.getSecurityAnswer();
+        return currentUser.getAnswer();
     }
 
     // ---------- Home page ----------

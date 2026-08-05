@@ -1,9 +1,8 @@
 package data_access;
 
-import entity.UserLists;
-import org.bson.Document;
-
 import java.util.List;
+
+import org.bson.Document;
 
 /**
  * Class used to clean data for packaging as entities.
@@ -16,14 +15,14 @@ public class MongoDataCleaning {
     private static final String NEW_LINE = "\n";
 
     /**
-     * Takes in raw MongoDB watchlist and converts it to a String for a UserList watchlist.
+     * Takes in raw MongoDB watchlist data and converts it to a String for a UserList watchlist.
      * @param watchlist the list of MongoDb Documents with watchlist data.
      * @return the watchlist as a String.
      */
-    public String convertWatchlistToString(List<Document> watchlist) {
+    public static String convertWatchlistToString(List<Document> watchlist) {
         final StringBuilder userWatchlist = new StringBuilder();
         // assuming the database stores from oldest to newest, i will reverse it so it outputs newest to oldest??
-        for (Document mediaToWatch : watchlist.reversed()) {
+        for (Document mediaToWatch : watchlist) {
             final String date = formatDate(mediaToWatch.get(ADDED_AT, String.class));
             userWatchlist.append(mediaToWatch.get(MEDIA_TITLE, String.class));
             userWatchlist.append("-- ");
@@ -33,9 +32,14 @@ public class MongoDataCleaning {
         return userWatchlist.toString();
     }
 
-    public String convertWatchHistoryToString(List<Document> watchHistory) {
+    /**
+     * Takes in raw MongoDB watch history data and converts it to a String for a UserList watchhistory.
+     * @param watchHistory the list of MongoDb Documents with watch history data.
+     * @return the watch history as a String.
+     */
+    public static String convertWatchHistoryToString(List<Document> watchHistory) {
         final StringBuilder userWatchHistory = new StringBuilder();
-        for (Document mediaWatched: watchHistory.reversed()) {
+        for (Document mediaWatched: watchHistory) {
             final String date = formatDate(mediaWatched.get(ADDED_AT, String.class));
             userWatchHistory.append(mediaWatched.get(MEDIA_TITLE, String.class));
             userWatchHistory.append("-- ");
@@ -45,16 +49,26 @@ public class MongoDataCleaning {
         return watchHistory.toString();
     }
 
-    public String convertBlockedUsersToString(List<String> blockedUsers) {
+    /**
+     * Takes in raw MongoDB blocked users data and converts it to a String for a UserList watchlist.
+     * @param blockedUsers the list of MongoDb Documents with blocked users data.
+     * @return the blocked users as a String.
+     */
+    public static String convertBlockedUsersToString(List<String> blockedUsers) {
         final StringBuilder userBlockedUsers = new StringBuilder();
         for (String blockedUser: blockedUsers) {
             userBlockedUsers.append(blockedUser);
             userBlockedUsers.append(NEW_LINE);
         }
-        return userBlockedUsers.toString());
+        return userBlockedUsers.toString();
     }
 
-    private String formatDate(String rawDateData) {
+    /**
+     * Formats raw MongoDB date data as a shortened String for output.
+     * @param rawDateData
+     * @return the data as a shortened String.
+     */
+    public static String formatDate(String rawDateData) {
         // "2026-07-01T09:07:00-04:00"
         return rawDateData.substring(0, INDEX_OF_DATE);
 
