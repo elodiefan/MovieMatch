@@ -102,7 +102,6 @@ public class InMemoryUserDataAccessObject implements UserDataAccessObject {
     // ---------- Block user ----------
     @Override
     public boolean alreadyBlocked(String otherUsername) {
-
     }
 
     @Override
@@ -112,6 +111,11 @@ public class InMemoryUserDataAccessObject implements UserDataAccessObject {
 
     @Override
     public void removeFromBlockList(String otherUsername) {
+
+    }
+
+    // ---------- Access message chat view ----------
+    public boolean inBlockList(String otherUsername) {
 
     }
 

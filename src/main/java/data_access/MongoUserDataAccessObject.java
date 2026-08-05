@@ -3,6 +3,7 @@ package data_access;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.List;
 import java.util.Properties;
 
 import org.bson.Document;
@@ -43,6 +44,7 @@ public class MongoUserDataAccessObject implements UserDataAccessObject {
     private static final String PASSWORD = "password";
     private static final String SECURITY_QUESTION = "securityQuestion";
     private static final String ANSWER = "answer";
+    private static final String BLOCKED_USERS = "blockedUsers";
 
     private final MongoClient mongoClient;
     private final MongoCollection<Document> users;
@@ -169,7 +171,7 @@ public class MongoUserDataAccessObject implements UserDataAccessObject {
     // ---------- Block user ----------
     @Override
     public boolean alreadyBlocked(String otherUsername) {
-
+        List<String> currentUserBlockList = users.find(Filters.eq(USERNAME, BLOCKED_USERS))
     }
 
     @Override
