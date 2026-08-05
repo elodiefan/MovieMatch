@@ -9,7 +9,10 @@ public class UserReviewsViewModel extends ViewModel<UserReviewsState> {
 
     public static final String VIEW_NAME = "my reviews";
     public static final String TITLE_LABEL = "My Reviews";
+    public static final String REVIEWS_TAB_LABEL = "Reviews";
+    public static final String COMMENTS_TAB_LABEL = "Comments";
     public static final String EMPTY_REVIEWS_MESSAGE = "No reviews yet.";
+    public static final String EMPTY_COMMENTS_MESSAGE = "No comments yet.";
     public static final String EDIT_BUTTON_LABEL = "Edit";
     public static final String DELETE_BUTTON_LABEL = "Delete";
     public static final String LIKE_BUTTON_LABEL = "Like";
