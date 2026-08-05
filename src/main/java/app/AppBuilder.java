@@ -12,11 +12,13 @@ import data_access.UserDataAccessObject;
 import interface_adapter.account.AccountController;
 import interface_adapter.account.AccountPresenter;
 import interface_adapter.account.AccountViewModel;
+import interface_adapter.comments.CommentsViewModel;
 import interface_adapter.delete_account.DeleteAccountController;
 import interface_adapter.delete_account.DeleteAccountPresenter;
 import interface_adapter.delete_account.DeleteAccountViewModel;
 import interface_adapter.home_page.HomePageController;
 import interface_adapter.home_page.HomePagePresenter;
+import interface_adapter.media_reviews.MediaReviewsViewModel;
 import interface_adapter.reset_password.ResetPasswordController;
 import interface_adapter.reset_password.ResetPasswordPresenter;
 import interface_adapter.reset_password.ResetPasswordViewModel;
@@ -94,6 +96,10 @@ public class AppBuilder {
     private LoginViewModel loginViewModel;
     private LogoutConfirmView logoutView;
     private LogoutViewModel logoutViewModel;
+    private CommentsPanel commentsPanel;
+    private CommentsViewModel commentsViewModel;
+    private MediaReviewsPanel mediaReviewsPanel;
+    private MediaReviewsViewModel mediaReviewsViewModel;
     private ResetPasswordView resetPasswordView;
     private ResetPasswordViewModel resetPasswordViewModel;
     private MyReviewsView myReviewsView;
@@ -176,13 +182,22 @@ public class AppBuilder {
     }
 
     /**
-     * Adds the My Reviews View to the application.
+     * Adds review-related views and panels to the application.
      * @return this builder
      */
     public AppBuilder addReviewsView() {
         userReviewsViewModel = new UserReviewsViewModel();
+        mediaReviewsViewModel = new MediaReviewsViewModel();
+        commentsViewModel = new CommentsViewModel();
+
         myReviewsView = new MyReviewsView(userReviewsViewModel);
+        mediaReviewsPanel = new MediaReviewsPanel(mediaReviewsViewModel,
+                commentsViewModel);
+        commentsPanel = new CommentsPanel(commentsViewModel);
+
         cardPanel.add(myReviewsView, myReviewsView.getViewName());
+        cardPanel.add(mediaReviewsPanel, mediaReviewsViewModel.getViewName());
+        cardPanel.add(commentsPanel, commentsViewModel.getViewName());
         return this;
     }
 
