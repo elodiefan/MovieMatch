@@ -1,8 +1,10 @@
 package data_access;
 
 import use_case.account.AccountUserDataAccessInterface;
+import use_case.block_user.BlockUserUserDataAccessInterface;
 import use_case.delete_account.DeleteAccountUserDataAccessInterface;
 import use_case.get_lists.GetListsUserDataAccessInterface;
+import use_case.get_profile.GetProfileUserDataAccessInterface;
 import use_case.home_page.HomePageUserDataAccessInterface;
 import use_case.login.LoginUserDataAccessInterface;
 import use_case.logout.LogoutUserDataAccessInterface;
@@ -37,7 +39,9 @@ public interface UserDataAccessObject extends
         LoginUserDataAccessInterface,
         LogoutUserDataAccessInterface,
         SecurityQuestionUserDataAccessInterface,
-        ResetPasswordUserDataAccessInterface {
+        ResetPasswordUserDataAccessInterface,
+        GetProfileUserDataAccessInterface,
+        BlockUserUserDataAccessInterface {
 
     /**
      * Releases any resources held by this data store, such as an open database

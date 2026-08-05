@@ -187,16 +187,36 @@ public class MongoUserDataAccessObject implements UserDataAccessObject {
         return currentUserField(ANSWER);
     }
 
-    // ---------- Home page ----------
+    // ---------- Get user profile ----------
     @Override
     public String getDisplayName() {
         return currentUserField(DISPLAY_NAME);
     }
+    @Override
+    public String getDisplayName(String username) {
+        return users.find(Filters.eq(username, DISPLAY_NAME)).first().getString(DISPLAY_NAME);
+    }
 
-    // ---------- Account page ----------
+    // ---------- Get security question ----------
     @Override
     public String getSecurityQuestion() {
         return currentUserField(SECURITY_QUESTION);
+    }
+
+    // ---------- Block user ----------
+    @Override
+    public boolean alreadyBlocked(String otherUsername) {
+
+    }
+
+    @Override
+    public void addToBlockList(String otherUsername) {
+
+    }
+
+    @Override
+    public void removeFromBlockList(String otherUsername) {
+
     }
 
     // ---------- Helpers ----------

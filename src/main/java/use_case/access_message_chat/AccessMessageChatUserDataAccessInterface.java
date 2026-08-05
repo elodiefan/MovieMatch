@@ -1,0 +1,4 @@
+package use_case.access_message_chat;
+
+public interface AccessMessageChatUserDataAccessInterface {
+}
