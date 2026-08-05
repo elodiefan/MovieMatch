@@ -1,14 +1,14 @@
-package use_case.get_watchlist;
+package use_case.get_lists;
 
 /**
  * Input Data for the Watchlist View Use Case.
  */
-public class GetWatchlistInputData {
+public class GetListsInputData {
 
     private final String username;
     private final String dislayName;
 
-    public GetWatchlistInputData(String username, String displayName) {
+    public GetListsInputData(String username, String displayName) {
         this.username = username;
         this.dislayName = displayName;
     }

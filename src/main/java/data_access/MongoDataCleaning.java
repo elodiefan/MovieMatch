@@ -21,7 +21,6 @@ public class MongoDataCleaning {
      */
     public static String convertWatchlistToString(List<Document> watchlist) {
         final StringBuilder userWatchlist = new StringBuilder();
-        // assuming the database stores from oldest to newest, i will reverse it so it outputs newest to oldest??
         for (Document mediaToWatch : watchlist) {
             final String date = formatDate(mediaToWatch.get(ADDED_AT, String.class));
             userWatchlist.append(mediaToWatch.get(MEDIA_TITLE, String.class));

@@ -1,9 +1,9 @@
-package use_case.get_watchlist;
+package use_case.get_lists.get_watchlist;
 
 /**
  * The output boundary for the List View Use Case.
  */
-public interface GetWatchlistOutputBoundary {
+public interface GetWatchListOutputBoundary {
 
     /**
      * Prepares the success view when calling the watchlist use case.

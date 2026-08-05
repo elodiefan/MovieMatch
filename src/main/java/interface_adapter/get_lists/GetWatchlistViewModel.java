@@ -1,4 +1,4 @@
-package interface_adapter.view_lists;
+package interface_adapter.get_lists;
 
 import interface_adapter.ViewModel;
 

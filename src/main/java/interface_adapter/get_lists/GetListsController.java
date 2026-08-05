@@ -1,7 +1,7 @@
-package interface_adapter.view_lists;
+package interface_adapter.get_lists;
 
-import use_case.get_watchlist.GetWatchlistInputBoundary;
-import use_case.get_watchlist.GetWatchlistInputData;
+import use_case.get_lists.GetListsInputData;
+import use_case.get_lists.get_watchlist.GetWatchlistInputBoundary;
 
 /**
  * The controller for the lists view.
@@ -20,10 +20,10 @@ public class GetListsController {
      * @param displayName the password of the user logging in
      */
     public void execute(String username, String displayName) {
-        final GetWatchlistInputData getWatchlistInputData = new GetWatchlistInputData(
+        final GetListsInputData getListsInputData = new GetListsInputData(
                 username, displayName);
 
-        getWatchlistUseCaseInteractor.execute(getWatchlistInputData);
+        getWatchlistUseCaseInteractor.execute(getListsInputData);
     }
 
     /**

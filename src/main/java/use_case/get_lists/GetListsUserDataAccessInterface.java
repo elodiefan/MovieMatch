@@ -1,11 +1,11 @@
-package use_case.get_watchlist;
+package use_case.get_lists;
 
 import entity.UserLists;
 
 /**
  * DAO for the Account Use Case.
  */
-public interface GetWatchlistUserDataAccessInterface {
+public interface GetListsUserDataAccessInterface {
 
     /**
      * Get lists of a given user.

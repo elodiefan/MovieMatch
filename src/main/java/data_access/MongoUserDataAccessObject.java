@@ -49,7 +49,6 @@ public class MongoUserDataAccessObject implements UserDataAccessObject {
     private static final String REVIEWS = "reviews";
     private static final String BLOCKED_USERS = "blockedUsers";
 
-
     private final MongoClient mongoClient;
     private final MongoCollection<Document> users;
 
@@ -153,11 +152,28 @@ public class MongoUserDataAccessObject implements UserDataAccessObject {
     @Override
     public UserLists getLists(String username) {
         final Document doc = users.find(Filters.eq(USERNAME, username)).first();
-        final List<Document> watchlist = doc.get(WATCHLIST, List.class);
-        final List<Document> watchHistory = doc.get(WATCH_HISTORY, List.class);
-        final List<String> blockedUsers = doc.get(BLOCKED_USERS, List.class);
+        if (doc != null) {
+            final List<Document> watchlist = getWatchlist(doc);
+            final List<Document> watchHistory = getWatchHistory(doc);
+            final List<String> blockedUsers = getBlockedUsers(doc);
+            return toUserLists(username, watchlist, watchHistory, blockedUsers);
+        }
+        return new UserLists(username, "", "", "");
+    }
 
-        return toUserLists(username, watchlist, watchHistory, blockedUsers);
+    private static List<String> getBlockedUsers(Document doc) {
+        final List<String> blockedUsers = doc.get(BLOCKED_USERS, List.class);
+        return blockedUsers;
+    }
+
+    private static List<Document> getWatchHistory(Document doc) {
+        final List<Document> watchHistory = doc.get(WATCH_HISTORY, List.class);
+        return watchHistory;
+    }
+
+    private static List<Document> getWatchlist(Document doc) {
+        final List<Document> watchlist = doc.get(WATCHLIST, List.class);
+        return watchlist;
     }
 
     // ---------- Delete account (after the security question is answered) ----------
