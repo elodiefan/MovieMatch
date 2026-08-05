@@ -65,7 +65,7 @@ public class PersonalAccountPresenter implements GetSecurityQuestionOutputBounda
     public void switchToDeleteAccountView(GetSecurityQuestionOutputData response) {
         final DeleteAccountState deleteAccountState = deleteAccountViewModel.getState();
         deleteAccountState.setUsername(response.getUsername());
-        deleteAccountState.setSecurityQuestion(response.getSecuirtyQuestion());
+        deleteAccountState.setSecurityQuestion(response.getSecurityQuestion());
         deleteAccountState.setDeleteAccountError(null);
         deleteAccountViewModel.setState(deleteAccountState);
         deleteAccountViewModel.firePropertyChanged();

@@ -14,9 +14,9 @@ import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
 import com.mongodb.client.model.Filters;
 import com.mongodb.client.model.Updates;
-
 import entity.StandardUser;
 import entity.User;
+import entity.UserLists;
 
 /**
  * MongoDB Atlas implementation of {@link UserDataAccessObject}.
@@ -44,6 +44,9 @@ public class MongoUserDataAccessObject implements UserDataAccessObject {
     private static final String PASSWORD = "password";
     private static final String SECURITY_QUESTION = "securityQuestion";
     private static final String ANSWER = "answer";
+    private static final String WATCHLIST = "watchlist";
+    private static final String WATCH_HISTORY = "watchHistory";
+    private static final String REVIEWS = "reviews";
     private static final String BLOCKED_USERS = "blockedUsers";
 
     private final MongoClient mongoClient;
@@ -105,14 +108,14 @@ public class MongoUserDataAccessObject implements UserDataAccessObject {
                             Updates.set(DISPLAY_NAME, user.getDisplayName()),
                             Updates.set(PASSWORD, user.getPassword()),
                             Updates.set(SECURITY_QUESTION, user.getSecurityQuestion()),
-                            Updates.set(ANSWER, user.getSecurityAnswer())));
+                            Updates.set(ANSWER, user.getAnswer())));
         }
         else {
             users.insertOne(new Document(USERNAME, user.getUsername())
                     .append(DISPLAY_NAME, user.getDisplayName())
                     .append(PASSWORD, user.getPassword())
                     .append(SECURITY_QUESTION, user.getSecurityQuestion())
-                    .append(ANSWER, user.getSecurityAnswer()));
+                    .append(ANSWER, user.getAnswer()));
         }
     }
 
@@ -144,6 +147,35 @@ public class MongoUserDataAccessObject implements UserDataAccessObject {
         users.updateOne(Filters.eq(USERNAME, username), Updates.set(PASSWORD, newPassword));
     }
 
+    // ---------- Get watchlist ----------
+
+    @Override
+    public UserLists getLists(String username) {
+        final Document doc = users.find(Filters.eq(USERNAME, username)).first();
+        if (doc != null) {
+            final List<Document> watchlist = getWatchlist(doc);
+            final List<Document> watchHistory = getWatchHistory(doc);
+            final List<String> blockedUsers = getBlockedUsers(doc);
+            return toUserLists(username, watchlist, watchHistory, blockedUsers);
+        }
+        return new UserLists(username, "", "", "");
+    }
+
+    private static List<String> getBlockedUsers(Document doc) {
+        final List<String> blockedUsers = doc.get(BLOCKED_USERS, List.class);
+        return blockedUsers;
+    }
+
+    private static List<Document> getWatchHistory(Document doc) {
+        final List<Document> watchHistory = doc.get(WATCH_HISTORY, List.class);
+        return watchHistory;
+    }
+
+    private static List<Document> getWatchlist(Document doc) {
+        final List<Document> watchlist = doc.get(WATCHLIST, List.class);
+        return watchlist;
+    }
+
     // ---------- Delete account (after the security question is answered) ----------
     @Override
     public void deleteAccount(User user) {
@@ -156,10 +188,12 @@ public class MongoUserDataAccessObject implements UserDataAccessObject {
     }
 
     // ---------- Get user profile ----------
-//    @Override
-//    public String getDisplayName() {
-//        return currentUserField(DISPLAY_NAME);
-//    }
+    // ---------- Get user profile ----------
+    @Override
+    public String getDisplayName() {
+        return currentUserField(DISPLAY_NAME);
+    }
+
     @Override
     public String getDisplayName(String username) {
         return userField(username, DISPLAY_NAME);
@@ -264,6 +298,14 @@ public class MongoUserDataAccessObject implements UserDataAccessObject {
                 doc.getString(PASSWORD),
                 doc.getString(SECURITY_QUESTION),
                 doc.getString(ANSWER));
+    }
+
+    private UserLists toUserLists(String username, List<Document> watchlist, List<Document> watchHistory,
+                                  List<String> blockedUsers) {
+        final String userWatchlist = MongoDataCleaning.convertWatchlistToString(watchlist);
+        final String userWatchHistory = MongoDataCleaning.convertWatchHistoryToString(watchHistory);
+        final String userBlockedUsers = MongoDataCleaning.convertBlockedUsersToString(blockedUsers);
+        return new UserLists(username, userWatchlist, userWatchHistory, userBlockedUsers);
     }
 
     @Override

@@ -1,11 +1,10 @@
 package interface_adapter.personal_account;
 
-//import use_case.get_watchlist.GetWatchlistInputBoundary;
-//import use_case.get_watch_history.GetWatchHistoryInputBoundary;
 //import use_case.get_reviews.GetReviewsInputBoundary;
 //import use_case.customize.CustomizeInputBoundary;
 
 import interface_adapter.ViewManagerModel;
+import interface_adapter.get_lists.GetListsController;
 import use_case.get_security_question.GetSecurityQuestionInputBoundary;
 
 /**
@@ -13,19 +12,19 @@ import use_case.get_security_question.GetSecurityQuestionInputBoundary;
  */
 public class PersonalAccountController {
 
-//    private final AccountInputBoundary accountUseCaseInteractor;
-
-//    private final GetWatchlistInputBoundary getWatchlistInteractor;
-//    private final GetWatchHistoryInputBoundary getWatchHistoryInteractor;
-//    private final GetReviewsInputBoundary getReviewsInteractor;
-//    private final CustomizeInputBoundary customizeInteractor;
     private final GetSecurityQuestionInputBoundary getSecurityQuestionInteractor;
+    private final GetListsController getListsController;
     private final ViewManagerModel viewManagerModel;
     private final String resetPasswordViewName = "reset password";
     private final String homePageViewName = "home page";
+    private final String getListsViewName = "view lists";
 
-    public PersonalAccountController(GetSecurityQuestionInputBoundary getSecurityQuestionInteractor, ViewManagerModel viewManagerModel) {
+    public PersonalAccountController(ViewManagerModel viewManagerModel,
+                                     GetSecurityQuestionInputBoundary getSecurityQuestionInteractor,
+                                     GetListsController getListsController) {
+        this.viewManagerModel = viewManagerModel;
         this.getSecurityQuestionInteractor = getSecurityQuestionInteractor;
+        this.getListsController = getListsController;
     }
 
 //    /**
@@ -61,5 +60,35 @@ public class PersonalAccountController {
      */
     public void switchToHomePageView() {
         viewManagerModel.switchView(homePageViewName);
+    }
+
+    /**
+     * Executes the get watchlist view use case.
+     * @param username the username of the user.
+     * @param displayName the display name of the user.
+     */
+    public void switchToWatchlistView(String username, String displayName) {
+        viewManagerModel.switchView(getListsViewName);
+        getListsController.executeWatchlistUseCase(username, displayName);
+    }
+
+    /**
+     * Executes the get watch history view use case.
+     * @param username the username of the user.
+     * @param displayName the display name of the user.
+     */
+    public void switchToWatchHistoryView(String username, String displayName) {
+        viewManagerModel.switchView(getListsViewName);
+        getListsController.executeWatchHistoryUseCase(username, displayName);
+    }
+
+    /**
+     * Executes the get watch history view use case.
+     * @param username the username of the user.
+     * @param displayName the display name of the user.
+     */
+    public void switchToBlockedUsersView(String username, String displayName) {
+        viewManagerModel.switchView(getListsViewName);
+        getListsController.executeBlockUsersUseCase(username, displayName);
     }
 }

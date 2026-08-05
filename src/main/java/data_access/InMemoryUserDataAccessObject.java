@@ -5,9 +5,11 @@ import java.util.Map;
 
 import entity.StandardUser;
 import entity.User;
+import entity.UserLists;
 
 /**
  * In-memory implementation of {@link UserDataAccessObject}.
+ *
  * <p>
  * Stores users in a plain map, so the app and its tests can run with no network
  * and no database. Because it implements the same interface as
@@ -71,7 +73,15 @@ public class InMemoryUserDataAccessObject implements UserDataAccessObject {
         }
         // StandardUser is immutable, so rebuild it with the new password.
         users.put(username, new StandardUser(old.getUsername(), old.getDisplayName(),
-                newPassword, old.getSecurityQuestion(), old.getSecurityAnswer()));
+                newPassword, old.getSecurityQuestion(), old.getAnswer()));
+    }
+
+    // ---------- Get watchlist ----------
+
+    @Override
+    public UserLists getLists(String username) {
+        final User user = users.get(username);
+        return user.getUserLists();
     }
 
     // ---------- Delete account (after the security question is answered) ----------
@@ -84,7 +94,7 @@ public class InMemoryUserDataAccessObject implements UserDataAccessObject {
     @Override
     public String getCurrentSecurityAnswer() {
         final User currentUser = users.get(currentUsername);
-        return currentUser.getSecurityAnswer();
+        return currentUser.getAnswer();
     }
 
     // ---------- Get user profile ----------

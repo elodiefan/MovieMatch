@@ -12,6 +12,7 @@ import interface_adapter.delete_account.DeleteAccountState;
 import interface_adapter.other_account.OtherAccountController;
 import interface_adapter.other_account.OtherAccountState;
 import interface_adapter.other_account.OtherAccountViewModel;
+import interface_adapter.personal_account.PersonalAccountState;
 
 public class OtherAccountView extends JPanel implements PropertyChangeListener {
 
@@ -61,7 +62,8 @@ public class OtherAccountView extends JPanel implements PropertyChangeListener {
                 new ActionListener() {
                     @Override
                     public void actionPerformed(ActionEvent e) {
-                        // not implemented yet
+                        final OtherAccountState state = otherAccountViewModel.getState();
+                        otherAccountController.switchToWatchlistView(state.getUsername(), state.getDisplayName());
                     }
                 }
         );
@@ -70,7 +72,8 @@ public class OtherAccountView extends JPanel implements PropertyChangeListener {
                 new ActionListener() {
                     @Override
                     public void actionPerformed(ActionEvent e) {
-                        // not implemented yet
+                        final OtherAccountState state = otherAccountViewModel.getState();
+                        otherAccountController.switchToWatchHistoryView(state.getUsername(), state.getDisplayName());
                     }
                 }
         );

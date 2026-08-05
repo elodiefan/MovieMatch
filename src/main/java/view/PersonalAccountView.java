@@ -75,7 +75,8 @@ public class PersonalAccountView extends JPanel implements PropertyChangeListene
                 new ActionListener() {
                     @Override
                     public void actionPerformed(ActionEvent e) {
-                        // not implemented yet
+                        final PersonalAccountState state = personalAccountViewModel.getState();
+                        personalAccountController.switchToWatchlistView(state.getUsername(), state.getDisplayName());
                     }
                 }
         );
@@ -84,7 +85,8 @@ public class PersonalAccountView extends JPanel implements PropertyChangeListene
                 new ActionListener() {
                     @Override
                     public void actionPerformed(ActionEvent e) {
-                        // not implemented yet
+                        final PersonalAccountState state = personalAccountViewModel.getState();
+                        personalAccountController.switchToWatchHistoryView(state.getUsername(), state.getDisplayName());
                     }
                 }
         );
@@ -102,7 +104,8 @@ public class PersonalAccountView extends JPanel implements PropertyChangeListene
                 new ActionListener() {
                     @Override
                     public void actionPerformed(ActionEvent e) {
-                        // not implemented yet
+                        final PersonalAccountState state = personalAccountViewModel.getState();
+                        personalAccountController.switchToBlockedUsersView(state.getUsername(), state.getDisplayName());
                     }
                 }
         );
