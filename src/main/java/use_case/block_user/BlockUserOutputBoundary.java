@@ -9,5 +9,5 @@ public interface BlockUserOutputBoundary {
      * Prepares the success view for the Block User Use Case.
      * @param outputData the output data
      */
-    void prepareSuccessView(BlockUserOutputData outputData);
+    void prepareBlockSuccessView(BlockUserOutputData outputData);
 }

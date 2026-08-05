@@ -6,11 +6,9 @@ import java.awt.event.ActionListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
-import javax.swing.BoxLayout;
-import javax.swing.JButton;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
+import javax.swing.*;
 
+import interface_adapter.delete_account.DeleteAccountState;
 import interface_adapter.other_account.OtherAccountController;
 import interface_adapter.other_account.OtherAccountState;
 import interface_adapter.other_account.OtherAccountViewModel;
@@ -98,9 +96,9 @@ public class OtherAccountView extends JPanel implements PropertyChangeListener {
         messageButton.addActionListener(
                 evt -> {
                     if (evt.getSource().equals(messageButton)) {
-                        final OtherAccountState otherAccountState = new OtherAccountState();
+                        final OtherAccountState currentState = new OtherAccountState();
 
-                        this.otherAccountController.executeMessaging();
+                        this.otherAccountController.goToMessages(currentState.getUsername());
                     }
                 }
         );
@@ -132,6 +130,12 @@ public class OtherAccountView extends JPanel implements PropertyChangeListener {
             title.setText(state.getDisplayName() + "'s Account");
             username.setText(state.getUsername());
             displayName.setText(state.getDisplayName());
+            if (state.getViewMessageError() != null) {
+                JOptionPane.showMessageDialog(this, state.getViewMessageError());
+            }
+        }
+        else if (evt.getPropertyName().equals("cannot message")) {
+            JOptionPane.showMessageDialog(this, "Cannot message this user.");
         }
     }
 

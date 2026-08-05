@@ -1,16 +1,16 @@
 package interface_adapter.other_account;
 
 import interface_adapter.ViewManagerModel;
-import interface_adapter.delete_account.DeleteAccountState;
-import interface_adapter.delete_account.DeleteAccountViewModel;
-import interface_adapter.reset_password.ResetPasswordViewModel;
-import use_case.account.AccountOutputBoundary;
-import use_case.account.AccountOutputData;
+import interface_adapter.account.ReviewsViewModel;
+import use_case.access_message_chat.AccessMessageChatOutputBoundary;
+import use_case.access_message_chat.AccessMessageChatOutputData;
+import use_case.block_user.BlockUserOutputBoundary;
+import use_case.block_user.BlockUserOutputData;
 
 /**
- * The Presenter for the Account Use Case.
+ * The Presenter for Other Account.
  */
-public class OtherAccountPresenter implements AccountOutputBoundary {
+public class OtherAccountPresenter implements BlockUserOutputBoundary, AccessMessageChatOutputBoundary {
 
     private final OtherAccountViewModel otherAccountViewModel;
     private final ViewManagerModel viewManagerModel;
@@ -18,11 +18,12 @@ public class OtherAccountPresenter implements AccountOutputBoundary {
 
     public OtherAccountPresenter(ViewManagerModel viewManagerModel,
                                  OtherAccountViewModel otherAccountViewModel,
-                                 // ReviewsViewModel reviewsViewModel) {
+                                 ReviewsViewModel reviewsViewModel) {
         this.viewManagerModel = viewManagerModel;
         this.otherAccountViewModel = otherAccountViewModel;
-      //  this.reviewsViewModel = reviewsViewModel;
+        //  this.reviewsViewModel = reviewsViewModel;
     }
+
 
 //    @Override
 //    public void switchToReviewsView() {
@@ -38,6 +39,31 @@ public class OtherAccountPresenter implements AccountOutputBoundary {
 //        viewManagerModel.setState(reviewsViewModel.getViewName());
 //        viewManagerModel.firePropertyChanged();
 //    }
+
+    @Override
+    public void prepareBlockSuccessView(BlockUserOutputData response) {
+        final OtherAccountState otherAccountState = otherAccountViewModel.getState();
+        otherAccountState.setBlocked(response.isOnBlockList());
+        otherAccountViewModel.setState(otherAccountState);
+        otherAccountViewModel.firePropertyChanged("changed block state");
+    }
+
+    @Override
+    public void prepareAccessMessageChatSuccessView(AccessMessageChatOutputData response) {
+        final MessagingState messagingState = messagingViewModel.getState();
+        this.messagingViewModel.setstate(messagingState);
+        this.messagingViewModel.firePropertyChanged();
+
+        this.viewManagerModel.setState(messagingViewModel.getViewName());
+        this.viewManagerModel.firePropertyChanged();
+    }
+
+    @Override
+    public void prepareAccessMessageChatFailView(String error) {
+        final OtherAccountState otherAccountState = otherAccountViewModel.getState();
+        otherAccountState.setViewMessageError(error);
+        otherAccountViewModel.firePropertyChanged("cannot message");
+    }
 
 //TODO: switch to message view
 }

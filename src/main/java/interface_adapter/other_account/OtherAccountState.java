@@ -7,6 +7,7 @@ public class OtherAccountState {
     private String username = "";
     private String displayName = "";
     private boolean blocked;
+    private String viewMessageError;
 
     public String getUsername() {
         return username;
@@ -30,5 +31,13 @@ public class OtherAccountState {
 
     public void setBlocked(boolean blocked) {
         this.blocked = blocked;
+    }
+
+    public String getViewMessageError() {
+        return viewMessageError;
+    }
+
+    public void setViewMessageError(String viewMessageError) {
+        this.viewMessageError = viewMessageError;
     }
 }

@@ -5,16 +5,16 @@ package use_case.block_user;
  */
 public class BlockUserOutputData {
 
-    private boolean addedToBlockList;
+    private boolean isOnBlockList;
     private boolean useCaseFailed;
 
-    public BlockUserOutputData(boolean addedToBlockList, boolean useCaseFailed) {
-        this.addedToBlockList = addedToBlockList;
+    public BlockUserOutputData(boolean isOnBlockList, boolean useCaseFailed) {
+        this.isOnBlockList = isOnBlockList;
         this.useCaseFailed = useCaseFailed;
     }
 
-    public boolean addedToBlockList() {
-        return addedToBlockList;
+    public boolean isOnBlockList() {
+        return isOnBlockList;
     }
 
     public boolean isUseCaseFailed() {

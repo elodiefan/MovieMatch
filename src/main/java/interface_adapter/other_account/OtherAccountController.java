@@ -1,5 +1,7 @@
 package interface_adapter.other_account;
 
+import use_case.access_message_chat.AccessMessageChatInputBoundary;
+import use_case.access_message_chat.AccessMessageChatInputData;
 import use_case.block_user.BlockUserInputBoundary;
 import use_case.block_user.BlockUserInputData;
 //import use_case.get_watchlist.GetWatchlistInputBoundary;
@@ -16,10 +18,11 @@ public class OtherAccountController {
     //private final GetWatchlistInputBoundary getWatchlistInteractor;
     //private final GetWatchHistoryInputBoundary getWatchHistoryInteractor;
     //private final GetReviewsInputBoundary getReviewsInteractor;
-    //private final AccessMessageChatInputBoundary accessMessageChatInteractor;
+    private final AccessMessageChatInputBoundary accessMessageChatInteractor;
 
-    public OtherAccountController(BlockUserInputBoundary blockUserInteractor) {
+    public OtherAccountController(BlockUserInputBoundary blockUserInteractor, AccessMessageChatInputBoundary accessMessageChatInteractor) {
         this.blockUserInteractor = blockUserInteractor;
+        this.accessMessageChatInteractor =  accessMessageChatInteractor;
     }
 
     /**
@@ -37,9 +40,9 @@ public class OtherAccountController {
 
     // TODO: get user reviews use case
 
-    // TODO: send messages use case
-    public void goToMessages() {
-
+    public void goToMessages(String otherUsername) {
+        final AccessMessageChatInputData accessMessageChatInputData = new AccessMessageChatInputData(otherUsername);
+        accessMessageChatInteractor.execute(accessMessageChatInputData);
     }
 
     // TODO: switch to search view

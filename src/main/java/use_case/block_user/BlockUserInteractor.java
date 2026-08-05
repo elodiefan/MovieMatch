@@ -1,12 +1,5 @@
 package use_case.block_user;
 
-import entity.UserFactory;
-import use_case.block_user.BlockUserInputData;
-import use_case.block_user.BlockUserOutputData;
-import use_case.delete_account.DeleteAccountInputData;
-import use_case.delete_account.DeleteAccountOutputBoundary;
-import use_case.delete_account.DeleteAccountUserDataAccessInterface;
-
 /**
  * The Block User Interactor.
  */
