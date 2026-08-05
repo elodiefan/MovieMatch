@@ -11,6 +11,7 @@ import java.util.List;
 
 import javax.swing.Box;
 import javax.swing.BoxLayout;
+import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -25,6 +26,8 @@ import interface_adapter.comments.CommentsViewModel;
  */
 public class CommentsPanel extends JPanel implements PropertyChangeListener {
     private static final int CARD_GAP = 10;
+    private static final int COMMENT_INDENT = 24;
+    private static final int REPLY_INDENT = 48;
 
     private static final DateTimeFormatter TIME_FORMATTER =
             DateTimeFormatter.ofPattern("yyyy-MM-dd h:mm a z");
@@ -81,26 +84,31 @@ public class CommentsPanel extends JPanel implements PropertyChangeListener {
     private void updateView(final CommentsState state) {
         if (state != null) {
             errorLabel.setText(state.getCommentsError());
-            setComments(state.getComments());
+            setComments(state.getReviewId(), state.getComments());
         }
     }
 
     /**
      * Displays the given comment rows.
+     * @param reviewId the review id whose comments should be displayed
      * @param comments the comment rows to display
      */
-    private void setComments(
+    private void setComments(final String reviewId,
             final List<CommentsPresenter.CommentRow> comments) {
         commentsPanel.removeAll();
 
-        if (comments.isEmpty()) {
-            commentsPanel.add(new JLabel(
-                    CommentsViewModel.EMPTY_COMMENTS_MESSAGE));
-        } else {
-            for (CommentsPresenter.CommentRow comment : comments) {
+        boolean hasMatchingComments = false;
+        for (CommentsPresenter.CommentRow comment : comments) {
+            if (belongsToReview(comment, reviewId)) {
                 commentsPanel.add(createCommentCard(comment));
                 commentsPanel.add(Box.createVerticalStrut(CARD_GAP));
+                hasMatchingComments = true;
             }
+        }
+
+        if (!hasMatchingComments) {
+            commentsPanel.add(new JLabel(
+                    CommentsViewModel.EMPTY_COMMENTS_MESSAGE));
         }
 
         commentsPanel.revalidate();
@@ -116,6 +124,8 @@ public class CommentsPanel extends JPanel implements PropertyChangeListener {
             final CommentsPresenter.CommentRow comment) {
         final JPanel card = new JPanel();
         card.setLayout(new BoxLayout(card, BoxLayout.Y_AXIS));
+        card.setBorder(BorderFactory.createEmptyBorder(0,
+                getCommentIndent(comment), 0, 0));
 
         card.add(new JLabel(comment.getAuthorDisplayName()
                 + " (@" + comment.getAuthorUsername() + ")"));
@@ -158,6 +168,34 @@ public class CommentsPanel extends JPanel implements PropertyChangeListener {
         buttonPanel.add(likeButton);
         buttonPanel.add(unlikeButton);
         return buttonPanel;
+    }
+
+    /**
+     * Checks whether a comment belongs under the given review.
+     * @param comment the comment row
+     * @param reviewId the review id
+     * @return true if the comment belongs to the review
+     */
+    private boolean belongsToReview(final CommentsPresenter.CommentRow comment,
+                                    final String reviewId) {
+        return reviewId == null || reviewId.isEmpty()
+                || comment.getReviewId().equals(reviewId);
+    }
+
+    /**
+     * Returns the indentation for a top-level comment or reply.
+     * @param comment the comment row
+     * @return the indentation amount
+     */
+    private int getCommentIndent(final CommentsPresenter.CommentRow comment) {
+        final int indent;
+        if (comment.getParentCommentId() == null
+                || comment.getParentCommentId().isEmpty()) {
+            indent = COMMENT_INDENT;
+        } else {
+            indent = REPLY_INDENT;
+        }
+        return indent;
     }
 
     /**
