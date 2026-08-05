@@ -7,8 +7,8 @@ import interface_adapter.ViewModel;
  */
 public class UserReviewsViewModel extends ViewModel<UserReviewsState> {
 
-    public static final String VIEW_NAME = "user reviews";
-    public static final String TITLE_LABEL = "Reviews";
+    public static final String VIEW_NAME = "my reviews";
+    public static final String TITLE_LABEL = "My Reviews";
     public static final String EMPTY_REVIEWS_MESSAGE = "No reviews yet.";
     public static final String EDIT_BUTTON_LABEL = "Edit";
     public static final String DELETE_BUTTON_LABEL = "Delete";

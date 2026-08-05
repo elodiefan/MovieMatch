@@ -12,7 +12,6 @@ import data_access.UserDataAccessObject;
 import interface_adapter.account.AccountController;
 import interface_adapter.account.AccountPresenter;
 import interface_adapter.account.AccountViewModel;
-import interface_adapter.account.ReviewsViewModel;
 import interface_adapter.delete_account.DeleteAccountController;
 import interface_adapter.delete_account.DeleteAccountPresenter;
 import interface_adapter.delete_account.DeleteAccountViewModel;
@@ -37,6 +36,7 @@ import interface_adapter.logout.LogoutViewModel;
 import interface_adapter.signup.SignupController;
 import interface_adapter.signup.SignupPresenter;
 import interface_adapter.signup.SignupViewModel;
+import interface_adapter.user_reviews.UserReviewsViewModel;
 import use_case.account.AccountInputBoundary;
 import use_case.account.AccountInteractor;
 import use_case.account.AccountOutputBoundary;
@@ -96,8 +96,8 @@ public class AppBuilder {
     private LogoutViewModel logoutViewModel;
     private ResetPasswordView resetPasswordView;
     private ResetPasswordViewModel resetPasswordViewModel;
-    private ReviewsView reviewsView;
-    private ReviewsViewModel reviewsViewModel;
+    private MyReviewsView myReviewsView;
+    private UserReviewsViewModel userReviewsViewModel;
     private SecurityQuestionView securityQuestionView;
     private SecurityQuestionViewModel securityQuestionViewModel;
     private SignupView signupView;
@@ -176,13 +176,13 @@ public class AppBuilder {
     }
 
     /**
-     * Adds the Reviews View to the application.
+     * Adds the My Reviews View to the application.
      * @return this builder
      */
     public AppBuilder addReviewsView() {
-        reviewsViewModel = new ReviewsViewModel();
-        reviewsView = new ReviewsView(reviewsViewModel);
-        cardPanel.add(reviewsView, reviewsView.getViewName());
+        userReviewsViewModel = new UserReviewsViewModel();
+        myReviewsView = new MyReviewsView(userReviewsViewModel);
+        cardPanel.add(myReviewsView, myReviewsView.getViewName());
         return this;
     }
 
