@@ -17,14 +17,15 @@ public class HomePageInteractor implements HomePageInputBoundary {
         this.userFactory = userFactory;
     }
 
-    @Override
-    public void switchToSearchView() {
-        userPresenter.switchToSearchView();
-    }
+//    @Override
+//    public void switchToSearchView() {
+//        userPresenter.switchToSearchView();
+//    }
 
     @Override
     public void switchToAccountView(HomePageInputData response) {
-        final HomePageOutputData homePageOutputData = new HomePageOutputData(response.getUsername(), false);
+        final String displayName = userDataAccessObject.getDisplayName();
+        final HomePageOutputData homePageOutputData = new HomePageOutputData(response.getUsername(), displayName, false);
         userPresenter.switchToAccountView(homePageOutputData);
     }
 }

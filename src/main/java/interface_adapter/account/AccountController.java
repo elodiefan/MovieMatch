@@ -13,19 +13,19 @@ public class AccountController {
         this.accountUseCaseInteractor = accountUseCaseInteractor;
     }
 
-    /**
-     * Executes the reviews view use case.
-     */
-    public void switchToReviewsView() {
-        accountUseCaseInteractor.switchToReviewsView();
-    }
-
-    /**
-     * Executes the log out view use case.
-     */
-    public void switchToLogOutConfirmView() {
-        accountUseCaseInteractor.switchToLogOutConfirmView();
-    }
+//    /**
+//     * Executes the reviews view use case.
+//     */
+//    public void switchToReviewsView() {
+//        accountUseCaseInteractor.switchToReviewsView();
+//    }
+//
+//    /**
+//     * Executes the log out view use case.
+//     */
+//    public void switchToLogOutConfirmView() {
+//        accountUseCaseInteractor.switchToLogOutConfirmView();
+//    }
 
     /**
      * Executes the reset password view use case.

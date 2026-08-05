@@ -10,6 +10,7 @@ import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JTextField;
 
 import interface_adapter.account.AccountController;
 import interface_adapter.account.AccountState;
@@ -86,14 +87,14 @@ public class AccountView extends JPanel implements PropertyChangeListener {
                 }
         );
 
-        reviewsButton.addActionListener(
-                new ActionListener() {
-                    @Override
-                    public void actionPerformed(ActionEvent e) {
-                        accountController.switchToReviewsView();
-                    }
-                }
-        );
+//        reviewsButton.addActionListener(
+//                new ActionListener() {
+//                    @Override
+//                    public void actionPerformed(ActionEvent e) {
+//                        accountController.switchToReviewsView();
+//                    }
+//                }
+//        );
 
         blockedUsersButton.addActionListener(
                 new ActionListener() {
@@ -113,14 +114,14 @@ public class AccountView extends JPanel implements PropertyChangeListener {
                 }
         );
 
-        logoutButton.addActionListener(
-                new ActionListener() {
-                    @Override
-                    public void actionPerformed(ActionEvent e) {
-                        accountController.switchToLogOutConfirmView();
-                    }
-                }
-        );
+//        logoutButton.addActionListener(
+//                new ActionListener() {
+//                    @Override
+//                    public void actionPerformed(ActionEvent e) {
+//                        accountController.switchToLogOutConfirmView();
+//                    }
+//                }
+//        );
 
         resetPasswordButton.addActionListener(
                 new ActionListener() {
