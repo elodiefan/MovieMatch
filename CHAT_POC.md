@@ -205,6 +205,199 @@ like every other feature.
 
 ---
 
+## Class interactions
+
+Our TA's feedback on the design document was that it needed **more class and file
+interactions**. This section is the answer for chat.
+
+### What the proof of concept does (and why it isn't the answer)
+
+The spike has four classes and almost no interaction between them:
+
+```mermaid
+graph LR
+    PocChat --> PocChatWindow
+    PocChat --> PocChatStore
+    PocChatWindow --> PocChatStore
+    PocChatStore --> PocMessage
+```
+
+`PocChatWindow` reaches straight into the database. There is no interactor, no boundary and
+no presenter, so there is nothing to point at in a design document and nothing that can be
+unit tested without a network connection. **That is the correct amount of structure for a
+throwaway spike and the wrong amount for the feature.** Everything below replaces it.
+
+### The real design
+
+Each class has one job and one reason to change, and every arrow crosses a layer boundary
+in the direction Clean Architecture allows.
+
+```mermaid
+graph TD
+    subgraph view["view"]
+        CV["ChatView"]
+        CPS["ChatPollScheduler"]
+    end
+
+    subgraph ia["interface_adapter.chat"]
+        CC["ChatController"]
+        CP["ChatPresenter"]
+        CVM["ChatViewModel"]
+        CS["ChatState"]
+        MDM["MessageDisplayMapper"]
+    end
+
+    subgraph uc["use_case.chat"]
+        SMI["SendMessageInteractor"]
+        FMI["FetchMessagesInteractor"]
+        MV["MessageValidator"]
+        BRP["BlockedRecipientPolicy"]
+        CA["ConversationAssembler"]
+        IB(["SendMessageInputBoundary"])
+        OB(["SendMessageOutputBoundary"])
+        DAI(["ChatDataAccessInterface"])
+    end
+
+    subgraph ent["entity"]
+        M["Message"]
+        CK["ConversationKey"]
+        CONV["Conversation"]
+    end
+
+    subgraph da["data_access"]
+        MDAO["MongoChatDataAccessObject"]
+        IDAO["InMemoryChatDataAccessObject"]
+    end
+
+    CV --> CC
+    CPS --> CC
+    CC --> IB
+    IB -.implemented by.-> SMI
+    CC --> FMI
+    SMI --> MV
+    SMI --> BRP
+    SMI --> DAI
+    SMI --> M
+    FMI --> DAI
+    FMI --> CA
+    CA --> CONV
+    CA --> CK
+    DAI -.implemented by.-> MDAO
+    DAI -.implemented by.-> IDAO
+    MDAO --> CK
+    SMI --> OB
+    FMI --> OB
+    OB -.implemented by.-> CP
+    CP --> MDM
+    CP --> CS
+    CP --> CVM
+    CVM --> CV
+```
+
+The dotted arrows are the important ones. `SendMessageInteractor` never mentions
+`ChatPresenter` or `MongoChatDataAccessObject` — it only knows the boundary interfaces, and
+`AppBuilder` decides at startup which implementation gets plugged in. That's what lets the
+same interactor run against `InMemoryChatDataAccessObject` in a test and Atlas in the app.
+
+### Sending a message, step by step
+
+```mermaid
+sequenceDiagram
+    participant U as User
+    participant V as ChatView
+    participant C as ChatController
+    participant I as SendMessageInteractor
+    participant Val as MessageValidator
+    participant Pol as BlockedRecipientPolicy
+    participant D as ChatDataAccessInterface
+    participant P as ChatPresenter
+    participant VM as ChatViewModel
+
+    U->>V: types and hits Send
+    V->>C: send(sender, recipient, body)
+    C->>I: execute(SendMessageInputData)
+    I->>Val: check(body)
+    Val-->>I: ok, or a reason it isn't
+    I->>Pol: canMessage(sender, recipient)
+    Pol-->>I: allowed / blocked
+    I->>D: saveMessage(Message)
+    I->>P: prepareSuccessView(SendMessageOutputData)
+    P->>VM: setState + firePropertyChanged
+    VM-->>V: repaint with the sent message
+```
+
+If validation fails, the interactor calls `prepareFailView` instead and nothing is saved.
+That branch is one unit test with no database involved, which is the whole point of putting
+the rules in the interactor rather than in the view.
+
+### Refreshing, step by step
+
+```mermaid
+sequenceDiagram
+    participant T as ChatPollScheduler
+    participant C as ChatController
+    participant I as FetchMessagesInteractor
+    participant D as ChatDataAccessInterface
+    participant A as ConversationAssembler
+    participant P as ChatPresenter
+    participant M as MessageDisplayMapper
+    participant VM as ChatViewModel
+
+    loop every 2 seconds
+        T->>C: refresh(me, them, since)
+        C->>I: execute(FetchMessagesInputData)
+        I->>D: findMessagesBetween(me, them, since)
+        D-->>I: List<Message>
+        I->>A: assemble(messages, me)
+        A-->>I: Conversation
+        I->>P: prepareSuccessView(FetchMessagesOutputData)
+        P->>M: toDisplay(each Message, me)
+        M-->>P: MessageDisplay (formatted time, isMine)
+        P->>VM: setState + firePropertyChanged
+    end
+```
+
+### Why each collaborator exists
+
+`MessageValidator` holds the rules — body not empty, body under some length cap, you can't
+message yourself. It's separate from the interactor because rules change far more often than
+orchestration does, and because it's the easiest class in the feature to test exhaustively.
+
+`BlockedRecipientPolicy` asks Kiersten's block feature whether this send is allowed. It's its
+own class because it's the one part of chat that depends on another feature, so isolating it
+means the rest of chat compiles and tests without `block_user` being finished.
+
+`ConversationKey` is a value object holding an unordered pair of usernames. The database
+filter has to match both directions — a message from A to B and from B to A are the same
+conversation — and that symmetry is easy to get subtly wrong. Putting it in one small class
+with an `equals`/`hashCode` makes it testable on its own. `PocChatStore.conversationSince`
+in this branch shows the raw version of that filter.
+
+`ConversationAssembler` turns a flat list of messages into a `Conversation`, which is what
+the view actually wants. Without it that grouping logic ends up in either the interactor or
+the presenter, and both are already busy.
+
+`MessageDisplayMapper` converts a `Message` into something with a formatted timestamp and an
+`isMine` flag for alignment. Formatting is a presentation concern, so it lives in the
+interface adapter layer, never in the entity. This mirrors `ReviewSummaryMapper`, which
+Elodie already wrote, so the codebase stays internally consistent.
+
+`ChatPollScheduler` wraps the `javax.swing.Timer`. It's in the view layer because
+`javax.swing` is a UI dependency, and keeping it out of the controller means the controller
+can be tested without a running event dispatch thread.
+
+### Design patterns to name in the report
+
+The **Dependency Inversion Principle** shows up three times over —
+`ChatDataAccessInterface`, and the input and output boundaries — and each one is what makes
+a layer independently testable. **Mapper** appears as `MessageDisplayMapper`, matching the
+existing convention. **Value Object** is `ConversationKey`, defined by its contents rather
+than an identity. **Strategy** is `BlockedRecipientPolicy`, which can be swapped for a
+permissive implementation while `block_user` is still being built. And the **Observer**
+pattern is already throughout the project as `PropertyChangeSupport` in the view models.
+
+---
+
 ## Two design points worth understanding
 
 **The poll replaces the WebSocket.** Every two seconds the view asks for messages newer than
