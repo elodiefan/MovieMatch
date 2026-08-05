@@ -11,6 +11,7 @@ import java.util.concurrent.ExecutionException;
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -21,8 +22,15 @@ import javax.swing.SwingWorker;
 import javax.swing.Timer;
 
 /**
- * One chat window: the transcript, a box to type in, and a timer that keeps
- * checking Atlas for anything new.
+ * One person's chat window: who they're talking to, the transcript, a box to
+ * type in, and a timer that keeps checking Atlas for anything new.
+ * <p>
+ * The dropdown at the top is what makes this work for more than two people.
+ * Every conversation is still strictly one to one — the database query filters
+ * on a sender/recipient pair — but one window can switch between several of
+ * them, so three users need three windows rather than six. The real
+ * {@code ChatView} should replace the dropdown with a {@code JList} of
+ * conversations down the left-hand side; the logic underneath is the same.
  * <p>
  * Two things here are worth copying into the real feature.
  * <p>
@@ -46,22 +54,25 @@ public class PocChatWindow extends JFrame {
 
     private static final long serialVersionUID = 1L;
     private static final int REFRESH_MILLIS = 2000;
-    private static final int WINDOW_WIDTH = 420;
-    private static final int WINDOW_HEIGHT = 480;
+    private static final int WINDOW_WIDTH = 440;
+    private static final int WINDOW_HEIGHT = 520;
     private static final int TRANSCRIPT_ROWS = 18;
-    private static final int INPUT_COLUMNS = 24;
+    private static final int INPUT_COLUMNS = 22;
 
     private static final DateTimeFormatter CLOCK =
             DateTimeFormatter.ofPattern("HH:mm:ss").withZone(ZoneId.systemDefault());
 
     private final transient PocChatStore store;
     private final String me;
-    private final String them;
 
     private final JTextArea transcript = new JTextArea();
     private final JTextField input = new JTextField(INPUT_COLUMNS);
+    private final JComboBox<String> recipientPicker;
 
-    /** Timestamp of the newest message already on screen. */
+    /** Who this window is currently talking to. Changes with the dropdown. */
+    private String them;
+
+    /** Timestamp of the newest message already on screen, for this conversation. */
     private long lastSeen;
 
     /**
@@ -69,22 +80,30 @@ public class PocChatWindow extends JFrame {
      *
      * @param store where messages live
      * @param me the username this window is signed in as
-     * @param them the username this window is talking to
+     * @param others everyone this window can message
      */
-    public PocChatWindow(final PocChatStore store, final String me, final String them) {
-        super("MovieMatch chat POC — signed in as " + me);
+    public PocChatWindow(final PocChatStore store, final String me, final List<String> others) {
+        super("MovieMatch chat POC — you are " + me);
         this.store = store;
         this.me = me;
-        this.them = them;
+        this.them = others.get(0);
 
         this.transcript.setEditable(false);
         this.transcript.setLineWrap(true);
         this.transcript.setWrapStyleWord(true);
         this.transcript.setRows(TRANSCRIPT_ROWS);
 
+        this.recipientPicker = new JComboBox<>(others.toArray(new String[0]));
+        this.recipientPicker.addActionListener(event -> this.switchConversation());
+
         final JButton send = new JButton("Send");
         send.addActionListener(event -> this.sendWhateverIsTyped());
         this.input.addActionListener(event -> this.sendWhateverIsTyped());
+
+        final JPanel top = new JPanel();
+        top.setLayout(new BoxLayout(top, BoxLayout.X_AXIS));
+        top.add(new JLabel("Talking to "));
+        top.add(this.recipientPicker);
 
         final JPanel bottom = new JPanel();
         bottom.setLayout(new BoxLayout(bottom, BoxLayout.X_AXIS));
@@ -93,7 +112,7 @@ public class PocChatWindow extends JFrame {
 
         final JPanel root = new JPanel(new BorderLayout());
         root.setBorder(BorderFactory.createEmptyBorder(8, 8, 8, 8));
-        root.add(new JLabel("Talking to " + them), BorderLayout.NORTH);
+        root.add(top, BorderLayout.NORTH);
         root.add(new JScrollPane(this.transcript), BorderLayout.CENTER);
         root.add(bottom, BorderLayout.SOUTH);
 
@@ -102,21 +121,35 @@ public class PocChatWindow extends JFrame {
         this.setPreferredSize(new Dimension(WINDOW_WIDTH, WINDOW_HEIGHT));
         this.pack();
 
-        // Start from now, so an old conversation does not scroll past on launch.
-        this.lastSeen = System.currentTimeMillis();
+        // Load the whole history on open, so an existing conversation is visible
+        // rather than the window starting blank. The real view should cap this
+        // at the most recent N messages.
+        this.switchConversation();
 
         final Timer poller = new Timer(REFRESH_MILLIS, event -> this.pullNewMessages());
         poller.start();
+    }
+
+    /**
+     * Points the window at whoever is selected in the dropdown and reloads that
+     * conversation from the start.
+     */
+    private void switchConversation() {
+        this.them = (String) this.recipientPicker.getSelectedItem();
+        this.transcript.setText("");
+        this.lastSeen = 0L;
+        this.pullNewMessages();
     }
 
     private void sendWhateverIsTyped() {
         final String body = this.input.getText().trim();
         if (!body.isEmpty()) {
             this.input.setText("");
+            final String recipient = this.them;
             new SwingWorker<Void, Void>() {
                 @Override
                 protected Void doInBackground() {
-                    PocChatWindow.this.store.send(PocChatWindow.this.me, PocChatWindow.this.them, body);
+                    PocChatWindow.this.store.send(PocChatWindow.this.me, recipient, body);
                     return null;
                 }
 
@@ -130,17 +163,22 @@ public class PocChatWindow extends JFrame {
     }
 
     private void pullNewMessages() {
+        final String recipient = this.them;
+        final long since = this.lastSeen;
         new SwingWorker<List<PocMessage>, Void>() {
             @Override
             protected List<PocMessage> doInBackground() {
                 return PocChatWindow.this.store.conversationSince(
-                        PocChatWindow.this.me, PocChatWindow.this.them, PocChatWindow.this.lastSeen);
+                        PocChatWindow.this.me, recipient, since);
             }
 
             @Override
             protected void done() {
                 try {
-                    PocChatWindow.this.show(this.get());
+                    // Ignore a reply that arrives after the user switched away.
+                    if (recipient.equals(PocChatWindow.this.them)) {
+                        PocChatWindow.this.show(this.get());
+                    }
                 }
                 catch (InterruptedException ex) {
                     Thread.currentThread().interrupt();
