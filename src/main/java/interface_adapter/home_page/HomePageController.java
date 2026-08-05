@@ -1,33 +1,36 @@
 package interface_adapter.home_page;
 
-import use_case.home_page.HomePageInputBoundary;
-import use_case.home_page.HomePageInputData;
+import use_case.get_profile.GetProfileInputBoundary;
+import use_case.get_profile.GetProfileInputData;
 
 /**
  * Controller for the Home Page Use Case.
  */
 
 public class HomePageController {
-    private final HomePageInputBoundary homePageUseCaseInteractor;
+    private final GetProfileInputBoundary getProfileInteractor;
 
-    public HomePageController(HomePageInputBoundary homePageUseCaseInteractor) {
-        this.homePageUseCaseInteractor = homePageUseCaseInteractor;
+//    public HomePageController(HomePageInputBoundary homePageUseCaseInteractor) {
+//        this.homePageUseCaseInteractor = homePageUseCaseInteractor;
+//    }
+    public HomePageController(GetProfileInputBoundary getProfileInteractor) {
+        this.getProfileInteractor = getProfileInteractor;
     }
 
 //    /**
 //     * Swtiches view to Search View.
 //     */
 //    public void switchToSearchView() {
-//        homePageUseCaseInteractor.switchToSearchView();
+//
 //    }
 
     /**
-     * Switches view to personal Account View.
-     * @param username current user's username
-     * @param displayName current user's displayName
+     * Gets personal profile view
+     * @param username the current username of profile to be viewed
+     * @param displayName the display name of profile to be viewed
      */
-    public void switchToAccountView(String username, String displayName) {
-        final HomePageInputData homePageInputData = new HomePageInputData(username, displayName);
-        homePageUseCaseInteractor.switchToAccountView(homePageInputData);
+    public void switchToPersonalAccountView(String username, String displayName) {
+        final GetProfileInputData getProfileInputData = new GetProfileInputData(username, displayName);
+        getProfileInteractor.execute(getProfileInputData);
     }
 }

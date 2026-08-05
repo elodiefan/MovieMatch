@@ -11,4 +11,12 @@ public class ViewManagerModel extends ViewModel<String> {
         this.setState("");
     }
 
+    /**
+     * Switches view.
+     * @param viewName the target view name.
+     */
+    public void switchView(String viewName) {
+        setState(viewName);
+        firePropertyChanged();
+    }
 }

@@ -6,7 +6,9 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.WindowConstants;
 
-import data_access.InMemoryUserDataAccessObject;
+import data_access.InMemoryLockoutTracker;
+import data_access.MongoUserDataAccessObject;
+import data_access.UserDataAccessObject;
 import interface_adapter.account.AccountController;
 import interface_adapter.account.AccountPresenter;
 import interface_adapter.account.AccountViewModel;
@@ -74,8 +76,13 @@ public class AppBuilder {
     private final ViewManagerModel viewManagerModel = new ViewManagerModel();
     private final ViewManager viewManager = new ViewManager(cardPanel, cardLayout, viewManagerModel);
 
-    // private final DBUserDataAccessObject userDataAccessObject = new DBUserDataAccessObject(userFactory);
-    private final InMemoryUserDataAccessObject userDataAccessObject = new InMemoryUserDataAccessObject();
+    // Needs a mongo.properties file in the project root; see the MongoDB guide.
+    // Swap to InMemoryUserDataAccessObject to run without a network.
+    private final UserDataAccessObject userDataAccessObject = new MongoUserDataAccessObject();
+
+    // Counts failed security answers and holds lock-outs. One shared instance, so
+    // every attempt on the same account is counted together.
+    private final InMemoryLockoutTracker lockoutTracker = new InMemoryLockoutTracker();
 
     private AccountView accountView;
     private AccountViewModel accountViewModel;
@@ -139,7 +146,7 @@ public class AppBuilder {
      */
     public AppBuilder addLoginView() {
         loginViewModel = new LoginViewModel();
-        loginView = new LoginView(loginViewModel);
+        loginView = new LoginView(loginViewModel, viewManagerModel);
         cardPanel.add(loginView, loginView.getViewName());
         return this;
     }
@@ -163,7 +170,7 @@ public class AppBuilder {
      */
     public AppBuilder addResetPasswordView() {
         resetPasswordViewModel = new ResetPasswordViewModel();
-        resetPasswordView = new ResetPasswordView(resetPasswordViewModel);
+        resetPasswordView = new ResetPasswordView(resetPasswordViewModel, viewManagerModel);
         cardPanel.add(resetPasswordView, resetPasswordView.getViewName());
         return this;
     }
@@ -185,7 +192,7 @@ public class AppBuilder {
      */
     public AppBuilder addSecurityQuestionView() {
         securityQuestionViewModel = new SecurityQuestionViewModel();
-        securityQuestionView = new SecurityQuestionView(securityQuestionViewModel);
+        securityQuestionView = new SecurityQuestionView(securityQuestionViewModel, viewManagerModel);
         cardPanel.add(securityQuestionView, securityQuestionView.getViewName());
         return this;
     }
@@ -282,39 +289,48 @@ public class AppBuilder {
 //        return this;
 //    }
 
-////  TODO: FOR ENZO -> Fix error on line 254. ResetPasswordPresenter takes in PasswordResetCompletedHandler
-////    but I don't know what that is.
-//    /**
-//     * Adds the Reset Password Use Case to the application.
-//     * @return this builder
-//     */
-//    public AppBuilder addResetPasswordUseCase() {
-//        final ResetPasswordOutputBoundary resetPasswordOutputBoundary = new ResetPasswordPresenter(
-//        resetPasswordViewModel, passwordResetCompletedHandler);
-//        final ResetPasswordInputBoundary resetPasswordInteractor = new ResetPasswordInteractor(
-//                userDataAccessObject, resetPasswordOutputBoundary);
-//        final ResetPasswordController resetPasswordController = new ResetPasswordController(resetPasswordInteractor);
-//        resetPasswordView.setResetPasswordController(resetPasswordController);
-//        return this;
-//    }
+    /**
+     * Adds the Reset Password Use Case to the application.
+     * <p>
+     * A PasswordResetCompletedHandler is just "what happens once the new password
+     * is saved" — the presenter calls it so it does not need to know which screen
+     * comes next. Here that means sending the user back to the login screen so
+     * they can sign in with the password they just chose.
+     * @return this builder
+     */
+    public AppBuilder addResetPasswordUseCase() {
+        final ResetPasswordOutputBoundary resetPasswordOutputBoundary = new ResetPasswordPresenter(
+                resetPasswordViewModel,
+                username -> {
+                    viewManagerModel.setState(LoginViewModel.VIEW_NAME);
+                    viewManagerModel.firePropertyChanged();
+                });
+        final ResetPasswordInputBoundary resetPasswordInteractor = new ResetPasswordInteractor(
+                userDataAccessObject, resetPasswordOutputBoundary);
+        final ResetPasswordController resetPasswordController = new ResetPasswordController(resetPasswordInteractor);
+        resetPasswordView.setResetPasswordController(resetPasswordController);
+        return this;
+    }
 
-//// TODO: FOR ENZO -> Fix error on line 275. SecurityQuestionInteractor takes in LockoutTracker,
-////  but I don't know what that is.
-//    /**
-//     * Adds the Security Question Use Case to the application.
-//     * @return this builder
-//     */
-//    public AppBuilder addSecurityQuestionUseCase() {
-//        final SecurityQuestionOutputBoundary securityQuestionOutputBoundary = new SecurityQuestionPresenter(
-//                securityQuestionViewModel,
-//                resetPasswordViewModel, viewManagerModel);
-//        final SecurityQuestionInputBoundary securityQuestionInteractor = new SecurityQuestionInteractor(
-//                userDataAccessObject, securityQuestionOutputBoundary, lockoutTracker);
-//        final SecurityQuestionController securityQuestionController = new SecurityQuestionController(
-//                securityQuestionInteractor);
-//        securityQuestionView.setSecurityQuestionController(securityQuestionController);
-//        return this;
-//    }
+    /**
+     * Adds the Security Question Use Case to the application.
+     * <p>
+     * A LockoutTracker records failed answers per account and locks it after too
+     * many wrong tries; {@link InMemoryLockoutTracker} keeps that in memory, so it
+     * resets when the app restarts.
+     * @return this builder
+     */
+    public AppBuilder addSecurityQuestionUseCase() {
+        final SecurityQuestionOutputBoundary securityQuestionOutputBoundary = new SecurityQuestionPresenter(
+                securityQuestionViewModel,
+                resetPasswordViewModel, viewManagerModel);
+        final SecurityQuestionInputBoundary securityQuestionInteractor = new SecurityQuestionInteractor(
+                userDataAccessObject, securityQuestionOutputBoundary, lockoutTracker);
+        final SecurityQuestionController securityQuestionController = new SecurityQuestionController(
+                securityQuestionInteractor);
+        securityQuestionView.setSecurityQuestionController(securityQuestionController);
+        return this;
+    }
 
     /**
      * Adds the Signup Use Case to the application.

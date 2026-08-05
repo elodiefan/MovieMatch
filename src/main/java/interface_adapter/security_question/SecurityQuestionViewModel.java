@@ -11,8 +11,11 @@ import interface_adapter.ViewModel;
  */
 public class SecurityQuestionViewModel extends ViewModel<SecurityQuestionState> {
 
+    public static final String VIEW_NAME = "security question";
+    public static final String BACK_BUTTON = "back to login";
+
     public SecurityQuestionViewModel() {
-        super("security question");
+        super(VIEW_NAME);
         setState(new SecurityQuestionState());
     }
 }
