@@ -156,9 +156,13 @@ public class MongoUserDataAccessObject implements UserDataAccessObject {
     }
 
     // ---------- Get user profile ----------
+//    @Override
+//    public String getDisplayName() {
+//        return currentUserField(DISPLAY_NAME);
+//    }
     @Override
-    public String getDisplayName() {
-        return currentUserField(DISPLAY_NAME);
+    public String getDisplayName(String username) {
+        return userField(username, DISPLAY_NAME);
     }
 
     // ---------- Get security question ----------
@@ -168,19 +172,49 @@ public class MongoUserDataAccessObject implements UserDataAccessObject {
     }
 
     // ---------- Block user ----------
+    private List<String> getBlockList(String username) {
+        final Document currentUserDoc = users.find(Filters.eq(USERNAME, username)).first();
+        final List<String> currentUserBlockList = currentUserDoc.get(BLOCKED_USERS, List.class);
+        return currentUserBlockList;
+    }
+
     @Override
     public boolean alreadyBlocked(String otherUsername) {
-        List<String> currentUserBlockList = users.find(Filters.eq(USERNAME, BLOCKED_USERS))
+        final List<String> currentUserBlockList = getBlockList(getCurrentUsername());
+
+        return currentUserBlockList.contains(otherUsername);
     }
 
     @Override
     public void addToBlockList(String otherUsername) {
+        final List<String> currentUserBlockList = getBlockList(getCurrentUsername());
 
+        if (!currentUserBlockList.contains(otherUsername)) {
+            currentUserBlockList.add(otherUsername);
+            users.updateOne(Filters.eq(USERNAME, getCurrentUsername()), Updates.set(BLOCKED_USERS, currentUserBlockList));
+        }
     }
 
     @Override
     public void removeFromBlockList(String otherUsername) {
+        final List<String> currentUserBlockList = getBlockList(getCurrentUsername());
 
+        if (currentUserBlockList.contains(otherUsername)) {
+            currentUserBlockList.remove(otherUsername);
+            users.updateOne(Filters.eq(USERNAME, getCurrentUsername()), Updates.set(BLOCKED_USERS, currentUserBlockList));
+        }
+    }
+
+    // ---------- Access chat view ----------
+    @Override
+    public boolean canMessage(String otherUsername) {
+        final List<String> currentUserBlockList = getBlockList(getCurrentUsername());
+        final List<String> otherUserBlockList = getBlockList(otherUsername);
+
+        if (currentUserBlockList.contains(otherUsername) || otherUserBlockList.contains(getCurrentUsername())) {
+            return true;
+        }
+        return false;
     }
 
     // ---------- Helpers ----------
@@ -197,6 +231,24 @@ public class MongoUserDataAccessObject implements UserDataAccessObject {
         String value = null;
         if (currentUsername != null) {
             final Document doc = users.find(Filters.eq(USERNAME, currentUsername)).first();
+            if (doc != null) {
+                value = doc.getString(field);
+            }
+        }
+        return value;
+    }
+
+    /**
+     * Reads one field off the specified user's document.
+     * <p>
+     * @param username the specified user
+     * @param field the document field to read
+     * @return the stored value, or null if nobody is logged in or the account is gone
+     */
+    private String userField(String username, String field) {
+        String value = null;
+        if (username != null) {
+            final Document doc = users.find(Filters.eq(USERNAME, username)).first();
             if (doc != null) {
                 value = doc.getString(field);
             }
