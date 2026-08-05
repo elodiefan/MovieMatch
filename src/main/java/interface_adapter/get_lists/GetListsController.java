@@ -14,6 +14,14 @@ public class GetListsController {
     private GetWatchHistoryInputBoundary getWatchHistoryInteractor;
     private GetBlockedUsersInputBoundary getBlockedUsersInteractor;
 
+    public GetListsController(GetWatchlistInputBoundary getWatchlistUseCaseInteractor,
+                              GetWatchHistoryInputBoundary getWatchHistoryInteractor,
+                              GetBlockedUsersInputBoundary getBlockedUsersInteractor) {
+        this.getWatchlistUseCaseInteractor = getWatchlistUseCaseInteractor;
+        this.getWatchHistoryInteractor = getWatchHistoryInteractor;
+        this.getBlockedUsersInteractor = getBlockedUsersInteractor;
+    }
+
     public GetListsController(GetWatchlistInputBoundary getWatchlistUseCaseInteractor) {
         this.getWatchlistUseCaseInteractor = getWatchlistUseCaseInteractor;
     }
@@ -65,7 +73,8 @@ public class GetListsController {
     /**
      * Executes the return to account view use case.
      */
-    public void switchToAccountView() {
-        getWatchlistUseCaseInteractor.switchToAccountView();
+    public void switchToAccountView(GetListsInputData getListsInputData) {
+        getWatchlistUseCaseInteractor.switchToAccountView(getListsInputData);
     }
+    // dont bother switching to account view, call getprofile interactor instead to get that file to make a choice of which profile to view
 }

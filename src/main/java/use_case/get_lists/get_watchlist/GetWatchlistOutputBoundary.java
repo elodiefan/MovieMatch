@@ -5,7 +5,7 @@ import use_case.get_lists.GetListsOutputBoundary;
 /**
  * The output boundary for the List View Use Case.
  */
-public interface GetWatchListOutputBoundary extends GetListsOutputBoundary {
+public interface GetWatchlistOutputBoundary extends GetListsOutputBoundary {
 
     /**
      * Prepares the success view when calling the watchlist use case.

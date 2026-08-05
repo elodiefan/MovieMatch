@@ -15,16 +15,22 @@ public class PersonalAccountController {
     private final GetSecurityQuestionInputBoundary getSecurityQuestionInteractor;
     private final GetListsController getListsController;
     private final ViewManagerModel viewManagerModel;
-    private final String resetPasswordViewName = "reset password";
-    private final String homePageViewName = "home page";
-    private final String getListsViewName = "view lists";
+    private final String resetPasswordViewName;
+    private final String homePageViewName;
+    private final String getListsViewName;
 
     public PersonalAccountController(ViewManagerModel viewManagerModel,
                                      GetSecurityQuestionInputBoundary getSecurityQuestionInteractor,
-                                     GetListsController getListsController) {
+                                     GetListsController getListsController,
+                                     String resetPasswordViewName,
+                                     String homePageViewName,
+                                     String getListsViewName) {
         this.viewManagerModel = viewManagerModel;
         this.getSecurityQuestionInteractor = getSecurityQuestionInteractor;
         this.getListsController = getListsController;
+        this.resetPasswordViewName = resetPasswordViewName;
+        this.homePageViewName = homePageViewName;
+        this.getListsViewName = getListsViewName;
     }
 
 //    /**

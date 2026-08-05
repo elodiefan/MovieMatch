@@ -9,17 +9,22 @@ import javax.swing.WindowConstants;
 import data_access.InMemoryLockoutTracker;
 import data_access.MongoUserDataAccessObject;
 import data_access.UserDataAccessObject;
-import interface_adapter.account.AccountController;
-import interface_adapter.account.AccountPresenter;
-import interface_adapter.account.AccountViewModel;
+
 import interface_adapter.account.ReviewsViewModel;
 import interface_adapter.delete_account.DeleteAccountController;
 import interface_adapter.delete_account.DeleteAccountPresenter;
 import interface_adapter.delete_account.DeleteAccountViewModel;
+import interface_adapter.get_lists.GetListsController;
 import interface_adapter.get_lists.GetListsPresenter;
 import interface_adapter.get_lists.GetListsViewModel;
 import interface_adapter.home_page.HomePageController;
 import interface_adapter.home_page.HomePagePresenter;
+import interface_adapter.other_account.OtherAccountController;
+import interface_adapter.other_account.OtherAccountPresenter;
+import interface_adapter.other_account.OtherAccountViewModel;
+import interface_adapter.personal_account.PersonalAccountController;
+import interface_adapter.personal_account.PersonalAccountPresenter;
+import interface_adapter.personal_account.PersonalAccountViewModel;
 import interface_adapter.reset_password.ResetPasswordController;
 import interface_adapter.reset_password.ResetPasswordPresenter;
 import interface_adapter.reset_password.ResetPasswordViewModel;
@@ -39,15 +44,25 @@ import interface_adapter.logout.LogoutViewModel;
 import interface_adapter.signup.SignupController;
 import interface_adapter.signup.SignupPresenter;
 import interface_adapter.signup.SignupViewModel;
-import use_case.account.AccountInputBoundary;
-import use_case.account.AccountInteractor;
-import use_case.account.AccountOutputBoundary;
+import use_case.get_lists.get_blocked_users.GetBlockedUsersInputBoundary;
+import use_case.get_lists.get_blocked_users.GetBlockedUsersInteractor;
+import use_case.get_lists.get_blocked_users.GetBlockedUsersOutputBoundary;
+import use_case.get_lists.get_watch_history.GetWatchHistoryInputBoundary;
+import use_case.get_lists.get_watch_history.GetWatchHistoryInteractor;
+import use_case.get_lists.get_watch_history.GetWatchHistoryOutputBoundary;
+import use_case.get_lists.get_watch_history.GetWatchHistoryOutputData;
+import use_case.get_lists.get_watchlist.GetWatchlistOutputBoundary;
+import use_case.get_profile.GetProfileInputBoundary;
+import use_case.get_profile.GetProfileInteractor;
+import use_case.get_profile.GetProfileOutputBoundary;
 import use_case.delete_account.DeleteAccountInputBoundary;
 import use_case.delete_account.DeleteAccountInteractor;
 import use_case.delete_account.DeleteAccountOutputBoundary;
 import use_case.get_lists.GetListsOutputBoundary;
 import use_case.get_lists.get_watchlist.GetWatchlistInputBoundary;
 import use_case.get_lists.get_watchlist.GetWatchlistInteractor;
+import use_case.get_security_question.GetSecurityQuestionInputBoundary;
+import use_case.get_security_question.GetSecurityQuestionInteractor;
 import use_case.home_page.HomePageInputBoundary;
 import use_case.home_page.HomePageInteractor;
 import use_case.home_page.HomePageOutputBoundary;
@@ -89,8 +104,6 @@ public class AppBuilder {
     // every attempt on the same account is counted together.
     private final InMemoryLockoutTracker lockoutTracker = new InMemoryLockoutTracker();
 
-    private AccountView accountView;
-    private AccountViewModel accountViewModel;
     private DeleteAccountView deleteAccountView;
     private DeleteAccountViewModel deleteAccountViewModel;
     private GetListsView getListsView;
@@ -101,6 +114,10 @@ public class AppBuilder {
     private LoginViewModel loginViewModel;
     private LogoutConfirmView logoutView;
     private LogoutViewModel logoutViewModel;
+    private OtherAccountView otherAccountView;
+    private OtherAccountViewModel otherAccountViewModel;
+    private PersonalAccountView personalAccountView;
+    private PersonalAccountViewModel personalAccountViewModel;
     private ResetPasswordView resetPasswordView;
     private ResetPasswordViewModel resetPasswordViewModel;
     private ReviewsView reviewsView;
@@ -112,17 +129,6 @@ public class AppBuilder {
 
     public AppBuilder() {
         cardPanel.setLayout(cardLayout);
-    }
-
-    /**
-     * Adds the Account View to the application.
-     * @return this builder
-     */
-    public AppBuilder addAccountView() {
-        accountViewModel = new AccountViewModel();
-        accountView = new AccountView(accountViewModel);
-        cardPanel.add(accountView, accountView.getViewName());
-        return this;
     }
 
     /**
@@ -169,8 +175,6 @@ public class AppBuilder {
         return this;
     }
 
-    // TODO: For Yidan -> Fix error on line 154. LogoutConfirmView takes in a String
-    //  but should maybe take in a view model.
     /**
      * Adds the Logout View to the application.
      * @return this builder
@@ -179,6 +183,28 @@ public class AppBuilder {
         logoutViewModel = new LogoutViewModel();
         logoutView = new LogoutConfirmView(logoutViewModel);
         cardPanel.add(logoutView, logoutView.getViewName());
+        return this;
+    }
+
+    /**
+     * Adds the Other Account View to the application.
+     * @return this builder
+     */
+    public AppBuilder addOtherAccountView() {
+        otherAccountViewModel = new OtherAccountViewModel();
+        otherAccountView = new OtherAccountView(otherAccountViewModel);
+        cardPanel.add(otherAccountView, otherAccountView.getViewName());
+        return this;
+    }
+
+    /**
+     * Adds the Personal Account View to the application.
+     * @return this builder
+     */
+    public AppBuilder addPersonalAccountView() {
+        personalAccountViewModel = new PersonalAccountViewModel();
+        personalAccountView = new PersonalAccountView(personalAccountViewModel);
+        cardPanel.add(personalAccountView, personalAccountView.getViewName());
         return this;
     }
 
@@ -227,30 +253,12 @@ public class AppBuilder {
     }
 
     /**
-     * Adds the Account Use Case to the application.
-     * @return this builder
-     */
-    public AppBuilder addAccountUseCase() {
-//        final AccountOutputBoundary accountOutputBoundary = new AccountPresenter(
-//                viewManagerModel, accountViewModel, reviewsViewModel, null,
-//                resetPasswordViewModel, deleteAccountViewModel);
-        final AccountOutputBoundary accountOutputBoundary = new AccountPresenter(
-                viewManagerModel, accountViewModel, resetPasswordViewModel, deleteAccountViewModel);
-        final AccountInputBoundary accountInteractor = new AccountInteractor(
-                userDataAccessObject, accountOutputBoundary);
-
-        final AccountController accountController = new AccountController(accountInteractor);
-        accountView.setAccountController(accountController);
-        return this;
-    }
-
-    /**
      * Adds the Delete Account Use Case to the application.
      * @return this builder
      */
     public AppBuilder addDeleteAccountUseCase() {
         final DeleteAccountOutputBoundary deleteAccountOutputBoundary = new DeleteAccountPresenter(viewManagerModel,
-                deleteAccountViewModel, signupViewModel, accountViewModel);
+                deleteAccountViewModel, signupViewModel, personalAccountViewModel);
         final DeleteAccountInputBoundary deleteAccountInteractor = new DeleteAccountInteractor(
                 userDataAccessObject, deleteAccountOutputBoundary, userFactory);
 
@@ -260,37 +268,67 @@ public class AppBuilder {
     }
 
     /**
-     * Adds the Get Lists Use Case to the application.
+     * Adds the Get Watchlist Use Case to the application.
      * @return this builder
      */
-    public AppBuilder addGetListsUseCase() {
-        final GetListsOutputBoundary getListsOutputBoundary = new GetListsPresenter(viewManagerModel,
-                getListsViewModel, accountViewModel);
+    public AppBuilder addGetWatchlistUseCase() {
+        final GetWatchlistOutputBoundary getWatchlistOutputBoundary = new GetListsPresenter(viewManagerModel,
+                getListsViewModel, personalAccountViewModel, otherAccountViewModel);
         final GetWatchlistInputBoundary getWatchlistInteractor = new GetWatchlistInteractor(
-                userDataAccessObject, userFactory);
+                userDataAccessObject, getWatchlistOutputBoundary);
 
-        final DeleteAccountController deleteAccountController = new DeleteAccountController(deleteAccountInteractor);
-        deleteAccountView.setDeleteAccountController(deleteAccountController);
+        final GetListsController getListsController = new GetListsController(getWatchlistInteractor);
+        getListsView.setGetListsController(getListsController);
         return this;
     }
 
-    // TODO: For Yidan/Kiersten -> Implement search view files.
     /**
-     * Adds the Home Page Use Case to the application.
+     * Adds the Get Watch History Use Case to the application.
      * @return this builder
      */
-    public AppBuilder addHomePageUseCase() {
-//        final HomePageOutputBoundary homePageOutputBoundary = new HomePagePresenter(viewManagerModel,
-//                homePageViewModel, searchViewModel, accountViewModel);
-        final HomePageOutputBoundary homePageOutputBoundary = new HomePagePresenter(viewManagerModel,
-                homePageViewModel, accountViewModel);
-        final HomePageInputBoundary homePageInteractor = new HomePageInteractor(
-                userDataAccessObject, homePageOutputBoundary, userFactory);
+    public AppBuilder addGetWatchHistoryUseCase() {
+        final GetWatchHistoryOutputBoundary getWatchHistoryOutputBoundary = new GetListsPresenter(viewManagerModel,
+                getListsViewModel, personalAccountViewModel, otherAccountViewModel);
+        final GetWatchHistoryInputBoundary getWatchHistoryInteractor = new GetWatchHistoryInteractor(
+                userDataAccessObject, getWatchHistoryOutputBoundary);
 
-        final HomePageController homePageController = new HomePageController(homePageInteractor);
-        homePageView.setHomePageController(homePageController);
+        final GetListsController getListsController = new GetListsController(getWatchHistoryInteractor);
+        getListsView.setGetListsController(getListsController);
         return this;
     }
+
+    /**
+     * Adds the Get Blocked Users Use Case to the application.
+     * @return this builder
+     */
+    public AppBuilder addGetBlockedUsersUseCase() {
+        final GetBlockedUsersOutputBoundary getWatchlistOutputBoundary = new GetListsPresenter(viewManagerModel,
+                getListsViewModel, personalAccountViewModel, otherAccountViewModel);
+        final GetBlockedUsersInputBoundary getBlockedUsersInteractor = new GetBlockedUsersInteractor(
+                userDataAccessObject, getWatchlistOutputBoundary);
+
+        final GetListsController getListsController = new GetListsController(getBlockedUsersInteractor);
+        getListsView.setGetListsController(getListsController);
+        return this;
+    }
+
+//    // TODO: For Yidan/Kiersten -> Implement search view files.
+//    /**
+//     * Adds the Home Page Use Case to the application.
+//     * @return this builder
+//     */
+//    public AppBuilder addHomePageUseCase() {
+////        final HomePageOutputBoundary homePageOutputBoundary = new HomePagePresenter(viewManagerModel,
+////                homePageViewModel, searchViewModel, accountViewModel);
+//        final HomePageOutputBoundary homePageOutputBoundary = new HomePagePresenter(viewManagerModel,
+//                homePageViewModel, accountViewModel);
+//        final HomePageInputBoundary homePageInteractor = new HomePageInteractor(
+//                userDataAccessObject, homePageOutputBoundary, userFactory);
+//
+//        final HomePageController homePageController = new HomePageController(homePageInteractor);
+//        homePageView.setHomePageController(homePageController);
+//        return this;
+//    }
 
     /**
      * Adds the Login Use Case to the application.
@@ -306,6 +344,48 @@ public class AppBuilder {
         loginView.setLoginController(loginController);
         return this;
     }
+
+    //    /**
+//     * Adds the Personal Account Use Case to the application.
+//     * @return this builder
+//     */
+//    public AppBuilder addPersonalAccountUseCase() {
+//        final GetProfileOutputBoundary getProfileOutputBoundary = new HomePagePresenter();
+//        final GetProfileInputBoundary getProfileInteractor = new GetProfileInteractor(userDataAccessObject,
+//                getProfileOutputBoundary);
+//       // viewManagerModel, accountViewModel, resetPasswordViewModel, deleteAccountViewModel);
+//        final AccountInputBoundary accountInteractor = new AccountInteractor(
+//                userDataAccessObject, accountOutputBoundary);
+//        final GetSecurityQuestionInputBoundary getSecurityQuestionInteractor = new GetSecurityQuestionInteractor();
+//        final GetListsController getListsController = new GetListsController();
+//
+//        final PersonalAccountController personalAccountController = new PersonalAccountController(viewManagerModel,
+//                GetSecurityQuestionInputBoundary getSecurityQuestionInteractor,
+//                getListsController,
+//                resetPasswordViewModel.getViewName(),
+//                homePageViewModel.getViewName(),
+//                getListsViewModel.getViewName());
+//
+//        personalAccountView.setPersonalAccountController(personalAccountController);
+//        return this;
+//    }
+//
+//    /**
+//     * Adds the Other Account Use Case to the application.
+//     * @return this builder
+//     */
+//    public AppBuilder addGetProfileUseCase() {
+//        final GetProfileOutputBoundary getProfileOutputBoundary = new HomePagePresenter();
+//        final GetProfileInputBoundary getProfileInteractor = new GetProfileInteractor(userDataAccessObject,
+//                getProfileOutputBoundary);
+//        // viewManagerModel, accountViewModel, resetPasswordViewModel, deleteAccountViewModel);
+////        final AccountInputBoundary accountInteractor = new AccountInteractor(
+////                userDataAccessObject, accountOutputBoundary);
+//
+//        final AccountController accountController = new AccountController(accountInteractor);
+//        accountView.setAccountController(accountController);
+//        return this;
+//    }
 
 //    // TODO: For Elodie -> Implement reviews files.
 //    /**

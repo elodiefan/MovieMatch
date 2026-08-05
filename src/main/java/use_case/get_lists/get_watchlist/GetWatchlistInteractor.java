@@ -10,10 +10,10 @@ import use_case.get_lists.GetListsUserDataAccessInterface;
 public class GetWatchlistInteractor implements GetWatchlistInputBoundary {
 
     private final GetListsUserDataAccessInterface userDataAccessObject;
-    private final GetWatchListOutputBoundary getListsPresenter;
+    private final GetWatchlistOutputBoundary getListsPresenter;
 
     public GetWatchlistInteractor(GetListsUserDataAccessInterface userDataAccessInterface,
-                                  GetWatchListOutputBoundary getWatchListOutputBoundary) {
+                                  GetWatchlistOutputBoundary getWatchListOutputBoundary) {
         this.userDataAccessObject = userDataAccessInterface;
         this.getListsPresenter = getWatchListOutputBoundary;
     }

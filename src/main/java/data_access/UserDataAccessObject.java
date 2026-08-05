@@ -1,7 +1,6 @@
 package data_access;
 
 import use_case.access_message_chat.AccessMessageChatUserDataAccessInterface;
-import use_case.account.AccountUserDataAccessInterface;
 import use_case.block_user.BlockUserUserDataAccessInterface;
 import use_case.delete_account.DeleteAccountUserDataAccessInterface;
 import use_case.get_lists.GetListsUserDataAccessInterface;
@@ -33,19 +32,18 @@ import use_case.signup.SignupUserDataAccessInterface;
  * classes. Nothing else needs to change.
  */
 public interface UserDataAccessObject extends
-        AccountUserDataAccessInterface,
+        AccessMessageChatUserDataAccessInterface,
+        BlockUserUserDataAccessInterface,
         DeleteAccountUserDataAccessInterface,
         GetListsUserDataAccessInterface,
+        GetProfileUserDataAccessInterface,
+        GetSecurityQuestionUserDataAccessInterface,
         HomePageUserDataAccessInterface,
-        SignupUserDataAccessInterface,
         LoginUserDataAccessInterface,
         LogoutUserDataAccessInterface,
-        SecurityQuestionUserDataAccessInterface,
         ResetPasswordUserDataAccessInterface,
-        GetProfileUserDataAccessInterface,
-        BlockUserUserDataAccessInterface,
-        GetSecurityQuestionUserDataAccessInterface,
-        AccessMessageChatUserDataAccessInterface {
+        SecurityQuestionUserDataAccessInterface,
+        SignupUserDataAccessInterface {
 
     /**
      * Releases any resources held by this data store, such as an open database

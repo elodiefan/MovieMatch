@@ -9,10 +9,10 @@ import use_case.get_lists.get_blocked_users.GetBlockedUsersOutputBoundary;
 import use_case.get_lists.get_blocked_users.GetBlockedUsersOutputData;
 import use_case.get_lists.get_watch_history.GetWatchHistoryOutputBoundary;
 import use_case.get_lists.get_watch_history.GetWatchHistoryOutputData;
-import use_case.get_lists.get_watchlist.GetWatchListOutputBoundary;
+import use_case.get_lists.get_watchlist.GetWatchlistOutputBoundary;
 import use_case.get_lists.get_watchlist.GetWatchlistOutputData;
 
-public class GetListsPresenter implements GetWatchListOutputBoundary, GetWatchHistoryOutputBoundary,
+public class GetListsPresenter implements GetWatchlistOutputBoundary, GetWatchHistoryOutputBoundary,
         GetBlockedUsersOutputBoundary {
 
     private final ViewManagerModel viewManagerModel;

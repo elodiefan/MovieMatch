@@ -1,8 +1,6 @@
 package interface_adapter.home_page;
 
 import interface_adapter.ViewManagerModel;
-import interface_adapter.account.AccountState;
-import interface_adapter.account.AccountViewModel;
 //import interface_adapter.search.SearchState;
 //import interface_adapter.search.SearchViewModel;
 import interface_adapter.other_account.OtherAccountState;

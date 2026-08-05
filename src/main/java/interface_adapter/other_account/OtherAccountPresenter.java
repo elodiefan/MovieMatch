@@ -10,7 +10,7 @@ import use_case.block_user.BlockUserOutputData;
 /**
  * The Presenter for Other Account.
  */
-public class OtherAccountPresenter implements BlockUserOutputBoundary, AccessMessageChatOutputBoundary {
+public class OtherAccountPresenter implements BlockUserOutputBoundary { //, AccessMessageChatOutputBoundary {
 
     private final OtherAccountViewModel otherAccountViewModel;
     private final ViewManagerModel viewManagerModel;
@@ -48,22 +48,22 @@ public class OtherAccountPresenter implements BlockUserOutputBoundary, AccessMes
         otherAccountViewModel.firePropertyChanged("changed block state");
     }
 
-    @Override
-    public void prepareAccessMessageChatSuccessView(AccessMessageChatOutputData response) {
-        final MessagingState messagingState = messagingViewModel.getState();
-        this.messagingViewModel.setstate(messagingState);
-        this.messagingViewModel.firePropertyChanged();
+//    @Override
+//    public void prepareAccessMessageChatSuccessView(AccessMessageChatOutputData response) {
+//        final MessagingState messagingState = messagingViewModel.getState();
+//        this.messagingViewModel.setstate(messagingState);
+//        this.messagingViewModel.firePropertyChanged();
+//
+//        this.viewManagerModel.setState(messagingViewModel.getViewName());
+//        this.viewManagerModel.firePropertyChanged();
+//    }
 
-        this.viewManagerModel.setState(messagingViewModel.getViewName());
-        this.viewManagerModel.firePropertyChanged();
-    }
-
-    @Override
-    public void prepareAccessMessageChatFailView(String error) {
-        final OtherAccountState otherAccountState = otherAccountViewModel.getState();
-        otherAccountState.setViewMessageError(error);
-        otherAccountViewModel.firePropertyChanged("cannot message");
-    }
+//    @Override
+//    public void prepareAccessMessageChatFailView(String error) {
+//        final OtherAccountState otherAccountState = otherAccountViewModel.getState();
+//        otherAccountState.setViewMessageError(error);
+//        otherAccountViewModel.firePropertyChanged("cannot message");
+//    }
 
 //TODO: switch to message view
 }
