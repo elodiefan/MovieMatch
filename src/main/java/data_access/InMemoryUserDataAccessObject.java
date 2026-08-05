@@ -87,6 +87,38 @@ public class InMemoryUserDataAccessObject implements UserDataAccessObject {
         return currentUser.getSecurityAnswer();
     }
 
+    // ---------- Get user profile ----------
+    @Override
+    public String getDisplayName(String username) {
+        return users.get(username).getDisplayName();
+    }
+
+    // ---------- Get security question ----------
+    @Override
+        public String getSecurityQuestion() {
+        return users.get(currentUsername).getSecurityQuestion();
+    }
+
+    // ---------- Block user ----------
+    @Override
+    public boolean alreadyBlocked(String otherUsername) {
+    }
+
+    @Override
+    public void addToBlockList(String otherUsername) {
+
+    }
+
+    @Override
+    public void removeFromBlockList(String otherUsername) {
+
+    }
+
+    // ---------- Access message chat view ----------
+    public boolean inBlockList(String otherUsername) {
+
+    }
+
     // ---------- Nothing to release ----------
 
     @Override

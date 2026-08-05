@@ -8,8 +8,11 @@ import interface_adapter.ViewModel;
  */
 public class ResetPasswordViewModel extends ViewModel<ResetPasswordState> {
 
+    public static final String VIEW_NAME = "reset password";
+    public static final String BACK_BUTTON = "back to login";
+
     public ResetPasswordViewModel() {
-        super("reset password");
+        super(VIEW_NAME);
         setState(new ResetPasswordState());
     }
 }

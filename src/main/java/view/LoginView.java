@@ -15,9 +15,11 @@ import javax.swing.JTextField;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 
+import interface_adapter.ViewManagerModel;
 import interface_adapter.login.LoginController;
 import interface_adapter.login.LoginState;
 import interface_adapter.login.LoginViewModel;
+import interface_adapter.security_question.SecurityQuestionViewModel;
 
 /**
  * The View for when the user is logging into the program.
@@ -35,12 +37,17 @@ public class LoginView extends JPanel implements ActionListener, PropertyChangeL
 
     private final JButton logIn;
     private final JButton signUp;
+    private final JButton forgotPassword;
     private LoginController loginController;
 
-    public LoginView(LoginViewModel loginViewModel) {
+    /** Used for the "Forgot Password" jump, which carries no data of its own. */
+    private final ViewManagerModel viewManagerModel;
+
+    public LoginView(LoginViewModel loginViewModel, ViewManagerModel viewManagerModel) {
 
         this.loginViewModel = loginViewModel;
         this.loginViewModel.addPropertyChangeListener(this);
+        this.viewManagerModel = viewManagerModel;
 
         final JLabel title = new JLabel("Login Screen");
         title.setAlignmentX(Component.CENTER_ALIGNMENT);
@@ -55,6 +62,8 @@ public class LoginView extends JPanel implements ActionListener, PropertyChangeL
         buttons.add(logIn);
         signUp = new JButton(LoginViewModel.SIGN_UP_BUTTON);
         buttons.add(signUp);
+        forgotPassword = new JButton(LoginViewModel.FORGOT_PASSWORD_BUTTON);
+        buttons.add(forgotPassword);
 
         logIn.addActionListener(
 //                new ActionListener() {
@@ -87,6 +96,18 @@ public class LoginView extends JPanel implements ActionListener, PropertyChangeL
                     @Override
                     public void actionPerformed(ActionEvent e) {
                         loginController.switchToSignUpView();
+                    }
+                }
+        );
+
+        // Opening the recovery screen is navigation only — there is nothing to
+        // look up or validate yet — so it does not go through a use case.
+        forgotPassword.addActionListener(
+                new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        viewManagerModel.setState(SecurityQuestionViewModel.VIEW_NAME);
+                        viewManagerModel.firePropertyChanged();
                     }
                 }
         );
@@ -158,14 +179,25 @@ public class LoginView extends JPanel implements ActionListener, PropertyChangeL
 
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
-        final LoginState state = (LoginState) evt.getNewValue();
-        setFields(state);
-        usernameErrorField.setText(state.getLoginError());
+        if (evt.getPropertyName().equals("log in")) {
+//            final LoginState state = (LoginState) evt.getNewValue();
+            clearFields();
+        }
+        else {
+            final LoginState state = (LoginState) evt.getNewValue();
+            setFields(state);
+            usernameErrorField.setText(state.getLoginError());
+        }
     }
 
     private void setFields(LoginState state) {
         usernameInputField.setText(state.getUsername());
         passwordInputField.setText(state.getPassword());
+    }
+
+    private void clearFields() {
+        usernameInputField.setText("");
+        passwordInputField.setText("");
     }
 
     public String getViewName() {

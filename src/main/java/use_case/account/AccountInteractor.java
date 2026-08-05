@@ -1,5 +1,8 @@
 package use_case.account;
 
+import use_case.home_page.HomePageInputData;
+import use_case.home_page.HomePageOutputData;
+
 /**
  * The Account Interactor.
  */
@@ -42,7 +45,10 @@ public class AccountInteractor implements AccountInputBoundary {
      */
     @Override
     public void switchToDeleteAccountView() {
-        accountPresenter.switchToDeleteAccountView();
+        final String username = userDataAccessObject.getCurrentUsername();
+        final String secuirtyQuestion = userDataAccessObject.getSecurityQuestion();
+        final AccountOutputData accountOutputData = new AccountOutputData(username, secuirtyQuestion);
+        accountPresenter.switchToDeleteAccountView(accountOutputData);
     }
 
 }

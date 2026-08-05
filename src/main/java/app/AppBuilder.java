@@ -6,15 +6,19 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.WindowConstants;
 
-import data_access.InMemoryUserDataAccessObject;
+import data_access.InMemoryLockoutTracker;
+import data_access.MongoUserDataAccessObject;
+import data_access.UserDataAccessObject;
 import interface_adapter.account.AccountController;
 import interface_adapter.account.AccountPresenter;
 import interface_adapter.account.AccountViewModel;
+import interface_adapter.comments.CommentsViewModel;
 import interface_adapter.delete_account.DeleteAccountController;
 import interface_adapter.delete_account.DeleteAccountPresenter;
 import interface_adapter.delete_account.DeleteAccountViewModel;
 import interface_adapter.home_page.HomePageController;
 import interface_adapter.home_page.HomePagePresenter;
+import interface_adapter.media_reviews.MediaReviewsViewModel;
 import interface_adapter.reset_password.ResetPasswordController;
 import interface_adapter.reset_password.ResetPasswordPresenter;
 import interface_adapter.reset_password.ResetPasswordViewModel;
@@ -28,11 +32,13 @@ import interface_adapter.home_page.HomePageViewModel;
 import interface_adapter.login.LoginController;
 import interface_adapter.login.LoginPresenter;
 import interface_adapter.login.LoginViewModel;
-//import interface_adapter.logout.LogoutController;
-//import interface_adapter.logout.LogoutPresenter;
+import interface_adapter.logout.LogoutController;
+import interface_adapter.logout.LogoutPresenter;
+import interface_adapter.logout.LogoutViewModel;
 import interface_adapter.signup.SignupController;
 import interface_adapter.signup.SignupPresenter;
 import interface_adapter.signup.SignupViewModel;
+import interface_adapter.user_reviews.UserReviewsViewModel;
 import use_case.account.AccountInputBoundary;
 import use_case.account.AccountInteractor;
 import use_case.account.AccountOutputBoundary;
@@ -45,9 +51,9 @@ import use_case.home_page.HomePageOutputBoundary;
 import use_case.login.LoginInputBoundary;
 import use_case.login.LoginInteractor;
 import use_case.login.LoginOutputBoundary;
-//import use_case.logout.LogoutInputBoundary;
-//import use_case.logout.LogoutInteractor;
-//import use_case.logout.LogoutOutputBoundary;
+import use_case.logout.LogoutInputBoundary;
+import use_case.logout.LogoutInteractor;
+import use_case.logout.LogoutOutputBoundary;
 import use_case.reset_password.ResetPasswordInputBoundary;
 import use_case.reset_password.ResetPasswordInteractor;
 import use_case.reset_password.ResetPasswordOutputBoundary;
@@ -57,14 +63,7 @@ import use_case.security_question.SecurityQuestionOutputBoundary;
 import use_case.signup.SignupInputBoundary;
 import use_case.signup.SignupInteractor;
 import use_case.signup.SignupOutputBoundary;
-import view.AccountView;
-import view.DeleteAccountView;
-import view.HomePageView;
-import view.LoginView;
-import view.ResetPasswordView;
-import view.SecurityQuestionView;
-import view.SignupView;
-import view.ViewManager;
+import view.*;
 
 /**
  * The AppBuilder class is responsible for putting together the pieces of
@@ -72,21 +71,20 @@ import view.ViewManager;
  * <p/>
  * This is done by adding each View and then adding related Use Cases.
  */
-// Checkstyle note: you can ignore the "Class Data Abstraction Coupling"
-//                  and the "Class Fan-Out Complexity" issues for this homework; you can
-//                  think about ways to refactor the code to resolve these if you decide
-//                  to work with this as starter code for your final project this term.
 public class AppBuilder {
     private final JPanel cardPanel = new JPanel();
     private final CardLayout cardLayout = new CardLayout();
-    // thought question: is the hard dependency below a problem?
     private final UserFactory userFactory = new StandardUserFactory();
     private final ViewManagerModel viewManagerModel = new ViewManagerModel();
     private final ViewManager viewManager = new ViewManager(cardPanel, cardLayout, viewManagerModel);
 
-    // thought question: is the hard dependency below a problem?
-    // private final DBUserDataAccessObject userDataAccessObject = new DBUserDataAccessObject(userFactory);
-    private final InMemoryUserDataAccessObject userDataAccessObject = new InMemoryUserDataAccessObject();
+    // Needs a mongo.properties file in the project root; see the MongoDB guide.
+    // Swap to InMemoryUserDataAccessObject to run without a network.
+    private final UserDataAccessObject userDataAccessObject = new MongoUserDataAccessObject();
+
+    // Counts failed security answers and holds lock-outs. One shared instance, so
+    // every attempt on the same account is counted together.
+    private final InMemoryLockoutTracker lockoutTracker = new InMemoryLockoutTracker();
 
     private AccountView accountView;
     private AccountViewModel accountViewModel;
@@ -96,8 +94,16 @@ public class AppBuilder {
     private HomePageViewModel homePageViewModel;
     private LoginView loginView;
     private LoginViewModel loginViewModel;
+    private LogoutConfirmView logoutView;
+    private LogoutViewModel logoutViewModel;
+    private CommentsPanel commentsPanel;
+    private CommentsViewModel commentsViewModel;
+    private MediaReviewsPanel mediaReviewsPanel;
+    private MediaReviewsViewModel mediaReviewsViewModel;
     private ResetPasswordView resetPasswordView;
     private ResetPasswordViewModel resetPasswordViewModel;
+    private MyReviewsView myReviewsView;
+    private UserReviewsViewModel userReviewsViewModel;
     private SecurityQuestionView securityQuestionView;
     private SecurityQuestionViewModel securityQuestionViewModel;
     private SignupView signupView;
@@ -146,8 +152,21 @@ public class AppBuilder {
      */
     public AppBuilder addLoginView() {
         loginViewModel = new LoginViewModel();
-        loginView = new LoginView(loginViewModel);
+        loginView = new LoginView(loginViewModel, viewManagerModel);
         cardPanel.add(loginView, loginView.getViewName());
+        return this;
+    }
+
+    // TODO: For Yidan -> Fix error on line 154. LogoutConfirmView takes in a String
+    //  but should maybe take in a view model.
+    /**
+     * Adds the Logout View to the application.
+     * @return this builder
+     */
+    public AppBuilder addLogoutView() {
+        logoutViewModel = new LogoutViewModel();
+        logoutView = new LogoutConfirmView(logoutViewModel);
+        cardPanel.add(logoutView, logoutView.getViewName());
         return this;
     }
 
@@ -157,8 +176,28 @@ public class AppBuilder {
      */
     public AppBuilder addResetPasswordView() {
         resetPasswordViewModel = new ResetPasswordViewModel();
-        resetPasswordView = new ResetPasswordView(resetPasswordViewModel);
+        resetPasswordView = new ResetPasswordView(resetPasswordViewModel, viewManagerModel);
         cardPanel.add(resetPasswordView, resetPasswordView.getViewName());
+        return this;
+    }
+
+    /**
+     * Adds review-related views and panels to the application.
+     * @return this builder
+     */
+    public AppBuilder addReviewsView() {
+        userReviewsViewModel = new UserReviewsViewModel();
+        mediaReviewsViewModel = new MediaReviewsViewModel();
+        commentsViewModel = new CommentsViewModel();
+
+        myReviewsView = new MyReviewsView(userReviewsViewModel);
+        mediaReviewsPanel = new MediaReviewsPanel(mediaReviewsViewModel,
+                commentsViewModel);
+        commentsPanel = new CommentsPanel(commentsViewModel);
+
+        cardPanel.add(myReviewsView, myReviewsView.getViewName());
+        cardPanel.add(mediaReviewsPanel, mediaReviewsViewModel.getViewName());
+        cardPanel.add(commentsPanel, commentsViewModel.getViewName());
         return this;
     }
 
@@ -168,7 +207,7 @@ public class AppBuilder {
      */
     public AppBuilder addSecurityQuestionView() {
         securityQuestionViewModel = new SecurityQuestionViewModel();
-        securityQuestionView = new SecurityQuestionView(securityQuestionViewModel);
+        securityQuestionView = new SecurityQuestionView(securityQuestionViewModel, viewManagerModel);
         cardPanel.add(securityQuestionView, securityQuestionView.getViewName());
         return this;
     }
@@ -189,8 +228,11 @@ public class AppBuilder {
      * @return this builder
      */
     public AppBuilder addAccountUseCase() {
-        final AccountOutputBoundary accountOutputBoundary = new AccountPresenter(viewManagerModel, accountViewModel,
-                resetPasswordViewModel, deleteAccountViewModel);
+//        final AccountOutputBoundary accountOutputBoundary = new AccountPresenter(
+//                viewManagerModel, accountViewModel, reviewsViewModel, null,
+//                resetPasswordViewModel, deleteAccountViewModel);
+        final AccountOutputBoundary accountOutputBoundary = new AccountPresenter(
+                viewManagerModel, accountViewModel, resetPasswordViewModel, deleteAccountViewModel);
         final AccountInputBoundary accountInteractor = new AccountInteractor(
                 userDataAccessObject, accountOutputBoundary);
 
@@ -205,7 +247,7 @@ public class AppBuilder {
      */
     public AppBuilder addDeleteAccountUseCase() {
         final DeleteAccountOutputBoundary deleteAccountOutputBoundary = new DeleteAccountPresenter(viewManagerModel,
-                deleteAccountViewModel, signupViewModel);
+                deleteAccountViewModel, signupViewModel, accountViewModel);
         final DeleteAccountInputBoundary deleteAccountInteractor = new DeleteAccountInteractor(
                 userDataAccessObject, deleteAccountOutputBoundary, userFactory);
 
@@ -214,11 +256,14 @@ public class AppBuilder {
         return this;
     }
 
+    // TODO: For Yidan/Kiersten -> Implement search view files.
     /**
      * Adds the Home Page Use Case to the application.
      * @return this builder
      */
     public AppBuilder addHomePageUseCase() {
+//        final HomePageOutputBoundary homePageOutputBoundary = new HomePagePresenter(viewManagerModel,
+//                homePageViewModel, searchViewModel, accountViewModel);
         final HomePageOutputBoundary homePageOutputBoundary = new HomePagePresenter(viewManagerModel,
                 homePageViewModel, accountViewModel);
         final HomePageInputBoundary homePageInteractor = new HomePageInteractor(
@@ -244,40 +289,63 @@ public class AppBuilder {
         return this;
     }
 
-//  TODO: FOR ENZO -> Fix [...] on line 254. ResetPasswordPresenter takes in PasswordResetCompletedHandler
-//    but I don't know what that is.
+//    // TODO: For Elodie -> Implement reviews files.
 //    /**
-//     * Adds the Reset Password Use Case to the application.
+//     * Adds the Reviews Use Case to the application.
 //     * @return this builder
 //     */
-//    public AppBuilder addResetPasswordUseCase() {
-//        final ResetPasswordOutputBoundary resetPasswordOutputBoundary = new ResetPasswordPresenter(
-//        resetPasswordViewModel, [...]);
-//        final ResetPasswordInputBoundary resetPasswordInteractor = new ResetPasswordInteractor(
-//                userDataAccessObject, resetPasswordOutputBoundary);
-//        final ResetPasswordController resetPasswordController = new ResetPasswordController(resetPasswordInteractor);
-//        resetPasswordView.setResetPasswordController(resetPasswordController);
+//    public AppBuilder addReviewsUseCase() {
+//        final ReviewsOutputBoundary reviewsOutputBoundary = new ReviewsPresenter(viewManagerModel, reviewsViewModel);
+//        final ReviewsInputBoundary reviewsInteractor = new ReviewsInteractor(
+//                userDataAccessObject, reviewsOutputBoundary);
+//
+//        final ReviewsController reviewsController = new ReviewsController(reviewsInteractor);
+//        reviewsView.setReviewsController(reviewsController);
 //        return this;
 //    }
 
+    /**
+     * Adds the Reset Password Use Case to the application.
+     * <p>
+     * A PasswordResetCompletedHandler is just "what happens once the new password
+     * is saved" — the presenter calls it so it does not need to know which screen
+     * comes next. Here that means sending the user back to the login screen so
+     * they can sign in with the password they just chose.
+     * @return this builder
+     */
+    public AppBuilder addResetPasswordUseCase() {
+        final ResetPasswordOutputBoundary resetPasswordOutputBoundary = new ResetPasswordPresenter(
+                resetPasswordViewModel,
+                username -> {
+                    viewManagerModel.setState(LoginViewModel.VIEW_NAME);
+                    viewManagerModel.firePropertyChanged();
+                });
+        final ResetPasswordInputBoundary resetPasswordInteractor = new ResetPasswordInteractor(
+                userDataAccessObject, resetPasswordOutputBoundary);
+        final ResetPasswordController resetPasswordController = new ResetPasswordController(resetPasswordInteractor);
+        resetPasswordView.setResetPasswordController(resetPasswordController);
+        return this;
+    }
 
-// TODO: FOR ENZO -> Fix [...] on line 275. SecurityQuestionInteractor takes in LockoutTracker,
-//  but I don't know what that is.
-//    /**
-//     * Adds the Security Question Use Case to the application.
-//     * @return this builder
-//     */
-//    public AppBuilder addSecurityQuestionUseCase() {
-//        final SecurityQuestionOutputBoundary securityQuestionOutputBoundary = new SecurityQuestionPresenter(
-//                securityQuestionViewModel,
-//                resetPasswordViewModel, viewManagerModel);
-//        final SecurityQuestionInputBoundary securityQuestionInteractor = new SecurityQuestionInteractor(
-//                userDataAccessObject, securityQuestionOutputBoundary, [...]);
-//        final SecurityQuestionController securityQuestionController = new SecurityQuestionController(
-//                securityQuestionInteractor);
-//        securityQuestionView.setSecurityQuestionController(securityQuestionController);
-//        return this;
-//    }
+    /**
+     * Adds the Security Question Use Case to the application.
+     * <p>
+     * A LockoutTracker records failed answers per account and locks it after too
+     * many wrong tries; {@link InMemoryLockoutTracker} keeps that in memory, so it
+     * resets when the app restarts.
+     * @return this builder
+     */
+    public AppBuilder addSecurityQuestionUseCase() {
+        final SecurityQuestionOutputBoundary securityQuestionOutputBoundary = new SecurityQuestionPresenter(
+                securityQuestionViewModel,
+                resetPasswordViewModel, viewManagerModel);
+        final SecurityQuestionInputBoundary securityQuestionInteractor = new SecurityQuestionInteractor(
+                userDataAccessObject, securityQuestionOutputBoundary, lockoutTracker);
+        final SecurityQuestionController securityQuestionController = new SecurityQuestionController(
+                securityQuestionInteractor);
+        securityQuestionView.setSecurityQuestionController(securityQuestionController);
+        return this;
+    }
 
     /**
      * Adds the Signup Use Case to the application.

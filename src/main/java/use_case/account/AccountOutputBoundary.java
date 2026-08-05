@@ -22,6 +22,7 @@ public interface AccountOutputBoundary {
 
     /**
      * Switches to Delete Account View.
+     * @param accountOutputData output data for account use case
      */
-    void switchToDeleteAccountView();
+    void switchToDeleteAccountView(AccountOutputData accountOutputData);
 }

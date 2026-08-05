@@ -1,6 +1,7 @@
 package interface_adapter.delete_account;
 
 import interface_adapter.ViewManagerModel;
+import interface_adapter.account.AccountViewModel;
 import interface_adapter.signup.SignupState;
 import interface_adapter.signup.SignupViewModel;
 import use_case.delete_account.DeleteAccountOutputBoundary;
@@ -15,13 +16,15 @@ public class DeleteAccountPresenter implements DeleteAccountOutputBoundary {
     private DeleteAccountViewModel deleteAccountViewModel;
     private ViewManagerModel viewManagerModel;
     private SignupViewModel signupViewModel;
+    private AccountViewModel accountViewModel;
 
     public DeleteAccountPresenter(ViewManagerModel viewManagerModel,
                                   DeleteAccountViewModel deleteAccountViewModel,
-                                  SignupViewModel signupViewModel) {
+                                  SignupViewModel signupViewModel, AccountViewModel accountViewModel) {
         this.deleteAccountViewModel = deleteAccountViewModel;
         this.viewManagerModel = viewManagerModel;
         this.signupViewModel = signupViewModel;
+        this.accountViewModel = accountViewModel;
     }
 
     @Override
@@ -29,7 +32,7 @@ public class DeleteAccountPresenter implements DeleteAccountOutputBoundary {
         final DeleteAccountState deleteAccountState = deleteAccountViewModel.getState();
         deleteAccountState.setUsername("");
         deleteAccountViewModel.setState(deleteAccountState);
-        deleteAccountViewModel.firePropertyChanged();
+        deleteAccountViewModel.firePropertyChanged("delete account");
 
         final SignupState signupState = signupViewModel.getState();
         signupState.setUsername("");
@@ -50,8 +53,8 @@ public class DeleteAccountPresenter implements DeleteAccountOutputBoundary {
     }
 
     @Override
-    public void switchToSignupView() {
-        viewManagerModel.setState(signupViewModel.getViewName());
+    public void switchToAccountView() {
+        viewManagerModel.setState(accountViewModel.getViewName());
         viewManagerModel.firePropertyChanged();
     }
 }

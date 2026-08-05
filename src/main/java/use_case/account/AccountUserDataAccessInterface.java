@@ -39,4 +39,10 @@ public interface AccountUserDataAccessInterface {
      */
     void setCurrentUsername(String username);
 
+    /**
+     * Gets the security question of the current user.
+     * @return the security question of the current user
+     */
+    String getSecurityQuestion();
+
 }
