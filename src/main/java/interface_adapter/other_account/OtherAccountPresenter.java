@@ -50,12 +50,10 @@ public class OtherAccountPresenter implements BlockUserOutputBoundary, AccessMes
 
     @Override
     public void prepareAccessMessageChatSuccessView(AccessMessageChatOutputData response) {
-        final MessagingState messagingState = messagingViewModel.getState();
-        this.messagingViewModel.setstate(messagingState);
-        this.messagingViewModel.firePropertyChanged();
-
-        this.viewManagerModel.setState(messagingViewModel.getViewName());
-        this.viewManagerModel.firePropertyChanged();
+        final OtherAccountState otherAccountState = otherAccountViewModel.getState();
+        otherAccountState.setViewMessageError(null);
+        otherAccountViewModel.setState(otherAccountState);
+        otherAccountViewModel.firePropertyChanged("can message");
     }
 
     @Override

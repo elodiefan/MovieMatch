@@ -26,6 +26,7 @@ public class PersonalAccountController {
 
     public PersonalAccountController(GetSecurityQuestionInputBoundary getSecurityQuestionInteractor, ViewManagerModel viewManagerModel) {
         this.getSecurityQuestionInteractor = getSecurityQuestionInteractor;
+        this.viewManagerModel = viewManagerModel;
     }
 
 //    /**

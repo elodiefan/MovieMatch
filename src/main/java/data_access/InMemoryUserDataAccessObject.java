@@ -1,7 +1,9 @@
 package data_access;
 
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 
 import entity.StandardUser;
 import entity.User;
@@ -17,6 +19,7 @@ import entity.User;
 public class InMemoryUserDataAccessObject implements UserDataAccessObject {
 
     private final Map<String, User> users = new HashMap<>();
+    private final Map<String, Set<String>> blockedUsers = new HashMap<>();
 
     private String currentUsername;
 
@@ -95,28 +98,34 @@ public class InMemoryUserDataAccessObject implements UserDataAccessObject {
 
     // ---------- Get security question ----------
     @Override
-        public String getSecurityQuestion() {
+    public String getSecurityQuestion() {
         return users.get(currentUsername).getSecurityQuestion();
+    }
+
+    @Override
+    public String getDisplayName() {
+        return users.get(currentUsername).getDisplayName();
     }
 
     // ---------- Block user ----------
     @Override
     public boolean alreadyBlocked(String otherUsername) {
+        return blockedUsers.getOrDefault(currentUsername, new HashSet<>()).contains(otherUsername);
     }
 
     @Override
     public void addToBlockList(String otherUsername) {
-
+        blockedUsers.computeIfAbsent(currentUsername, username -> new HashSet<>()).add(otherUsername);
     }
 
     @Override
     public void removeFromBlockList(String otherUsername) {
-
+        blockedUsers.getOrDefault(currentUsername, new HashSet<>()).remove(otherUsername);
     }
 
     // ---------- Access message chat view ----------
     public boolean inBlockList(String otherUsername) {
-
+        return alreadyBlocked(otherUsername);
     }
 
     // ---------- Nothing to release ----------

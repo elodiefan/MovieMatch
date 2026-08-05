@@ -45,9 +45,9 @@ import use_case.account.AccountOutputBoundary;
 import use_case.delete_account.DeleteAccountInputBoundary;
 import use_case.delete_account.DeleteAccountInteractor;
 import use_case.delete_account.DeleteAccountOutputBoundary;
-import use_case.home_page.HomePageInputBoundary;
-import use_case.home_page.HomePageInteractor;
-import use_case.home_page.HomePageOutputBoundary;
+import use_case.get_profile.GetProfileInputBoundary;
+import use_case.get_profile.GetProfileInteractor;
+import use_case.get_profile.GetProfileOutputBoundary;
 import use_case.login.LoginInputBoundary;
 import use_case.login.LoginInteractor;
 import use_case.login.LoginOutputBoundary;
@@ -264,10 +264,10 @@ public class AppBuilder {
     public AppBuilder addHomePageUseCase() {
 //        final HomePageOutputBoundary homePageOutputBoundary = new HomePagePresenter(viewManagerModel,
 //                homePageViewModel, searchViewModel, accountViewModel);
-        final HomePageOutputBoundary homePageOutputBoundary = new HomePagePresenter(viewManagerModel,
+        final GetProfileOutputBoundary homePageOutputBoundary = new HomePagePresenter(viewManagerModel,
                 homePageViewModel, accountViewModel);
-        final HomePageInputBoundary homePageInteractor = new HomePageInteractor(
-                userDataAccessObject, homePageOutputBoundary, userFactory);
+        final GetProfileInputBoundary homePageInteractor = new GetProfileInteractor(
+                userDataAccessObject, homePageOutputBoundary);
 
         final HomePageController homePageController = new HomePageController(homePageInteractor);
         homePageView.setHomePageController(homePageController);
@@ -308,7 +308,7 @@ public class AppBuilder {
      * Adds the Reset Password Use Case to the application.
      * <p>
      * A PasswordResetCompletedHandler is just "what happens once the new password
-     * is saved" — the presenter calls it so it does not need to know which screen
+     * is saved" - the presenter calls it so it does not need to know which screen
      * comes next. Here that means sending the user back to the login screen so
      * they can sign in with the password they just chose.
      * @return this builder

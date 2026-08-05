@@ -55,11 +55,19 @@ import use_case.home_page.HomePageOutputData;
 
 public class HomePagePresenter implements GetProfileOutputBoundary {
 
-    private HomePageViewModel homePageViewModel;
-    private ViewManagerModel viewManagerModel;
-    //private SearchViewModel searchViewModel;
+    private final HomePageViewModel homePageViewModel;
+    private final ViewManagerModel viewManagerModel;
+    private final AccountViewModel accountViewModel;
     private PersonalAccountViewModel personalAccountViewModel;
     private OtherAccountViewModel otherAccountViewModel;
+
+    public HomePagePresenter(ViewManagerModel viewManagerModel,
+                             HomePageViewModel homePageViewModel,
+                             AccountViewModel accountViewModel) {
+        this.viewManagerModel = viewManagerModel;
+        this.homePageViewModel = homePageViewModel;
+        this.accountViewModel = accountViewModel;
+    }
 
 //    @Override
 //    public void switchToSearchView() {
@@ -69,13 +77,13 @@ public class HomePagePresenter implements GetProfileOutputBoundary {
 
     @Override
     public void switchToPersonalAccountView(GetProfileOutputData response) {
-        final PersonalAccountState personalAccountState = personalAccountViewModel.getState();
-        personalAccountState.setUsername(response.getUsername());
-        personalAccountState.setDisplayName(response.getDisplayName());
-        personalAccountViewModel.setState(personalAccountState);
-        personalAccountViewModel.firePropertyChanged();
+        final AccountState accountState = accountViewModel.getState();
+        accountState.setUsername(response.getUsername());
+        accountState.setDisplayName(response.getDisplayName());
+        accountViewModel.setState(accountState);
+        accountViewModel.firePropertyChanged();
 
-        viewManagerModel.setState(personalAccountViewModel.getViewName());
+        viewManagerModel.setState(accountViewModel.getViewName());
         viewManagerModel.firePropertyChanged();
     }
 
