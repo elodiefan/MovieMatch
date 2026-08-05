@@ -43,7 +43,8 @@ public class InMemoryReviewDataAccessObject {
      */
     public Optional<Review> getReviewById(String reviewId) {
         return Optional.ofNullable(reviews.get(reviewId));
-        // Optional.ofNullable(...) is used because a review could exist or not exist, so this method
+        // Optional.ofNullable(...) is used because a review could exist or not
+        // exist, so this method
         // is there to make sure it will return an Optional with the review if it exists, otherwise
         // it will return an empty Optional
     }
