@@ -20,11 +20,23 @@ import com.mongodb.client.model.Filters;
 import com.mongodb.client.model.ReplaceOptions;
 import com.mongodb.client.model.Updates;
 import entity.Comment;
+import use_case.comment.CommentDataAccessInterface;
+import use_case.comment.CreateCommentDataAccessInterface;
+import use_case.comment.DeleteCommentDataAccessInterface;
+import use_case.comment.GetReviewCommentsDataAccessInterface;
+import use_case.comment.LikeCommentDataAccessInterface;
+import use_case.comment.UnlikeCommentDataAccessInterface;
 
 /**
  * MongoDB data access object for comments on reviews.
  */
-public class MongoCommentDataAccessObject {
+public class MongoCommentDataAccessObject implements
+        CommentDataAccessInterface,
+        CreateCommentDataAccessInterface,
+        DeleteCommentDataAccessInterface,
+        GetReviewCommentsDataAccessInterface,
+        LikeCommentDataAccessInterface,
+        UnlikeCommentDataAccessInterface {
 
     private static final String DEFAULT_PROPERTIES = "mongo.properties";
     private static final String DEFAULT_COLLECTION = "comments";
