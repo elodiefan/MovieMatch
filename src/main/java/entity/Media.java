@@ -57,4 +57,10 @@ public interface Media {
      */
     void updateRating(double rating);
 
+    /**
+     * Gets the type of this media.
+     *
+     * @return the media type
+     */
+    MediaType getMediaType();
 }

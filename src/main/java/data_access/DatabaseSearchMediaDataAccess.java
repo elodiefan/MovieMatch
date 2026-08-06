@@ -41,18 +41,13 @@ public class DatabaseSearchMediaDataAccess
     }
 
     private boolean matches(Media media, String[] words) {
-
+        final String title = media.getTitle().toLowerCase(Locale.ROOT);
         boolean result = true;
 
-        final String title = media.getTitle()
-                .toLowerCase(Locale.ROOT);
-
         for (String word : words) {
-
             if (!title.contains(word)) {
                 result = false;
             }
-
         }
 
         return result;
