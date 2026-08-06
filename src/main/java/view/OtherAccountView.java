@@ -139,6 +139,7 @@ public class OtherAccountView extends JPanel implements PropertyChangeListener {
         else if (evt.getPropertyName().equals("changed block state")) {
             final OtherAccountState state = (OtherAccountState) evt.getNewValue();
             blockButton.setText(state.getNextBlockOption());
+            repaint();
         }
         else if (evt.getPropertyName().equals("cannot message")) {
             JOptionPane.showMessageDialog(this, "Cannot message this user.");
