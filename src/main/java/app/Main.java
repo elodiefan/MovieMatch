@@ -36,6 +36,14 @@ public class Main {
 //                .addReviewsUseCase()
                 .addSecurityQuestionUseCase()
                 .addSignupUseCase()
+                .addSearchView()
+                .addSearchResultView()
+                .addSearchUseCase()
+                .addSearchView()
+                .addSearchResultView()
+                .addMediaDetailView()
+                .addSearchUseCase()
+                .addMediaDetailUseCase()
                 .build();
 
         application.pack();

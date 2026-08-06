@@ -7,7 +7,7 @@ import entity.TVShow;
 /**
  * A local database storing TV show information.
  */
-public class LocalTVShowDatabase {
+public class LocalTvShowDatabase {
 
     private final List<TVShow> tvShows;
 
@@ -16,7 +16,7 @@ public class LocalTVShowDatabase {
      *
      * @param tvShows the TV shows stored inside the database
      */
-    public LocalTVShowDatabase(List<TVShow> tvShows) {
+    public LocalTvShowDatabase(List<TVShow> tvShows) {
         this.tvShows = tvShows;
     }
 
@@ -25,7 +25,7 @@ public class LocalTVShowDatabase {
      *
      * @return all TV shows
      */
-    public List<TVShow> getTVShows() {
+    public List<TVShow> getTvShows() {
         return tvShows;
     }
 }

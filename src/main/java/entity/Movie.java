@@ -89,4 +89,9 @@ public class Movie implements Media {
     public void updateRating(double rating) {
         this.averageRating = rating;
     }
+
+    @Override
+    public MediaType getMediaType() {
+        return MediaType.MOVIE;
+    }
 }
