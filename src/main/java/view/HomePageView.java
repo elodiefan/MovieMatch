@@ -32,6 +32,7 @@ public class HomePageView extends JPanel implements PropertyChangeListener {
     private final JLabel recommendationsHeader;
 
     private final JButton searchButton;
+    private final JButton findUsersButton;
     private final JButton accountButton;
 
     public HomePageView(HomePageViewModel homePageViewModel) {
@@ -53,11 +54,23 @@ public class HomePageView extends JPanel implements PropertyChangeListener {
 
         final JPanel buttons = new JPanel();
         searchButton = new JButton(HomePageViewModel.SEARCH_BUTTON_LABEL);
+        findUsersButton = new JButton(HomePageViewModel.FIND_USERS_BUTTON_LABEL);
         accountButton = new JButton(HomePageViewModel.ACCOUNT_BUTTON_LABEL);
         buttons.add(searchButton);
+        buttons.add(findUsersButton);
         buttons.add(accountButton);
 
+        // Search looks for media, Find Users looks for people. Separate views.
         searchButton.addActionListener(
+                new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        homePageController.switchToSearchView();
+                    }
+                }
+        );
+
+        findUsersButton.addActionListener(
                 new ActionListener() {
                     @Override
                     public void actionPerformed(ActionEvent e) {

@@ -107,4 +107,9 @@ public class TVShow implements Media {
     public void updateRating(double rating) {
         this.averageRating = rating;
     }
+
+    @Override
+    public MediaType getMediaType() {
+        return MediaType.TV_SHOW;
+    }
 }

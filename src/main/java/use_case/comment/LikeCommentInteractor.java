@@ -1,70 +1,91 @@
 package use_case.comment;
 
-import java.util.List;
-
-import entity.Comment;
-
 /**
  * Interactor for liking a comment.
  */
-public class LikeCommentInteractor {
+public final class LikeCommentInteractor implements LikeCommentInputBoundary {
+    /** The comment data access object. */
+    private final LikeCommentDataAccessInterface commentDataAccessObject;
+    /** The presenter. */
+    private final LikeCommentOutputBoundary presenter;
 
     /**
-     * Adds a user's like to a comment.
-     * @param commentId the id of the comment to like
-     * @param username the username of the user liking the comment
-     * @param comments the comments to search through
-     * @return true if the comment was found and liked
+     * Creates a like comment interactor without persistence.
      */
-    public boolean likeComment(final String commentId, final String username,
-                               final List<Comment> comments) {
-        final String trimmedCommentId = trimToEmpty(commentId);
-        final String trimmedUsername = trimToEmpty(username);
-        validateLikeCommentData(trimmedCommentId, trimmedUsername, comments);
+    public LikeCommentInteractor() {
+        this(null, null);
+    }
 
-        boolean liked = false;
-        for (Comment comment : comments) {
-            if (isMatchingComment(comment, trimmedCommentId)) {
-                comment.like(trimmedUsername);
-                liked = true;
+    /**
+     * Creates a like comment interactor with persistence.
+     * @param inputCommentDataAccessObject the DAO used to like comments
+     */
+    public LikeCommentInteractor(
+            final LikeCommentDataAccessInterface inputCommentDataAccessObject) {
+        this(inputCommentDataAccessObject, null);
+    }
+
+    /**
+     * Handles this review or comment operation.
+     * @param inputCommentDataAccessObject the inputCommentDataAccessObject
+     * @param inputPresenter the inputPresenter
+     */
+    public LikeCommentInteractor(
+            final LikeCommentDataAccessInterface inputCommentDataAccessObject,
+            final LikeCommentOutputBoundary inputPresenter) {
+        this.commentDataAccessObject = inputCommentDataAccessObject;
+        this.presenter = inputPresenter;
+    }
+
+    @Override
+    public void execute(final LikeCommentInputData inputData) {
+        try {
+            validatePresenter();
+            final boolean liked = likeComment(inputData.getCommentId(),
+                    inputData.getUsername());
+            presenter.prepareSuccessView(new LikeCommentOutputData(liked));
+        } catch (IllegalArgumentException | IllegalStateException error) {
+            if (presenter != null) {
+                presenter.prepareFailView(error.getMessage());
             }
         }
-
-        return liked;
     }
 
     /**
-     * Checks whether a comment has the requested comment id.
-     * @param comment the comment to check
-     * @param commentId the comment id to match
-     * @return true if the comment has the requested id
+     * Adds a user's like to a persisted comment.
+     * @param commentId the id of the comment to like
+     * @param username the username of the user liking the comment
+     * @return true if the comment was found and liked
      */
-    private boolean isMatchingComment(final Comment comment,
-                                      final String commentId) {
-        final boolean matchingComment;
-        if (comment == null) {
-            matchingComment = false;
-        } else {
-            matchingComment = comment.getCommentId().equals(commentId);
-        }
-        return matchingComment;
+    private boolean likeComment(final String commentId, final String username) {
+        final String trimmedCommentId = trimToEmpty(commentId);
+        final String trimmedUsername = trimToEmpty(username);
+        validateLikeCommentData(trimmedCommentId, trimmedUsername);
+        return commentDataAccessObject.likeComment(trimmedCommentId,
+                trimmedUsername);
     }
 
     /**
-     * Validates the data needed to like a comment.
+     * Validates the data needed to like a persisted comment.
      * @param commentId the comment id to validate
      * @param username the username to validate
-     * @param comments the comment list to validate
      */
     private void validateLikeCommentData(final String commentId,
-                                         final String username,
-                                         final List<Comment> comments) {
+                                         final String username) {
         if (isBlank(commentId)) {
             throw new IllegalArgumentException("Comment id cannot be empty.");
         } else if (isBlank(username)) {
             throw new IllegalArgumentException("Username cannot be empty.");
-        } else if (comments == null) {
-            throw new IllegalArgumentException("Comments cannot be null.");
+        } else if (commentDataAccessObject == null) {
+            throw new IllegalStateException(
+                    "Comment data access object has not been configured.");
+        }
+    }
+
+    private void validatePresenter() {
+        if (presenter == null) {
+            throw new IllegalStateException(
+                    "Like comment presenter has not been configured.");
         }
     }
 

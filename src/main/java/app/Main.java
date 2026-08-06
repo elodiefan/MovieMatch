@@ -38,6 +38,12 @@ public class Main {
                 .addSearchUserUseCase()
                 .addSecurityQuestionUseCase()
                 .addSignupUseCase()
+                .addSearchView()
+                .addSearchResultView()
+                .addSearchUseCase()
+                .addFilterUseCase()
+                .addMediaDetailView()
+                .addMediaDetailUseCase()
                 .build();
 
         application.pack();
