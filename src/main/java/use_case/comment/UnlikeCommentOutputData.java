@@ -3,13 +3,22 @@ package use_case.comment;
 /**
  * Output data for unliking a comment.
  */
-public class UnlikeCommentOutputData {
+public final class UnlikeCommentOutputData {
+    /** The unliked. */
     private final boolean unliked;
 
-    public UnlikeCommentOutputData(final boolean unliked) {
-        this.unliked = unliked;
+    /**
+     * Handles this review or comment operation.
+     * @param inputUnliked the inputUnliked
+     */
+    public UnlikeCommentOutputData(final boolean inputUnliked) {
+        this.unliked = inputUnliked;
     }
 
+    /**
+     * Handles this review or comment operation.
+     * @return the result
+     */
     public boolean isUnliked() {
         return unliked;
     }

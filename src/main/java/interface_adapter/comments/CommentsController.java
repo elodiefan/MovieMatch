@@ -14,32 +14,39 @@ import use_case.comment.UnlikeCommentInputData;
 /**
  * Controller for review comments.
  */
-public class CommentsController {
+public final class CommentsController {
+    /** The get review comments interactor. */
     private final GetReviewCommentsInputBoundary getReviewCommentsInteractor;
+    /** The create comment interactor. */
     private final CreateCommentInputBoundary createCommentInteractor;
+    /** The delete comment interactor. */
     private final DeleteCommentInputBoundary deleteCommentInteractor;
+    /** The like comment interactor. */
     private final LikeCommentInputBoundary likeCommentInteractor;
+    /** The unlike comment interactor. */
     private final UnlikeCommentInputBoundary unlikeCommentInteractor;
 
     /**
      * Creates a controller for comment actions.
-     * @param getReviewCommentsInteractor the interactor for loading comments
-     * @param createCommentInteractor the interactor for creating comments
-     * @param deleteCommentInteractor the interactor for deleting comments
-     * @param likeCommentInteractor the interactor for liking comments
-     * @param unlikeCommentInteractor the interactor for unliking comments
+     * @param inputGetReviewCommentsInteractor the interactor for loading
+     *                                         comments
+     * @param inputCreateCommentInteractor the interactor for creating comments
+     * @param inputDeleteCommentInteractor the interactor for deleting comments
+     * @param inputLikeCommentInteractor the interactor for liking comments
+     * @param inputUnlikeCommentInteractor the interactor for unliking comments
      */
     public CommentsController(
-            final GetReviewCommentsInputBoundary getReviewCommentsInteractor,
-            final CreateCommentInputBoundary createCommentInteractor,
-            final DeleteCommentInputBoundary deleteCommentInteractor,
-            final LikeCommentInputBoundary likeCommentInteractor,
-            final UnlikeCommentInputBoundary unlikeCommentInteractor) {
-        this.getReviewCommentsInteractor = getReviewCommentsInteractor;
-        this.createCommentInteractor = createCommentInteractor;
-        this.deleteCommentInteractor = deleteCommentInteractor;
-        this.likeCommentInteractor = likeCommentInteractor;
-        this.unlikeCommentInteractor = unlikeCommentInteractor;
+            final GetReviewCommentsInputBoundary
+                    inputGetReviewCommentsInteractor,
+            final CreateCommentInputBoundary inputCreateCommentInteractor,
+            final DeleteCommentInputBoundary inputDeleteCommentInteractor,
+            final LikeCommentInputBoundary inputLikeCommentInteractor,
+            final UnlikeCommentInputBoundary inputUnlikeCommentInteractor) {
+        this.getReviewCommentsInteractor = inputGetReviewCommentsInteractor;
+        this.createCommentInteractor = inputCreateCommentInteractor;
+        this.deleteCommentInteractor = inputDeleteCommentInteractor;
+        this.likeCommentInteractor = inputLikeCommentInteractor;
+        this.unlikeCommentInteractor = inputUnlikeCommentInteractor;
     }
 
     /**

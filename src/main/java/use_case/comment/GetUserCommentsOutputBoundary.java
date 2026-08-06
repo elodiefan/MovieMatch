@@ -13,6 +13,7 @@ public interface GetUserCommentsOutputBoundary {
     /**
      * Prepares the failure view.
      * @param errorMessage the error message
+     * @return the display-safe error message
      */
     String prepareFailView(String errorMessage);
 }

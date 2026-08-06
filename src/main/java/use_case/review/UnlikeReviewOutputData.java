@@ -3,13 +3,22 @@ package use_case.review;
 /**
  * Output data for unliking a review.
  */
-public class UnlikeReviewOutputData {
+public final class UnlikeReviewOutputData {
+    /** The unliked. */
     private final boolean unliked;
 
-    public UnlikeReviewOutputData(final boolean unliked) {
-        this.unliked = unliked;
+    /**
+     * Handles this review or comment operation.
+     * @param inputUnliked the inputUnliked
+     */
+    public UnlikeReviewOutputData(final boolean inputUnliked) {
+        this.unliked = inputUnliked;
     }
 
+    /**
+     * Handles this review or comment operation.
+     * @return the result
+     */
     public boolean isUnliked() {
         return unliked;
     }

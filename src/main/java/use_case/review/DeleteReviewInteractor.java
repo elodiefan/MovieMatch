@@ -9,8 +9,10 @@ import entity.Review;
 /**
  * Interactor for deleting a review.
  */
-public class DeleteReviewInteractor implements DeleteReviewInputBoundary {
+public final class DeleteReviewInteractor implements DeleteReviewInputBoundary {
+    /** The review data access object. */
     private final DeleteReviewDataAccessInterface reviewDataAccessObject;
+    /** The presenter. */
     private final DeleteReviewOutputBoundary presenter;
 
     /**
@@ -22,18 +24,23 @@ public class DeleteReviewInteractor implements DeleteReviewInputBoundary {
 
     /**
      * Creates a delete review interactor with persistence.
-     * @param reviewDataAccessObject the DAO used to delete reviews
+     * @param inputReviewDataAccessObject the DAO used to delete reviews
      */
     public DeleteReviewInteractor(
-            final DeleteReviewDataAccessInterface reviewDataAccessObject) {
-        this(reviewDataAccessObject, null);
+            final DeleteReviewDataAccessInterface inputReviewDataAccessObject) {
+        this(inputReviewDataAccessObject, null);
     }
 
+    /**
+     * Handles this review or comment operation.
+     * @param inputReviewDataAccessObject the inputReviewDataAccessObject
+     * @param inputPresenter the inputPresenter
+     */
     public DeleteReviewInteractor(
-            final DeleteReviewDataAccessInterface reviewDataAccessObject,
-            final DeleteReviewOutputBoundary presenter) {
-        this.reviewDataAccessObject = reviewDataAccessObject;
-        this.presenter = presenter;
+            final DeleteReviewDataAccessInterface inputReviewDataAccessObject,
+            final DeleteReviewOutputBoundary inputPresenter) {
+        this.reviewDataAccessObject = inputReviewDataAccessObject;
+        this.presenter = inputPresenter;
     }
 
     @Override

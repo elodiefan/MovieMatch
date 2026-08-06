@@ -5,13 +5,22 @@ import entity.Comment;
 /**
  * Output data for creating a comment.
  */
-public class CreateCommentOutputData {
+public final class CreateCommentOutputData {
+    /** The comment. */
     private final Comment comment;
 
-    public CreateCommentOutputData(final Comment comment) {
-        this.comment = comment;
+    /**
+     * Handles this review or comment operation.
+     * @param inputComment the inputComment
+     */
+    public CreateCommentOutputData(final Comment inputComment) {
+        this.comment = inputComment;
     }
 
+    /**
+     * Handles this review or comment operation.
+     * @return the result
+     */
     public Comment getComment() {
         return comment;
     }

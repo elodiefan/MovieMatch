@@ -9,8 +9,11 @@ import entity.Comment;
 /**
  * Interactor for deleting a comment.
  */
-public class DeleteCommentInteractor implements DeleteCommentInputBoundary {
+public final class DeleteCommentInteractor
+        implements DeleteCommentInputBoundary {
+    /** The comment data access object. */
     private final DeleteCommentDataAccessInterface commentDataAccessObject;
+    /** The presenter. */
     private final DeleteCommentOutputBoundary presenter;
 
     /**
@@ -22,18 +25,24 @@ public class DeleteCommentInteractor implements DeleteCommentInputBoundary {
 
     /**
      * Creates a delete comment interactor with persistence.
-     * @param commentDataAccessObject the DAO used to delete comments
+     * @param inputCommentDataAccessObject the DAO used to delete comments
      */
     public DeleteCommentInteractor(
-            final DeleteCommentDataAccessInterface commentDataAccessObject) {
-        this(commentDataAccessObject, null);
+            final DeleteCommentDataAccessInterface
+                    inputCommentDataAccessObject) {
+        this(inputCommentDataAccessObject, null);
     }
 
+    /**
+     * Handles this review or comment operation.
+     * @param inputCommentDataAccessObject the inputCommentDataAccessObject
+     * @param inputPresenter the inputPresenter
+     */
     public DeleteCommentInteractor(
-            final DeleteCommentDataAccessInterface commentDataAccessObject,
-            final DeleteCommentOutputBoundary presenter) {
-        this.commentDataAccessObject = commentDataAccessObject;
-        this.presenter = presenter;
+            final DeleteCommentDataAccessInterface inputCommentDataAccessObject,
+            final DeleteCommentOutputBoundary inputPresenter) {
+        this.commentDataAccessObject = inputCommentDataAccessObject;
+        this.presenter = inputPresenter;
     }
 
     @Override

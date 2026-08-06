@@ -3,15 +3,16 @@ package use_case.comment;
 /**
  * Input data for loading comments written by one user.
  */
-public class GetUserCommentsInputData {
+public final class GetUserCommentsInputData {
+    /** The username. */
     private final String username;
 
     /**
      * Creates input data for loading user comments.
-     * @param username the username whose comments should be loaded
+     * @param inputUsername the username whose comments should be loaded
      */
-    public GetUserCommentsInputData(final String username) {
-        this.username = username;
+    public GetUserCommentsInputData(final String inputUsername) {
+        this.username = inputUsername;
     }
 
     /**

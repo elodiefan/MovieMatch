@@ -8,15 +8,16 @@ import entity.Review;
 /**
  * Output data for loading reviews written by one user.
  */
-public class GetUserReviewsOutputData {
+public final class GetUserReviewsOutputData {
+    /** The reviews. */
     private final List<Review> reviews;
 
     /**
      * Creates output data for loaded user reviews.
-     * @param reviews the loaded reviews
+     * @param inputReviews the loaded reviews
      */
-    public GetUserReviewsOutputData(final List<Review> reviews) {
-        this.reviews = new ArrayList<>(reviews);
+    public GetUserReviewsOutputData(final List<Review> inputReviews) {
+        this.reviews = new ArrayList<>(inputReviews);
     }
 
     /**

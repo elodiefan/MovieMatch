@@ -21,10 +21,11 @@ import use_case.review.UnlikeReviewOutputData;
 /**
  * Presenter for the media reviews panel.
  */
-public class MediaReviewsPresenter implements GetMediaReviewsOutputBoundary,
-        CreateReviewOutputBoundary, EditReviewOutputBoundary,
-        DeleteReviewOutputBoundary, LikeReviewOutputBoundary,
-        UnlikeReviewOutputBoundary {
+public final class MediaReviewsPresenter
+        implements GetMediaReviewsOutputBoundary, CreateReviewOutputBoundary,
+        EditReviewOutputBoundary, DeleteReviewOutputBoundary,
+        LikeReviewOutputBoundary, UnlikeReviewOutputBoundary {
+    /** The media reviews view model. */
     private final MediaReviewsViewModel mediaReviewsViewModel;
 
     /**
@@ -36,11 +37,11 @@ public class MediaReviewsPresenter implements GetMediaReviewsOutputBoundary,
 
     /**
      * Creates a presenter for the media reviews view model.
-     * @param mediaReviewsViewModel the view model to update
+     * @param inputMediaReviewsViewModel the view model to update
      */
     public MediaReviewsPresenter(
-            final MediaReviewsViewModel mediaReviewsViewModel) {
-        this.mediaReviewsViewModel = mediaReviewsViewModel;
+            final MediaReviewsViewModel inputMediaReviewsViewModel) {
+        this.mediaReviewsViewModel = inputMediaReviewsViewModel;
     }
 
     @Override
@@ -131,11 +132,7 @@ public class MediaReviewsPresenter implements GetMediaReviewsOutputBoundary,
      * @return the displayed media review row
      */
     private MediaReviewRow createReviewRow(final Review review) {
-        return new MediaReviewRow(review.getReviewId(),
-                review.getAuthorUsername(), review.getAuthorDisplayName(),
-                review.getRating(), review.getReviewText(),
-                review.getCreatedAt(), review.getUpdatedAt(),
-                review.getLikeCount());
+        return new MediaReviewRow(review);
     }
 
     /**
@@ -151,41 +148,36 @@ public class MediaReviewsPresenter implements GetMediaReviewsOutputBoundary,
      * Display data for one community review on a media page.
      */
     public static final class MediaReviewRow {
+        /** The review id. */
         private final String reviewId;
+        /** The author username. */
         private final String authorUsername;
+        /** The author display name. */
         private final String authorDisplayName;
+        /** The rating. */
         private final double rating;
+        /** The review text. */
         private final String reviewText;
+        /** The created at. */
         private final ZonedDateTime createdAt;
+        /** The updated at. */
         private final ZonedDateTime updatedAt;
+        /** The like count. */
         private final int likeCount;
 
         /**
          * Creates display data for one media review row.
-         * @param reviewId the review id
-         * @param authorUsername the author's username
-         * @param authorDisplayName the author's display name
-         * @param rating the review rating percentage
-         * @param reviewText the review text
-         * @param createdAt the review creation time
-         * @param updatedAt the review update time
-         * @param likeCount the number of likes on the review
+         * @param review the review to present
          */
-        public MediaReviewRow(final String reviewId,
-                              final String authorUsername,
-                              final String authorDisplayName,
-                              final double rating, final String reviewText,
-                              final ZonedDateTime createdAt,
-                              final ZonedDateTime updatedAt,
-                              final int likeCount) {
-            this.reviewId = reviewId;
-            this.authorUsername = authorUsername;
-            this.authorDisplayName = authorDisplayName;
-            this.rating = rating;
-            this.reviewText = reviewText;
-            this.createdAt = createdAt;
-            this.updatedAt = updatedAt;
-            this.likeCount = likeCount;
+        public MediaReviewRow(final Review review) {
+            this.reviewId = review.getReviewId();
+            this.authorUsername = review.getAuthorUsername();
+            this.authorDisplayName = review.getAuthorDisplayName();
+            this.rating = review.getRating();
+            this.reviewText = review.getReviewText();
+            this.createdAt = review.getCreatedAt();
+            this.updatedAt = review.getUpdatedAt();
+            this.likeCount = review.getLikeCount();
         }
 
         /**

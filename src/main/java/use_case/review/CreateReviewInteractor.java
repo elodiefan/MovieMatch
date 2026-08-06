@@ -9,7 +9,7 @@ import entity.UserContent;
 /**
  * Interactor for creating a review.
  */
-public class CreateReviewInteractor implements CreateReviewInputBoundary {
+public final class CreateReviewInteractor implements CreateReviewInputBoundary {
     /**
      * Smallest valid rating percentage.
      */
@@ -25,7 +25,9 @@ public class CreateReviewInteractor implements CreateReviewInputBoundary {
      */
     private static final String MOVIEMATCH_SOURCE = "moviematch";
 
+    /** The review data access object. */
     private final CreateReviewDataAccessInterface reviewDataAccessObject;
+    /** The presenter. */
     private final CreateReviewOutputBoundary presenter;
 
     /**
@@ -37,23 +39,23 @@ public class CreateReviewInteractor implements CreateReviewInputBoundary {
 
     /**
      * Creates a review interactor with persistence.
-     * @param reviewDataAccessObject the DAO used to save reviews
+     * @param inputReviewDataAccessObject the DAO used to save reviews
      */
     public CreateReviewInteractor(
-            final CreateReviewDataAccessInterface reviewDataAccessObject) {
-        this(reviewDataAccessObject, null);
+            final CreateReviewDataAccessInterface inputReviewDataAccessObject) {
+        this(inputReviewDataAccessObject, null);
     }
 
     /**
      * Creates a review interactor with persistence and presentation.
-     * @param reviewDataAccessObject the DAO used to save reviews
-     * @param presenter the output boundary
+     * @param inputReviewDataAccessObject the DAO used to save reviews
+     * @param inputPresenter the output boundary
      */
     public CreateReviewInteractor(
-            final CreateReviewDataAccessInterface reviewDataAccessObject,
-            final CreateReviewOutputBoundary presenter) {
-        this.reviewDataAccessObject = reviewDataAccessObject;
-        this.presenter = presenter;
+            final CreateReviewDataAccessInterface inputReviewDataAccessObject,
+            final CreateReviewOutputBoundary inputPresenter) {
+        this.reviewDataAccessObject = inputReviewDataAccessObject;
+        this.presenter = inputPresenter;
     }
 
     /**

@@ -19,9 +19,10 @@ import use_case.comment.UnlikeCommentOutputData;
 /**
  * Presenter for review comments.
  */
-public class CommentsPresenter implements GetReviewCommentsOutputBoundary,
+public final class CommentsPresenter implements GetReviewCommentsOutputBoundary,
         CreateCommentOutputBoundary, DeleteCommentOutputBoundary,
         LikeCommentOutputBoundary, UnlikeCommentOutputBoundary {
+    /** The comments view model. */
     private final CommentsViewModel commentsViewModel;
 
     /**
@@ -33,14 +34,15 @@ public class CommentsPresenter implements GetReviewCommentsOutputBoundary,
 
     /**
      * Creates a presenter for the comments view model.
-     * @param commentsViewModel the view model to update
+     * @param inputCommentsViewModel the view model to update
      */
-    public CommentsPresenter(final CommentsViewModel commentsViewModel) {
-        this.commentsViewModel = commentsViewModel;
+    public CommentsPresenter(final CommentsViewModel inputCommentsViewModel) {
+        this.commentsViewModel = inputCommentsViewModel;
     }
 
     @Override
-    public void prepareSuccessView(final GetReviewCommentsOutputData outputData) {
+    public void prepareSuccessView(
+            final GetReviewCommentsOutputData outputData) {
         final CommentsState state = commentsViewModel.getState();
         final List<CommentRow> commentRows = state.getComments();
         commentRows.removeIf(comment -> comment.getReviewId().equals(
@@ -126,10 +128,7 @@ public class CommentsPresenter implements GetReviewCommentsOutputBoundary,
      * @return the displayed comment row
      */
     private CommentRow createCommentRow(final Comment comment) {
-        return new CommentRow(comment.getCommentId(), comment.getReviewId(),
-                comment.getParentCommentId(), comment.getAuthorUsername(),
-                comment.getAuthorDisplayName(), comment.getCommentText(),
-                comment.getCreatedAt(), comment.getLikeCount());
+        return new CommentRow(comment);
     }
 
     /**
@@ -145,41 +144,36 @@ public class CommentsPresenter implements GetReviewCommentsOutputBoundary,
      * Display data for one comment.
      */
     public static final class CommentRow {
+        /** The comment id. */
         private final String commentId;
+        /** The review id. */
         private final String reviewId;
+        /** The parent comment id. */
         private final String parentCommentId;
+        /** The author username. */
         private final String authorUsername;
+        /** The author display name. */
         private final String authorDisplayName;
+        /** The comment text. */
         private final String commentText;
+        /** The created at. */
         private final ZonedDateTime createdAt;
+        /** The like count. */
         private final int likeCount;
 
         /**
          * Creates display data for one comment row.
-         * @param commentId the comment id
-         * @param reviewId the review id
-         * @param parentCommentId the parent comment id
-         * @param authorUsername the author's username
-         * @param authorDisplayName the author's display name
-         * @param commentText the comment text
-         * @param createdAt the comment creation time
-         * @param likeCount the number of likes on the comment
+         * @param comment the comment to present
          */
-        public CommentRow(final String commentId, final String reviewId,
-                          final String parentCommentId,
-                          final String authorUsername,
-                          final String authorDisplayName,
-                          final String commentText,
-                          final ZonedDateTime createdAt,
-                          final int likeCount) {
-            this.commentId = commentId;
-            this.reviewId = reviewId;
-            this.parentCommentId = parentCommentId;
-            this.authorUsername = authorUsername;
-            this.authorDisplayName = authorDisplayName;
-            this.commentText = commentText;
-            this.createdAt = createdAt;
-            this.likeCount = likeCount;
+        public CommentRow(final Comment comment) {
+            this.commentId = comment.getCommentId();
+            this.reviewId = comment.getReviewId();
+            this.parentCommentId = comment.getParentCommentId();
+            this.authorUsername = comment.getAuthorUsername();
+            this.authorDisplayName = comment.getAuthorDisplayName();
+            this.commentText = comment.getCommentText();
+            this.createdAt = comment.getCreatedAt();
+            this.likeCount = comment.getLikeCount();
         }
 
         /**

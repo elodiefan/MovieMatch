@@ -11,35 +11,44 @@ import entity.Review;
 /**
  * Interactor for loading comments written by one user.
  */
-public class GetUserCommentsInteractor implements GetUserCommentsInputBoundary {
+public final class GetUserCommentsInteractor
+        implements GetUserCommentsInputBoundary {
+    /** The comment data access object. */
     private final GetUserCommentsDataAccessInterface commentDataAccessObject;
-    private final GetUserCommentsReviewDataAccessInterface reviewDataAccessObject;
+    /** The review data access object. */
+    private final GetUserCommentsReviewDataAccessInterface
+            reviewDataAccessObject;
+    /** The user comments presenter. */
     private final GetUserCommentsOutputBoundary userCommentsPresenter;
 
     /**
      * Creates a user comments interactor.
-     * @param commentDataAccessObject the DAO used to load comments
-     * @param reviewDataAccessObject the DAO used to load related reviews
+     * @param inputCommentDataAccessObject the DAO used to load comments
+     * @param inputReviewDataAccessObject the DAO used to load related reviews
      */
     public GetUserCommentsInteractor(
-            final GetUserCommentsDataAccessInterface commentDataAccessObject,
-            final GetUserCommentsReviewDataAccessInterface reviewDataAccessObject) {
-        this(commentDataAccessObject, reviewDataAccessObject, null);
+            final GetUserCommentsDataAccessInterface
+                    inputCommentDataAccessObject,
+            final GetUserCommentsReviewDataAccessInterface
+                    inputReviewDataAccessObject) {
+        this(inputCommentDataAccessObject, inputReviewDataAccessObject, null);
     }
 
     /**
      * Creates a user comments interactor.
-     * @param commentDataAccessObject the DAO used to load comments
-     * @param reviewDataAccessObject the DAO used to load related reviews
-     * @param userCommentsPresenter the output boundary
+     * @param inputCommentDataAccessObject the DAO used to load comments
+     * @param inputReviewDataAccessObject the DAO used to load related reviews
+     * @param inputUserCommentsPresenter the output boundary
      */
     public GetUserCommentsInteractor(
-            final GetUserCommentsDataAccessInterface commentDataAccessObject,
-            final GetUserCommentsReviewDataAccessInterface reviewDataAccessObject,
-            final GetUserCommentsOutputBoundary userCommentsPresenter) {
-        this.commentDataAccessObject = commentDataAccessObject;
-        this.reviewDataAccessObject = reviewDataAccessObject;
-        this.userCommentsPresenter = userCommentsPresenter;
+            final GetUserCommentsDataAccessInterface
+                    inputCommentDataAccessObject,
+            final GetUserCommentsReviewDataAccessInterface
+                    inputReviewDataAccessObject,
+            final GetUserCommentsOutputBoundary inputUserCommentsPresenter) {
+        this.commentDataAccessObject = inputCommentDataAccessObject;
+        this.reviewDataAccessObject = inputReviewDataAccessObject;
+        this.userCommentsPresenter = inputUserCommentsPresenter;
     }
 
     /**

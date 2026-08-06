@@ -5,39 +5,46 @@ import java.time.ZonedDateTime;
 /**
  * Summary data for one comment written by a user.
  */
-public class UserCommentSummaryData {
+public final class UserCommentSummaryData {
+    /** The comment id. */
     private final String commentId;
+    /** The review id. */
     private final String reviewId;
+    /** The media title. */
     private final String mediaTitle;
+    /** The review text. */
     private final String reviewText;
+    /** The comment text. */
     private final String commentText;
+    /** The created at. */
     private final ZonedDateTime createdAt;
+    /** The like count. */
     private final int likeCount;
 
     /**
      * Creates summary data for one user comment.
-     * @param commentId the comment id
-     * @param reviewId the review id
-     * @param mediaTitle the reviewed media title
-     * @param reviewText the review text the user commented on
-     * @param commentText the user's comment text
-     * @param createdAt the comment creation time
-     * @param likeCount the number of likes on the comment
+     * @param inputCommentId the comment id
+     * @param inputReviewId the review id
+     * @param inputMediaTitle the reviewed media title
+     * @param inputReviewText the review text the user commented on
+     * @param inputCommentText the user's comment text
+     * @param inputCreatedAt the comment creation time
+     * @param inputLikeCount the number of likes on the comment
      */
-    public UserCommentSummaryData(final String commentId,
-                                  final String reviewId,
-                                  final String mediaTitle,
-                                  final String reviewText,
-                                  final String commentText,
-                                  final ZonedDateTime createdAt,
-                                  final int likeCount) {
-        this.commentId = commentId;
-        this.reviewId = reviewId;
-        this.mediaTitle = mediaTitle;
-        this.reviewText = reviewText;
-        this.commentText = commentText;
-        this.createdAt = createdAt;
-        this.likeCount = likeCount;
+    public UserCommentSummaryData(final String inputCommentId,
+                                  final String inputReviewId,
+                                  final String inputMediaTitle,
+                                  final String inputReviewText,
+                                  final String inputCommentText,
+                                  final ZonedDateTime inputCreatedAt,
+                                  final int inputLikeCount) {
+        this.commentId = inputCommentId;
+        this.reviewId = inputReviewId;
+        this.mediaTitle = inputMediaTitle;
+        this.reviewText = inputReviewText;
+        this.commentText = inputCommentText;
+        this.createdAt = inputCreatedAt;
+        this.likeCount = inputLikeCount;
     }
 
     /**

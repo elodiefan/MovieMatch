@@ -3,22 +3,59 @@ package use_case.review;
 /**
  * Input data for editing a review.
  */
-public class EditReviewInputData {
+public final class EditReviewInputData {
+    /** The review id. */
     private final String reviewId;
+    /** The username. */
     private final String username;
+    /** The rating. */
     private final double rating;
+    /** The review text. */
     private final String reviewText;
 
-    public EditReviewInputData(final String reviewId, final String username,
-                               final double rating, final String reviewText) {
-        this.reviewId = reviewId;
-        this.username = username;
-        this.rating = rating;
-        this.reviewText = reviewText;
+    /**
+     * Handles this review or comment operation.
+     * @param inputReviewId the inputReviewId
+     * @param inputUsername the inputUsername
+     * @param inputRating the inputRating
+     * @param inputReviewText the inputReviewText
+     */
+    public EditReviewInputData(final String inputReviewId,
+                               final String inputUsername,
+                               final double inputRating,
+                               final String inputReviewText) {
+        this.reviewId = inputReviewId;
+        this.username = inputUsername;
+        this.rating = inputRating;
+        this.reviewText = inputReviewText;
     }
 
-    public String getReviewId() { return reviewId; }
-    public String getUsername() { return username; }
-    public double getRating() { return rating; }
-    public String getReviewText() { return reviewText; }
+    /**
+     * Handles this review or comment operation.
+     * @return the result
+     */
+    public String getReviewId() {
+        return reviewId;
+    }
+    /**
+     * Handles this review or comment operation.
+     * @return the result
+     */
+    public String getUsername() {
+        return username;
+    }
+    /**
+     * Handles this review or comment operation.
+     * @return the result
+     */
+    public double getRating() {
+        return rating;
+    }
+    /**
+     * Handles this review or comment operation.
+     * @return the result
+     */
+    public String getReviewText() {
+        return reviewText;
+    }
 }

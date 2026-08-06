@@ -9,8 +9,11 @@ import entity.Comment;
 /**
  * Interactor for loading comments on a review.
  */
-public class GetReviewCommentsInteractor implements GetReviewCommentsInputBoundary {
+public final class GetReviewCommentsInteractor
+        implements GetReviewCommentsInputBoundary {
+    /** The comment data access object. */
     private final GetReviewCommentsDataAccessInterface commentDataAccessObject;
+    /** The presenter. */
     private final GetReviewCommentsOutputBoundary presenter;
 
     /**
@@ -22,18 +25,25 @@ public class GetReviewCommentsInteractor implements GetReviewCommentsInputBounda
 
     /**
      * Creates a comments interactor with persistence.
-     * @param commentDataAccessObject the DAO used to load comments
+     * @param inputCommentDataAccessObject the DAO used to load comments
      */
     public GetReviewCommentsInteractor(
-            final GetReviewCommentsDataAccessInterface commentDataAccessObject) {
-        this(commentDataAccessObject, null);
+            final GetReviewCommentsDataAccessInterface
+                    inputCommentDataAccessObject) {
+        this(inputCommentDataAccessObject, null);
     }
 
+    /**
+     * Handles this review or comment operation.
+     * @param inputCommentDataAccessObject the inputCommentDataAccessObject
+     * @param inputPresenter the inputPresenter
+     */
     public GetReviewCommentsInteractor(
-            final GetReviewCommentsDataAccessInterface commentDataAccessObject,
-            final GetReviewCommentsOutputBoundary presenter) {
-        this.commentDataAccessObject = commentDataAccessObject;
-        this.presenter = presenter;
+            final GetReviewCommentsDataAccessInterface
+                    inputCommentDataAccessObject,
+            final GetReviewCommentsOutputBoundary inputPresenter) {
+        this.commentDataAccessObject = inputCommentDataAccessObject;
+        this.presenter = inputPresenter;
     }
 
     @Override

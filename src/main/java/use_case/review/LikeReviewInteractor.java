@@ -7,8 +7,10 @@ import entity.Review;
 /**
  * Interactor for liking a review.
  */
-public class LikeReviewInteractor implements LikeReviewInputBoundary {
+public final class LikeReviewInteractor implements LikeReviewInputBoundary {
+    /** The review data access object. */
     private final LikeReviewDataAccessInterface reviewDataAccessObject;
+    /** The presenter. */
     private final LikeReviewOutputBoundary presenter;
 
     /**
@@ -20,18 +22,23 @@ public class LikeReviewInteractor implements LikeReviewInputBoundary {
 
     /**
      * Creates a like review interactor with persistence.
-     * @param reviewDataAccessObject the DAO used to like reviews
+     * @param inputReviewDataAccessObject the DAO used to like reviews
      */
     public LikeReviewInteractor(
-            final LikeReviewDataAccessInterface reviewDataAccessObject) {
-        this(reviewDataAccessObject, null);
+            final LikeReviewDataAccessInterface inputReviewDataAccessObject) {
+        this(inputReviewDataAccessObject, null);
     }
 
+    /**
+     * Handles this review or comment operation.
+     * @param inputReviewDataAccessObject the inputReviewDataAccessObject
+     * @param inputPresenter the inputPresenter
+     */
     public LikeReviewInteractor(
-            final LikeReviewDataAccessInterface reviewDataAccessObject,
-            final LikeReviewOutputBoundary presenter) {
-        this.reviewDataAccessObject = reviewDataAccessObject;
-        this.presenter = presenter;
+            final LikeReviewDataAccessInterface inputReviewDataAccessObject,
+            final LikeReviewOutputBoundary inputPresenter) {
+        this.reviewDataAccessObject = inputReviewDataAccessObject;
+        this.presenter = inputPresenter;
     }
 
     @Override

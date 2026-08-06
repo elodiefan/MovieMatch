@@ -3,16 +3,35 @@ package use_case.review;
 /**
  * Input data for loading reviews for one media item.
  */
-public class GetMediaReviewsInputData {
+public final class GetMediaReviewsInputData {
+    /** The media id. */
     private final int mediaId;
+    /** The media type. */
     private final String mediaType;
 
-    public GetMediaReviewsInputData(final int mediaId,
-                                    final String mediaType) {
-        this.mediaId = mediaId;
-        this.mediaType = mediaType;
+    /**
+     * Handles this review or comment operation.
+     * @param inputMediaId the inputMediaId
+     * @param inputMediaType the inputMediaType
+     */
+    public GetMediaReviewsInputData(final int inputMediaId,
+                                    final String inputMediaType) {
+        this.mediaId = inputMediaId;
+        this.mediaType = inputMediaType;
     }
 
-    public int getMediaId() { return mediaId; }
-    public String getMediaType() { return mediaType; }
+    /**
+     * Handles this review or comment operation.
+     * @return the result
+     */
+    public int getMediaId() {
+        return mediaId;
+    }
+    /**
+     * Handles this review or comment operation.
+     * @return the result
+     */
+    public String getMediaType() {
+        return mediaType;
+    }
 }

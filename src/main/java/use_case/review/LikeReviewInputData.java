@@ -3,15 +3,35 @@ package use_case.review;
 /**
  * Input data for liking a review.
  */
-public class LikeReviewInputData {
+public final class LikeReviewInputData {
+    /** The review id. */
     private final String reviewId;
+    /** The username. */
     private final String username;
 
-    public LikeReviewInputData(final String reviewId, final String username) {
-        this.reviewId = reviewId;
-        this.username = username;
+    /**
+     * Handles this review or comment operation.
+     * @param inputReviewId the inputReviewId
+     * @param inputUsername the inputUsername
+     */
+    public LikeReviewInputData(final String inputReviewId,
+                               final String inputUsername) {
+        this.reviewId = inputReviewId;
+        this.username = inputUsername;
     }
 
-    public String getReviewId() { return reviewId; }
-    public String getUsername() { return username; }
+    /**
+     * Handles this review or comment operation.
+     * @return the result
+     */
+    public String getReviewId() {
+        return reviewId;
+    }
+    /**
+     * Handles this review or comment operation.
+     * @return the result
+     */
+    public String getUsername() {
+        return username;
+    }
 }

@@ -3,15 +3,16 @@ package use_case.review;
 /**
  * Input data for loading reviews written by one user.
  */
-public class GetUserReviewsInputData {
+public final class GetUserReviewsInputData {
+    /** The username. */
     private final String username;
 
     /**
      * Creates input data for loading user reviews.
-     * @param username the username whose reviews should be loaded
+     * @param inputUsername the username whose reviews should be loaded
      */
-    public GetUserReviewsInputData(final String username) {
-        this.username = username;
+    public GetUserReviewsInputData(final String inputUsername) {
+        this.username = inputUsername;
     }
 
     /**

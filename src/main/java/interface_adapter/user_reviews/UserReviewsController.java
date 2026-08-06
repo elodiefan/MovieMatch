@@ -15,55 +15,64 @@ import use_case.review.UnlikeReviewInputData;
 /**
  * Controller for the user reviews view.
  */
-public class UserReviewsController {
+public final class UserReviewsController {
+    /** The get user reviews interactor. */
     private final GetUserReviewsInputBoundary getUserReviewsInteractor;
+    /** The edit review interactor. */
     private final EditReviewInputBoundary editReviewInteractor;
+    /** The delete review interactor. */
     private final DeleteReviewInputBoundary deleteReviewInteractor;
+    /** The like review interactor. */
     private final LikeReviewInputBoundary likeReviewInteractor;
+    /** The unlike review interactor. */
     private final UnlikeReviewInputBoundary unlikeReviewInteractor;
+    /** The get user comments interactor. */
     private final GetUserCommentsInputBoundary getUserCommentsInteractor;
 
     /**
      * Creates a controller for user review actions.
-     * @param getUserReviewsInteractor the interactor for loading user reviews
-     * @param editReviewInteractor the interactor for editing reviews
-     * @param deleteReviewInteractor the interactor for deleting reviews
-     * @param likeReviewInteractor the interactor for liking reviews
-     * @param unlikeReviewInteractor the interactor for unliking reviews
+     * @param inputGetUserReviewsInteractor the interactor for loading user
+     *                                      reviews
+     * @param inputEditReviewInteractor the interactor for editing reviews
+     * @param inputDeleteReviewInteractor the interactor for deleting reviews
+     * @param inputLikeReviewInteractor the interactor for liking reviews
+     * @param inputUnlikeReviewInteractor the interactor for unliking reviews
      */
     public UserReviewsController(
-            final GetUserReviewsInputBoundary getUserReviewsInteractor,
-            final EditReviewInputBoundary editReviewInteractor,
-            final DeleteReviewInputBoundary deleteReviewInteractor,
-            final LikeReviewInputBoundary likeReviewInteractor,
-            final UnlikeReviewInputBoundary unlikeReviewInteractor) {
-        this(getUserReviewsInteractor, editReviewInteractor,
-                deleteReviewInteractor, likeReviewInteractor,
-                unlikeReviewInteractor, null);
+            final GetUserReviewsInputBoundary inputGetUserReviewsInteractor,
+            final EditReviewInputBoundary inputEditReviewInteractor,
+            final DeleteReviewInputBoundary inputDeleteReviewInteractor,
+            final LikeReviewInputBoundary inputLikeReviewInteractor,
+            final UnlikeReviewInputBoundary inputUnlikeReviewInteractor) {
+        this(inputGetUserReviewsInteractor, inputEditReviewInteractor,
+                inputDeleteReviewInteractor, inputLikeReviewInteractor,
+                inputUnlikeReviewInteractor, null);
     }
 
     /**
      * Creates a controller for user review and comment actions.
-     * @param getUserReviewsInteractor the interactor for loading user reviews
-     * @param editReviewInteractor the interactor for editing reviews
-     * @param deleteReviewInteractor the interactor for deleting reviews
-     * @param likeReviewInteractor the interactor for liking reviews
-     * @param unlikeReviewInteractor the interactor for unliking reviews
-     * @param getUserCommentsInteractor the interactor for loading user comments
+     * @param inputGetUserReviewsInteractor the interactor for loading user
+     *                                      reviews
+     * @param inputEditReviewInteractor the interactor for editing reviews
+     * @param inputDeleteReviewInteractor the interactor for deleting reviews
+     * @param inputLikeReviewInteractor the interactor for liking reviews
+     * @param inputUnlikeReviewInteractor the interactor for unliking reviews
+     * @param inputGetUserCommentsInteractor the interactor for loading user
+     *                                       comments
      */
     public UserReviewsController(
-            final GetUserReviewsInputBoundary getUserReviewsInteractor,
-            final EditReviewInputBoundary editReviewInteractor,
-            final DeleteReviewInputBoundary deleteReviewInteractor,
-            final LikeReviewInputBoundary likeReviewInteractor,
-            final UnlikeReviewInputBoundary unlikeReviewInteractor,
-            final GetUserCommentsInputBoundary getUserCommentsInteractor) {
-        this.getUserReviewsInteractor = getUserReviewsInteractor;
-        this.editReviewInteractor = editReviewInteractor;
-        this.deleteReviewInteractor = deleteReviewInteractor;
-        this.likeReviewInteractor = likeReviewInteractor;
-        this.unlikeReviewInteractor = unlikeReviewInteractor;
-        this.getUserCommentsInteractor = getUserCommentsInteractor;
+            final GetUserReviewsInputBoundary inputGetUserReviewsInteractor,
+            final EditReviewInputBoundary inputEditReviewInteractor,
+            final DeleteReviewInputBoundary inputDeleteReviewInteractor,
+            final LikeReviewInputBoundary inputLikeReviewInteractor,
+            final UnlikeReviewInputBoundary inputUnlikeReviewInteractor,
+            final GetUserCommentsInputBoundary inputGetUserCommentsInteractor) {
+        this.getUserReviewsInteractor = inputGetUserReviewsInteractor;
+        this.editReviewInteractor = inputEditReviewInteractor;
+        this.deleteReviewInteractor = inputDeleteReviewInteractor;
+        this.likeReviewInteractor = inputLikeReviewInteractor;
+        this.unlikeReviewInteractor = inputUnlikeReviewInteractor;
+        this.getUserCommentsInteractor = inputGetUserCommentsInteractor;
     }
 
     /**

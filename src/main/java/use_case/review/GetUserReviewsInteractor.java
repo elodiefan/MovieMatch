@@ -9,8 +9,11 @@ import entity.Review;
 /**
  * Interactor for loading reviews written by one user.
  */
-public class GetUserReviewsInteractor implements GetUserReviewsInputBoundary {
+public final class GetUserReviewsInteractor
+        implements GetUserReviewsInputBoundary {
+    /** The review data access object. */
     private final GetUserReviewsDataAccessInterface reviewDataAccessObject;
+    /** The user reviews presenter. */
     private final GetUserReviewsOutputBoundary userReviewsPresenter;
 
     /**
@@ -22,23 +25,24 @@ public class GetUserReviewsInteractor implements GetUserReviewsInputBoundary {
 
     /**
      * Creates a user reviews interactor with persistence.
-     * @param reviewDataAccessObject the DAO used to load reviews
+     * @param inputReviewDataAccessObject the DAO used to load reviews
      */
     public GetUserReviewsInteractor(
-            final GetUserReviewsDataAccessInterface reviewDataAccessObject) {
-        this(reviewDataAccessObject, null);
+            final GetUserReviewsDataAccessInterface
+                    inputReviewDataAccessObject) {
+        this(inputReviewDataAccessObject, null);
     }
 
     /**
      * Creates a user reviews interactor with persistence and presentation.
-     * @param reviewDataAccessObject the DAO used to load reviews
-     * @param userReviewsPresenter the output boundary
+     * @param inputReviewDataAccessObject the DAO used to load reviews
+     * @param inputUserReviewsPresenter the output boundary
      */
     public GetUserReviewsInteractor(
-            final GetUserReviewsDataAccessInterface reviewDataAccessObject,
-            final GetUserReviewsOutputBoundary userReviewsPresenter) {
-        this.reviewDataAccessObject = reviewDataAccessObject;
-        this.userReviewsPresenter = userReviewsPresenter;
+            final GetUserReviewsDataAccessInterface inputReviewDataAccessObject,
+            final GetUserReviewsOutputBoundary inputUserReviewsPresenter) {
+        this.reviewDataAccessObject = inputReviewDataAccessObject;
+        this.userReviewsPresenter = inputUserReviewsPresenter;
     }
 
     /**

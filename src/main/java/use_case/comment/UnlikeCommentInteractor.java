@@ -7,8 +7,11 @@ import entity.Comment;
 /**
  * Interactor for unliking a comment.
  */
-public class UnlikeCommentInteractor implements UnlikeCommentInputBoundary {
+public final class UnlikeCommentInteractor
+        implements UnlikeCommentInputBoundary {
+    /** The comment data access object. */
     private final UnlikeCommentDataAccessInterface commentDataAccessObject;
+    /** The presenter. */
     private final UnlikeCommentOutputBoundary presenter;
 
     /**
@@ -20,18 +23,24 @@ public class UnlikeCommentInteractor implements UnlikeCommentInputBoundary {
 
     /**
      * Creates an unlike comment interactor with persistence.
-     * @param commentDataAccessObject the DAO used to unlike comments
+     * @param inputCommentDataAccessObject the DAO used to unlike comments
      */
     public UnlikeCommentInteractor(
-            final UnlikeCommentDataAccessInterface commentDataAccessObject) {
-        this(commentDataAccessObject, null);
+            final UnlikeCommentDataAccessInterface
+                    inputCommentDataAccessObject) {
+        this(inputCommentDataAccessObject, null);
     }
 
+    /**
+     * Handles this review or comment operation.
+     * @param inputCommentDataAccessObject the inputCommentDataAccessObject
+     * @param inputPresenter the inputPresenter
+     */
     public UnlikeCommentInteractor(
-            final UnlikeCommentDataAccessInterface commentDataAccessObject,
-            final UnlikeCommentOutputBoundary presenter) {
-        this.commentDataAccessObject = commentDataAccessObject;
-        this.presenter = presenter;
+            final UnlikeCommentDataAccessInterface inputCommentDataAccessObject,
+            final UnlikeCommentOutputBoundary inputPresenter) {
+        this.commentDataAccessObject = inputCommentDataAccessObject;
+        this.presenter = inputPresenter;
     }
 
     @Override

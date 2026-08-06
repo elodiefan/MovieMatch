@@ -22,19 +22,20 @@ import use_case.review.UnlikeReviewOutputData;
 /**
  * Presenter for the user reviews view.
  */
-public class UserReviewsPresenter implements GetUserReviewsOutputBoundary,
+public final class UserReviewsPresenter implements GetUserReviewsOutputBoundary,
         GetUserCommentsOutputBoundary, EditReviewOutputBoundary,
         DeleteReviewOutputBoundary, LikeReviewOutputBoundary,
         UnlikeReviewOutputBoundary {
+    /** The user reviews view model. */
     private final UserReviewsViewModel userReviewsViewModel;
 
     /**
      * Creates a presenter for the user reviews view.
-     * @param userReviewsViewModel the view model to update
+     * @param inputUserReviewsViewModel the view model to update
      */
     public UserReviewsPresenter(
-            final UserReviewsViewModel userReviewsViewModel) {
-        this.userReviewsViewModel = userReviewsViewModel;
+            final UserReviewsViewModel inputUserReviewsViewModel) {
+        this.userReviewsViewModel = inputUserReviewsViewModel;
     }
 
     /**
@@ -153,11 +154,7 @@ public class UserReviewsPresenter implements GetUserReviewsOutputBoundary,
      * @return the displayed review row
      */
     private UserReviewRow createReviewRow(final Review review) {
-        return new UserReviewRow(review.getReviewId(), review.getMediaId(),
-                review.getMediaType(), review.getMediaTitle(),
-                review.getRating(), review.getReviewText(),
-                review.getCreatedAt(), review.getUpdatedAt(),
-                review.getLikeCount());
+        return new UserReviewRow(review);
     }
 
     /**
@@ -167,10 +164,7 @@ public class UserReviewsPresenter implements GetUserReviewsOutputBoundary,
      */
     private UserReviewsState.CommentRow createCommentRow(
             final UserCommentSummaryData comment) {
-        return new UserReviewsState.CommentRow(comment.getCommentId(),
-                comment.getReviewId(), comment.getMediaTitle(),
-                comment.getReviewText(), comment.getCommentText(),
-                comment.getCreatedAt(), comment.getLikeCount());
+        return new UserReviewsState.CommentRow(comment);
     }
 
     /**
@@ -186,43 +180,39 @@ public class UserReviewsPresenter implements GetUserReviewsOutputBoundary,
      * Display data for one review written by the user.
      */
     public static final class UserReviewRow {
+        /** The review id. */
         private final String reviewId;
+        /** The media id. */
         private final int mediaId;
+        /** The media type. */
         private final String mediaType;
+        /** The media title. */
         private final String mediaTitle;
+        /** The rating. */
         private final double rating;
+        /** The review text. */
         private final String reviewText;
+        /** The created at. */
         private final ZonedDateTime createdAt;
+        /** The updated at. */
         private final ZonedDateTime updatedAt;
+        /** The like count. */
         private final int likeCount;
 
         /**
          * Creates display data for one user review row.
-         * @param reviewId the review id
-         * @param mediaId the reviewed media id
-         * @param mediaType the reviewed media type
-         * @param mediaTitle the reviewed media title
-         * @param rating the review rating percentage
-         * @param reviewText the review text
-         * @param createdAt the review creation time
-         * @param updatedAt the review update time
-         * @param likeCount the number of likes on the review
+         * @param review the review to present
          */
-        public UserReviewRow(final String reviewId, final int mediaId,
-                             final String mediaType, final String mediaTitle,
-                             final double rating, final String reviewText,
-                             final ZonedDateTime createdAt,
-                             final ZonedDateTime updatedAt,
-                             final int likeCount) {
-            this.reviewId = reviewId;
-            this.mediaId = mediaId;
-            this.mediaType = mediaType;
-            this.mediaTitle = mediaTitle;
-            this.rating = rating;
-            this.reviewText = reviewText;
-            this.createdAt = createdAt;
-            this.updatedAt = updatedAt;
-            this.likeCount = likeCount;
+        public UserReviewRow(final Review review) {
+            this.reviewId = review.getReviewId();
+            this.mediaId = review.getMediaId();
+            this.mediaType = review.getMediaType();
+            this.mediaTitle = review.getMediaTitle();
+            this.rating = review.getRating();
+            this.reviewText = review.getReviewText();
+            this.createdAt = review.getCreatedAt();
+            this.updatedAt = review.getUpdatedAt();
+            this.likeCount = review.getLikeCount();
         }
 
         /**

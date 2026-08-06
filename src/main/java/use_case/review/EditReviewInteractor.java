@@ -9,7 +9,7 @@ import entity.UserContent;
 /**
  * Interactor for editing a review.
  */
-public class EditReviewInteractor implements EditReviewInputBoundary {
+public final class EditReviewInteractor implements EditReviewInputBoundary {
     /**
      * Smallest valid rating percentage.
      */
@@ -20,7 +20,9 @@ public class EditReviewInteractor implements EditReviewInputBoundary {
      */
     private static final double MAX_RATING = 100.0;
 
+    /** The review data access object. */
     private final EditReviewDataAccessInterface reviewDataAccessObject;
+    /** The presenter. */
     private final EditReviewOutputBoundary presenter;
 
     /**
@@ -32,18 +34,23 @@ public class EditReviewInteractor implements EditReviewInputBoundary {
 
     /**
      * Creates an edit review interactor with persistence.
-     * @param reviewDataAccessObject the DAO used to edit reviews
+     * @param inputReviewDataAccessObject the DAO used to edit reviews
      */
     public EditReviewInteractor(
-            final EditReviewDataAccessInterface reviewDataAccessObject) {
-        this(reviewDataAccessObject, null);
+            final EditReviewDataAccessInterface inputReviewDataAccessObject) {
+        this(inputReviewDataAccessObject, null);
     }
 
+    /**
+     * Handles this review or comment operation.
+     * @param inputReviewDataAccessObject the inputReviewDataAccessObject
+     * @param inputPresenter the inputPresenter
+     */
     public EditReviewInteractor(
-            final EditReviewDataAccessInterface reviewDataAccessObject,
-            final EditReviewOutputBoundary presenter) {
-        this.reviewDataAccessObject = reviewDataAccessObject;
-        this.presenter = presenter;
+            final EditReviewDataAccessInterface inputReviewDataAccessObject,
+            final EditReviewOutputBoundary inputPresenter) {
+        this.reviewDataAccessObject = inputReviewDataAccessObject;
+        this.presenter = inputPresenter;
     }
 
     @Override
@@ -120,7 +127,8 @@ public class EditReviewInteractor implements EditReviewInputBoundary {
         if (review == null) {
             throw new IllegalArgumentException("Review cannot be null.");
         } else if (rating < MIN_RATING || rating > MAX_RATING) {
-            throw new IllegalArgumentException("Rating must be between 0 and 100.");
+            throw new IllegalArgumentException(
+                    "Rating must be between 0 and 100.");
         }
     }
 

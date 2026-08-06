@@ -9,13 +9,16 @@ import entity.Review;
 /**
  * Interactor for loading reviews for one media item.
  */
-public class GetMediaReviewsInteractor implements GetMediaReviewsInputBoundary {
+public final class GetMediaReviewsInteractor
+        implements GetMediaReviewsInputBoundary {
     /**
      * Smallest valid media id.
      */
     private static final int MIN_MEDIA_ID = 0;
 
+    /** The review data access object. */
     private final GetMediaReviewsDataAccessInterface reviewDataAccessObject;
+    /** The presenter. */
     private final GetMediaReviewsOutputBoundary presenter;
 
     /**
@@ -27,18 +30,25 @@ public class GetMediaReviewsInteractor implements GetMediaReviewsInputBoundary {
 
     /**
      * Creates a media reviews interactor with persistence.
-     * @param reviewDataAccessObject the DAO used to load reviews
+     * @param inputReviewDataAccessObject the DAO used to load reviews
      */
     public GetMediaReviewsInteractor(
-            final GetMediaReviewsDataAccessInterface reviewDataAccessObject) {
-        this(reviewDataAccessObject, null);
+            final GetMediaReviewsDataAccessInterface
+                    inputReviewDataAccessObject) {
+        this(inputReviewDataAccessObject, null);
     }
 
+    /**
+     * Handles this review or comment operation.
+     * @param inputReviewDataAccessObject the inputReviewDataAccessObject
+     * @param inputPresenter the inputPresenter
+     */
     public GetMediaReviewsInteractor(
-            final GetMediaReviewsDataAccessInterface reviewDataAccessObject,
-            final GetMediaReviewsOutputBoundary presenter) {
-        this.reviewDataAccessObject = reviewDataAccessObject;
-        this.presenter = presenter;
+            final GetMediaReviewsDataAccessInterface
+                    inputReviewDataAccessObject,
+            final GetMediaReviewsOutputBoundary inputPresenter) {
+        this.reviewDataAccessObject = inputReviewDataAccessObject;
+        this.presenter = inputPresenter;
     }
 
     @Override

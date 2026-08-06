@@ -6,16 +6,17 @@ import java.util.List;
 /**
  * Output data for loading comments written by one user.
  */
-public class GetUserCommentsOutputData {
+public final class GetUserCommentsOutputData {
+    /** The comments. */
     private final List<UserCommentSummaryData> comments;
 
     /**
      * Creates output data for loaded user comments.
-     * @param comments the loaded comment summaries
+     * @param inputComments the loaded comment summaries
      */
     public GetUserCommentsOutputData(
-            final List<UserCommentSummaryData> comments) {
-        this.comments = new ArrayList<>(comments);
+            final List<UserCommentSummaryData> inputComments) {
+        this.comments = new ArrayList<>(inputComments);
     }
 
     /**

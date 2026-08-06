@@ -28,29 +28,48 @@ import interface_adapter.comments.CommentsViewModel;
 /**
  * Swing panel for comments on a review.
  */
-public class CommentsPanel extends JPanel implements PropertyChangeListener {
+public final class CommentsPanel extends JPanel
+        implements PropertyChangeListener {
+    /** The heart unselected. */
     private static final String HEART_UNSELECTED = "\u2661";
+    /** The heart selected. */
     private static final String HEART_SELECTED = "\u2665";
 
+    /** The card gap. */
     private static final int CARD_GAP = 10;
+    /** The comment indent. */
     private static final int COMMENT_INDENT = 24;
+    /** The reply indent. */
     private static final int REPLY_INDENT = 48;
 
+    /** The time_formatter. */
     private static final DateTimeFormatter TIME_FORMATTER =
             DateTimeFormatter.ofPattern("yyyy-MM-dd h:mm a z");
 
+    /** The comments view model. */
     private final CommentsViewModel commentsViewModel;
+    /** The error label. */
     private final JLabel errorLabel = new JLabel();
+    /** The comments panel. */
     private final JPanel commentsPanel = new JPanel();
+    /** The write comment button. */
     private final JButton writeCommentButton =
             new JButton(CommentsViewModel.WRITE_COMMENT_BUTTON_LABEL);
+    /** The comments controller. */
     private CommentsController commentsController;
+    /** The current username. */
     private String currentUsername = "";
+    /** The current display name. */
     private String currentDisplayName = "";
+    /** The loading comments. */
     private boolean loadingComments;
 
-    public CommentsPanel(final CommentsViewModel commentsViewModel) {
-        this.commentsViewModel = commentsViewModel;
+    /**
+     * Handles this review or comment operation.
+     * @param inputCommentsViewModel the inputCommentsViewModel
+     */
+    public CommentsPanel(final CommentsViewModel inputCommentsViewModel) {
+        this.commentsViewModel = inputCommentsViewModel;
         this.commentsViewModel.addPropertyChangeListener(this);
 
         final JLabel title = new JLabel(CommentsViewModel.TITLE_LABEL);
@@ -66,7 +85,7 @@ public class CommentsPanel extends JPanel implements PropertyChangeListener {
 
         writeCommentButton.addActionListener(new WriteCommentListener());
 
-        updateView(commentsViewModel.getState());
+        updateView(inputCommentsViewModel.getState());
     }
 
     /**
@@ -90,11 +109,11 @@ public class CommentsPanel extends JPanel implements PropertyChangeListener {
 
     /**
      * Sets the controller for comment actions.
-     * @param commentsController the comments controller
+     * @param inputCommentsController the comments controller
      */
     public void setCommentsController(
-            final CommentsController commentsController) {
-        this.commentsController = commentsController;
+            final CommentsController inputCommentsController) {
+        this.commentsController = inputCommentsController;
     }
 
     /**
@@ -335,13 +354,15 @@ public class CommentsPanel extends JPanel implements PropertyChangeListener {
      * Selects a comment in the view model state.
      */
     private final class SelectCommentListener implements ActionListener {
+        /** The comment id. */
         private final String commentId;
+        /** The reply. */
         private final boolean reply;
 
-        private SelectCommentListener(final String commentId,
-                                      final boolean reply) {
-            this.commentId = commentId;
-            this.reply = reply;
+        private SelectCommentListener(final String inputCommentId,
+                                      final boolean inputReply) {
+            this.commentId = inputCommentId;
+            this.reply = inputReply;
         }
 
         @Override
@@ -361,7 +382,8 @@ public class CommentsPanel extends JPanel implements PropertyChangeListener {
                                 state.getReviewId());
                     }
                 }
-            } else if (commentsController != null && !isBlank(currentUsername)) {
+            } else if (commentsController != null
+                    && !isBlank(currentUsername)) {
                 commentsController.deleteComment(commentId, currentUsername);
                 commentsController.loadReviewComments(state.getReviewId());
             }
@@ -373,10 +395,11 @@ public class CommentsPanel extends JPanel implements PropertyChangeListener {
      * Toggles a comment heart and selects the comment.
      */
     private final class HeartCommentListener implements ActionListener {
+        /** The comment id. */
         private final String commentId;
 
-        private HeartCommentListener(final String commentId) {
-            this.commentId = commentId;
+        private HeartCommentListener(final String inputCommentId) {
+            this.commentId = inputCommentId;
         }
 
         @Override

@@ -7,8 +7,10 @@ import entity.Comment;
 /**
  * Interactor for liking a comment.
  */
-public class LikeCommentInteractor implements LikeCommentInputBoundary {
+public final class LikeCommentInteractor implements LikeCommentInputBoundary {
+    /** The comment data access object. */
     private final LikeCommentDataAccessInterface commentDataAccessObject;
+    /** The presenter. */
     private final LikeCommentOutputBoundary presenter;
 
     /**
@@ -20,18 +22,23 @@ public class LikeCommentInteractor implements LikeCommentInputBoundary {
 
     /**
      * Creates a like comment interactor with persistence.
-     * @param commentDataAccessObject the DAO used to like comments
+     * @param inputCommentDataAccessObject the DAO used to like comments
      */
     public LikeCommentInteractor(
-            final LikeCommentDataAccessInterface commentDataAccessObject) {
-        this(commentDataAccessObject, null);
+            final LikeCommentDataAccessInterface inputCommentDataAccessObject) {
+        this(inputCommentDataAccessObject, null);
     }
 
+    /**
+     * Handles this review or comment operation.
+     * @param inputCommentDataAccessObject the inputCommentDataAccessObject
+     * @param inputPresenter the inputPresenter
+     */
     public LikeCommentInteractor(
-            final LikeCommentDataAccessInterface commentDataAccessObject,
-            final LikeCommentOutputBoundary presenter) {
-        this.commentDataAccessObject = commentDataAccessObject;
-        this.presenter = presenter;
+            final LikeCommentDataAccessInterface inputCommentDataAccessObject,
+            final LikeCommentOutputBoundary inputPresenter) {
+        this.commentDataAccessObject = inputCommentDataAccessObject;
+        this.presenter = inputPresenter;
     }
 
     @Override

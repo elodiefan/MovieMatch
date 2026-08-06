@@ -3,12 +3,23 @@ package use_case.comment;
 /**
  * Input data for loading comments on a review.
  */
-public class GetReviewCommentsInputData {
+public final class GetReviewCommentsInputData {
+    /** The review id. */
     private final String reviewId;
 
-    public GetReviewCommentsInputData(final String reviewId) {
-        this.reviewId = reviewId;
+    /**
+     * Handles this review or comment operation.
+     * @param inputReviewId the inputReviewId
+     */
+    public GetReviewCommentsInputData(final String inputReviewId) {
+        this.reviewId = inputReviewId;
     }
 
-    public String getReviewId() { return reviewId; }
+    /**
+     * Handles this review or comment operation.
+     * @return the result
+     */
+    public String getReviewId() {
+        return reviewId;
+    }
 }

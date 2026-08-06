@@ -3,45 +3,95 @@ package use_case.review;
 /**
  * Input data for creating a review.
  */
-public class CreateReviewInputData {
+public final class CreateReviewInputData {
+    /** The media id. */
     private final int mediaId;
+    /** The media type. */
     private final String mediaType;
+    /** The media title. */
     private final String mediaTitle;
+    /** The author username. */
     private final String authorUsername;
+    /** The author display name. */
     private final String authorDisplayName;
+    /** The rating. */
     private final double rating;
+    /** The review text. */
     private final String reviewText;
 
     /**
      * Creates input data for creating a review.
-     * @param mediaId the reviewed media id
-     * @param mediaType the reviewed media type
-     * @param mediaTitle the reviewed media title
-     * @param authorUsername the author's username
-     * @param authorDisplayName the author's display name
-     * @param rating the rating percentage
-     * @param reviewText the review text
+     * @param inputMediaId the reviewed media id
+     * @param inputMediaType the reviewed media type
+     * @param inputMediaTitle the reviewed media title
+     * @param inputAuthorUsername the author's username
+     * @param inputAuthorDisplayName the author's display name
+     * @param inputRating the rating percentage
+     * @param inputReviewText the review text
      */
-    public CreateReviewInputData(final int mediaId, final String mediaType,
-                                 final String mediaTitle,
-                                 final String authorUsername,
-                                 final String authorDisplayName,
-                                 final double rating,
-                                 final String reviewText) {
-        this.mediaId = mediaId;
-        this.mediaType = mediaType;
-        this.mediaTitle = mediaTitle;
-        this.authorUsername = authorUsername;
-        this.authorDisplayName = authorDisplayName;
-        this.rating = rating;
-        this.reviewText = reviewText;
+    public CreateReviewInputData(final int inputMediaId,
+                                 final String inputMediaType,
+                                 final String inputMediaTitle,
+                                 final String inputAuthorUsername,
+                                 final String inputAuthorDisplayName,
+                                 final double inputRating,
+                                 final String inputReviewText) {
+        this.mediaId = inputMediaId;
+        this.mediaType = inputMediaType;
+        this.mediaTitle = inputMediaTitle;
+        this.authorUsername = inputAuthorUsername;
+        this.authorDisplayName = inputAuthorDisplayName;
+        this.rating = inputRating;
+        this.reviewText = inputReviewText;
     }
 
-    public int getMediaId() { return mediaId; }
-    public String getMediaType() { return mediaType; }
-    public String getMediaTitle() { return mediaTitle; }
-    public String getAuthorUsername() { return authorUsername; }
-    public String getAuthorDisplayName() { return authorDisplayName; }
-    public double getRating() { return rating; }
-    public String getReviewText() { return reviewText; }
+    /**
+     * Handles this review or comment operation.
+     * @return the result
+     */
+    public int getMediaId() {
+        return mediaId;
+    }
+    /**
+     * Handles this review or comment operation.
+     * @return the result
+     */
+    public String getMediaType() {
+        return mediaType;
+    }
+    /**
+     * Handles this review or comment operation.
+     * @return the result
+     */
+    public String getMediaTitle() {
+        return mediaTitle;
+    }
+    /**
+     * Handles this review or comment operation.
+     * @return the result
+     */
+    public String getAuthorUsername() {
+        return authorUsername;
+    }
+    /**
+     * Handles this review or comment operation.
+     * @return the result
+     */
+    public String getAuthorDisplayName() {
+        return authorDisplayName;
+    }
+    /**
+     * Handles this review or comment operation.
+     * @return the result
+     */
+    public double getRating() {
+        return rating;
+    }
+    /**
+     * Handles this review or comment operation.
+     * @return the result
+     */
+    public String getReviewText() {
+        return reviewText;
+    }
 }

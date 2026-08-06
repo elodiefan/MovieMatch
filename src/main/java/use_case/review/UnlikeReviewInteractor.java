@@ -7,8 +7,10 @@ import entity.Review;
 /**
  * Interactor for unliking a review.
  */
-public class UnlikeReviewInteractor implements UnlikeReviewInputBoundary {
+public final class UnlikeReviewInteractor implements UnlikeReviewInputBoundary {
+    /** The review data access object. */
     private final UnlikeReviewDataAccessInterface reviewDataAccessObject;
+    /** The presenter. */
     private final UnlikeReviewOutputBoundary presenter;
 
     /**
@@ -20,18 +22,23 @@ public class UnlikeReviewInteractor implements UnlikeReviewInputBoundary {
 
     /**
      * Creates an unlike review interactor with persistence.
-     * @param reviewDataAccessObject the DAO used to unlike reviews
+     * @param inputReviewDataAccessObject the DAO used to unlike reviews
      */
     public UnlikeReviewInteractor(
-            final UnlikeReviewDataAccessInterface reviewDataAccessObject) {
-        this(reviewDataAccessObject, null);
+            final UnlikeReviewDataAccessInterface inputReviewDataAccessObject) {
+        this(inputReviewDataAccessObject, null);
     }
 
+    /**
+     * Handles this review or comment operation.
+     * @param inputReviewDataAccessObject the inputReviewDataAccessObject
+     * @param inputPresenter the inputPresenter
+     */
     public UnlikeReviewInteractor(
-            final UnlikeReviewDataAccessInterface reviewDataAccessObject,
-            final UnlikeReviewOutputBoundary presenter) {
-        this.reviewDataAccessObject = reviewDataAccessObject;
-        this.presenter = presenter;
+            final UnlikeReviewDataAccessInterface inputReviewDataAccessObject,
+            final UnlikeReviewOutputBoundary inputPresenter) {
+        this.reviewDataAccessObject = inputReviewDataAccessObject;
+        this.presenter = inputPresenter;
     }
 
     @Override

@@ -9,8 +9,11 @@ import entity.UserContent;
 /**
  * Interactor for creating a comment.
  */
-public class CreateCommentInteractor implements CreateCommentInputBoundary {
+public final class CreateCommentInteractor
+        implements CreateCommentInputBoundary {
+    /** The comment data access object. */
     private final CreateCommentDataAccessInterface commentDataAccessObject;
+    /** The presenter. */
     private final CreateCommentOutputBoundary presenter;
 
     /**
@@ -22,18 +25,24 @@ public class CreateCommentInteractor implements CreateCommentInputBoundary {
 
     /**
      * Creates a comment interactor with persistence.
-     * @param commentDataAccessObject the DAO used to save comments
+     * @param inputCommentDataAccessObject the DAO used to save comments
      */
     public CreateCommentInteractor(
-            final CreateCommentDataAccessInterface commentDataAccessObject) {
-        this(commentDataAccessObject, null);
+            final CreateCommentDataAccessInterface
+                    inputCommentDataAccessObject) {
+        this(inputCommentDataAccessObject, null);
     }
 
+    /**
+     * Handles this review or comment operation.
+     * @param inputCommentDataAccessObject the inputCommentDataAccessObject
+     * @param inputPresenter the inputPresenter
+     */
     public CreateCommentInteractor(
-            final CreateCommentDataAccessInterface commentDataAccessObject,
-            final CreateCommentOutputBoundary presenter) {
-        this.commentDataAccessObject = commentDataAccessObject;
-        this.presenter = presenter;
+            final CreateCommentDataAccessInterface inputCommentDataAccessObject,
+            final CreateCommentOutputBoundary inputPresenter) {
+        this.commentDataAccessObject = inputCommentDataAccessObject;
+        this.presenter = inputPresenter;
     }
 
     @Override

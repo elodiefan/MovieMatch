@@ -16,36 +16,42 @@ import use_case.review.UnlikeReviewInputData;
 /**
  * Controller for the media reviews panel.
  */
-public class MediaReviewsController {
+public final class MediaReviewsController {
+    /** The get media reviews interactor. */
     private final GetMediaReviewsInputBoundary getMediaReviewsInteractor;
+    /** The create review interactor. */
     private final CreateReviewInputBoundary createReviewInteractor;
+    /** The edit review interactor. */
     private final EditReviewInputBoundary editReviewInteractor;
+    /** The delete review interactor. */
     private final DeleteReviewInputBoundary deleteReviewInteractor;
+    /** The like review interactor. */
     private final LikeReviewInputBoundary likeReviewInteractor;
+    /** The unlike review interactor. */
     private final UnlikeReviewInputBoundary unlikeReviewInteractor;
 
     /**
      * Creates a controller for media review actions.
-     * @param getMediaReviewsInteractor the interactor for loading reviews
-     * @param createReviewInteractor the interactor for creating reviews
-     * @param editReviewInteractor the interactor for editing reviews
-     * @param deleteReviewInteractor the interactor for deleting reviews
-     * @param likeReviewInteractor the interactor for liking reviews
-     * @param unlikeReviewInteractor the interactor for unliking reviews
+     * @param inputGetMediaReviewsInteractor the interactor for loading reviews
+     * @param inputCreateReviewInteractor the interactor for creating reviews
+     * @param inputEditReviewInteractor the interactor for editing reviews
+     * @param inputDeleteReviewInteractor the interactor for deleting reviews
+     * @param inputLikeReviewInteractor the interactor for liking reviews
+     * @param inputUnlikeReviewInteractor the interactor for unliking reviews
      */
     public MediaReviewsController(
-            final GetMediaReviewsInputBoundary getMediaReviewsInteractor,
-            final CreateReviewInputBoundary createReviewInteractor,
-            final EditReviewInputBoundary editReviewInteractor,
-            final DeleteReviewInputBoundary deleteReviewInteractor,
-            final LikeReviewInputBoundary likeReviewInteractor,
-            final UnlikeReviewInputBoundary unlikeReviewInteractor) {
-        this.getMediaReviewsInteractor = getMediaReviewsInteractor;
-        this.createReviewInteractor = createReviewInteractor;
-        this.editReviewInteractor = editReviewInteractor;
-        this.deleteReviewInteractor = deleteReviewInteractor;
-        this.likeReviewInteractor = likeReviewInteractor;
-        this.unlikeReviewInteractor = unlikeReviewInteractor;
+            final GetMediaReviewsInputBoundary inputGetMediaReviewsInteractor,
+            final CreateReviewInputBoundary inputCreateReviewInteractor,
+            final EditReviewInputBoundary inputEditReviewInteractor,
+            final DeleteReviewInputBoundary inputDeleteReviewInteractor,
+            final LikeReviewInputBoundary inputLikeReviewInteractor,
+            final UnlikeReviewInputBoundary inputUnlikeReviewInteractor) {
+        this.getMediaReviewsInteractor = inputGetMediaReviewsInteractor;
+        this.createReviewInteractor = inputCreateReviewInteractor;
+        this.editReviewInteractor = inputEditReviewInteractor;
+        this.deleteReviewInteractor = inputDeleteReviewInteractor;
+        this.likeReviewInteractor = inputLikeReviewInteractor;
+        this.unlikeReviewInteractor = inputUnlikeReviewInteractor;
     }
 
     /**

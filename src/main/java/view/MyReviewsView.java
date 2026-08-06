@@ -26,24 +26,39 @@ import interface_adapter.user_reviews.UserReviewsViewModel;
 /**
  * Swing view for a user's reviews.
  */
-public class MyReviewsView extends JPanel implements PropertyChangeListener {
+public final class MyReviewsView extends JPanel
+        implements PropertyChangeListener {
+    /** The card gap. */
     private static final int CARD_GAP = 10;
 
+    /** The time_formatter. */
     private static final DateTimeFormatter TIME_FORMATTER =
             DateTimeFormatter.ofPattern("yyyy-MM-dd h:mm a z");
 
+    /** The view name. */
     private final String viewName = UserReviewsViewModel.VIEW_NAME;
+    /** The user reviews view model. */
     private final UserReviewsViewModel userReviewsViewModel;
+    /** The reviews panel. */
     private final JPanel reviewsPanel = new JPanel();
+    /** The comments panel. */
     private final JPanel commentsPanel = new JPanel();
+    /** The error label. */
     private final JLabel errorLabel = new JLabel();
+    /** The back button. */
     private final JButton backButton =
             new JButton(UserReviewsViewModel.BACK_BUTTON_LABEL);
+    /** The user reviews controller. */
     private UserReviewsController userReviewsController;
+    /** The loading content. */
     private boolean loadingContent;
 
-    public MyReviewsView(final UserReviewsViewModel userReviewsViewModel) {
-        this.userReviewsViewModel = userReviewsViewModel;
+    /**
+     * Handles this review or comment operation.
+     * @param inputUserReviewsViewModel the inputUserReviewsViewModel
+     */
+    public MyReviewsView(final UserReviewsViewModel inputUserReviewsViewModel) {
+        this.userReviewsViewModel = inputUserReviewsViewModel;
         this.userReviewsViewModel.addPropertyChangeListener(this);
 
         final JLabel title = new JLabel(UserReviewsViewModel.TITLE_LABEL);
@@ -64,7 +79,7 @@ public class MyReviewsView extends JPanel implements PropertyChangeListener {
         add(backButton);
         add(tabbedPane);
 
-        updateView(userReviewsViewModel.getState());
+        updateView(inputUserReviewsViewModel.getState());
     }
 
     /**
@@ -96,11 +111,11 @@ public class MyReviewsView extends JPanel implements PropertyChangeListener {
 
     /**
      * Sets the controller for user review actions.
-     * @param userReviewsController the user reviews controller
+     * @param inputUserReviewsController the user reviews controller
      */
     public void setUserReviewsController(
-            final UserReviewsController userReviewsController) {
-        this.userReviewsController = userReviewsController;
+            final UserReviewsController inputUserReviewsController) {
+        this.userReviewsController = inputUserReviewsController;
     }
 
     /**
@@ -264,17 +279,19 @@ public class MyReviewsView extends JPanel implements PropertyChangeListener {
      * Selects a review in the view model state.
      */
     private final class SelectReviewListener implements ActionListener {
+        /** The review id. */
         private final String reviewId;
 
-        private SelectReviewListener(final String reviewId) {
-            this.reviewId = reviewId;
+        private SelectReviewListener(final String inputReviewId) {
+            this.reviewId = inputReviewId;
         }
 
         @Override
         public void actionPerformed(final ActionEvent event) {
             final UserReviewsState state = userReviewsViewModel.getState();
             state.setSelectedReviewId(reviewId);
-            if (userReviewsController != null && !isBlank(state.getUsername())) {
+            if (userReviewsController != null
+                    && !isBlank(state.getUsername())) {
                 final String command = ((JButton) event.getSource()).getText();
                 if (UserReviewsViewModel.DELETE_BUTTON_LABEL.equals(command)) {
                     userReviewsController.deleteReview(reviewId,
