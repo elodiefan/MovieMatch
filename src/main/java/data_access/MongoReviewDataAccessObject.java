@@ -20,11 +20,27 @@ import com.mongodb.client.model.Filters;
 import com.mongodb.client.model.ReplaceOptions;
 import com.mongodb.client.model.Updates;
 import entity.Review;
+import use_case.review.CreateReviewDataAccessInterface;
+import use_case.review.DeleteReviewDataAccessInterface;
+import use_case.review.EditReviewDataAccessInterface;
+import use_case.review.GetMediaReviewsDataAccessInterface;
+import use_case.review.GetUserReviewsDataAccessInterface;
+import use_case.review.LikeReviewDataAccessInterface;
+import use_case.review.ReviewDataAccessInterface;
+import use_case.review.UnlikeReviewDataAccessInterface;
 
 /**
  * MongoDB data access object for review data.
  */
-public class MongoReviewDataAccessObject {
+public class MongoReviewDataAccessObject implements
+        ReviewDataAccessInterface,
+        CreateReviewDataAccessInterface,
+        DeleteReviewDataAccessInterface,
+        EditReviewDataAccessInterface,
+        GetMediaReviewsDataAccessInterface,
+        GetUserReviewsDataAccessInterface,
+        LikeReviewDataAccessInterface,
+        UnlikeReviewDataAccessInterface {
 
     private static final String DEFAULT_PROPERTIES = "mongo.properties";
     private static final String DEFAULT_COLLECTION = "reviews";
