@@ -4,7 +4,6 @@ public class MessagingState {
 
     private String username;
     private String otherUsername;
-
     private String displayText;
 
     public String getUsername() {

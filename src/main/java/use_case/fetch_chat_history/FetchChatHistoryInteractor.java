@@ -18,11 +18,20 @@ public class FetchChatHistoryInteractor implements FetchChatHistoryInputBoundary
     public void execute(FetchChatHistoryInputData fetchChatHistoryInputData) {
         final String username = fetchChatHistoryInputData.getUsername();
         final String otherUsername = fetchChatHistoryInputData.getOtherUsername();
-
-        final String displayText = messageDataAccessObject.getChatHistory(username, otherUsername);
-
+        final StringBuilder prevMessages = fetchChatHistoryInputData.getPrevMessages();
+        if (messageDataAccessObject.chatExists(username, otherUsername)) {
+            if (fetchChatHistoryInputData.getDate() == null) {
+                final String newMessages = messageDataAccessObject.getNewMessages(username, otherUsername);
+                prevMessages.append(newMessages);
+            }
+            else {
+                final String newMessages = messageDataAccessObject.getNewMessages(username, otherUsername,
+                        fetchChatHistoryInputData.getDate());
+                prevMessages.append(newMessages);
+            }
+        }
         final FetchChatHistoryOutputData fetchChatHistoryOutputData = new
-                FetchChatHistoryOutputData(displayText, false);
+                FetchChatHistoryOutputData(prevMessages, false);
         userPresenter.prepareFetchChatHistorySuccessView(fetchChatHistoryOutputData);
     }
 }

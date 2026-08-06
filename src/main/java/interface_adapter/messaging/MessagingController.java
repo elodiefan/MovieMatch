@@ -1,6 +1,6 @@
 package interface_adapter.messaging;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 
 import interface_adapter.ViewManagerModel;
 import use_case.fetch_chat_history.FetchChatHistoryInputBoundary;
@@ -34,20 +34,36 @@ public class MessagingController {
      * @param body content of message
      * @param timestamp time when message was sent
      */
-    public void executeSendMessage(String username, String otherUsername, String body, Date timestamp) {
+    public void executeSendMessage(String username, String otherUsername, String body, LocalDateTime timestamp) {
         final SendMessageInputData sendMessageInputData = new SendMessageInputData(username, otherUsername,
                 body, timestamp);
         sendMessageInteractor.execute(sendMessageInputData);
     }
 
     /**
-     * Executes the Fetch Chat History Use Case.
+     * Executes the Fetch Chat History Use Case, fetches entire chat history.
      * @param username username of the current user
      * @param otherUsername username of the other user
      */
-    public void executeFetchChatHistory(String username, String otherUsername) {
+    public void executeFetchAllChatHistory(String username, String otherUsername) {
+        final StringBuilder prevMessages = new StringBuilder();
         final FetchChatHistoryInputData fetchChatHistoryInputData = new
-                FetchChatHistoryInputData(username, otherUsername);
+                FetchChatHistoryInputData(username, otherUsername, prevMessages, null);
+        fetchChatHistoryInteractor.execute(fetchChatHistoryInputData);
+    }
+
+    /**
+     * Executes the Fetch Chat History Use Case, fetches updated chat history.
+     * @param username username of the current user
+     * @param otherUsername username of the other user
+     * @param currentChat the part of chat currently displayed
+     * @param lastTimeSent timestamp of last message currently shown
+     */
+    public void executeFetchUpdateChatHistory(String username, String otherUsername, String currentChat,
+                                              LocalDateTime lastTimeSent) {
+        final StringBuilder prevMessages = new StringBuilder(currentChat);
+        final FetchChatHistoryInputData fetchChatHistoryInputData = new
+                FetchChatHistoryInputData(username, otherUsername, prevMessages, lastTimeSent);
         fetchChatHistoryInteractor.execute(fetchChatHistoryInputData);
     }
 

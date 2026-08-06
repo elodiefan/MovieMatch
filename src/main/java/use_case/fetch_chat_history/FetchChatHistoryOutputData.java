@@ -5,16 +5,16 @@ package use_case.fetch_chat_history;
  */
 public class FetchChatHistoryOutputData {
 
-    private String displayText;
+    private StringBuilder displayText;
     private boolean useCaseFailed;
 
-    public FetchChatHistoryOutputData(String displayText, boolean useCaseFailed) {
+    public FetchChatHistoryOutputData(StringBuilder displayText, boolean useCaseFailed) {
         this.displayText = displayText;
         this.useCaseFailed = useCaseFailed;
     }
 
     public String getDisplayText() {
-        return displayText;
+        return displayText.toString();
     }
 
     public boolean isUseCaseFailed() {

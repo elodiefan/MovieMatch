@@ -1,6 +1,6 @@
 package use_case.send_message;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 
 import entity.Message;
 
@@ -27,7 +27,7 @@ public class SendMessageInteractor implements SendMessageInputBoundary {
         final String username = sendMessageInputData.getUsername();
         final String otherUsername = sendMessageInputData.getOtherUsername();
         final String body = sendMessageInputData.getBody();
-        final Date date = sendMessageInputData.getDate();
+        final LocalDateTime date = sendMessageInputData.getDate();
 
         if (!messageDataAccessObject.chatExists(username, otherUsername)) {
             final Message message = new Message(username, otherUsername, body, date);

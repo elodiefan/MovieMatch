@@ -1,6 +1,6 @@
 package entity;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 
 /**
  * Represents a direct message between two or more users.
@@ -11,9 +11,9 @@ public class Message {
     private String sender;
     private String recipient;
     private String body;
-    private Date date;
+    private LocalDateTime date;
 
-    public Message(String sender, String recipient, String body, Date date) {
+    public Message(String sender, String recipient, String body, LocalDateTime date) {
         this.sender = sender;
         this.recipient = recipient;
         this.body = body;
@@ -32,7 +32,7 @@ public class Message {
         return body;
     }
 
-    public Date getDate() {
+    public LocalDateTime getDate() {
         return date;
     }
 }
