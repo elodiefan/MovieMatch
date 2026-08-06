@@ -2,6 +2,7 @@ package use_case.review;
 
 import java.util.Iterator;
 import java.util.List;
+import java.util.Optional;
 
 import entity.Review;
 
@@ -9,6 +10,48 @@ import entity.Review;
  * Interactor for deleting a review.
  */
 public class DeleteReviewInteractor {
+    private final DeleteReviewDataAccessInterface reviewDataAccessObject;
+
+    /**
+     * Creates a delete review interactor without persistence.
+     */
+    public DeleteReviewInteractor() {
+        this(null);
+    }
+
+    /**
+     * Creates a delete review interactor with persistence.
+     * @param reviewDataAccessObject the DAO used to delete reviews
+     */
+    public DeleteReviewInteractor(
+            final DeleteReviewDataAccessInterface reviewDataAccessObject) {
+        this.reviewDataAccessObject = reviewDataAccessObject;
+    }
+
+    /**
+     * Deletes one persisted review written by the given user.
+     * @param reviewId the id of the review to delete
+     * @param username the username of the user deleting the review
+     * @return true if the review was deleted
+     */
+    public boolean deleteReview(final String reviewId,
+                                final String username) {
+        final String trimmedReviewId = trimToEmpty(reviewId);
+        final String trimmedUsername = trimToEmpty(username);
+        validateDeleteReviewData(trimmedReviewId, trimmedUsername);
+
+        final Optional<Review> review =
+                reviewDataAccessObject.getReviewById(trimmedReviewId);
+        final boolean deleted;
+        if (review.isPresent()
+                && canDeleteReview(review.get(), trimmedReviewId,
+                trimmedUsername)) {
+            deleted = reviewDataAccessObject.deleteReview(trimmedReviewId);
+        } else {
+            deleted = false;
+        }
+        return deleted;
+    }
 
     /**
      * Deletes one review written by the given user.
@@ -34,6 +77,23 @@ public class DeleteReviewInteractor {
         }
 
         return deleted;
+    }
+
+    /**
+     * Validates data needed to delete a persisted review.
+     * @param reviewId the review id to validate
+     * @param username the username to validate
+     */
+    private void validateDeleteReviewData(final String reviewId,
+                                          final String username) {
+        if (isBlank(reviewId)) {
+            throw new IllegalArgumentException("Review id cannot be empty.");
+        } else if (isBlank(username)) {
+            throw new IllegalArgumentException("Username cannot be empty.");
+        } else if (reviewDataAccessObject == null) {
+            throw new IllegalStateException(
+                    "Review data access object has not been configured.");
+        }
     }
 
     /**
