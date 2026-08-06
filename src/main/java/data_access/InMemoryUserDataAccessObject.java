@@ -89,6 +89,32 @@ public class InMemoryUserDataAccessObject implements UserDataAccessObject {
         return user.getUserLists();
     }
 
+    @Override
+    public void addToWatchlist(String username, int mediaId,
+                               String mediaType, String mediaTitle,
+                               String addedAt) {
+        final User user = users.get(username);
+        if (user != null) {
+            final String watchlist = appendMediaLog(user.getWatchlist(),
+                    mediaTitle, addedAt);
+            user.setUserLists(new UserLists(username, watchlist,
+                    user.getWatchHistory(), user.getBlockedUsers()));
+        }
+    }
+
+    @Override
+    public void addToWatchHistory(String username, int mediaId,
+                                  String mediaType, String mediaTitle,
+                                  String watchedAt) {
+        final User user = users.get(username);
+        if (user != null) {
+            final String watchHistory = appendMediaLog(user.getWatchHistory(),
+                    mediaTitle, watchedAt);
+            user.setUserLists(new UserLists(username, user.getWatchlist(),
+                    watchHistory, user.getBlockedUsers()));
+        }
+    }
+
     // ---------- Delete account (after the security question is answered) ----------
 
     @Override
@@ -145,5 +171,10 @@ public class InMemoryUserDataAccessObject implements UserDataAccessObject {
     @Override
     public void close() {
         // No resources to free for an in-memory store.
+    }
+
+    private String appendMediaLog(String currentList, String mediaTitle,
+                                  String loggedAt) {
+        return currentList + mediaTitle + " -- " + loggedAt + "\n";
     }
 }
