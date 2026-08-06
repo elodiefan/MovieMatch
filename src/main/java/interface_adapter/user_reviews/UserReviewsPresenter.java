@@ -1,6 +1,5 @@
 package interface_adapter.user_reviews;
 
-import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -108,10 +107,9 @@ public final class UserReviewsPresenter implements GetUserReviewsOutputBoundary,
      * @param comments the comment summaries to present
      * @return display-safe comment rows
      */
-    private List<UserReviewsState.CommentRow> prepareComments(
+    private List<UserCommentRow> prepareComments(
             final List<UserCommentSummaryData> comments) {
-        final List<UserReviewsState.CommentRow> commentRows =
-                new ArrayList<>();
+        final List<UserCommentRow> commentRows = new ArrayList<>();
         if (comments != null) {
             for (UserCommentSummaryData comment : comments) {
                 if (comment != null) {
@@ -154,7 +152,11 @@ public final class UserReviewsPresenter implements GetUserReviewsOutputBoundary,
      * @return the displayed review row
      */
     private UserReviewRow createReviewRow(final Review review) {
-        return new UserReviewRow(review);
+        return new UserReviewRow(review.getReviewId(), review.getMediaId(),
+                review.getMediaType(), review.getMediaTitle(),
+                review.getRating(), review.getReviewText(),
+                review.getCreatedAt(), review.getUpdatedAt(),
+                review.getLikeCount());
     }
 
     /**
@@ -162,9 +164,12 @@ public final class UserReviewsPresenter implements GetUserReviewsOutputBoundary,
      * @param comment the comment summary to convert
      * @return the displayed comment row
      */
-    private UserReviewsState.CommentRow createCommentRow(
+    private UserCommentRow createCommentRow(
             final UserCommentSummaryData comment) {
-        return new UserReviewsState.CommentRow(comment);
+        return new UserCommentRow(comment.getCommentId(),
+                comment.getReviewId(), comment.getMediaTitle(),
+                comment.getReviewText(), comment.getCommentText(),
+                comment.getCreatedAt(), comment.getLikeCount());
     }
 
     /**
@@ -176,115 +181,4 @@ public final class UserReviewsPresenter implements GetUserReviewsOutputBoundary,
         return value == null || value.trim().isEmpty();
     }
 
-    /**
-     * Display data for one review written by the user.
-     */
-    public static final class UserReviewRow {
-        /** The review id. */
-        private final String reviewId;
-        /** The media id. */
-        private final int mediaId;
-        /** The media type. */
-        private final String mediaType;
-        /** The media title. */
-        private final String mediaTitle;
-        /** The rating. */
-        private final double rating;
-        /** The review text. */
-        private final String reviewText;
-        /** The created at. */
-        private final ZonedDateTime createdAt;
-        /** The updated at. */
-        private final ZonedDateTime updatedAt;
-        /** The like count. */
-        private final int likeCount;
-
-        /**
-         * Creates display data for one user review row.
-         * @param review the review to present
-         */
-        public UserReviewRow(final Review review) {
-            this.reviewId = review.getReviewId();
-            this.mediaId = review.getMediaId();
-            this.mediaType = review.getMediaType();
-            this.mediaTitle = review.getMediaTitle();
-            this.rating = review.getRating();
-            this.reviewText = review.getReviewText();
-            this.createdAt = review.getCreatedAt();
-            this.updatedAt = review.getUpdatedAt();
-            this.likeCount = review.getLikeCount();
-        }
-
-        /**
-         * Returns the review id.
-         * @return the review id
-         */
-        public String getReviewId() {
-            return reviewId;
-        }
-
-        /**
-         * Returns the reviewed media id.
-         * @return the media id
-         */
-        public int getMediaId() {
-            return mediaId;
-        }
-
-        /**
-         * Returns the reviewed media type.
-         * @return the media type
-         */
-        public String getMediaType() {
-            return mediaType;
-        }
-
-        /**
-         * Returns the reviewed media title.
-         * @return the media title
-         */
-        public String getMediaTitle() {
-            return mediaTitle;
-        }
-
-        /**
-         * Returns the review rating percentage.
-         * @return the rating percentage
-         */
-        public double getRating() {
-            return rating;
-        }
-
-        /**
-         * Returns the review text.
-         * @return the review text
-         */
-        public String getReviewText() {
-            return reviewText;
-        }
-
-        /**
-         * Returns the review creation time.
-         * @return the creation time
-         */
-        public ZonedDateTime getCreatedAt() {
-            return createdAt;
-        }
-
-        /**
-         * Returns the review update time.
-         * @return the update time
-         */
-        public ZonedDateTime getUpdatedAt() {
-            return updatedAt;
-        }
-
-        /**
-         * Returns the review like count.
-         * @return the like count
-         */
-        public int getLikeCount() {
-            return likeCount;
-        }
-    }
 }

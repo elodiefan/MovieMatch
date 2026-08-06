@@ -3,6 +3,7 @@ package data_access;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
 
@@ -46,7 +47,13 @@ public class MongoUserDataAccessObject implements UserDataAccessObject {
     private static final String ANSWER = "answer";
     private static final String WATCHLIST = "watchlist";
     private static final String WATCH_HISTORY = "watchHistory";
+    private static final String MEDIA_ID = "mediaId";
+    private static final String MEDIA_TYPE = "mediaType";
+    private static final String MEDIA_TITLE = "mediaTitle";
+    private static final String ADDED_AT = "addedAt";
+    private static final String WATCHED_AT = "watchedAt";
     private static final String REVIEWS = "reviews";
+    private static final String COMMENTS = "comments";
     private static final String BLOCKED_USERS = "blockedUsers";
 
     private final MongoClient mongoClient;
@@ -115,8 +122,14 @@ public class MongoUserDataAccessObject implements UserDataAccessObject {
                     .append(DISPLAY_NAME, user.getDisplayName())
                     .append(PASSWORD, user.getPassword())
                     .append(SECURITY_QUESTION, user.getSecurityQuestion())
-                    .append(ANSWER, user.getAnswer()));
+                    .append(ANSWER, user.getAnswer())
+                    .append(WATCHLIST, new ArrayList<Document>())
+                    .append(WATCH_HISTORY, new ArrayList<Document>())
+                    .append(REVIEWS, new ArrayList<String>())
+                    .append(COMMENTS, new ArrayList<String>())
+                    .append(BLOCKED_USERS, new ArrayList<String>()));
         }
+        ensureUserListFields(user.getUsername());
     }
 
     @Override
@@ -153,12 +166,36 @@ public class MongoUserDataAccessObject implements UserDataAccessObject {
     public UserLists getLists(String username) {
         final Document doc = users.find(Filters.eq(USERNAME, username)).first();
         if (doc != null) {
-            final List<Document> watchlist = getWatchlist(doc);
-            final List<Document> watchHistory = getWatchHistory(doc);
-            final List<String> blockedUsers = getBlockedUsers(doc);
+            ensureUserListFields(username);
+            final Document updatedDoc = users.find(Filters.eq(USERNAME,
+                    username)).first();
+            final List<Document> watchlist = getWatchlist(updatedDoc);
+            final List<Document> watchHistory = getWatchHistory(updatedDoc);
+            final List<String> blockedUsers = getBlockedUsers(updatedDoc);
             return toUserLists(username, watchlist, watchHistory, blockedUsers);
         }
         return new UserLists(username, "", "", "");
+    }
+
+    @Override
+    public void addToWatchlist(String username, int mediaId, String mediaType,
+                               String mediaTitle, String addedAt) {
+        ensureUserListFields(username);
+        final Document mediaDocument = createMediaListDocument(mediaId,
+                mediaType, mediaTitle, ADDED_AT, addedAt);
+        replaceMediaListItem(username, WATCHLIST, mediaId, mediaType,
+                mediaDocument);
+    }
+
+    @Override
+    public void addToWatchHistory(String username, int mediaId,
+                                  String mediaType, String mediaTitle,
+                                  String watchedAt) {
+        ensureUserListFields(username);
+        final Document mediaDocument = createMediaListDocument(mediaId,
+                mediaType, mediaTitle, WATCHED_AT, watchedAt);
+        replaceMediaListItem(username, WATCH_HISTORY, mediaId, mediaType,
+                mediaDocument);
     }
 
     private static List<String> getBlockedUsers(Document doc) {
@@ -174,6 +211,21 @@ public class MongoUserDataAccessObject implements UserDataAccessObject {
     private static List<Document> getWatchlist(Document doc) {
         final List<Document> watchlist = doc.get(WATCHLIST, List.class);
         return watchlist;
+    }
+
+    private void ensureUserListFields(String username) {
+        setMissingField(username, WATCHLIST, new ArrayList<Document>());
+        setMissingField(username, WATCH_HISTORY, new ArrayList<Document>());
+        setMissingField(username, REVIEWS, new ArrayList<String>());
+        setMissingField(username, COMMENTS, new ArrayList<String>());
+        setMissingField(username, BLOCKED_USERS, new ArrayList<String>());
+    }
+
+    private void setMissingField(String username, String fieldName,
+                                 List<?> defaultValue) {
+        users.updateOne(Filters.and(Filters.eq(USERNAME, username),
+                        Filters.exists(fieldName, false)),
+                Updates.set(fieldName, defaultValue));
     }
 
     // ---------- Delete account (after the security question is answered) ----------
@@ -306,6 +358,26 @@ public class MongoUserDataAccessObject implements UserDataAccessObject {
         final String userWatchHistory = MongoDataCleaning.convertWatchHistoryToString(watchHistory);
         final String userBlockedUsers = MongoDataCleaning.convertBlockedUsersToString(blockedUsers);
         return new UserLists(username, userWatchlist, userWatchHistory, userBlockedUsers);
+    }
+
+    private Document createMediaListDocument(int mediaId, String mediaType,
+                                             String mediaTitle,
+                                             String dateField,
+                                             String loggedAt) {
+        return new Document(MEDIA_ID, mediaId)
+                .append(MEDIA_TYPE, mediaType)
+                .append(MEDIA_TITLE, mediaTitle)
+                .append(dateField, loggedAt);
+    }
+
+    private void replaceMediaListItem(String username, String listField,
+                                      int mediaId, String mediaType,
+                                      Document mediaDocument) {
+        users.updateOne(Filters.eq(USERNAME, username),
+                Updates.pull(listField, new Document(MEDIA_ID, mediaId)
+                        .append(MEDIA_TYPE, mediaType)));
+        users.updateOne(Filters.eq(USERNAME, username),
+                Updates.push(listField, mediaDocument));
     }
 
     @Override

@@ -20,8 +20,8 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JToggleButton;
 
+import interface_adapter.comments.CommentRow;
 import interface_adapter.comments.CommentsController;
-import interface_adapter.comments.CommentsPresenter;
 import interface_adapter.comments.CommentsState;
 import interface_adapter.comments.CommentsViewModel;
 
@@ -158,11 +158,11 @@ public final class CommentsPanel extends JPanel
      * @param comments the comment rows to display
      */
     private void setComments(final String reviewId,
-            final List<CommentsPresenter.CommentRow> comments) {
+            final List<CommentRow> comments) {
         commentsPanel.removeAll();
 
         boolean hasMatchingComments = false;
-        for (CommentsPresenter.CommentRow comment : comments) {
+        for (CommentRow comment : comments) {
             if (belongsToReview(comment, reviewId)) {
                 commentsPanel.add(createCommentCard(comment));
                 commentsPanel.add(Box.createVerticalStrut(CARD_GAP));
@@ -184,8 +184,7 @@ public final class CommentsPanel extends JPanel
      * @param comment the comment row
      * @return the comment card
      */
-    private Component createCommentCard(
-            final CommentsPresenter.CommentRow comment) {
+    private Component createCommentCard(final CommentRow comment) {
         final JPanel card = new JPanel();
         card.setLayout(new BoxLayout(card, BoxLayout.Y_AXIS));
         card.setBorder(BorderFactory.createEmptyBorder(0,
@@ -206,8 +205,7 @@ public final class CommentsPanel extends JPanel
      * @param comment the comment row
      * @return the button panel
      */
-    private Component createButtonPanel(
-            final CommentsPresenter.CommentRow comment) {
+    private Component createButtonPanel(final CommentRow comment) {
         final JPanel buttonPanel = new JPanel();
         final JButton replyButton =
                 new JButton(CommentsViewModel.REPLY_BUTTON_LABEL);
@@ -260,7 +258,7 @@ public final class CommentsPanel extends JPanel
      * @param reviewId the review id
      * @return true if the comment belongs to the review
      */
-    private boolean belongsToReview(final CommentsPresenter.CommentRow comment,
+    private boolean belongsToReview(final CommentRow comment,
                                     final String reviewId) {
         return reviewId == null || reviewId.isEmpty()
                 || comment.getReviewId().equals(reviewId);
@@ -271,7 +269,7 @@ public final class CommentsPanel extends JPanel
      * @param comment the comment row
      * @return the indentation amount
      */
-    private int getCommentIndent(final CommentsPresenter.CommentRow comment) {
+    private int getCommentIndent(final CommentRow comment) {
         final int indent;
         if (comment.getParentCommentId() == null
                 || comment.getParentCommentId().isEmpty()) {

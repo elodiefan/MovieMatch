@@ -8,6 +8,7 @@ import use_case.get_profile.GetProfileUserDataAccessInterface;
 import use_case.get_security_question.GetSecurityQuestionUserDataAccessInterface;
 import use_case.home_page.HomePageUserDataAccessInterface;
 import use_case.login.LoginUserDataAccessInterface;
+import use_case.log_media.LogMediaDataAccessInterface;
 import use_case.logout.LogoutUserDataAccessInterface;
 import use_case.reset_password.ResetPasswordUserDataAccessInterface;
 import use_case.security_question.SecurityQuestionUserDataAccessInterface;
@@ -40,6 +41,7 @@ public interface UserDataAccessObject extends
         GetSecurityQuestionUserDataAccessInterface,
         HomePageUserDataAccessInterface,
         LoginUserDataAccessInterface,
+        LogMediaDataAccessInterface,
         LogoutUserDataAccessInterface,
         ResetPasswordUserDataAccessInterface,
         SecurityQuestionUserDataAccessInterface,

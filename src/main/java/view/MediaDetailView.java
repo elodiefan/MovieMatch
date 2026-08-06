@@ -11,6 +11,9 @@ import javax.swing.JPanel;
 
 import interface_adapter.comments.CommentsController;
 import interface_adapter.comments.CommentsViewModel;
+import interface_adapter.log_media.LogMediaController;
+import interface_adapter.log_media.LogMediaState;
+import interface_adapter.log_media.LogMediaViewModel;
 import interface_adapter.media_detail.MediaDetailController;
 import interface_adapter.media_detail.MediaDetailState;
 import interface_adapter.media_detail.MediaDetailViewModel;
@@ -25,6 +28,7 @@ public class MediaDetailView extends JPanel implements PropertyChangeListener {
     private final String viewName = MediaDetailViewModel.VIEW_NAME;
 
     private final MediaDetailViewModel mediaDetailViewModel;
+    private final LogMediaViewModel logMediaViewModel;
 
     private final JLabel titleLabel;
     private final JLabel releaseYearLabel;
@@ -33,17 +37,24 @@ public class MediaDetailView extends JPanel implements PropertyChangeListener {
     private final JLabel languageLabel;
     private final MediaReviewsPanel mediaReviewsPanel;
     private MediaDetailController mediaDetailController;
+    private LogMediaController logMediaController;
 
     private final JLabel errorLabel;
+    private final JLabel logMediaLabel;
 
     private final JButton backButton;
+    private final JButton watchlistButton;
+    private final JButton watchHistoryButton;
 
     public MediaDetailView(MediaDetailViewModel mediaDetailViewModel,
                            MediaReviewsViewModel mediaReviewsViewModel,
-                           CommentsViewModel commentsViewModel) {
+                           CommentsViewModel commentsViewModel,
+                           LogMediaViewModel logMediaViewModel) {
 
         this.mediaDetailViewModel = mediaDetailViewModel;
+        this.logMediaViewModel = logMediaViewModel;
         this.mediaDetailViewModel.addPropertyChangeListener(this);
+        this.logMediaViewModel.addPropertyChangeListener(this);
         mediaReviewsPanel =
                 new MediaReviewsPanel(mediaReviewsViewModel,
                         commentsViewModel);
@@ -64,11 +75,22 @@ public class MediaDetailView extends JPanel implements PropertyChangeListener {
         languageLabel = new JLabel();
 
         errorLabel = new JLabel();
+        logMediaLabel = new JLabel();
 
         backButton =
                 new JButton(MediaDetailViewModel.BACK_BUTTON_LABEL);
         backButton.addActionListener(
                 event -> mediaDetailController.backToSearchResultView()
+        );
+        watchlistButton =
+                new JButton(LogMediaViewModel.WATCHLIST_BUTTON_LABEL);
+        watchlistButton.addActionListener(
+                event -> addCurrentMediaToWatchlist()
+        );
+        watchHistoryButton =
+                new JButton(LogMediaViewModel.WATCH_HISTORY_BUTTON_LABEL);
+        watchHistoryButton.addActionListener(
+                event -> addCurrentMediaToWatchHistory()
         );
 
         this.setLayout(
@@ -87,6 +109,12 @@ public class MediaDetailView extends JPanel implements PropertyChangeListener {
 
         this.add(languageLabel);
 
+        this.add(watchlistButton);
+
+        this.add(watchHistoryButton);
+
+        this.add(logMediaLabel);
+
         this.add(mediaReviewsPanel);
 
         this.add(backButton);
@@ -101,6 +129,15 @@ public class MediaDetailView extends JPanel implements PropertyChangeListener {
     public void setMediaDetailController(
             MediaDetailController mediaDetailController) {
         this.mediaDetailController = mediaDetailController;
+    }
+
+    /**
+     * Sets the controller used to log media to user lists.
+     * @param inputLogMediaController the log media controller
+     */
+    public void setLogMediaController(
+            LogMediaController inputLogMediaController) {
+        this.logMediaController = inputLogMediaController;
     }
 
     /**
@@ -124,9 +161,14 @@ public class MediaDetailView extends JPanel implements PropertyChangeListener {
 
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
+        if (evt.getSource() == logMediaViewModel) {
+            updateLogMediaStatus((LogMediaState) evt.getNewValue());
+        } else {
+            updateMediaDetails((MediaDetailState) evt.getNewValue());
+        }
+    }
 
-        final MediaDetailState state =
-                (MediaDetailState) evt.getNewValue();
+    private void updateMediaDetails(MediaDetailState state) {
 
         titleLabel.setText(
                 "Title: " + state.getTitle());
@@ -147,5 +189,31 @@ public class MediaDetailView extends JPanel implements PropertyChangeListener {
                         + state.getLanguage());
 
         errorLabel.setText(state.getMediaDetailError());
+    }
+
+    private void updateLogMediaStatus(LogMediaState state) {
+        final String statusText;
+        if (state.getError() == null || state.getError().isEmpty()) {
+            statusText = state.getMessage();
+        } else {
+            statusText = state.getError();
+        }
+        logMediaLabel.setText(statusText);
+    }
+
+    private void addCurrentMediaToWatchlist() {
+        final MediaDetailState state = mediaDetailViewModel.getState();
+        if (logMediaController != null) {
+            logMediaController.addToWatchlist(state.getMediaId(),
+                    state.getMediaType(), state.getTitle());
+        }
+    }
+
+    private void addCurrentMediaToWatchHistory() {
+        final MediaDetailState state = mediaDetailViewModel.getState();
+        if (logMediaController != null) {
+            logMediaController.addToWatchHistory(state.getMediaId(),
+                    state.getMediaType(), state.getTitle());
+        }
     }
 }

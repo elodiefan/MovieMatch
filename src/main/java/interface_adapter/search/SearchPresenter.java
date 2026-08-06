@@ -42,6 +42,7 @@ public class SearchPresenter implements SearchOutputBoundary {
         final SearchResultState state =
                 searchResultViewModel.getState();
 
+        state.setOriginalResults(outputData.getResults());
         state.setResults(outputData.getResults());
 
         searchResultViewModel.setState(state);
@@ -50,7 +51,6 @@ public class SearchPresenter implements SearchOutputBoundary {
         viewManagerModel.setState(
                 SearchResultViewModel.VIEW_NAME
         );
-
         viewManagerModel.firePropertyChanged();
     }
 }

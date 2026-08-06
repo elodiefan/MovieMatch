@@ -14,11 +14,16 @@ import interface_adapter.comments.CommentsViewModel;
 import interface_adapter.delete_account.DeleteAccountController;
 import interface_adapter.delete_account.DeleteAccountPresenter;
 import interface_adapter.delete_account.DeleteAccountViewModel;
+import interface_adapter.filter.FilterController;
+import interface_adapter.filter.FilterPresenter;
 import interface_adapter.get_lists.GetListsController;
 import interface_adapter.get_lists.GetListsPresenter;
 import interface_adapter.get_lists.GetListsViewModel;
 import interface_adapter.home_page.HomePageController;
 import interface_adapter.home_page.HomePagePresenter;
+import interface_adapter.log_media.LogMediaController;
+import interface_adapter.log_media.LogMediaPresenter;
+import interface_adapter.log_media.LogMediaViewModel;
 import interface_adapter.media_detail.MediaDetailController;
 import interface_adapter.media_detail.MediaDetailPresenter;
 import interface_adapter.media_detail.MediaDetailViewModel;
@@ -44,6 +49,9 @@ import interface_adapter.home_page.HomePageViewModel;
 import interface_adapter.login.LoginController;
 import interface_adapter.login.LoginPresenter;
 import interface_adapter.login.LoginViewModel;
+import interface_adapter.logged_in.LoggedInViewModel;
+import interface_adapter.logout.LogoutController;
+import interface_adapter.logout.LogoutPresenter;
 import interface_adapter.logout.LogoutViewModel;
 import interface_adapter.signup.SignupController;
 import interface_adapter.signup.SignupPresenter;
@@ -58,6 +66,9 @@ import use_case.comment.get_user_comments.GetUserCommentsInputBoundary;
 import use_case.comment.get_user_comments.GetUserCommentsInteractor;
 import use_case.comment.like_comment.LikeCommentInteractor;
 import use_case.comment.unlike_comment.UnlikeCommentInteractor;
+import use_case.filter.FilterInputBoundary;
+import use_case.filter.FilterInteractor;
+import use_case.filter.FilterOutputBoundary;
 import use_case.get_lists.get_blocked_users.GetBlockedUsersInputBoundary;
 import use_case.get_lists.get_blocked_users.GetBlockedUsersInteractor;
 import use_case.get_lists.get_blocked_users.GetBlockedUsersOutputBoundary;
@@ -82,6 +93,12 @@ import use_case.media_detail.MediaDetailOutputBoundary;
 import use_case.login.LoginInputBoundary;
 import use_case.login.LoginInteractor;
 import use_case.login.LoginOutputBoundary;
+import use_case.log_media.LogMediaInputBoundary;
+import use_case.log_media.LogMediaInteractor;
+import use_case.log_media.LogMediaOutputBoundary;
+import use_case.logout.LogoutInputBoundary;
+import use_case.logout.LogoutInteractor;
+import use_case.logout.LogoutOutputBoundary;
 import use_case.reset_password.ResetPasswordInputBoundary;
 import use_case.reset_password.ResetPasswordInteractor;
 import use_case.reset_password.ResetPasswordOutputBoundary;
@@ -104,7 +121,21 @@ import use_case.security_question.SecurityQuestionOutputBoundary;
 import use_case.signup.SignupInputBoundary;
 import use_case.signup.SignupInteractor;
 import use_case.signup.SignupOutputBoundary;
-import view.*;
+import view.DeleteAccountView;
+import view.GetListsView;
+import view.HomePageView;
+import view.LoginView;
+import view.LogoutConfirmView;
+import view.MediaDetailView;
+import view.MyReviewsView;
+import view.OtherAccountView;
+import view.PersonalAccountView;
+import view.ResetPasswordView;
+import view.SearchResultView;
+import view.SearchView;
+import view.SecurityQuestionView;
+import view.SignupView;
+import view.ViewManager;
 
 /**
  * The AppBuilder class is responsible for putting together the pieces of
@@ -169,6 +200,7 @@ public class AppBuilder {
     private MediaDetailViewModel mediaDetailViewModel;
     private MediaReviewsViewModel mediaReviewsViewModel;
     private CommentsViewModel commentsViewModel;
+    private LogMediaViewModel logMediaViewModel;
 
     public AppBuilder() {
         cardPanel.setLayout(cardLayout);
@@ -224,7 +256,8 @@ public class AppBuilder {
      */
     public AppBuilder addLogoutView() {
         logoutViewModel = new LogoutViewModel();
-        logoutView = new LogoutConfirmView(logoutViewModel);
+        logoutView = new LogoutConfirmView(logoutViewModel, viewManagerModel,
+                PersonalAccountViewModel.VIEW_NAME);
         cardPanel.add(logoutView, logoutView.getViewName());
         return this;
     }
@@ -419,12 +452,31 @@ public class AppBuilder {
         final PersonalAccountController personalAccountController = new PersonalAccountController(viewManagerModel,
                 getSecurityQuestionInteractor,
                 getListsController,
+                logoutViewModel,
                 resetPasswordViewModel.getViewName(),
                 homePageViewModel.getViewName(),
                 getListsViewModel.getViewName(),
                 userReviewsViewModel.getViewName());
 
         personalAccountView.setPersonalAccountController(personalAccountController);
+        return this;
+    }
+
+    /**
+     * Adds the Logout Use Case to the application.
+     * <p>
+     * Every piece of this use case already existed but was never assembled, so the
+     * Log Out button on the personal account page did nothing.
+     * @return this builder
+     */
+    public AppBuilder addLogoutUseCase() {
+        final LogoutOutputBoundary logoutOutputBoundary = new LogoutPresenter(viewManagerModel,
+                new LoggedInViewModel(), loginViewModel);
+        final LogoutInputBoundary logoutInteractor = new LogoutInteractor(userDataAccessObject,
+                logoutOutputBoundary);
+
+        final LogoutController logoutController = new LogoutController(logoutInteractor);
+        logoutView.setLogoutController(logoutController);
         return this;
     }
 
@@ -537,7 +589,7 @@ public class AppBuilder {
      */
     public AppBuilder addSearchView() {
         searchViewModel = new SearchViewModel();
-        searchView = new SearchView(searchViewModel);
+        searchView = new SearchView(searchViewModel, viewManagerModel, HomePageViewModel.VIEW_NAME);
 
         cardPanel.add(
                 searchView,
@@ -554,7 +606,8 @@ public class AppBuilder {
      */
     public AppBuilder addSearchResultView() {
         searchResultViewModel = new SearchResultViewModel();
-        searchResultView = new SearchResultView(searchResultViewModel);
+        searchResultView = new SearchResultView(searchResultViewModel, viewManagerModel,
+                SearchViewModel.VIEW_NAME);
         cardPanel.add(searchResultView, searchResultView.getViewName());
         return this;
     }
@@ -575,6 +628,29 @@ public class AppBuilder {
     }
 
     /**
+     * Adds the Filter Use Case to the application.
+     *
+     * @return this builder
+     */
+    public AppBuilder addFilterUseCase() {
+        final FilterOutputBoundary filterPresenter =
+                new FilterPresenter(searchResultViewModel);
+
+        final FilterInputBoundary filterInteractor =
+                new FilterInteractor(filterPresenter);
+
+        final FilterController filterController =
+                new FilterController(
+                        filterInteractor,
+                        searchResultViewModel
+                );
+
+        searchResultView.setFilterController(filterController);
+
+        return this;
+    }
+
+    /**
      * Adds the Media Detail View to the application.
      *
      * @return this builder
@@ -583,11 +659,13 @@ public class AppBuilder {
         mediaDetailViewModel = new MediaDetailViewModel();
         mediaReviewsViewModel = new MediaReviewsViewModel();
         commentsViewModel = new CommentsViewModel();
+        logMediaViewModel = new LogMediaViewModel();
 
         mediaDetailView = new MediaDetailView(
                 mediaDetailViewModel,
                 mediaReviewsViewModel,
-                commentsViewModel
+                commentsViewModel,
+                logMediaViewModel
         );
 
         cardPanel.add(
@@ -629,6 +707,9 @@ public class AppBuilder {
         );
         mediaDetailView.setCommentsController(
                 createCommentsController()
+        );
+        mediaDetailView.setLogMediaController(
+                createLogMediaController()
         );
 
         return this;
@@ -720,6 +801,16 @@ public class AppBuilder {
         return new CommentsController(getReviewCommentsInteractor,
                 createCommentInteractor, deleteCommentInteractor,
                 likeCommentInteractor, unlikeCommentInteractor);
+    }
+
+    private LogMediaController createLogMediaController() {
+        final LogMediaOutputBoundary logMediaPresenter =
+                new LogMediaPresenter(logMediaViewModel);
+        final LogMediaInputBoundary logMediaInteractor =
+                new LogMediaInteractor(userDataAccessObject,
+                        logMediaPresenter);
+
+        return new LogMediaController(logMediaInteractor);
     }
 
 }

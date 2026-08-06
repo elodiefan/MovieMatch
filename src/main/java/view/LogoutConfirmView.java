@@ -7,6 +7,7 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+import interface_adapter.ViewManagerModel;
 import interface_adapter.logout.LogoutController;
 import interface_adapter.logout.LogoutState;
 import interface_adapter.logout.LogoutViewModel;
@@ -19,15 +20,21 @@ public class LogoutConfirmView extends JPanel implements ActionListener {
     private final String viewName = "logout confirm";
 
     private final LogoutViewModel logoutViewModel;
+    private final ViewManagerModel viewManagerModel;
+    private final String personalAccountViewName;
 
     private final JButton confirm;
     private final JButton cancel;
 
     private LogoutController logoutController;
 
-    public LogoutConfirmView(LogoutViewModel logoutViewModel) {
+    public LogoutConfirmView(LogoutViewModel logoutViewModel,
+                             ViewManagerModel viewManagerModel,
+                             String personalAccountViewName) {
 
         this.logoutViewModel = logoutViewModel;
+        this.viewManagerModel = viewManagerModel;
+        this.personalAccountViewName = personalAccountViewName;
 
         final JLabel message = new JLabel(
                 "confirming the log out"
@@ -55,6 +62,10 @@ public class LogoutConfirmView extends JPanel implements ActionListener {
             logoutController.execute(
                     currentState.getUsername()
             );
+        }
+        else if (evt.getSource().equals(cancel)) {
+            // Changing your mind has to lead somewhere, otherwise this view is a dead end.
+            viewManagerModel.switchView(personalAccountViewName);
         }
     }
 

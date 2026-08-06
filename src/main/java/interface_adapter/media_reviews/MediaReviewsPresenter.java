@@ -1,6 +1,5 @@
 package interface_adapter.media_reviews;
 
-import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -132,7 +131,11 @@ public final class MediaReviewsPresenter
      * @return the displayed media review row
      */
     private MediaReviewRow createReviewRow(final Review review) {
-        return new MediaReviewRow(review);
+        return new MediaReviewRow(review.getReviewId(),
+                review.getAuthorUsername(), review.getAuthorDisplayName(),
+                review.getRating(), review.getReviewText(),
+                review.getCreatedAt(), review.getUpdatedAt(),
+                review.getLikeCount(), review.getSource());
     }
 
     /**
@@ -144,115 +147,4 @@ public final class MediaReviewsPresenter
         return value == null || value.trim().isEmpty();
     }
 
-    /**
-     * Display data for one community review on a media page.
-     */
-    public static final class MediaReviewRow {
-        /** The review id. */
-        private final String reviewId;
-        /** The author username. */
-        private final String authorUsername;
-        /** The author display name. */
-        private final String authorDisplayName;
-        /** The rating. */
-        private final double rating;
-        /** The review text. */
-        private final String reviewText;
-        /** The created at. */
-        private final ZonedDateTime createdAt;
-        /** The updated at. */
-        private final ZonedDateTime updatedAt;
-        /** The like count. */
-        private final int likeCount;
-        /** The review source. */
-        private final String source;
-
-        /**
-         * Creates display data for one media review row.
-         * @param review the review to present
-         */
-        public MediaReviewRow(final Review review) {
-            this.reviewId = review.getReviewId();
-            this.authorUsername = review.getAuthorUsername();
-            this.authorDisplayName = review.getAuthorDisplayName();
-            this.rating = review.getRating();
-            this.reviewText = review.getReviewText();
-            this.createdAt = review.getCreatedAt();
-            this.updatedAt = review.getUpdatedAt();
-            this.likeCount = review.getLikeCount();
-            this.source = review.getSource();
-        }
-
-        /**
-         * Returns the review id.
-         * @return the review id
-         */
-        public String getReviewId() {
-            return reviewId;
-        }
-
-        /**
-         * Returns the author's username.
-         * @return the author's username
-         */
-        public String getAuthorUsername() {
-            return authorUsername;
-        }
-
-        /**
-         * Returns the author's display name.
-         * @return the author's display name
-         */
-        public String getAuthorDisplayName() {
-            return authorDisplayName;
-        }
-
-        /**
-         * Returns the review rating percentage.
-         * @return the rating percentage
-         */
-        public double getRating() {
-            return rating;
-        }
-
-        /**
-         * Returns the review text.
-         * @return the review text
-         */
-        public String getReviewText() {
-            return reviewText;
-        }
-
-        /**
-         * Returns the review creation time.
-         * @return the creation time
-         */
-        public ZonedDateTime getCreatedAt() {
-            return createdAt;
-        }
-
-        /**
-         * Returns the review update time.
-         * @return the update time
-         */
-        public ZonedDateTime getUpdatedAt() {
-            return updatedAt;
-        }
-
-        /**
-         * Returns the review like count.
-         * @return the like count
-         */
-        public int getLikeCount() {
-            return likeCount;
-        }
-
-        /**
-         * Returns the review source.
-         * @return the review source
-         */
-        public String getSource() {
-            return source;
-        }
-    }
 }

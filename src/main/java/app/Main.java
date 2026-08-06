@@ -31,6 +31,7 @@ public class Main {
                 .addGetProfileUseCase()
 //                .addHomePageUseCase()
                 .addLoginUseCase()
+                .addLogoutUseCase()
                 .addPersonalAccountUseCase()
                 .addResetPasswordUseCase()
 //                .addReviewsUseCase()
@@ -39,11 +40,9 @@ public class Main {
                 .addSearchView()
                 .addSearchResultView()
                 .addSearchUseCase()
-                .addSearchView()
-                .addSearchResultView()
+                .addFilterUseCase()
                 .addUserReviewsUseCase()
                 .addMediaDetailView()
-                .addSearchUseCase()
                 .addMediaDetailUseCase()
                 .build();
 

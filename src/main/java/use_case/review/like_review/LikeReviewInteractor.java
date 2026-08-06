@@ -1,9 +1,5 @@
 package use_case.review.like_review;
 
-import java.util.List;
-
-import entity.Review;
-
 /**
  * Interactor for liking a review.
  */
@@ -70,30 +66,6 @@ public final class LikeReviewInteractor implements LikeReviewInputBoundary {
     }
 
     /**
-     * Adds a user's like to a review.
-     * @param reviewId the id of the review to like
-     * @param username the username of the user liking the review
-     * @param reviews the reviews to search through
-     * @return true if the review was found and liked
-     */
-    private boolean likeReview(final String reviewId, final String username,
-                              final List<Review> reviews) {
-        final String trimmedReviewId = trimToEmpty(reviewId);
-        final String trimmedUsername = trimToEmpty(username);
-        validateLikeReviewData(trimmedReviewId, trimmedUsername, reviews);
-
-        boolean liked = false;
-        for (Review review : reviews) {
-            if (isMatchingReview(review, trimmedReviewId)) {
-                review.like(trimmedUsername);
-                liked = true;
-            }
-        }
-
-        return liked;
-    }
-
-    /**
      * Validates the data needed to like a persisted review.
      * @param reviewId the review id to validate
      * @param username the username to validate
@@ -114,41 +86,6 @@ public final class LikeReviewInteractor implements LikeReviewInputBoundary {
         if (presenter == null) {
             throw new IllegalStateException(
                     "Like review presenter has not been configured.");
-        }
-    }
-
-    /**
-     * Checks whether a review has the requested review id.
-     * @param review the review to check
-     * @param reviewId the review id to match
-     * @return true if the review has the requested id
-     */
-    private boolean isMatchingReview(final Review review,
-                                     final String reviewId) {
-        final boolean matchingReview;
-        if (review == null) {
-            matchingReview = false;
-        } else {
-            matchingReview = review.getReviewId().equals(reviewId);
-        }
-        return matchingReview;
-    }
-
-    /**
-     * Validates the data needed to like a review.
-     * @param reviewId the review id to validate
-     * @param username the username to validate
-     * @param reviews the review list to validate
-     */
-    private void validateLikeReviewData(final String reviewId,
-                                        final String username,
-                                        final List<Review> reviews) {
-        if (isBlank(reviewId)) {
-            throw new IllegalArgumentException("Review id cannot be empty.");
-        } else if (isBlank(username)) {
-            throw new IllegalArgumentException("Username cannot be empty.");
-        } else if (reviews == null) {
-            throw new IllegalArgumentException("Reviews cannot be null.");
         }
     }
 

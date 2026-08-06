@@ -14,8 +14,7 @@ public final class MediaReviewsState {
     /** The media title. */
     private String mediaTitle = "";
     /** The reviews. */
-    private List<MediaReviewsPresenter.MediaReviewRow> reviews =
-            new ArrayList<>();
+    private List<MediaReviewRow> reviews = new ArrayList<>();
     /** The selected review id. */
     private String selectedReviewId = "";
     /** The media reviews error. */
@@ -73,7 +72,7 @@ public final class MediaReviewsState {
      * Returns the displayed review rows.
      * @return a copy of the review rows
      */
-    public List<MediaReviewsPresenter.MediaReviewRow> getReviews() {
+    public List<MediaReviewRow> getReviews() {
         return new ArrayList<>(reviews);
     }
 
@@ -81,8 +80,7 @@ public final class MediaReviewsState {
      * Sets the displayed review rows.
      * @param inputReviews the review rows
      */
-    public void setReviews(
-            final List<MediaReviewsPresenter.MediaReviewRow> inputReviews) {
+    public void setReviews(final List<MediaReviewRow> inputReviews) {
         this.reviews = new ArrayList<>(inputReviews);
     }
 

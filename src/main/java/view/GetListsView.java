@@ -13,7 +13,12 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 
-import interface_adapter.get_lists.*;
+import interface_adapter.get_lists.GetBlockedUsersViewModel;
+import interface_adapter.get_lists.GetListsController;
+import interface_adapter.get_lists.GetListsState;
+import interface_adapter.get_lists.GetListsViewModel;
+import interface_adapter.get_lists.GetWatchHistoryViewModel;
+import interface_adapter.get_lists.GetWatchlistViewModel;
 
 /**
  * The View for a user's personal account lists.
