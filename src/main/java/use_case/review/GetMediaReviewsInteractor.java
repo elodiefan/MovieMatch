@@ -15,6 +15,43 @@ public class GetMediaReviewsInteractor {
      */
     private static final int MIN_MEDIA_ID = 0;
 
+    private final GetMediaReviewsDataAccessInterface reviewDataAccessObject;
+
+    /**
+     * Creates a media reviews interactor without persistence.
+     */
+    public GetMediaReviewsInteractor() {
+        this(null);
+    }
+
+    /**
+     * Creates a media reviews interactor with persistence.
+     * @param reviewDataAccessObject the DAO used to load reviews
+     */
+    public GetMediaReviewsInteractor(
+            final GetMediaReviewsDataAccessInterface reviewDataAccessObject) {
+        this.reviewDataAccessObject = reviewDataAccessObject;
+    }
+
+    /**
+     * Returns persisted reviews for one media item, ordered newest to oldest.
+     * @param mediaId the reviewed media's identifier
+     * @param mediaType the reviewed media's type
+     * @return the matching media reviews
+     */
+    public List<Review> getMediaReviews(final int mediaId,
+                                        final String mediaType) {
+        final String trimmedMediaType = trimToEmpty(mediaType);
+        validateGetMediaReviewsData(mediaId, trimmedMediaType);
+
+        final List<Review> matchingReviews =
+                reviewDataAccessObject.getReviewsByMedia(mediaId,
+                        trimmedMediaType);
+        matchingReviews.sort(Comparator.comparing(Review::getCreatedAt)
+                .reversed());
+        return matchingReviews;
+    }
+
     /**
      * Returns the reviews for one media item, ordered from newest to oldest.
      * @param mediaId the reviewed media's identifier
@@ -38,6 +75,23 @@ public class GetMediaReviewsInteractor {
         matchingReviews.sort(Comparator.comparing(Review::getCreatedAt)
                 .reversed());
         return matchingReviews;
+    }
+
+    /**
+     * Validates data needed to load persisted media reviews.
+     * @param mediaId the media id to validate
+     * @param mediaType the media type to validate
+     */
+    private void validateGetMediaReviewsData(final int mediaId,
+                                             final String mediaType) {
+        if (mediaId < MIN_MEDIA_ID) {
+            throw new IllegalArgumentException("Media id cannot be negative.");
+        } else if (isBlank(mediaType)) {
+            throw new IllegalArgumentException("Media type cannot be empty.");
+        } else if (reviewDataAccessObject == null) {
+            throw new IllegalStateException(
+                    "Review data access object has not been configured.");
+        }
     }
 
     /**
