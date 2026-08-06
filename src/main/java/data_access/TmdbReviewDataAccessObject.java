@@ -1,8 +1,6 @@
 package data_access;
 
 import java.io.IOException;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
 import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -68,9 +66,6 @@ public final class TmdbReviewDataAccessObject
     /**
      * Requests review JSON from TMDB.
      *
-     * <p>This calls methods that Yidan is adding to {@link TmdbApiClient}:
-     * getMovieReviews(int) and getTvShowReviews(int).</p>
-     *
      * @param mediaId the TMDB media id
      * @param mediaType the TMDB media type
      * @return the raw TMDB reviews JSON
@@ -78,56 +73,13 @@ public final class TmdbReviewDataAccessObject
      */
     private String getReviewsJson(final int mediaId, final String mediaType)
             throws IOException {
-        final String methodName;
+        final String reviewsJson;
         if (MOVIE_TYPE.equals(mediaType)) {
-            methodName = "getMovieReviews";
+            reviewsJson = tmdbApiClient.getMovieReviews(mediaId);
         } else {
-            methodName = "getTvShowReviews";
+            reviewsJson = tmdbApiClient.getTvShowReviews(mediaId);
         }
-        return invokeReviewMethod(methodName, mediaId);
-    }
-
-    /**
-     * Invokes the review method once it exists on the shared TMDB client.
-     *
-     * @param methodName the review method name
-     * @param mediaId the TMDB media id
-     * @return the raw TMDB reviews JSON
-     * @throws IOException if the client request fails
-     */
-    private String invokeReviewMethod(final String methodName,
-                                      final int mediaId) throws IOException {
-        String response;
-        try {
-            final Method method = TmdbApiClient.class.getMethod(methodName,
-                    int.class);
-            response = (String) method.invoke(tmdbApiClient, mediaId);
-        } catch (NoSuchMethodException exception) {
-            throw new IOException("TMDB review endpoint is not wired yet.",
-                    exception);
-        } catch (IllegalAccessException exception) {
-            throw new IOException("TMDB review endpoint cannot be accessed.",
-                    exception);
-        } catch (InvocationTargetException exception) {
-            response = handleInvocationFailure(exception);
-        }
-        return response;
-    }
-
-    /**
-     * Converts a reflected TMDB client failure into an IOException.
-     *
-     * @param exception the reflected invocation exception
-     * @return never normally returns
-     * @throws IOException always thrown with the underlying cause
-     */
-    private String handleInvocationFailure(
-            final InvocationTargetException exception) throws IOException {
-        final Throwable cause = exception.getCause();
-        if (cause instanceof IOException) {
-            throw (IOException) cause;
-        }
-        throw new IOException("TMDB review endpoint failed.", cause);
+        return reviewsJson;
     }
 
     /**
