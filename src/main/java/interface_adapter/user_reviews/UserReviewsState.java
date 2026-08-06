@@ -99,25 +99,52 @@ public class UserReviewsState {
      * Display data for one comment in the user's comment history.
      */
     public static final class CommentRow {
+        private final String commentId;
+        private final String reviewId;
         private final String mediaTitle;
         private final String reviewText;
         private final String commentText;
         private final ZonedDateTime createdAt;
+        private final int likeCount;
 
         /**
          * Creates display data for one comment row.
+         * @param commentId the comment id
+         * @param reviewId the review id
          * @param mediaTitle the media title
          * @param reviewText the review text the user commented on
          * @param commentText the user's comment text
          * @param createdAt the comment creation time
+         * @param likeCount the number of likes on the comment
          */
-        public CommentRow(final String mediaTitle, final String reviewText,
+        public CommentRow(final String commentId, final String reviewId,
+                          final String mediaTitle, final String reviewText,
                           final String commentText,
-                          final ZonedDateTime createdAt) {
+                          final ZonedDateTime createdAt,
+                          final int likeCount) {
+            this.commentId = commentId;
+            this.reviewId = reviewId;
             this.mediaTitle = mediaTitle;
             this.reviewText = reviewText;
             this.commentText = commentText;
             this.createdAt = createdAt;
+            this.likeCount = likeCount;
+        }
+
+        /**
+         * Returns the comment id.
+         * @return the comment id
+         */
+        public String getCommentId() {
+            return commentId;
+        }
+
+        /**
+         * Returns the review id.
+         * @return the review id
+         */
+        public String getReviewId() {
+            return reviewId;
         }
 
         /**
@@ -150,6 +177,14 @@ public class UserReviewsState {
          */
         public ZonedDateTime getCreatedAt() {
             return createdAt;
+        }
+
+        /**
+         * Returns the comment like count.
+         * @return the like count
+         */
+        public int getLikeCount() {
+            return likeCount;
         }
     }
 }
