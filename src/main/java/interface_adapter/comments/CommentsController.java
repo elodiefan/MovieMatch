@@ -53,6 +53,15 @@ public class CommentsController {
     }
 
     /**
+     * Loads persisted comments for one review.
+     * @param reviewId the review id to load comments for
+     * @return the matching comments
+     */
+    public List<Comment> getReviewComments(final String reviewId) {
+        return getReviewCommentsInteractor.getReviewComments(reviewId);
+    }
+
+    /**
      * Creates a comment or reply on a review.
      * @param reviewId the id of the review being commented on
      * @param parentCommentId the parent comment id, or null for top level
@@ -86,6 +95,17 @@ public class CommentsController {
     }
 
     /**
+     * Deletes one persisted comment written by the given user.
+     * @param commentId the id of the comment to delete
+     * @param username the username of the user deleting the comment
+     * @return true if the comment was deleted
+     */
+    public boolean deleteComment(final String commentId,
+                                 final String username) {
+        return deleteCommentInteractor.deleteComment(commentId, username);
+    }
+
+    /**
      * Likes a comment.
      * @param commentId the id of the comment to like
      * @param username the username of the user liking the comment
@@ -96,6 +116,16 @@ public class CommentsController {
                                final List<Comment> comments) {
         return likeCommentInteractor.likeComment(commentId, username,
                 comments);
+    }
+
+    /**
+     * Likes one persisted comment.
+     * @param commentId the id of the comment to like
+     * @param username the username of the user liking the comment
+     * @return true if the comment was found and liked
+     */
+    public boolean likeComment(final String commentId, final String username) {
+        return likeCommentInteractor.likeComment(commentId, username);
     }
 
     /**
@@ -110,5 +140,16 @@ public class CommentsController {
                                  final List<Comment> comments) {
         return unlikeCommentInteractor.unlikeComment(commentId, username,
                 comments);
+    }
+
+    /**
+     * Unlikes one persisted comment.
+     * @param commentId the id of the comment to unlike
+     * @param username the username of the user unliking the comment
+     * @return true if the comment was found and unliked
+     */
+    public boolean unlikeComment(final String commentId,
+                                 final String username) {
+        return unlikeCommentInteractor.unlikeComment(commentId, username);
     }
 }
