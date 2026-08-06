@@ -10,7 +10,7 @@ public final class CommentsState {
     /** The review id. */
     private String reviewId = "";
     /** The comments. */
-    private List<CommentsPresenter.CommentRow> comments = new ArrayList<>();
+    private List<CommentRow> comments = new ArrayList<>();
     /** The selected comment id. */
     private String selectedCommentId = "";
     /** The parent comment id. */
@@ -38,7 +38,7 @@ public final class CommentsState {
      * Returns the displayed comment rows.
      * @return a copy of the comment rows
      */
-    public List<CommentsPresenter.CommentRow> getComments() {
+    public List<CommentRow> getComments() {
         return new ArrayList<>(comments);
     }
 
@@ -47,7 +47,7 @@ public final class CommentsState {
      * @param inputComments the comment rows
      */
     public void setComments(
-            final List<CommentsPresenter.CommentRow> inputComments) {
+            final List<CommentRow> inputComments) {
         this.comments = new ArrayList<>(inputComments);
     }
 

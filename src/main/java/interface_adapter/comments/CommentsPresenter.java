@@ -1,6 +1,5 @@
 package interface_adapter.comments;
 
-import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -128,7 +127,10 @@ public final class CommentsPresenter implements GetReviewCommentsOutputBoundary,
      * @return the displayed comment row
      */
     private CommentRow createCommentRow(final Comment comment) {
-        return new CommentRow(comment);
+        return new CommentRow(comment.getCommentId(), comment.getReviewId(),
+                comment.getParentCommentId(), comment.getAuthorUsername(),
+                comment.getAuthorDisplayName(), comment.getCommentText(),
+                comment.getCreatedAt(), comment.getLikeCount());
     }
 
     /**
@@ -140,104 +142,4 @@ public final class CommentsPresenter implements GetReviewCommentsOutputBoundary,
         return value == null || value.trim().isEmpty();
     }
 
-    /**
-     * Display data for one comment.
-     */
-    public static final class CommentRow {
-        /** The comment id. */
-        private final String commentId;
-        /** The review id. */
-        private final String reviewId;
-        /** The parent comment id. */
-        private final String parentCommentId;
-        /** The author username. */
-        private final String authorUsername;
-        /** The author display name. */
-        private final String authorDisplayName;
-        /** The comment text. */
-        private final String commentText;
-        /** The created at. */
-        private final ZonedDateTime createdAt;
-        /** The like count. */
-        private final int likeCount;
-
-        /**
-         * Creates display data for one comment row.
-         * @param comment the comment to present
-         */
-        public CommentRow(final Comment comment) {
-            this.commentId = comment.getCommentId();
-            this.reviewId = comment.getReviewId();
-            this.parentCommentId = comment.getParentCommentId();
-            this.authorUsername = comment.getAuthorUsername();
-            this.authorDisplayName = comment.getAuthorDisplayName();
-            this.commentText = comment.getCommentText();
-            this.createdAt = comment.getCreatedAt();
-            this.likeCount = comment.getLikeCount();
-        }
-
-        /**
-         * Returns the comment id.
-         * @return the comment id
-         */
-        public String getCommentId() {
-            return commentId;
-        }
-
-        /**
-         * Returns the review id.
-         * @return the review id
-         */
-        public String getReviewId() {
-            return reviewId;
-        }
-
-        /**
-         * Returns the parent comment id.
-         * @return the parent comment id
-         */
-        public String getParentCommentId() {
-            return parentCommentId;
-        }
-
-        /**
-         * Returns the author's username.
-         * @return the author's username
-         */
-        public String getAuthorUsername() {
-            return authorUsername;
-        }
-
-        /**
-         * Returns the author's display name.
-         * @return the author's display name
-         */
-        public String getAuthorDisplayName() {
-            return authorDisplayName;
-        }
-
-        /**
-         * Returns the comment text.
-         * @return the comment text
-         */
-        public String getCommentText() {
-            return commentText;
-        }
-
-        /**
-         * Returns the comment creation time.
-         * @return the creation time
-         */
-        public ZonedDateTime getCreatedAt() {
-            return createdAt;
-        }
-
-        /**
-         * Returns the comment like count.
-         * @return the like count
-         */
-        public int getLikeCount() {
-            return likeCount;
-        }
-    }
 }
