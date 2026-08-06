@@ -93,14 +93,14 @@ public class PersonalAccountView extends JPanel implements PropertyChangeListene
                 }
         );
 
-//        reviewsButton.addActionListener(
-//                new ActionListener() {
-//                    @Override
-//                    public void actionPerformed(ActionEvent e) {
-//                        accountController.switchToReviewsView();
-//                    }
-//                }
-//        );
+        reviewsButton.addActionListener(
+                new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        personalAccountController.switchToReviewsView();
+                    }
+                }
+        );
 
         blockedUsersButton.addActionListener(
                 new ActionListener() {

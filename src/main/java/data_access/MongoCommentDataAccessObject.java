@@ -21,24 +21,17 @@ import com.mongodb.client.model.ReplaceOptions;
 import com.mongodb.client.model.Updates;
 import entity.Comment;
 import use_case.comment.CommentDataAccessInterface;
-import use_case.comment.CreateCommentDataAccessInterface;
-import use_case.comment.DeleteCommentDataAccessInterface;
-import use_case.comment.GetReviewCommentsDataAccessInterface;
-import use_case.comment.GetUserCommentsDataAccessInterface;
-import use_case.comment.LikeCommentDataAccessInterface;
-import use_case.comment.UnlikeCommentDataAccessInterface;
+import use_case.comment.create_comment.CreateCommentDataAccessInterface;
+import use_case.comment.delete_comment.DeleteCommentDataAccessInterface;
+import use_case.comment.get_review_comments.GetReviewCommentsDataAccessInterface;
+import use_case.comment.get_user_comments.GetUserCommentsDataAccessInterface;
+import use_case.comment.like_comment.LikeCommentDataAccessInterface;
+import use_case.comment.unlike_comment.UnlikeCommentDataAccessInterface;
 
 /**
  * MongoDB data access object for comments on reviews.
  */
-public class MongoCommentDataAccessObject implements
-        CommentDataAccessInterface,
-        CreateCommentDataAccessInterface,
-        DeleteCommentDataAccessInterface,
-        GetReviewCommentsDataAccessInterface,
-        GetUserCommentsDataAccessInterface,
-        LikeCommentDataAccessInterface,
-        UnlikeCommentDataAccessInterface {
+public class MongoCommentDataAccessObject implements CommentDataAccessObject{
 
     private static final String DEFAULT_PROPERTIES = "mongo.properties";
     private static final String DEFAULT_COLLECTION = "comments";
@@ -209,9 +202,7 @@ public class MongoCommentDataAccessObject implements
         return allComments;
     }
 
-    /**
-     * Closes the MongoDB connection.
-     */
+    @Override
     public void close() {
         mongoClient.close();
     }

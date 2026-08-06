@@ -21,28 +21,19 @@ import com.mongodb.client.model.ReplaceOptions;
 import com.mongodb.client.model.Updates;
 import entity.Review;
 import use_case.comment.GetUserCommentsReviewDataAccessInterface;
-import use_case.review.CreateReviewDataAccessInterface;
-import use_case.review.DeleteReviewDataAccessInterface;
-import use_case.review.EditReviewDataAccessInterface;
-import use_case.review.GetMediaReviewsDataAccessInterface;
-import use_case.review.GetUserReviewsDataAccessInterface;
-import use_case.review.LikeReviewDataAccessInterface;
+import use_case.review.create_review.CreateReviewDataAccessInterface;
+import use_case.review.delete_review.DeleteReviewDataAccessInterface;
+import use_case.review.edit_review.EditReviewDataAccessInterface;
+import use_case.review.get_media_reviews.GetMediaReviewsDataAccessInterface;
+import use_case.review.get_user_reviews.GetUserReviewsDataAccessInterface;
+import use_case.review.like_review.LikeReviewDataAccessInterface;
 import use_case.review.ReviewDataAccessInterface;
-import use_case.review.UnlikeReviewDataAccessInterface;
+import use_case.review.unlike_review.UnlikeReviewDataAccessInterface;
 
 /**
  * MongoDB data access object for review data.
  */
-public class MongoReviewDataAccessObject implements
-        ReviewDataAccessInterface,
-        CreateReviewDataAccessInterface,
-        DeleteReviewDataAccessInterface,
-        EditReviewDataAccessInterface,
-        GetMediaReviewsDataAccessInterface,
-        GetUserReviewsDataAccessInterface,
-        GetUserCommentsReviewDataAccessInterface,
-        LikeReviewDataAccessInterface,
-        UnlikeReviewDataAccessInterface {
+public class MongoReviewDataAccessObject implements ReviewDataAccessObject {
 
     private static final String DEFAULT_PROPERTIES = "mongo.properties";
     private static final String DEFAULT_COLLECTION = "reviews";

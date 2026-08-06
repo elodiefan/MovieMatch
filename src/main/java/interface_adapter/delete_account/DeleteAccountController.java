@@ -1,7 +1,7 @@
 package interface_adapter.delete_account;
 
-import use_case.delete_account.DeleteAccountInputBoundary;
-import use_case.delete_account.DeleteAccountInputData;
+import use_case.comment.unlike_comment.delete_account.DeleteAccountInputBoundary;
+import use_case.comment.unlike_comment.delete_account.DeleteAccountInputData;
 
 /**
  * Controller for the Delete Account Use Case.

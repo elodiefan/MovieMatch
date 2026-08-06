@@ -1,16 +1,16 @@
 package interface_adapter.user_reviews;
-import use_case.comment.GetUserCommentsInputBoundary;
-import use_case.comment.GetUserCommentsInputData;
-import use_case.review.DeleteReviewInputBoundary;
-import use_case.review.DeleteReviewInputData;
-import use_case.review.EditReviewInputBoundary;
-import use_case.review.EditReviewInputData;
-import use_case.review.GetUserReviewsInputBoundary;
-import use_case.review.GetUserReviewsInputData;
-import use_case.review.LikeReviewInputBoundary;
-import use_case.review.LikeReviewInputData;
-import use_case.review.UnlikeReviewInputBoundary;
-import use_case.review.UnlikeReviewInputData;
+import use_case.comment.get_user_comments.GetUserCommentsInputBoundary;
+import use_case.comment.get_user_comments.GetUserCommentsInputData;
+import use_case.review.delete_review.DeleteReviewInputBoundary;
+import use_case.review.delete_review.DeleteReviewInputData;
+import use_case.review.edit_review.EditReviewInputBoundary;
+import use_case.review.edit_review.EditReviewInputData;
+import use_case.review.get_user_reviews.GetUserReviewsInputBoundary;
+import use_case.review.get_user_reviews.GetUserReviewsInputData;
+import use_case.review.like_review.LikeReviewInputBoundary;
+import use_case.review.like_review.LikeReviewInputData;
+import use_case.review.unlike_review.UnlikeReviewInputBoundary;
+import use_case.review.unlike_review.UnlikeReviewInputData;
 
 /**
  * Controller for the user reviews view.
