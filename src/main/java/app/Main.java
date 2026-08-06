@@ -21,7 +21,7 @@ public class Main {
                 .addOtherAccountView()
                 .addPersonalAccountView()
                 .addResetPasswordView()
-                .addReviewsView()
+//                .addReviewsView()
                 .addSecurityQuestionView()
                 .addSignupView()
                 .addDeleteAccountUseCase()

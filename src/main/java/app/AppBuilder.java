@@ -121,8 +121,8 @@ public class AppBuilder {
     private PersonalAccountViewModel personalAccountViewModel;
     private ResetPasswordView resetPasswordView;
     private ResetPasswordViewModel resetPasswordViewModel;
-    private ReviewsView reviewsView;
-    private ReviewsViewModel reviewsViewModel;
+//    private ReviewsView reviewsView;
+//    private ReviewsViewModel reviewsViewModel;
     private SecurityQuestionView securityQuestionView;
     private SecurityQuestionViewModel securityQuestionViewModel;
     private SignupView signupView;
@@ -220,16 +220,16 @@ public class AppBuilder {
         return this;
     }
 
-    /**
-     * Adds the Reviews View to the application.
-     * @return this builder
-     */
-    public AppBuilder addReviewsView() {
-        reviewsViewModel = new ReviewsViewModel();
-        reviewsView = new ReviewsView(reviewsViewModel);
-        cardPanel.add(reviewsView, reviewsView.getViewName());
-        return this;
-    }
+//    /**
+//     * Adds the Reviews View to the application.
+//     * @return this builder
+//     */
+//    public AppBuilder addReviewsView() {
+//        reviewsViewModel = new ReviewsViewModel();
+//        reviewsView = new ReviewsView(reviewsViewModel);
+//        cardPanel.add(reviewsView, reviewsView.getViewName());
+//        return this;
+//    }
 
     /**
      * Adds the Security Question View to the application.
