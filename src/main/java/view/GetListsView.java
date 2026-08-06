@@ -70,7 +70,8 @@ public class GetListsView extends JPanel implements PropertyChangeListener {
     public void propertyChange(PropertyChangeEvent evt) {
         if (evt.getPropertyName().equals("state")) {
             final GetListsState state = (GetListsState) evt.getNewValue();
-            viewMessage.setText(state.getUsername() + state.getDisplayText());
+            viewMessage.setText(state.getDisplayName() + getListsViewModel.LIST_LABEL);
+            userList.setText(state.getDisplayText());
         }
     }
 

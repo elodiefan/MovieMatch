@@ -24,7 +24,7 @@ public class MongoDataCleaning {
         for (Document mediaToWatch : watchlist) {
             final String date = formatDate(mediaToWatch.get(ADDED_AT, String.class));
             userWatchlist.append(mediaToWatch.get(MEDIA_TITLE, String.class));
-            userWatchlist.append("-- ");
+            userWatchlist.append(" -- ");
             userWatchlist.append(date);
             userWatchlist.append(NEW_LINE);
         }
@@ -41,11 +41,11 @@ public class MongoDataCleaning {
         for (Document mediaWatched: watchHistory) {
             final String date = formatDate(mediaWatched.get(ADDED_AT, String.class));
             userWatchHistory.append(mediaWatched.get(MEDIA_TITLE, String.class));
-            userWatchHistory.append("-- ");
+            userWatchHistory.append(" -- ");
             userWatchHistory.append(date);
             userWatchHistory.append(NEW_LINE);
         }
-        return watchHistory.toString();
+        return userWatchHistory.toString();
     }
 
     /**

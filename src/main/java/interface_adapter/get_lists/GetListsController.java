@@ -78,7 +78,15 @@ public class GetListsController {
     public void switchToAccountView(String username, String displayName) {
         final GetListsInputData getListsInputData = new GetListsInputData(
                 username, displayName);
-        getWatchlistUseCaseInteractor.switchToAccountView(getListsInputData);
+        if (getWatchlistUseCaseInteractor != null) {
+            getWatchlistUseCaseInteractor.switchToAccountView(getListsInputData);
+        }
+        else if (getWatchHistoryInteractor != null) {
+            getWatchHistoryInteractor.switchToAccountView(getListsInputData);
+        }
+        else {
+            getBlockedUsersInteractor.switchToAccountView(getListsInputData);
+        }
     }
     // dont bother switching to account view, call getprofile interactor instead to get that file to make a choice of which profile to view
 }

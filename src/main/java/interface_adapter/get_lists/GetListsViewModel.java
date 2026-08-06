@@ -12,6 +12,7 @@ public class GetListsViewModel extends ViewModel<GetListsState> {
     public static final String WATCH_HISTORY = "'s watch history";
     public static final String REVIEWS = "'s reviews";
     public static final String BLOCKED_USERS = "'s blocked users";
+    public static final String LIST_LABEL = "'s lists";
     public static final String RETURN_BUTTON = "Return to account";
 
     public GetListsViewModel() {

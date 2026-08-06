@@ -278,7 +278,7 @@ public class AppBuilder {
         final GetWatchlistInputBoundary getWatchlistInteractor = new GetWatchlistInteractor(
                 userDataAccessObject, getWatchlistOutputBoundary);
 
-        final GetListsController getListsController = new GetListsController(getWatchlistInteractor);
+        final GetListsController getListsController = createGetListsController();
         getListsView.setGetListsController(getListsController);
         return this;
     }
