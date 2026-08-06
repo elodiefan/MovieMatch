@@ -8,14 +8,10 @@ import javax.swing.WindowConstants;
 
 import data_access.InMemoryLockoutTracker;
 import data_access.InMemoryReviewDataAccessObject;
-import data_access.MongoCommentDataAccessObject;
-import data_access.MongoReviewDataAccessObject;
 import data_access.MongoUserDataAccessObject;
 import data_access.UserDataAccessObject;
 
 import interface_adapter.account.ReviewsViewModel;
-import interface_adapter.user_reviews.UserReviewsController;
-import interface_adapter.user_reviews.UserReviewsViewModel;
 import interface_adapter.delete_account.DeleteAccountController;
 import interface_adapter.delete_account.DeleteAccountPresenter;
 import interface_adapter.delete_account.DeleteAccountViewModel;
@@ -76,7 +72,6 @@ import use_case.get_lists.get_watchlist.GetWatchlistInteractor;
 import use_case.get_security_question.GetSecurityQuestionInputBoundary;
 import use_case.get_security_question.GetSecurityQuestionInteractor;
 import use_case.get_security_question.GetSecurityQuestionOutputBoundary;
-import use_case.comment.GetUserCommentsInteractor;
 import use_case.home_page.HomePageInputBoundary;
 import use_case.home_page.HomePageInteractor;
 import use_case.home_page.HomePageOutputBoundary;
@@ -92,11 +87,6 @@ import use_case.logout.LogoutOutputBoundary;
 import use_case.reset_password.ResetPasswordInputBoundary;
 import use_case.reset_password.ResetPasswordInteractor;
 import use_case.reset_password.ResetPasswordOutputBoundary;
-import use_case.review.DeleteReviewInteractor;
-import use_case.review.EditReviewInteractor;
-import use_case.review.GetUserReviewsInteractor;
-import use_case.review.LikeReviewInteractor;
-import use_case.review.UnlikeReviewInteractor;
 import use_case.security_question.SecurityQuestionInputBoundary;
 import use_case.security_question.SecurityQuestionInteractor;
 import use_case.security_question.SecurityQuestionOutputBoundary;
@@ -127,10 +117,6 @@ public class AppBuilder {
     private final InMemoryLockoutTracker lockoutTracker = new InMemoryLockoutTracker();
     private final InMemoryReviewDataAccessObject reviewDataAccessObject =
             new InMemoryReviewDataAccessObject();
-    private final MongoReviewDataAccessObject mongoReviewDataAccessObject =
-            new MongoReviewDataAccessObject();
-    private final MongoCommentDataAccessObject mongoCommentDataAccessObject =
-            new MongoCommentDataAccessObject();
 
     private DeleteAccountView deleteAccountView;
     private DeleteAccountViewModel deleteAccountViewModel;
@@ -146,8 +132,6 @@ public class AppBuilder {
     private OtherAccountViewModel otherAccountViewModel;
     private PersonalAccountView personalAccountView;
     private PersonalAccountViewModel personalAccountViewModel;
-    private MyReviewsView myReviewsView;
-    private UserReviewsViewModel userReviewsViewModel;
     private ResetPasswordView resetPasswordView;
     private ResetPasswordViewModel resetPasswordViewModel;
 //    private ReviewsView reviewsView;
@@ -242,20 +226,6 @@ public class AppBuilder {
         personalAccountViewModel = new PersonalAccountViewModel();
         personalAccountView = new PersonalAccountView(personalAccountViewModel);
         cardPanel.add(personalAccountView, personalAccountView.getViewName());
-        return this;
-    }
-
-    /**
-     * Adds the My Reviews View to the application.
-     * @return this builder
-     */
-    public AppBuilder addMyReviewsView() {
-        userReviewsViewModel = new UserReviewsViewModel();
-        myReviewsView = new MyReviewsView(userReviewsViewModel);
-        myReviewsView.getBackButton().addActionListener(
-                event -> viewManagerModel.switchView(
-                        personalAccountViewModel.getViewName()));
-        cardPanel.add(myReviewsView, myReviewsView.getViewName());
         return this;
     }
 
@@ -432,15 +402,6 @@ public class AppBuilder {
                 getListsViewModel.getViewName());
 
         personalAccountView.setPersonalAccountController(personalAccountController);
-        return this;
-    }
-
-    /**
-     * Adds the My Reviews use case wiring to the application.
-     * @return this builder
-     */
-    public AppBuilder addUserReviewsUseCase() {
-        myReviewsView.setUserReviewsController(createUserReviewsController());
         return this;
     }
 
@@ -672,24 +633,4 @@ public class AppBuilder {
         return getListsController;
     }
 
-    private UserReviewsController createUserReviewsController() {
-        final GetUserReviewsInteractor getUserReviewsInteractor =
-                new GetUserReviewsInteractor(mongoReviewDataAccessObject);
-        final EditReviewInteractor editReviewInteractor =
-                new EditReviewInteractor(mongoReviewDataAccessObject);
-        final DeleteReviewInteractor deleteReviewInteractor =
-                new DeleteReviewInteractor(mongoReviewDataAccessObject);
-        final LikeReviewInteractor likeReviewInteractor =
-                new LikeReviewInteractor(mongoReviewDataAccessObject);
-        final UnlikeReviewInteractor unlikeReviewInteractor =
-                new UnlikeReviewInteractor(mongoReviewDataAccessObject);
-        final GetUserCommentsInteractor getUserCommentsInteractor =
-                new GetUserCommentsInteractor(mongoCommentDataAccessObject,
-                        mongoReviewDataAccessObject);
-
-        return new UserReviewsController(getUserReviewsInteractor,
-                editReviewInteractor, deleteReviewInteractor,
-                likeReviewInteractor, unlikeReviewInteractor,
-                getUserCommentsInteractor);
-    }
 }
