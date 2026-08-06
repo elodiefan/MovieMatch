@@ -10,6 +10,23 @@ import entity.UserContent;
  * Interactor for creating a comment.
  */
 public class CreateCommentInteractor {
+    private final CreateCommentDataAccessInterface commentDataAccessObject;
+
+    /**
+     * Creates a comment interactor without persistence.
+     */
+    public CreateCommentInteractor() {
+        this(null);
+    }
+
+    /**
+     * Creates a comment interactor with persistence.
+     * @param commentDataAccessObject the DAO used to save comments
+     */
+    public CreateCommentInteractor(
+            final CreateCommentDataAccessInterface commentDataAccessObject) {
+        this.commentDataAccessObject = commentDataAccessObject;
+    }
 
     /**
      * Creates a new comment on a review.
@@ -34,10 +51,15 @@ public class CreateCommentInteractor {
         validateCommentData(trimmedReviewId, trimmedAuthorUsername,
                 trimmedAuthorDisplayName, trimmedCommentText);
 
-        return new Comment(UUID.randomUUID().toString(), trimmedReviewId,
-                trimmedParentCommentId, trimmedAuthorUsername,
-                trimmedAuthorDisplayName, trimmedCommentText,
-                UserContent.getCurrentTorontoTime(), new HashSet<>());
+        final Comment comment = new Comment(UUID.randomUUID().toString(),
+                trimmedReviewId, trimmedParentCommentId,
+                trimmedAuthorUsername, trimmedAuthorDisplayName,
+                trimmedCommentText, UserContent.getCurrentTorontoTime(),
+                new HashSet<>());
+        if (commentDataAccessObject != null) {
+            commentDataAccessObject.saveComment(comment);
+        }
+        return comment;
     }
 
     /**
