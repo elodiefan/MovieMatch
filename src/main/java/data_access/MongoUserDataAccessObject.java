@@ -3,6 +3,7 @@ package data_access;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
 
@@ -121,11 +122,12 @@ public class MongoUserDataAccessObject implements UserDataAccessObject {
                     .append(PASSWORD, user.getPassword())
                     .append(SECURITY_QUESTION, user.getSecurityQuestion())
                     .append(ANSWER, user.getAnswer())
-                    .append(WATCHLIST, List.of())
-                    .append(WATCH_HISTORY, List.of())
-                    .append(REVIEWS, List.of())
-                    .append(BLOCKED_USERS, List.of()));
+                    .append(WATCHLIST, new ArrayList<Document>())
+                    .append(WATCH_HISTORY, new ArrayList<Document>())
+                    .append(REVIEWS, new ArrayList<String>())
+                    .append(BLOCKED_USERS, new ArrayList<String>()));
         }
+        ensureUserListFields(user.getUsername());
     }
 
     @Override
@@ -162,9 +164,12 @@ public class MongoUserDataAccessObject implements UserDataAccessObject {
     public UserLists getLists(String username) {
         final Document doc = users.find(Filters.eq(USERNAME, username)).first();
         if (doc != null) {
-            final List<Document> watchlist = getWatchlist(doc);
-            final List<Document> watchHistory = getWatchHistory(doc);
-            final List<String> blockedUsers = getBlockedUsers(doc);
+            ensureUserListFields(username);
+            final Document updatedDoc = users.find(Filters.eq(USERNAME,
+                    username)).first();
+            final List<Document> watchlist = getWatchlist(updatedDoc);
+            final List<Document> watchHistory = getWatchHistory(updatedDoc);
+            final List<String> blockedUsers = getBlockedUsers(updatedDoc);
             return toUserLists(username, watchlist, watchHistory, blockedUsers);
         }
         return new UserLists(username, "", "", "");
@@ -173,6 +178,7 @@ public class MongoUserDataAccessObject implements UserDataAccessObject {
     @Override
     public void addToWatchlist(String username, int mediaId, String mediaType,
                                String mediaTitle, String addedAt) {
+        ensureUserListFields(username);
         final Document mediaDocument = createMediaListDocument(mediaId,
                 mediaType, mediaTitle, ADDED_AT, addedAt);
         replaceMediaListItem(username, WATCHLIST, mediaId, mediaType,
@@ -183,6 +189,7 @@ public class MongoUserDataAccessObject implements UserDataAccessObject {
     public void addToWatchHistory(String username, int mediaId,
                                   String mediaType, String mediaTitle,
                                   String watchedAt) {
+        ensureUserListFields(username);
         final Document mediaDocument = createMediaListDocument(mediaId,
                 mediaType, mediaTitle, WATCHED_AT, watchedAt);
         replaceMediaListItem(username, WATCH_HISTORY, mediaId, mediaType,
@@ -202,6 +209,20 @@ public class MongoUserDataAccessObject implements UserDataAccessObject {
     private static List<Document> getWatchlist(Document doc) {
         final List<Document> watchlist = doc.get(WATCHLIST, List.class);
         return watchlist;
+    }
+
+    private void ensureUserListFields(String username) {
+        setMissingField(username, WATCHLIST, new ArrayList<Document>());
+        setMissingField(username, WATCH_HISTORY, new ArrayList<Document>());
+        setMissingField(username, REVIEWS, new ArrayList<String>());
+        setMissingField(username, BLOCKED_USERS, new ArrayList<String>());
+    }
+
+    private void setMissingField(String username, String fieldName,
+                                 List<?> defaultValue) {
+        users.updateOne(Filters.and(Filters.eq(USERNAME, username),
+                        Filters.exists(fieldName, false)),
+                Updates.set(fieldName, defaultValue));
     }
 
     // ---------- Delete account (after the security question is answered) ----------
