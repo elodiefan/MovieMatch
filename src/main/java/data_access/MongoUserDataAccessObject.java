@@ -6,8 +6,10 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
+import java.util.regex.Pattern;
 
 import org.bson.Document;
+import org.bson.conversions.Bson;
 
 import com.mongodb.client.MongoClient;
 import com.mongodb.client.MongoClients;
@@ -38,6 +40,12 @@ public class MongoUserDataAccessObject implements UserDataAccessObject {
 
     /** Default location of the connection settings. */
     public static final String DEFAULT_PROPERTIES = "mongo.properties";
+
+    /** Most accounts one search will return, so a one-letter keyword stays cheap to draw. */
+    public static final int SEARCH_LIMIT = 50;
+
+    /** Mongo's regex option for ignoring case. */
+    private static final String CASE_INSENSITIVE = "i";
 
     // Field names exactly as stored in MongoDB. Case matters.
     private static final String USERNAME = "username";
@@ -255,6 +263,33 @@ public class MongoUserDataAccessObject implements UserDataAccessObject {
     @Override
     public String getSecurityQuestion() {
         return currentUserField(SECURITY_QUESTION);
+    }
+
+    // ---------- Search for users ----------
+
+    /**
+     * Finds accounts whose username or display name contains the keyword,
+     * ignoring case.
+     * <p>
+     * The keyword is wrapped in {@link Pattern#quote} before it reaches Mongo.
+     * Without that, whatever the user types is treated as a regular expression:
+     * typing {@code .*} would match every account in the database, and typing an
+     * unbalanced bracket would throw instead of returning nothing.
+     * @param keyword what the user typed
+     * @return the matching accounts, at most {@value #SEARCH_LIMIT} of them
+     */
+    @Override
+    public List<User> search(String keyword) {
+        final String literal = Pattern.quote(keyword);
+        final Bson query = Filters.or(
+                Filters.regex(USERNAME, literal, CASE_INSENSITIVE),
+                Filters.regex(DISPLAY_NAME, literal, CASE_INSENSITIVE));
+
+        final List<User> found = new ArrayList<>();
+        for (Document doc : users.find(query).limit(SEARCH_LIMIT)) {
+            found.add(toUser(doc));
+        }
+        return found;
     }
 
     // ---------- Block user ----------

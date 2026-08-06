@@ -2,6 +2,7 @@ package interface_adapter.home_page;
 
 import interface_adapter.ViewManagerModel;
 import interface_adapter.search.SearchViewModel;
+import interface_adapter.search_user.SearchUserViewModel;
 import use_case.get_profile.GetProfileInputBoundary;
 import use_case.get_profile.GetProfileInputData;
 
@@ -26,6 +27,17 @@ public class HomePageController {
     public void switchToSearchView() {
         viewManagerModel.setState(SearchViewModel.VIEW_NAME);
         viewManagerModel.firePropertyChanged();
+    }
+
+    /**
+     * Switches view to the Search User View.
+     * <p>
+     * Opening a view is not a use case, it changes no data and has no business
+     * rules, so this goes straight to the view manager rather than through an
+     * interactor. Same as {@code PersonalAccountController} does.
+     */
+    public void switchToSearchUserView() {
+        viewManagerModel.switchView(SearchUserViewModel.VIEW_NAME);
     }
 
     /**
