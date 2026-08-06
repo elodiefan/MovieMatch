@@ -24,6 +24,7 @@ import use_case.comment.CommentDataAccessInterface;
 import use_case.comment.CreateCommentDataAccessInterface;
 import use_case.comment.DeleteCommentDataAccessInterface;
 import use_case.comment.GetReviewCommentsDataAccessInterface;
+import use_case.comment.GetUserCommentsDataAccessInterface;
 import use_case.comment.LikeCommentDataAccessInterface;
 import use_case.comment.UnlikeCommentDataAccessInterface;
 
@@ -35,6 +36,7 @@ public class MongoCommentDataAccessObject implements
         CreateCommentDataAccessInterface,
         DeleteCommentDataAccessInterface,
         GetReviewCommentsDataAccessInterface,
+        GetUserCommentsDataAccessInterface,
         LikeCommentDataAccessInterface,
         UnlikeCommentDataAccessInterface {
 
