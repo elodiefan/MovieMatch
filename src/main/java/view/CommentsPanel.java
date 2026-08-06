@@ -20,7 +20,6 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JToggleButton;
 
-import entity.Comment;
 import interface_adapter.comments.CommentsController;
 import interface_adapter.comments.CommentsPresenter;
 import interface_adapter.comments.CommentsState;
@@ -29,29 +28,48 @@ import interface_adapter.comments.CommentsViewModel;
 /**
  * Swing panel for comments on a review.
  */
-public class CommentsPanel extends JPanel implements PropertyChangeListener {
+public final class CommentsPanel extends JPanel
+        implements PropertyChangeListener {
+    /** The heart unselected. */
     private static final String HEART_UNSELECTED = "\u2661";
+    /** The heart selected. */
     private static final String HEART_SELECTED = "\u2665";
 
+    /** The card gap. */
     private static final int CARD_GAP = 10;
+    /** The comment indent. */
     private static final int COMMENT_INDENT = 24;
+    /** The reply indent. */
     private static final int REPLY_INDENT = 48;
 
+    /** The time_formatter. */
     private static final DateTimeFormatter TIME_FORMATTER =
             DateTimeFormatter.ofPattern("yyyy-MM-dd h:mm a z");
 
+    /** The comments view model. */
     private final CommentsViewModel commentsViewModel;
-    private final CommentsPresenter commentsPresenter = new CommentsPresenter();
+    /** The error label. */
     private final JLabel errorLabel = new JLabel();
+    /** The comments panel. */
     private final JPanel commentsPanel = new JPanel();
+    /** The write comment button. */
     private final JButton writeCommentButton =
             new JButton(CommentsViewModel.WRITE_COMMENT_BUTTON_LABEL);
+    /** The comments controller. */
     private CommentsController commentsController;
+    /** The current username. */
     private String currentUsername = "";
+    /** The current display name. */
     private String currentDisplayName = "";
+    /** The loading comments. */
+    private boolean loadingComments;
 
-    public CommentsPanel(final CommentsViewModel commentsViewModel) {
-        this.commentsViewModel = commentsViewModel;
+    /**
+     * Handles this review or comment operation.
+     * @param inputCommentsViewModel the inputCommentsViewModel
+     */
+    public CommentsPanel(final CommentsViewModel inputCommentsViewModel) {
+        this.commentsViewModel = inputCommentsViewModel;
         this.commentsViewModel.addPropertyChangeListener(this);
 
         final JLabel title = new JLabel(CommentsViewModel.TITLE_LABEL);
@@ -67,7 +85,7 @@ public class CommentsPanel extends JPanel implements PropertyChangeListener {
 
         writeCommentButton.addActionListener(new WriteCommentListener());
 
-        updateView(commentsViewModel.getState());
+        updateView(inputCommentsViewModel.getState());
     }
 
     /**
@@ -91,11 +109,11 @@ public class CommentsPanel extends JPanel implements PropertyChangeListener {
 
     /**
      * Sets the controller for comment actions.
-     * @param commentsController the comments controller
+     * @param inputCommentsController the comments controller
      */
     public void setCommentsController(
-            final CommentsController commentsController) {
-        this.commentsController = commentsController;
+            final CommentsController inputCommentsController) {
+        this.commentsController = inputCommentsController;
     }
 
     /**
@@ -126,11 +144,11 @@ public class CommentsPanel extends JPanel implements PropertyChangeListener {
      * @param reviewId the review id to load comments for
      */
     private void refreshComments(final String reviewId) {
-        if (commentsController != null && !isBlank(reviewId)) {
-            final List<Comment> comments =
-                    commentsController.getReviewComments(reviewId);
-            commentsViewModel.getState().setComments(
-                    commentsPresenter.prepareComments(comments));
+        if (!loadingComments && commentsController != null
+                && !isBlank(reviewId)) {
+            loadingComments = true;
+            commentsController.loadReviewComments(reviewId);
+            loadingComments = false;
         }
     }
 
@@ -325,7 +343,7 @@ public class CommentsPanel extends JPanel implements PropertyChangeListener {
                 if (!isBlank(commentText)) {
                     commentsController.createComment(state.getReviewId(), "",
                             currentUsername, currentDisplayName, commentText);
-                    refreshComments(state.getReviewId());
+                    commentsController.loadReviewComments(state.getReviewId());
                 }
             }
             commentsViewModel.firePropertyChanged();
@@ -336,13 +354,15 @@ public class CommentsPanel extends JPanel implements PropertyChangeListener {
      * Selects a comment in the view model state.
      */
     private final class SelectCommentListener implements ActionListener {
+        /** The comment id. */
         private final String commentId;
+        /** The reply. */
         private final boolean reply;
 
-        private SelectCommentListener(final String commentId,
-                                      final boolean reply) {
-            this.commentId = commentId;
-            this.reply = reply;
+        private SelectCommentListener(final String inputCommentId,
+                                      final boolean inputReply) {
+            this.commentId = inputCommentId;
+            this.reply = inputReply;
         }
 
         @Override
@@ -358,12 +378,14 @@ public class CommentsPanel extends JPanel implements PropertyChangeListener {
                         commentsController.createComment(state.getReviewId(),
                                 commentId, currentUsername,
                                 currentDisplayName, commentText);
-                        refreshComments(state.getReviewId());
+                        commentsController.loadReviewComments(
+                                state.getReviewId());
                     }
                 }
-            } else if (commentsController != null && !isBlank(currentUsername)) {
+            } else if (commentsController != null
+                    && !isBlank(currentUsername)) {
                 commentsController.deleteComment(commentId, currentUsername);
-                refreshComments(state.getReviewId());
+                commentsController.loadReviewComments(state.getReviewId());
             }
             commentsViewModel.firePropertyChanged();
         }
@@ -373,10 +395,11 @@ public class CommentsPanel extends JPanel implements PropertyChangeListener {
      * Toggles a comment heart and selects the comment.
      */
     private final class HeartCommentListener implements ActionListener {
+        /** The comment id. */
         private final String commentId;
 
-        private HeartCommentListener(final String commentId) {
-            this.commentId = commentId;
+        private HeartCommentListener(final String inputCommentId) {
+            this.commentId = inputCommentId;
         }
 
         @Override
@@ -391,7 +414,7 @@ public class CommentsPanel extends JPanel implements PropertyChangeListener {
                     commentsController.unlikeComment(commentId,
                             currentUsername);
                 }
-                refreshComments(state.getReviewId());
+                commentsController.loadReviewComments(state.getReviewId());
             }
             updateHeartButton(heartButton);
 

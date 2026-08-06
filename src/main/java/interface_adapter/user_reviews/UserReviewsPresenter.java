@@ -5,19 +5,93 @@ import java.util.ArrayList;
 import java.util.List;
 
 import entity.Review;
+import use_case.comment.GetUserCommentsOutputBoundary;
+import use_case.comment.GetUserCommentsOutputData;
 import use_case.comment.UserCommentSummaryData;
+import use_case.review.DeleteReviewOutputBoundary;
+import use_case.review.DeleteReviewOutputData;
+import use_case.review.EditReviewOutputBoundary;
+import use_case.review.EditReviewOutputData;
+import use_case.review.GetUserReviewsOutputBoundary;
+import use_case.review.GetUserReviewsOutputData;
+import use_case.review.LikeReviewOutputBoundary;
+import use_case.review.LikeReviewOutputData;
+import use_case.review.UnlikeReviewOutputBoundary;
+import use_case.review.UnlikeReviewOutputData;
 
 /**
  * Presenter for the user reviews view.
  */
-public class UserReviewsPresenter {
+public final class UserReviewsPresenter implements GetUserReviewsOutputBoundary,
+        GetUserCommentsOutputBoundary, EditReviewOutputBoundary,
+        DeleteReviewOutputBoundary, LikeReviewOutputBoundary,
+        UnlikeReviewOutputBoundary {
+    /** The user reviews view model. */
+    private final UserReviewsViewModel userReviewsViewModel;
+
+    /**
+     * Creates a presenter for the user reviews view.
+     * @param inputUserReviewsViewModel the view model to update
+     */
+    public UserReviewsPresenter(
+            final UserReviewsViewModel inputUserReviewsViewModel) {
+        this.userReviewsViewModel = inputUserReviewsViewModel;
+    }
+
+    /**
+     * Prepares loaded reviews for display.
+     * @param outputData the output data
+     */
+    @Override
+    public void prepareSuccessView(final GetUserReviewsOutputData outputData) {
+        final UserReviewsState state = userReviewsViewModel.getState();
+        state.setReviews(prepareReviews(outputData.getReviews()));
+        state.setUserReviewsError(null);
+        userReviewsViewModel.setState(state);
+        userReviewsViewModel.firePropertyChanged();
+    }
+
+    /**
+     * Prepares loaded comments for display.
+     * @param outputData the output data
+     */
+    @Override
+    public void prepareSuccessView(
+            final GetUserCommentsOutputData outputData) {
+        final UserReviewsState state = userReviewsViewModel.getState();
+        state.setComments(prepareComments(outputData.getComments()));
+        state.setUserReviewsError(null);
+        userReviewsViewModel.setState(state);
+        userReviewsViewModel.firePropertyChanged();
+    }
+
+    @Override
+    public void prepareSuccessView(final EditReviewOutputData outputData) {
+        clearError();
+    }
+
+    @Override
+    public void prepareSuccessView(final DeleteReviewOutputData outputData) {
+        clearError();
+    }
+
+    @Override
+    public void prepareSuccessView(final LikeReviewOutputData outputData) {
+        clearError();
+    }
+
+    @Override
+    public void prepareSuccessView(final UnlikeReviewOutputData outputData) {
+        clearError();
+    }
+
     /**
      * Converts review entities into rows that can be displayed by the user
      * reviews view.
      * @param reviews the reviews to present
      * @return display-safe review rows
      */
-    public List<UserReviewRow> prepareReviews(final List<Review> reviews) {
+    private List<UserReviewRow> prepareReviews(final List<Review> reviews) {
         final List<UserReviewRow> reviewRows = new ArrayList<>();
         if (reviews != null) {
             for (Review review : reviews) {
@@ -34,7 +108,7 @@ public class UserReviewsPresenter {
      * @param comments the comment summaries to present
      * @return display-safe comment rows
      */
-    public List<UserReviewsState.CommentRow> prepareComments(
+    private List<UserReviewsState.CommentRow> prepareComments(
             final List<UserCommentSummaryData> comments) {
         final List<UserReviewsState.CommentRow> commentRows =
                 new ArrayList<>();
@@ -60,7 +134,18 @@ public class UserReviewsPresenter {
         } else {
             displayError = errorMessage.trim();
         }
+        final UserReviewsState state = userReviewsViewModel.getState();
+        state.setUserReviewsError(displayError);
+        userReviewsViewModel.setState(state);
+        userReviewsViewModel.firePropertyChanged();
         return displayError;
+    }
+
+    private void clearError() {
+        final UserReviewsState state = userReviewsViewModel.getState();
+        state.setUserReviewsError(null);
+        userReviewsViewModel.setState(state);
+        userReviewsViewModel.firePropertyChanged();
     }
 
     /**
@@ -69,11 +154,7 @@ public class UserReviewsPresenter {
      * @return the displayed review row
      */
     private UserReviewRow createReviewRow(final Review review) {
-        return new UserReviewRow(review.getReviewId(), review.getMediaId(),
-                review.getMediaType(), review.getMediaTitle(),
-                review.getRating(), review.getReviewText(),
-                review.getCreatedAt(), review.getUpdatedAt(),
-                review.getLikeCount());
+        return new UserReviewRow(review);
     }
 
     /**
@@ -83,10 +164,7 @@ public class UserReviewsPresenter {
      */
     private UserReviewsState.CommentRow createCommentRow(
             final UserCommentSummaryData comment) {
-        return new UserReviewsState.CommentRow(comment.getCommentId(),
-                comment.getReviewId(), comment.getMediaTitle(),
-                comment.getReviewText(), comment.getCommentText(),
-                comment.getCreatedAt(), comment.getLikeCount());
+        return new UserReviewsState.CommentRow(comment);
     }
 
     /**
@@ -102,43 +180,39 @@ public class UserReviewsPresenter {
      * Display data for one review written by the user.
      */
     public static final class UserReviewRow {
+        /** The review id. */
         private final String reviewId;
+        /** The media id. */
         private final int mediaId;
+        /** The media type. */
         private final String mediaType;
+        /** The media title. */
         private final String mediaTitle;
+        /** The rating. */
         private final double rating;
+        /** The review text. */
         private final String reviewText;
+        /** The created at. */
         private final ZonedDateTime createdAt;
+        /** The updated at. */
         private final ZonedDateTime updatedAt;
+        /** The like count. */
         private final int likeCount;
 
         /**
          * Creates display data for one user review row.
-         * @param reviewId the review id
-         * @param mediaId the reviewed media id
-         * @param mediaType the reviewed media type
-         * @param mediaTitle the reviewed media title
-         * @param rating the review rating percentage
-         * @param reviewText the review text
-         * @param createdAt the review creation time
-         * @param updatedAt the review update time
-         * @param likeCount the number of likes on the review
+         * @param review the review to present
          */
-        public UserReviewRow(final String reviewId, final int mediaId,
-                             final String mediaType, final String mediaTitle,
-                             final double rating, final String reviewText,
-                             final ZonedDateTime createdAt,
-                             final ZonedDateTime updatedAt,
-                             final int likeCount) {
-            this.reviewId = reviewId;
-            this.mediaId = mediaId;
-            this.mediaType = mediaType;
-            this.mediaTitle = mediaTitle;
-            this.rating = rating;
-            this.reviewText = reviewText;
-            this.createdAt = createdAt;
-            this.updatedAt = updatedAt;
-            this.likeCount = likeCount;
+        public UserReviewRow(final Review review) {
+            this.reviewId = review.getReviewId();
+            this.mediaId = review.getMediaId();
+            this.mediaType = review.getMediaType();
+            this.mediaTitle = review.getMediaTitle();
+            this.rating = review.getRating();
+            this.reviewText = review.getReviewText();
+            this.createdAt = review.getCreatedAt();
+            this.updatedAt = review.getUpdatedAt();
+            this.likeCount = review.getLikeCount();
         }
 
         /**

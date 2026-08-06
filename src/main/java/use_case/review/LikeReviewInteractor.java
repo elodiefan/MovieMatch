@@ -7,23 +7,52 @@ import entity.Review;
 /**
  * Interactor for liking a review.
  */
-public class LikeReviewInteractor {
+public final class LikeReviewInteractor implements LikeReviewInputBoundary {
+    /** The review data access object. */
     private final LikeReviewDataAccessInterface reviewDataAccessObject;
+    /** The presenter. */
+    private final LikeReviewOutputBoundary presenter;
 
     /**
      * Creates a like review interactor without persistence.
      */
     public LikeReviewInteractor() {
-        this(null);
+        this(null, null);
     }
 
     /**
      * Creates a like review interactor with persistence.
-     * @param reviewDataAccessObject the DAO used to like reviews
+     * @param inputReviewDataAccessObject the DAO used to like reviews
      */
     public LikeReviewInteractor(
-            final LikeReviewDataAccessInterface reviewDataAccessObject) {
-        this.reviewDataAccessObject = reviewDataAccessObject;
+            final LikeReviewDataAccessInterface inputReviewDataAccessObject) {
+        this(inputReviewDataAccessObject, null);
+    }
+
+    /**
+     * Handles this review or comment operation.
+     * @param inputReviewDataAccessObject the inputReviewDataAccessObject
+     * @param inputPresenter the inputPresenter
+     */
+    public LikeReviewInteractor(
+            final LikeReviewDataAccessInterface inputReviewDataAccessObject,
+            final LikeReviewOutputBoundary inputPresenter) {
+        this.reviewDataAccessObject = inputReviewDataAccessObject;
+        this.presenter = inputPresenter;
+    }
+
+    @Override
+    public void execute(final LikeReviewInputData inputData) {
+        try {
+            validatePresenter();
+            final boolean liked = likeReview(inputData.getReviewId(),
+                    inputData.getUsername());
+            presenter.prepareSuccessView(new LikeReviewOutputData(liked));
+        } catch (IllegalArgumentException | IllegalStateException error) {
+            if (presenter != null) {
+                presenter.prepareFailView(error.getMessage());
+            }
+        }
     }
 
     /**
@@ -32,7 +61,7 @@ public class LikeReviewInteractor {
      * @param username the username of the user liking the review
      * @return true if the review was found and liked
      */
-    public boolean likeReview(final String reviewId, final String username) {
+    private boolean likeReview(final String reviewId, final String username) {
         final String trimmedReviewId = trimToEmpty(reviewId);
         final String trimmedUsername = trimToEmpty(username);
         validateLikeReviewData(trimmedReviewId, trimmedUsername);
@@ -47,7 +76,7 @@ public class LikeReviewInteractor {
      * @param reviews the reviews to search through
      * @return true if the review was found and liked
      */
-    public boolean likeReview(final String reviewId, final String username,
+    private boolean likeReview(final String reviewId, final String username,
                               final List<Review> reviews) {
         final String trimmedReviewId = trimToEmpty(reviewId);
         final String trimmedUsername = trimToEmpty(username);
@@ -78,6 +107,13 @@ public class LikeReviewInteractor {
         } else if (reviewDataAccessObject == null) {
             throw new IllegalStateException(
                     "Review data access object has not been configured.");
+        }
+    }
+
+    private void validatePresenter() {
+        if (presenter == null) {
+            throw new IllegalStateException(
+                    "Like review presenter has not been configured.");
         }
     }
 

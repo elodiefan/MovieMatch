@@ -9,23 +9,57 @@ import entity.UserContent;
 /**
  * Interactor for creating a comment.
  */
-public class CreateCommentInteractor {
+public final class CreateCommentInteractor
+        implements CreateCommentInputBoundary {
+    /** The comment data access object. */
     private final CreateCommentDataAccessInterface commentDataAccessObject;
+    /** The presenter. */
+    private final CreateCommentOutputBoundary presenter;
 
     /**
      * Creates a comment interactor without persistence.
      */
     public CreateCommentInteractor() {
-        this(null);
+        this(null, null);
     }
 
     /**
      * Creates a comment interactor with persistence.
-     * @param commentDataAccessObject the DAO used to save comments
+     * @param inputCommentDataAccessObject the DAO used to save comments
      */
     public CreateCommentInteractor(
-            final CreateCommentDataAccessInterface commentDataAccessObject) {
-        this.commentDataAccessObject = commentDataAccessObject;
+            final CreateCommentDataAccessInterface
+                    inputCommentDataAccessObject) {
+        this(inputCommentDataAccessObject, null);
+    }
+
+    /**
+     * Handles this review or comment operation.
+     * @param inputCommentDataAccessObject the inputCommentDataAccessObject
+     * @param inputPresenter the inputPresenter
+     */
+    public CreateCommentInteractor(
+            final CreateCommentDataAccessInterface inputCommentDataAccessObject,
+            final CreateCommentOutputBoundary inputPresenter) {
+        this.commentDataAccessObject = inputCommentDataAccessObject;
+        this.presenter = inputPresenter;
+    }
+
+    @Override
+    public void execute(final CreateCommentInputData inputData) {
+        try {
+            validatePresenter();
+            final Comment comment = createComment(inputData.getReviewId(),
+                    inputData.getParentCommentId(),
+                    inputData.getAuthorUsername(),
+                    inputData.getAuthorDisplayName(),
+                    inputData.getCommentText());
+            presenter.prepareSuccessView(new CreateCommentOutputData(comment));
+        } catch (IllegalArgumentException | IllegalStateException error) {
+            if (presenter != null) {
+                presenter.prepareFailView(error.getMessage());
+            }
+        }
     }
 
     /**
@@ -38,7 +72,7 @@ public class CreateCommentInteractor {
      * @param commentText the comment text
      * @return the created comment
      */
-    public Comment createComment(final String reviewId,
+    private Comment createComment(final String reviewId,
                                  final String parentCommentId,
                                  final String authorUsername,
                                  final String authorDisplayName,
@@ -83,6 +117,16 @@ public class CreateCommentInteractor {
                     "Author display name cannot be empty.");
         } else if (isBlank(commentText)) {
             throw new IllegalArgumentException("Comment text cannot be empty.");
+        } else if (commentDataAccessObject == null) {
+            throw new IllegalStateException(
+                    "Comment data access object has not been configured.");
+        }
+    }
+
+    private void validatePresenter() {
+        if (presenter == null) {
+            throw new IllegalStateException(
+                    "Create comment presenter has not been configured.");
         }
     }
 

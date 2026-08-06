@@ -7,23 +7,52 @@ import entity.Review;
 /**
  * Interactor for unliking a review.
  */
-public class UnlikeReviewInteractor {
+public final class UnlikeReviewInteractor implements UnlikeReviewInputBoundary {
+    /** The review data access object. */
     private final UnlikeReviewDataAccessInterface reviewDataAccessObject;
+    /** The presenter. */
+    private final UnlikeReviewOutputBoundary presenter;
 
     /**
      * Creates an unlike review interactor without persistence.
      */
     public UnlikeReviewInteractor() {
-        this(null);
+        this(null, null);
     }
 
     /**
      * Creates an unlike review interactor with persistence.
-     * @param reviewDataAccessObject the DAO used to unlike reviews
+     * @param inputReviewDataAccessObject the DAO used to unlike reviews
      */
     public UnlikeReviewInteractor(
-            final UnlikeReviewDataAccessInterface reviewDataAccessObject) {
-        this.reviewDataAccessObject = reviewDataAccessObject;
+            final UnlikeReviewDataAccessInterface inputReviewDataAccessObject) {
+        this(inputReviewDataAccessObject, null);
+    }
+
+    /**
+     * Handles this review or comment operation.
+     * @param inputReviewDataAccessObject the inputReviewDataAccessObject
+     * @param inputPresenter the inputPresenter
+     */
+    public UnlikeReviewInteractor(
+            final UnlikeReviewDataAccessInterface inputReviewDataAccessObject,
+            final UnlikeReviewOutputBoundary inputPresenter) {
+        this.reviewDataAccessObject = inputReviewDataAccessObject;
+        this.presenter = inputPresenter;
+    }
+
+    @Override
+    public void execute(final UnlikeReviewInputData inputData) {
+        try {
+            validatePresenter();
+            final boolean unliked = unlikeReview(inputData.getReviewId(),
+                    inputData.getUsername());
+            presenter.prepareSuccessView(new UnlikeReviewOutputData(unliked));
+        } catch (IllegalArgumentException | IllegalStateException error) {
+            if (presenter != null) {
+                presenter.prepareFailView(error.getMessage());
+            }
+        }
     }
 
     /**
@@ -32,7 +61,7 @@ public class UnlikeReviewInteractor {
      * @param username the username of the user unliking the review
      * @return true if the review was found and unliked
      */
-    public boolean unlikeReview(final String reviewId,
+    private boolean unlikeReview(final String reviewId,
                                 final String username) {
         final String trimmedReviewId = trimToEmpty(reviewId);
         final String trimmedUsername = trimToEmpty(username);
@@ -48,7 +77,7 @@ public class UnlikeReviewInteractor {
      * @param reviews the reviews to search through
      * @return true if the review was found and unliked
      */
-    public boolean unlikeReview(final String reviewId, final String username,
+    private boolean unlikeReview(final String reviewId, final String username,
                                 final List<Review> reviews) {
         final String trimmedReviewId = trimToEmpty(reviewId);
         final String trimmedUsername = trimToEmpty(username);
@@ -79,6 +108,13 @@ public class UnlikeReviewInteractor {
         } else if (reviewDataAccessObject == null) {
             throw new IllegalStateException(
                     "Review data access object has not been configured.");
+        }
+    }
+
+    private void validatePresenter() {
+        if (presenter == null) {
+            throw new IllegalStateException(
+                    "Unlike review presenter has not been configured.");
         }
     }
 

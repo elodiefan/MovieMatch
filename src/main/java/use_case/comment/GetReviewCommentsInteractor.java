@@ -9,23 +9,57 @@ import entity.Comment;
 /**
  * Interactor for loading comments on a review.
  */
-public class GetReviewCommentsInteractor {
+public final class GetReviewCommentsInteractor
+        implements GetReviewCommentsInputBoundary {
+    /** The comment data access object. */
     private final GetReviewCommentsDataAccessInterface commentDataAccessObject;
+    /** The presenter. */
+    private final GetReviewCommentsOutputBoundary presenter;
 
     /**
      * Creates a comments interactor without persistence.
      */
     public GetReviewCommentsInteractor() {
-        this(null);
+        this(null, null);
     }
 
     /**
      * Creates a comments interactor with persistence.
-     * @param commentDataAccessObject the DAO used to load comments
+     * @param inputCommentDataAccessObject the DAO used to load comments
      */
     public GetReviewCommentsInteractor(
-            final GetReviewCommentsDataAccessInterface commentDataAccessObject) {
-        this.commentDataAccessObject = commentDataAccessObject;
+            final GetReviewCommentsDataAccessInterface
+                    inputCommentDataAccessObject) {
+        this(inputCommentDataAccessObject, null);
+    }
+
+    /**
+     * Handles this review or comment operation.
+     * @param inputCommentDataAccessObject the inputCommentDataAccessObject
+     * @param inputPresenter the inputPresenter
+     */
+    public GetReviewCommentsInteractor(
+            final GetReviewCommentsDataAccessInterface
+                    inputCommentDataAccessObject,
+            final GetReviewCommentsOutputBoundary inputPresenter) {
+        this.commentDataAccessObject = inputCommentDataAccessObject;
+        this.presenter = inputPresenter;
+    }
+
+    @Override
+    public void execute(final GetReviewCommentsInputData inputData) {
+        try {
+            validatePresenter();
+            final List<Comment> comments = getReviewComments(
+                    inputData.getReviewId());
+            presenter.prepareSuccessView(
+                    new GetReviewCommentsOutputData(inputData.getReviewId(),
+                            comments));
+        } catch (IllegalArgumentException | IllegalStateException error) {
+            if (presenter != null) {
+                presenter.prepareFailView(error.getMessage());
+            }
+        }
     }
 
     /**
@@ -33,7 +67,7 @@ public class GetReviewCommentsInteractor {
      * @param reviewId the review id to load comments for
      * @return the comments that belong to the review
      */
-    public List<Comment> getReviewComments(final String reviewId) {
+    private List<Comment> getReviewComments(final String reviewId) {
         final String trimmedReviewId = trimToEmpty(reviewId);
         validateReviewId(trimmedReviewId);
 
@@ -49,7 +83,7 @@ public class GetReviewCommentsInteractor {
      * @param comments the comments to search through
      * @return the comments that belong to the review
      */
-    public List<Comment> getReviewComments(final String reviewId,
+    private List<Comment> getReviewComments(final String reviewId,
                                            final List<Comment> comments) {
         final String trimmedReviewId = trimToEmpty(reviewId);
         validateGetReviewCommentsData(trimmedReviewId, comments);
@@ -75,6 +109,13 @@ public class GetReviewCommentsInteractor {
         } else if (commentDataAccessObject == null) {
             throw new IllegalStateException(
                     "Comment data access object has not been configured.");
+        }
+    }
+
+    private void validatePresenter() {
+        if (presenter == null) {
+            throw new IllegalStateException(
+                    "Review comments presenter has not been configured.");
         }
     }
 

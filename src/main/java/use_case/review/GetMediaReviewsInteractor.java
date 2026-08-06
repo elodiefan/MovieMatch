@@ -9,28 +9,61 @@ import entity.Review;
 /**
  * Interactor for loading reviews for one media item.
  */
-public class GetMediaReviewsInteractor {
+public final class GetMediaReviewsInteractor
+        implements GetMediaReviewsInputBoundary {
     /**
      * Smallest valid media id.
      */
     private static final int MIN_MEDIA_ID = 0;
 
+    /** The review data access object. */
     private final GetMediaReviewsDataAccessInterface reviewDataAccessObject;
+    /** The presenter. */
+    private final GetMediaReviewsOutputBoundary presenter;
 
     /**
      * Creates a media reviews interactor without persistence.
      */
     public GetMediaReviewsInteractor() {
-        this(null);
+        this(null, null);
     }
 
     /**
      * Creates a media reviews interactor with persistence.
-     * @param reviewDataAccessObject the DAO used to load reviews
+     * @param inputReviewDataAccessObject the DAO used to load reviews
      */
     public GetMediaReviewsInteractor(
-            final GetMediaReviewsDataAccessInterface reviewDataAccessObject) {
-        this.reviewDataAccessObject = reviewDataAccessObject;
+            final GetMediaReviewsDataAccessInterface
+                    inputReviewDataAccessObject) {
+        this(inputReviewDataAccessObject, null);
+    }
+
+    /**
+     * Handles this review or comment operation.
+     * @param inputReviewDataAccessObject the inputReviewDataAccessObject
+     * @param inputPresenter the inputPresenter
+     */
+    public GetMediaReviewsInteractor(
+            final GetMediaReviewsDataAccessInterface
+                    inputReviewDataAccessObject,
+            final GetMediaReviewsOutputBoundary inputPresenter) {
+        this.reviewDataAccessObject = inputReviewDataAccessObject;
+        this.presenter = inputPresenter;
+    }
+
+    @Override
+    public void execute(final GetMediaReviewsInputData inputData) {
+        try {
+            validatePresenter();
+            final List<Review> reviews = getMediaReviews(
+                    inputData.getMediaId(), inputData.getMediaType());
+            presenter.prepareSuccessView(new GetMediaReviewsOutputData(
+                    reviews));
+        } catch (IllegalArgumentException | IllegalStateException error) {
+            if (presenter != null) {
+                presenter.prepareFailView(error.getMessage());
+            }
+        }
     }
 
     /**
@@ -39,7 +72,7 @@ public class GetMediaReviewsInteractor {
      * @param mediaType the reviewed media's type
      * @return the matching media reviews
      */
-    public List<Review> getMediaReviews(final int mediaId,
+    private List<Review> getMediaReviews(final int mediaId,
                                         final String mediaType) {
         final String trimmedMediaType = trimToEmpty(mediaType);
         validateGetMediaReviewsData(mediaId, trimmedMediaType);
@@ -59,7 +92,7 @@ public class GetMediaReviewsInteractor {
      * @param reviews the reviews to search through
      * @return the matching media reviews
      */
-    public List<Review> getMediaReviews(final int mediaId,
+    private List<Review> getMediaReviews(final int mediaId,
                                         final String mediaType,
                                         final List<Review> reviews) {
         final String trimmedMediaType = trimToEmpty(mediaType);
@@ -91,6 +124,13 @@ public class GetMediaReviewsInteractor {
         } else if (reviewDataAccessObject == null) {
             throw new IllegalStateException(
                     "Review data access object has not been configured.");
+        }
+    }
+
+    private void validatePresenter() {
+        if (presenter == null) {
+            throw new IllegalStateException(
+                    "Media reviews presenter has not been configured.");
         }
     }
 

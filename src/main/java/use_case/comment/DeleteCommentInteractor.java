@@ -9,23 +9,59 @@ import entity.Comment;
 /**
  * Interactor for deleting a comment.
  */
-public class DeleteCommentInteractor {
+public final class DeleteCommentInteractor
+        implements DeleteCommentInputBoundary {
+    /** The comment data access object. */
     private final DeleteCommentDataAccessInterface commentDataAccessObject;
+    /** The presenter. */
+    private final DeleteCommentOutputBoundary presenter;
 
     /**
      * Creates a delete comment interactor without persistence.
      */
     public DeleteCommentInteractor() {
-        this(null);
+        this(null, null);
     }
 
     /**
      * Creates a delete comment interactor with persistence.
-     * @param commentDataAccessObject the DAO used to delete comments
+     * @param inputCommentDataAccessObject the DAO used to delete comments
      */
     public DeleteCommentInteractor(
-            final DeleteCommentDataAccessInterface commentDataAccessObject) {
-        this.commentDataAccessObject = commentDataAccessObject;
+            final DeleteCommentDataAccessInterface
+                    inputCommentDataAccessObject) {
+        this(inputCommentDataAccessObject, null);
+    }
+
+    /**
+     * Handles this review or comment operation.
+     * @param inputCommentDataAccessObject the inputCommentDataAccessObject
+     * @param inputPresenter the inputPresenter
+     */
+    public DeleteCommentInteractor(
+            final DeleteCommentDataAccessInterface inputCommentDataAccessObject,
+            final DeleteCommentOutputBoundary inputPresenter) {
+        this.commentDataAccessObject = inputCommentDataAccessObject;
+        this.presenter = inputPresenter;
+    }
+
+    @Override
+    public void execute(final DeleteCommentInputData inputData) {
+        try {
+            validatePresenter();
+            final boolean deleted = deleteComment(inputData.getCommentId(),
+                    inputData.getUsername());
+            if (deleted) {
+                presenter.prepareSuccessView(
+                        new DeleteCommentOutputData(true));
+            } else {
+                presenter.prepareFailView("Comment could not be deleted.");
+            }
+        } catch (IllegalArgumentException | IllegalStateException error) {
+            if (presenter != null) {
+                presenter.prepareFailView(error.getMessage());
+            }
+        }
     }
 
     /**
@@ -34,7 +70,7 @@ public class DeleteCommentInteractor {
      * @param username the username of the user deleting the comment
      * @return true if the comment was deleted
      */
-    public boolean deleteComment(final String commentId,
+    private boolean deleteComment(final String commentId,
                                  final String username) {
         final String trimmedCommentId = trimToEmpty(commentId);
         final String trimmedUsername = trimToEmpty(username);
@@ -60,7 +96,7 @@ public class DeleteCommentInteractor {
      * @param comments the comments to search through
      * @return true if the comment was deleted
      */
-    public boolean deleteComment(final String commentId, final String username,
+    private boolean deleteComment(final String commentId, final String username,
                                  final List<Comment> comments) {
         final String trimmedCommentId = trimToEmpty(commentId);
         final String trimmedUsername = trimToEmpty(username);
@@ -93,6 +129,13 @@ public class DeleteCommentInteractor {
         } else if (commentDataAccessObject == null) {
             throw new IllegalStateException(
                     "Comment data access object has not been configured.");
+        }
+    }
+
+    private void validatePresenter() {
+        if (presenter == null) {
+            throw new IllegalStateException(
+                    "Delete comment presenter has not been configured.");
         }
     }
 

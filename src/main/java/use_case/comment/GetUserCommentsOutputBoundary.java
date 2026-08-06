@@ -1,14 +1,14 @@
-package use_case.review;
+package use_case.comment;
 
 /**
- * Output boundary for loading reviews written by one user.
+ * Output boundary for loading comments written by one user.
  */
-public interface GetUserReviewsOutputBoundary {
+public interface GetUserCommentsOutputBoundary {
     /**
      * Prepares the success view.
      * @param outputData the output data
      */
-    void prepareSuccessView(GetUserReviewsOutputData outputData);
+    void prepareSuccessView(GetUserCommentsOutputData outputData);
 
     /**
      * Prepares the failure view.

@@ -7,11 +7,17 @@ import java.util.List;
 /**
  * State for the user reviews view.
  */
-public class UserReviewsState {
+public final class UserReviewsState {
+    /** The username. */
     private String username = "";
-    private List<UserReviewsPresenter.UserReviewRow> reviews = new ArrayList<>();
+    /** The reviews. */
+    private List<UserReviewsPresenter.UserReviewRow> reviews =
+            new ArrayList<>();
+    /** The comments. */
     private List<CommentRow> comments = new ArrayList<>();
+    /** The selected review id. */
     private String selectedReviewId = "";
+    /** The user reviews error. */
     private String userReviewsError;
 
     /**
@@ -24,10 +30,10 @@ public class UserReviewsState {
 
     /**
      * Sets the username whose reviews are displayed.
-     * @param username the username
+     * @param inputUsername the username
      */
-    public void setUsername(final String username) {
-        this.username = username;
+    public void setUsername(final String inputUsername) {
+        this.username = inputUsername;
     }
 
     /**
@@ -40,11 +46,11 @@ public class UserReviewsState {
 
     /**
      * Sets the review rows displayed in the view.
-     * @param reviews the review rows
+     * @param inputReviews the review rows
      */
     public void setReviews(
-            final List<UserReviewsPresenter.UserReviewRow> reviews) {
-        this.reviews = new ArrayList<>(reviews);
+            final List<UserReviewsPresenter.UserReviewRow> inputReviews) {
+        this.reviews = new ArrayList<>(inputReviews);
     }
 
     /**
@@ -57,10 +63,10 @@ public class UserReviewsState {
 
     /**
      * Sets the comment rows displayed in the view.
-     * @param comments the comment rows
+     * @param inputComments the comment rows
      */
-    public void setComments(final List<CommentRow> comments) {
-        this.comments = new ArrayList<>(comments);
+    public void setComments(final List<CommentRow> inputComments) {
+        this.comments = new ArrayList<>(inputComments);
     }
 
     /**
@@ -73,10 +79,10 @@ public class UserReviewsState {
 
     /**
      * Sets the selected review id.
-     * @param selectedReviewId the selected review id
+     * @param inputSelectedReviewId the selected review id
      */
-    public void setSelectedReviewId(final String selectedReviewId) {
-        this.selectedReviewId = selectedReviewId;
+    public void setSelectedReviewId(final String inputSelectedReviewId) {
+        this.selectedReviewId = inputSelectedReviewId;
     }
 
     /**
@@ -89,46 +95,44 @@ public class UserReviewsState {
 
     /**
      * Sets the current user reviews error message.
-     * @param userReviewsError the error message
+     * @param inputUserReviewsError the error message
      */
-    public void setUserReviewsError(final String userReviewsError) {
-        this.userReviewsError = userReviewsError;
+    public void setUserReviewsError(final String inputUserReviewsError) {
+        this.userReviewsError = inputUserReviewsError;
     }
 
     /**
      * Display data for one comment in the user's comment history.
      */
     public static final class CommentRow {
+        /** The comment id. */
         private final String commentId;
+        /** The review id. */
         private final String reviewId;
+        /** The media title. */
         private final String mediaTitle;
+        /** The review text. */
         private final String reviewText;
+        /** The comment text. */
         private final String commentText;
+        /** The created at. */
         private final ZonedDateTime createdAt;
+        /** The like count. */
         private final int likeCount;
 
         /**
          * Creates display data for one comment row.
-         * @param commentId the comment id
-         * @param reviewId the review id
-         * @param mediaTitle the media title
-         * @param reviewText the review text the user commented on
-         * @param commentText the user's comment text
-         * @param createdAt the comment creation time
-         * @param likeCount the number of likes on the comment
+         * @param comment the comment summary to present
          */
-        public CommentRow(final String commentId, final String reviewId,
-                          final String mediaTitle, final String reviewText,
-                          final String commentText,
-                          final ZonedDateTime createdAt,
-                          final int likeCount) {
-            this.commentId = commentId;
-            this.reviewId = reviewId;
-            this.mediaTitle = mediaTitle;
-            this.reviewText = reviewText;
-            this.commentText = commentText;
-            this.createdAt = createdAt;
-            this.likeCount = likeCount;
+        public CommentRow(
+                final use_case.comment.UserCommentSummaryData comment) {
+            this.commentId = comment.getCommentId();
+            this.reviewId = comment.getReviewId();
+            this.mediaTitle = comment.getMediaTitle();
+            this.reviewText = comment.getReviewText();
+            this.commentText = comment.getCommentText();
+            this.createdAt = comment.getCreatedAt();
+            this.likeCount = comment.getLikeCount();
         }
 
         /**

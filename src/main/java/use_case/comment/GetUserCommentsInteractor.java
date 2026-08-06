@@ -11,20 +11,63 @@ import entity.Review;
 /**
  * Interactor for loading comments written by one user.
  */
-public class GetUserCommentsInteractor {
+public final class GetUserCommentsInteractor
+        implements GetUserCommentsInputBoundary {
+    /** The comment data access object. */
     private final GetUserCommentsDataAccessInterface commentDataAccessObject;
-    private final GetUserCommentsReviewDataAccessInterface reviewDataAccessObject;
+    /** The review data access object. */
+    private final GetUserCommentsReviewDataAccessInterface
+            reviewDataAccessObject;
+    /** The user comments presenter. */
+    private final GetUserCommentsOutputBoundary userCommentsPresenter;
 
     /**
      * Creates a user comments interactor.
-     * @param commentDataAccessObject the DAO used to load comments
-     * @param reviewDataAccessObject the DAO used to load related reviews
+     * @param inputCommentDataAccessObject the DAO used to load comments
+     * @param inputReviewDataAccessObject the DAO used to load related reviews
      */
     public GetUserCommentsInteractor(
-            final GetUserCommentsDataAccessInterface commentDataAccessObject,
-            final GetUserCommentsReviewDataAccessInterface reviewDataAccessObject) {
-        this.commentDataAccessObject = commentDataAccessObject;
-        this.reviewDataAccessObject = reviewDataAccessObject;
+            final GetUserCommentsDataAccessInterface
+                    inputCommentDataAccessObject,
+            final GetUserCommentsReviewDataAccessInterface
+                    inputReviewDataAccessObject) {
+        this(inputCommentDataAccessObject, inputReviewDataAccessObject, null);
+    }
+
+    /**
+     * Creates a user comments interactor.
+     * @param inputCommentDataAccessObject the DAO used to load comments
+     * @param inputReviewDataAccessObject the DAO used to load related reviews
+     * @param inputUserCommentsPresenter the output boundary
+     */
+    public GetUserCommentsInteractor(
+            final GetUserCommentsDataAccessInterface
+                    inputCommentDataAccessObject,
+            final GetUserCommentsReviewDataAccessInterface
+                    inputReviewDataAccessObject,
+            final GetUserCommentsOutputBoundary inputUserCommentsPresenter) {
+        this.commentDataAccessObject = inputCommentDataAccessObject;
+        this.reviewDataAccessObject = inputReviewDataAccessObject;
+        this.userCommentsPresenter = inputUserCommentsPresenter;
+    }
+
+    /**
+     * Executes the use case and sends output through the output boundary.
+     * @param inputData the input data
+     */
+    @Override
+    public void execute(final GetUserCommentsInputData inputData) {
+        try {
+            validateOutputBoundary();
+            final List<UserCommentSummaryData> comments =
+                    getUserComments(inputData.getUsername());
+            userCommentsPresenter.prepareSuccessView(
+                    new GetUserCommentsOutputData(comments));
+        } catch (IllegalArgumentException | IllegalStateException error) {
+            if (userCommentsPresenter != null) {
+                userCommentsPresenter.prepareFailView(error.getMessage());
+            }
+        }
     }
 
     /**
@@ -32,7 +75,7 @@ public class GetUserCommentsInteractor {
      * @param username the username of the comment author
      * @return the user's matching comments
      */
-    public List<UserCommentSummaryData> getUserComments(
+    private List<UserCommentSummaryData> getUserComments(
             final String username) {
         final String trimmedUsername = trimToEmpty(username);
         validateUsername(trimmedUsername);
@@ -80,6 +123,16 @@ public class GetUserCommentsInteractor {
     private void validateUsername(final String username) {
         if (isBlank(username)) {
             throw new IllegalArgumentException("Username cannot be empty.");
+        }
+    }
+
+    /**
+     * Validates that the output boundary has been configured.
+     */
+    private void validateOutputBoundary() {
+        if (userCommentsPresenter == null) {
+            throw new IllegalStateException(
+                    "User comments presenter has not been configured.");
         }
     }
 

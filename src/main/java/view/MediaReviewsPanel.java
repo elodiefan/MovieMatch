@@ -20,8 +20,6 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JToggleButton;
 
-import entity.Comment;
-import entity.Review;
 import interface_adapter.comments.CommentsController;
 import interface_adapter.comments.CommentsPresenter;
 import interface_adapter.comments.CommentsViewModel;
@@ -33,45 +31,71 @@ import interface_adapter.media_reviews.MediaReviewsViewModel;
 /**
  * Swing panel for reviews shown on a media page.
  */
-public class MediaReviewsPanel extends JPanel implements PropertyChangeListener {
+public final class MediaReviewsPanel extends JPanel
+        implements PropertyChangeListener {
+    /** The heart unselected. */
     private static final String HEART_UNSELECTED = "\u2661";
+    /** The heart selected. */
     private static final String HEART_SELECTED = "\u2665";
 
+    /** The card gap. */
     private static final int CARD_GAP = 10;
+    /** The comment gap. */
     private static final int COMMENT_GAP = 6;
+    /** The comment indent. */
     private static final int COMMENT_INDENT = 24;
+    /** The reply indent. */
     private static final int REPLY_INDENT = 48;
 
+    /** The time_formatter. */
     private static final DateTimeFormatter TIME_FORMATTER =
             DateTimeFormatter.ofPattern("yyyy-MM-dd h:mm a z");
 
+    /** The media reviews view model. */
     private final MediaReviewsViewModel mediaReviewsViewModel;
+    /** The comments view model. */
     private final CommentsViewModel commentsViewModel;
-    private final MediaReviewsPresenter mediaReviewsPresenter =
-            new MediaReviewsPresenter();
-    private final CommentsPresenter commentsPresenter = new CommentsPresenter();
+    /** The media title label. */
     private final JLabel mediaTitleLabel = new JLabel();
+    /** The error label. */
     private final JLabel errorLabel = new JLabel();
+    /** The reviews panel. */
     private final JPanel reviewsPanel = new JPanel();
+    /** The write review button. */
     private final JButton writeReviewButton =
             new JButton(MediaReviewsViewModel.WRITE_REVIEW_BUTTON_LABEL);
+    /** The media reviews controller. */
     private MediaReviewsController mediaReviewsController;
+    /** The comments controller. */
     private CommentsController commentsController;
+    /** The current username. */
     private String currentUsername = "";
+    /** The current display name. */
     private String currentDisplayName = "";
+    /** The loading content. */
+    private boolean loadingContent;
 
+    /**
+     * Handles this review or comment operation.
+     * @param inputMediaReviewsViewModel the inputMediaReviewsViewModel
+     */
     public MediaReviewsPanel(
-            final MediaReviewsViewModel mediaReviewsViewModel) {
-        this(mediaReviewsViewModel, null);
+            final MediaReviewsViewModel inputMediaReviewsViewModel) {
+        this(inputMediaReviewsViewModel, null);
     }
 
+    /**
+     * Handles this review or comment operation.
+     * @param inputMediaReviewsViewModel the inputMediaReviewsViewModel
+     * @param inputCommentsViewModel the inputCommentsViewModel
+     */
     public MediaReviewsPanel(
-            final MediaReviewsViewModel mediaReviewsViewModel,
-            final CommentsViewModel commentsViewModel) {
-        this.mediaReviewsViewModel = mediaReviewsViewModel;
-        this.commentsViewModel = commentsViewModel;
+            final MediaReviewsViewModel inputMediaReviewsViewModel,
+            final CommentsViewModel inputCommentsViewModel) {
+        this.mediaReviewsViewModel = inputMediaReviewsViewModel;
+        this.commentsViewModel = inputCommentsViewModel;
         this.mediaReviewsViewModel.addPropertyChangeListener(this);
-        if (commentsViewModel != null) {
+        if (inputCommentsViewModel != null) {
             this.commentsViewModel.addPropertyChangeListener(this);
         }
 
@@ -90,7 +114,7 @@ public class MediaReviewsPanel extends JPanel implements PropertyChangeListener 
 
         writeReviewButton.addActionListener(new WriteReviewListener());
 
-        updateView(mediaReviewsViewModel.getState());
+        updateView(inputMediaReviewsViewModel.getState());
     }
 
     /**
@@ -114,20 +138,20 @@ public class MediaReviewsPanel extends JPanel implements PropertyChangeListener 
 
     /**
      * Sets the media reviews controller.
-     * @param mediaReviewsController the media reviews controller
+     * @param inputMediaReviewsController the media reviews controller
      */
     public void setMediaReviewsController(
-            final MediaReviewsController mediaReviewsController) {
-        this.mediaReviewsController = mediaReviewsController;
+            final MediaReviewsController inputMediaReviewsController) {
+        this.mediaReviewsController = inputMediaReviewsController;
     }
 
     /**
      * Sets the comments controller.
-     * @param commentsController the comments controller
+     * @param inputCommentsController the comments controller
      */
     public void setCommentsController(
-            final CommentsController commentsController) {
-        this.commentsController = commentsController;
+            final CommentsController inputCommentsController) {
+        this.commentsController = inputCommentsController;
     }
 
     /**
@@ -149,38 +173,36 @@ public class MediaReviewsPanel extends JPanel implements PropertyChangeListener 
         if (state != null) {
             mediaTitleLabel.setText(state.getMediaTitle());
             errorLabel.setText(state.getMediaReviewsError());
-            refreshReviews(state);
+            loadContent(state);
             setReviews(state.getReviews());
         }
     }
 
     /**
-     * Loads persisted reviews for the current media item into state.
+     * Loads persisted reviews and comments for the current media item.
      * @param state the media reviews state
      */
-    private void refreshReviews(final MediaReviewsState state) {
-        if (mediaReviewsController != null && !isBlank(state.getMediaType())) {
-            final List<Review> reviews =
-                    mediaReviewsController.getMediaReviews(state.getMediaId(),
-                            state.getMediaType());
-            state.setReviews(mediaReviewsPresenter.prepareReviews(reviews));
-            refreshCommentsForReviews(reviews);
+    private void loadContent(final MediaReviewsState state) {
+        if (!loadingContent && mediaReviewsController != null
+                && !isBlank(state.getMediaType())) {
+            loadingContent = true;
+            mediaReviewsController.loadMediaReviews(state.getMediaId(),
+                    state.getMediaType());
+            refreshCommentsForReviews(state);
+            loadingContent = false;
         }
     }
 
     /**
-     * Loads persisted comments for the displayed reviews into comment state.
-     * @param reviews the displayed reviews
+     * Loads persisted comments for the displayed reviews.
+     * @param state the media reviews state
      */
-    private void refreshCommentsForReviews(final List<Review> reviews) {
+    private void refreshCommentsForReviews(final MediaReviewsState state) {
         if (commentsController != null && commentsViewModel != null) {
-            final java.util.List<Comment> comments = new java.util.ArrayList<>();
-            for (Review review : reviews) {
-                comments.addAll(commentsController.getReviewComments(
-                        review.getReviewId()));
+            for (MediaReviewsPresenter.MediaReviewRow review
+                    : state.getReviews()) {
+                commentsController.loadReviewComments(review.getReviewId());
             }
-            commentsViewModel.getState().setComments(
-                    commentsPresenter.prepareComments(comments));
         }
     }
 
@@ -449,7 +471,8 @@ public class MediaReviewsPanel extends JPanel implements PropertyChangeListener 
                             state.getMediaType(), state.getMediaTitle(),
                             currentUsername, currentDisplayName,
                             Double.parseDouble(ratingText), reviewText);
-                    refreshReviews(state);
+                    mediaReviewsController.loadMediaReviews(state.getMediaId(),
+                            state.getMediaType());
                 }
             }
             mediaReviewsViewModel.firePropertyChanged();
@@ -460,10 +483,11 @@ public class MediaReviewsPanel extends JPanel implements PropertyChangeListener 
      * Selects a review in the view model state.
      */
     private final class SelectReviewListener implements ActionListener {
+        /** The review id. */
         private final String reviewId;
 
-        private SelectReviewListener(final String reviewId) {
-            this.reviewId = reviewId;
+        private SelectReviewListener(final String inputReviewId) {
+            this.reviewId = inputReviewId;
         }
 
         @Override
@@ -487,7 +511,8 @@ public class MediaReviewsPanel extends JPanel implements PropertyChangeListener 
                                 reviewText);
                     }
                 }
-                refreshReviews(state);
+                mediaReviewsController.loadMediaReviews(state.getMediaId(),
+                        state.getMediaType());
             }
             mediaReviewsViewModel.firePropertyChanged();
         }
@@ -497,10 +522,11 @@ public class MediaReviewsPanel extends JPanel implements PropertyChangeListener 
      * Toggles a review heart and selects the review.
      */
     private final class HeartReviewListener implements ActionListener {
+        /** The review id. */
         private final String reviewId;
 
-        private HeartReviewListener(final String reviewId) {
-            this.reviewId = reviewId;
+        private HeartReviewListener(final String inputReviewId) {
+            this.reviewId = inputReviewId;
         }
 
         @Override
@@ -516,7 +542,8 @@ public class MediaReviewsPanel extends JPanel implements PropertyChangeListener 
                     mediaReviewsController.unlikeReview(reviewId,
                             currentUsername);
                 }
-                refreshReviews(state);
+                mediaReviewsController.loadMediaReviews(state.getMediaId(),
+                        state.getMediaType());
             }
             updateHeartButton(heartButton,
                     MediaReviewsViewModel.UNLIKE_BUTTON_LABEL,
@@ -531,16 +558,19 @@ public class MediaReviewsPanel extends JPanel implements PropertyChangeListener 
      * Selects a comment in the comments view model state.
      */
     private final class SelectCommentListener implements ActionListener {
+        /** The comment id. */
         private final String commentId;
+        /** The review id. */
         private final String reviewId;
+        /** The reply. */
         private final boolean reply;
 
-        private SelectCommentListener(final String commentId,
-                                      final String reviewId,
-                                      final boolean reply) {
-            this.commentId = commentId;
-            this.reviewId = reviewId;
-            this.reply = reply;
+        private SelectCommentListener(final String inputCommentId,
+                                      final String inputReviewId,
+                                      final boolean inputReply) {
+            this.commentId = inputCommentId;
+            this.reviewId = inputReviewId;
+            this.reply = inputReply;
         }
 
         @Override
@@ -556,14 +586,14 @@ public class MediaReviewsPanel extends JPanel implements PropertyChangeListener 
                             commentsController.createComment(reviewId,
                                     commentId, currentUsername,
                                     currentDisplayName, commentText);
-                            refreshReviews(mediaReviewsViewModel.getState());
+                            commentsController.loadReviewComments(reviewId);
                         }
                     }
                 } else if (commentsController != null
                         && !isBlank(currentUsername)) {
                     commentsController.deleteComment(commentId,
                             currentUsername);
-                    refreshReviews(mediaReviewsViewModel.getState());
+                    commentsController.loadReviewComments(reviewId);
                 }
                 commentsViewModel.firePropertyChanged();
             }
@@ -574,10 +604,11 @@ public class MediaReviewsPanel extends JPanel implements PropertyChangeListener 
      * Toggles a comment heart and selects the comment.
      */
     private final class HeartCommentListener implements ActionListener {
+        /** The comment id. */
         private final String commentId;
 
-        private HeartCommentListener(final String commentId) {
-            this.commentId = commentId;
+        private HeartCommentListener(final String inputCommentId) {
+            this.commentId = inputCommentId;
         }
 
         @Override
@@ -591,7 +622,7 @@ public class MediaReviewsPanel extends JPanel implements PropertyChangeListener 
                     commentsController.unlikeComment(commentId,
                             currentUsername);
                 }
-                refreshReviews(mediaReviewsViewModel.getState());
+                refreshCommentsForReviews(mediaReviewsViewModel.getState());
             }
             updateHeartButton(heartButton,
                     CommentsViewModel.UNLIKE_BUTTON_LABEL,

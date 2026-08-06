@@ -7,23 +7,52 @@ import entity.Comment;
 /**
  * Interactor for liking a comment.
  */
-public class LikeCommentInteractor {
+public final class LikeCommentInteractor implements LikeCommentInputBoundary {
+    /** The comment data access object. */
     private final LikeCommentDataAccessInterface commentDataAccessObject;
+    /** The presenter. */
+    private final LikeCommentOutputBoundary presenter;
 
     /**
      * Creates a like comment interactor without persistence.
      */
     public LikeCommentInteractor() {
-        this(null);
+        this(null, null);
     }
 
     /**
      * Creates a like comment interactor with persistence.
-     * @param commentDataAccessObject the DAO used to like comments
+     * @param inputCommentDataAccessObject the DAO used to like comments
      */
     public LikeCommentInteractor(
-            final LikeCommentDataAccessInterface commentDataAccessObject) {
-        this.commentDataAccessObject = commentDataAccessObject;
+            final LikeCommentDataAccessInterface inputCommentDataAccessObject) {
+        this(inputCommentDataAccessObject, null);
+    }
+
+    /**
+     * Handles this review or comment operation.
+     * @param inputCommentDataAccessObject the inputCommentDataAccessObject
+     * @param inputPresenter the inputPresenter
+     */
+    public LikeCommentInteractor(
+            final LikeCommentDataAccessInterface inputCommentDataAccessObject,
+            final LikeCommentOutputBoundary inputPresenter) {
+        this.commentDataAccessObject = inputCommentDataAccessObject;
+        this.presenter = inputPresenter;
+    }
+
+    @Override
+    public void execute(final LikeCommentInputData inputData) {
+        try {
+            validatePresenter();
+            final boolean liked = likeComment(inputData.getCommentId(),
+                    inputData.getUsername());
+            presenter.prepareSuccessView(new LikeCommentOutputData(liked));
+        } catch (IllegalArgumentException | IllegalStateException error) {
+            if (presenter != null) {
+                presenter.prepareFailView(error.getMessage());
+            }
+        }
     }
 
     /**
@@ -32,7 +61,7 @@ public class LikeCommentInteractor {
      * @param username the username of the user liking the comment
      * @return true if the comment was found and liked
      */
-    public boolean likeComment(final String commentId, final String username) {
+    private boolean likeComment(final String commentId, final String username) {
         final String trimmedCommentId = trimToEmpty(commentId);
         final String trimmedUsername = trimToEmpty(username);
         validateLikeCommentData(trimmedCommentId, trimmedUsername);
@@ -47,7 +76,7 @@ public class LikeCommentInteractor {
      * @param comments the comments to search through
      * @return true if the comment was found and liked
      */
-    public boolean likeComment(final String commentId, final String username,
+    private boolean likeComment(final String commentId, final String username,
                                final List<Comment> comments) {
         final String trimmedCommentId = trimToEmpty(commentId);
         final String trimmedUsername = trimToEmpty(username);
@@ -78,6 +107,13 @@ public class LikeCommentInteractor {
         } else if (commentDataAccessObject == null) {
             throw new IllegalStateException(
                     "Comment data access object has not been configured.");
+        }
+    }
+
+    private void validatePresenter() {
+        if (presenter == null) {
+            throw new IllegalStateException(
+                    "Like comment presenter has not been configured.");
         }
     }
 
