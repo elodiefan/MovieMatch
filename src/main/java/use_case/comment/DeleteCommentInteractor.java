@@ -2,6 +2,7 @@ package use_case.comment;
 
 import java.util.Iterator;
 import java.util.List;
+import java.util.Optional;
 
 import entity.Comment;
 
@@ -9,6 +10,48 @@ import entity.Comment;
  * Interactor for deleting a comment.
  */
 public class DeleteCommentInteractor {
+    private final DeleteCommentDataAccessInterface commentDataAccessObject;
+
+    /**
+     * Creates a delete comment interactor without persistence.
+     */
+    public DeleteCommentInteractor() {
+        this(null);
+    }
+
+    /**
+     * Creates a delete comment interactor with persistence.
+     * @param commentDataAccessObject the DAO used to delete comments
+     */
+    public DeleteCommentInteractor(
+            final DeleteCommentDataAccessInterface commentDataAccessObject) {
+        this.commentDataAccessObject = commentDataAccessObject;
+    }
+
+    /**
+     * Deletes one persisted comment written by the given user.
+     * @param commentId the id of the comment to delete
+     * @param username the username of the user deleting the comment
+     * @return true if the comment was deleted
+     */
+    public boolean deleteComment(final String commentId,
+                                 final String username) {
+        final String trimmedCommentId = trimToEmpty(commentId);
+        final String trimmedUsername = trimToEmpty(username);
+        validateDeleteCommentData(trimmedCommentId, trimmedUsername);
+
+        final Optional<Comment> comment =
+                commentDataAccessObject.getCommentById(trimmedCommentId);
+        final boolean deleted;
+        if (comment.isPresent()
+                && canDeleteComment(comment.get(), trimmedCommentId,
+                trimmedUsername)) {
+            deleted = commentDataAccessObject.deleteComment(trimmedCommentId);
+        } else {
+            deleted = false;
+        }
+        return deleted;
+    }
 
     /**
      * Deletes one comment written by the given user.
@@ -34,6 +77,23 @@ public class DeleteCommentInteractor {
         }
 
         return deleted;
+    }
+
+    /**
+     * Validates data needed to delete a persisted comment.
+     * @param commentId the comment id to validate
+     * @param username the username to validate
+     */
+    private void validateDeleteCommentData(final String commentId,
+                                           final String username) {
+        if (isBlank(commentId)) {
+            throw new IllegalArgumentException("Comment id cannot be empty.");
+        } else if (isBlank(username)) {
+            throw new IllegalArgumentException("Username cannot be empty.");
+        } else if (commentDataAccessObject == null) {
+            throw new IllegalStateException(
+                    "Comment data access object has not been configured.");
+        }
     }
 
     /**
