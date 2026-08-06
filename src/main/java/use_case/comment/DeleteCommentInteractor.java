@@ -1,39 +1,114 @@
 package use_case.comment;
 
-import java.util.Iterator;
-import java.util.List;
+import java.util.Optional;
 
 import entity.Comment;
 
 /**
  * Interactor for deleting a comment.
  */
-public class DeleteCommentInteractor {
+public final class DeleteCommentInteractor
+        implements DeleteCommentInputBoundary {
+    /** The comment data access object. */
+    private final DeleteCommentDataAccessInterface commentDataAccessObject;
+    /** The presenter. */
+    private final DeleteCommentOutputBoundary presenter;
 
     /**
-     * Deletes one comment written by the given user.
-     * @param commentId the id of the comment to delete
-     * @param username the username of the user deleting the comment
-     * @param comments the comments to search through
-     * @return true if the comment was deleted
+     * Creates a delete comment interactor without persistence.
      */
-    public boolean deleteComment(final String commentId, final String username,
-                                 final List<Comment> comments) {
-        final String trimmedCommentId = trimToEmpty(commentId);
-        final String trimmedUsername = trimToEmpty(username);
-        validateDeleteCommentData(trimmedCommentId, trimmedUsername, comments);
+    public DeleteCommentInteractor() {
+        this(null, null);
+    }
 
-        boolean deleted = false;
-        final Iterator<Comment> commentIterator = comments.iterator();
-        while (commentIterator.hasNext() && !deleted) {
-            final Comment comment = commentIterator.next();
-            if (canDeleteComment(comment, trimmedCommentId, trimmedUsername)) {
-                commentIterator.remove();
-                deleted = true;
+    /**
+     * Creates a delete comment interactor with persistence.
+     * @param inputCommentDataAccessObject the DAO used to delete comments
+     */
+    public DeleteCommentInteractor(
+            final DeleteCommentDataAccessInterface
+                    inputCommentDataAccessObject) {
+        this(inputCommentDataAccessObject, null);
+    }
+
+    /**
+     * Handles this review or comment operation.
+     * @param inputCommentDataAccessObject the inputCommentDataAccessObject
+     * @param inputPresenter the inputPresenter
+     */
+    public DeleteCommentInteractor(
+            final DeleteCommentDataAccessInterface inputCommentDataAccessObject,
+            final DeleteCommentOutputBoundary inputPresenter) {
+        this.commentDataAccessObject = inputCommentDataAccessObject;
+        this.presenter = inputPresenter;
+    }
+
+    @Override
+    public void execute(final DeleteCommentInputData inputData) {
+        try {
+            validatePresenter();
+            final boolean deleted = deleteComment(inputData.getCommentId(),
+                    inputData.getUsername());
+            if (deleted) {
+                presenter.prepareSuccessView(
+                        new DeleteCommentOutputData(true));
+            } else {
+                presenter.prepareFailView("Comment could not be deleted.");
+            }
+        } catch (IllegalArgumentException | IllegalStateException error) {
+            if (presenter != null) {
+                presenter.prepareFailView(error.getMessage());
             }
         }
+    }
 
+    /**
+     * Deletes one persisted comment written by the given user.
+     * @param commentId the id of the comment to delete
+     * @param username the username of the user deleting the comment
+     * @return true if the comment was deleted
+     */
+    private boolean deleteComment(final String commentId,
+                                 final String username) {
+        final String trimmedCommentId = trimToEmpty(commentId);
+        final String trimmedUsername = trimToEmpty(username);
+        validateDeleteCommentData(trimmedCommentId, trimmedUsername);
+
+        final Optional<Comment> comment =
+                commentDataAccessObject.getCommentById(trimmedCommentId);
+        final boolean deleted;
+        if (comment.isPresent()
+                && canDeleteComment(comment.get(), trimmedCommentId,
+                trimmedUsername)) {
+            deleted = commentDataAccessObject.deleteComment(trimmedCommentId);
+        } else {
+            deleted = false;
+        }
         return deleted;
+    }
+
+    /**
+     * Validates data needed to delete a persisted comment.
+     * @param commentId the comment id to validate
+     * @param username the username to validate
+     */
+    private void validateDeleteCommentData(final String commentId,
+                                           final String username) {
+        if (isBlank(commentId)) {
+            throw new IllegalArgumentException("Comment id cannot be empty.");
+        } else if (isBlank(username)) {
+            throw new IllegalArgumentException("Username cannot be empty.");
+        } else if (commentDataAccessObject == null) {
+            throw new IllegalStateException(
+                    "Comment data access object has not been configured.");
+        }
+    }
+
+    private void validatePresenter() {
+        if (presenter == null) {
+            throw new IllegalStateException(
+                    "Delete comment presenter has not been configured.");
+        }
     }
 
     /**
@@ -54,24 +129,6 @@ public class DeleteCommentInteractor {
                     && comment.getAuthorUsername().equals(username);
         }
         return canDelete;
-    }
-
-    /**
-     * Validates the data needed to delete a comment.
-     * @param commentId the comment id to validate
-     * @param username the username to validate
-     * @param comments the comment list to validate
-     */
-    private void validateDeleteCommentData(final String commentId,
-                                           final String username,
-                                           final List<Comment> comments) {
-        if (isBlank(commentId)) {
-            throw new IllegalArgumentException("Comment id cannot be empty.");
-        } else if (isBlank(username)) {
-            throw new IllegalArgumentException("Username cannot be empty.");
-        } else if (comments == null) {
-            throw new IllegalArgumentException("Comments cannot be null.");
-        }
     }
 
     /**

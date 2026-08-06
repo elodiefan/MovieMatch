@@ -1,70 +1,94 @@
 package use_case.comment;
 
-import java.util.List;
-
-import entity.Comment;
-
 /**
  * Interactor for unliking a comment.
  */
-public class UnlikeCommentInteractor {
+public final class UnlikeCommentInteractor
+        implements UnlikeCommentInputBoundary {
+    /** The comment data access object. */
+    private final UnlikeCommentDataAccessInterface commentDataAccessObject;
+    /** The presenter. */
+    private final UnlikeCommentOutputBoundary presenter;
 
     /**
-     * Removes a user's like from a comment.
-     * @param commentId the id of the comment to unlike
-     * @param username the username of the user unliking the comment
-     * @param comments the comments to search through
-     * @return true if the comment was found and unliked
+     * Creates an unlike comment interactor without persistence.
      */
-    public boolean unlikeComment(final String commentId, final String username,
-                                 final List<Comment> comments) {
-        final String trimmedCommentId = trimToEmpty(commentId);
-        final String trimmedUsername = trimToEmpty(username);
-        validateUnlikeCommentData(trimmedCommentId, trimmedUsername, comments);
+    public UnlikeCommentInteractor() {
+        this(null, null);
+    }
 
-        boolean unliked = false;
-        for (Comment comment : comments) {
-            if (isMatchingComment(comment, trimmedCommentId)) {
-                comment.unlike(trimmedUsername);
-                unliked = true;
+    /**
+     * Creates an unlike comment interactor with persistence.
+     * @param inputCommentDataAccessObject the DAO used to unlike comments
+     */
+    public UnlikeCommentInteractor(
+            final UnlikeCommentDataAccessInterface
+                    inputCommentDataAccessObject) {
+        this(inputCommentDataAccessObject, null);
+    }
+
+    /**
+     * Handles this review or comment operation.
+     * @param inputCommentDataAccessObject the inputCommentDataAccessObject
+     * @param inputPresenter the inputPresenter
+     */
+    public UnlikeCommentInteractor(
+            final UnlikeCommentDataAccessInterface inputCommentDataAccessObject,
+            final UnlikeCommentOutputBoundary inputPresenter) {
+        this.commentDataAccessObject = inputCommentDataAccessObject;
+        this.presenter = inputPresenter;
+    }
+
+    @Override
+    public void execute(final UnlikeCommentInputData inputData) {
+        try {
+            validatePresenter();
+            final boolean unliked = unlikeComment(inputData.getCommentId(),
+                    inputData.getUsername());
+            presenter.prepareSuccessView(new UnlikeCommentOutputData(unliked));
+        } catch (IllegalArgumentException | IllegalStateException error) {
+            if (presenter != null) {
+                presenter.prepareFailView(error.getMessage());
             }
         }
-
-        return unliked;
     }
 
     /**
-     * Checks whether a comment has the requested comment id.
-     * @param comment the comment to check
-     * @param commentId the comment id to match
-     * @return true if the comment has the requested id
+     * Removes a user's like from a persisted comment.
+     * @param commentId the id of the comment to unlike
+     * @param username the username of the user unliking the comment
+     * @return true if the comment was found and unliked
      */
-    private boolean isMatchingComment(final Comment comment,
-                                      final String commentId) {
-        final boolean matchingComment;
-        if (comment == null) {
-            matchingComment = false;
-        } else {
-            matchingComment = comment.getCommentId().equals(commentId);
-        }
-        return matchingComment;
+    private boolean unlikeComment(final String commentId,
+                                 final String username) {
+        final String trimmedCommentId = trimToEmpty(commentId);
+        final String trimmedUsername = trimToEmpty(username);
+        validateUnlikeCommentData(trimmedCommentId, trimmedUsername);
+        return commentDataAccessObject.unlikeComment(trimmedCommentId,
+                trimmedUsername);
     }
 
     /**
-     * Validates the data needed to unlike a comment.
+     * Validates the data needed to unlike a persisted comment.
      * @param commentId the comment id to validate
      * @param username the username to validate
-     * @param comments the comment list to validate
      */
     private void validateUnlikeCommentData(final String commentId,
-                                           final String username,
-                                           final List<Comment> comments) {
+                                           final String username) {
         if (isBlank(commentId)) {
             throw new IllegalArgumentException("Comment id cannot be empty.");
         } else if (isBlank(username)) {
             throw new IllegalArgumentException("Username cannot be empty.");
-        } else if (comments == null) {
-            throw new IllegalArgumentException("Comments cannot be null.");
+        } else if (commentDataAccessObject == null) {
+            throw new IllegalStateException(
+                    "Comment data access object has not been configured.");
+        }
+    }
+
+    private void validatePresenter() {
+        if (presenter == null) {
+            throw new IllegalStateException(
+                    "Unlike comment presenter has not been configured.");
         }
     }
 

@@ -1,55 +1,61 @@
 package interface_adapter.comments;
 
-import java.util.List;
-
-import entity.Comment;
-import use_case.comment.CreateCommentInteractor;
-import use_case.comment.DeleteCommentInteractor;
-import use_case.comment.GetReviewCommentsInteractor;
-import use_case.comment.LikeCommentInteractor;
-import use_case.comment.UnlikeCommentInteractor;
+import use_case.comment.CreateCommentInputBoundary;
+import use_case.comment.CreateCommentInputData;
+import use_case.comment.DeleteCommentInputBoundary;
+import use_case.comment.DeleteCommentInputData;
+import use_case.comment.GetReviewCommentsInputBoundary;
+import use_case.comment.GetReviewCommentsInputData;
+import use_case.comment.LikeCommentInputBoundary;
+import use_case.comment.LikeCommentInputData;
+import use_case.comment.UnlikeCommentInputBoundary;
+import use_case.comment.UnlikeCommentInputData;
 
 /**
  * Controller for review comments.
  */
-public class CommentsController {
-    private final GetReviewCommentsInteractor getReviewCommentsInteractor;
-    private final CreateCommentInteractor createCommentInteractor;
-    private final DeleteCommentInteractor deleteCommentInteractor;
-    private final LikeCommentInteractor likeCommentInteractor;
-    private final UnlikeCommentInteractor unlikeCommentInteractor;
+public final class CommentsController {
+    /** The get review comments interactor. */
+    private final GetReviewCommentsInputBoundary getReviewCommentsInteractor;
+    /** The create comment interactor. */
+    private final CreateCommentInputBoundary createCommentInteractor;
+    /** The delete comment interactor. */
+    private final DeleteCommentInputBoundary deleteCommentInteractor;
+    /** The like comment interactor. */
+    private final LikeCommentInputBoundary likeCommentInteractor;
+    /** The unlike comment interactor. */
+    private final UnlikeCommentInputBoundary unlikeCommentInteractor;
 
     /**
      * Creates a controller for comment actions.
-     * @param getReviewCommentsInteractor the interactor for loading comments
-     * @param createCommentInteractor the interactor for creating comments
-     * @param deleteCommentInteractor the interactor for deleting comments
-     * @param likeCommentInteractor the interactor for liking comments
-     * @param unlikeCommentInteractor the interactor for unliking comments
+     * @param inputGetReviewCommentsInteractor the interactor for loading
+     *                                         comments
+     * @param inputCreateCommentInteractor the interactor for creating comments
+     * @param inputDeleteCommentInteractor the interactor for deleting comments
+     * @param inputLikeCommentInteractor the interactor for liking comments
+     * @param inputUnlikeCommentInteractor the interactor for unliking comments
      */
     public CommentsController(
-            final GetReviewCommentsInteractor getReviewCommentsInteractor,
-            final CreateCommentInteractor createCommentInteractor,
-            final DeleteCommentInteractor deleteCommentInteractor,
-            final LikeCommentInteractor likeCommentInteractor,
-            final UnlikeCommentInteractor unlikeCommentInteractor) {
-        this.getReviewCommentsInteractor = getReviewCommentsInteractor;
-        this.createCommentInteractor = createCommentInteractor;
-        this.deleteCommentInteractor = deleteCommentInteractor;
-        this.likeCommentInteractor = likeCommentInteractor;
-        this.unlikeCommentInteractor = unlikeCommentInteractor;
+            final GetReviewCommentsInputBoundary
+                    inputGetReviewCommentsInteractor,
+            final CreateCommentInputBoundary inputCreateCommentInteractor,
+            final DeleteCommentInputBoundary inputDeleteCommentInteractor,
+            final LikeCommentInputBoundary inputLikeCommentInteractor,
+            final UnlikeCommentInputBoundary inputUnlikeCommentInteractor) {
+        this.getReviewCommentsInteractor = inputGetReviewCommentsInteractor;
+        this.createCommentInteractor = inputCreateCommentInteractor;
+        this.deleteCommentInteractor = inputDeleteCommentInteractor;
+        this.likeCommentInteractor = inputLikeCommentInteractor;
+        this.unlikeCommentInteractor = inputUnlikeCommentInteractor;
     }
 
     /**
-     * Loads comments for one review.
+     * Loads persisted comments for one review.
      * @param reviewId the review id to load comments for
-     * @param comments the comments to search through
-     * @return the matching comments
      */
-    public List<Comment> getReviewComments(final String reviewId,
-                                           final List<Comment> comments) {
-        return getReviewCommentsInteractor.getReviewComments(reviewId,
-                comments);
+    public void loadReviewComments(final String reviewId) {
+        getReviewCommentsInteractor.execute(new GetReviewCommentsInputData(
+                reviewId));
     }
 
     /**
@@ -59,56 +65,44 @@ public class CommentsController {
      * @param authorUsername the comment author's username
      * @param authorDisplayName the comment author's display name
      * @param commentText the comment text
-     * @return the created comment
      */
-    public Comment createComment(final String reviewId,
-                                 final String parentCommentId,
-                                 final String authorUsername,
-                                 final String authorDisplayName,
-                                 final String commentText) {
-        return createCommentInteractor.createComment(reviewId,
+    public void createComment(final String reviewId,
+                              final String parentCommentId,
+                              final String authorUsername,
+                              final String authorDisplayName,
+                              final String commentText) {
+        createCommentInteractor.execute(new CreateCommentInputData(reviewId,
                 parentCommentId, authorUsername, authorDisplayName,
-                commentText);
+                commentText));
     }
 
     /**
-     * Deletes one comment written by the given user.
+     * Deletes one persisted comment written by the given user.
      * @param commentId the id of the comment to delete
      * @param username the username of the user deleting the comment
-     * @param comments the comments to search through
-     * @return true if the comment was deleted
      */
-    public boolean deleteComment(final String commentId,
-                                 final String username,
-                                 final List<Comment> comments) {
-        return deleteCommentInteractor.deleteComment(commentId, username,
-                comments);
+    public void deleteComment(final String commentId, final String username) {
+        deleteCommentInteractor.execute(new DeleteCommentInputData(commentId,
+                username));
     }
 
     /**
-     * Likes a comment.
+     * Likes one persisted comment.
      * @param commentId the id of the comment to like
      * @param username the username of the user liking the comment
-     * @param comments the comments to search through
-     * @return true if the comment was found and liked
      */
-    public boolean likeComment(final String commentId, final String username,
-                               final List<Comment> comments) {
-        return likeCommentInteractor.likeComment(commentId, username,
-                comments);
+    public void likeComment(final String commentId, final String username) {
+        likeCommentInteractor.execute(new LikeCommentInputData(commentId,
+                username));
     }
 
     /**
-     * Unlikes a comment.
+     * Unlikes one persisted comment.
      * @param commentId the id of the comment to unlike
      * @param username the username of the user unliking the comment
-     * @param comments the comments to search through
-     * @return true if the comment was found and unliked
      */
-    public boolean unlikeComment(final String commentId,
-                                 final String username,
-                                 final List<Comment> comments) {
-        return unlikeCommentInteractor.unlikeComment(commentId, username,
-                comments);
+    public void unlikeComment(final String commentId, final String username) {
+        unlikeCommentInteractor.execute(new UnlikeCommentInputData(commentId,
+                username));
     }
 }

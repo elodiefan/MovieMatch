@@ -1,6 +1,5 @@
 package use_case.review;
 
-import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 
@@ -9,42 +8,97 @@ import entity.Review;
 /**
  * Interactor for loading reviews written by one user.
  */
-public class GetUserReviewsInteractor {
+public final class GetUserReviewsInteractor
+        implements GetUserReviewsInputBoundary {
+    /** The review data access object. */
+    private final GetUserReviewsDataAccessInterface reviewDataAccessObject;
+    /** The user reviews presenter. */
+    private final GetUserReviewsOutputBoundary userReviewsPresenter;
 
     /**
-     * Returns the reviews written by one user, ordered from newest to oldest.
-     * @param username the username of the review author
-     * @param reviews the reviews to search through
-     * @return the user's matching reviews
+     * Creates a user reviews interactor without persistence.
      */
-    public List<Review> getUserReviews(final String username,
-                                       final List<Review> reviews) {
-        final String trimmedUsername = trimToEmpty(username);
-        validateGetUserReviewsData(trimmedUsername, reviews);
+    public GetUserReviewsInteractor() {
+        this(null, null);
+    }
 
-        final List<Review> matchingReviews = new ArrayList<>();
-        for (Review review : reviews) {
-            if (review.getAuthorUsername().equals(trimmedUsername)) {
-                matchingReviews.add(review);
+    /**
+     * Creates a user reviews interactor with persistence.
+     * @param inputReviewDataAccessObject the DAO used to load reviews
+     */
+    public GetUserReviewsInteractor(
+            final GetUserReviewsDataAccessInterface
+                    inputReviewDataAccessObject) {
+        this(inputReviewDataAccessObject, null);
+    }
+
+    /**
+     * Creates a user reviews interactor with persistence and presentation.
+     * @param inputReviewDataAccessObject the DAO used to load reviews
+     * @param inputUserReviewsPresenter the output boundary
+     */
+    public GetUserReviewsInteractor(
+            final GetUserReviewsDataAccessInterface inputReviewDataAccessObject,
+            final GetUserReviewsOutputBoundary inputUserReviewsPresenter) {
+        this.reviewDataAccessObject = inputReviewDataAccessObject;
+        this.userReviewsPresenter = inputUserReviewsPresenter;
+    }
+
+    /**
+     * Executes the use case and sends output through the output boundary.
+     * @param inputData the input data
+     */
+    @Override
+    public void execute(final GetUserReviewsInputData inputData) {
+        try {
+            validateOutputBoundary();
+            final List<Review> matchingReviews =
+                    getUserReviews(inputData.getUsername());
+            userReviewsPresenter.prepareSuccessView(
+                    new GetUserReviewsOutputData(matchingReviews));
+        } catch (IllegalArgumentException | IllegalStateException error) {
+            if (userReviewsPresenter != null) {
+                userReviewsPresenter.prepareFailView(error.getMessage());
             }
         }
+    }
 
+    /**
+     * Returns persisted reviews written by one user, ordered newest to oldest.
+     * @param username the username of the review author
+     * @return the user's matching reviews
+     */
+    private List<Review> getUserReviews(final String username) {
+        final String trimmedUsername = trimToEmpty(username);
+        validateUsername(trimmedUsername);
+
+        final List<Review> matchingReviews =
+                reviewDataAccessObject.getReviewsByUsername(trimmedUsername);
         matchingReviews.sort(Comparator.comparing(Review::getCreatedAt)
                 .reversed());
         return matchingReviews;
     }
 
     /**
-     * Validates the data needed to load a user's reviews.
+     * Validates the username needed to load persisted reviews.
      * @param username the username to validate
-     * @param reviews the review list to validate
      */
-    private void validateGetUserReviewsData(final String username,
-                                            final List<Review> reviews) {
+    private void validateUsername(final String username) {
         if (isBlank(username)) {
             throw new IllegalArgumentException("Username cannot be empty.");
-        } else if (reviews == null) {
-            throw new IllegalArgumentException("Reviews cannot be null.");
+        } else if (reviewDataAccessObject == null) {
+            throw new IllegalStateException(
+                    "Review data access object has not been configured.");
+        }
+    }
+
+    /**
+     * Validates that the output boundary has been configured.
+     */
+    private void validateOutputBoundary() {
+        if (userReviewsPresenter == null) {
+            throw new IllegalStateException(
+                    "User reviews presenter has not been configured.");
         }
     }
 
