@@ -1,7 +1,5 @@
 package use_case.access_message_chat;
 
-import java.util.ArrayList;
-
 /**
  * Output Data for the access message chat use case.
  */
@@ -10,11 +8,11 @@ public class AccessMessageChatOutputData {
     private boolean canViewChat;
     private String username;
     private String otherUsername;
-    private ArrayList<String> displayText = new ArrayList<>();
+    private String displayText;
     private boolean useCaseFailed;
 
     public AccessMessageChatOutputData(boolean canViewChat, String username, String otherUsername,
-                                       ArrayList<String> displayText, boolean useCaseFailed) {
+                                       String displayText, boolean useCaseFailed) {
         this.canViewChat = canViewChat;
         this.username = username;
         this.otherUsername = otherUsername;
@@ -38,7 +36,7 @@ public class AccessMessageChatOutputData {
         return otherUsername;
     }
 
-    public ArrayList<String> getDisplayText() {
+    public String getDisplayText() {
         return displayText;
     }
 

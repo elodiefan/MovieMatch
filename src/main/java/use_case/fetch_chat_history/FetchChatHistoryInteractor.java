@@ -1,7 +1,5 @@
 package use_case.fetch_chat_history;
 
-import java.util.ArrayList;
-
 public class FetchChatHistoryInteractor implements FetchChatHistoryInputBoundary {
 
     private final FetchChatHistoryMessageDataAccessInterface messageDataAccessObject;
@@ -21,15 +19,10 @@ public class FetchChatHistoryInteractor implements FetchChatHistoryInputBoundary
         final String username = fetchChatHistoryInputData.getUsername();
         final String otherUsername = fetchChatHistoryInputData.getOtherUsername();
 
-        if (messageDataAccessObject.chatExists(username, otherUsername)) {
-            final ArrayList<String> displayText = messageDataAccessObject.getChatHistory(username, otherUsername);
+        final String displayText = messageDataAccessObject.getChatHistory(username, otherUsername);
 
-            final FetchChatHistoryOutputData fetchChatHistoryOutputData = new
-                    FetchChatHistoryOutputData(displayText, false);
-            userPresenter.prepareFetchChatHistorySuccessView(fetchChatHistoryOutputData);
-        }
-        else {
-            System.out.println("No chat exists between the two users.");
-        }
+        final FetchChatHistoryOutputData fetchChatHistoryOutputData = new
+                FetchChatHistoryOutputData(displayText, false);
+        userPresenter.prepareFetchChatHistorySuccessView(fetchChatHistoryOutputData);
     }
 }

@@ -1,13 +1,11 @@
 package interface_adapter.messaging;
 
-import java.util.ArrayList;
-
 public class MessagingState {
 
     private String username;
     private String otherUsername;
 
-    private ArrayList<String> displayText = new ArrayList<>();
+    private String displayText;
 
     public String getUsername() {
         return username;
@@ -25,11 +23,11 @@ public class MessagingState {
         this.otherUsername = otherUsername;
     }
 
-    public ArrayList<String> getDisplayText() {
+    public String getDisplayText() {
         return displayText;
     }
 
-    public void setDisplayText(ArrayList<String> displayText) {
+    public void setDisplayText(String displayText) {
         this.displayText = displayText;
     }
 }

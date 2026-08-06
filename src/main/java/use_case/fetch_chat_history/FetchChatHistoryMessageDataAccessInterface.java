@@ -1,7 +1,5 @@
 package use_case.fetch_chat_history;
 
-import java.util.ArrayList;
-
 /**
  * Message data access interface for the fetch chat history use case.
  */
@@ -20,7 +18,7 @@ public interface FetchChatHistoryMessageDataAccessInterface {
      * Gets the chat history between the two users.
      * @param username the username of the current user
      * @param otherUsername the username of the other user
-     * @return chat history stored in ArrayList
+     * @return chat history
      */
-    ArrayList<String> getChatHistory(String username, String otherUsername);
+    String getChatHistory(String username, String otherUsername);
 }

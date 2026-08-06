@@ -11,4 +11,9 @@ public interface SendMessageInputBoundary {
      * @param sendMessageInputData the input data
      */
     void execute(SendMessageInputData sendMessageInputData);
+
+    /**
+     * Switches view back to other account view.
+     */
+    void switchToOtherAccountView();
 }

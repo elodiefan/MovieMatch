@@ -1,7 +1,5 @@
 package use_case.access_message_chat;
 
-import java.util.ArrayList;
-
 public class AccessMessageChatInteractor implements AccessMessageChatInputBoundary {
 
     private final AccessMessageChatUserDataAccessInterface userDataAccessObject;
@@ -28,7 +26,7 @@ public class AccessMessageChatInteractor implements AccessMessageChatInputBounda
         }
         else {
             final String currentUsername = userDataAccessObject.getCurrentUsername();
-            final ArrayList<String> displayText =
+            final String displayText =
                     messageDataAccessObject.getChatHistory(currentUsername, otherUsername);
 
             final AccessMessageChatOutputData accessMessageChatOutputData = new AccessMessageChatOutputData(
