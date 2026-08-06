@@ -8,6 +8,7 @@ import java.util.Map;
 import java.util.Optional;
 
 import entity.Review;
+import use_case.comment.GetUserCommentsReviewDataAccessInterface;
 import use_case.review.CreateReviewDataAccessInterface;
 import use_case.review.DeleteReviewDataAccessInterface;
 import use_case.review.EditReviewDataAccessInterface;
@@ -27,6 +28,7 @@ public class InMemoryReviewDataAccessObject implements
         EditReviewDataAccessInterface,
         GetMediaReviewsDataAccessInterface,
         GetUserReviewsDataAccessInterface,
+        GetUserCommentsReviewDataAccessInterface,
         LikeReviewDataAccessInterface,
         UnlikeReviewDataAccessInterface {
     private final Map<String, Review> reviews = new LinkedHashMap<>();
