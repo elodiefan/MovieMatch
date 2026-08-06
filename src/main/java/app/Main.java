@@ -2,6 +2,8 @@ package app;
 
 import javax.swing.JFrame;
 
+import view.ErrorReporter;
+
 /**
  * The Main class of our application.
  */
@@ -11,6 +13,10 @@ public class Main {
      * @param args unused arguments
      */
     public static void main(String[] args) {
+        // Without this a failed database call just prints to the console and the
+        // window silently does nothing, which looks identical to a dead button.
+        ErrorReporter.install();
+
         final AppBuilder appBuilder = new AppBuilder();
         final JFrame application = appBuilder
                 .addDeleteAccountView()
