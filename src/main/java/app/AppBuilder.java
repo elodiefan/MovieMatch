@@ -63,6 +63,7 @@ import use_case.get_lists.get_watchlist.GetWatchlistInputBoundary;
 import use_case.get_lists.get_watchlist.GetWatchlistInteractor;
 import use_case.get_security_question.GetSecurityQuestionInputBoundary;
 import use_case.get_security_question.GetSecurityQuestionInteractor;
+import use_case.get_security_question.GetSecurityQuestionOutputBoundary;
 import use_case.home_page.HomePageInputBoundary;
 import use_case.home_page.HomePageInteractor;
 import use_case.home_page.HomePageOutputBoundary;
@@ -302,10 +303,10 @@ public class AppBuilder {
      * @return this builder
      */
     public AppBuilder addGetBlockedUsersUseCase() {
-        final GetBlockedUsersOutputBoundary getWatchlistOutputBoundary = new GetListsPresenter(viewManagerModel,
+        final GetBlockedUsersOutputBoundary getBlockedUsersOutputBoundary = new GetListsPresenter(viewManagerModel,
                 getListsViewModel, personalAccountViewModel, otherAccountViewModel);
         final GetBlockedUsersInputBoundary getBlockedUsersInteractor = new GetBlockedUsersInteractor(
-                userDataAccessObject, getWatchlistOutputBoundary);
+                userDataAccessObject, getBlockedUsersOutputBoundary);
 
         final GetListsController getListsController = new GetListsController(getBlockedUsersInteractor);
         getListsView.setGetListsController(getListsController);
@@ -313,13 +314,21 @@ public class AppBuilder {
     }
 
 //    // TODO: For Yidan/Kiersten -> Implement search view files.
-//    /**
-//     * Adds the Home Page Use Case to the application.
-//     * @return this builder
-//     */
-//    public AppBuilder addHomePageUseCase() {
-////        final HomePageOutputBoundary homePageOutputBoundary = new HomePagePresenter(viewManagerModel,
-////                homePageViewModel, searchViewModel, accountViewModel);
+    /**
+     * Adds the Home Page Use Case to the application.
+     * @return this builder
+     */
+    public AppBuilder addGetProfileUseCase() {
+        final GetProfileOutputBoundary userPresenter = new HomePagePresenter(viewManagerModel,
+                homePageViewModel, personalAccountViewModel, otherAccountViewModel);
+        final GetProfileInputBoundary getProfileInteractor = new GetProfileInteractor(userDataAccessObject,
+                (HomePagePresenter) userPresenter);
+
+        final HomePageController homePageController = new HomePageController(getProfileInteractor);
+        homePageView.setHomePageController(homePageController);
+        return this;
+//        final HomePageOutputBoundary homePageOutputBoundary = new HomePagePresenter(viewManagerModel,
+//               homePageViewModel, searchViewModel, accountViewModel);
 //        final HomePageOutputBoundary homePageOutputBoundary = new HomePagePresenter(viewManagerModel,
 //                homePageViewModel, accountViewModel);
 //        final HomePageInputBoundary homePageInteractor = new HomePageInteractor(
@@ -328,7 +337,7 @@ public class AppBuilder {
 //        final HomePageController homePageController = new HomePageController(homePageInteractor);
 //        homePageView.setHomePageController(homePageController);
 //        return this;
-//    }
+    }
 
     /**
      * Adds the Login Use Case to the application.
@@ -345,30 +354,33 @@ public class AppBuilder {
         return this;
     }
 
-    //    /**
-//     * Adds the Personal Account Use Case to the application.
-//     * @return this builder
-//     */
-//    public AppBuilder addPersonalAccountUseCase() {
-//        final GetProfileOutputBoundary getProfileOutputBoundary = new HomePagePresenter();
-//        final GetProfileInputBoundary getProfileInteractor = new GetProfileInteractor(userDataAccessObject,
-//                getProfileOutputBoundary);
-//       // viewManagerModel, accountViewModel, resetPasswordViewModel, deleteAccountViewModel);
-//        final AccountInputBoundary accountInteractor = new AccountInteractor(
-//                userDataAccessObject, accountOutputBoundary);
-//        final GetSecurityQuestionInputBoundary getSecurityQuestionInteractor = new GetSecurityQuestionInteractor();
-//        final GetListsController getListsController = new GetListsController();
-//
-//        final PersonalAccountController personalAccountController = new PersonalAccountController(viewManagerModel,
-//                GetSecurityQuestionInputBoundary getSecurityQuestionInteractor,
-//                getListsController,
-//                resetPasswordViewModel.getViewName(),
-//                homePageViewModel.getViewName(),
-//                getListsViewModel.getViewName());
-//
-//        personalAccountView.setPersonalAccountController(personalAccountController);
-//        return this;
-//    }
+    /**
+     * Adds the Personal Account Use Case to the application.
+     * @return this builder
+     */
+    public AppBuilder addPersonalAccountUseCase() {
+        final GetProfileOutputBoundary getProfileOutputBoundary = new HomePagePresenter(viewManagerModel,
+                homePageViewModel, personalAccountViewModel, otherAccountViewModel);
+        final GetProfileInputBoundary getProfileInteractor = new GetProfileInteractor(userDataAccessObject,
+                (HomePagePresenter) getProfileOutputBoundary);
+
+        final GetListsController getListsController = createGetListsController();
+        final GetSecurityQuestionOutputBoundary getSecurityQuestionOutputBoundary = new PersonalAccountPresenter(viewManagerModel,
+                personalAccountViewModel, resetPasswordViewModel, deleteAccountViewModel);
+        final GetSecurityQuestionInputBoundary getSecurityQuestionInteractor = new GetSecurityQuestionInteractor(userDataAccessObject,
+                getSecurityQuestionOutputBoundary);
+
+        final PersonalAccountController personalAccountController = new PersonalAccountController(viewManagerModel,
+                getSecurityQuestionInteractor,
+                getListsController,
+                resetPasswordViewModel.getViewName(),
+                homePageViewModel.getViewName(),
+                getListsViewModel.getViewName());
+
+        personalAccountView.setPersonalAccountController(personalAccountController);
+        return this;
+    }
+
 //
 //    /**
 //     * Adds the Other Account Use Case to the application.
@@ -474,5 +486,25 @@ public class AppBuilder {
         viewManagerModel.firePropertyChanged();
 
         return application;
+    }
+
+    // HELPER
+    private GetListsController createGetListsController() {
+        final GetWatchHistoryOutputBoundary getWatchHistoryOutputBoundary = new GetListsPresenter(viewManagerModel,
+                getListsViewModel, personalAccountViewModel, otherAccountViewModel);
+        final GetWatchHistoryInputBoundary getWatchHistoryInteractor = new GetWatchHistoryInteractor(
+                userDataAccessObject, getWatchHistoryOutputBoundary);
+        final GetWatchlistOutputBoundary getWatchlistOutputBoundary = new GetListsPresenter(viewManagerModel,
+                getListsViewModel, personalAccountViewModel, otherAccountViewModel);
+        final GetWatchlistInputBoundary getWatchlistInteractor = new GetWatchlistInteractor(
+                userDataAccessObject, getWatchlistOutputBoundary);
+        final GetBlockedUsersOutputBoundary getBlockedUsersOutputBoundary = new GetListsPresenter(viewManagerModel,
+                getListsViewModel, personalAccountViewModel, otherAccountViewModel);
+        final GetBlockedUsersInputBoundary getBlockedUsersInteractor = new GetBlockedUsersInteractor(
+                userDataAccessObject, getBlockedUsersOutputBoundary);
+
+        final GetListsController getListsController = new GetListsController(getWatchlistInteractor,
+                getWatchHistoryInteractor, getBlockedUsersInteractor);
+        return getListsController;
     }
 }

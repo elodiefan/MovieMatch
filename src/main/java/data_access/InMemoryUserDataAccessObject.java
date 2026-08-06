@@ -63,6 +63,11 @@ public class InMemoryUserDataAccessObject implements UserDataAccessObject {
         this.currentUsername = username;
     }
 
+    @Override
+    public String getDisplayName() {
+        return "";
+    }
+
     // ---------- Reset password (after the security question is answered) ----------
 
     @Override
@@ -112,6 +117,7 @@ public class InMemoryUserDataAccessObject implements UserDataAccessObject {
     // ---------- Block user ----------
     @Override
     public boolean alreadyBlocked(String otherUsername) {
+        return false;
     }
 
     @Override
@@ -126,7 +132,12 @@ public class InMemoryUserDataAccessObject implements UserDataAccessObject {
 
     // ---------- Access message chat view ----------
     public boolean inBlockList(String otherUsername) {
+        return false;
+    }
 
+    @Override
+    public boolean canMessage(String otherUsername) {
+        return false;
     }
 
     // ---------- Nothing to release ----------

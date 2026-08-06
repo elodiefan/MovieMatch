@@ -59,6 +59,16 @@ public class HomePagePresenter implements GetProfileOutputBoundary {
     private PersonalAccountViewModel personalAccountViewModel;
     private OtherAccountViewModel otherAccountViewModel;
 
+    public HomePagePresenter(ViewManagerModel viewManagerModel,
+                             HomePageViewModel homePageViewModel,
+                             PersonalAccountViewModel personalAccountViewModel,
+                             OtherAccountViewModel otherAccountViewModel) {
+        this.viewManagerModel = viewManagerModel;
+        this.homePageViewModel = homePageViewModel;
+        this.personalAccountViewModel = personalAccountViewModel;
+        this.otherAccountViewModel = otherAccountViewModel;
+    }
+
 //    @Override
 //    public void switchToSearchView() {
 //        viewManagerModel.setState(searchViewModel.getViewName());

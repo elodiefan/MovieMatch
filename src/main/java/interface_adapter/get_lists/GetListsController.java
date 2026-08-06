@@ -72,8 +72,12 @@ public class GetListsController {
 
     /**
      * Executes the return to account view use case.
+     * @param username the username of the user whose list view is displayed.
+     * @param displayName the display name of the user whose list view is displayed.
      */
-    public void switchToAccountView(GetListsInputData getListsInputData) {
+    public void switchToAccountView(String username, String displayName) {
+        final GetListsInputData getListsInputData = new GetListsInputData(
+                username, displayName);
         getWatchlistUseCaseInteractor.switchToAccountView(getListsInputData);
     }
     // dont bother switching to account view, call getprofile interactor instead to get that file to make a choice of which profile to view

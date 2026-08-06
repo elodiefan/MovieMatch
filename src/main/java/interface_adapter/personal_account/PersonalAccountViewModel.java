@@ -7,7 +7,7 @@ import interface_adapter.ViewModel;
  */
 public class PersonalAccountViewModel extends ViewModel<PersonalAccountState> {
 
-    public static final String VIEW_NAME = "account";
+    public static final String VIEW_NAME = "personal account";
     public static final String TITLE_LABEL = "My Account";
     public static final String CUSTOMIZE_BUTTON = "Customize Profile";
     public static final String LOGOUT_BUTTON = "Logout";
@@ -21,7 +21,7 @@ public class PersonalAccountViewModel extends ViewModel<PersonalAccountState> {
     public static final String BACK_BUTTON = "Back";
 
     public PersonalAccountViewModel() {
-        super("account");
+        super("personal account");
         setState(new PersonalAccountState());
     }
 

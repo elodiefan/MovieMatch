@@ -53,7 +53,8 @@ public class GetListsView extends JPanel implements PropertyChangeListener {
                 new ActionListener() {
                     @Override
                     public void actionPerformed(ActionEvent e) {
-                        getListsController.switchToAccountView();
+                        final GetListsState state = getListsViewModel.getState();
+                        getListsController.switchToAccountView(state.getUsername(), state.getDisplayName());
                     }
                 }
         );
