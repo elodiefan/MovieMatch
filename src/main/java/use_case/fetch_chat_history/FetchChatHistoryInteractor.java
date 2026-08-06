@@ -24,7 +24,8 @@ public class FetchChatHistoryInteractor implements FetchChatHistoryInputBoundary
         if (messageDataAccessObject.chatExists(username, otherUsername)) {
             final ArrayList<String> displayText = messageDataAccessObject.getChatHistory(username, otherUsername);
 
-            final FetchChatHistoryOutputData fetchChatHistoryOutputData = new FetchChatHistoryOutputData(displayText);
+            final FetchChatHistoryOutputData fetchChatHistoryOutputData = new
+                    FetchChatHistoryOutputData(displayText, false);
             userPresenter.prepareFetchChatHistorySuccessView(fetchChatHistoryOutputData);
         }
         else {

@@ -1,4 +1,16 @@
 package interface_adapter.messaging;
 
-public class MessagingViewModel {
+import interface_adapter.ViewModel;
+
+public class MessagingViewModel extends ViewModel<MessagingState> {
+
+    public static final String VIEW_NAME = "chat";
+    public static final String TITLE_LABEL = "Chat View";
+
+    public static final String BACK_BUTTON_LABEL = "Back";
+
+    public MessagingViewModel() {
+        super("chat");
+        setState(new MessagingState());
+    }
 }

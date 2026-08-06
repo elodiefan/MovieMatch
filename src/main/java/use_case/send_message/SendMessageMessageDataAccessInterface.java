@@ -2,8 +2,6 @@ package use_case.send_message;
 
 import entity.Message;
 
-import java.util.Date;
-
 public interface SendMessageMessageDataAccessInterface {
 
     /**

@@ -10,7 +10,7 @@ public class FetchChatHistoryOutputData {
     private ArrayList<String> displayText = new ArrayList<>();
     private boolean useCaseFailed;
 
-    private FetchChatHistoryOutputData(ArrayList<String> displayText, boolean useCaseFailed) {
+    public FetchChatHistoryOutputData(ArrayList<String> displayText, boolean useCaseFailed) {
         this.displayText = displayText;
         this.useCaseFailed = useCaseFailed;
     }

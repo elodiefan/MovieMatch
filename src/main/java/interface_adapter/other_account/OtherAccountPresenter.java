@@ -12,7 +12,7 @@ import use_case.block_user.BlockUserOutputData;
 /**
  * The Presenter for Other Account.
  */
-public class OtherAccountPresenter implements BlockUserOutputBoundary { //, AccessMessageChatOutputBoundary {
+public class OtherAccountPresenter implements BlockUserOutputBoundary, AccessMessageChatOutputBoundary {
 
     private final OtherAccountViewModel otherAccountViewModel;
     private final ViewManagerModel viewManagerModel;
@@ -28,7 +28,6 @@ public class OtherAccountPresenter implements BlockUserOutputBoundary { //, Acce
         //  this.reviewsViewModel = reviewsViewModel;
         this.messagingViewModel = messagingViewModel;
     }
-
 
 //    @Override
 //    public void switchToReviewsView() {
@@ -59,7 +58,7 @@ public class OtherAccountPresenter implements BlockUserOutputBoundary { //, Acce
         messagingState.setUsername(response.getUsername());
         messagingState.setOtherUsername(response.getOtherUsername());
         messagingState.setDisplayText(response.getDisplayText());
-        this.messagingViewModel.setstate(messagingState);
+        this.messagingViewModel.setState(messagingState);
         this.messagingViewModel.firePropertyChanged();
 
         this.viewManagerModel.setState(messagingViewModel.getViewName());

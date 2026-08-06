@@ -66,6 +66,10 @@ public class OtherAccountController {
 
     // TODO: get user reviews use case
 
+    /**
+     * Switches view to chatroom with other user.
+     * @param otherUsername username of the other user
+     */
     public void goToMessages(String otherUsername) {
         final AccessMessageChatInputData accessMessageChatInputData = new AccessMessageChatInputData(otherUsername);
         accessMessageChatInteractor.execute(accessMessageChatInputData);
