@@ -60,6 +60,17 @@ public class MediaReviewsController {
     }
 
     /**
+     * Loads persisted reviews for one media item.
+     * @param mediaId the reviewed media id
+     * @param mediaType the reviewed media type
+     * @return the matching media reviews
+     */
+    public List<Review> getMediaReviews(final int mediaId,
+                                        final String mediaType) {
+        return getMediaReviewsInteractor.getMediaReviews(mediaId, mediaType);
+    }
+
+    /**
      * Creates a review for one media item.
      * @param mediaId the reviewed media id
      * @param mediaType the reviewed media type
@@ -95,6 +106,21 @@ public class MediaReviewsController {
     }
 
     /**
+     * Edits a persisted review written by the given user.
+     * @param reviewId the id of the review to edit
+     * @param username the username of the user editing the review
+     * @param newRating the updated rating percentage
+     * @param newReviewText the updated review text
+     * @return the edited review, or null if it was not edited
+     */
+    public Review editReview(final String reviewId, final String username,
+                             final double newRating,
+                             final String newReviewText) {
+        return editReviewInteractor.editReview(reviewId, username, newRating,
+                newReviewText);
+    }
+
+    /**
      * Deletes one review written by the given user.
      * @param reviewId the id of the review to delete
      * @param username the username of the user deleting the review
@@ -105,6 +131,17 @@ public class MediaReviewsController {
                                 final List<Review> reviews) {
         return deleteReviewInteractor.deleteReview(reviewId, username,
                 reviews);
+    }
+
+    /**
+     * Deletes one persisted review written by the given user.
+     * @param reviewId the id of the review to delete
+     * @param username the username of the user deleting the review
+     * @return true if the review was deleted
+     */
+    public boolean deleteReview(final String reviewId,
+                                final String username) {
+        return deleteReviewInteractor.deleteReview(reviewId, username);
     }
 
     /**
@@ -120,6 +157,16 @@ public class MediaReviewsController {
     }
 
     /**
+     * Likes one persisted review.
+     * @param reviewId the id of the review to like
+     * @param username the username of the user liking the review
+     * @return true if the review was found and liked
+     */
+    public boolean likeReview(final String reviewId, final String username) {
+        return likeReviewInteractor.likeReview(reviewId, username);
+    }
+
+    /**
      * Unlikes a review.
      * @param reviewId the id of the review to unlike
      * @param username the username of the user unliking the review
@@ -130,5 +177,16 @@ public class MediaReviewsController {
                                 final List<Review> reviews) {
         return unlikeReviewInteractor.unlikeReview(reviewId, username,
                 reviews);
+    }
+
+    /**
+     * Unlikes one persisted review.
+     * @param reviewId the id of the review to unlike
+     * @param username the username of the user unliking the review
+     * @return true if the review was found and unliked
+     */
+    public boolean unlikeReview(final String reviewId,
+                                final String username) {
+        return unlikeReviewInteractor.unlikeReview(reviewId, username);
     }
 }
