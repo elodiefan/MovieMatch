@@ -9,5 +9,5 @@ public interface AccessMessageChatUserDataAccessInterface {
     /**
      *  Checks whether other username has current username blocked or vice versa.
      */
-    boolean inBlockList(String otherUsername);
+    boolean canMessage(String otherUsername);
 }

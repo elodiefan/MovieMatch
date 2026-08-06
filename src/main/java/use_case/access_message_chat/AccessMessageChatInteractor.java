@@ -18,13 +18,12 @@ public class AccessMessageChatInteractor implements AccessMessageChatInputBounda
     @Override
     public void execute(AccessMessageChatInputData accessMessageChatInputData) {
         final String otherUsername = accessMessageChatInputData.getOtherUsername();
-        if (userDataAccessObject.inBlockList(otherUsername)) {
-            final AccessMessageChatOutputData accessMessageChatOutputData = new AccessMessageChatOutputData(false, false);
-            userPresenter.prepareFailView(accessMessageChatOutputData);
+        if (userDataAccessObject.canMessage(otherUsername)) {
+            userPresenter.prepareAccessMessageChatFailView("Cannot message this user.");
         }
         else {
             final AccessMessageChatOutputData accessMessageChatOutputData = new AccessMessageChatOutputData(true, false);
-            userPresenter.prepareSuccessView(accessMessageChatOutputData);
+            userPresenter.prepareAccessMessageChatSuccessView(accessMessageChatOutputData);
         }
     }
 }

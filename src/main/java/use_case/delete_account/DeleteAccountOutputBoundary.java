@@ -20,5 +20,5 @@ public interface DeleteAccountOutputBoundary {
     /**
      * Swtiches to the Account View.
      */
-    void switchToAccountView();
+    void switchToPersonalAccountView();
 }

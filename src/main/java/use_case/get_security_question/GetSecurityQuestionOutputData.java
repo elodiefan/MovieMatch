@@ -17,7 +17,7 @@ public class GetSecurityQuestionOutputData {
         return username;
     }
 
-    public String getSecuirtyQuestion() {
+    public String getSecurityQuestion() {
         return secuirtyQuestion;
     }
 }
