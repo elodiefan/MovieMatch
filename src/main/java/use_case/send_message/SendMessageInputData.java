@@ -9,13 +9,13 @@ public class SendMessageInputData {
 
     private final String username;
     private final String otherUsername;
-    private final String message;
+    private final String body;
     private final Date date;
 
-    public SendMessageInputData(String username, String otherUsername, String message, Date timestamp) {
+    public SendMessageInputData(String username, String otherUsername, String body, Date timestamp) {
         this.username = username;
         this.otherUsername = otherUsername;
-        this.message = message;
+        this.body = body;
         this.date = timestamp;
     }
 
@@ -27,8 +27,8 @@ public class SendMessageInputData {
         return otherUsername;
     }
 
-    String getMessage() {
-        return message;
+    String getBody() {
+        return body;
     }
 
     Date getDate() {

@@ -2,15 +2,17 @@ package use_case.send_message;
 
 import java.util.Date;
 
+import entity.Message;
+
 /**
  * The Send Message Interactor.
  */
 public class SendMessageInteractor extends SendMessageInputBoundary {
 
-    private final SendMessageUserDataAccessInterface messageDataAccessObject;
+    private final SendMessageMessageDataAccessInterface messageDataAccessObject;
     private final SendMessageOutputBoundary userPresenter;
 
-    public SendMessageInteractor(SendMessageUserDataAccessInterface sendMessageUserDataAccessInterface,
+    public SendMessageInteractor(SendMessageMessageDataAccessInterface sendMessageUserDataAccessInterface,
                                  SendMessageOutputBoundary sendMessageOutputBoundary) {
         this.messageDataAccessObject = sendMessageUserDataAccessInterface;
         this.userPresenter = sendMessageOutputBoundary;
@@ -24,18 +26,25 @@ public class SendMessageInteractor extends SendMessageInputBoundary {
     public void execute(SendMessageInputData sendMessageInputData) {
         final String username = sendMessageInputData.getUsername();
         final String otherUsername = sendMessageInputData.getOtherUsername();
-        final String message = sendMessageInputData.getMessage();
+        final String body = sendMessageInputData.getMessage();
         final Date date = sendMessageInputData.getDate();
 
         if (!messageDataAccessObject.chatExists(username, otherUsername)) {
-            messageDataAccessObject.createChat(username, otherUsername, message, date);
-            final SendMessageOutputData sendMessageOutputData = new SendMessageOutputData(username, message, false);
+            final Message message = new Message(username, otherUsername, body, date);
+            messageDataAccessObject.createChat(message);
+            final SendMessageOutputData sendMessageOutputData = new SendMessageOutputData(username, body, false);
             userPresenter.prepareSuccessView(sendMessageOutputData);
         }
         else {
-            messageDataAccessObject.addMessage(username, otherUsername, message, date);
-            final SendMessageOutputData sendMessageOutputData = new SendMessageOutputData(username, message, false);
+            final Message message = new Message(username, otherUsername, body, date);
+            messageDataAccessObject.addMessage(message);
+            final SendMessageOutputData sendMessageOutputData = new SendMessageOutputData(username, body, false);
             userPresenter.prepareSuccessView(sendMessageOutputData);
         }
+    }
+
+    @Override
+    public void switchToOtherAccountView() {
+        userPresenter.switchToOtherAccountView();
     }
 }

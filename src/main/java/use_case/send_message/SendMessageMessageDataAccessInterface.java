@@ -1,5 +1,7 @@
 package use_case.send_message;
 
+import entity.Message;
+
 import java.util.Date;
 
 public interface SendMessageMessageDataAccessInterface {
@@ -14,19 +16,13 @@ public interface SendMessageMessageDataAccessInterface {
 
     /**
      * Creates a new chatroom to add message logs.
-     * @param username username of current user
-     * @param otherUsername username of other user
-     * @param message being sent
-     * @param date timestamp of when message sent
+     * @param message message being sent and added to new chat
      */
-    void createChat(String username, String otherUsername, String message, Date date);
+    void createChat(Message message);
 
     /**
      * Adds a message log to an existing chatroom.
-     * @param username username of current user
-     * @param otherUsername username of other user
-     * @param message being sent
-     * @param date timestamp of when message sent
+     * @param message message being sent
      */
-    void addMessage(String username, String otherUsername, String message, Date date);
+    void addMessage(Message message);
 }

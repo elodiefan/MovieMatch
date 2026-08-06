@@ -6,12 +6,12 @@ package use_case.send_message;
 public class SendMessageOutputData {
 
     private String sender;
-    private String message;
+    private String body;
     private boolean useCaseFailed;
 
-    public SendMessageOutputData(String sender, String message,boolean useCaseFailed) {
+    public SendMessageOutputData(String sender, String body, boolean useCaseFailed) {
         this.sender = sender;
-        this.message = message;
+        this.body = body;
         this.useCaseFailed = useCaseFailed;
     }
 
@@ -19,8 +19,8 @@ public class SendMessageOutputData {
         return sender;
     }
 
-    public String getMessage() {
-        return message;
+    public String getBody() {
+        return body;
     }
 
     public boolean isUseCaseFailed() {

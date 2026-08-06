@@ -1,5 +1,7 @@
 package use_case.access_message_chat;
 
+import java.util.ArrayList;
+
 public class AccessMessageChatInteractor implements AccessMessageChatInputBoundary {
 
     private final AccessMessageChatUserDataAccessInterface userDataAccessObject;
@@ -22,7 +24,11 @@ public class AccessMessageChatInteractor implements AccessMessageChatInputBounda
             userPresenter.prepareAccessMessageChatFailView("Cannot message this user.");
         }
         else {
-            final AccessMessageChatOutputData accessMessageChatOutputData = new AccessMessageChatOutputData(true, false);
+            final String currentUsername = userDataAccessObject.getCurrentUsername();
+            final ArrayList<String> displayText = messageDataAccessObject.getChatHistory();
+
+            final AccessMessageChatOutputData accessMessageChatOutputData = new AccessMessageChatOutputData(
+                    true, currentUsername, otherUsername, displayText, false);
             userPresenter.prepareAccessMessageChatSuccessView(accessMessageChatOutputData);
         }
     }
