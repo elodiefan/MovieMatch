@@ -52,6 +52,15 @@ public class UserReviewsController {
     }
 
     /**
+     * Loads the persisted reviews written by one user.
+     * @param username the username of the review author
+     * @return the user's reviews
+     */
+    public List<Review> getUserReviews(final String username) {
+        return getUserReviewsInteractor.getUserReviews(username);
+    }
+
+    /**
      * Edits an existing review.
      * @param review the review to edit
      * @param newRating the updated rating percentage
@@ -61,6 +70,21 @@ public class UserReviewsController {
     public Review editReview(final Review review, final double newRating,
                              final String newReviewText) {
         return editReviewInteractor.editReview(review, newRating,
+                newReviewText);
+    }
+
+    /**
+     * Edits a persisted review written by the given user.
+     * @param reviewId the id of the review to edit
+     * @param username the username of the user editing the review
+     * @param newRating the updated rating percentage
+     * @param newReviewText the updated review text
+     * @return the edited review, or null if it was not edited
+     */
+    public Review editReview(final String reviewId, final String username,
+                             final double newRating,
+                             final String newReviewText) {
+        return editReviewInteractor.editReview(reviewId, username, newRating,
                 newReviewText);
     }
 
@@ -78,6 +102,17 @@ public class UserReviewsController {
     }
 
     /**
+     * Deletes a persisted user review.
+     * @param reviewId the id of the review to delete
+     * @param username the username of the user deleting the review
+     * @return true if the review was deleted
+     */
+    public boolean deleteReview(final String reviewId,
+                                final String username) {
+        return deleteReviewInteractor.deleteReview(reviewId, username);
+    }
+
+    /**
      * Likes a review.
      * @param reviewId the id of the review to like
      * @param username the username of the user liking the review
@@ -87,6 +122,16 @@ public class UserReviewsController {
     public boolean likeReview(final String reviewId, final String username,
                               final List<Review> reviews) {
         return likeReviewInteractor.likeReview(reviewId, username, reviews);
+    }
+
+    /**
+     * Likes one persisted review.
+     * @param reviewId the id of the review to like
+     * @param username the username of the user liking the review
+     * @return true if the review was found and liked
+     */
+    public boolean likeReview(final String reviewId, final String username) {
+        return likeReviewInteractor.likeReview(reviewId, username);
     }
 
     /**
@@ -100,5 +145,16 @@ public class UserReviewsController {
                                 final List<Review> reviews) {
         return unlikeReviewInteractor.unlikeReview(reviewId, username,
                 reviews);
+    }
+
+    /**
+     * Unlikes one persisted review.
+     * @param reviewId the id of the review to unlike
+     * @param username the username of the user unliking the review
+     * @return true if the review was found and unliked
+     */
+    public boolean unlikeReview(final String reviewId,
+                                final String username) {
+        return unlikeReviewInteractor.unlikeReview(reviewId, username);
     }
 }
