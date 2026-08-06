@@ -84,7 +84,7 @@ public class DeleteAccountInteractor implements DeleteAccountInputBoundary {
      * Switches from delete account view to account view.
      */
     @Override
-    public void switchToAccountView() {
-        userPresenter.switchToAccountView();
+    public void switchToPersonalAccountView() {
+        userPresenter.switchToPersonalAccountView();
     }
 }

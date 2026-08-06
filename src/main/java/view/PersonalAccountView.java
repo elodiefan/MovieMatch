@@ -24,6 +24,7 @@ public class PersonalAccountView extends JPanel implements PropertyChangeListene
     private final PersonalAccountViewModel personalAccountViewModel;
     private PersonalAccountController personalAccountController;
 
+    private final JLabel welcomeLabel;
     private final JLabel username;
     private final JLabel displayName;
     private final JButton customizeButton;
@@ -44,6 +45,7 @@ public class PersonalAccountView extends JPanel implements PropertyChangeListene
         title.setAlignmentX(Component.CENTER_ALIGNMENT);
 
         final JPanel profilePanel = new JPanel();
+        welcomeLabel = new JLabel();
         username = new JLabel();
         displayName = new JLabel();
         profilePanel.add(username);
@@ -75,7 +77,8 @@ public class PersonalAccountView extends JPanel implements PropertyChangeListene
                 new ActionListener() {
                     @Override
                     public void actionPerformed(ActionEvent e) {
-                        // not implemented yet
+                        final PersonalAccountState state = personalAccountViewModel.getState();
+                        personalAccountController.switchToWatchlistView(state.getUsername(), state.getDisplayName());
                     }
                 }
         );
@@ -84,7 +87,8 @@ public class PersonalAccountView extends JPanel implements PropertyChangeListene
                 new ActionListener() {
                     @Override
                     public void actionPerformed(ActionEvent e) {
-                        // not implemented yet
+                        final PersonalAccountState state = personalAccountViewModel.getState();
+                        personalAccountController.switchToWatchHistoryView(state.getUsername(), state.getDisplayName());
                     }
                 }
         );
@@ -102,7 +106,8 @@ public class PersonalAccountView extends JPanel implements PropertyChangeListene
                 new ActionListener() {
                     @Override
                     public void actionPerformed(ActionEvent e) {
-                        // not implemented yet
+                        final PersonalAccountState state = personalAccountViewModel.getState();
+                        personalAccountController.switchToBlockedUsersView(state.getUsername(), state.getDisplayName());
                     }
                 }
         );
@@ -164,8 +169,9 @@ public class PersonalAccountView extends JPanel implements PropertyChangeListene
     public void propertyChange(PropertyChangeEvent evt) {
         if (evt.getPropertyName().equals("state")) {
             final PersonalAccountState state = (PersonalAccountState) evt.getNewValue();
-            username.setText(state.getUsername());
-            displayName.setText(state.getDisplayName());
+            welcomeLabel.setText(personalAccountViewModel.TITLE_LABEL);
+            username.setText(personalAccountViewModel.USERNAME_LABEL + state.getUsername());
+            displayName.setText(personalAccountViewModel.DISPLAY_NAME_LABEL + state.getDisplayName());
         }
     }
 

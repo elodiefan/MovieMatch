@@ -73,7 +73,7 @@ public class SecurityQuestionInteractor implements SecurityQuestionInputBoundary
 
         // 3. Correct answer -> clear the record and let them change their password.
         //    Compared case-insensitively and trimmed, so "Fido " matches "fido".
-        if (matches(user.getSecurityAnswer(), inputData.getSecurityAnswer())) {
+        if (matches(user.getAnswer(), inputData.getSecurityAnswer())) {
             lockout.reset();
             presenter.prepareSuccessView(new SecurityQuestionOutputData(
                     username, question, false, AccountLockout.MAX_ATTEMPTS, false, 0L));

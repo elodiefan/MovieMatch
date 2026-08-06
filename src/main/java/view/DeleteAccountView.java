@@ -85,7 +85,7 @@ public class DeleteAccountView extends JPanel implements PropertyChangeListener 
                 new ActionListener() {
                     @Override
                     public void actionPerformed(ActionEvent e) {
-                        deleteAccountController.switchToAccountView();
+                        deleteAccountController.switchToPersonalAccountView();
                         securityQuestionInputField.setText("");
                     }
                 }

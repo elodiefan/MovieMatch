@@ -1,7 +1,7 @@
 package interface_adapter.delete_account;
 
 import interface_adapter.ViewManagerModel;
-import interface_adapter.account.AccountViewModel;
+import interface_adapter.personal_account.PersonalAccountViewModel;
 import interface_adapter.signup.SignupState;
 import interface_adapter.signup.SignupViewModel;
 import use_case.delete_account.DeleteAccountOutputBoundary;
@@ -16,15 +16,15 @@ public class DeleteAccountPresenter implements DeleteAccountOutputBoundary {
     private DeleteAccountViewModel deleteAccountViewModel;
     private ViewManagerModel viewManagerModel;
     private SignupViewModel signupViewModel;
-    private AccountViewModel accountViewModel;
+    private PersonalAccountViewModel personalAccountViewModel;
 
     public DeleteAccountPresenter(ViewManagerModel viewManagerModel,
                                   DeleteAccountViewModel deleteAccountViewModel,
-                                  SignupViewModel signupViewModel, AccountViewModel accountViewModel) {
+                                  SignupViewModel signupViewModel, PersonalAccountViewModel personalAccountViewModel) {
         this.deleteAccountViewModel = deleteAccountViewModel;
         this.viewManagerModel = viewManagerModel;
         this.signupViewModel = signupViewModel;
-        this.accountViewModel = accountViewModel;
+        this.personalAccountViewModel = personalAccountViewModel;
     }
 
     @Override
@@ -53,8 +53,8 @@ public class DeleteAccountPresenter implements DeleteAccountOutputBoundary {
     }
 
     @Override
-    public void switchToAccountView() {
-        viewManagerModel.setState(accountViewModel.getViewName());
+    public void switchToPersonalAccountView() {
+        viewManagerModel.setState(personalAccountViewModel.getViewName());
         viewManagerModel.firePropertyChanged();
     }
 }
