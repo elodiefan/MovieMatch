@@ -8,11 +8,22 @@ import java.util.Optional;
 
 import entity.Comment;
 import use_case.comment.CommentDataAccessInterface;
+import use_case.comment.CreateCommentDataAccessInterface;
+import use_case.comment.DeleteCommentDataAccessInterface;
+import use_case.comment.GetReviewCommentsDataAccessInterface;
+import use_case.comment.LikeCommentDataAccessInterface;
+import use_case.comment.UnlikeCommentDataAccessInterface;
 
 /**
  * In-memory data access object for comment data.
  */
-public class InMemoryCommentDataAccessObject implements CommentDataAccessInterface {
+public class InMemoryCommentDataAccessObject implements
+        CommentDataAccessInterface,
+        CreateCommentDataAccessInterface,
+        DeleteCommentDataAccessInterface,
+        GetReviewCommentsDataAccessInterface,
+        LikeCommentDataAccessInterface,
+        UnlikeCommentDataAccessInterface {
     private final Map<String, Comment> comments = new LinkedHashMap<>();
 
     /**
