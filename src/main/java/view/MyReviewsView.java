@@ -23,6 +23,7 @@ import interface_adapter.user_reviews.UserReviewsController;
 import interface_adapter.user_reviews.UserReviewsPresenter;
 import interface_adapter.user_reviews.UserReviewsState;
 import interface_adapter.user_reviews.UserReviewsViewModel;
+import use_case.comment.UserCommentSummaryData;
 
 /**
  * Swing view for a user's reviews.
@@ -113,6 +114,7 @@ public class MyReviewsView extends JPanel implements PropertyChangeListener {
         if (state != null) {
             errorLabel.setText(state.getUserReviewsError());
             refreshReviews(state);
+            refreshComments(state);
             setReviews(state.getReviews());
             setComments(state.getComments());
         }
@@ -127,6 +129,18 @@ public class MyReviewsView extends JPanel implements PropertyChangeListener {
             final List<Review> reviews =
                     userReviewsController.getUserReviews(state.getUsername());
             state.setReviews(userReviewsPresenter.prepareReviews(reviews));
+        }
+    }
+
+    /**
+     * Loads persisted user comments into state.
+     * @param state the user reviews state
+     */
+    private void refreshComments(final UserReviewsState state) {
+        if (userReviewsController != null && !isBlank(state.getUsername())) {
+            final List<UserCommentSummaryData> comments =
+                    userReviewsController.getUserComments(state.getUsername());
+            state.setComments(userReviewsPresenter.prepareComments(comments));
         }
     }
 
@@ -207,6 +221,7 @@ public class MyReviewsView extends JPanel implements PropertyChangeListener {
         card.add(new JLabel(comment.getMediaTitle()));
         card.add(new JLabel("On review: " + comment.getReviewText()));
         card.add(new JLabel("Created: " + formatTime(comment.getCreatedAt())));
+        card.add(new JLabel("Likes: " + comment.getLikeCount()));
         card.add(new JLabel(comment.getCommentText()));
 
         return card;
