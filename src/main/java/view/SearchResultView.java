@@ -1,5 +1,6 @@
 package view;
 
+import java.awt.BorderLayout;
 import java.awt.Component;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
@@ -8,6 +9,7 @@ import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 
 import entity.Media;
 import interface_adapter.media_detail.MediaDetailController;
@@ -41,11 +43,20 @@ public class SearchResultView extends JPanel implements PropertyChangeListener {
                 new BoxLayout(resultsPanel, BoxLayout.Y_AXIS)
         );
 
-        this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
+        final JScrollPane scrollPane = new JScrollPane(resultsPanel);
 
-        this.add(title);
-        this.add(resultsPanel);
-        this.add(backButton);
+        scrollPane.setVerticalScrollBarPolicy(
+                JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED
+        );
+        scrollPane.setHorizontalScrollBarPolicy(
+                JScrollPane.HORIZONTAL_SCROLLBAR_NEVER
+        );
+
+        this.setLayout(new BorderLayout());
+
+        this.add(title, BorderLayout.NORTH);
+        this.add(scrollPane, BorderLayout.CENTER);
+        this.add(backButton, BorderLayout.SOUTH);
     }
 
     public void setMediaDetailController(

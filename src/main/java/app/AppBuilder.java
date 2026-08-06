@@ -7,6 +7,7 @@ import javax.swing.JPanel;
 import javax.swing.WindowConstants;
 
 import data_access.InMemoryLockoutTracker;
+import data_access.InMemoryReviewDataAccessObject;
 import data_access.MongoUserDataAccessObject;
 import data_access.UserDataAccessObject;
 
@@ -19,6 +20,11 @@ import interface_adapter.get_lists.GetListsPresenter;
 import interface_adapter.get_lists.GetListsViewModel;
 import interface_adapter.home_page.HomePageController;
 import interface_adapter.home_page.HomePagePresenter;
+import interface_adapter.media_detail.MediaDetailController;
+import interface_adapter.media_detail.MediaDetailPresenter;
+import interface_adapter.media_detail.MediaDetailViewModel;
+import interface_adapter.media_reviews.MediaReviewsPresenter;
+import interface_adapter.media_reviews.MediaReviewsViewModel;
 import interface_adapter.other_account.OtherAccountController;
 import interface_adapter.other_account.OtherAccountPresenter;
 import interface_adapter.other_account.OtherAccountViewModel;
@@ -28,6 +34,8 @@ import interface_adapter.personal_account.PersonalAccountViewModel;
 import interface_adapter.reset_password.ResetPasswordController;
 import interface_adapter.reset_password.ResetPasswordPresenter;
 import interface_adapter.reset_password.ResetPasswordViewModel;
+import interface_adapter.search.SearchViewModel;
+import interface_adapter.search_result.SearchResultViewModel;
 import interface_adapter.security_question.SecurityQuestionController;
 import interface_adapter.security_question.SecurityQuestionPresenter;
 import interface_adapter.security_question.SecurityQuestionViewModel;
@@ -67,6 +75,9 @@ import use_case.get_security_question.GetSecurityQuestionOutputBoundary;
 import use_case.home_page.HomePageInputBoundary;
 import use_case.home_page.HomePageInteractor;
 import use_case.home_page.HomePageOutputBoundary;
+import use_case.media_detail.MediaDetailInputBoundary;
+import use_case.media_detail.MediaDetailInteractor;
+import use_case.media_detail.MediaDetailOutputBoundary;
 import use_case.login.LoginInputBoundary;
 import use_case.login.LoginInteractor;
 import use_case.login.LoginOutputBoundary;
@@ -104,6 +115,8 @@ public class AppBuilder {
     // Counts failed security answers and holds lock-outs. One shared instance, so
     // every attempt on the same account is counted together.
     private final InMemoryLockoutTracker lockoutTracker = new InMemoryLockoutTracker();
+    private final InMemoryReviewDataAccessObject reviewDataAccessObject =
+            new InMemoryReviewDataAccessObject();
 
     private DeleteAccountView deleteAccountView;
     private DeleteAccountViewModel deleteAccountViewModel;
@@ -127,6 +140,13 @@ public class AppBuilder {
     private SecurityQuestionViewModel securityQuestionViewModel;
     private SignupView signupView;
     private SignupViewModel signupViewModel;
+    private SearchView searchView;
+    private SearchViewModel searchViewModel;
+    private SearchResultView searchResultView;
+    private SearchResultViewModel searchResultViewModel;
+    private MediaDetailView mediaDetailView;
+    private MediaDetailViewModel mediaDetailViewModel;
+    private MediaReviewsViewModel mediaReviewsViewModel;
 
     public AppBuilder() {
         cardPanel.setLayout(cardLayout);
@@ -324,7 +344,11 @@ public class AppBuilder {
         final GetProfileInputBoundary getProfileInteractor = new GetProfileInteractor(userDataAccessObject,
                 (HomePagePresenter) userPresenter);
 
-        final HomePageController homePageController = new HomePageController(getProfileInteractor);
+        final HomePageController homePageController =
+                new HomePageController(
+                        getProfileInteractor,
+                        viewManagerModel
+                );
         homePageView.setHomePageController(homePageController);
         return this;
 //        final HomePageOutputBoundary homePageOutputBoundary = new HomePagePresenter(viewManagerModel,
@@ -469,6 +493,107 @@ public class AppBuilder {
 
         final SignupController signupController = new SignupController(userSignupInteractor);
         signupView.setSignupController(signupController);
+        return this;
+    }
+
+    /**
+     * Adds the Search View to the application.
+     *
+     * @return this builder
+     */
+    public AppBuilder addSearchView() {
+        searchViewModel = new SearchViewModel();
+        searchView = new SearchView(searchViewModel);
+
+        cardPanel.add(
+                searchView,
+                searchView.getViewName()
+        );
+
+        return this;
+    }
+
+    /**
+     * Adds the Search Result View to the application.
+     *
+     * @return this builder
+     */
+    public AppBuilder addSearchResultView() {
+        searchResultViewModel = new SearchResultViewModel();
+        searchResultView = new SearchResultView(searchResultViewModel);
+        cardPanel.add(searchResultView, searchResultView.getViewName());
+        return this;
+    }
+
+    /**
+     * Adds the Search Use Case to the application.
+     *
+     * @return this builder
+     */
+    public AppBuilder addSearchUseCase() {
+        SearchUseCaseFactory.create(
+                viewManagerModel,
+                searchViewModel,
+                searchResultViewModel,
+                searchView
+        );
+        return this;
+    }
+
+    /**
+     * Adds the Media Detail View to the application.
+     *
+     * @return this builder
+     */
+    public AppBuilder addMediaDetailView() {
+        mediaDetailViewModel = new MediaDetailViewModel();
+        mediaReviewsViewModel = new MediaReviewsViewModel();
+
+        mediaDetailView = new MediaDetailView(
+                mediaDetailViewModel,
+                mediaReviewsViewModel
+        );
+
+        cardPanel.add(
+                mediaDetailView,
+                mediaDetailView.getViewName()
+        );
+
+        return this;
+    }
+
+    /**
+     * Adds the Media Detail Use Case to the application.
+     *
+     * @return this builder
+     */
+    public AppBuilder addMediaDetailUseCase() {
+        final MediaReviewsPresenter mediaReviewsPresenter =
+                new MediaReviewsPresenter();
+
+        final MediaDetailOutputBoundary mediaDetailPresenter =
+                new MediaDetailPresenter(
+                        viewManagerModel,
+                        mediaDetailViewModel,
+                        mediaReviewsViewModel,
+                        mediaReviewsPresenter,
+                        reviewDataAccessObject
+                );
+
+        final MediaDetailInputBoundary mediaDetailInteractor =
+                new MediaDetailInteractor(mediaDetailPresenter);
+
+        final MediaDetailController mediaDetailController =
+                new MediaDetailController(mediaDetailInteractor);
+
+        searchResultView.setMediaDetailController(
+                mediaDetailController
+        );
+
+        mediaDetailView.setMediaDetailController(
+                mediaDetailController
+        );
+
         return this;
     }
 
