@@ -22,6 +22,8 @@ import interface_adapter.comments.CommentsViewModel;
 import interface_adapter.delete_account.DeleteAccountController;
 import interface_adapter.delete_account.DeleteAccountPresenter;
 import interface_adapter.delete_account.DeleteAccountViewModel;
+import interface_adapter.filter.FilterController;
+import interface_adapter.filter.FilterPresenter;
 import interface_adapter.get_lists.GetListsController;
 import interface_adapter.get_lists.GetListsPresenter;
 import interface_adapter.get_lists.GetListsViewModel;
@@ -63,6 +65,9 @@ import interface_adapter.logout.LogoutViewModel;
 import interface_adapter.signup.SignupController;
 import interface_adapter.signup.SignupPresenter;
 import interface_adapter.signup.SignupViewModel;
+import use_case.filter.FilterInputBoundary;
+import use_case.filter.FilterInteractor;
+import use_case.filter.FilterOutputBoundary;
 import use_case.get_lists.get_blocked_users.GetBlockedUsersInputBoundary;
 import use_case.get_lists.get_blocked_users.GetBlockedUsersInteractor;
 import use_case.get_lists.get_blocked_users.GetBlockedUsersOutputBoundary;
@@ -77,6 +82,9 @@ import use_case.get_profile.GetProfileOutputBoundary;
 import use_case.delete_account.DeleteAccountInputBoundary;
 import use_case.delete_account.DeleteAccountInteractor;
 import use_case.delete_account.DeleteAccountOutputBoundary;
+import use_case.filter.FilterInputBoundary;
+import use_case.filter.FilterInteractor;
+import use_case.filter.FilterOutputBoundary;
 import use_case.get_lists.GetListsOutputBoundary;
 import use_case.get_lists.get_watchlist.GetWatchlistInputBoundary;
 import use_case.get_lists.get_watchlist.GetWatchlistInteractor;
@@ -572,6 +580,29 @@ public class AppBuilder {
                 searchResultViewModel,
                 searchView
         );
+        return this;
+    }
+
+    /**
+     * Adds the Filter Use Case to the application.
+     *
+     * @return this builder
+     */
+    public AppBuilder addFilterUseCase() {
+        final FilterOutputBoundary filterPresenter =
+                new FilterPresenter(searchResultViewModel);
+
+        final FilterInputBoundary filterInteractor =
+                new FilterInteractor(filterPresenter);
+
+        final FilterController filterController =
+                new FilterController(
+                        filterInteractor,
+                        searchResultViewModel
+                );
+
+        searchResultView.setFilterController(filterController);
+
         return this;
     }
 
