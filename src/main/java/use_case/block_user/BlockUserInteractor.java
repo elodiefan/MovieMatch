@@ -25,12 +25,12 @@ public class BlockUserInteractor implements BlockUserInputBoundary {
         if (!userDataAccessObject.alreadyBlocked(otherUsername)) {
             userDataAccessObject.addToBlockList(otherUsername);
             final BlockUserOutputData blockUserOutputData = new BlockUserOutputData(true, false);
-            userPresenter.prepareSuccessView(blockUserOutputData);
+            userPresenter.prepareBlockSuccessView(blockUserOutputData);
         }
         else {
             userDataAccessObject.removeFromBlockList(otherUsername);
             final BlockUserOutputData blockUserOutputData = new BlockUserOutputData(false, false);
-            userPresenter.prepareSuccessView(blockUserOutputData);
+            userPresenter.prepareBlockSuccessView(blockUserOutputData);
         }
     }
 }

@@ -57,14 +57,14 @@ public class HomePageView extends JPanel implements PropertyChangeListener {
         buttons.add(searchButton);
         buttons.add(accountButton);
 
-//        searchButton.addActionListener(
-//                new ActionListener() {
-//                    @Override
-//                    public void actionPerformed(ActionEvent e) {
-//                        homePageController.switchToSearchView();
-//                    }
-//                }
-//        );
+        searchButton.addActionListener(
+                new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        homePageController.switchToSearchView();
+                    }
+                }
+        );
 
         accountButton.addActionListener(
                 new ActionListener() {
@@ -73,7 +73,8 @@ public class HomePageView extends JPanel implements PropertyChangeListener {
                         if (e.getSource().equals(accountButton)) {
                             final HomePageState currentState = homePageViewModel.getState();
 
-                            homePageController.switchToPersonalAccountView(currentState.getUsername(), currentState.getDisplayName());
+                            homePageController.switchToPersonalAccountView(currentState.getUsername(),
+                                    currentState.getDisplayName());
                         }
                     }
                 }
