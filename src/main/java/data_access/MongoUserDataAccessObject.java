@@ -33,7 +33,7 @@ import entity.UserLists;
  * {@value #DEFAULT_PROPERTIES}) holding {@code uri}, {@code database} and
  * {@code collection}. That file is git-ignored because it contains a password.
  */
-public class MongoUserDataAccessObject implements UserDataAccessObject {
+public class MongoUserDataAccessObject implements UserDataAccessObject, CustomizeDataAccessObject {
 
     /** Default location of the connection settings. */
     public static final String DEFAULT_PROPERTIES = "mongo.properties";
@@ -48,9 +48,11 @@ public class MongoUserDataAccessObject implements UserDataAccessObject {
     private static final String WATCH_HISTORY = "watchHistory";
     private static final String REVIEWS = "reviews";
     private static final String BLOCKED_USERS = "blockedUsers";
+    private static final String CODES = "codes";
 
     private final MongoClient mongoClient;
     private final MongoCollection<Document> users;
+    private final MongoCollection<Document> validCodes;
 
     /** Who is logged in right now. Session state, so it stays in memory. */
     private String currentUsername;
@@ -147,7 +149,7 @@ public class MongoUserDataAccessObject implements UserDataAccessObject {
         users.updateOne(Filters.eq(USERNAME, username), Updates.set(PASSWORD, newPassword));
     }
 
-    // ---------- Get watchlist ----------
+    // ---------- Get lists ----------
 
     @Override
     public UserLists getLists(String username) {
@@ -187,7 +189,6 @@ public class MongoUserDataAccessObject implements UserDataAccessObject {
         return currentUserField(ANSWER);
     }
 
-    // ---------- Get user profile ----------
     // ---------- Get user profile ----------
     @Override
     public String getDisplayName() {
@@ -249,6 +250,14 @@ public class MongoUserDataAccessObject implements UserDataAccessObject {
             return true;
         }
         return false;
+    }
+
+    // ---------- Customize ----------
+    @Override
+    public boolean checkValidCode(int code) {
+        final Document doc = validCodes.find(Filters.eq(CODES, CODES)).first();
+        final List<Document> codes = doc.get(CODES, List.class);
+
     }
 
     // ---------- Helpers ----------
