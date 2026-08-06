@@ -4,16 +4,16 @@ import java.util.ArrayList;
 import java.util.List;
 
 import entity.Comment;
-import use_case.comment.CreateCommentOutputBoundary;
-import use_case.comment.CreateCommentOutputData;
-import use_case.comment.DeleteCommentOutputBoundary;
-import use_case.comment.DeleteCommentOutputData;
-import use_case.comment.GetReviewCommentsOutputBoundary;
-import use_case.comment.GetReviewCommentsOutputData;
-import use_case.comment.LikeCommentOutputBoundary;
-import use_case.comment.LikeCommentOutputData;
-import use_case.comment.UnlikeCommentOutputBoundary;
-import use_case.comment.UnlikeCommentOutputData;
+import use_case.comment.create_comment.CreateCommentOutputBoundary;
+import use_case.comment.create_comment.CreateCommentOutputData;
+import use_case.comment.delete_comment.DeleteCommentOutputBoundary;
+import use_case.comment.delete_comment.DeleteCommentOutputData;
+import use_case.comment.get_review_comments.GetReviewCommentsOutputBoundary;
+import use_case.comment.get_review_comments.GetReviewCommentsOutputData;
+import use_case.comment.like_comment.LikeCommentOutputBoundary;
+import use_case.comment.like_comment.LikeCommentOutputData;
+import use_case.comment.unlike_comment.UnlikeCommentOutputBoundary;
+import use_case.comment.unlike_comment.UnlikeCommentOutputData;
 
 /**
  * Presenter for review comments.

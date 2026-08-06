@@ -4,19 +4,19 @@ import java.util.ArrayList;
 import java.util.List;
 
 import entity.Review;
-import use_case.comment.GetUserCommentsOutputBoundary;
-import use_case.comment.GetUserCommentsOutputData;
+import use_case.comment.get_user_comments.GetUserCommentsOutputBoundary;
+import use_case.comment.get_user_comments.GetUserCommentsOutputData;
 import use_case.comment.UserCommentSummaryData;
-import use_case.review.DeleteReviewOutputBoundary;
-import use_case.review.DeleteReviewOutputData;
-import use_case.review.EditReviewOutputBoundary;
-import use_case.review.EditReviewOutputData;
-import use_case.review.GetUserReviewsOutputBoundary;
-import use_case.review.GetUserReviewsOutputData;
-import use_case.review.LikeReviewOutputBoundary;
-import use_case.review.LikeReviewOutputData;
-import use_case.review.UnlikeReviewOutputBoundary;
-import use_case.review.UnlikeReviewOutputData;
+import use_case.review.delete_review.DeleteReviewOutputBoundary;
+import use_case.review.delete_review.DeleteReviewOutputData;
+import use_case.review.edit_review.EditReviewOutputBoundary;
+import use_case.review.edit_review.EditReviewOutputData;
+import use_case.review.get_user_reviews.GetUserReviewsOutputBoundary;
+import use_case.review.get_user_reviews.GetUserReviewsOutputData;
+import use_case.review.like_review.LikeReviewOutputBoundary;
+import use_case.review.like_review.LikeReviewOutputData;
+import use_case.review.unlike_review.UnlikeReviewOutputBoundary;
+import use_case.review.unlike_review.UnlikeReviewOutputData;
 
 /**
  * Presenter for the user reviews view.

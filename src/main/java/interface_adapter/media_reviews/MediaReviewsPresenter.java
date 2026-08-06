@@ -4,18 +4,18 @@ import java.util.ArrayList;
 import java.util.List;
 
 import entity.Review;
-import use_case.review.CreateReviewOutputBoundary;
-import use_case.review.CreateReviewOutputData;
-import use_case.review.DeleteReviewOutputBoundary;
-import use_case.review.DeleteReviewOutputData;
-import use_case.review.EditReviewOutputBoundary;
-import use_case.review.EditReviewOutputData;
-import use_case.review.GetMediaReviewsOutputBoundary;
-import use_case.review.GetMediaReviewsOutputData;
-import use_case.review.LikeReviewOutputBoundary;
-import use_case.review.LikeReviewOutputData;
-import use_case.review.UnlikeReviewOutputBoundary;
-import use_case.review.UnlikeReviewOutputData;
+import use_case.review.create_review.CreateReviewOutputBoundary;
+import use_case.review.create_review.CreateReviewOutputData;
+import use_case.review.delete_review.DeleteReviewOutputBoundary;
+import use_case.review.delete_review.DeleteReviewOutputData;
+import use_case.review.edit_review.EditReviewOutputBoundary;
+import use_case.review.edit_review.EditReviewOutputData;
+import use_case.review.get_media_reviews.GetMediaReviewsOutputBoundary;
+import use_case.review.get_media_reviews.GetMediaReviewsOutputData;
+import use_case.review.like_review.LikeReviewOutputBoundary;
+import use_case.review.like_review.LikeReviewOutputData;
+import use_case.review.unlike_review.UnlikeReviewOutputBoundary;
+import use_case.review.unlike_review.UnlikeReviewOutputData;
 
 /**
  * Presenter for the media reviews panel.

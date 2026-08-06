@@ -1,15 +1,15 @@
 package interface_adapter.comments;
 
-import use_case.comment.CreateCommentInputBoundary;
-import use_case.comment.CreateCommentInputData;
-import use_case.comment.DeleteCommentInputBoundary;
-import use_case.comment.DeleteCommentInputData;
-import use_case.comment.GetReviewCommentsInputBoundary;
-import use_case.comment.GetReviewCommentsInputData;
-import use_case.comment.LikeCommentInputBoundary;
-import use_case.comment.LikeCommentInputData;
-import use_case.comment.UnlikeCommentInputBoundary;
-import use_case.comment.UnlikeCommentInputData;
+import use_case.comment.create_comment.CreateCommentInputBoundary;
+import use_case.comment.create_comment.CreateCommentInputData;
+import use_case.comment.delete_comment.DeleteCommentInputBoundary;
+import use_case.comment.delete_comment.DeleteCommentInputData;
+import use_case.comment.get_review_comments.GetReviewCommentsInputBoundary;
+import use_case.comment.get_review_comments.GetReviewCommentsInputData;
+import use_case.comment.like_comment.LikeCommentInputBoundary;
+import use_case.comment.like_comment.LikeCommentInputData;
+import use_case.comment.unlike_comment.UnlikeCommentInputBoundary;
+import use_case.comment.unlike_comment.UnlikeCommentInputData;
 
 /**
  * Controller for review comments.

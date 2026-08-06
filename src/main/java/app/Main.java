@@ -21,7 +21,7 @@ public class Main {
                 .addOtherAccountView()
                 .addPersonalAccountView()
                 .addResetPasswordView()
-//                .addReviewsView()
+                .addUserReviewsView()
                 .addSecurityQuestionView()
                 .addSignupView()
                 .addDeleteAccountUseCase()
@@ -41,6 +41,7 @@ public class Main {
                 .addSearchResultView()
                 .addSearchUseCase()
                 .addFilterUseCase()
+                .addUserReviewsUseCase()
                 .addMediaDetailView()
                 .addMediaDetailUseCase()
                 .build();

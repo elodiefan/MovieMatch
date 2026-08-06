@@ -21,6 +21,7 @@ public class PersonalAccountController {
     private final String resetPasswordViewName;
     private final String homePageViewName;
     private final String getListsViewName;
+    private final String getReviewsViewName;
 
     public PersonalAccountController(ViewManagerModel viewManagerModel,
                                      GetSecurityQuestionInputBoundary getSecurityQuestionInteractor,
@@ -28,7 +29,8 @@ public class PersonalAccountController {
                                      LogoutViewModel logoutViewModel,
                                      String resetPasswordViewName,
                                      String homePageViewName,
-                                     String getListsViewName) {
+                                     String getListsViewName,
+                                     String getReviewsViewName) {
         this.viewManagerModel = viewManagerModel;
         this.getSecurityQuestionInteractor = getSecurityQuestionInteractor;
         this.getListsController = getListsController;
@@ -36,6 +38,7 @@ public class PersonalAccountController {
         this.resetPasswordViewName = resetPasswordViewName;
         this.homePageViewName = homePageViewName;
         this.getListsViewName = getListsViewName;
+        this.getReviewsViewName = getReviewsViewName;
     }
 
     /**
@@ -53,12 +56,12 @@ public class PersonalAccountController {
         viewManagerModel.switchView(logoutViewModel.getViewName());
     }
 
-//    /**
-//     * Executes the reviews view use case.
-//     */
-//    public void switchToReviewsView() {
-//        accountUseCaseInteractor.switchToReviewsView();
-//    }
+    /**
+     * Executes the reviews view use case.
+     */
+    public void switchToReviewsView() {
+        viewManagerModel.switchView(getReviewsViewName);
+    }
 //
 //    /**
 //     * Executes the log out view use case.
