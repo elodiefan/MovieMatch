@@ -28,6 +28,8 @@ import interface_adapter.personal_account.PersonalAccountViewModel;
 import interface_adapter.reset_password.ResetPasswordController;
 import interface_adapter.reset_password.ResetPasswordPresenter;
 import interface_adapter.reset_password.ResetPasswordViewModel;
+import view.SearchUserView;
+import interface_adapter.search_user.SearchUserViewModel;
 import interface_adapter.security_question.SecurityQuestionController;
 import interface_adapter.security_question.SecurityQuestionPresenter;
 import interface_adapter.security_question.SecurityQuestionViewModel;
@@ -125,6 +127,8 @@ public class AppBuilder {
 //    private ReviewsViewModel reviewsViewModel;
     private SecurityQuestionView securityQuestionView;
     private SecurityQuestionViewModel securityQuestionViewModel;
+    private SearchUserView searchUserView;
+    private SearchUserViewModel searchUserViewModel;
     private SignupView signupView;
     private SignupViewModel signupViewModel;
 
@@ -243,6 +247,17 @@ public class AppBuilder {
     }
 
     /**
+     * Adds the Search User View to the application.
+     * @return this builder
+     */
+    public AppBuilder addSearchUserView() {
+        searchUserViewModel = new SearchUserViewModel();
+        searchUserView = new SearchUserView(searchUserViewModel);
+        cardPanel.add(searchUserView, searchUserView.getViewName());
+        return this;
+    }
+
+    /**
      * Adds the Signup View to the application.
      * @return this builder
      */
@@ -324,7 +339,8 @@ public class AppBuilder {
         final GetProfileInputBoundary getProfileInteractor = new GetProfileInteractor(userDataAccessObject,
                 (HomePagePresenter) userPresenter);
 
-        final HomePageController homePageController = new HomePageController(getProfileInteractor);
+        final HomePageController homePageController = new HomePageController(getProfileInteractor,
+                viewManagerModel, searchUserViewModel.getViewName());
         homePageView.setHomePageController(homePageController);
         return this;
 //        final HomePageOutputBoundary homePageOutputBoundary = new HomePagePresenter(viewManagerModel,
@@ -337,6 +353,29 @@ public class AppBuilder {
 //        final HomePageController homePageController = new HomePageController(homePageInteractor);
 //        homePageView.setHomePageController(homePageController);
 //        return this;
+    }
+
+    /**
+     * Adds the Search User Use Case to the application.
+     * <p>
+     * The assembly lives in {@link SearchUserUseCaseFactory}, following the
+     * convention Yidan set with {@code SearchUseCaseFactory}.
+     * @return this builder
+     */
+    public AppBuilder addSearchUserUseCase() {
+        final GetProfileOutputBoundary getProfileOutputBoundary = new HomePagePresenter(viewManagerModel,
+                homePageViewModel, personalAccountViewModel, otherAccountViewModel);
+        final GetProfileInputBoundary getProfileInteractor = new GetProfileInteractor(userDataAccessObject,
+                (HomePagePresenter) getProfileOutputBoundary);
+
+        SearchUserUseCaseFactory.create(
+                viewManagerModel,
+                searchUserViewModel,
+                searchUserView,
+                userDataAccessObject,
+                getProfileInteractor,
+                homePageViewModel.getViewName());
+        return this;
     }
 
     /**

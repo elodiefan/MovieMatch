@@ -22,6 +22,7 @@ public class Main {
                 .addPersonalAccountView()
                 .addResetPasswordView()
 //                .addReviewsView()
+                .addSearchUserView()
                 .addSecurityQuestionView()
                 .addSignupView()
                 .addDeleteAccountUseCase()
@@ -34,6 +35,7 @@ public class Main {
                 .addPersonalAccountUseCase()
                 .addResetPasswordUseCase()
 //                .addReviewsUseCase()
+                .addSearchUserUseCase()
                 .addSecurityQuestionUseCase()
                 .addSignupUseCase()
                 .build();

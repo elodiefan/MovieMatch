@@ -10,6 +10,7 @@ import use_case.home_page.HomePageUserDataAccessInterface;
 import use_case.login.LoginUserDataAccessInterface;
 import use_case.logout.LogoutUserDataAccessInterface;
 import use_case.reset_password.ResetPasswordUserDataAccessInterface;
+import use_case.search_user.SearchUserDataAccess;
 import use_case.security_question.SecurityQuestionUserDataAccessInterface;
 import use_case.signup.SignupUserDataAccessInterface;
 
@@ -42,6 +43,7 @@ public interface UserDataAccessObject extends
         LoginUserDataAccessInterface,
         LogoutUserDataAccessInterface,
         ResetPasswordUserDataAccessInterface,
+        SearchUserDataAccess,
         SecurityQuestionUserDataAccessInterface,
         SignupUserDataAccessInterface {
 

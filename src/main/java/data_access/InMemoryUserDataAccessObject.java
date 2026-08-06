@@ -1,6 +1,8 @@
 package data_access;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import entity.StandardUser;
@@ -112,6 +114,31 @@ public class InMemoryUserDataAccessObject implements UserDataAccessObject {
     @Override
         public String getSecurityQuestion() {
         return users.get(currentUsername).getSecurityQuestion();
+    }
+
+    // ---------- Search for users ----------
+
+    /**
+     * Finds accounts whose username or display name contains the keyword,
+     * ignoring case. Same contract as the Mongo version, over a plain map.
+     * @param keyword what the user typed
+     * @return the matching accounts
+     */
+    @Override
+    public List<User> search(String keyword) {
+        final String needle = keyword.toLowerCase();
+        final List<User> found = new ArrayList<>();
+        for (User user : users.values()) {
+            if (matches(user, needle)) {
+                found.add(user);
+            }
+        }
+        return found;
+    }
+
+    private boolean matches(User user, String lowercaseKeyword) {
+        return user.getUsername().toLowerCase().contains(lowercaseKeyword)
+                || user.getDisplayName().toLowerCase().contains(lowercaseKeyword);
     }
 
     // ---------- Block user ----------

@@ -57,14 +57,14 @@ public class HomePageView extends JPanel implements PropertyChangeListener {
         buttons.add(searchButton);
         buttons.add(accountButton);
 
-//        searchButton.addActionListener(
-//                new ActionListener() {
-//                    @Override
-//                    public void actionPerformed(ActionEvent e) {
-//                        homePageController.switchToSearchView();
-//                    }
-//                }
-//        );
+        searchButton.addActionListener(
+                new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        homePageController.switchToSearchUserView();
+                    }
+                }
+        );
 
         accountButton.addActionListener(
                 new ActionListener() {
