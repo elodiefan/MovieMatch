@@ -18,8 +18,9 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
 
+import interface_adapter.user_reviews.UserCommentRow;
+import interface_adapter.user_reviews.UserReviewRow;
 import interface_adapter.user_reviews.UserReviewsController;
-import interface_adapter.user_reviews.UserReviewsPresenter;
 import interface_adapter.user_reviews.UserReviewsState;
 import interface_adapter.user_reviews.UserReviewsViewModel;
 
@@ -149,15 +150,14 @@ public final class MyReviewsView extends JPanel
      * Displays the given review rows.
      * @param reviews the review rows to display
      */
-    private void setReviews(
-            final List<UserReviewsPresenter.UserReviewRow> reviews) {
+    private void setReviews(final List<UserReviewRow> reviews) {
         reviewsPanel.removeAll();
 
         if (reviews.isEmpty()) {
             reviewsPanel.add(new JLabel(
                     UserReviewsViewModel.EMPTY_REVIEWS_MESSAGE));
         } else {
-            for (UserReviewsPresenter.UserReviewRow review : reviews) {
+            for (UserReviewRow review : reviews) {
                 reviewsPanel.add(createReviewCard(review));
                 reviewsPanel.add(Box.createVerticalStrut(CARD_GAP));
             }
@@ -171,14 +171,14 @@ public final class MyReviewsView extends JPanel
      * Displays the given comment rows.
      * @param comments the comment rows to display
      */
-    private void setComments(final List<UserReviewsState.CommentRow> comments) {
+    private void setComments(final List<UserCommentRow> comments) {
         commentsPanel.removeAll();
 
         if (comments.isEmpty()) {
             commentsPanel.add(new JLabel(
                     UserReviewsViewModel.EMPTY_COMMENTS_MESSAGE));
         } else {
-            for (UserReviewsState.CommentRow comment : comments) {
+            for (UserCommentRow comment : comments) {
                 commentsPanel.add(createCommentCard(comment));
                 commentsPanel.add(Box.createVerticalStrut(CARD_GAP));
             }
@@ -193,8 +193,7 @@ public final class MyReviewsView extends JPanel
      * @param review the review row to display
      * @return the review card
      */
-    private Component createReviewCard(
-            final UserReviewsPresenter.UserReviewRow review) {
+    private Component createReviewCard(final UserReviewRow review) {
         final JPanel card = new JPanel();
         card.setLayout(new BoxLayout(card, BoxLayout.Y_AXIS));
 
@@ -214,8 +213,7 @@ public final class MyReviewsView extends JPanel
      * @param comment the comment row to display
      * @return the comment card
      */
-    private Component createCommentCard(
-            final UserReviewsState.CommentRow comment) {
+    private Component createCommentCard(final UserCommentRow comment) {
         final JPanel card = new JPanel();
         card.setLayout(new BoxLayout(card, BoxLayout.Y_AXIS));
 
@@ -233,8 +231,7 @@ public final class MyReviewsView extends JPanel
      * @param review the review row
      * @return the button panel
      */
-    private Component createButtonPanel(
-            final UserReviewsPresenter.UserReviewRow review) {
+    private Component createButtonPanel(final UserReviewRow review) {
         final JPanel buttonPanel = new JPanel();
         final JButton editButton =
                 new JButton(UserReviewsViewModel.EDIT_BUTTON_LABEL);

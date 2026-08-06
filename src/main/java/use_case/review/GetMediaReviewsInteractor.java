@@ -1,6 +1,5 @@
 package use_case.review;
 
-import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 
@@ -86,31 +85,6 @@ public final class GetMediaReviewsInteractor
     }
 
     /**
-     * Returns the reviews for one media item, ordered from newest to oldest.
-     * @param mediaId the reviewed media's identifier
-     * @param mediaType the reviewed media's type
-     * @param reviews the reviews to search through
-     * @return the matching media reviews
-     */
-    private List<Review> getMediaReviews(final int mediaId,
-                                        final String mediaType,
-                                        final List<Review> reviews) {
-        final String trimmedMediaType = trimToEmpty(mediaType);
-        validateGetMediaReviewsData(mediaId, trimmedMediaType, reviews);
-
-        final List<Review> matchingReviews = new ArrayList<>();
-        for (Review review : reviews) {
-            if (isMatchingMediaReview(review, mediaId, trimmedMediaType)) {
-                matchingReviews.add(review);
-            }
-        }
-
-        matchingReviews.sort(Comparator.comparing(Review::getCreatedAt)
-                .reversed());
-        return matchingReviews;
-    }
-
-    /**
      * Validates data needed to load persisted media reviews.
      * @param mediaId the media id to validate
      * @param mediaType the media type to validate
@@ -131,44 +105,6 @@ public final class GetMediaReviewsInteractor
         if (presenter == null) {
             throw new IllegalStateException(
                     "Media reviews presenter has not been configured.");
-        }
-    }
-
-    /**
-     * Checks whether a review belongs to the requested media item.
-     * @param review the review to check
-     * @param mediaId the reviewed media's identifier
-     * @param mediaType the reviewed media's type
-     * @return true if the review belongs to the requested media item
-     */
-    private boolean isMatchingMediaReview(final Review review,
-                                          final int mediaId,
-                                          final String mediaType) {
-        final boolean matchingReview;
-        if (review == null) {
-            matchingReview = false;
-        } else {
-            matchingReview = review.getMediaId() == mediaId
-                    && review.getMediaType().equals(mediaType);
-        }
-        return matchingReview;
-    }
-
-    /**
-     * Validates the data needed to load media reviews.
-     * @param mediaId the media id to validate
-     * @param mediaType the media type to validate
-     * @param reviews the review list to validate
-     */
-    private void validateGetMediaReviewsData(final int mediaId,
-                                             final String mediaType,
-                                             final List<Review> reviews) {
-        if (mediaId < MIN_MEDIA_ID) {
-            throw new IllegalArgumentException("Media id cannot be negative.");
-        } else if (isBlank(mediaType)) {
-            throw new IllegalArgumentException("Media type cannot be empty.");
-        } else if (reviews == null) {
-            throw new IllegalArgumentException("Reviews cannot be null.");
         }
     }
 
