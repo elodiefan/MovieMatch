@@ -46,6 +46,8 @@ public final class MediaReviewsPanel extends JPanel
     private static final int COMMENT_INDENT = 24;
     /** The reply indent. */
     private static final int REPLY_INDENT = 48;
+    /** MovieMatch review source label. */
+    private static final String MOVIEMATCH_SOURCE = "moviematch";
 
     /** The time_formatter. */
     private static final DateTimeFormatter TIME_FORMATTER =
@@ -245,7 +247,11 @@ public final class MediaReviewsPanel extends JPanel
         card.add(new JLabel("Updated: " + formatTime(review.getUpdatedAt())));
         card.add(new JLabel("Likes: " + review.getLikeCount()));
         card.add(new JLabel(review.getReviewText()));
-        card.add(createButtonPanel(review));
+        if (isMovieMatchReview(review)) {
+            card.add(createButtonPanel(review));
+        } else {
+            card.add(new JLabel("External TMDB review"));
+        }
         card.add(createCommentsSection(review.getReviewId()));
 
         return card;
@@ -368,6 +374,16 @@ public final class MediaReviewsPanel extends JPanel
         final JToggleButton heartButton = new JToggleButton(HEART_UNSELECTED);
         heartButton.setToolTipText(tooltip);
         return heartButton;
+    }
+
+    /**
+     * Checks whether a review was created inside MovieMatch.
+     * @param review the review row
+     * @return true if the review belongs to MovieMatch
+     */
+    private boolean isMovieMatchReview(
+            final MediaReviewsPresenter.MediaReviewRow review) {
+        return MOVIEMATCH_SOURCE.equals(review.getSource());
     }
 
     /**

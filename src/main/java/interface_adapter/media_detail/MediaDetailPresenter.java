@@ -1,11 +1,6 @@
 package interface_adapter.media_detail;
 
-import java.util.List;
-
-import data_access.InMemoryReviewDataAccessObject;
-import entity.Review;
 import interface_adapter.ViewManagerModel;
-import interface_adapter.media_reviews.MediaReviewsPresenter;
 import interface_adapter.media_reviews.MediaReviewsState;
 import interface_adapter.media_reviews.MediaReviewsViewModel;
 import interface_adapter.search_result.SearchResultViewModel;
@@ -21,21 +16,15 @@ public class MediaDetailPresenter implements MediaDetailOutputBoundary {
     private final MediaDetailViewModel mediaDetailViewModel;
 
     private final MediaReviewsViewModel mediaReviewsViewModel;
-    private final MediaReviewsPresenter mediaReviewsPresenter;
-    private final InMemoryReviewDataAccessObject reviewDataAccessObject;
 
     public MediaDetailPresenter(
             ViewManagerModel viewManagerModel,
             MediaDetailViewModel mediaDetailViewModel,
-            MediaReviewsViewModel mediaReviewsViewModel,
-            MediaReviewsPresenter mediaReviewsPresenter,
-            InMemoryReviewDataAccessObject reviewDataAccessObject) {
+            MediaReviewsViewModel mediaReviewsViewModel) {
 
         this.viewManagerModel = viewManagerModel;
         this.mediaDetailViewModel = mediaDetailViewModel;
         this.mediaReviewsViewModel = mediaReviewsViewModel;
-        this.mediaReviewsPresenter = mediaReviewsPresenter;
-        this.reviewDataAccessObject = reviewDataAccessObject;
     }
 
     @Override
@@ -54,21 +43,12 @@ public class MediaDetailPresenter implements MediaDetailOutputBoundary {
         mediaDetailViewModel.setState(detailState);
         mediaDetailViewModel.firePropertyChanged();
 
-        final List<Review> reviews =
-                reviewDataAccessObject.getReviewsByMedia(
-                        outputData.getMediaId(),
-                        outputData.getMediaType()
-                );
-
         final MediaReviewsState reviewsState =
                 mediaReviewsViewModel.getState();
 
         reviewsState.setMediaId(outputData.getMediaId());
         reviewsState.setMediaType(outputData.getMediaType());
         reviewsState.setMediaTitle(outputData.getTitle());
-        reviewsState.setReviews(
-                mediaReviewsPresenter.prepareReviews(reviews)
-        );
         reviewsState.setMediaReviewsError(null);
 
         mediaReviewsViewModel.setState(reviewsState);
@@ -83,9 +63,7 @@ public class MediaDetailPresenter implements MediaDetailOutputBoundary {
         final MediaReviewsState reviewsState =
                 mediaReviewsViewModel.getState();
 
-        reviewsState.setMediaReviewsError(
-                mediaReviewsPresenter.prepareFailView(error)
-        );
+        reviewsState.setMediaReviewsError(error);
 
         mediaReviewsViewModel.setState(reviewsState);
         mediaReviewsViewModel.firePropertyChanged();

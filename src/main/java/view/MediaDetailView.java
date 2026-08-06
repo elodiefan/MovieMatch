@@ -9,9 +9,12 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+import interface_adapter.comments.CommentsController;
+import interface_adapter.comments.CommentsViewModel;
 import interface_adapter.media_detail.MediaDetailController;
 import interface_adapter.media_detail.MediaDetailState;
 import interface_adapter.media_detail.MediaDetailViewModel;
+import interface_adapter.media_reviews.MediaReviewsController;
 import interface_adapter.media_reviews.MediaReviewsViewModel;
 
 /**
@@ -36,12 +39,14 @@ public class MediaDetailView extends JPanel implements PropertyChangeListener {
     private final JButton backButton;
 
     public MediaDetailView(MediaDetailViewModel mediaDetailViewModel,
-                           MediaReviewsViewModel mediaReviewsViewModel) {
+                           MediaReviewsViewModel mediaReviewsViewModel,
+                           CommentsViewModel commentsViewModel) {
 
         this.mediaDetailViewModel = mediaDetailViewModel;
         this.mediaDetailViewModel.addPropertyChangeListener(this);
         mediaReviewsPanel =
-                new MediaReviewsPanel(mediaReviewsViewModel);
+                new MediaReviewsPanel(mediaReviewsViewModel,
+                        commentsViewModel);
 
         final JLabel pageTitle =
                 new JLabel(MediaDetailViewModel.TITLE_LABEL);
@@ -96,6 +101,25 @@ public class MediaDetailView extends JPanel implements PropertyChangeListener {
     public void setMediaDetailController(
             MediaDetailController mediaDetailController) {
         this.mediaDetailController = mediaDetailController;
+    }
+
+    /**
+     * Sets the controller used by the embedded media reviews panel.
+     *
+     * @param mediaReviewsController the media reviews controller
+     */
+    public void setMediaReviewsController(
+            MediaReviewsController mediaReviewsController) {
+        mediaReviewsPanel.setMediaReviewsController(mediaReviewsController);
+    }
+
+    /**
+     * Sets the controller used by the embedded comments panel.
+     *
+     * @param commentsController the comments controller
+     */
+    public void setCommentsController(CommentsController commentsController) {
+        mediaReviewsPanel.setCommentsController(commentsController);
     }
 
     @Override
