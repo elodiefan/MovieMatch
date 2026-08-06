@@ -164,6 +164,8 @@ public final class MediaReviewsPresenter
         private final ZonedDateTime updatedAt;
         /** The like count. */
         private final int likeCount;
+        /** The review source. */
+        private final String source;
 
         /**
          * Creates display data for one media review row.
@@ -178,6 +180,7 @@ public final class MediaReviewsPresenter
             this.createdAt = review.getCreatedAt();
             this.updatedAt = review.getUpdatedAt();
             this.likeCount = review.getLikeCount();
+            this.source = review.getSource();
         }
 
         /**
@@ -242,6 +245,14 @@ public final class MediaReviewsPresenter
          */
         public int getLikeCount() {
             return likeCount;
+        }
+
+        /**
+         * Returns the review source.
+         * @return the review source
+         */
+        public String getSource() {
+            return source;
         }
     }
 }
