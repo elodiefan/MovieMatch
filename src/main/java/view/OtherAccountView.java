@@ -8,11 +8,9 @@ import java.beans.PropertyChangeListener;
 
 import javax.swing.*;
 
-import interface_adapter.delete_account.DeleteAccountState;
 import interface_adapter.other_account.OtherAccountController;
 import interface_adapter.other_account.OtherAccountState;
 import interface_adapter.other_account.OtherAccountViewModel;
-import interface_adapter.personal_account.PersonalAccountState;
 
 public class OtherAccountView extends JPanel implements PropertyChangeListener {
 
@@ -133,9 +131,14 @@ public class OtherAccountView extends JPanel implements PropertyChangeListener {
             title.setText(state.getDisplayName() + otherAccountViewModel.TITLE_LABEL);
             username.setText(otherAccountViewModel.USERNAME_LABEL + state.getUsername());
             displayName.setText(otherAccountViewModel.DISPLAY_NAME_LABEL + state.getDisplayName());
+            blockButton.setText(state.getNextBlockOption());
             if (state.getViewMessageError() != null) {
                 JOptionPane.showMessageDialog(this, state.getViewMessageError());
             }
+        }
+        else if (evt.getPropertyName().equals("changed block state")) {
+            final OtherAccountState state = (OtherAccountState) evt.getNewValue();
+            blockButton.setText(state.getNextBlockOption());
         }
         else if (evt.getPropertyName().equals("cannot message")) {
             JOptionPane.showMessageDialog(this, "Cannot message this user.");

@@ -44,8 +44,18 @@ public class OtherAccountPresenter implements BlockUserOutputBoundary { //, Acce
     public void prepareBlockSuccessView(BlockUserOutputData response) {
         final OtherAccountState otherAccountState = otherAccountViewModel.getState();
         otherAccountState.setBlocked(response.isOnBlockList());
+        otherAccountState.setNextBlockOption("Unblock");
         otherAccountViewModel.setState(otherAccountState);
-        otherAccountViewModel.firePropertyChanged("changed block state");
+        otherAccountViewModel.firePropertyChanged("blocked");
+    }
+
+    @Override
+    public void prepareUnblockSuccessView(BlockUserOutputData response) {
+        final OtherAccountState otherAccountState = otherAccountViewModel.getState();
+        otherAccountState.setBlocked(response.isOnBlockList());
+        otherAccountState.setNextBlockOption("Block");
+        otherAccountViewModel.setState(otherAccountState);
+        otherAccountViewModel.firePropertyChanged("unblocked");
     }
 
 //    @Override

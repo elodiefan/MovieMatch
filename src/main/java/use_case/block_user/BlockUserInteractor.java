@@ -30,7 +30,7 @@ public class BlockUserInteractor implements BlockUserInputBoundary {
         else {
             userDataAccessObject.removeFromBlockList(otherUsername);
             final BlockUserOutputData blockUserOutputData = new BlockUserOutputData(false, false);
-            userPresenter.prepareBlockSuccessView(blockUserOutputData);
+            userPresenter.prepareUnblockSuccessView(blockUserOutputData);
         }
     }
 }
