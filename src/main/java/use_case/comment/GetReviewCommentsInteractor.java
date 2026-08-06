@@ -10,6 +10,38 @@ import entity.Comment;
  * Interactor for loading comments on a review.
  */
 public class GetReviewCommentsInteractor {
+    private final GetReviewCommentsDataAccessInterface commentDataAccessObject;
+
+    /**
+     * Creates a comments interactor without persistence.
+     */
+    public GetReviewCommentsInteractor() {
+        this(null);
+    }
+
+    /**
+     * Creates a comments interactor with persistence.
+     * @param commentDataAccessObject the DAO used to load comments
+     */
+    public GetReviewCommentsInteractor(
+            final GetReviewCommentsDataAccessInterface commentDataAccessObject) {
+        this.commentDataAccessObject = commentDataAccessObject;
+    }
+
+    /**
+     * Returns persisted comments on one review, ordered from oldest to newest.
+     * @param reviewId the review id to load comments for
+     * @return the comments that belong to the review
+     */
+    public List<Comment> getReviewComments(final String reviewId) {
+        final String trimmedReviewId = trimToEmpty(reviewId);
+        validateReviewId(trimmedReviewId);
+
+        final List<Comment> matchingComments =
+                commentDataAccessObject.getCommentsByReviewId(trimmedReviewId);
+        matchingComments.sort(Comparator.comparing(Comment::getCreatedAt));
+        return matchingComments;
+    }
 
     /**
      * Returns the comments on one review, ordered from oldest to newest.
@@ -31,6 +63,19 @@ public class GetReviewCommentsInteractor {
 
         matchingComments.sort(Comparator.comparing(Comment::getCreatedAt));
         return matchingComments;
+    }
+
+    /**
+     * Validates the review id needed to load persisted comments.
+     * @param reviewId the review id to validate
+     */
+    private void validateReviewId(final String reviewId) {
+        if (isBlank(reviewId)) {
+            throw new IllegalArgumentException("Review id cannot be empty.");
+        } else if (commentDataAccessObject == null) {
+            throw new IllegalStateException(
+                    "Comment data access object has not been configured.");
+        }
     }
 
     /**
