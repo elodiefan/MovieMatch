@@ -1,12 +1,11 @@
-package interface_adapter.account;
+package interface_adapter.get_lists;
 
-/**
- * The state for the Account View Model.
- */
-public class AccountState {
+public class GetListsState {
+
     private String username = "";
     private String displayName = "";
-    private String password = "";
+
+    private String displayText = "";
 
     public String getUsername() {
         return username;
@@ -16,8 +15,8 @@ public class AccountState {
         return displayName;
     }
 
-    public String getPassword() {
-        return password;
+    public String getDisplayText() {
+        return displayText;
     }
 
     public void setUsername(String username) {
@@ -28,8 +27,7 @@ public class AccountState {
         this.displayName = displayName;
     }
 
-    public void setPassword(String password) {
-        this.password = password;
+    public void setDisplayText(String displayText) {
+        this.displayText = displayText;
     }
-
 }
