@@ -41,10 +41,8 @@ public class Main {
                 .addSearchView()
                 .addSearchResultView()
                 .addSearchUseCase()
-                .addSearchView()
-                .addSearchResultView()
+                .addFilterUseCase()
                 .addMediaDetailView()
-                .addSearchUseCase()
                 .addMediaDetailUseCase()
                 .build();
 

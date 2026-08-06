@@ -10,7 +10,27 @@ import entity.Media;
  */
 public class SearchResultState {
 
+    private List<Media> originalResults = new ArrayList<>();
     private List<Media> results = new ArrayList<>();
+    private String filterError;
+
+    /**
+     * Returns the original unfiltered search results.
+     *
+     * @return the original search results
+     */
+    public List<Media> getOriginalResults() {
+        return originalResults;
+    }
+
+    /**
+     * Sets the original unfiltered search results.
+     *
+     * @param originalResults the original search results
+     */
+    public void setOriginalResults(List<Media> originalResults) {
+        this.originalResults = originalResults;
+    }
 
     /**
      * Returns current search results.
@@ -28,5 +48,23 @@ public class SearchResultState {
      */
     public void setResults(List<Media> results) {
         this.results = results;
+    }
+
+    /**
+     * Returns the current filter error (not no result).
+     *
+     * @return the filter error, or null when there is no error
+     */
+    public String getFilterError() {
+        return filterError;
+    }
+
+    /**
+     * Sets the current filter error (not no result).
+     *
+     * @param filterError the filter error
+     */
+    public void setFilterError(String filterError) {
+        this.filterError = filterError;
     }
 }
