@@ -46,6 +46,11 @@ public class MongoUserDataAccessObject implements UserDataAccessObject {
     private static final String ANSWER = "answer";
     private static final String WATCHLIST = "watchlist";
     private static final String WATCH_HISTORY = "watchHistory";
+    private static final String MEDIA_ID = "mediaId";
+    private static final String MEDIA_TYPE = "mediaType";
+    private static final String MEDIA_TITLE = "mediaTitle";
+    private static final String ADDED_AT = "addedAt";
+    private static final String WATCHED_AT = "watchedAt";
     private static final String REVIEWS = "reviews";
     private static final String BLOCKED_USERS = "blockedUsers";
 
@@ -115,7 +120,11 @@ public class MongoUserDataAccessObject implements UserDataAccessObject {
                     .append(DISPLAY_NAME, user.getDisplayName())
                     .append(PASSWORD, user.getPassword())
                     .append(SECURITY_QUESTION, user.getSecurityQuestion())
-                    .append(ANSWER, user.getAnswer()));
+                    .append(ANSWER, user.getAnswer())
+                    .append(WATCHLIST, List.of())
+                    .append(WATCH_HISTORY, List.of())
+                    .append(REVIEWS, List.of())
+                    .append(BLOCKED_USERS, List.of()));
         }
     }
 
@@ -159,6 +168,25 @@ public class MongoUserDataAccessObject implements UserDataAccessObject {
             return toUserLists(username, watchlist, watchHistory, blockedUsers);
         }
         return new UserLists(username, "", "", "");
+    }
+
+    @Override
+    public void addToWatchlist(String username, int mediaId, String mediaType,
+                               String mediaTitle, String addedAt) {
+        final Document mediaDocument = createMediaListDocument(mediaId,
+                mediaType, mediaTitle, ADDED_AT, addedAt);
+        replaceMediaListItem(username, WATCHLIST, mediaId, mediaType,
+                mediaDocument);
+    }
+
+    @Override
+    public void addToWatchHistory(String username, int mediaId,
+                                  String mediaType, String mediaTitle,
+                                  String watchedAt) {
+        final Document mediaDocument = createMediaListDocument(mediaId,
+                mediaType, mediaTitle, WATCHED_AT, watchedAt);
+        replaceMediaListItem(username, WATCH_HISTORY, mediaId, mediaType,
+                mediaDocument);
     }
 
     private static List<String> getBlockedUsers(Document doc) {
@@ -306,6 +334,26 @@ public class MongoUserDataAccessObject implements UserDataAccessObject {
         final String userWatchHistory = MongoDataCleaning.convertWatchHistoryToString(watchHistory);
         final String userBlockedUsers = MongoDataCleaning.convertBlockedUsersToString(blockedUsers);
         return new UserLists(username, userWatchlist, userWatchHistory, userBlockedUsers);
+    }
+
+    private Document createMediaListDocument(int mediaId, String mediaType,
+                                             String mediaTitle,
+                                             String dateField,
+                                             String loggedAt) {
+        return new Document(MEDIA_ID, mediaId)
+                .append(MEDIA_TYPE, mediaType)
+                .append(MEDIA_TITLE, mediaTitle)
+                .append(dateField, loggedAt);
+    }
+
+    private void replaceMediaListItem(String username, String listField,
+                                      int mediaId, String mediaType,
+                                      Document mediaDocument) {
+        users.updateOne(Filters.eq(USERNAME, username),
+                Updates.pull(listField, new Document(MEDIA_ID, mediaId)
+                        .append(MEDIA_TYPE, mediaType)));
+        users.updateOne(Filters.eq(USERNAME, username),
+                Updates.push(listField, mediaDocument));
     }
 
     @Override
