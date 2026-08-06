@@ -7,11 +7,12 @@ import java.util.Map;
 import java.util.Optional;
 
 import entity.Comment;
+import use_case.comment.CommentDataAccessInterface;
 
 /**
  * In-memory data access object for comment data.
  */
-public class InMemoryCommentDataAccessObject {
+public class InMemoryCommentDataAccessObject implements CommentDataAccessInterface {
     private final Map<String, Comment> comments = new LinkedHashMap<>();
 
     /**
@@ -50,6 +51,23 @@ public class InMemoryCommentDataAccessObject {
 
         for (Comment comment : comments.values()) {
             if (comment.getReviewId().equals(reviewId)) {
+                matchingComments.add(comment);
+            }
+        }
+
+        return matchingComments;
+    }
+
+    /**
+     * Returns all comments written by a user.
+     * @param username the author's username
+     * @return the matching comments
+     */
+    public List<Comment> getCommentsByUsername(String username) {
+        final List<Comment> matchingComments = new ArrayList<>();
+
+        for (Comment comment : comments.values()) {
+            if (comment.getAuthorUsername().equals(username)) {
                 matchingComments.add(comment);
             }
         }
