@@ -8,12 +8,12 @@ import java.util.Optional;
 
 import entity.Comment;
 import use_case.comment.CommentDataAccessInterface;
-import use_case.comment.CreateCommentDataAccessInterface;
-import use_case.comment.DeleteCommentDataAccessInterface;
-import use_case.comment.GetReviewCommentsDataAccessInterface;
-import use_case.comment.GetUserCommentsDataAccessInterface;
-import use_case.comment.LikeCommentDataAccessInterface;
-import use_case.comment.UnlikeCommentDataAccessInterface;
+import use_case.comment.create_comment.CreateCommentDataAccessInterface;
+import use_case.comment.delete_comment.DeleteCommentDataAccessInterface;
+import use_case.comment.get_review_comments.GetReviewCommentsDataAccessInterface;
+import use_case.comment.get_user_comments.GetUserCommentsDataAccessInterface;
+import use_case.comment.like_comment.LikeCommentDataAccessInterface;
+import use_case.comment.unlike_comment.UnlikeCommentDataAccessInterface;
 
 /**
  * In-memory data access object for comment data.

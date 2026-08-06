@@ -21,12 +21,12 @@ import com.mongodb.client.model.ReplaceOptions;
 import com.mongodb.client.model.Updates;
 import entity.Comment;
 import use_case.comment.CommentDataAccessInterface;
-import use_case.comment.CreateCommentDataAccessInterface;
-import use_case.comment.DeleteCommentDataAccessInterface;
-import use_case.comment.GetReviewCommentsDataAccessInterface;
-import use_case.comment.GetUserCommentsDataAccessInterface;
-import use_case.comment.LikeCommentDataAccessInterface;
-import use_case.comment.UnlikeCommentDataAccessInterface;
+import use_case.comment.create_comment.CreateCommentDataAccessInterface;
+import use_case.comment.delete_comment.DeleteCommentDataAccessInterface;
+import use_case.comment.get_review_comments.GetReviewCommentsDataAccessInterface;
+import use_case.comment.get_user_comments.GetUserCommentsDataAccessInterface;
+import use_case.comment.like_comment.LikeCommentDataAccessInterface;
+import use_case.comment.unlike_comment.UnlikeCommentDataAccessInterface;
 
 /**
  * MongoDB data access object for comments on reviews.
