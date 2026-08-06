@@ -8,11 +8,12 @@ import java.util.Map;
 import java.util.Optional;
 
 import entity.Review;
+import use_case.review.ReviewDataAccessInterface;
 
 /**
  * In-memory data access object for review data.
  */
-public class InMemoryReviewDataAccessObject {
+public class InMemoryReviewDataAccessObject implements ReviewDataAccessInterface {
     private final Map<String, Review> reviews = new LinkedHashMap<>();
     // creates the actual in memory database for reviews
     // LinkedHashMap instead of regular HashMap because LinkedHashMap remembers insertion order
