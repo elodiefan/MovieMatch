@@ -20,7 +20,6 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JToggleButton;
 
-import entity.Comment;
 import interface_adapter.comments.CommentsController;
 import interface_adapter.comments.CommentsPresenter;
 import interface_adapter.comments.CommentsState;
@@ -41,7 +40,6 @@ public class CommentsPanel extends JPanel implements PropertyChangeListener {
             DateTimeFormatter.ofPattern("yyyy-MM-dd h:mm a z");
 
     private final CommentsViewModel commentsViewModel;
-    private final CommentsPresenter commentsPresenter = new CommentsPresenter();
     private final JLabel errorLabel = new JLabel();
     private final JPanel commentsPanel = new JPanel();
     private final JButton writeCommentButton =
@@ -49,6 +47,7 @@ public class CommentsPanel extends JPanel implements PropertyChangeListener {
     private CommentsController commentsController;
     private String currentUsername = "";
     private String currentDisplayName = "";
+    private boolean loadingComments;
 
     public CommentsPanel(final CommentsViewModel commentsViewModel) {
         this.commentsViewModel = commentsViewModel;
@@ -126,11 +125,11 @@ public class CommentsPanel extends JPanel implements PropertyChangeListener {
      * @param reviewId the review id to load comments for
      */
     private void refreshComments(final String reviewId) {
-        if (commentsController != null && !isBlank(reviewId)) {
-            final List<Comment> comments =
-                    commentsController.getReviewComments(reviewId);
-            commentsViewModel.getState().setComments(
-                    commentsPresenter.prepareComments(comments));
+        if (!loadingComments && commentsController != null
+                && !isBlank(reviewId)) {
+            loadingComments = true;
+            commentsController.loadReviewComments(reviewId);
+            loadingComments = false;
         }
     }
 
@@ -325,7 +324,7 @@ public class CommentsPanel extends JPanel implements PropertyChangeListener {
                 if (!isBlank(commentText)) {
                     commentsController.createComment(state.getReviewId(), "",
                             currentUsername, currentDisplayName, commentText);
-                    refreshComments(state.getReviewId());
+                    commentsController.loadReviewComments(state.getReviewId());
                 }
             }
             commentsViewModel.firePropertyChanged();
@@ -358,12 +357,13 @@ public class CommentsPanel extends JPanel implements PropertyChangeListener {
                         commentsController.createComment(state.getReviewId(),
                                 commentId, currentUsername,
                                 currentDisplayName, commentText);
-                        refreshComments(state.getReviewId());
+                        commentsController.loadReviewComments(
+                                state.getReviewId());
                     }
                 }
             } else if (commentsController != null && !isBlank(currentUsername)) {
                 commentsController.deleteComment(commentId, currentUsername);
-                refreshComments(state.getReviewId());
+                commentsController.loadReviewComments(state.getReviewId());
             }
             commentsViewModel.firePropertyChanged();
         }
@@ -391,7 +391,7 @@ public class CommentsPanel extends JPanel implements PropertyChangeListener {
                     commentsController.unlikeComment(commentId,
                             currentUsername);
                 }
-                refreshComments(state.getReviewId());
+                commentsController.loadReviewComments(state.getReviewId());
             }
             updateHeartButton(heartButton);
 

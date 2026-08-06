@@ -1,27 +1,27 @@
 package interface_adapter.user_reviews;
-
-import java.util.ArrayList;
-import java.util.List;
-
-import entity.Review;
-import use_case.comment.GetUserCommentsInteractor;
-import use_case.comment.UserCommentSummaryData;
-import use_case.review.DeleteReviewInteractor;
-import use_case.review.EditReviewInteractor;
-import use_case.review.GetUserReviewsInteractor;
-import use_case.review.LikeReviewInteractor;
-import use_case.review.UnlikeReviewInteractor;
+import use_case.comment.GetUserCommentsInputBoundary;
+import use_case.comment.GetUserCommentsInputData;
+import use_case.review.DeleteReviewInputBoundary;
+import use_case.review.DeleteReviewInputData;
+import use_case.review.EditReviewInputBoundary;
+import use_case.review.EditReviewInputData;
+import use_case.review.GetUserReviewsInputBoundary;
+import use_case.review.GetUserReviewsInputData;
+import use_case.review.LikeReviewInputBoundary;
+import use_case.review.LikeReviewInputData;
+import use_case.review.UnlikeReviewInputBoundary;
+import use_case.review.UnlikeReviewInputData;
 
 /**
  * Controller for the user reviews view.
  */
 public class UserReviewsController {
-    private final GetUserReviewsInteractor getUserReviewsInteractor;
-    private final EditReviewInteractor editReviewInteractor;
-    private final DeleteReviewInteractor deleteReviewInteractor;
-    private final LikeReviewInteractor likeReviewInteractor;
-    private final UnlikeReviewInteractor unlikeReviewInteractor;
-    private final GetUserCommentsInteractor getUserCommentsInteractor;
+    private final GetUserReviewsInputBoundary getUserReviewsInteractor;
+    private final EditReviewInputBoundary editReviewInteractor;
+    private final DeleteReviewInputBoundary deleteReviewInteractor;
+    private final LikeReviewInputBoundary likeReviewInteractor;
+    private final UnlikeReviewInputBoundary unlikeReviewInteractor;
+    private final GetUserCommentsInputBoundary getUserCommentsInteractor;
 
     /**
      * Creates a controller for user review actions.
@@ -32,11 +32,11 @@ public class UserReviewsController {
      * @param unlikeReviewInteractor the interactor for unliking reviews
      */
     public UserReviewsController(
-            final GetUserReviewsInteractor getUserReviewsInteractor,
-            final EditReviewInteractor editReviewInteractor,
-            final DeleteReviewInteractor deleteReviewInteractor,
-            final LikeReviewInteractor likeReviewInteractor,
-            final UnlikeReviewInteractor unlikeReviewInteractor) {
+            final GetUserReviewsInputBoundary getUserReviewsInteractor,
+            final EditReviewInputBoundary editReviewInteractor,
+            final DeleteReviewInputBoundary deleteReviewInteractor,
+            final LikeReviewInputBoundary likeReviewInteractor,
+            final UnlikeReviewInputBoundary unlikeReviewInteractor) {
         this(getUserReviewsInteractor, editReviewInteractor,
                 deleteReviewInteractor, likeReviewInteractor,
                 unlikeReviewInteractor, null);
@@ -52,12 +52,12 @@ public class UserReviewsController {
      * @param getUserCommentsInteractor the interactor for loading user comments
      */
     public UserReviewsController(
-            final GetUserReviewsInteractor getUserReviewsInteractor,
-            final EditReviewInteractor editReviewInteractor,
-            final DeleteReviewInteractor deleteReviewInteractor,
-            final LikeReviewInteractor likeReviewInteractor,
-            final UnlikeReviewInteractor unlikeReviewInteractor,
-            final GetUserCommentsInteractor getUserCommentsInteractor) {
+            final GetUserReviewsInputBoundary getUserReviewsInteractor,
+            final EditReviewInputBoundary editReviewInteractor,
+            final DeleteReviewInputBoundary deleteReviewInteractor,
+            final LikeReviewInputBoundary likeReviewInteractor,
+            final UnlikeReviewInputBoundary unlikeReviewInteractor,
+            final GetUserCommentsInputBoundary getUserCommentsInteractor) {
         this.getUserReviewsInteractor = getUserReviewsInteractor;
         this.editReviewInteractor = editReviewInteractor;
         this.deleteReviewInteractor = deleteReviewInteractor;
@@ -67,136 +67,66 @@ public class UserReviewsController {
     }
 
     /**
-     * Loads the reviews written by one user.
+     * Loads persisted reviews written by one user.
      * @param username the username of the review author
-     * @param reviews the reviews to search through
-     * @return the user's reviews
      */
-    public List<Review> getUserReviews(final String username,
-                                       final List<Review> reviews) {
-        return getUserReviewsInteractor.getUserReviews(username, reviews);
-    }
-
-    /**
-     * Loads the persisted reviews written by one user.
-     * @param username the username of the review author
-     * @return the user's reviews
-     */
-    public List<Review> getUserReviews(final String username) {
-        return getUserReviewsInteractor.getUserReviews(username);
+    public void loadUserReviews(final String username) {
+        getUserReviewsInteractor.execute(new GetUserReviewsInputData(username));
     }
 
     /**
      * Loads persisted comments written by one user.
      * @param username the username of the comment author
-     * @return the user's comments
      */
-    public List<UserCommentSummaryData> getUserComments(
-            final String username) {
-        final List<UserCommentSummaryData> comments;
-        if (getUserCommentsInteractor == null) {
-            comments = new ArrayList<>();
-        } else {
-            comments = getUserCommentsInteractor.getUserComments(username);
+    public void loadUserComments(final String username) {
+        if (getUserCommentsInteractor != null) {
+            getUserCommentsInteractor.execute(
+                    new GetUserCommentsInputData(username));
         }
-        return comments;
     }
+
 
     /**
      * Edits an existing review.
-     * @param review the review to edit
-     * @param newRating the updated rating percentage
-     * @param newReviewText the updated review text
-     * @return the edited review
-     */
-    public Review editReview(final Review review, final double newRating,
-                             final String newReviewText) {
-        return editReviewInteractor.editReview(review, newRating,
-                newReviewText);
-    }
-
-    /**
-     * Edits a persisted review written by the given user.
      * @param reviewId the id of the review to edit
      * @param username the username of the user editing the review
      * @param newRating the updated rating percentage
      * @param newReviewText the updated review text
-     * @return the edited review, or null if it was not edited
      */
-    public Review editReview(final String reviewId, final String username,
+    public void editReview(final String reviewId, final String username,
                              final double newRating,
                              final String newReviewText) {
-        return editReviewInteractor.editReview(reviewId, username, newRating,
-                newReviewText);
-    }
-
-    /**
-     * Deletes a user's review.
-     * @param reviewId the id of the review to delete
-     * @param username the username of the user deleting the review
-     * @param reviews the reviews to search through
-     * @return true if the review was deleted
-     */
-    public boolean deleteReview(final String reviewId, final String username,
-                                final List<Review> reviews) {
-        return deleteReviewInteractor.deleteReview(reviewId, username,
-                reviews);
+        editReviewInteractor.execute(new EditReviewInputData(reviewId,
+                username, newRating, newReviewText));
     }
 
     /**
      * Deletes a persisted user review.
      * @param reviewId the id of the review to delete
      * @param username the username of the user deleting the review
-     * @return true if the review was deleted
      */
-    public boolean deleteReview(final String reviewId,
-                                final String username) {
-        return deleteReviewInteractor.deleteReview(reviewId, username);
-    }
-
-    /**
-     * Likes a review.
-     * @param reviewId the id of the review to like
-     * @param username the username of the user liking the review
-     * @param reviews the reviews to search through
-     * @return true if the review was found and liked
-     */
-    public boolean likeReview(final String reviewId, final String username,
-                              final List<Review> reviews) {
-        return likeReviewInteractor.likeReview(reviewId, username, reviews);
+    public void deleteReview(final String reviewId, final String username) {
+        deleteReviewInteractor.execute(new DeleteReviewInputData(reviewId,
+                username));
     }
 
     /**
      * Likes one persisted review.
      * @param reviewId the id of the review to like
      * @param username the username of the user liking the review
-     * @return true if the review was found and liked
      */
-    public boolean likeReview(final String reviewId, final String username) {
-        return likeReviewInteractor.likeReview(reviewId, username);
-    }
-
-    /**
-     * Unlikes a review.
-     * @param reviewId the id of the review to unlike
-     * @param username the username of the user unliking the review
-     * @param reviews the reviews to search through
-     * @return true if the review was found and unliked
-     */
-    public boolean unlikeReview(final String reviewId, final String username,
-                                final List<Review> reviews) {
-        return unlikeReviewInteractor.unlikeReview(reviewId, username,
-                reviews);
+    public void likeReview(final String reviewId, final String username) {
+        likeReviewInteractor.execute(new LikeReviewInputData(reviewId,
+                username));
     }
 
     /**
      * Unlikes one persisted review.
      * @param reviewId the id of the review to unlike
      * @param username the username of the user unliking the review
-     * @return true if the review was found and unliked
      */
-    public boolean unlikeReview(final String reviewId,
-                                final String username) {
-        return unlikeReviewInteractor.unlikeReview(reviewId, username);
+    public void unlikeReview(final String reviewId, final String username) {
+        unlikeReviewInteractor.execute(new UnlikeReviewInputData(reviewId,
+                username));
     }
 }

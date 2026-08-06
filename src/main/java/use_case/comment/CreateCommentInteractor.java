@@ -9,14 +9,15 @@ import entity.UserContent;
 /**
  * Interactor for creating a comment.
  */
-public class CreateCommentInteractor {
+public class CreateCommentInteractor implements CreateCommentInputBoundary {
     private final CreateCommentDataAccessInterface commentDataAccessObject;
+    private final CreateCommentOutputBoundary presenter;
 
     /**
      * Creates a comment interactor without persistence.
      */
     public CreateCommentInteractor() {
-        this(null);
+        this(null, null);
     }
 
     /**
@@ -25,7 +26,31 @@ public class CreateCommentInteractor {
      */
     public CreateCommentInteractor(
             final CreateCommentDataAccessInterface commentDataAccessObject) {
+        this(commentDataAccessObject, null);
+    }
+
+    public CreateCommentInteractor(
+            final CreateCommentDataAccessInterface commentDataAccessObject,
+            final CreateCommentOutputBoundary presenter) {
         this.commentDataAccessObject = commentDataAccessObject;
+        this.presenter = presenter;
+    }
+
+    @Override
+    public void execute(final CreateCommentInputData inputData) {
+        try {
+            validatePresenter();
+            final Comment comment = createComment(inputData.getReviewId(),
+                    inputData.getParentCommentId(),
+                    inputData.getAuthorUsername(),
+                    inputData.getAuthorDisplayName(),
+                    inputData.getCommentText());
+            presenter.prepareSuccessView(new CreateCommentOutputData(comment));
+        } catch (IllegalArgumentException | IllegalStateException error) {
+            if (presenter != null) {
+                presenter.prepareFailView(error.getMessage());
+            }
+        }
     }
 
     /**
@@ -38,7 +63,7 @@ public class CreateCommentInteractor {
      * @param commentText the comment text
      * @return the created comment
      */
-    public Comment createComment(final String reviewId,
+    private Comment createComment(final String reviewId,
                                  final String parentCommentId,
                                  final String authorUsername,
                                  final String authorDisplayName,
@@ -83,6 +108,16 @@ public class CreateCommentInteractor {
                     "Author display name cannot be empty.");
         } else if (isBlank(commentText)) {
             throw new IllegalArgumentException("Comment text cannot be empty.");
+        } else if (commentDataAccessObject == null) {
+            throw new IllegalStateException(
+                    "Comment data access object has not been configured.");
+        }
+    }
+
+    private void validatePresenter() {
+        if (presenter == null) {
+            throw new IllegalStateException(
+                    "Create comment presenter has not been configured.");
         }
     }
 

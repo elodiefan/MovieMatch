@@ -7,14 +7,15 @@ import entity.Review;
 /**
  * Interactor for unliking a review.
  */
-public class UnlikeReviewInteractor {
+public class UnlikeReviewInteractor implements UnlikeReviewInputBoundary {
     private final UnlikeReviewDataAccessInterface reviewDataAccessObject;
+    private final UnlikeReviewOutputBoundary presenter;
 
     /**
      * Creates an unlike review interactor without persistence.
      */
     public UnlikeReviewInteractor() {
-        this(null);
+        this(null, null);
     }
 
     /**
@@ -23,7 +24,28 @@ public class UnlikeReviewInteractor {
      */
     public UnlikeReviewInteractor(
             final UnlikeReviewDataAccessInterface reviewDataAccessObject) {
+        this(reviewDataAccessObject, null);
+    }
+
+    public UnlikeReviewInteractor(
+            final UnlikeReviewDataAccessInterface reviewDataAccessObject,
+            final UnlikeReviewOutputBoundary presenter) {
         this.reviewDataAccessObject = reviewDataAccessObject;
+        this.presenter = presenter;
+    }
+
+    @Override
+    public void execute(final UnlikeReviewInputData inputData) {
+        try {
+            validatePresenter();
+            final boolean unliked = unlikeReview(inputData.getReviewId(),
+                    inputData.getUsername());
+            presenter.prepareSuccessView(new UnlikeReviewOutputData(unliked));
+        } catch (IllegalArgumentException | IllegalStateException error) {
+            if (presenter != null) {
+                presenter.prepareFailView(error.getMessage());
+            }
+        }
     }
 
     /**
@@ -32,7 +54,7 @@ public class UnlikeReviewInteractor {
      * @param username the username of the user unliking the review
      * @return true if the review was found and unliked
      */
-    public boolean unlikeReview(final String reviewId,
+    private boolean unlikeReview(final String reviewId,
                                 final String username) {
         final String trimmedReviewId = trimToEmpty(reviewId);
         final String trimmedUsername = trimToEmpty(username);
@@ -48,7 +70,7 @@ public class UnlikeReviewInteractor {
      * @param reviews the reviews to search through
      * @return true if the review was found and unliked
      */
-    public boolean unlikeReview(final String reviewId, final String username,
+    private boolean unlikeReview(final String reviewId, final String username,
                                 final List<Review> reviews) {
         final String trimmedReviewId = trimToEmpty(reviewId);
         final String trimmedUsername = trimToEmpty(username);
@@ -79,6 +101,13 @@ public class UnlikeReviewInteractor {
         } else if (reviewDataAccessObject == null) {
             throw new IllegalStateException(
                     "Review data access object has not been configured.");
+        }
+    }
+
+    private void validatePresenter() {
+        if (presenter == null) {
+            throw new IllegalStateException(
+                    "Unlike review presenter has not been configured.");
         }
     }
 

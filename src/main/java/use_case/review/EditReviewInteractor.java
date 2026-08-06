@@ -9,7 +9,7 @@ import entity.UserContent;
 /**
  * Interactor for editing a review.
  */
-public class EditReviewInteractor {
+public class EditReviewInteractor implements EditReviewInputBoundary {
     /**
      * Smallest valid rating percentage.
      */
@@ -21,12 +21,13 @@ public class EditReviewInteractor {
     private static final double MAX_RATING = 100.0;
 
     private final EditReviewDataAccessInterface reviewDataAccessObject;
+    private final EditReviewOutputBoundary presenter;
 
     /**
      * Creates an edit review interactor without persistence.
      */
     public EditReviewInteractor() {
-        this(null);
+        this(null, null);
     }
 
     /**
@@ -35,7 +36,33 @@ public class EditReviewInteractor {
      */
     public EditReviewInteractor(
             final EditReviewDataAccessInterface reviewDataAccessObject) {
+        this(reviewDataAccessObject, null);
+    }
+
+    public EditReviewInteractor(
+            final EditReviewDataAccessInterface reviewDataAccessObject,
+            final EditReviewOutputBoundary presenter) {
         this.reviewDataAccessObject = reviewDataAccessObject;
+        this.presenter = presenter;
+    }
+
+    @Override
+    public void execute(final EditReviewInputData inputData) {
+        try {
+            validatePresenter();
+            final Review review = editReview(inputData.getReviewId(),
+                    inputData.getUsername(), inputData.getRating(),
+                    inputData.getReviewText());
+            if (review == null) {
+                presenter.prepareFailView("Review could not be edited.");
+            } else {
+                presenter.prepareSuccessView(new EditReviewOutputData(review));
+            }
+        } catch (IllegalArgumentException | IllegalStateException error) {
+            if (presenter != null) {
+                presenter.prepareFailView(error.getMessage());
+            }
+        }
     }
 
     /**
@@ -46,7 +73,7 @@ public class EditReviewInteractor {
      * @param newReviewText the updated review text
      * @return the edited review, or null if it was not edited
      */
-    public Review editReview(final String reviewId, final String username,
+    private Review editReview(final String reviewId, final String username,
                              final double newRating,
                              final String newReviewText) {
         final String trimmedReviewId = trimToEmpty(reviewId);
@@ -74,7 +101,7 @@ public class EditReviewInteractor {
      * @param newReviewText the updated review text
      * @return the edited review
      */
-    public Review editReview(final Review review, final double newRating,
+    private Review editReview(final Review review, final double newRating,
                              final String newReviewText) {
         validateEditReviewData(review, newRating);
 
@@ -116,6 +143,13 @@ public class EditReviewInteractor {
         } else if (reviewDataAccessObject == null) {
             throw new IllegalStateException(
                     "Review data access object has not been configured.");
+        }
+    }
+
+    private void validatePresenter() {
+        if (presenter == null) {
+            throw new IllegalStateException(
+                    "Edit review presenter has not been configured.");
         }
     }
 

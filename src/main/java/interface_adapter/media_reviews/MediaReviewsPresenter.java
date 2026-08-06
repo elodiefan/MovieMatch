@@ -5,11 +5,78 @@ import java.util.ArrayList;
 import java.util.List;
 
 import entity.Review;
+import use_case.review.CreateReviewOutputBoundary;
+import use_case.review.CreateReviewOutputData;
+import use_case.review.DeleteReviewOutputBoundary;
+import use_case.review.DeleteReviewOutputData;
+import use_case.review.EditReviewOutputBoundary;
+import use_case.review.EditReviewOutputData;
+import use_case.review.GetMediaReviewsOutputBoundary;
+import use_case.review.GetMediaReviewsOutputData;
+import use_case.review.LikeReviewOutputBoundary;
+import use_case.review.LikeReviewOutputData;
+import use_case.review.UnlikeReviewOutputBoundary;
+import use_case.review.UnlikeReviewOutputData;
 
 /**
  * Presenter for the media reviews panel.
  */
-public class MediaReviewsPresenter {
+public class MediaReviewsPresenter implements GetMediaReviewsOutputBoundary,
+        CreateReviewOutputBoundary, EditReviewOutputBoundary,
+        DeleteReviewOutputBoundary, LikeReviewOutputBoundary,
+        UnlikeReviewOutputBoundary {
+    private final MediaReviewsViewModel mediaReviewsViewModel;
+
+    /**
+     * Creates a presenter used only for row conversion.
+     */
+    public MediaReviewsPresenter() {
+        this(null);
+    }
+
+    /**
+     * Creates a presenter for the media reviews view model.
+     * @param mediaReviewsViewModel the view model to update
+     */
+    public MediaReviewsPresenter(
+            final MediaReviewsViewModel mediaReviewsViewModel) {
+        this.mediaReviewsViewModel = mediaReviewsViewModel;
+    }
+
+    @Override
+    public void prepareSuccessView(final GetMediaReviewsOutputData outputData) {
+        final MediaReviewsState state = mediaReviewsViewModel.getState();
+        state.setReviews(prepareReviews(outputData.getReviews()));
+        state.setMediaReviewsError(null);
+        mediaReviewsViewModel.setState(state);
+        mediaReviewsViewModel.firePropertyChanged();
+    }
+
+    @Override
+    public void prepareSuccessView(final CreateReviewOutputData outputData) {
+        clearError();
+    }
+
+    @Override
+    public void prepareSuccessView(final EditReviewOutputData outputData) {
+        clearError();
+    }
+
+    @Override
+    public void prepareSuccessView(final DeleteReviewOutputData outputData) {
+        clearError();
+    }
+
+    @Override
+    public void prepareSuccessView(final LikeReviewOutputData outputData) {
+        clearError();
+    }
+
+    @Override
+    public void prepareSuccessView(final UnlikeReviewOutputData outputData) {
+        clearError();
+    }
+
     /**
      * Converts review entities into rows that can be displayed by the media
      * reviews panel.
@@ -40,7 +107,22 @@ public class MediaReviewsPresenter {
         } else {
             displayError = errorMessage.trim();
         }
+        if (mediaReviewsViewModel != null) {
+            final MediaReviewsState state = mediaReviewsViewModel.getState();
+            state.setMediaReviewsError(displayError);
+            mediaReviewsViewModel.setState(state);
+            mediaReviewsViewModel.firePropertyChanged();
+        }
         return displayError;
+    }
+
+    private void clearError() {
+        if (mediaReviewsViewModel != null) {
+            final MediaReviewsState state = mediaReviewsViewModel.getState();
+            state.setMediaReviewsError(null);
+            mediaReviewsViewModel.setState(state);
+            mediaReviewsViewModel.firePropertyChanged();
+        }
     }
 
     /**

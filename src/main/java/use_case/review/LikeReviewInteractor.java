@@ -7,14 +7,15 @@ import entity.Review;
 /**
  * Interactor for liking a review.
  */
-public class LikeReviewInteractor {
+public class LikeReviewInteractor implements LikeReviewInputBoundary {
     private final LikeReviewDataAccessInterface reviewDataAccessObject;
+    private final LikeReviewOutputBoundary presenter;
 
     /**
      * Creates a like review interactor without persistence.
      */
     public LikeReviewInteractor() {
-        this(null);
+        this(null, null);
     }
 
     /**
@@ -23,7 +24,28 @@ public class LikeReviewInteractor {
      */
     public LikeReviewInteractor(
             final LikeReviewDataAccessInterface reviewDataAccessObject) {
+        this(reviewDataAccessObject, null);
+    }
+
+    public LikeReviewInteractor(
+            final LikeReviewDataAccessInterface reviewDataAccessObject,
+            final LikeReviewOutputBoundary presenter) {
         this.reviewDataAccessObject = reviewDataAccessObject;
+        this.presenter = presenter;
+    }
+
+    @Override
+    public void execute(final LikeReviewInputData inputData) {
+        try {
+            validatePresenter();
+            final boolean liked = likeReview(inputData.getReviewId(),
+                    inputData.getUsername());
+            presenter.prepareSuccessView(new LikeReviewOutputData(liked));
+        } catch (IllegalArgumentException | IllegalStateException error) {
+            if (presenter != null) {
+                presenter.prepareFailView(error.getMessage());
+            }
+        }
     }
 
     /**
@@ -32,7 +54,7 @@ public class LikeReviewInteractor {
      * @param username the username of the user liking the review
      * @return true if the review was found and liked
      */
-    public boolean likeReview(final String reviewId, final String username) {
+    private boolean likeReview(final String reviewId, final String username) {
         final String trimmedReviewId = trimToEmpty(reviewId);
         final String trimmedUsername = trimToEmpty(username);
         validateLikeReviewData(trimmedReviewId, trimmedUsername);
@@ -47,7 +69,7 @@ public class LikeReviewInteractor {
      * @param reviews the reviews to search through
      * @return true if the review was found and liked
      */
-    public boolean likeReview(final String reviewId, final String username,
+    private boolean likeReview(final String reviewId, final String username,
                               final List<Review> reviews) {
         final String trimmedReviewId = trimToEmpty(reviewId);
         final String trimmedUsername = trimToEmpty(username);
@@ -78,6 +100,13 @@ public class LikeReviewInteractor {
         } else if (reviewDataAccessObject == null) {
             throw new IllegalStateException(
                     "Review data access object has not been configured.");
+        }
+    }
+
+    private void validatePresenter() {
+        if (presenter == null) {
+            throw new IllegalStateException(
+                    "Like review presenter has not been configured.");
         }
     }
 

@@ -11,9 +11,10 @@ import entity.Review;
 /**
  * Interactor for loading comments written by one user.
  */
-public class GetUserCommentsInteractor {
+public class GetUserCommentsInteractor implements GetUserCommentsInputBoundary {
     private final GetUserCommentsDataAccessInterface commentDataAccessObject;
     private final GetUserCommentsReviewDataAccessInterface reviewDataAccessObject;
+    private final GetUserCommentsOutputBoundary userCommentsPresenter;
 
     /**
      * Creates a user comments interactor.
@@ -23,8 +24,41 @@ public class GetUserCommentsInteractor {
     public GetUserCommentsInteractor(
             final GetUserCommentsDataAccessInterface commentDataAccessObject,
             final GetUserCommentsReviewDataAccessInterface reviewDataAccessObject) {
+        this(commentDataAccessObject, reviewDataAccessObject, null);
+    }
+
+    /**
+     * Creates a user comments interactor.
+     * @param commentDataAccessObject the DAO used to load comments
+     * @param reviewDataAccessObject the DAO used to load related reviews
+     * @param userCommentsPresenter the output boundary
+     */
+    public GetUserCommentsInteractor(
+            final GetUserCommentsDataAccessInterface commentDataAccessObject,
+            final GetUserCommentsReviewDataAccessInterface reviewDataAccessObject,
+            final GetUserCommentsOutputBoundary userCommentsPresenter) {
         this.commentDataAccessObject = commentDataAccessObject;
         this.reviewDataAccessObject = reviewDataAccessObject;
+        this.userCommentsPresenter = userCommentsPresenter;
+    }
+
+    /**
+     * Executes the use case and sends output through the output boundary.
+     * @param inputData the input data
+     */
+    @Override
+    public void execute(final GetUserCommentsInputData inputData) {
+        try {
+            validateOutputBoundary();
+            final List<UserCommentSummaryData> comments =
+                    getUserComments(inputData.getUsername());
+            userCommentsPresenter.prepareSuccessView(
+                    new GetUserCommentsOutputData(comments));
+        } catch (IllegalArgumentException | IllegalStateException error) {
+            if (userCommentsPresenter != null) {
+                userCommentsPresenter.prepareFailView(error.getMessage());
+            }
+        }
     }
 
     /**
@@ -32,7 +66,7 @@ public class GetUserCommentsInteractor {
      * @param username the username of the comment author
      * @return the user's matching comments
      */
-    public List<UserCommentSummaryData> getUserComments(
+    private List<UserCommentSummaryData> getUserComments(
             final String username) {
         final String trimmedUsername = trimToEmpty(username);
         validateUsername(trimmedUsername);
@@ -80,6 +114,16 @@ public class GetUserCommentsInteractor {
     private void validateUsername(final String username) {
         if (isBlank(username)) {
             throw new IllegalArgumentException("Username cannot be empty.");
+        }
+    }
+
+    /**
+     * Validates that the output boundary has been configured.
+     */
+    private void validateOutputBoundary() {
+        if (userCommentsPresenter == null) {
+            throw new IllegalStateException(
+                    "User comments presenter has not been configured.");
         }
     }
 

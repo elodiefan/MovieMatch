@@ -7,14 +7,15 @@ import entity.Comment;
 /**
  * Interactor for liking a comment.
  */
-public class LikeCommentInteractor {
+public class LikeCommentInteractor implements LikeCommentInputBoundary {
     private final LikeCommentDataAccessInterface commentDataAccessObject;
+    private final LikeCommentOutputBoundary presenter;
 
     /**
      * Creates a like comment interactor without persistence.
      */
     public LikeCommentInteractor() {
-        this(null);
+        this(null, null);
     }
 
     /**
@@ -23,7 +24,28 @@ public class LikeCommentInteractor {
      */
     public LikeCommentInteractor(
             final LikeCommentDataAccessInterface commentDataAccessObject) {
+        this(commentDataAccessObject, null);
+    }
+
+    public LikeCommentInteractor(
+            final LikeCommentDataAccessInterface commentDataAccessObject,
+            final LikeCommentOutputBoundary presenter) {
         this.commentDataAccessObject = commentDataAccessObject;
+        this.presenter = presenter;
+    }
+
+    @Override
+    public void execute(final LikeCommentInputData inputData) {
+        try {
+            validatePresenter();
+            final boolean liked = likeComment(inputData.getCommentId(),
+                    inputData.getUsername());
+            presenter.prepareSuccessView(new LikeCommentOutputData(liked));
+        } catch (IllegalArgumentException | IllegalStateException error) {
+            if (presenter != null) {
+                presenter.prepareFailView(error.getMessage());
+            }
+        }
     }
 
     /**
@@ -32,7 +54,7 @@ public class LikeCommentInteractor {
      * @param username the username of the user liking the comment
      * @return true if the comment was found and liked
      */
-    public boolean likeComment(final String commentId, final String username) {
+    private boolean likeComment(final String commentId, final String username) {
         final String trimmedCommentId = trimToEmpty(commentId);
         final String trimmedUsername = trimToEmpty(username);
         validateLikeCommentData(trimmedCommentId, trimmedUsername);
@@ -47,7 +69,7 @@ public class LikeCommentInteractor {
      * @param comments the comments to search through
      * @return true if the comment was found and liked
      */
-    public boolean likeComment(final String commentId, final String username,
+    private boolean likeComment(final String commentId, final String username,
                                final List<Comment> comments) {
         final String trimmedCommentId = trimToEmpty(commentId);
         final String trimmedUsername = trimToEmpty(username);
@@ -78,6 +100,13 @@ public class LikeCommentInteractor {
         } else if (commentDataAccessObject == null) {
             throw new IllegalStateException(
                     "Comment data access object has not been configured.");
+        }
+    }
+
+    private void validatePresenter() {
+        if (presenter == null) {
+            throw new IllegalStateException(
+                    "Like comment presenter has not been configured.");
         }
     }
 

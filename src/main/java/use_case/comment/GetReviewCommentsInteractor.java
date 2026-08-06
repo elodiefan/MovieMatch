@@ -9,14 +9,15 @@ import entity.Comment;
 /**
  * Interactor for loading comments on a review.
  */
-public class GetReviewCommentsInteractor {
+public class GetReviewCommentsInteractor implements GetReviewCommentsInputBoundary {
     private final GetReviewCommentsDataAccessInterface commentDataAccessObject;
+    private final GetReviewCommentsOutputBoundary presenter;
 
     /**
      * Creates a comments interactor without persistence.
      */
     public GetReviewCommentsInteractor() {
-        this(null);
+        this(null, null);
     }
 
     /**
@@ -25,7 +26,30 @@ public class GetReviewCommentsInteractor {
      */
     public GetReviewCommentsInteractor(
             final GetReviewCommentsDataAccessInterface commentDataAccessObject) {
+        this(commentDataAccessObject, null);
+    }
+
+    public GetReviewCommentsInteractor(
+            final GetReviewCommentsDataAccessInterface commentDataAccessObject,
+            final GetReviewCommentsOutputBoundary presenter) {
         this.commentDataAccessObject = commentDataAccessObject;
+        this.presenter = presenter;
+    }
+
+    @Override
+    public void execute(final GetReviewCommentsInputData inputData) {
+        try {
+            validatePresenter();
+            final List<Comment> comments = getReviewComments(
+                    inputData.getReviewId());
+            presenter.prepareSuccessView(
+                    new GetReviewCommentsOutputData(inputData.getReviewId(),
+                            comments));
+        } catch (IllegalArgumentException | IllegalStateException error) {
+            if (presenter != null) {
+                presenter.prepareFailView(error.getMessage());
+            }
+        }
     }
 
     /**
@@ -33,7 +57,7 @@ public class GetReviewCommentsInteractor {
      * @param reviewId the review id to load comments for
      * @return the comments that belong to the review
      */
-    public List<Comment> getReviewComments(final String reviewId) {
+    private List<Comment> getReviewComments(final String reviewId) {
         final String trimmedReviewId = trimToEmpty(reviewId);
         validateReviewId(trimmedReviewId);
 
@@ -49,7 +73,7 @@ public class GetReviewCommentsInteractor {
      * @param comments the comments to search through
      * @return the comments that belong to the review
      */
-    public List<Comment> getReviewComments(final String reviewId,
+    private List<Comment> getReviewComments(final String reviewId,
                                            final List<Comment> comments) {
         final String trimmedReviewId = trimToEmpty(reviewId);
         validateGetReviewCommentsData(trimmedReviewId, comments);
@@ -75,6 +99,13 @@ public class GetReviewCommentsInteractor {
         } else if (commentDataAccessObject == null) {
             throw new IllegalStateException(
                     "Comment data access object has not been configured.");
+        }
+    }
+
+    private void validatePresenter() {
+        if (presenter == null) {
+            throw new IllegalStateException(
+                    "Review comments presenter has not been configured.");
         }
     }
 

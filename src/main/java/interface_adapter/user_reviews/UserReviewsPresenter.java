@@ -5,19 +5,92 @@ import java.util.ArrayList;
 import java.util.List;
 
 import entity.Review;
+import use_case.comment.GetUserCommentsOutputBoundary;
+import use_case.comment.GetUserCommentsOutputData;
 import use_case.comment.UserCommentSummaryData;
+import use_case.review.DeleteReviewOutputBoundary;
+import use_case.review.DeleteReviewOutputData;
+import use_case.review.EditReviewOutputBoundary;
+import use_case.review.EditReviewOutputData;
+import use_case.review.GetUserReviewsOutputBoundary;
+import use_case.review.GetUserReviewsOutputData;
+import use_case.review.LikeReviewOutputBoundary;
+import use_case.review.LikeReviewOutputData;
+import use_case.review.UnlikeReviewOutputBoundary;
+import use_case.review.UnlikeReviewOutputData;
 
 /**
  * Presenter for the user reviews view.
  */
-public class UserReviewsPresenter {
+public class UserReviewsPresenter implements GetUserReviewsOutputBoundary,
+        GetUserCommentsOutputBoundary, EditReviewOutputBoundary,
+        DeleteReviewOutputBoundary, LikeReviewOutputBoundary,
+        UnlikeReviewOutputBoundary {
+    private final UserReviewsViewModel userReviewsViewModel;
+
+    /**
+     * Creates a presenter for the user reviews view.
+     * @param userReviewsViewModel the view model to update
+     */
+    public UserReviewsPresenter(
+            final UserReviewsViewModel userReviewsViewModel) {
+        this.userReviewsViewModel = userReviewsViewModel;
+    }
+
+    /**
+     * Prepares loaded reviews for display.
+     * @param outputData the output data
+     */
+    @Override
+    public void prepareSuccessView(final GetUserReviewsOutputData outputData) {
+        final UserReviewsState state = userReviewsViewModel.getState();
+        state.setReviews(prepareReviews(outputData.getReviews()));
+        state.setUserReviewsError(null);
+        userReviewsViewModel.setState(state);
+        userReviewsViewModel.firePropertyChanged();
+    }
+
+    /**
+     * Prepares loaded comments for display.
+     * @param outputData the output data
+     */
+    @Override
+    public void prepareSuccessView(
+            final GetUserCommentsOutputData outputData) {
+        final UserReviewsState state = userReviewsViewModel.getState();
+        state.setComments(prepareComments(outputData.getComments()));
+        state.setUserReviewsError(null);
+        userReviewsViewModel.setState(state);
+        userReviewsViewModel.firePropertyChanged();
+    }
+
+    @Override
+    public void prepareSuccessView(final EditReviewOutputData outputData) {
+        clearError();
+    }
+
+    @Override
+    public void prepareSuccessView(final DeleteReviewOutputData outputData) {
+        clearError();
+    }
+
+    @Override
+    public void prepareSuccessView(final LikeReviewOutputData outputData) {
+        clearError();
+    }
+
+    @Override
+    public void prepareSuccessView(final UnlikeReviewOutputData outputData) {
+        clearError();
+    }
+
     /**
      * Converts review entities into rows that can be displayed by the user
      * reviews view.
      * @param reviews the reviews to present
      * @return display-safe review rows
      */
-    public List<UserReviewRow> prepareReviews(final List<Review> reviews) {
+    private List<UserReviewRow> prepareReviews(final List<Review> reviews) {
         final List<UserReviewRow> reviewRows = new ArrayList<>();
         if (reviews != null) {
             for (Review review : reviews) {
@@ -34,7 +107,7 @@ public class UserReviewsPresenter {
      * @param comments the comment summaries to present
      * @return display-safe comment rows
      */
-    public List<UserReviewsState.CommentRow> prepareComments(
+    private List<UserReviewsState.CommentRow> prepareComments(
             final List<UserCommentSummaryData> comments) {
         final List<UserReviewsState.CommentRow> commentRows =
                 new ArrayList<>();
@@ -60,7 +133,18 @@ public class UserReviewsPresenter {
         } else {
             displayError = errorMessage.trim();
         }
+        final UserReviewsState state = userReviewsViewModel.getState();
+        state.setUserReviewsError(displayError);
+        userReviewsViewModel.setState(state);
+        userReviewsViewModel.firePropertyChanged();
         return displayError;
+    }
+
+    private void clearError() {
+        final UserReviewsState state = userReviewsViewModel.getState();
+        state.setUserReviewsError(null);
+        userReviewsViewModel.setState(state);
+        userReviewsViewModel.firePropertyChanged();
     }
 
     /**

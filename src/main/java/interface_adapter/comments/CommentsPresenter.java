@@ -5,18 +5,80 @@ import java.util.ArrayList;
 import java.util.List;
 
 import entity.Comment;
+import use_case.comment.CreateCommentOutputBoundary;
+import use_case.comment.CreateCommentOutputData;
+import use_case.comment.DeleteCommentOutputBoundary;
+import use_case.comment.DeleteCommentOutputData;
+import use_case.comment.GetReviewCommentsOutputBoundary;
+import use_case.comment.GetReviewCommentsOutputData;
+import use_case.comment.LikeCommentOutputBoundary;
+import use_case.comment.LikeCommentOutputData;
+import use_case.comment.UnlikeCommentOutputBoundary;
+import use_case.comment.UnlikeCommentOutputData;
 
 /**
  * Presenter for review comments.
  */
-public class CommentsPresenter {
+public class CommentsPresenter implements GetReviewCommentsOutputBoundary,
+        CreateCommentOutputBoundary, DeleteCommentOutputBoundary,
+        LikeCommentOutputBoundary, UnlikeCommentOutputBoundary {
+    private final CommentsViewModel commentsViewModel;
+
+    /**
+     * Creates a presenter used only for row conversion.
+     */
+    public CommentsPresenter() {
+        this(null);
+    }
+
+    /**
+     * Creates a presenter for the comments view model.
+     * @param commentsViewModel the view model to update
+     */
+    public CommentsPresenter(final CommentsViewModel commentsViewModel) {
+        this.commentsViewModel = commentsViewModel;
+    }
+
+    @Override
+    public void prepareSuccessView(final GetReviewCommentsOutputData outputData) {
+        final CommentsState state = commentsViewModel.getState();
+        final List<CommentRow> commentRows = state.getComments();
+        commentRows.removeIf(comment -> comment.getReviewId().equals(
+                outputData.getReviewId()));
+        commentRows.addAll(prepareComments(outputData.getComments()));
+        state.setComments(commentRows);
+        state.setCommentsError(null);
+        commentsViewModel.setState(state);
+        commentsViewModel.firePropertyChanged();
+    }
+
+    @Override
+    public void prepareSuccessView(final CreateCommentOutputData outputData) {
+        clearError();
+    }
+
+    @Override
+    public void prepareSuccessView(final DeleteCommentOutputData outputData) {
+        clearError();
+    }
+
+    @Override
+    public void prepareSuccessView(final LikeCommentOutputData outputData) {
+        clearError();
+    }
+
+    @Override
+    public void prepareSuccessView(final UnlikeCommentOutputData outputData) {
+        clearError();
+    }
+
     /**
      * Converts comment entities into rows that can be displayed by the comments
      * view.
      * @param comments the comments to present
      * @return display-safe comment rows
      */
-    public List<CommentRow> prepareComments(final List<Comment> comments) {
+    private List<CommentRow> prepareComments(final List<Comment> comments) {
         final List<CommentRow> commentRows = new ArrayList<>();
         if (comments != null) {
             for (Comment comment : comments) {
@@ -40,7 +102,22 @@ public class CommentsPresenter {
         } else {
             displayError = errorMessage.trim();
         }
+        if (commentsViewModel != null) {
+            final CommentsState state = commentsViewModel.getState();
+            state.setCommentsError(displayError);
+            commentsViewModel.setState(state);
+            commentsViewModel.firePropertyChanged();
+        }
         return displayError;
+    }
+
+    private void clearError() {
+        if (commentsViewModel != null) {
+            final CommentsState state = commentsViewModel.getState();
+            state.setCommentsError(null);
+            commentsViewModel.setState(state);
+            commentsViewModel.firePropertyChanged();
+        }
     }
 
     /**

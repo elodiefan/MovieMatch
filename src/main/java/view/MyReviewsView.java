@@ -18,12 +18,10 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
 
-import entity.Review;
 import interface_adapter.user_reviews.UserReviewsController;
 import interface_adapter.user_reviews.UserReviewsPresenter;
 import interface_adapter.user_reviews.UserReviewsState;
 import interface_adapter.user_reviews.UserReviewsViewModel;
-import use_case.comment.UserCommentSummaryData;
 
 /**
  * Swing view for a user's reviews.
@@ -36,14 +34,13 @@ public class MyReviewsView extends JPanel implements PropertyChangeListener {
 
     private final String viewName = UserReviewsViewModel.VIEW_NAME;
     private final UserReviewsViewModel userReviewsViewModel;
-    private final UserReviewsPresenter userReviewsPresenter =
-            new UserReviewsPresenter();
     private final JPanel reviewsPanel = new JPanel();
     private final JPanel commentsPanel = new JPanel();
     private final JLabel errorLabel = new JLabel();
     private final JButton backButton =
             new JButton(UserReviewsViewModel.BACK_BUTTON_LABEL);
     private UserReviewsController userReviewsController;
+    private boolean loadingContent;
 
     public MyReviewsView(final UserReviewsViewModel userReviewsViewModel) {
         this.userReviewsViewModel = userReviewsViewModel;
@@ -113,34 +110,23 @@ public class MyReviewsView extends JPanel implements PropertyChangeListener {
     private void updateView(final UserReviewsState state) {
         if (state != null) {
             errorLabel.setText(state.getUserReviewsError());
-            refreshReviews(state);
-            refreshComments(state);
+            loadContent(state);
             setReviews(state.getReviews());
             setComments(state.getComments());
         }
     }
 
     /**
-     * Loads persisted user reviews into state.
+     * Loads persisted user reviews and comments into state.
      * @param state the user reviews state
      */
-    private void refreshReviews(final UserReviewsState state) {
-        if (userReviewsController != null && !isBlank(state.getUsername())) {
-            final List<Review> reviews =
-                    userReviewsController.getUserReviews(state.getUsername());
-            state.setReviews(userReviewsPresenter.prepareReviews(reviews));
-        }
-    }
-
-    /**
-     * Loads persisted user comments into state.
-     * @param state the user reviews state
-     */
-    private void refreshComments(final UserReviewsState state) {
-        if (userReviewsController != null && !isBlank(state.getUsername())) {
-            final List<UserCommentSummaryData> comments =
-                    userReviewsController.getUserComments(state.getUsername());
-            state.setComments(userReviewsPresenter.prepareComments(comments));
+    private void loadContent(final UserReviewsState state) {
+        if (!loadingContent && userReviewsController != null
+                && !isBlank(state.getUsername())) {
+            loadingContent = true;
+            userReviewsController.loadUserReviews(state.getUsername());
+            userReviewsController.loadUserComments(state.getUsername());
+            loadingContent = false;
         }
     }
 
@@ -304,7 +290,7 @@ public class MyReviewsView extends JPanel implements PropertyChangeListener {
                                 Double.parseDouble(ratingText), reviewText);
                     }
                 }
-                refreshReviews(state);
+                userReviewsController.loadUserReviews(state.getUsername());
             }
             userReviewsViewModel.firePropertyChanged();
         }

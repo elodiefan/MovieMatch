@@ -9,14 +9,15 @@ import entity.Review;
 /**
  * Interactor for loading reviews written by one user.
  */
-public class GetUserReviewsInteractor {
+public class GetUserReviewsInteractor implements GetUserReviewsInputBoundary {
     private final GetUserReviewsDataAccessInterface reviewDataAccessObject;
+    private final GetUserReviewsOutputBoundary userReviewsPresenter;
 
     /**
      * Creates a user reviews interactor without persistence.
      */
     public GetUserReviewsInteractor() {
-        this(null);
+        this(null, null);
     }
 
     /**
@@ -25,7 +26,38 @@ public class GetUserReviewsInteractor {
      */
     public GetUserReviewsInteractor(
             final GetUserReviewsDataAccessInterface reviewDataAccessObject) {
+        this(reviewDataAccessObject, null);
+    }
+
+    /**
+     * Creates a user reviews interactor with persistence and presentation.
+     * @param reviewDataAccessObject the DAO used to load reviews
+     * @param userReviewsPresenter the output boundary
+     */
+    public GetUserReviewsInteractor(
+            final GetUserReviewsDataAccessInterface reviewDataAccessObject,
+            final GetUserReviewsOutputBoundary userReviewsPresenter) {
         this.reviewDataAccessObject = reviewDataAccessObject;
+        this.userReviewsPresenter = userReviewsPresenter;
+    }
+
+    /**
+     * Executes the use case and sends output through the output boundary.
+     * @param inputData the input data
+     */
+    @Override
+    public void execute(final GetUserReviewsInputData inputData) {
+        try {
+            validateOutputBoundary();
+            final List<Review> matchingReviews =
+                    getUserReviews(inputData.getUsername());
+            userReviewsPresenter.prepareSuccessView(
+                    new GetUserReviewsOutputData(matchingReviews));
+        } catch (IllegalArgumentException | IllegalStateException error) {
+            if (userReviewsPresenter != null) {
+                userReviewsPresenter.prepareFailView(error.getMessage());
+            }
+        }
     }
 
     /**
@@ -33,7 +65,7 @@ public class GetUserReviewsInteractor {
      * @param username the username of the review author
      * @return the user's matching reviews
      */
-    public List<Review> getUserReviews(final String username) {
+    private List<Review> getUserReviews(final String username) {
         final String trimmedUsername = trimToEmpty(username);
         validateUsername(trimmedUsername);
 
@@ -50,7 +82,7 @@ public class GetUserReviewsInteractor {
      * @param reviews the reviews to search through
      * @return the user's matching reviews
      */
-    public List<Review> getUserReviews(final String username,
+    private List<Review> getUserReviews(final String username,
                                        final List<Review> reviews) {
         final String trimmedUsername = trimToEmpty(username);
         validateGetUserReviewsData(trimmedUsername, reviews);
@@ -77,6 +109,16 @@ public class GetUserReviewsInteractor {
         } else if (reviewDataAccessObject == null) {
             throw new IllegalStateException(
                     "Review data access object has not been configured.");
+        }
+    }
+
+    /**
+     * Validates that the output boundary has been configured.
+     */
+    private void validateOutputBoundary() {
+        if (userReviewsPresenter == null) {
+            throw new IllegalStateException(
+                    "User reviews presenter has not been configured.");
         }
     }
 

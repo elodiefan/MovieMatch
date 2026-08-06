@@ -9,7 +9,7 @@ import entity.UserContent;
 /**
  * Interactor for creating a review.
  */
-public class CreateReviewInteractor {
+public class CreateReviewInteractor implements CreateReviewInputBoundary {
     /**
      * Smallest valid rating percentage.
      */
@@ -26,12 +26,13 @@ public class CreateReviewInteractor {
     private static final String MOVIEMATCH_SOURCE = "moviematch";
 
     private final CreateReviewDataAccessInterface reviewDataAccessObject;
+    private final CreateReviewOutputBoundary presenter;
 
     /**
      * Creates a review interactor without persistence.
      */
     public CreateReviewInteractor() {
-        this(null);
+        this(null, null);
     }
 
     /**
@@ -40,7 +41,40 @@ public class CreateReviewInteractor {
      */
     public CreateReviewInteractor(
             final CreateReviewDataAccessInterface reviewDataAccessObject) {
+        this(reviewDataAccessObject, null);
+    }
+
+    /**
+     * Creates a review interactor with persistence and presentation.
+     * @param reviewDataAccessObject the DAO used to save reviews
+     * @param presenter the output boundary
+     */
+    public CreateReviewInteractor(
+            final CreateReviewDataAccessInterface reviewDataAccessObject,
+            final CreateReviewOutputBoundary presenter) {
         this.reviewDataAccessObject = reviewDataAccessObject;
+        this.presenter = presenter;
+    }
+
+    /**
+     * Executes the use case.
+     * @param inputData the input data
+     */
+    @Override
+    public void execute(final CreateReviewInputData inputData) {
+        try {
+            validatePresenter();
+            final Review review = createReview(inputData.getMediaId(),
+                    inputData.getMediaType(), inputData.getMediaTitle(),
+                    inputData.getAuthorUsername(),
+                    inputData.getAuthorDisplayName(), inputData.getRating(),
+                    inputData.getReviewText());
+            presenter.prepareSuccessView(new CreateReviewOutputData(review));
+        } catch (IllegalArgumentException | IllegalStateException error) {
+            if (presenter != null) {
+                presenter.prepareFailView(error.getMessage());
+            }
+        }
     }
 
     /**
@@ -54,7 +88,7 @@ public class CreateReviewInteractor {
      * @param reviewText the written review text
      * @return the created review
      */
-    public Review createReview(final int mediaId, final String mediaType,
+    private Review createReview(final int mediaId, final String mediaType,
                                final String mediaTitle,
                                final String authorUsername,
                                final String authorDisplayName,
@@ -110,6 +144,16 @@ public class CreateReviewInteractor {
         } else if (rating < MIN_RATING || rating > MAX_RATING) {
             throw new IllegalArgumentException(
                     "Rating must be between 0 and 100.");
+        } else if (reviewDataAccessObject == null) {
+            throw new IllegalStateException(
+                    "Review data access object has not been configured.");
+        }
+    }
+
+    private void validatePresenter() {
+        if (presenter == null) {
+            throw new IllegalStateException(
+                    "Create review presenter has not been configured.");
         }
     }
 
