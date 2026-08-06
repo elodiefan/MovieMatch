@@ -1,8 +1,11 @@
 package interface_adapter.user_reviews;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import entity.Review;
+import use_case.comment.GetUserCommentsInteractor;
+import use_case.comment.UserCommentSummaryData;
 import use_case.review.DeleteReviewInteractor;
 import use_case.review.EditReviewInteractor;
 import use_case.review.GetUserReviewsInteractor;
@@ -18,6 +21,7 @@ public class UserReviewsController {
     private final DeleteReviewInteractor deleteReviewInteractor;
     private final LikeReviewInteractor likeReviewInteractor;
     private final UnlikeReviewInteractor unlikeReviewInteractor;
+    private final GetUserCommentsInteractor getUserCommentsInteractor;
 
     /**
      * Creates a controller for user review actions.
@@ -33,11 +37,33 @@ public class UserReviewsController {
             final DeleteReviewInteractor deleteReviewInteractor,
             final LikeReviewInteractor likeReviewInteractor,
             final UnlikeReviewInteractor unlikeReviewInteractor) {
+        this(getUserReviewsInteractor, editReviewInteractor,
+                deleteReviewInteractor, likeReviewInteractor,
+                unlikeReviewInteractor, null);
+    }
+
+    /**
+     * Creates a controller for user review and comment actions.
+     * @param getUserReviewsInteractor the interactor for loading user reviews
+     * @param editReviewInteractor the interactor for editing reviews
+     * @param deleteReviewInteractor the interactor for deleting reviews
+     * @param likeReviewInteractor the interactor for liking reviews
+     * @param unlikeReviewInteractor the interactor for unliking reviews
+     * @param getUserCommentsInteractor the interactor for loading user comments
+     */
+    public UserReviewsController(
+            final GetUserReviewsInteractor getUserReviewsInteractor,
+            final EditReviewInteractor editReviewInteractor,
+            final DeleteReviewInteractor deleteReviewInteractor,
+            final LikeReviewInteractor likeReviewInteractor,
+            final UnlikeReviewInteractor unlikeReviewInteractor,
+            final GetUserCommentsInteractor getUserCommentsInteractor) {
         this.getUserReviewsInteractor = getUserReviewsInteractor;
         this.editReviewInteractor = editReviewInteractor;
         this.deleteReviewInteractor = deleteReviewInteractor;
         this.likeReviewInteractor = likeReviewInteractor;
         this.unlikeReviewInteractor = unlikeReviewInteractor;
+        this.getUserCommentsInteractor = getUserCommentsInteractor;
     }
 
     /**
@@ -58,6 +84,22 @@ public class UserReviewsController {
      */
     public List<Review> getUserReviews(final String username) {
         return getUserReviewsInteractor.getUserReviews(username);
+    }
+
+    /**
+     * Loads persisted comments written by one user.
+     * @param username the username of the comment author
+     * @return the user's comments
+     */
+    public List<UserCommentSummaryData> getUserComments(
+            final String username) {
+        final List<UserCommentSummaryData> comments;
+        if (getUserCommentsInteractor == null) {
+            comments = new ArrayList<>();
+        } else {
+            comments = getUserCommentsInteractor.getUserComments(username);
+        }
+        return comments;
     }
 
     /**
