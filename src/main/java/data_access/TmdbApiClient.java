@@ -157,6 +157,17 @@ public class TmdbApiClient {
     }
 
     /**
+     * Gets reviews for one movie from TMDB.
+     *
+     * @param movieId the movie ID supplied by TMDB
+     * @return the complete movie reviews JSON response
+     * @throws IOException if the request cannot be completed
+     */
+    public String getMovieReviews(int movieId) throws IOException {
+        return sendGetRequest("/movie/" + movieId + "/reviews");
+    }
+
+    /**
      * Gets complete TV-show details and credits from TMDB.
      *
      * @param tvShowId the TV-show ID supplied by TMDB
@@ -169,5 +180,16 @@ public class TmdbApiClient {
                         + "?append_to_response=credits";
 
         return sendGetRequest(path);
+    }
+
+    /**
+     * Gets reviews for one TV show from TMDB.
+     *
+     * @param tvShowId the TV-show ID supplied by TMDB
+     * @return the complete TV-show reviews JSON response
+     * @throws IOException if the request cannot be completed
+     */
+    public String getTvShowReviews(int tvShowId) throws IOException {
+        return sendGetRequest("/tv/" + tvShowId + "/reviews");
     }
 }
