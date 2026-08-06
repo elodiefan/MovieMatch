@@ -46,8 +46,7 @@ public final class CommentsState {
      * Sets the displayed comment rows.
      * @param inputComments the comment rows
      */
-    public void setComments(
-            final List<CommentRow> inputComments) {
+    public void setComments(final List<CommentRow> inputComments) {
         this.comments = new ArrayList<>(inputComments);
     }
 

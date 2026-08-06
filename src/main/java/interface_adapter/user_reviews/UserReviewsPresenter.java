@@ -109,8 +109,7 @@ public final class UserReviewsPresenter implements GetUserReviewsOutputBoundary,
      */
     private List<UserCommentRow> prepareComments(
             final List<UserCommentSummaryData> comments) {
-        final List<UserCommentRow> commentRows =
-                new ArrayList<>();
+        final List<UserCommentRow> commentRows = new ArrayList<>();
         if (comments != null) {
             for (UserCommentSummaryData comment : comments) {
                 if (comment != null) {

@@ -18,9 +18,9 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
 
-import interface_adapter.user_reviews.UserReviewsController;
 import interface_adapter.user_reviews.UserCommentRow;
 import interface_adapter.user_reviews.UserReviewRow;
+import interface_adapter.user_reviews.UserReviewsController;
 import interface_adapter.user_reviews.UserReviewsState;
 import interface_adapter.user_reviews.UserReviewsViewModel;
 
@@ -150,8 +150,7 @@ public final class MyReviewsView extends JPanel
      * Displays the given review rows.
      * @param reviews the review rows to display
      */
-    private void setReviews(
-            final List<UserReviewRow> reviews) {
+    private void setReviews(final List<UserReviewRow> reviews) {
         reviewsPanel.removeAll();
 
         if (reviews.isEmpty()) {
@@ -194,8 +193,7 @@ public final class MyReviewsView extends JPanel
      * @param review the review row to display
      * @return the review card
      */
-    private Component createReviewCard(
-            final UserReviewRow review) {
+    private Component createReviewCard(final UserReviewRow review) {
         final JPanel card = new JPanel();
         card.setLayout(new BoxLayout(card, BoxLayout.Y_AXIS));
 
@@ -215,8 +213,7 @@ public final class MyReviewsView extends JPanel
      * @param comment the comment row to display
      * @return the comment card
      */
-    private Component createCommentCard(
-            final UserCommentRow comment) {
+    private Component createCommentCard(final UserCommentRow comment) {
         final JPanel card = new JPanel();
         card.setLayout(new BoxLayout(card, BoxLayout.Y_AXIS));
 
@@ -234,8 +231,7 @@ public final class MyReviewsView extends JPanel
      * @param review the review row
      * @return the button panel
      */
-    private Component createButtonPanel(
-            final UserReviewRow review) {
+    private Component createButtonPanel(final UserReviewRow review) {
         final JPanel buttonPanel = new JPanel();
         final JButton editButton =
                 new JButton(UserReviewsViewModel.EDIT_BUTTON_LABEL);

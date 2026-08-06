@@ -20,8 +20,8 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JToggleButton;
 
-import interface_adapter.comments.CommentsController;
 import interface_adapter.comments.CommentRow;
+import interface_adapter.comments.CommentsController;
 import interface_adapter.comments.CommentsState;
 import interface_adapter.comments.CommentsViewModel;
 
@@ -184,8 +184,7 @@ public final class CommentsPanel extends JPanel
      * @param comment the comment row
      * @return the comment card
      */
-    private Component createCommentCard(
-            final CommentRow comment) {
+    private Component createCommentCard(final CommentRow comment) {
         final JPanel card = new JPanel();
         card.setLayout(new BoxLayout(card, BoxLayout.Y_AXIS));
         card.setBorder(BorderFactory.createEmptyBorder(0,
@@ -206,8 +205,7 @@ public final class CommentsPanel extends JPanel
      * @param comment the comment row
      * @return the button panel
      */
-    private Component createButtonPanel(
-            final CommentRow comment) {
+    private Component createButtonPanel(final CommentRow comment) {
         final JPanel buttonPanel = new JPanel();
         final JButton replyButton =
                 new JButton(CommentsViewModel.REPLY_BUTTON_LABEL);

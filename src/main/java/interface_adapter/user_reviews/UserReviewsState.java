@@ -10,8 +10,7 @@ public final class UserReviewsState {
     /** The username. */
     private String username = "";
     /** The reviews. */
-    private List<UserReviewRow> reviews =
-            new ArrayList<>();
+    private List<UserReviewRow> reviews = new ArrayList<>();
     /** The comments. */
     private List<UserCommentRow> comments = new ArrayList<>();
     /** The selected review id. */
@@ -47,8 +46,7 @@ public final class UserReviewsState {
      * Sets the review rows displayed in the view.
      * @param inputReviews the review rows
      */
-    public void setReviews(
-            final List<UserReviewRow> inputReviews) {
+    public void setReviews(final List<UserReviewRow> inputReviews) {
         this.reviews = new ArrayList<>(inputReviews);
     }
 
@@ -99,5 +97,4 @@ public final class UserReviewsState {
     public void setUserReviewsError(final String inputUserReviewsError) {
         this.userReviewsError = inputUserReviewsError;
     }
-
 }

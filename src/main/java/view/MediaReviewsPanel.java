@@ -23,8 +23,8 @@ import javax.swing.JToggleButton;
 import interface_adapter.comments.CommentsController;
 import interface_adapter.comments.CommentRow;
 import interface_adapter.comments.CommentsViewModel;
-import interface_adapter.media_reviews.MediaReviewsController;
 import interface_adapter.media_reviews.MediaReviewRow;
+import interface_adapter.media_reviews.MediaReviewsController;
 import interface_adapter.media_reviews.MediaReviewsState;
 import interface_adapter.media_reviews.MediaReviewsViewModel;
 
@@ -201,8 +201,7 @@ public final class MediaReviewsPanel extends JPanel
      */
     private void refreshCommentsForReviews(final MediaReviewsState state) {
         if (commentsController != null && commentsViewModel != null) {
-            for (MediaReviewRow review
-                    : state.getReviews()) {
+            for (MediaReviewRow review : state.getReviews()) {
                 commentsController.loadReviewComments(review.getReviewId());
             }
         }
@@ -212,8 +211,7 @@ public final class MediaReviewsPanel extends JPanel
      * Displays the given review rows.
      * @param reviews the review rows to display
      */
-    private void setReviews(
-            final List<MediaReviewRow> reviews) {
+    private void setReviews(final List<MediaReviewRow> reviews) {
         reviewsPanel.removeAll();
 
         if (reviews.isEmpty()) {
@@ -235,8 +233,7 @@ public final class MediaReviewsPanel extends JPanel
      * @param review the review row
      * @return the review card
      */
-    private Component createReviewCard(
-            final MediaReviewRow review) {
+    private Component createReviewCard(final MediaReviewRow review) {
         final JPanel card = new JPanel();
         card.setLayout(new BoxLayout(card, BoxLayout.Y_AXIS));
 
@@ -262,8 +259,7 @@ public final class MediaReviewsPanel extends JPanel
      * @param review the review row
      * @return the button panel
      */
-    private Component createButtonPanel(
-            final MediaReviewRow review) {
+    private Component createButtonPanel(final MediaReviewRow review) {
         final JPanel buttonPanel = new JPanel();
         final JButton editButton =
                 new JButton(MediaReviewsViewModel.EDIT_BUTTON_LABEL);
@@ -298,8 +294,8 @@ public final class MediaReviewsPanel extends JPanel
         if (commentsViewModel != null) {
             section.add(new JLabel(CommentsViewModel.TITLE_LABEL));
             boolean hasComments = false;
-            for (CommentRow comment
-                    : commentsViewModel.getState().getComments()) {
+            for (CommentRow comment : commentsViewModel.getState()
+                    .getComments()) {
                 if (comment.getReviewId().equals(reviewId)) {
                     section.add(createCommentCard(comment));
                     section.add(Box.createVerticalStrut(COMMENT_GAP));
@@ -320,8 +316,7 @@ public final class MediaReviewsPanel extends JPanel
      * @param comment the comment row
      * @return the comment card
      */
-    private Component createCommentCard(
-            final CommentRow comment) {
+    private Component createCommentCard(final CommentRow comment) {
         final JPanel card = new JPanel();
         card.setLayout(new BoxLayout(card, BoxLayout.Y_AXIS));
         card.setBorder(BorderFactory.createEmptyBorder(0,
@@ -342,8 +337,7 @@ public final class MediaReviewsPanel extends JPanel
      * @param comment the comment row
      * @return the button panel
      */
-    private Component createCommentButtonPanel(
-            final CommentRow comment) {
+    private Component createCommentButtonPanel(final CommentRow comment) {
         final JPanel buttonPanel = new JPanel();
         final JButton replyButton =
                 new JButton(CommentsViewModel.REPLY_BUTTON_LABEL);
@@ -381,8 +375,7 @@ public final class MediaReviewsPanel extends JPanel
      * @param review the review row
      * @return true if the review belongs to MovieMatch
      */
-    private boolean isMovieMatchReview(
-            final MediaReviewRow review) {
+    private boolean isMovieMatchReview(final MediaReviewRow review) {
         return MOVIEMATCH_SOURCE.equals(review.getSource());
     }
 
