@@ -27,6 +27,9 @@ import interface_adapter.get_lists.GetListsPresenter;
 import interface_adapter.get_lists.GetListsViewModel;
 import interface_adapter.home_page.HomePageController;
 import interface_adapter.home_page.HomePagePresenter;
+import interface_adapter.log_media.LogMediaController;
+import interface_adapter.log_media.LogMediaPresenter;
+import interface_adapter.log_media.LogMediaViewModel;
 import interface_adapter.media_detail.MediaDetailController;
 import interface_adapter.media_detail.MediaDetailPresenter;
 import interface_adapter.media_detail.MediaDetailViewModel;
@@ -94,6 +97,9 @@ import use_case.media_detail.MediaDetailOutputBoundary;
 import use_case.login.LoginInputBoundary;
 import use_case.login.LoginInteractor;
 import use_case.login.LoginOutputBoundary;
+import use_case.log_media.LogMediaInputBoundary;
+import use_case.log_media.LogMediaInteractor;
+import use_case.log_media.LogMediaOutputBoundary;
 import use_case.logout.LogoutInputBoundary;
 import use_case.logout.LogoutInteractor;
 import use_case.logout.LogoutOutputBoundary;
@@ -175,6 +181,7 @@ public class AppBuilder {
     private MediaDetailViewModel mediaDetailViewModel;
     private MediaReviewsViewModel mediaReviewsViewModel;
     private CommentsViewModel commentsViewModel;
+    private LogMediaViewModel logMediaViewModel;
 
     public AppBuilder() {
         cardPanel.setLayout(cardLayout);
@@ -577,11 +584,13 @@ public class AppBuilder {
         mediaDetailViewModel = new MediaDetailViewModel();
         mediaReviewsViewModel = new MediaReviewsViewModel();
         commentsViewModel = new CommentsViewModel();
+        logMediaViewModel = new LogMediaViewModel();
 
         mediaDetailView = new MediaDetailView(
                 mediaDetailViewModel,
                 mediaReviewsViewModel,
-                commentsViewModel
+                commentsViewModel,
+                logMediaViewModel
         );
 
         cardPanel.add(
@@ -623,6 +632,9 @@ public class AppBuilder {
         );
         mediaDetailView.setCommentsController(
                 createCommentsController()
+        );
+        mediaDetailView.setLogMediaController(
+                createLogMediaController()
         );
 
         return this;
@@ -714,6 +726,16 @@ public class AppBuilder {
         return new CommentsController(getReviewCommentsInteractor,
                 createCommentInteractor, deleteCommentInteractor,
                 likeCommentInteractor, unlikeCommentInteractor);
+    }
+
+    private LogMediaController createLogMediaController() {
+        final LogMediaOutputBoundary logMediaPresenter =
+                new LogMediaPresenter(logMediaViewModel);
+        final LogMediaInputBoundary logMediaInteractor =
+                new LogMediaInteractor(userDataAccessObject,
+                        logMediaPresenter);
+
+        return new LogMediaController(logMediaInteractor);
     }
 
 }
