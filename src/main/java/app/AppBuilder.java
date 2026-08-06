@@ -59,6 +59,7 @@ import interface_adapter.home_page.HomePageViewModel;
 import interface_adapter.login.LoginController;
 import interface_adapter.login.LoginPresenter;
 import interface_adapter.login.LoginViewModel;
+import interface_adapter.logged_in.LoggedInViewModel;
 import interface_adapter.logout.LogoutController;
 import interface_adapter.logout.LogoutPresenter;
 import interface_adapter.logout.LogoutViewModel;
@@ -82,9 +83,6 @@ import use_case.get_profile.GetProfileOutputBoundary;
 import use_case.delete_account.DeleteAccountInputBoundary;
 import use_case.delete_account.DeleteAccountInteractor;
 import use_case.delete_account.DeleteAccountOutputBoundary;
-import use_case.filter.FilterInputBoundary;
-import use_case.filter.FilterInteractor;
-import use_case.filter.FilterOutputBoundary;
 import use_case.get_lists.GetListsOutputBoundary;
 import use_case.get_lists.get_watchlist.GetWatchlistInputBoundary;
 import use_case.get_lists.get_watchlist.GetWatchlistInteractor;
@@ -126,7 +124,20 @@ import use_case.security_question.SecurityQuestionOutputBoundary;
 import use_case.signup.SignupInputBoundary;
 import use_case.signup.SignupInteractor;
 import use_case.signup.SignupOutputBoundary;
-import view.*;
+import view.DeleteAccountView;
+import view.GetListsView;
+import view.HomePageView;
+import view.LoginView;
+import view.LogoutConfirmView;
+import view.MediaDetailView;
+import view.OtherAccountView;
+import view.PersonalAccountView;
+import view.ResetPasswordView;
+import view.SearchResultView;
+import view.SearchView;
+import view.SecurityQuestionView;
+import view.SignupView;
+import view.ViewManager;
 
 /**
  * The AppBuilder class is responsible for putting together the pieces of
@@ -245,7 +256,8 @@ public class AppBuilder {
      */
     public AppBuilder addLogoutView() {
         logoutViewModel = new LogoutViewModel();
-        logoutView = new LogoutConfirmView(logoutViewModel);
+        logoutView = new LogoutConfirmView(logoutViewModel, viewManagerModel,
+                PersonalAccountViewModel.VIEW_NAME);
         cardPanel.add(logoutView, logoutView.getViewName());
         return this;
     }
@@ -440,11 +452,30 @@ public class AppBuilder {
         final PersonalAccountController personalAccountController = new PersonalAccountController(viewManagerModel,
                 getSecurityQuestionInteractor,
                 getListsController,
+                logoutViewModel,
                 resetPasswordViewModel.getViewName(),
                 homePageViewModel.getViewName(),
                 getListsViewModel.getViewName());
 
         personalAccountView.setPersonalAccountController(personalAccountController);
+        return this;
+    }
+
+    /**
+     * Adds the Logout Use Case to the application.
+     * <p>
+     * Every piece of this use case already existed but was never assembled, so the
+     * Log Out button on the personal account page did nothing.
+     * @return this builder
+     */
+    public AppBuilder addLogoutUseCase() {
+        final LogoutOutputBoundary logoutOutputBoundary = new LogoutPresenter(viewManagerModel,
+                new LoggedInViewModel(), loginViewModel);
+        final LogoutInputBoundary logoutInteractor = new LogoutInteractor(userDataAccessObject,
+                logoutOutputBoundary);
+
+        final LogoutController logoutController = new LogoutController(logoutInteractor);
+        logoutView.setLogoutController(logoutController);
         return this;
     }
 
@@ -546,7 +577,7 @@ public class AppBuilder {
      */
     public AppBuilder addSearchView() {
         searchViewModel = new SearchViewModel();
-        searchView = new SearchView(searchViewModel);
+        searchView = new SearchView(searchViewModel, viewManagerModel, HomePageViewModel.VIEW_NAME);
 
         cardPanel.add(
                 searchView,
@@ -563,7 +594,8 @@ public class AppBuilder {
      */
     public AppBuilder addSearchResultView() {
         searchResultViewModel = new SearchResultViewModel();
-        searchResultView = new SearchResultView(searchResultViewModel);
+        searchResultView = new SearchResultView(searchResultViewModel, viewManagerModel,
+                SearchViewModel.VIEW_NAME);
         cardPanel.add(searchResultView, searchResultView.getViewName());
         return this;
     }

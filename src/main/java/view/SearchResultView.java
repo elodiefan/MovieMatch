@@ -22,6 +22,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 
 import entity.Media;
+import interface_adapter.ViewManagerModel;
 import interface_adapter.filter.FilterController;
 import interface_adapter.media_detail.MediaDetailController;
 import interface_adapter.search_result.SearchResultState;
@@ -117,7 +118,9 @@ public class SearchResultView extends JPanel
     private final JLabel messageLabel = new JLabel(" ");
 
     public SearchResultView(
-            SearchResultViewModel searchResultViewModel) {
+            SearchResultViewModel searchResultViewModel,
+            ViewManagerModel viewManagerModel,
+            String searchViewName) {
 
         this.searchResultViewModel = searchResultViewModel;
         this.searchResultViewModel.addPropertyChangeListener(this);
@@ -126,6 +129,11 @@ public class SearchResultView extends JPanel
         title.setAlignmentX(Component.CENTER_ALIGNMENT);
 
         backButton = new JButton("Back");
+
+        // Back went nowhere, which stranded the user on the results screen.
+        backButton.addActionListener(
+                event -> viewManagerModel.switchView(searchViewName)
+        );
 
         resultsPanel = new JPanel();
         resultsPanel.setLayout(

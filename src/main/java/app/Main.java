@@ -31,6 +31,7 @@ public class Main {
                 .addGetProfileUseCase()
 //                .addHomePageUseCase()
                 .addLoginUseCase()
+                .addLogoutUseCase()
                 .addPersonalAccountUseCase()
                 .addResetPasswordUseCase()
 //                .addReviewsUseCase()

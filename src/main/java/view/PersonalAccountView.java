@@ -130,14 +130,15 @@ public class PersonalAccountView extends JPanel implements PropertyChangeListene
                 }
         );
 
-//        logoutButton.addActionListener(
-//                new ActionListener() {
-//                    @Override
-//                    public void actionPerformed(ActionEvent e) {
-//                        accountController.switchToLogOutConfirmView();
-//                    }
-//                }
-//        );
+        logoutButton.addActionListener(
+                new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        final PersonalAccountState state = personalAccountViewModel.getState();
+                        personalAccountController.switchToLogoutConfirmView(state.getUsername());
+                    }
+                }
+        );
 
         resetPasswordButton.addActionListener(
                 new ActionListener() {

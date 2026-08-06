@@ -5,6 +5,8 @@ package interface_adapter.personal_account;
 
 import interface_adapter.ViewManagerModel;
 import interface_adapter.get_lists.GetListsController;
+import interface_adapter.logout.LogoutState;
+import interface_adapter.logout.LogoutViewModel;
 import use_case.get_security_question.GetSecurityQuestionInputBoundary;
 
 /**
@@ -15,6 +17,7 @@ public class PersonalAccountController {
     private final GetSecurityQuestionInputBoundary getSecurityQuestionInteractor;
     private final GetListsController getListsController;
     private final ViewManagerModel viewManagerModel;
+    private final LogoutViewModel logoutViewModel;
     private final String resetPasswordViewName;
     private final String homePageViewName;
     private final String getListsViewName;
@@ -22,15 +25,32 @@ public class PersonalAccountController {
     public PersonalAccountController(ViewManagerModel viewManagerModel,
                                      GetSecurityQuestionInputBoundary getSecurityQuestionInteractor,
                                      GetListsController getListsController,
+                                     LogoutViewModel logoutViewModel,
                                      String resetPasswordViewName,
                                      String homePageViewName,
                                      String getListsViewName) {
         this.viewManagerModel = viewManagerModel;
         this.getSecurityQuestionInteractor = getSecurityQuestionInteractor;
         this.getListsController = getListsController;
+        this.logoutViewModel = logoutViewModel;
         this.resetPasswordViewName = resetPasswordViewName;
         this.homePageViewName = homePageViewName;
         this.getListsViewName = getListsViewName;
+    }
+
+    /**
+     * Switches to the logout confirmation view.
+     * <p>
+     * The confirm view needs to know who is logging out, so the username is
+     * carried across in the logout state before the view is shown.
+     * @param username the user who is logging out
+     */
+    public void switchToLogoutConfirmView(String username) {
+        final LogoutState logoutState = logoutViewModel.getState();
+        logoutState.setUsername(username);
+        logoutViewModel.setState(logoutState);
+
+        viewManagerModel.switchView(logoutViewModel.getViewName());
     }
 
 //    /**

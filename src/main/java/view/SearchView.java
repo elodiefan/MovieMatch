@@ -10,6 +10,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
+import interface_adapter.ViewManagerModel;
 import interface_adapter.search.SearchController;
 import interface_adapter.search.SearchState;
 import interface_adapter.search.SearchViewModel;
@@ -30,7 +31,9 @@ public class SearchView extends JPanel implements PropertyChangeListener {
     private final JButton backButton;
     private final JLabel errorMessage;
 
-    public SearchView(SearchViewModel searchViewModel) {
+    public SearchView(SearchViewModel searchViewModel,
+                      ViewManagerModel viewManagerModel,
+                      String homePageViewName) {
 
         this.searchViewModel = searchViewModel;
         this.searchViewModel.addPropertyChangeListener(this);
@@ -48,6 +51,11 @@ public class SearchView extends JPanel implements PropertyChangeListener {
                     final String keyword = searchInput.getText();
                     searchController.execute(keyword);
                 }
+        );
+
+        // Without this the search screen is a dead end; there is no other way out.
+        backButton.addActionListener(
+                event -> viewManagerModel.switchView(homePageViewName)
         );
 
         final JPanel searchPanel = new JPanel();
