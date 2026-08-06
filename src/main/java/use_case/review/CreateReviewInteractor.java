@@ -25,6 +25,24 @@ public class CreateReviewInteractor {
      */
     private static final String MOVIEMATCH_SOURCE = "moviematch";
 
+    private final CreateReviewDataAccessInterface reviewDataAccessObject;
+
+    /**
+     * Creates a review interactor without persistence.
+     */
+    public CreateReviewInteractor() {
+        this(null);
+    }
+
+    /**
+     * Creates a review interactor with persistence.
+     * @param reviewDataAccessObject the DAO used to save reviews
+     */
+    public CreateReviewInteractor(
+            final CreateReviewDataAccessInterface reviewDataAccessObject) {
+        this.reviewDataAccessObject = reviewDataAccessObject;
+    }
+
     /**
      * Creates a new MovieMatch review.
      * @param mediaId the reviewed media's identifier
@@ -51,12 +69,16 @@ public class CreateReviewInteractor {
                 trimmedAuthorUsername, trimmedAuthorDisplayName, rating);
 
         final String reviewId = UUID.randomUUID().toString();
-        return new Review(reviewId, mediaId, trimmedMediaType,
+        final Review review = new Review(reviewId, mediaId, trimmedMediaType,
                 trimmedMediaTitle, trimmedAuthorUsername,
                 trimmedAuthorDisplayName, rating, trimmedReviewText,
                 UserContent.getCurrentTorontoTime(),
                 UserContent.getCurrentTorontoTime(), MOVIEMATCH_SOURCE,
                 new HashSet<>());
+        if (reviewDataAccessObject != null) {
+            reviewDataAccessObject.saveReview(review);
+        }
+        return review;
     }
 
     /**

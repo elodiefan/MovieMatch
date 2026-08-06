@@ -8,6 +8,38 @@ import entity.Review;
  * Interactor for unliking a review.
  */
 public class UnlikeReviewInteractor {
+    private final UnlikeReviewDataAccessInterface reviewDataAccessObject;
+
+    /**
+     * Creates an unlike review interactor without persistence.
+     */
+    public UnlikeReviewInteractor() {
+        this(null);
+    }
+
+    /**
+     * Creates an unlike review interactor with persistence.
+     * @param reviewDataAccessObject the DAO used to unlike reviews
+     */
+    public UnlikeReviewInteractor(
+            final UnlikeReviewDataAccessInterface reviewDataAccessObject) {
+        this.reviewDataAccessObject = reviewDataAccessObject;
+    }
+
+    /**
+     * Removes a user's like from a persisted review.
+     * @param reviewId the id of the review to unlike
+     * @param username the username of the user unliking the review
+     * @return true if the review was found and unliked
+     */
+    public boolean unlikeReview(final String reviewId,
+                                final String username) {
+        final String trimmedReviewId = trimToEmpty(reviewId);
+        final String trimmedUsername = trimToEmpty(username);
+        validateUnlikeReviewData(trimmedReviewId, trimmedUsername);
+        return reviewDataAccessObject.unlikeReview(trimmedReviewId,
+                trimmedUsername);
+    }
 
     /**
      * Removes a user's like from a review.
@@ -31,6 +63,23 @@ public class UnlikeReviewInteractor {
         }
 
         return unliked;
+    }
+
+    /**
+     * Validates the data needed to unlike a persisted review.
+     * @param reviewId the review id to validate
+     * @param username the username to validate
+     */
+    private void validateUnlikeReviewData(final String reviewId,
+                                          final String username) {
+        if (isBlank(reviewId)) {
+            throw new IllegalArgumentException("Review id cannot be empty.");
+        } else if (isBlank(username)) {
+            throw new IllegalArgumentException("Username cannot be empty.");
+        } else if (reviewDataAccessObject == null) {
+            throw new IllegalStateException(
+                    "Review data access object has not been configured.");
+        }
     }
 
     /**

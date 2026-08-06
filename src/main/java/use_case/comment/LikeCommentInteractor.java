@@ -8,6 +8,37 @@ import entity.Comment;
  * Interactor for liking a comment.
  */
 public class LikeCommentInteractor {
+    private final LikeCommentDataAccessInterface commentDataAccessObject;
+
+    /**
+     * Creates a like comment interactor without persistence.
+     */
+    public LikeCommentInteractor() {
+        this(null);
+    }
+
+    /**
+     * Creates a like comment interactor with persistence.
+     * @param commentDataAccessObject the DAO used to like comments
+     */
+    public LikeCommentInteractor(
+            final LikeCommentDataAccessInterface commentDataAccessObject) {
+        this.commentDataAccessObject = commentDataAccessObject;
+    }
+
+    /**
+     * Adds a user's like to a persisted comment.
+     * @param commentId the id of the comment to like
+     * @param username the username of the user liking the comment
+     * @return true if the comment was found and liked
+     */
+    public boolean likeComment(final String commentId, final String username) {
+        final String trimmedCommentId = trimToEmpty(commentId);
+        final String trimmedUsername = trimToEmpty(username);
+        validateLikeCommentData(trimmedCommentId, trimmedUsername);
+        return commentDataAccessObject.likeComment(trimmedCommentId,
+                trimmedUsername);
+    }
 
     /**
      * Adds a user's like to a comment.
@@ -31,6 +62,23 @@ public class LikeCommentInteractor {
         }
 
         return liked;
+    }
+
+    /**
+     * Validates the data needed to like a persisted comment.
+     * @param commentId the comment id to validate
+     * @param username the username to validate
+     */
+    private void validateLikeCommentData(final String commentId,
+                                         final String username) {
+        if (isBlank(commentId)) {
+            throw new IllegalArgumentException("Comment id cannot be empty.");
+        } else if (isBlank(username)) {
+            throw new IllegalArgumentException("Username cannot be empty.");
+        } else if (commentDataAccessObject == null) {
+            throw new IllegalStateException(
+                    "Comment data access object has not been configured.");
+        }
     }
 
     /**

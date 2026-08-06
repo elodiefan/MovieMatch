@@ -10,6 +10,39 @@ import entity.Review;
  * Interactor for loading reviews written by one user.
  */
 public class GetUserReviewsInteractor {
+    private final GetUserReviewsDataAccessInterface reviewDataAccessObject;
+
+    /**
+     * Creates a user reviews interactor without persistence.
+     */
+    public GetUserReviewsInteractor() {
+        this(null);
+    }
+
+    /**
+     * Creates a user reviews interactor with persistence.
+     * @param reviewDataAccessObject the DAO used to load reviews
+     */
+    public GetUserReviewsInteractor(
+            final GetUserReviewsDataAccessInterface reviewDataAccessObject) {
+        this.reviewDataAccessObject = reviewDataAccessObject;
+    }
+
+    /**
+     * Returns persisted reviews written by one user, ordered newest to oldest.
+     * @param username the username of the review author
+     * @return the user's matching reviews
+     */
+    public List<Review> getUserReviews(final String username) {
+        final String trimmedUsername = trimToEmpty(username);
+        validateUsername(trimmedUsername);
+
+        final List<Review> matchingReviews =
+                reviewDataAccessObject.getReviewsByUsername(trimmedUsername);
+        matchingReviews.sort(Comparator.comparing(Review::getCreatedAt)
+                .reversed());
+        return matchingReviews;
+    }
 
     /**
      * Returns the reviews written by one user, ordered from newest to oldest.
@@ -32,6 +65,19 @@ public class GetUserReviewsInteractor {
         matchingReviews.sort(Comparator.comparing(Review::getCreatedAt)
                 .reversed());
         return matchingReviews;
+    }
+
+    /**
+     * Validates the username needed to load persisted reviews.
+     * @param username the username to validate
+     */
+    private void validateUsername(final String username) {
+        if (isBlank(username)) {
+            throw new IllegalArgumentException("Username cannot be empty.");
+        } else if (reviewDataAccessObject == null) {
+            throw new IllegalStateException(
+                    "Review data access object has not been configured.");
+        }
     }
 
     /**
