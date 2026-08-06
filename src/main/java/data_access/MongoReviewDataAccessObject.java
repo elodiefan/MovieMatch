@@ -20,6 +20,7 @@ import com.mongodb.client.model.Filters;
 import com.mongodb.client.model.ReplaceOptions;
 import com.mongodb.client.model.Updates;
 import entity.Review;
+import use_case.comment.GetUserCommentsReviewDataAccessInterface;
 import use_case.review.CreateReviewDataAccessInterface;
 import use_case.review.DeleteReviewDataAccessInterface;
 import use_case.review.EditReviewDataAccessInterface;
@@ -39,6 +40,7 @@ public class MongoReviewDataAccessObject implements
         EditReviewDataAccessInterface,
         GetMediaReviewsDataAccessInterface,
         GetUserReviewsDataAccessInterface,
+        GetUserCommentsReviewDataAccessInterface,
         LikeReviewDataAccessInterface,
         UnlikeReviewDataAccessInterface {
 
