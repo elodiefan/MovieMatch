@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import entity.Review;
+import use_case.comment.UserCommentSummaryData;
 
 /**
  * Presenter for the user reviews view.
@@ -26,6 +27,25 @@ public class UserReviewsPresenter {
             }
         }
         return reviewRows;
+    }
+
+    /**
+     * Converts comment summaries into rows for the user's comments tab.
+     * @param comments the comment summaries to present
+     * @return display-safe comment rows
+     */
+    public List<UserReviewsState.CommentRow> prepareComments(
+            final List<UserCommentSummaryData> comments) {
+        final List<UserReviewsState.CommentRow> commentRows =
+                new ArrayList<>();
+        if (comments != null) {
+            for (UserCommentSummaryData comment : comments) {
+                if (comment != null) {
+                    commentRows.add(createCommentRow(comment));
+                }
+            }
+        }
+        return commentRows;
     }
 
     /**
@@ -54,6 +74,19 @@ public class UserReviewsPresenter {
                 review.getRating(), review.getReviewText(),
                 review.getCreatedAt(), review.getUpdatedAt(),
                 review.getLikeCount());
+    }
+
+    /**
+     * Converts one comment summary into one displayed comment row.
+     * @param comment the comment summary to convert
+     * @return the displayed comment row
+     */
+    private UserReviewsState.CommentRow createCommentRow(
+            final UserCommentSummaryData comment) {
+        return new UserReviewsState.CommentRow(comment.getCommentId(),
+                comment.getReviewId(), comment.getMediaTitle(),
+                comment.getReviewText(), comment.getCommentText(),
+                comment.getCreatedAt(), comment.getLikeCount());
     }
 
     /**
