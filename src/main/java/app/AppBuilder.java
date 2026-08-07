@@ -457,14 +457,17 @@ public class AppBuilder {
      */
     public AppBuilder addGetProfileUseCase() {
         final GetProfileOutputBoundary userPresenter = new HomePagePresenter(viewManagerModel,
-                homePageViewModel, personalAccountViewModel, otherAccountViewModel);
+                personalAccountViewModel, otherAccountViewModel);
         final GetProfileInputBoundary getProfileInteractor = new GetProfileInteractor(userDataAccessObject,
-                (HomePagePresenter) userPresenter);
+                userPresenter);
 
         final HomePageController homePageController =
                 new HomePageController(
                         getProfileInteractor,
-                        viewManagerModel
+                        viewManagerModel,
+                        SearchViewModel.VIEW_NAME,
+                        SearchUserViewModel.VIEW_NAME,
+                        SettingsViewModel.VIEW_NAME
                 );
         homePageView.setHomePageController(homePageController);
         return this;
@@ -488,9 +491,9 @@ public class AppBuilder {
      */
     public AppBuilder addSearchUserUseCase() {
         final GetProfileOutputBoundary getProfileOutputBoundary = new HomePagePresenter(viewManagerModel,
-                homePageViewModel, personalAccountViewModel, otherAccountViewModel);
+                personalAccountViewModel, otherAccountViewModel);
         final GetProfileInputBoundary getProfileInteractor = new GetProfileInteractor(userDataAccessObject,
-                (HomePagePresenter) getProfileOutputBoundary);
+                getProfileOutputBoundary);
 
         SearchUserUseCaseFactory.create(
                 viewManagerModel,
@@ -521,9 +524,9 @@ public class AppBuilder {
      */
     public AppBuilder addPersonalAccountUseCase() {
         final GetProfileOutputBoundary getProfileOutputBoundary = new HomePagePresenter(viewManagerModel,
-                homePageViewModel, personalAccountViewModel, otherAccountViewModel);
+                personalAccountViewModel, otherAccountViewModel);
         final GetProfileInputBoundary getProfileInteractor = new GetProfileInteractor(userDataAccessObject,
-                (HomePagePresenter) getProfileOutputBoundary);
+                getProfileOutputBoundary);
 
         final GetListsController getListsController = createGetListsController();
         final GetSecurityQuestionOutputBoundary getSecurityQuestionOutputBoundary = new PersonalAccountPresenter(viewManagerModel,
