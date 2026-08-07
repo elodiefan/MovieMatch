@@ -46,7 +46,7 @@ public class ChangeUsernameView extends JPanel implements PropertyChangeListener
 
         final LabelTextPanel newInfo = new LabelTextPanel(
                 new JLabel(ChangeUsernameViewModel.NEW_USERNAME_LABEL), newUsernameField);
-        
+
         final JPanel buttons = new JPanel();
         confirmChangesButton = new JButton(ChangeUsernameViewModel.CONFIRM_BUTTON);
         buttons.add(confirmChangesButton);
@@ -63,19 +63,16 @@ public class ChangeUsernameView extends JPanel implements PropertyChangeListener
                         newUsernameField.setText("");
                     }
                 });
-        
-        backButton.addActionListener(
-                new ActionListener() {
-                    @Override
-                    public void actionPerformed(ActionEvent e) {
-                        final ChangeUsernameState state = changeUsernameViewModel.getState();
-                        changeUsernameController.switchToPersonalAccountView(state.getUsername(),
-                                state.getNewUsername());
-                        newUsernameField.setText("");
-                    }
-                });
 
-//         Keep state in sync with the "new username" field.
+        backButton.addActionListener(evt -> {
+            changeUsernameViewModel.setState(new ChangeUsernameState());
+            changeUsernameViewModel.firePropertyChanged();
+            viewManagerModel.setState(PersonalAccountViewModel.VIEW_NAME);
+            viewManagerModel.firePropertyChanged();
+            personalAccountViewModel.firePropertyChanged();
+        });
+
+        // Keep state in sync with the "new username" field.
         newUsernameField.getDocument().addDocumentListener(new DocumentListener() {
             private void update() {
                 final ChangeUsernameState state = changeUsernameViewModel.getState();
@@ -109,9 +106,7 @@ public class ChangeUsernameView extends JPanel implements PropertyChangeListener
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
         final ChangeUsernameState state = (ChangeUsernameState) evt.getNewValue();
-
         forUserLabel.setText("Changing username for: " + state.getNewUsername());
-
         newUsernameField.setText(state.getNewUsername());
 
         // Show error if present, otherwise the success message.

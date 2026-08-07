@@ -92,7 +92,7 @@ public class InMemoryUserDataAccessObject implements UserDataAccessObject {
             return;
         }
         users.put(username, new StandardUser(old.getUsername(), newDisplayName,
-                old.getPassword(), old.getSecurityQuestion(), old.getAnswer()));
+                old.getPassword(), old.getSecurityQuestion(), old.getAnswer(), old.getUserLists()));
     }
 
     // ---------- Change username ----------
@@ -103,8 +103,9 @@ public class InMemoryUserDataAccessObject implements UserDataAccessObject {
         if (old == null) {
             return;
         }
-        users.put(username, new StandardUser(newUsername, old.getDisplayName(),
-                old.getPassword(), old.getSecurityQuestion(), old.getAnswer()));
+        users.remove(username);
+        users.put(newUsername, new StandardUser(newUsername, old.getDisplayName(),
+                old.getPassword(), old.getSecurityQuestion(), old.getAnswer(), old.getUserLists()));
     }
 
     // ---------- Get watchlist ----------

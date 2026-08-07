@@ -1,9 +1,7 @@
 package use_case.change_username;
 
 /**
- * Data-access interface for the Reset Password use case. Unlike the
- * security-question step (read-only), this one needs to <em>write</em> the new
- * password back to storage (the in-memory map in tests, or MongoDB in the app).
+ * Data access interface for the change username use case.
  */
 public interface ChangeUsernameUserDataAccessInterface {
 

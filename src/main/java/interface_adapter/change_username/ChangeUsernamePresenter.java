@@ -21,7 +21,8 @@ public class ChangeUsernamePresenter implements ChangeUsernameOutputBoundary {
     @Override
     public void prepareSuccessView(ChangeUsernameOutputData outputData) {
         final ChangeUsernameState changeUsernameState = changeUsernameViewModel.getState();
-        changeUsernameState.setNewUsername(outputData.getNewUsername());
+        changeUsernameState.setUsername(outputData.getNewUsername());
+        changeUsernameState.setNewUsername("");
         changeUsernameState.setError("");
         changeUsernameState.setMessage("Username changes saved.");
         changeUsernameViewModel.setState(changeUsernameState);

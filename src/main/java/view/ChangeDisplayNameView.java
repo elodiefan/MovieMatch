@@ -14,7 +14,9 @@ import interface_adapter.ViewManagerModel;
 import interface_adapter.change_display_name.ChangeDisplayNameController;
 import interface_adapter.change_display_name.ChangeDisplayNameState;
 import interface_adapter.change_display_name.ChangeDisplayNameViewModel;
+import interface_adapter.login.LoginViewModel;
 import interface_adapter.personal_account.PersonalAccountViewModel;
+import interface_adapter.reset_password.ResetPasswordState;
 
 /**
  * The view for changing display name.
@@ -65,18 +67,15 @@ public class ChangeDisplayNameView extends JPanel implements PropertyChangeListe
                     }
                 });
         
-        backButton.addActionListener(
-                new ActionListener() {
-                    @Override
-                    public void actionPerformed(ActionEvent e) {
-                        final ChangeDisplayNameState state = changeDisplayNameViewModel.getState();
-                        changeDisplayNameController.switchToPersonalAccountView(state.getUsername(),
-                                state.getNewDisplayName());
-                        newDisplayNameField.setText("");
-                    }
-                });
+        backButton.addActionListener(evt -> {
+            changeDisplayNameViewModel.setState(new ChangeDisplayNameState());
+            changeDisplayNameViewModel.firePropertyChanged();
+            viewManagerModel.setState(PersonalAccountViewModel.VIEW_NAME);
+            viewManagerModel.firePropertyChanged();
+            personalAccountViewModel.firePropertyChanged();
+        });
 
-//         Keep state in sync with the "new display name" field.
+        // Keep state in sync with the "new display name" field.
         newDisplayNameField.getDocument().addDocumentListener(new DocumentListener() {
             private void update() {
                 final ChangeDisplayNameState state = changeDisplayNameViewModel.getState();
