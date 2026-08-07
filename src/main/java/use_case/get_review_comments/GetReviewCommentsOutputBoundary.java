@@ -1,7 +1,5 @@
 package use_case.get_review_comments;
 
-import java.util.List;
-
 /**
  * Output boundary for loading comments on a review.
  */
@@ -9,7 +7,7 @@ public interface GetReviewCommentsOutputBoundary {
     /**
      * Handles this review or comment operation.
      */
-    void prepareSuccessView(String reviewId, List<CommentSummaryData> comments);
+    void prepareSuccessView(GetReviewCommentsOutputData outputData);
 
     /**
      * Handles this review or comment operation.

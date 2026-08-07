@@ -1,6 +1,7 @@
 package use_case.get_review_comments;
 
 import java.util.Comparator;
+import java.util.ArrayList;
 import java.util.List;
 
 import entity.Comment;
@@ -50,9 +51,8 @@ public final class GetReviewCommentsInteractor
                     new GetReviewCommentsInputData(reviewId);
             final List<Comment> comments = getReviewComments(
                     inputData.getReviewId());
-            presenter.prepareSuccessView(
-                    inputData.getReviewId(),
-                    CommentSummaryMapper.toSummaries(comments));
+            presenter.prepareSuccessView(toOutputData(inputData.getReviewId(),
+                    comments));
         } catch (IllegalArgumentException | IllegalStateException error) {
             if (presenter != null) {
                 presenter.prepareFailView(error.getMessage());
@@ -110,5 +110,21 @@ public final class GetReviewCommentsInteractor
             trimmedValue = value.trim();
         }
         return trimmedValue;
+    }
+
+    private GetReviewCommentsOutputData toOutputData(final String reviewId,
+                                                     final List<Comment>
+                                                             comments) {
+        final List<GetReviewCommentsOutputData.ReviewCommentData>
+                outputComments = new ArrayList<>();
+        for (Comment comment : comments) {
+            outputComments.add(new GetReviewCommentsOutputData
+                    .ReviewCommentData(comment.getCommentId(),
+                    comment.getReviewId(), comment.getParentCommentId(),
+                    comment.getAuthorUsername(), comment.getAuthorDisplayName(),
+                    comment.getCommentText(), comment.getCreatedAt(),
+                    comment.getLikeCount()));
+        }
+        return new GetReviewCommentsOutputData(reviewId, outputComments);
     }
 }

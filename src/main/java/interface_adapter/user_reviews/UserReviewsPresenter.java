@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import use_case.get_user_comments.GetUserCommentsOutputBoundary;
-import use_case.get_user_comments.UserCommentSummaryData;
+import use_case.get_user_comments.GetUserCommentsOutputData;
 import use_case.delete_review.DeleteReviewOutputBoundary;
 import use_case.edit_review.EditReviewOutputBoundary;
 import use_case.edit_review.EditReviewOutputData;
@@ -49,9 +49,9 @@ public final class UserReviewsPresenter implements GetUserReviewsOutputBoundary,
      */
     @Override
     public void prepareUserCommentsSuccessView(
-            final List<UserCommentSummaryData> comments) {
+            final GetUserCommentsOutputData outputData) {
         final UserReviewsState state = userReviewsViewModel.getState();
-        state.setComments(prepareComments(comments));
+        state.setComments(prepareComments(outputData.getComments()));
         state.setUserReviewsError(null);
         userReviewsViewModel.setState(state);
         userReviewsViewModel.firePropertyChanged();
@@ -88,10 +88,11 @@ public final class UserReviewsPresenter implements GetUserReviewsOutputBoundary,
      * Converts comment summaries into rows for the user's comments tab.
      */
     private List<UserCommentRow> prepareComments(
-            final List<UserCommentSummaryData> comments) {
+            final List<GetUserCommentsOutputData.UserCommentData> comments) {
         final List<UserCommentRow> commentRows = new ArrayList<>();
         if (comments != null) {
-            for (UserCommentSummaryData comment : comments) {
+            for (GetUserCommentsOutputData.UserCommentData comment
+                    : comments) {
                 if (comment != null) {
                     commentRows.add(createCommentRow(comment));
                 }
@@ -140,7 +141,7 @@ public final class UserReviewsPresenter implements GetUserReviewsOutputBoundary,
      * Converts one comment summary into one displayed comment row.
      */
     private UserCommentRow createCommentRow(
-            final UserCommentSummaryData comment) {
+            final GetUserCommentsOutputData.UserCommentData comment) {
         return new UserCommentRow(comment.getCommentId(),
                 comment.getReviewId(), comment.getMediaTitle(),
                 comment.getReviewText(), comment.getCommentText(),

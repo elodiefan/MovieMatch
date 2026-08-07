@@ -3,10 +3,10 @@ package interface_adapter.comments;
 import java.util.ArrayList;
 import java.util.List;
 
-import use_case.get_review_comments.CommentSummaryData;
 import use_case.create_comment.CreateCommentOutputBoundary;
 import use_case.delete_comment.DeleteCommentOutputBoundary;
 import use_case.get_review_comments.GetReviewCommentsOutputBoundary;
+import use_case.get_review_comments.GetReviewCommentsOutputData;
 import use_case.like_comment.LikeCommentOutputBoundary;
 import use_case.unlike_comment.UnlikeCommentOutputBoundary;
 
@@ -34,13 +34,13 @@ public final class CommentsPresenter implements GetReviewCommentsOutputBoundary,
     }
 
     @Override
-    public void prepareSuccessView(final String reviewId,
-                                   final List<CommentSummaryData> comments) {
+    public void prepareSuccessView(
+            final GetReviewCommentsOutputData outputData) {
         final CommentsState state = commentsViewModel.getState();
         final List<CommentRow> commentRows = state.getComments();
         commentRows.removeIf(comment -> comment.getReviewId().equals(
-                reviewId));
-        commentRows.addAll(prepareComments(comments));
+                outputData.getReviewId()));
+        commentRows.addAll(prepareComments(outputData.getComments()));
         state.setComments(commentRows);
         state.setCommentsError(null);
         commentsViewModel.setState(state);
@@ -57,10 +57,12 @@ public final class CommentsPresenter implements GetReviewCommentsOutputBoundary,
      * view.
      */
     private List<CommentRow> prepareComments(
-            final List<CommentSummaryData> comments) {
+            final List<GetReviewCommentsOutputData.ReviewCommentData>
+                    comments) {
         final List<CommentRow> commentRows = new ArrayList<>();
         if (comments != null) {
-            for (CommentSummaryData comment : comments) {
+            for (GetReviewCommentsOutputData.ReviewCommentData comment
+                    : comments) {
                 if (comment != null) {
                     commentRows.add(createCommentRow(comment));
                 }
@@ -100,7 +102,8 @@ public final class CommentsPresenter implements GetReviewCommentsOutputBoundary,
     /**
      * Converts one comment summary into one displayed row.
      */
-    private CommentRow createCommentRow(final CommentSummaryData comment) {
+    private CommentRow createCommentRow(
+            final GetReviewCommentsOutputData.ReviewCommentData comment) {
         return new CommentRow(comment.getCommentId(), comment.getReviewId(),
                 comment.getParentCommentId(), comment.getAuthorUsername(),
                 comment.getAuthorDisplayName(), comment.getCommentText(),

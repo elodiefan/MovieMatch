@@ -55,9 +55,10 @@ public final class GetUserCommentsInteractor
             validateOutputBoundary();
             final GetUserCommentsInputData inputData =
                     new GetUserCommentsInputData(username);
-            final List<UserCommentSummaryData> comments =
+            final List<GetUserCommentsOutputData.UserCommentData> comments =
                     getUserComments(inputData.getUsername());
-            userCommentsPresenter.prepareUserCommentsSuccessView(comments);
+            userCommentsPresenter.prepareUserCommentsSuccessView(
+                    new GetUserCommentsOutputData(comments));
         } catch (IllegalArgumentException | IllegalStateException error) {
             if (userCommentsPresenter != null) {
                 userCommentsPresenter.prepareFailView(error.getMessage());
@@ -68,7 +69,7 @@ public final class GetUserCommentsInteractor
     /**
      * Returns comments written by one user, ordered newest to oldest.
      */
-    private List<UserCommentSummaryData> getUserComments(
+    private List<GetUserCommentsOutputData.UserCommentData> getUserComments(
             final String username) {
         final String trimmedUsername = trimToEmpty(username);
         validateUsername(trimmedUsername);
@@ -77,7 +78,7 @@ public final class GetUserCommentsInteractor
                 commentDataAccessObject.getCommentsByUsername(trimmedUsername);
         comments.sort(Comparator.comparing(Comment::getCreatedAt).reversed());
 
-        final List<UserCommentSummaryData> commentSummaries =
+        final List<GetUserCommentsOutputData.UserCommentData> commentSummaries =
                 new ArrayList<>();
         for (Comment comment : comments) {
             commentSummaries.add(createCommentSummary(comment));
@@ -88,7 +89,8 @@ public final class GetUserCommentsInteractor
     /**
      * Creates summary data for one comment.
      */
-    private UserCommentSummaryData createCommentSummary(final Comment comment) {
+    private GetUserCommentsOutputData.UserCommentData createCommentSummary(
+            final Comment comment) {
         final Optional<Review> review = reviewDataAccessObject.getReviewById(
                 comment.getReviewId());
         final String mediaTitle;
@@ -101,7 +103,8 @@ public final class GetUserCommentsInteractor
             reviewText = "";
         }
 
-        return new UserCommentSummaryData(comment.getCommentId(),
+        return new GetUserCommentsOutputData.UserCommentData(
+                comment.getCommentId(),
                 comment.getReviewId(), mediaTitle, reviewText,
                 comment.getCommentText(), comment.getCreatedAt(),
                 comment.getLikeCount());
