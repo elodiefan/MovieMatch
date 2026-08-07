@@ -1,10 +1,10 @@
 package use_case.get_user_reviews;
 
 import java.util.Comparator;
+import java.util.ArrayList;
 import java.util.List;
 
 import entity.Review;
-import use_case.get_media_reviews.ReviewSummaryMapper;
 
 /**
  * Interactor for loading reviews written by one user.
@@ -54,7 +54,7 @@ public final class GetUserReviewsInteractor
             final List<Review> matchingReviews =
                     getUserReviews(inputData.getUsername());
             userReviewsPresenter.prepareUserReviewsSuccessView(
-                    ReviewSummaryMapper.toSummaries(matchingReviews));
+                    toOutputData(matchingReviews));
         } catch (IllegalArgumentException | IllegalStateException error) {
             if (userReviewsPresenter != null) {
                 userReviewsPresenter.prepareFailView(error.getMessage());
@@ -116,5 +116,19 @@ public final class GetUserReviewsInteractor
             trimmedValue = value.trim();
         }
         return trimmedValue;
+    }
+
+    private GetUserReviewsOutputData toOutputData(final List<Review> reviews) {
+        final List<GetUserReviewsOutputData.UserReviewData> outputReviews =
+                new ArrayList<>();
+        for (Review review : reviews) {
+            outputReviews.add(new GetUserReviewsOutputData.UserReviewData(
+                    review.getReviewId(), review.getMediaId(),
+                    review.getMediaType(), review.getMediaTitle(),
+                    review.getRating(), review.getReviewText(),
+                    review.getCreatedAt(), review.getUpdatedAt(),
+                    review.getLikeCount()));
+        }
+        return new GetUserReviewsOutputData(outputReviews);
     }
 }

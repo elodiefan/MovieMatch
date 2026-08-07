@@ -2,20 +2,19 @@ package use_case.get_user_reviews;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import use_case.get_media_reviews.ReviewSummaryData;
+import java.time.ZonedDateTime;
 
 /**
  * Output data for loading reviews written by one user.
  */
 public final class GetUserReviewsOutputData {
     /** The reviews. */
-    private final List<ReviewSummaryData> reviews;
+    private final List<UserReviewData> reviews;
 
     /**
      * Creates output data for loaded user reviews.
      */
-    public GetUserReviewsOutputData(final List<ReviewSummaryData>
+    public GetUserReviewsOutputData(final List<UserReviewData>
                                             inputReviews) {
         this.reviews = new ArrayList<>(inputReviews);
     }
@@ -23,7 +22,79 @@ public final class GetUserReviewsOutputData {
     /**
      * Returns loaded user reviews.
      */
-    public List<ReviewSummaryData> getReviews() {
+    public List<UserReviewData> getReviews() {
         return new ArrayList<>(reviews);
+    }
+
+    /**
+     * One review row prepared by the user reviews use case.
+     */
+    public static final class UserReviewData {
+        private final String reviewId;
+        private final int mediaId;
+        private final String mediaType;
+        private final String mediaTitle;
+        private final double rating;
+        private final String reviewText;
+        private final ZonedDateTime createdAt;
+        private final ZonedDateTime updatedAt;
+        private final int likeCount;
+
+        /**
+         * Creates one user review row.
+         */
+        public UserReviewData(final String reviewId, final int mediaId,
+                              final String mediaType,
+                              final String mediaTitle, final double rating,
+                              final String reviewText,
+                              final ZonedDateTime createdAt,
+                              final ZonedDateTime updatedAt,
+                              final int likeCount) {
+            this.reviewId = reviewId;
+            this.mediaId = mediaId;
+            this.mediaType = mediaType;
+            this.mediaTitle = mediaTitle;
+            this.rating = rating;
+            this.reviewText = reviewText;
+            this.createdAt = createdAt;
+            this.updatedAt = updatedAt;
+            this.likeCount = likeCount;
+        }
+
+        public String getReviewId() {
+            return reviewId;
+        }
+
+        public int getMediaId() {
+            return mediaId;
+        }
+
+        public String getMediaType() {
+            return mediaType;
+        }
+
+        public String getMediaTitle() {
+            return mediaTitle;
+        }
+
+        public double getRating() {
+            return rating;
+        }
+
+        public String getReviewText() {
+            return reviewText;
+        }
+
+        public ZonedDateTime getCreatedAt() {
+            return createdAt;
+        }
+
+        public ZonedDateTime getUpdatedAt() {
+            return updatedAt;
+        }
+
+        public int getLikeCount() {
+            return likeCount;
+        }
     }
 }

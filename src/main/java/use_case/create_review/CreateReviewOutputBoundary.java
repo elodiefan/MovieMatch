@@ -1,7 +1,5 @@
 package use_case.create_review;
 
-import use_case.get_media_reviews.ReviewSummaryData;
-
 /**
  * Output boundary for creating a review.
  */
@@ -9,7 +7,7 @@ public interface CreateReviewOutputBoundary {
     /**
      * Handles this review or comment operation.
      */
-    void prepareSuccessView(ReviewSummaryData review);
+    void prepareSuccessView(CreateReviewOutputData review);
 
     /**
      * Handles this review or comment operation.

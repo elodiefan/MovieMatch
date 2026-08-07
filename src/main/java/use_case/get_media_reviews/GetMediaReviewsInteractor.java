@@ -1,10 +1,10 @@
 package use_case.get_media_reviews;
 
 import java.util.Comparator;
+import java.util.ArrayList;
 import java.util.List;
 
 import entity.Review;
-import use_case.get_media_reviews.ReviewSummaryMapper;
 
 /**
  * Interactor for loading reviews for one media item.
@@ -56,8 +56,7 @@ public final class GetMediaReviewsInteractor
                     new GetMediaReviewsInputData(mediaId, mediaType);
             final List<Review> reviews = getMediaReviews(
                     inputData.getMediaId(), inputData.getMediaType());
-            presenter.prepareSuccessView(ReviewSummaryMapper.toSummaries(
-                    reviews));
+            presenter.prepareSuccessView(toOutputData(reviews));
         } catch (IllegalArgumentException | IllegalStateException error) {
             if (presenter != null) {
                 presenter.prepareFailView(error.getMessage());
@@ -121,5 +120,20 @@ public final class GetMediaReviewsInteractor
             trimmedValue = value.trim();
         }
         return trimmedValue;
+    }
+
+    private GetMediaReviewsOutputData toOutputData(
+            final List<Review> reviews) {
+        final List<GetMediaReviewsOutputData.MediaReviewData> outputReviews =
+                new ArrayList<>();
+        for (Review review : reviews) {
+            outputReviews.add(new GetMediaReviewsOutputData.MediaReviewData(
+                    review.getReviewId(), review.getAuthorUsername(),
+                    review.getAuthorDisplayName(), review.getRating(),
+                    review.getReviewText(), review.getCreatedAt(),
+                    review.getUpdatedAt(), review.getLikeCount(),
+                    review.getSource()));
+        }
+        return new GetMediaReviewsOutputData(outputReviews);
     }
 }

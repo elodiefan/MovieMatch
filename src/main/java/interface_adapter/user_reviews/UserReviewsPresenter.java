@@ -5,10 +5,11 @@ import java.util.List;
 
 import use_case.get_user_comments.GetUserCommentsOutputBoundary;
 import use_case.get_user_comments.UserCommentSummaryData;
-import use_case.get_media_reviews.ReviewSummaryData;
 import use_case.delete_review.DeleteReviewOutputBoundary;
 import use_case.edit_review.EditReviewOutputBoundary;
+import use_case.edit_review.EditReviewOutputData;
 import use_case.get_user_reviews.GetUserReviewsOutputBoundary;
+import use_case.get_user_reviews.GetUserReviewsOutputData;
 import use_case.like_review.LikeReviewOutputBoundary;
 import use_case.unlike_review.UnlikeReviewOutputBoundary;
 
@@ -35,9 +36,9 @@ public final class UserReviewsPresenter implements GetUserReviewsOutputBoundary,
      */
     @Override
     public void prepareUserReviewsSuccessView(
-            final List<ReviewSummaryData> reviews) {
+            final GetUserReviewsOutputData outputData) {
         final UserReviewsState state = userReviewsViewModel.getState();
-        state.setReviews(prepareReviews(reviews));
+        state.setReviews(prepareReviews(outputData.getReviews()));
         state.setUserReviewsError(null);
         userReviewsViewModel.setState(state);
         userReviewsViewModel.firePropertyChanged();
@@ -57,7 +58,7 @@ public final class UserReviewsPresenter implements GetUserReviewsOutputBoundary,
     }
 
     @Override
-    public void prepareSuccessView(final ReviewSummaryData review) {
+    public void prepareSuccessView(final EditReviewOutputData review) {
         clearError();
     }
 
@@ -71,10 +72,10 @@ public final class UserReviewsPresenter implements GetUserReviewsOutputBoundary,
      * reviews view.
      */
     private List<UserReviewRow> prepareReviews(
-            final List<ReviewSummaryData> reviews) {
+            final List<GetUserReviewsOutputData.UserReviewData> reviews) {
         final List<UserReviewRow> reviewRows = new ArrayList<>();
         if (reviews != null) {
-            for (ReviewSummaryData review : reviews) {
+            for (GetUserReviewsOutputData.UserReviewData review : reviews) {
                 if (review != null) {
                     reviewRows.add(createReviewRow(review));
                 }
@@ -126,7 +127,8 @@ public final class UserReviewsPresenter implements GetUserReviewsOutputBoundary,
     /**
      * Converts one review summary into one displayed row.
      */
-    private UserReviewRow createReviewRow(final ReviewSummaryData review) {
+    private UserReviewRow createReviewRow(
+            final GetUserReviewsOutputData.UserReviewData review) {
         return new UserReviewRow(review.getReviewId(), review.getMediaId(),
                 review.getMediaType(), review.getMediaTitle(),
                 review.getRating(), review.getReviewText(),

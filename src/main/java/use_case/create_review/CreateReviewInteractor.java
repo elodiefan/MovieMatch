@@ -5,7 +5,6 @@ import java.util.UUID;
 
 import entity.Review;
 import entity.UserContent;
-import use_case.get_media_reviews.ReviewSummaryMapper;
 
 /**
  * Interactor for creating a review.
@@ -75,8 +74,7 @@ public final class CreateReviewInteractor implements CreateReviewInputBoundary {
                     inputData.getAuthorUsername(),
                     inputData.getAuthorDisplayName(), inputData.getRating(),
                     inputData.getReviewText());
-            presenter.prepareSuccessView(ReviewSummaryMapper.toSummary(
-                    review));
+            presenter.prepareSuccessView(toOutputData(review));
         } catch (IllegalArgumentException | IllegalStateException error) {
             if (presenter != null) {
                 presenter.prepareFailView(error.getMessage());
@@ -168,5 +166,13 @@ public final class CreateReviewInteractor implements CreateReviewInputBoundary {
             trimmedValue = value.trim();
         }
         return trimmedValue;
+    }
+
+    private CreateReviewOutputData toOutputData(final Review review) {
+        return new CreateReviewOutputData(review.getReviewId(),
+                review.getAuthorUsername(), review.getAuthorDisplayName(),
+                review.getRating(), review.getReviewText(),
+                review.getCreatedAt(), review.getUpdatedAt(),
+                review.getLikeCount(), review.getSource());
     }
 }

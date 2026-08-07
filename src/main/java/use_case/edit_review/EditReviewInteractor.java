@@ -5,7 +5,6 @@ import java.util.Optional;
 
 import entity.Review;
 import entity.UserContent;
-import use_case.get_media_reviews.ReviewSummaryMapper;
 
 /**
  * Interactor for editing a review.
@@ -65,8 +64,7 @@ public final class EditReviewInteractor implements EditReviewInputBoundary {
             if (review == null) {
                 presenter.prepareFailView("Review could not be edited.");
             } else {
-                presenter.prepareSuccessView(ReviewSummaryMapper.toSummary(
-                        review));
+                presenter.prepareSuccessView(toOutputData(review));
             }
         } catch (IllegalArgumentException | IllegalStateException error) {
             if (presenter != null) {
@@ -181,5 +179,13 @@ public final class EditReviewInteractor implements EditReviewInputBoundary {
             trimmedValue = value.trim();
         }
         return trimmedValue;
+    }
+
+    private EditReviewOutputData toOutputData(final Review review) {
+        return new EditReviewOutputData(review.getReviewId(),
+                review.getAuthorUsername(), review.getAuthorDisplayName(),
+                review.getRating(), review.getReviewText(),
+                review.getCreatedAt(), review.getUpdatedAt(),
+                review.getLikeCount(), review.getSource());
     }
 }

@@ -3,11 +3,13 @@ package interface_adapter.media_reviews;
 import java.util.ArrayList;
 import java.util.List;
 
-import use_case.get_media_reviews.ReviewSummaryData;
 import use_case.create_review.CreateReviewOutputBoundary;
+import use_case.create_review.CreateReviewOutputData;
 import use_case.delete_review.DeleteReviewOutputBoundary;
 import use_case.edit_review.EditReviewOutputBoundary;
+import use_case.edit_review.EditReviewOutputData;
 import use_case.get_media_reviews.GetMediaReviewsOutputBoundary;
+import use_case.get_media_reviews.GetMediaReviewsOutputData;
 import use_case.like_review.LikeReviewOutputBoundary;
 import use_case.unlike_review.UnlikeReviewOutputBoundary;
 
@@ -37,16 +39,22 @@ public final class MediaReviewsPresenter
     }
 
     @Override
-    public void prepareSuccessView(final List<ReviewSummaryData> reviews) {
+    public void prepareSuccessView(
+            final GetMediaReviewsOutputData outputData) {
         final MediaReviewsState state = mediaReviewsViewModel.getState();
-        state.setReviews(prepareReviews(reviews));
+        state.setReviews(prepareReviews(outputData.getReviews()));
         state.setMediaReviewsError(null);
         mediaReviewsViewModel.setState(state);
         mediaReviewsViewModel.firePropertyChanged();
     }
 
     @Override
-    public void prepareSuccessView(final ReviewSummaryData review) {
+    public void prepareSuccessView(final CreateReviewOutputData review) {
+        clearError();
+    }
+
+    @Override
+    public void prepareSuccessView(final EditReviewOutputData review) {
         clearError();
     }
 
@@ -60,10 +68,10 @@ public final class MediaReviewsPresenter
      * reviews panel.
      */
     public List<MediaReviewRow> prepareReviews(
-            final List<ReviewSummaryData> reviews) {
+            final List<GetMediaReviewsOutputData.MediaReviewData> reviews) {
         final List<MediaReviewRow> reviewRows = new ArrayList<>();
         if (reviews != null) {
-            for (ReviewSummaryData review : reviews) {
+            for (GetMediaReviewsOutputData.MediaReviewData review : reviews) {
                 if (review != null) {
                     reviewRows.add(createReviewRow(review));
                 }
@@ -103,7 +111,8 @@ public final class MediaReviewsPresenter
     /**
      * Converts one review summary into one displayed row.
      */
-    private MediaReviewRow createReviewRow(final ReviewSummaryData review) {
+    private MediaReviewRow createReviewRow(
+            final GetMediaReviewsOutputData.MediaReviewData review) {
         return new MediaReviewRow(review.getReviewId(),
                 review.getAuthorUsername(), review.getAuthorDisplayName(),
                 review.getRating(), review.getReviewText(),
