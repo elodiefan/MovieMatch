@@ -1,9 +1,9 @@
 package interface_adapter.search_user;
 
-import interface_adapter.ViewModel;
+import interface_adapter.StateModel;
 
 /** The View Model for the Search User View. */
-public class SearchUserViewModel extends ViewModel<SearchUserState> {
+public class SearchUserViewModel extends StateModel<SearchUserState> {
 
     public static final String VIEW_NAME = "search user";
     public static final String TITLE_LABEL = "Find Users";

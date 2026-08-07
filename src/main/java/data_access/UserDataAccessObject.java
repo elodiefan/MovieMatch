@@ -2,7 +2,7 @@ package data_access;
 
 import use_case.access_message_chat.AccessMessageChatUserDataAccessInterface;
 import use_case.block_user.BlockUserUserDataAccessInterface;
-import use_case.comment.unlike_comment.delete_account.DeleteAccountUserDataAccessInterface;
+import use_case.delete_account.DeleteAccountUserDataAccessInterface;
 import use_case.get_lists.GetListsUserDataAccessInterface;
 import use_case.get_profile.GetProfileUserDataAccessInterface;
 import use_case.get_security_question.GetSecurityQuestionUserDataAccessInterface;

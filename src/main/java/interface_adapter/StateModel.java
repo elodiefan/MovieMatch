@@ -4,11 +4,11 @@ import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 
 /**
- * The ViewModel for our CA implementation.
+ * Shared state holder for interface adapter models.
  * This class delegates work to a PropertyChangeSupport object for
  * managing the property change events.
  */
-public class ViewModel<T> {
+public class StateModel<T> {
 
     private final String viewName;
 
@@ -16,7 +16,7 @@ public class ViewModel<T> {
 
     private T state;
 
-    public ViewModel(String viewName) {
+    public StateModel(String viewName) {
         this.viewName = viewName;
     }
 
@@ -33,14 +33,14 @@ public class ViewModel<T> {
     }
 
     /**
-     * Fires a property changed event for the state of this ViewModel.
+     * Fires a property changed event for the state of this model.
      */
     public void firePropertyChanged() {
         this.support.firePropertyChange("state", null, this.state);
     }
 
     /**
-     * Fires a property changed event for the state of this ViewModel, which
+     * Fires a property changed event for the state of this model, which
      * allows the user to specify a different propertyName. This can be useful
      * when a class is listening for multiple kinds of property changes.
      *
@@ -52,7 +52,7 @@ public class ViewModel<T> {
     }
 
     /**
-     * Adds a PropertyChangeListener to this ViewModel.
+     * Adds a PropertyChangeListener to this model.
      */
     public void addPropertyChangeListener(PropertyChangeListener listener) {
         this.support.addPropertyChangeListener(listener);

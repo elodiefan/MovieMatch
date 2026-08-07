@@ -52,7 +52,8 @@ public class SignupInteractor implements SignupInputBoundary {
                     securityQuestion,
                     securityAnswer
             );
-            userDataAccessObject.save(user);
+            userDataAccessObject.saveUser(username, displayName, password,
+                    securityQuestion, securityAnswer);
 
             final SignupOutputData signupOutputData = new SignupOutputData(user.getUsername(), displayName);
             userPresenter.prepareSuccessView(signupOutputData);

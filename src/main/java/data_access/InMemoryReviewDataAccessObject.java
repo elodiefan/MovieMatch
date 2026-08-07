@@ -9,6 +9,7 @@ import java.util.Optional;
 
 import entity.Review;
 import use_case.review.ReviewDataAccessInterface;
+import use_case.recommendation.UserRating;
 
 /**
  * In-memory data access object for review data.
@@ -144,6 +145,16 @@ public class InMemoryReviewDataAccessObject implements ReviewDataAccessInterface
      */
     public List<Review> getAllReviews() {
         return new ArrayList<>(reviews.values());
+    }
+
+    @Override
+    public List<UserRating> findReviewRatingsByUser(final String username) {
+        final List<UserRating> userRatings = new ArrayList<>();
+        for (Review review : getReviewsByUsername(username)) {
+            userRatings.add(new UserRating(review.getMediaId(),
+                    review.getRating()));
+        }
+        return userRatings;
     }
 
     public void close() {

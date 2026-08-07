@@ -45,6 +45,13 @@ public class InMemoryUserDataAccessObject implements UserDataAccessObject {
     }
 
     @Override
+    public void saveUser(String username, String displayName, String password,
+                         String securityQuestion, String securityAnswer) {
+        users.put(username, new StandardUser(username, displayName, password,
+                securityQuestion, securityAnswer));
+    }
+
+    @Override
     public User get(String username) {
         return users.get(username);
     }

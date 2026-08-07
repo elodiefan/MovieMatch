@@ -1,8 +1,8 @@
 package interface_adapter.home_page;
 
-import interface_adapter.ViewModel;
+import interface_adapter.StateModel;
 
-public class HomePageViewModel extends ViewModel<HomePageState> {
+public class HomePageViewModel extends StateModel<HomePageState> {
 
     public static final String VIEW_NAME = "home page";
     public static final String TITLE_LABEL = "Home Page View";

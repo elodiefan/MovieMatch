@@ -118,6 +118,32 @@ public class MongoUserDataAccessObject implements UserDataAccessObject {
     }
 
     @Override
+    public void saveUser(String username, String displayName, String password,
+                         String securityQuestion, String securityAnswer) {
+        if (existsByName(username)) {
+            users.updateOne(Filters.eq(USERNAME, username),
+                    Updates.combine(
+                            Updates.set(DISPLAY_NAME, displayName),
+                            Updates.set(PASSWORD, password),
+                            Updates.set(SECURITY_QUESTION, securityQuestion),
+                            Updates.set(ANSWER, securityAnswer)));
+        }
+        else {
+            users.insertOne(new Document(USERNAME, username)
+                    .append(DISPLAY_NAME, displayName)
+                    .append(PASSWORD, password)
+                    .append(SECURITY_QUESTION, securityQuestion)
+                    .append(ANSWER, securityAnswer)
+                    .append(WATCHLIST, new ArrayList<Document>())
+                    .append(WATCH_HISTORY, new ArrayList<Document>())
+                    .append(REVIEWS, new ArrayList<String>())
+                    .append(COMMENTS, new ArrayList<String>())
+                    .append(BLOCKED_USERS, new ArrayList<String>()));
+        }
+        ensureUserListFields(username);
+    }
+
+    @Override
     public User get(String username) {
         final Document doc = users.find(Filters.eq(USERNAME, username)).first();
         if (doc == null) {

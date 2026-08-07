@@ -3,10 +3,10 @@ package interface_adapter.user_reviews;
 import java.util.ArrayList;
 import java.util.List;
 
-import entity.Review;
 import use_case.comment.get_user_comments.GetUserCommentsOutputBoundary;
 import use_case.comment.get_user_comments.GetUserCommentsOutputData;
 import use_case.comment.UserCommentSummaryData;
+import use_case.review.ReviewSummaryData;
 import use_case.review.delete_review.DeleteReviewOutputBoundary;
 import use_case.review.delete_review.DeleteReviewOutputData;
 import use_case.review.edit_review.EditReviewOutputBoundary;
@@ -82,13 +82,14 @@ public final class UserReviewsPresenter implements GetUserReviewsOutputBoundary,
     }
 
     /**
-     * Converts review entities into rows that can be displayed by the user
+     * Converts review summaries into rows that can be displayed by the user
      * reviews view.
      */
-    private List<UserReviewRow> prepareReviews(final List<Review> reviews) {
+    private List<UserReviewRow> prepareReviews(
+            final List<ReviewSummaryData> reviews) {
         final List<UserReviewRow> reviewRows = new ArrayList<>();
         if (reviews != null) {
-            for (Review review : reviews) {
+            for (ReviewSummaryData review : reviews) {
                 if (review != null) {
                     reviewRows.add(createReviewRow(review));
                 }
@@ -138,9 +139,9 @@ public final class UserReviewsPresenter implements GetUserReviewsOutputBoundary,
     }
 
     /**
-     * Converts one review entity into one displayed row.
+     * Converts one review summary into one displayed row.
      */
-    private UserReviewRow createReviewRow(final Review review) {
+    private UserReviewRow createReviewRow(final ReviewSummaryData review) {
         return new UserReviewRow(review.getReviewId(), review.getMediaId(),
                 review.getMediaType(), review.getMediaTitle(),
                 review.getRating(), review.getReviewText(),

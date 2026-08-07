@@ -21,6 +21,7 @@ import com.mongodb.client.model.ReplaceOptions;
 import com.mongodb.client.model.Updates;
 import entity.Review;
 import use_case.review.ReviewDataAccessInterface;
+import use_case.recommendation.UserRating;
 
 /**
  * MongoDB data access object for review data.
@@ -174,6 +175,16 @@ public class MongoReviewDataAccessObject implements ReviewDataAccessInterface {
      */
     public void close() {
         mongoClient.close();
+    }
+
+    @Override
+    public List<UserRating> findReviewRatingsByUser(final String username) {
+        final List<UserRating> userRatings = new ArrayList<>();
+        for (Review review : getReviewsByUsername(username)) {
+            userRatings.add(new UserRating(review.getMediaId(),
+                    review.getRating()));
+        }
+        return userRatings;
     }
 
     private Properties loadProperties(String propertiesPath) {

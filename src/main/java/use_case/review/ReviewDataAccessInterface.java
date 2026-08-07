@@ -13,6 +13,7 @@ import use_case.review.get_media_reviews.GetMediaReviewsDataAccessInterface;
 import use_case.review.get_user_reviews.GetUserReviewsDataAccessInterface;
 import use_case.review.like_review.LikeReviewDataAccessInterface;
 import use_case.review.unlike_review.UnlikeReviewDataAccessInterface;
+import use_case.recommendation.ReviewedMediaRatingDataAccessInterface;
 
 /**
  * Data access interface for review persistence.
@@ -24,6 +25,7 @@ public interface ReviewDataAccessInterface extends
         GetMediaReviewsDataAccessInterface,
         GetUserReviewsDataAccessInterface,
         GetUserCommentsReviewDataAccessInterface,
+        ReviewedMediaRatingDataAccessInterface,
         LikeReviewDataAccessInterface,
         UnlikeReviewDataAccessInterface {
 

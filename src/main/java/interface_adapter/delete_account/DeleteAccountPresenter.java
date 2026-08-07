@@ -4,8 +4,8 @@ import interface_adapter.ViewManagerModel;
 import interface_adapter.personal_account.PersonalAccountViewModel;
 import interface_adapter.signup.SignupState;
 import interface_adapter.signup.SignupViewModel;
-import use_case.comment.unlike_comment.delete_account.DeleteAccountOutputBoundary;
-import use_case.comment.unlike_comment.delete_account.DeleteAccountOutputData;
+import use_case.delete_account.DeleteAccountOutputBoundary;
+import use_case.delete_account.DeleteAccountOutputData;
 
 /**
  * The Presenter for the Delete Account Use Case.

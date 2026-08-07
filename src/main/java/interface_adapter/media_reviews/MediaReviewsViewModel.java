@@ -1,11 +1,11 @@
 package interface_adapter.media_reviews;
 
-import interface_adapter.ViewModel;
+import interface_adapter.StateModel;
 
 /**
  * View model for the media reviews panel.
  */
-public final class MediaReviewsViewModel extends ViewModel<MediaReviewsState> {
+public final class MediaReviewsViewModel extends StateModel<MediaReviewsState> {
 
     /** The view name. */
     public static final String VIEW_NAME = "media reviews";

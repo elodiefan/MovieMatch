@@ -3,7 +3,7 @@ package interface_adapter.media_reviews;
 import java.util.ArrayList;
 import java.util.List;
 
-import entity.Review;
+import use_case.review.ReviewSummaryData;
 import use_case.review.create_review.CreateReviewOutputBoundary;
 import use_case.review.create_review.CreateReviewOutputData;
 import use_case.review.delete_review.DeleteReviewOutputBoundary;
@@ -77,13 +77,14 @@ public final class MediaReviewsPresenter
     }
 
     /**
-     * Converts review entities into rows that can be displayed by the media
+     * Converts review summaries into rows that can be displayed by the media
      * reviews panel.
      */
-    public List<MediaReviewRow> prepareReviews(final List<Review> reviews) {
+    public List<MediaReviewRow> prepareReviews(
+            final List<ReviewSummaryData> reviews) {
         final List<MediaReviewRow> reviewRows = new ArrayList<>();
         if (reviews != null) {
-            for (Review review : reviews) {
+            for (ReviewSummaryData review : reviews) {
                 if (review != null) {
                     reviewRows.add(createReviewRow(review));
                 }
@@ -121,9 +122,9 @@ public final class MediaReviewsPresenter
     }
 
     /**
-     * Converts one review entity into one displayed row.
+     * Converts one review summary into one displayed row.
      */
-    private MediaReviewRow createReviewRow(final Review review) {
+    private MediaReviewRow createReviewRow(final ReviewSummaryData review) {
         return new MediaReviewRow(review.getReviewId(),
                 review.getAuthorUsername(), review.getAuthorDisplayName(),
                 review.getRating(), review.getReviewText(),

@@ -6,11 +6,10 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import entity.Review;
 import use_case.recommendation.RecommendationDataAccessInterface;
+import use_case.recommendation.ReviewedMediaRatingDataAccessInterface;
 import use_case.recommendation.UserRating;
 import use_case.recommendation.WatchedMediaDataAccessInterface;
-import use_case.review.ReviewDataAccessInterface;
 
 /** Turns a user's activity into ratings the algorithm can score with. */
 public class UserActivityRecommendationDataAccess
@@ -20,11 +19,11 @@ public class UserActivityRecommendationDataAccess
     public static final double IMPLIED_RATING = 6.5;
 
     private final WatchedMediaDataAccessInterface watchedMediaDataAccess;
-    private final ReviewDataAccessInterface reviewDataAccess;
+    private final ReviewedMediaRatingDataAccessInterface reviewDataAccess;
 
     public UserActivityRecommendationDataAccess(
             WatchedMediaDataAccessInterface watchedMediaDataAccess,
-            ReviewDataAccessInterface reviewDataAccess) {
+            ReviewedMediaRatingDataAccessInterface reviewDataAccess) {
         this.watchedMediaDataAccess = watchedMediaDataAccess;
         this.reviewDataAccess = reviewDataAccess;
     }
@@ -39,8 +38,9 @@ public class UserActivityRecommendationDataAccess
             ratings.put(mediaId, IMPLIED_RATING);
         }
 
-        for (Review review : reviewDataAccess.getReviewsByUsername(username)) {
-            ratings.put(review.getMediaId(), review.getRating());
+        for (UserRating reviewRating
+                : reviewDataAccess.findReviewRatingsByUser(username)) {
+            ratings.put(reviewRating.getMediaId(), reviewRating.getRating());
         }
 
         final List<UserRating> userRatings = new ArrayList<>();

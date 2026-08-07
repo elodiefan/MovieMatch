@@ -1,4 +1,4 @@
-package use_case.comment.unlike_comment.delete_account;
+package use_case.delete_account;
 
 import java.util.Timer;
 import java.util.TimerTask;

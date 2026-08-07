@@ -1,11 +1,11 @@
 package interface_adapter.user_reviews;
 
-import interface_adapter.ViewModel;
+import interface_adapter.StateModel;
 
 /**
  * View model for the user reviews view.
  */
-public final class UserReviewsViewModel extends ViewModel<UserReviewsState> {
+public final class UserReviewsViewModel extends StateModel<UserReviewsState> {
 
     /** The view name. */
     public static final String VIEW_NAME = "my reviews";

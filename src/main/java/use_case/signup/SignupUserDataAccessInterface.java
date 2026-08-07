@@ -1,7 +1,5 @@
 package use_case.signup;
 
-import entity.User;
-
 /**
  * Data access interface for the Signup Use Case.
  */
@@ -15,5 +13,6 @@ public interface SignupUserDataAccessInterface {
     /**
      * Saves a newly created user account.
      */
-    void save(User user);
+    void saveUser(String username, String displayName, String password,
+                  String securityQuestion, String securityAnswer);
 }

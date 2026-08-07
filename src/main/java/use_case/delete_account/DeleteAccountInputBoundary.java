@@ -1,4 +1,4 @@
-package use_case.comment.unlike_comment.delete_account;
+package use_case.delete_account;
 
 /**
  * Input Boundary for actions which are related to deleting account.

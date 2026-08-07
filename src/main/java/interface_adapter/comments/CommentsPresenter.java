@@ -3,7 +3,7 @@ package interface_adapter.comments;
 import java.util.ArrayList;
 import java.util.List;
 
-import entity.Comment;
+import use_case.comment.CommentSummaryData;
 import use_case.comment.create_comment.CreateCommentOutputBoundary;
 import use_case.comment.create_comment.CreateCommentOutputData;
 import use_case.comment.delete_comment.DeleteCommentOutputBoundary;
@@ -73,13 +73,14 @@ public final class CommentsPresenter implements GetReviewCommentsOutputBoundary,
     }
 
     /**
-     * Converts comment entities into rows that can be displayed by the comments
+     * Converts comment summaries into rows that can be displayed by the comments
      * view.
      */
-    private List<CommentRow> prepareComments(final List<Comment> comments) {
+    private List<CommentRow> prepareComments(
+            final List<CommentSummaryData> comments) {
         final List<CommentRow> commentRows = new ArrayList<>();
         if (comments != null) {
-            for (Comment comment : comments) {
+            for (CommentSummaryData comment : comments) {
                 if (comment != null) {
                     commentRows.add(createCommentRow(comment));
                 }
@@ -117,9 +118,9 @@ public final class CommentsPresenter implements GetReviewCommentsOutputBoundary,
     }
 
     /**
-     * Converts one comment entity into one displayed row.
+     * Converts one comment summary into one displayed row.
      */
-    private CommentRow createCommentRow(final Comment comment) {
+    private CommentRow createCommentRow(final CommentSummaryData comment) {
         return new CommentRow(comment.getCommentId(), comment.getReviewId(),
                 comment.getParentCommentId(), comment.getAuthorUsername(),
                 comment.getAuthorDisplayName(), comment.getCommentText(),
