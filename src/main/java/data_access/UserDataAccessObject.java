@@ -2,6 +2,8 @@ package data_access;
 
 import use_case.access_message_chat.AccessMessageChatUserDataAccessInterface;
 import use_case.block_user.BlockUserUserDataAccessInterface;
+import use_case.change_display_name.ChangeDisplayNameOutputBoundary;
+import use_case.change_display_name.ChangeDisplayNameUserDataAccessInterface;
 import use_case.comment.unlike_comment.delete_account.DeleteAccountUserDataAccessInterface;
 import use_case.get_lists.GetListsUserDataAccessInterface;
 import use_case.get_profile.GetProfileUserDataAccessInterface;
@@ -36,6 +38,7 @@ import use_case.signup.SignupUserDataAccessInterface;
 public interface UserDataAccessObject extends
         AccessMessageChatUserDataAccessInterface,
         BlockUserUserDataAccessInterface,
+        ChangeDisplayNameUserDataAccessInterface,
         DeleteAccountUserDataAccessInterface,
         GetListsUserDataAccessInterface,
         GetProfileUserDataAccessInterface,

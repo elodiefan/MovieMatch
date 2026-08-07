@@ -4,6 +4,7 @@ package interface_adapter.personal_account;
 //import use_case.customize.CustomizeInputBoundary;
 
 import interface_adapter.ViewManagerModel;
+import interface_adapter.change_display_name.ChangeDisplayNameController;
 import interface_adapter.get_lists.GetListsController;
 import interface_adapter.logout.LogoutState;
 import interface_adapter.logout.LogoutViewModel;
@@ -22,6 +23,7 @@ public class PersonalAccountController {
     private final String homePageViewName;
     private final String getListsViewName;
     private final String getReviewsViewName;
+    private final String changeDisplayNameViewName;
 
     public PersonalAccountController(ViewManagerModel viewManagerModel,
                                      GetSecurityQuestionInputBoundary getSecurityQuestionInteractor,
@@ -30,7 +32,8 @@ public class PersonalAccountController {
                                      String resetPasswordViewName,
                                      String homePageViewName,
                                      String getListsViewName,
-                                     String getReviewsViewName) {
+                                     String getReviewsViewName,
+                                     String changeDisplayNameViewName) {
         this.viewManagerModel = viewManagerModel;
         this.getSecurityQuestionInteractor = getSecurityQuestionInteractor;
         this.getListsController = getListsController;
@@ -39,6 +42,7 @@ public class PersonalAccountController {
         this.homePageViewName = homePageViewName;
         this.getListsViewName = getListsViewName;
         this.getReviewsViewName = getReviewsViewName;
+        this.changeDisplayNameViewName = changeDisplayNameViewName;
     }
 
     /**
@@ -62,13 +66,6 @@ public class PersonalAccountController {
     public void switchToReviewsView() {
         viewManagerModel.switchView(getReviewsViewName);
     }
-//
-//    /**
-//     * Executes the log out view use case.
-//     */
-//    public void switchToLogOutConfirmView() {
-//        accountUseCaseInteractor.switchToLogOutConfirmView();
-//    }
 
     /**
      * Executes the reset password view use case.
@@ -119,5 +116,14 @@ public class PersonalAccountController {
     public void switchToBlockedUsersView(String username, String displayName) {
         viewManagerModel.switchView(getListsViewName);
         getListsController.executeBlockUsersUseCase(username, displayName);
+    }
+
+    /**
+     * Executes the switch to change display name view.
+     */
+    public void switchToChangeDisplayNameView() {
+        viewManagerModel.switchView(changeDisplayNameViewName);
+        viewManagerModel.firePropertyChanged();
+        // changeDisplayNameController.changeDisplayName(username, displayName);
     }
 }

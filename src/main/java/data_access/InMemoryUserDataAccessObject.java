@@ -83,6 +83,18 @@ public class InMemoryUserDataAccessObject implements UserDataAccessObject {
                 newPassword, old.getSecurityQuestion(), old.getAnswer()));
     }
 
+    // ---------- Change display name ----------
+
+    @Override
+    public void changeDisplayName(String username, String newDisplayName) {
+        final User old = users.get(username);
+        if (old == null) {
+            return;
+        }
+        users.put(username, new StandardUser(old.getUsername(), newDisplayName,
+                old.getPassword(), old.getSecurityQuestion(), old.getAnswer()));
+    }
+
     // ---------- Get watchlist ----------
 
     @Override

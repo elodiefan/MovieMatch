@@ -8,6 +8,9 @@ import javax.swing.WindowConstants;
 
 import data_access.*;
 
+import interface_adapter.change_display_name.ChangeDisplayNameController;
+import interface_adapter.change_display_name.ChangeDisplayNamePresenter;
+import interface_adapter.change_display_name.ChangeDisplayNameViewModel;
 import interface_adapter.comments.CommentsController;
 import interface_adapter.comments.CommentsPresenter;
 import interface_adapter.comments.CommentsViewModel;
@@ -37,7 +40,10 @@ import interface_adapter.personal_account.PersonalAccountViewModel;
 import interface_adapter.reset_password.ResetPasswordController;
 import interface_adapter.reset_password.ResetPasswordPresenter;
 import interface_adapter.reset_password.ResetPasswordViewModel;
-import view.SearchUserView;
+import use_case.change_display_name.ChangeDisplayNameInputBoundary;
+import use_case.change_display_name.ChangeDisplayNameInteractor;
+import use_case.change_display_name.ChangeDisplayNameOutputBoundary;
+import view.*;
 import interface_adapter.search_user.SearchUserViewModel;
 import interface_adapter.search.SearchViewModel;
 import interface_adapter.search_result.SearchResultViewModel;
@@ -123,21 +129,6 @@ import use_case.security_question.SecurityQuestionOutputBoundary;
 import use_case.signup.SignupInputBoundary;
 import use_case.signup.SignupInteractor;
 import use_case.signup.SignupOutputBoundary;
-import view.DeleteAccountView;
-import view.GetListsView;
-import view.HomePageView;
-import view.LoginView;
-import view.LogoutConfirmView;
-import view.MediaDetailView;
-import view.MyReviewsView;
-import view.OtherAccountView;
-import view.PersonalAccountView;
-import view.ResetPasswordView;
-import view.SearchResultView;
-import view.SearchView;
-import view.SecurityQuestionView;
-import view.SignupView;
-import view.ViewManager;
 
 /**
  * The AppBuilder class is responsible for putting together the pieces of
@@ -172,6 +163,8 @@ public class AppBuilder {
             new CombinedMediaReviewDataAccessObject(tmdbReviewDataAccessObject,
                     mongoReviewDataAccessObject);
 
+    private ChangeDisplayNameView changeDisplayNameView;
+    private ChangeDisplayNameViewModel changeDisplayNameViewModel;
     private DeleteAccountView deleteAccountView;
     private DeleteAccountViewModel deleteAccountViewModel;
     private GetListsView getListsView;
@@ -208,6 +201,18 @@ public class AppBuilder {
 
     public AppBuilder() {
         cardPanel.setLayout(cardLayout);
+    }
+
+    /**
+     * Adds the Change Diplay Name View to the application.
+     * @return this builder
+     */
+    public AppBuilder addChangeDisplayNameView() {
+        changeDisplayNameViewModel = new ChangeDisplayNameViewModel();
+        changeDisplayNameView = new ChangeDisplayNameView(changeDisplayNameViewModel,
+                personalAccountViewModel, viewManagerModel);
+        cardPanel.add(changeDisplayNameView, changeDisplayNameView.getViewName());
+        return this;
     }
 
     /**
@@ -341,6 +346,27 @@ public class AppBuilder {
         signupView = new SignupView(signupViewModel);
         cardPanel.add(signupView, signupView.getViewName());
         return this;
+    }
+
+    /**
+     * Adds the Change Display Name Use Case to the application.
+     * @return this builder
+     */
+    public AppBuilder addChangeDisplayNameUseCase() {
+        final ChangeDisplayNameOutputBoundary changeDisplayNameOutputBoundary = new ChangeDisplayNamePresenter(
+                viewManagerModel, changeDisplayNameViewModel,
+                username -> {
+                    viewManagerModel.setState(PersonalAccountViewModel.VIEW_NAME);
+                    viewManagerModel.firePropertyChanged();
+                });
+        final ChangeDisplayNameInputBoundary changeDisplayNameInteractor = new ChangeDisplayNameInteractor(
+                userDataAccessObject, changeDisplayNameOutputBoundary);
+        final ChangeDisplayNameController changeDisplayNameController = new ChangeDisplayNameController(
+                changeDisplayNameInteractor);
+        changeDisplayNameView.setChangeDisplayNameController(changeDisplayNameController);
+        return this;
+
+
     }
 
     /**
@@ -481,6 +507,8 @@ public class AppBuilder {
         final GetProfileInputBoundary getProfileInteractor = new GetProfileInteractor(userDataAccessObject,
                 (HomePagePresenter) getProfileOutputBoundary);
 
+//        final ChangeDisplayNameController changeDisplayNameController = createChangeDisplayNameController();
+
         final GetListsController getListsController = createGetListsController();
         final GetSecurityQuestionOutputBoundary getSecurityQuestionOutputBoundary = new PersonalAccountPresenter(viewManagerModel,
                 personalAccountViewModel, resetPasswordViewModel, deleteAccountViewModel);
@@ -494,7 +522,8 @@ public class AppBuilder {
                 resetPasswordViewModel.getViewName(),
                 homePageViewModel.getViewName(),
                 getListsViewModel.getViewName(),
-                userReviewsViewModel.getViewName());
+                userReviewsViewModel.getViewName(),
+                changeDisplayNameViewModel.getViewName());
 
         personalAccountView.setPersonalAccountController(personalAccountController);
         return this;
@@ -758,7 +787,7 @@ public class AppBuilder {
      * @return the application
      */
     public JFrame build() {
-        final JFrame application = new JFrame("Login Example");
+        final JFrame application = new JFrame("MovieMatch");
         application.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 
         application.add(cardPanel);

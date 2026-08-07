@@ -27,7 +27,7 @@ public class PersonalAccountView extends JPanel implements PropertyChangeListene
     private final JLabel welcomeLabel;
     private final JLabel username;
     private final JLabel displayName;
-    private final JButton customizeButton;
+    private final JButton changeDisplayNameButton;
     private final JButton logoutButton;
     private final JButton resetPasswordButton;
     private final JButton deleteAccountButton;
@@ -63,12 +63,12 @@ public class PersonalAccountView extends JPanel implements PropertyChangeListene
 
         final JPanel accountOptionsPanel = new JPanel();
         backButton = new JButton(PersonalAccountViewModel.BACK_BUTTON);
-        customizeButton = new JButton(PersonalAccountViewModel.CUSTOMIZE_BUTTON);
+        changeDisplayNameButton = new JButton(PersonalAccountViewModel.CHANGE_DISPLAY_NAME_BUTTON);
         logoutButton = new JButton(PersonalAccountViewModel.LOGOUT_BUTTON);
         resetPasswordButton = new JButton(PersonalAccountViewModel.RESET_PASSWORD_BUTTON);
         deleteAccountButton = new JButton(PersonalAccountViewModel.DELETE_ACCOUNT_BUTTON);
         accountOptionsPanel.add(backButton);
-        accountOptionsPanel.add(customizeButton);
+        accountOptionsPanel.add(changeDisplayNameButton);
         accountOptionsPanel.add(logoutButton);
         accountOptionsPanel.add(resetPasswordButton);
         accountOptionsPanel.add(deleteAccountButton);
@@ -121,11 +121,11 @@ public class PersonalAccountView extends JPanel implements PropertyChangeListene
                 }
         );
 
-        customizeButton.addActionListener(
+        changeDisplayNameButton.addActionListener(
                 new ActionListener() {
                     @Override
                     public void actionPerformed(ActionEvent e) {
-                        // not implemented yet
+                        personalAccountController.switchToChangeDisplayNameView();
                     }
                 }
         );

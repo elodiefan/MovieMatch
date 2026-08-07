@@ -31,6 +31,7 @@ public class Main {
                 .addSearchUserView()
                 .addSecurityQuestionView()
                 .addSignupView()
+                .addChangeDisplayNameView()
                 .addDeleteAccountUseCase()
                 .addGetWatchlistUseCase()
                 .addGetWatchHistoryUseCase()
@@ -52,6 +53,7 @@ public class Main {
                 .addUserReviewsUseCase()
                 .addMediaDetailView()
                 .addMediaDetailUseCase()
+                .addChangeDisplayNameUseCase()
                 .build();
 
         application.pack();
