@@ -39,6 +39,10 @@ public class HomePageView extends JPanel implements PropertyChangeListener {
     private final JList listOfRecommendations;
     private final JLabel recommendationsHeader;
     private final JLabel recommendationsPlaceholder;
+    private final JScrollPane recommendationsScroll;
+
+    /** Swapped in for the placeholder once recommendations are wired up. */
+    private HomeRecommendationsPanel recommendationsPanel;
 
     private final JButton searchButton;
     private final JButton findUsersButton;
@@ -74,7 +78,7 @@ public class HomePageView extends JPanel implements PropertyChangeListener {
         final JPanel recommendationsBody = new JPanel(new BorderLayout());
         recommendationsBody.add(recommendationsPlaceholder, BorderLayout.CENTER);
 
-        final JScrollPane recommendationsScroll = new JScrollPane(recommendationsBody);
+        recommendationsScroll = new JScrollPane(recommendationsBody);
         recommendationsScroll.setBorder(BorderFactory.createTitledBorder(
                 HomePageViewModel.RECOMMENDATIONS_LABEL));
 
@@ -144,6 +148,23 @@ public class HomePageView extends JPanel implements PropertyChangeListener {
         final HomePageState state = (HomePageState) evt.getNewValue();
         final String name = state.getUsername() == null ? "" : state.getUsername();
         greeting.setText("Hi, " + name);
+
+        // Landing on the home page is what triggers a load; the panel itself
+        // ignores repeat calls while one is already running.
+        if (recommendationsPanel != null) {
+            recommendationsPanel.loadFor(name);
+        }
+    }
+
+    /**
+     * Puts the live recommendation strip where the placeholder was.
+     */
+    public void setRecommendationsPanel(HomeRecommendationsPanel recommendationsPanel) {
+        this.recommendationsPanel = recommendationsPanel;
+        this.remove(recommendationsScroll);
+        this.add(recommendationsPanel, BorderLayout.CENTER);
+        this.revalidate();
+        this.repaint();
     }
 
     public String getViewName() {

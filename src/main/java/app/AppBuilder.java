@@ -50,8 +50,11 @@ import interface_adapter.reset_password.ResetPasswordViewModel;
 import view.SearchUserView;
 import interface_adapter.search_user.SearchUserViewModel;
 import interface_adapter.search.SearchViewModel;
+import interface_adapter.recommendation.RecommendationViewModel;
 import interface_adapter.search_result.SearchResultViewModel;
 import interface_adapter.settings.SettingsController;
+import view.HomeRecommendationsPanel;
+import view.RecommendationView;
 import interface_adapter.settings.SettingsPresenter;
 import interface_adapter.settings.SettingsViewModel;
 import use_case.settings.SettingsInputBoundary;
@@ -232,6 +235,12 @@ public class AppBuilder {
     private SearchResultViewModel searchResultViewModel;
     private SettingsView settingsView;
     private SettingsViewModel settingsViewModel;
+    private RecommendationView recommendationView;
+    private HomeRecommendationsPanel homeRecommendationsPanel;
+
+    /** One per screen, because the strip and the full list show different amounts. */
+    private RecommendationViewModel homeStripRecommendationViewModel;
+    private RecommendationViewModel detailedRecommendationViewModel;
     private MediaDetailView mediaDetailView;
     private MediaDetailViewModel mediaDetailViewModel;
     private MediaReviewsViewModel mediaReviewsViewModel;
@@ -669,6 +678,38 @@ public class AppBuilder {
 
     /**
      * Adds the Search Result View to the application.
+     */
+    public AppBuilder addRecommendationView() {
+        homeStripRecommendationViewModel = new RecommendationViewModel();
+        detailedRecommendationViewModel = new RecommendationViewModel();
+
+        homeRecommendationsPanel = new HomeRecommendationsPanel(homeStripRecommendationViewModel);
+        recommendationView = new RecommendationView(detailedRecommendationViewModel);
+
+        homePageView.setRecommendationsPanel(homeRecommendationsPanel);
+        cardPanel.add(recommendationView, recommendationView.getViewName());
+        return this;
+    }
+
+    /**
+     * Adds the Recommendation Use Case to the application.
+     * @return this builder
+     */
+    public AppBuilder addRecommendationUseCase() {
+        RecommendationUseCaseFactory.create(
+                viewManagerModel,
+                homeStripRecommendationViewModel,
+                detailedRecommendationViewModel,
+                homeRecommendationsPanel,
+                recommendationView,
+                userDataAccessObject,
+                reviewDataAccessObject);
+        return this;
+    }
+
+    /**
+     * Adds the Settings View to the application.
+     * @return this builder
      */
     public AppBuilder addSettingsView() {
         settingsViewModel = new SettingsViewModel();

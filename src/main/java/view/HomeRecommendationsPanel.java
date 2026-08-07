@@ -1,0 +1,154 @@
+package view;
+
+import java.awt.BorderLayout;
+import java.awt.Component;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
+import java.util.concurrent.ExecutionException;
+
+import javax.swing.BorderFactory;
+import javax.swing.BoxLayout;
+import javax.swing.JButton;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.SwingConstants;
+import javax.swing.SwingWorker;
+
+import interface_adapter.recommendation.RecommendationController;
+import interface_adapter.recommendation.RecommendationState;
+import interface_adapter.recommendation.RecommendationViewModel;
+import use_case.recommendation.RecommendedMedia;
+
+/**
+ * The short recommendation strip on the home page.
+ *
+ * Its own view model and presenter, separate from the full screen, so the two
+ * can show different amounts without either knowing about the other. The
+ * interactor is the same class in both cases; only the presenter differs.
+ *
+ * Reads nothing but RecommendedMedia, which the use case produced, so no entity
+ * or TMDB detail reaches the home page.
+ */
+public class HomeRecommendationsPanel extends JPanel implements PropertyChangeListener {
+
+    private static final String SEE_ALL_LABEL = "See all recommendations";
+
+    private final RecommendationViewModel recommendationViewModel;
+    private RecommendationController recommendationController;
+
+    private final JPanel rows;
+    private final JLabel message;
+    private final JButton seeAllButton;
+
+    /** Stops a second load firing while the first is still running. */
+    private boolean loading;
+
+    public HomeRecommendationsPanel(RecommendationViewModel recommendationViewModel) {
+        this.recommendationViewModel = recommendationViewModel;
+        this.recommendationViewModel.addPropertyChangeListener(this);
+
+        rows = new JPanel();
+        rows.setLayout(new BoxLayout(rows, BoxLayout.Y_AXIS));
+
+        message = new JLabel(RecommendationViewModel.LOADING_LABEL, SwingConstants.CENTER);
+
+        final JScrollPane scroll = new JScrollPane(rows);
+        scroll.setBorder(BorderFactory.createTitledBorder(RecommendationViewModel.TITLE_LABEL));
+
+        seeAllButton = new JButton(SEE_ALL_LABEL);
+        seeAllButton.addActionListener(
+                event -> recommendationController.switchToRecommendationView());
+        final JPanel actions = new JPanel();
+        actions.add(seeAllButton);
+
+        this.setLayout(new BorderLayout());
+        this.add(message, BorderLayout.NORTH);
+        this.add(scroll, BorderLayout.CENTER);
+        this.add(actions, BorderLayout.SOUTH);
+    }
+
+    /**
+     * Asks for this user's recommendations, off the UI thread.
+     *
+     * Producing them reaches TMDB and possibly Gemini, so doing it here would
+     * stop the home page painting for several seconds.
+     */
+    public void loadFor(String username) {
+        if (loading || recommendationController == null
+                || username == null || username.isBlank()) {
+            return;
+        }
+        loading = true;
+        message.setText(RecommendationViewModel.LOADING_LABEL);
+
+        new SwingWorker<Void, Void>() {
+            @Override
+            protected Void doInBackground() {
+                recommendationController.loadForHomePage(username);
+                return null;
+            }
+
+            @Override
+            protected void done() {
+                loading = false;
+                try {
+                    get();
+                }
+                catch (InterruptedException exception) {
+                    Thread.currentThread().interrupt();
+                }
+                catch (ExecutionException exception) {
+                    message.setText("Could not load recommendations.");
+                }
+            }
+        }.execute();
+    }
+
+    @Override
+    public void propertyChange(PropertyChangeEvent evt) {
+        final RecommendationState state = (RecommendationState) evt.getNewValue();
+        rows.removeAll();
+
+        if (state.getRecommendationError() != null) {
+            message.setText(state.getRecommendationError());
+        }
+        else if (state.getRecommendations().isEmpty() && state.isLoaded()) {
+            message.setText(RecommendationViewModel.EMPTY_LABEL);
+        }
+        else if (state.isLoaded()) {
+            message.setText(" ");
+            state.getRecommendations().forEach(this::addRow);
+        }
+
+        seeAllButton.setVisible(!state.getRecommendations().isEmpty());
+
+        rows.revalidate();
+        rows.repaint();
+        this.revalidate();
+        this.repaint();
+    }
+
+    private void addRow(RecommendedMedia media) {
+        final JPanel row = new JPanel();
+        row.setLayout(new BoxLayout(row, BoxLayout.Y_AXIS));
+        row.setAlignmentX(Component.LEFT_ALIGNMENT);
+
+        row.add(new JLabel(media.getTitle() + " (" + media.getReleaseYear() + ")"
+                + "  -  " + media.getPrimaryGenre()));
+
+        // Only present once Gemini has had a look; the deterministic ranking
+        // alone leaves it blank, which is a valid result rather than a fault.
+        if (media.getExplanation() != null && !media.getExplanation().isBlank()) {
+            final JLabel why = new JLabel(media.getExplanation());
+            why.setForeground(UiTheme.MUTED_TEXT);
+            row.add(why);
+        }
+
+        rows.add(row);
+    }
+
+    public void setRecommendationController(RecommendationController recommendationController) {
+        this.recommendationController = recommendationController;
+    }
+}
