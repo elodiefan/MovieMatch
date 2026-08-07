@@ -1,13 +1,6 @@
 package use_case.settings;
 
-/**
- * The Change Settings Interactor.
- *
- * The rule this use case owns is the range of text sizes the application
- * supports. A slider happens to enforce it today, but the range belongs to the
- * application rather than to any one widget, so a value arriving from anywhere
- * is clamped here.
- */
+/** The Change Settings Interactor. */
 public class SettingsInteractor implements SettingsInputBoundary {
 
     /** Smallest readable text size. */
@@ -32,9 +25,7 @@ public class SettingsInteractor implements SettingsInputBoundary {
                 new SettingsOutputData(settingsInputData.isDarkMode(), textSize));
     }
 
-    /**
-     * Holds a text size inside the readable range.
-     */
+    /** Holds a text size inside the readable range. */
     private int clamp(int textSize) {
         int result = textSize;
         if (result < MIN_TEXT_SIZE) {

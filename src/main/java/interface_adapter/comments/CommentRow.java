@@ -2,9 +2,7 @@ package interface_adapter.comments;
 
 import java.time.ZonedDateTime;
 
-/**
- * Display data for one comment.
- */
+/** Display data for one comment. */
 public final class CommentRow {
     /** The comment id. */
     private final String commentId;
@@ -23,9 +21,7 @@ public final class CommentRow {
     /** The like count. */
     private final int likeCount;
 
-    /**
-     * Creates display data for one comment row.
-     */
+    /** Creates display data for one comment row. */
     public CommentRow(final String inputCommentId,
                       final String inputReviewId,
                       final String inputParentCommentId,

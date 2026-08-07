@@ -1,11 +1,7 @@
 package use_case.review.get_user_reviews;
 
-/**
- * Input boundary for loading reviews written by one user.
- */
+/** Input boundary for loading reviews written by one user. */
 public interface GetUserReviewsInputBoundary {
-    /**
-     * Executes the use case.
-     */
+    /** Executes the use case. */
     void execute(GetUserReviewsInputData inputData);
 }

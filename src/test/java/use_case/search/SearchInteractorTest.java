@@ -12,13 +12,7 @@ import org.junit.jupiter.api.Test;
 import entity.Media;
 import entity.Movie;
 
-/**
- * Tests for the Search Interactor, and in particular for how much it fetches.
- *
- * A search used to ask the source for every page it reported, which for a
- * common keyword meant ten thousand results and roughly the same number of
- * network calls. These pin the paging behaviour that replaced it.
- */
+/** Tests for the Search Interactor, and in particular for how much it fetches. */
 class SearchInteractorTest {
 
     /** Records which pages were asked for and hands back fabricated results. */

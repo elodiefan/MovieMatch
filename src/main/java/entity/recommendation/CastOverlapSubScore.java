@@ -2,23 +2,12 @@ package entity.recommendation;
 
 import entity.Media;
 
-/**
- * Scores a candidate on how much of its cast and crew the user already enjoys.
- *
- * Catches the taste that genre alone misses — following a particular director or
- * actor across films of different kinds. Computed as the share of the
- * candidate's own cast that appears in the user's taste profile.
- *
- * Titles with no cast listed score 0 rather than failing, which matters because
- * cast data is often missing for older or more obscure entries.
- */
+/** Scores a candidate on how much of its cast and crew the user already enjoys. */
 public class CastOverlapSubScore implements SubScore {
 
     private static final String NAME = "cast";
 
-    /**
-     * Creates the cast overlap factor.
-     */
+    /** Creates the cast overlap factor. */
     public CastOverlapSubScore() {
         // Stateless: everything needed arrives through scoreFor.
     }

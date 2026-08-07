@@ -4,33 +4,25 @@ import java.util.Optional;
 
 import entity.Review;
 
-/**
- * Interactor for deleting a review.
- */
+/** Interactor for deleting a review. */
 public final class DeleteReviewInteractor implements DeleteReviewInputBoundary {
     /** The review data access object. */
     private final DeleteReviewDataAccessInterface reviewDataAccessObject;
     /** The presenter. */
     private final DeleteReviewOutputBoundary presenter;
 
-    /**
-     * Creates a delete review interactor without persistence.
-     */
+    /** Creates a delete review interactor without persistence. */
     public DeleteReviewInteractor() {
         this(null, null);
     }
 
-    /**
-     * Creates a delete review interactor with persistence.
-     */
+    /** Creates a delete review interactor with persistence. */
     public DeleteReviewInteractor(
             final DeleteReviewDataAccessInterface inputReviewDataAccessObject) {
         this(inputReviewDataAccessObject, null);
     }
 
-    /**
-     * Handles this review or comment operation.
-     */
+    /** Handles this review or comment operation. */
     public DeleteReviewInteractor(
             final DeleteReviewDataAccessInterface inputReviewDataAccessObject,
             final DeleteReviewOutputBoundary inputPresenter) {
@@ -57,9 +49,7 @@ public final class DeleteReviewInteractor implements DeleteReviewInputBoundary {
         }
     }
 
-    /**
-     * Deletes one persisted review written by the given user.
-     */
+    /** Deletes one persisted review written by the given user. */
     private boolean deleteReview(final String reviewId,
                                 final String username) {
         final String trimmedReviewId = trimToEmpty(reviewId);
@@ -79,9 +69,7 @@ public final class DeleteReviewInteractor implements DeleteReviewInputBoundary {
         return deleted;
     }
 
-    /**
-     * Validates data needed to delete a persisted review.
-     */
+    /** Validates data needed to delete a persisted review. */
     private void validateDeleteReviewData(final String reviewId,
                                           final String username) {
         if (isBlank(reviewId)) {
@@ -101,9 +89,7 @@ public final class DeleteReviewInteractor implements DeleteReviewInputBoundary {
         }
     }
 
-    /**
-     * Checks whether the review can be deleted by the user.
-     */
+    /** Checks whether the review can be deleted by the user. */
     private boolean canDeleteReview(final Review review, final String reviewId,
                                     final String username) {
         final boolean canDelete;
@@ -116,16 +102,12 @@ public final class DeleteReviewInteractor implements DeleteReviewInputBoundary {
         return canDelete;
     }
 
-    /**
-     * Checks whether a text value is empty or only whitespace.
-     */
+    /** Checks whether a text value is empty or only whitespace. */
     private boolean isBlank(final String value) {
         return value == null || value.trim().isEmpty();
     }
 
-    /**
-     * Trims a text value, or returns an empty string if it is null.
-     */
+    /** Trims a text value, or returns an empty string if it is null. */
     private String trimToEmpty(final String value) {
         final String trimmedValue;
         if (value == null) {

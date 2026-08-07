@@ -4,9 +4,7 @@ import java.util.List;
 
 import entity.Media;
 
-/**
- * Output data for the Search Use Case.
- */
+/** Output data for the Search Use Case. */
 public class SearchOutputData {
 
     private final List<Media> results;
@@ -26,45 +24,32 @@ public class SearchOutputData {
         this.totalResults = totalResults;
     }
 
-    /**
-     * Returns how many results exist in total, not how many have been fetched.
-     */
+    /** Returns how many results exist in total, not how many have been fetched. */
     public int getTotalResults() {
         return totalResults;
     }
 
-    /**
-     * Returns the search results.
-     */
+    /** Returns the search results. */
     public List<Media> getResults() {
         return results;
     }
 
-    /**
-     * Returns the keyword these results are for, so more can be requested.
-     */
+    /** Returns the keyword these results are for, so more can be requested. */
     public String getKeyword() {
         return keyword;
     }
 
-    /**
-     * Returns the page a further request should start from.
-     */
+    /** Returns the page a further request should start from. */
     public int getNextPage() {
         return nextPage;
     }
 
-    /**
-     * Returns whether the source has more pages left.
-     */
+    /** Returns whether the source has more pages left. */
     public boolean isMoreAvailable() {
         return moreAvailable;
     }
 
-    /**
-     * Returns whether these results extend the previous ones rather than
-     * replacing them.
-     */
+    /** Returns whether these results extend the previous ones rather than replacing them. */
     public boolean isAppending() {
         return appending;
     }

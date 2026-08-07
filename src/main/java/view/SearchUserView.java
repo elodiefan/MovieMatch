@@ -17,12 +17,7 @@ import interface_adapter.search_user.SearchUserState;
 import interface_adapter.search_user.SearchUserViewModel;
 import use_case.search_user.UserSummary;
 
-/**
- * The View for searching for other users.
- *
- * Results are drawn straight onto this panel rather than a separate results
- * view, so you can refine a keyword without navigating back and forth.
- */
+/** The View for searching for other users. */
 public class SearchUserView extends JPanel implements PropertyChangeListener {
 
     private static final int FIELD_COLUMNS = 20;

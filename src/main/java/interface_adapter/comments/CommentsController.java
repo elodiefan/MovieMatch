@@ -11,9 +11,7 @@ import use_case.comment.like_comment.LikeCommentInputData;
 import use_case.comment.unlike_comment.UnlikeCommentInputBoundary;
 import use_case.comment.unlike_comment.UnlikeCommentInputData;
 
-/**
- * Controller for review comments.
- */
+/** Controller for review comments. */
 public final class CommentsController {
     /** The get review comments interactor. */
     private final GetReviewCommentsInputBoundary getReviewCommentsInteractor;
@@ -26,9 +24,7 @@ public final class CommentsController {
     /** The unlike comment interactor. */
     private final UnlikeCommentInputBoundary unlikeCommentInteractor;
 
-    /**
-     * Creates a controller for comment actions.
-     */
+    /** Creates a controller for comment actions. */
     public CommentsController(
             final GetReviewCommentsInputBoundary
                     inputGetReviewCommentsInteractor,
@@ -43,17 +39,13 @@ public final class CommentsController {
         this.unlikeCommentInteractor = inputUnlikeCommentInteractor;
     }
 
-    /**
-     * Loads persisted comments for one review.
-     */
+    /** Loads persisted comments for one review. */
     public void loadReviewComments(final String reviewId) {
         getReviewCommentsInteractor.execute(new GetReviewCommentsInputData(
                 reviewId));
     }
 
-    /**
-     * Creates a comment or reply on a review.
-     */
+    /** Creates a comment or reply on a review. */
     public void createComment(final String reviewId,
                               final String parentCommentId,
                               final String authorUsername,
@@ -64,25 +56,19 @@ public final class CommentsController {
                 commentText));
     }
 
-    /**
-     * Deletes one persisted comment written by the given user.
-     */
+    /** Deletes one persisted comment written by the given user. */
     public void deleteComment(final String commentId, final String username) {
         deleteCommentInteractor.execute(new DeleteCommentInputData(commentId,
                 username));
     }
 
-    /**
-     * Likes one persisted comment.
-     */
+    /** Likes one persisted comment. */
     public void likeComment(final String commentId, final String username) {
         likeCommentInteractor.execute(new LikeCommentInputData(commentId,
                 username));
     }
 
-    /**
-     * Unlikes one persisted comment.
-     */
+    /** Unlikes one persisted comment. */
     public void unlikeComment(final String commentId, final String username) {
         unlikeCommentInteractor.execute(new UnlikeCommentInputData(commentId,
                 username));

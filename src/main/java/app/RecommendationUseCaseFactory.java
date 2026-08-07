@@ -24,29 +24,13 @@ import use_case.review.ReviewDataAccessInterface;
 import view.HomeRecommendationsPanel;
 import view.RecommendationView;
 
-/**
- * Assembles the recommendation use case.
- *
- * Follows the convention Yidan set with SearchUseCaseFactory, so adding this
- * feature costs AppBuilder one call rather than thirty lines in a file four
- * people edit.
- *
- * Everything chosen here is an implementation of an interface the use case
- * layer declares, so this is the only class that knows recommendations are
- * backed by TMDB, MongoDB and Gemini at all.
- */
+/** Assembles the recommendation use case. */
 public final class RecommendationUseCaseFactory {
 
     private RecommendationUseCaseFactory() {
     }
 
-    /**
-     * Builds both recommendation screens over one interactor class.
-     *
-     * The home strip and the full screen get their own view model and their own
-     * presenter, which is what the output boundary anticipates: the interactor
-     * never learns which screen it is serving.
-     */
+    /** Builds both recommendation screens over one interactor class. */
     public static void create(ViewManagerModel viewManagerModel,
                               RecommendationViewModel homeStripViewModel,
                               RecommendationViewModel detailedViewModel,
@@ -84,13 +68,7 @@ public final class RecommendationUseCaseFactory {
                 presenter, currentYear);
     }
 
-    /**
-     * Uses Gemini when a key is configured, and nothing at all when it is not.
-     *
-     * Checking once here avoids a failed network call for every candidate on
-     * every load. Either way the result is wrapped in the defensive clamp the
-     * algorithm document asks for.
-     */
+    /** Uses Gemini when a key is configured, and nothing at all when it is not. */
     private static ScoreAdjuster chooseAdjuster() {
         final GeminiScoreAdjuster gemini = new GeminiScoreAdjuster();
         final ScoreAdjuster chosen;

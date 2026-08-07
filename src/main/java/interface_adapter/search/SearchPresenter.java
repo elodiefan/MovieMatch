@@ -12,9 +12,7 @@ import interface_adapter.search_result.SearchResultViewModel;
 import use_case.search.SearchOutputBoundary;
 import use_case.search.SearchOutputData;
 
-/**
- * Presenter for Search Use Case.
- */
+/** Presenter for Search Use Case. */
 public class SearchPresenter implements SearchOutputBoundary {
 
     private final SearchViewModel searchViewModel;
@@ -82,9 +80,7 @@ public class SearchPresenter implements SearchOutputBoundary {
         });
     }
 
-    /**
-     * Runs an update on the UI thread, whichever thread called in.
-     */
+    /** Runs an update on the UI thread, whichever thread called in. */
     private void onUiThread(Runnable update) {
         if (SwingUtilities.isEventDispatchThread()) {
             update.run();

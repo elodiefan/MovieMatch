@@ -7,10 +7,7 @@ public class GetListsState {
 
     private String displayText = "";
 
-    /**
-     * Which list is on screen, so the heading can name it. All three lists share
-     * this one state, so without it every list is headed the same way.
-     */
+    /** Which list is on screen, so the heading can name it. */
     private String listLabel = GetListsViewModel.LIST_LABEL;
 
     public String getListLabel() {

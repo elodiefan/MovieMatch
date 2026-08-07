@@ -3,16 +3,12 @@ package interface_adapter.log_media;
 import use_case.log_media.LogMediaOutputBoundary;
 import use_case.log_media.LogMediaOutputData;
 
-/**
- * Presenter for logging media to user lists.
- */
+/** Presenter for logging media to user lists. */
 public class LogMediaPresenter implements LogMediaOutputBoundary {
     /** The log media view model. */
     private final LogMediaViewModel logMediaViewModel;
 
-    /**
-     * Creates a presenter for log media output.
-     */
+    /** Creates a presenter for log media output. */
     public LogMediaPresenter(
             final LogMediaViewModel inputLogMediaViewModel) {
         this.logMediaViewModel = inputLogMediaViewModel;

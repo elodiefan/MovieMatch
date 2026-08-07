@@ -2,9 +2,7 @@ package entity;
 
 import java.util.List;
 
-/**
- * Represents a movie.
- */
+/** Represents a movie. */
 
 public class Movie implements Media {
 
@@ -17,9 +15,7 @@ public class Movie implements Media {
     private final List<String> cast;
     private final int runtime;
 
-    /**
-     * Creates a new movie.
-     */
+    /** Creates a new movie. */
     public Movie(int id,
                  String title,
                  int releaseYear,

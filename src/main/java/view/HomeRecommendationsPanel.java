@@ -21,16 +21,7 @@ import interface_adapter.recommendation.RecommendationState;
 import interface_adapter.recommendation.RecommendationViewModel;
 import use_case.recommendation.RecommendedMedia;
 
-/**
- * The short recommendation strip on the home page.
- *
- * Its own view model and presenter, separate from the full screen, so the two
- * can show different amounts without either knowing about the other. The
- * interactor is the same class in both cases; only the presenter differs.
- *
- * Reads nothing but RecommendedMedia, which the use case produced, so no entity
- * or TMDB detail reaches the home page.
- */
+/** The short recommendation strip on the home page. */
 public class HomeRecommendationsPanel extends JPanel implements PropertyChangeListener {
 
     private static final String SEE_ALL_LABEL = "See all recommendations";
@@ -87,12 +78,7 @@ public class HomeRecommendationsPanel extends JPanel implements PropertyChangeLi
         loadingPanel.setAnimating(LOADING_CARD.equals(card));
     }
 
-    /**
-     * Asks for this user's recommendations, off the UI thread.
-     *
-     * Producing them reaches TMDB and possibly Gemini, so doing it here would
-     * stop the home page painting for several seconds.
-     */
+    /** Asks for this user's recommendations, off the UI thread. */
     public void loadFor(String username) {
         if (loading || recommendationController == null
                 || username == null || username.isBlank()) {

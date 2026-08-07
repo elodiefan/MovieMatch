@@ -12,9 +12,7 @@ import use_case.get_profile.GetProfileOutputData;
 import use_case.home_page.HomePageOutputBoundary;
 import use_case.home_page.HomePageOutputData;
 
-/**
- * The Presenter for the Home Page Use Case.
- */
+/** The Presenter for the Home Page Use Case. */
 
 //public class HomePagePresenter implements HomePageOutputBoundary {
 //

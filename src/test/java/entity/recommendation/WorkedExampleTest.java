@@ -13,14 +13,7 @@ import org.junit.jupiter.api.Test;
 import entity.Genre;
 import entity.Movie;
 
-/**
- * Checks the scoring against the worked example in section 6 of
- * {@code Recommendation_Algorithm.pdf}.
- *
- * The document states every intermediate value, so each factor is asserted on
- * its own before the weighted total. A failure therefore names the factor that
- * drifted instead of only reporting that the total was wrong.
- */
+/** Checks the scoring against the worked example in section 6 of {@code Recommendation_Algorithm.pdf}. */
 class WorkedExampleTest {
 
     /** The document computes recency as at 2026. */

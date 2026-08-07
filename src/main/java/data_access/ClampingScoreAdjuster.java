@@ -8,18 +8,7 @@ import entity.recommendation.TasteProfile;
 import use_case.recommendation.Adjustment;
 import use_case.recommendation.ScoreAdjuster;
 
-/**
- * Wraps another adjuster and refuses to let it move a score very far.
- *
- * The algorithm document requires the adjustment to be clamped in two places,
- * "once by the interactor and again defensively inside the implementation". This
- * is the second of those: whatever an adjuster returns — a misread reply, a
- * misbehaving model, a bug — cannot escape the permitted range before it reaches
- * the use case.
- *
- * Wrapping rather than editing each adjuster means the guarantee holds for every
- * implementation, including ones written later.
- */
+/** Wraps another adjuster and refuses to let it move a score very far. */
 public class ClampingScoreAdjuster implements ScoreAdjuster {
 
     /** The most any adjuster may move a score in either direction. */
@@ -27,11 +16,7 @@ public class ClampingScoreAdjuster implements ScoreAdjuster {
 
     private final ScoreAdjuster delegate;
 
-    /**
-     * Wraps an adjuster.
-     *
-     * @param delegate the adjuster whose output should be clamped
-     */
+    /** Wraps an adjuster. */
     public ClampingScoreAdjuster(final ScoreAdjuster delegate) {
         this.delegate = delegate;
     }
@@ -41,13 +26,7 @@ public class ClampingScoreAdjuster implements ScoreAdjuster {
         return clamp(this.delegate.adjust(candidate, tasteProfile));
     }
 
-    /**
-     * Passes a whole shortlist through and clamps every answer.
-     *
-     * Overridden rather than inherited so the guarantee still holds when a
-     * delegate answers in bulk. Without this the default would fall back to
-     * asking one at a time and the batching would be lost.
-     */
+    /** Passes a whole shortlist through and clamps every answer. */
     @Override
     public List<Adjustment> adjustAll(final List<Media> candidates, final TasteProfile tasteProfile) {
         final List<Adjustment> clamped = new ArrayList<>();

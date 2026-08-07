@@ -15,36 +15,26 @@ import use_case.comment.get_user_comments.GetUserCommentsDataAccessInterface;
 import use_case.comment.like_comment.LikeCommentDataAccessInterface;
 import use_case.comment.unlike_comment.UnlikeCommentDataAccessInterface;
 
-/**
- * In-memory data access object for comment data.
- */
+/** In-memory data access object for comment data. */
 public class InMemoryCommentDataAccessObject implements CommentDataAccessObject{
     private final Map<String, Comment> comments = new LinkedHashMap<>();
 
-    /**
-     * Saves a comment.
-     */
+    /** Saves a comment. */
     public void saveComment(Comment comment) {
         comments.put(comment.getCommentId(), comment);
     }
 
-    /**
-     * Returns whether a comment exists.
-     */
+    /** Returns whether a comment exists. */
     public boolean existsByCommentId(String commentId) {
         return comments.containsKey(commentId);
     }
 
-    /**
-     * Returns a comment by id.
-     */
+    /** Returns a comment by id. */
     public Optional<Comment> getCommentById(String commentId) {
         return Optional.ofNullable(comments.get(commentId));
     }
 
-    /**
-     * Returns all comments on a review.
-     */
+    /** Returns all comments on a review. */
     public List<Comment> getCommentsByReviewId(String reviewId) {
         final List<Comment> matchingComments = new ArrayList<>();
 
@@ -57,9 +47,7 @@ public class InMemoryCommentDataAccessObject implements CommentDataAccessObject{
         return matchingComments;
     }
 
-    /**
-     * Returns all comments written by a user.
-     */
+    /** Returns all comments written by a user. */
     public List<Comment> getCommentsByUsername(String username) {
         final List<Comment> matchingComments = new ArrayList<>();
 
@@ -72,9 +60,7 @@ public class InMemoryCommentDataAccessObject implements CommentDataAccessObject{
         return matchingComments;
     }
 
-    /**
-     * Returns all replies to a parent comment.
-     */
+    /** Returns all replies to a parent comment. */
     public List<Comment> getRepliesByParentCommentId(String parentCommentId) {
         final List<Comment> matchingReplies = new ArrayList<>();
 
@@ -87,9 +73,7 @@ public class InMemoryCommentDataAccessObject implements CommentDataAccessObject{
         return matchingReplies;
     }
 
-    /**
-     * Updates an existing comment.
-     */
+    /** Updates an existing comment. */
     public boolean editComment(String commentId, String newCommentText) {
         final Optional<Comment> comment = getCommentById(commentId);
         final boolean commentExists = comment.isPresent();
@@ -101,9 +85,7 @@ public class InMemoryCommentDataAccessObject implements CommentDataAccessObject{
         return commentExists;
     }
 
-    /**
-     * Deletes a comment.
-     */
+    /** Deletes a comment. */
     public boolean deleteComment(String commentId) {
         final boolean commentExists = existsByCommentId(commentId);
 
@@ -114,9 +96,7 @@ public class InMemoryCommentDataAccessObject implements CommentDataAccessObject{
         return commentExists;
     }
 
-    /**
-     * Adds a user's like to a comment.
-     */
+    /** Adds a user's like to a comment. */
     public boolean likeComment(String commentId, String username) {
         final Optional<Comment> comment = getCommentById(commentId);
         final boolean commentExists = comment.isPresent();
@@ -128,9 +108,7 @@ public class InMemoryCommentDataAccessObject implements CommentDataAccessObject{
         return commentExists;
     }
 
-    /**
-     * Removes a user's like from a comment.
-     */
+    /** Removes a user's like from a comment. */
     public boolean unlikeComment(String commentId, String username) {
         final Optional<Comment> comment = getCommentById(commentId);
         final boolean commentExists = comment.isPresent();
@@ -142,9 +120,7 @@ public class InMemoryCommentDataAccessObject implements CommentDataAccessObject{
         return commentExists;
     }
 
-    /**
-     * Returns all saved comments.
-     */
+    /** Returns all saved comments. */
     public List<Comment> getAllComments() {
         return new ArrayList<>(comments.values());
     }

@@ -1,19 +1,13 @@
 package interface_adapter.security_question;
 
-/**
- * The state backing the Security Question view.
- *
- * A plain data holder (same style as LoginState). The presenter writes
- * to it and the view reads from it to decide what to display: the question, any
- * message, and whether the input should be disabled because of a lock-out.
- */
+/** The state backing the Security Question view. */
 public class SecurityQuestionState {
 
     private String username = "";
     private String securityQuestion = "";
     private String answer = "";
 
-    /** A neutral/success message to show the user (e.g. "Answer correct"). */
+    /** A neutral or success message to show the user. */
     private String message = "";
 
     /** An error message (wrong answer, locked out, no account). */

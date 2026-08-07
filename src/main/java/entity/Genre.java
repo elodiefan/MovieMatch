@@ -2,48 +2,30 @@ package entity;
 
 import java.util.Objects;
 
-/**
- * Represents the genre of a piece of media.
- */
+/** Represents the genre of a piece of media. */
 
 public class Genre {
 
     private final int id;
     private final String name;
 
-    /**
-     * Gets a new genre.
-     */
+    /** Gets a new genre. */
     public Genre(int id, String name) {
         this.id = id;
         this.name = name;
     }
 
-    /**
-     * Returns the id of this genre.
-     */
+    /** Returns the id of this genre. */
     public int getId() {
         return id;
     }
 
-    /**
-     * Returns the name of this genre.
-     */
+    /** Returns the name of this genre. */
     public String getName() {
         return name;
     }
 
-    /**
-     * Compares genres by value rather than by identity.
-     *
-     * Two genres loaded separately — say from a user's taste profile and from a
-     * candidate title — describe the same genre when their ids match. Without
-     * this, putting genres in a {@code Set} would treat those as different
-     * members and every overlap calculation would come out as zero.
-     *
-     * @param other the object to compare against
-     * @return true if other is a genre with the same id and name
-     */
+    /** Compares genres by value rather than by identity. */
     @Override
     public boolean equals(final Object other) {
         final boolean result;
@@ -60,11 +42,7 @@ public class Genre {
         return result;
     }
 
-    /**
-     * Returns a hash consistent with {@link #equals}.
-     *
-     * @return the hash code for this genre
-     */
+    /** Returns a hash consistent with {@link #equals}. */
     @Override
     public int hashCode() {
         return Objects.hash(this.id, this.name);

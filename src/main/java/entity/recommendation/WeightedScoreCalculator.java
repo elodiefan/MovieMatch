@@ -8,32 +8,17 @@ import java.util.Map;
 
 import entity.Media;
 
-/**
- * Combines the individual factors into one score for a candidate.
- *
- * Holds the list of {@link SubScore}s and applies the {@link ScoringWeights} to
- * them. Because the factors arrive as a list, this class never needs to change
- * when one is added, removed, or reweighted — which is the point of splitting
- * them apart in the first place.
- */
+/** Combines the individual factors into one score for a candidate. */
 public class WeightedScoreCalculator {
 
     private final List<SubScore> subScores;
 
-    /**
-     * Creates a calculator over the given factors.
-     *
-     * @param subScores the factors to combine, in the order breakdowns should read
-     */
+    /** Creates a calculator over the given factors. */
     public WeightedScoreCalculator(final List<SubScore> subScores) {
         this.subScores = new ArrayList<>(subScores);
     }
 
-    /**
-     * Creates a calculator over the five factors described in the algorithm document.
-     *
-     * @return a calculator using the standard factors
-     */
+    /** Creates a calculator over the five factors described in the algorithm document. */
     public static WeightedScoreCalculator createDefault() {
         return new WeightedScoreCalculator(Arrays.asList(
                 new GenreOverlapSubScore(),
@@ -43,13 +28,7 @@ public class WeightedScoreCalculator {
                 new RecencySubScore()));
     }
 
-    /**
-     * Scores one candidate.
-     *
-     * @param candidate the media being considered
-     * @param context the taste profile, friends' ratings, year and weights
-     * @return the candidate paired with its score and per-factor breakdown
-     */
+    /** Scores one candidate. */
     public ScoredMedia score(final Media candidate, final ScoringContext context) {
         final Map<String, Double> raw = new LinkedHashMap<>();
         final Map<String, Double> weighted = new LinkedHashMap<>();

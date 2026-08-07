@@ -1,8 +1,6 @@
 package use_case.review.create_review;
 
-/**
- * Input data for creating a review.
- */
+/** Input data for creating a review. */
 public final class CreateReviewInputData {
     /** The media id. */
     private final int mediaId;
@@ -19,9 +17,7 @@ public final class CreateReviewInputData {
     /** The review text. */
     private final String reviewText;
 
-    /**
-     * Creates input data for creating a review.
-     */
+    /** Creates input data for creating a review. */
     public CreateReviewInputData(final int inputMediaId,
                                  final String inputMediaType,
                                  final String inputMediaTitle,
@@ -38,45 +34,31 @@ public final class CreateReviewInputData {
         this.reviewText = inputReviewText;
     }
 
-    /**
-     * Handles this review or comment operation.
-     */
+    /** Handles this review or comment operation. */
     public int getMediaId() {
         return mediaId;
     }
-    /**
-     * Handles this review or comment operation.
-     */
+    /** Handles this review or comment operation. */
     public String getMediaType() {
         return mediaType;
     }
-    /**
-     * Handles this review or comment operation.
-     */
+    /** Handles this review or comment operation. */
     public String getMediaTitle() {
         return mediaTitle;
     }
-    /**
-     * Handles this review or comment operation.
-     */
+    /** Handles this review or comment operation. */
     public String getAuthorUsername() {
         return authorUsername;
     }
-    /**
-     * Handles this review or comment operation.
-     */
+    /** Handles this review or comment operation. */
     public String getAuthorDisplayName() {
         return authorDisplayName;
     }
-    /**
-     * Handles this review or comment operation.
-     */
+    /** Handles this review or comment operation. */
     public double getRating() {
         return rating;
     }
-    /**
-     * Handles this review or comment operation.
-     */
+    /** Handles this review or comment operation. */
     public String getReviewText() {
         return reviewText;
     }

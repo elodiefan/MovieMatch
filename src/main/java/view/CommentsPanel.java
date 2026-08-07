@@ -25,9 +25,7 @@ import interface_adapter.comments.CommentsController;
 import interface_adapter.comments.CommentsState;
 import interface_adapter.comments.CommentsViewModel;
 
-/**
- * Swing panel for comments on a review.
- */
+/** Swing panel for comments on a review. */
 public final class CommentsPanel extends JPanel
         implements PropertyChangeListener {
     /** The heart unselected. */
@@ -64,9 +62,7 @@ public final class CommentsPanel extends JPanel
     /** The loading comments. */
     private boolean loadingComments;
 
-    /**
-     * Handles this review or comment operation.
-     */
+    /** Handles this review or comment operation. */
     public CommentsPanel(final CommentsViewModel inputCommentsViewModel) {
         this.commentsViewModel = inputCommentsViewModel;
         this.commentsViewModel.addPropertyChangeListener(this);
@@ -87,9 +83,7 @@ public final class CommentsPanel extends JPanel
         updateView(inputCommentsViewModel.getState());
     }
 
-    /**
-     * Updates the panel when the comments state changes.
-     */
+    /** Updates the panel when the comments state changes. */
     @Override
     public void propertyChange(final PropertyChangeEvent event) {
         if ("state".equals(event.getPropertyName())) {
@@ -97,33 +91,25 @@ public final class CommentsPanel extends JPanel
         }
     }
 
-    /**
-     * Returns the write comment button for app wiring.
-     */
+    /** Returns the write comment button for app wiring. */
     public JButton getWriteCommentButton() {
         return writeCommentButton;
     }
 
-    /**
-     * Sets the controller for comment actions.
-     */
+    /** Sets the controller for comment actions. */
     public void setCommentsController(
             final CommentsController inputCommentsController) {
         this.commentsController = inputCommentsController;
     }
 
-    /**
-     * Sets the current user for write, delete, like, and unlike actions.
-     */
+    /** Sets the current user for write, delete, like, and unlike actions. */
     public void setCurrentUser(final String username,
                                final String displayName) {
         currentUsername = trimToEmpty(username);
         currentDisplayName = trimToEmpty(displayName);
     }
 
-    /**
-     * Refreshes visible content from state.
-     */
+    /** Refreshes visible content from state. */
     private void updateView(final CommentsState state) {
         if (state != null) {
             errorLabel.setText(state.getCommentsError());
@@ -132,9 +118,7 @@ public final class CommentsPanel extends JPanel
         }
     }
 
-    /**
-     * Loads persisted comments for one review into the view model state.
-     */
+    /** Loads persisted comments for one review into the view model state. */
     private void refreshComments(final String reviewId) {
         if (!loadingComments && commentsController != null
                 && !isBlank(reviewId)) {
@@ -144,9 +128,7 @@ public final class CommentsPanel extends JPanel
         }
     }
 
-    /**
-     * Displays the given comment rows.
-     */
+    /** Displays the given comment rows. */
     private void setComments(final String reviewId,
             final List<CommentRow> comments) {
         commentsPanel.removeAll();
@@ -169,9 +151,7 @@ public final class CommentsPanel extends JPanel
         commentsPanel.repaint();
     }
 
-    /**
-     * Creates the display card for one comment.
-     */
+    /** Creates the display card for one comment. */
     private Component createCommentCard(final CommentRow comment) {
         final JPanel card = new JPanel();
         card.setLayout(new BoxLayout(card, BoxLayout.Y_AXIS));
@@ -188,9 +168,7 @@ public final class CommentsPanel extends JPanel
         return card;
     }
 
-    /**
-     * Creates action buttons for one comment.
-     */
+    /** Creates action buttons for one comment. */
     private Component createButtonPanel(final CommentRow comment) {
         final JPanel buttonPanel = new JPanel();
         final JButton replyButton =
@@ -212,18 +190,14 @@ public final class CommentsPanel extends JPanel
         return buttonPanel;
     }
 
-    /**
-     * Creates an unselected heart button for liking content.
-     */
+    /** Creates an unselected heart button for liking content. */
     private JToggleButton createHeartButton() {
         final JToggleButton heartButton = new JToggleButton(HEART_UNSELECTED);
         heartButton.setToolTipText(CommentsViewModel.LIKE_BUTTON_LABEL);
         return heartButton;
     }
 
-    /**
-     * Updates the heart button's selected appearance.
-     */
+    /** Updates the heart button's selected appearance. */
     private void updateHeartButton(final JToggleButton heartButton) {
         if (heartButton.isSelected()) {
             heartButton.setText(HEART_SELECTED);
@@ -236,18 +210,14 @@ public final class CommentsPanel extends JPanel
         }
     }
 
-    /**
-     * Checks whether a comment belongs under the given review.
-     */
+    /** Checks whether a comment belongs under the given review. */
     private boolean belongsToReview(final CommentRow comment,
                                     final String reviewId) {
         return reviewId == null || reviewId.isEmpty()
                 || comment.getReviewId().equals(reviewId);
     }
 
-    /**
-     * Returns the indentation for a top-level comment or reply.
-     */
+    /** Returns the indentation for a top-level comment or reply. */
     private int getCommentIndent(final CommentRow comment) {
         final int indent;
         if (comment.getParentCommentId() == null
@@ -259,9 +229,7 @@ public final class CommentsPanel extends JPanel
         return indent;
     }
 
-    /**
-     * Formats a date and time for display.
-     */
+    /** Formats a date and time for display. */
     private String formatTime(final ZonedDateTime dateTime) {
         final String formattedTime;
         if (dateTime == null) {
@@ -272,23 +240,17 @@ public final class CommentsPanel extends JPanel
         return formattedTime;
     }
 
-    /**
-     * Checks whether the current user is available for an action.
-     */
+    /** Checks whether the current user is available for an action. */
     private boolean hasCurrentUser() {
         return !isBlank(currentUsername) && !isBlank(currentDisplayName);
     }
 
-    /**
-     * Checks whether a value is null, empty, or only whitespace.
-     */
+    /** Checks whether a value is null, empty, or only whitespace. */
     private boolean isBlank(final String value) {
         return value == null || value.trim().isEmpty();
     }
 
-    /**
-     * Trims a value, or returns an empty string when null.
-     */
+    /** Trims a value, or returns an empty string when null. */
     private String trimToEmpty(final String value) {
         final String trimmedValue;
         if (value == null) {
@@ -299,9 +261,7 @@ public final class CommentsPanel extends JPanel
         return trimmedValue;
     }
 
-    /**
-     * Marks the next comment as a top-level comment.
-     */
+    /** Marks the next comment as a top-level comment. */
     private final class WriteCommentListener implements ActionListener {
         @Override
         public void actionPerformed(final ActionEvent event) {
@@ -320,9 +280,7 @@ public final class CommentsPanel extends JPanel
         }
     }
 
-    /**
-     * Selects a comment in the view model state.
-     */
+    /** Selects a comment in the view model state. */
     private final class SelectCommentListener implements ActionListener {
         /** The comment id. */
         private final String commentId;
@@ -361,9 +319,7 @@ public final class CommentsPanel extends JPanel
         }
     }
 
-    /**
-     * Toggles a comment heart and selects the comment.
-     */
+    /** Toggles a comment heart and selects the comment. */
     private final class HeartCommentListener implements ActionListener {
         /** The comment id. */
         private final String commentId;

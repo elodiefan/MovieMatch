@@ -1,26 +1,11 @@
 package use_case.recommendation;
 
-/**
- * How the recommendation use case reports back.
- *
- * Two presenters implement this over the same interactor class: one fills the
- * home page strip, the other the detailed grouped view. Which one is in play is
- * decided when the interactor is constructed, so the use case itself never knows
- * which screen it is serving.
- */
+/** How the recommendation use case reports back. */
 public interface RecommendationOutputBoundary {
 
-    /**
-     * Presents the suggestions that were produced.
-     *
-     * @param outputData the ranked suggestions, grouped if that was requested
-     */
+    /** Presents the suggestions that were produced. */
     void presentRecommendations(RecommendationOutputData outputData);
 
-    /**
-     * Presents a reason no suggestions could be produced.
-     *
-     * @param errorMessage what to tell the user
-     */
+    /** Presents a reason no suggestions could be produced. */
     void prepareFailView(String errorMessage);
 }

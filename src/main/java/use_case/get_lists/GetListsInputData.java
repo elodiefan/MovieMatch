@@ -1,8 +1,6 @@
 package use_case.get_lists;
 
-/**
- * Input Data for the Watchlist View Use Case.
- */
+/** Input Data for the Watchlist View Use Case. */
 public class GetListsInputData {
 
     private final String username;

@@ -1,8 +1,6 @@
 package use_case.access_message_chat;
 
-/**
- * Output Data for the access message chat use case.
- */
+/** Output Data for the access message chat use case. */
 public class AccessMessageChatOutputData {
 
     private boolean canViewChat;

@@ -6,23 +6,15 @@ import java.util.UUID;
 import entity.Review;
 import entity.UserContent;
 
-/**
- * Interactor for creating a review.
- */
+/** Interactor for creating a review. */
 public final class CreateReviewInteractor implements CreateReviewInputBoundary {
-    /**
-     * Smallest valid rating percentage.
-     */
+    /** Smallest valid rating percentage. */
     private static final double MIN_RATING = 0.0;
 
-    /**
-     * Largest valid rating percentage.
-     */
+    /** Largest valid rating percentage. */
     private static final double MAX_RATING = 100.0;
 
-    /**
-     * Source label for reviews created inside MovieMatch.
-     */
+    /** Source label for reviews created inside MovieMatch. */
     private static final String MOVIEMATCH_SOURCE = "moviematch";
 
     /** The review data access object. */
@@ -30,24 +22,18 @@ public final class CreateReviewInteractor implements CreateReviewInputBoundary {
     /** The presenter. */
     private final CreateReviewOutputBoundary presenter;
 
-    /**
-     * Creates a review interactor without persistence.
-     */
+    /** Creates a review interactor without persistence. */
     public CreateReviewInteractor() {
         this(null, null);
     }
 
-    /**
-     * Creates a review interactor with persistence.
-     */
+    /** Creates a review interactor with persistence. */
     public CreateReviewInteractor(
             final CreateReviewDataAccessInterface inputReviewDataAccessObject) {
         this(inputReviewDataAccessObject, null);
     }
 
-    /**
-     * Creates a review interactor with persistence and presentation.
-     */
+    /** Creates a review interactor with persistence and presentation. */
     public CreateReviewInteractor(
             final CreateReviewDataAccessInterface inputReviewDataAccessObject,
             final CreateReviewOutputBoundary inputPresenter) {
@@ -55,9 +41,7 @@ public final class CreateReviewInteractor implements CreateReviewInputBoundary {
         this.presenter = inputPresenter;
     }
 
-    /**
-     * Executes the use case.
-     */
+    /** Executes the use case. */
     @Override
     public void execute(final CreateReviewInputData inputData) {
         try {
@@ -75,9 +59,7 @@ public final class CreateReviewInteractor implements CreateReviewInputBoundary {
         }
     }
 
-    /**
-     * Creates a new MovieMatch review.
-     */
+    /** Creates a new MovieMatch review. */
     private Review createReview(final int mediaId, final String mediaType,
                                final String mediaTitle,
                                final String authorUsername,
@@ -105,9 +87,7 @@ public final class CreateReviewInteractor implements CreateReviewInputBoundary {
         return review;
     }
 
-    /**
-     * Validates submitted review data.
-     */
+    /** Validates submitted review data. */
     private void validateReviewData(final int mediaId, final String mediaType,
                                     final String mediaTitle,
                                     final String authorUsername,
@@ -141,16 +121,12 @@ public final class CreateReviewInteractor implements CreateReviewInputBoundary {
         }
     }
 
-    /**
-     * Checks whether a text value is empty or only whitespace.
-     */
+    /** Checks whether a text value is empty or only whitespace. */
     private boolean isBlank(final String value) {
         return value == null || value.trim().isEmpty();
     }
 
-    /**
-     * Trims a text value, or returns an empty string if it is null.
-     */
+    /** Trims a text value, or returns an empty string if it is null. */
     private String trimToEmpty(final String value) {
         final String trimmedValue;
         if (value == null) {

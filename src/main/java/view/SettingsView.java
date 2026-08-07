@@ -17,14 +17,7 @@ import interface_adapter.settings.SettingsState;
 import interface_adapter.settings.SettingsViewModel;
 import use_case.settings.SettingsInteractor;
 
-/**
- * The View for changing display settings.
- *
- * The controls only report what the user asked for. The interactor decides what
- * is allowed and the presenter writes it into the state; this view then restyles
- * the application from that state, so a setting is never applied straight from a
- * widget.
- */
+/** The View for changing display settings. */
 public class SettingsView extends JPanel implements PropertyChangeListener {
 
     private static final int SLIDER_TICK_SPACING = 4;
@@ -118,8 +111,7 @@ public class SettingsView extends JPanel implements PropertyChangeListener {
     }
 
     /**
-     * Sets the component a settings change should restyle, which is the panel
-     * holding every screen rather than this one.
+     * Sets the component a settings change should restyle, which is the panel holding every screen rather than this one.
      */
     public void setAppearanceRoot(Component appearanceRoot) {
         this.appearanceRoot = appearanceRoot;

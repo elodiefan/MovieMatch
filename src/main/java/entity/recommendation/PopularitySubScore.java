@@ -2,16 +2,7 @@ package entity.recommendation;
 
 import entity.Media;
 
-/**
- * Scores a candidate on how well it is regarded generally.
- *
- * Acts as a tie-breaker between titles that match the user's taste equally well,
- * and as a safety net for a brand-new user whose taste profile is still empty:
- * with nothing to overlap against, popularity and recency are all that separate
- * the candidates.
- *
- * TMDB rates on a 0-10 scale, so the value is divided by ten to normalise it.
- */
+/** Scores a candidate on how well it is regarded generally. */
 public class PopularitySubScore implements SubScore {
 
     /** TMDB's average rating runs from 0 to 10. */
@@ -20,9 +11,7 @@ public class PopularitySubScore implements SubScore {
     private static final String NAME = "popularity";
     private static final double LOWEST = 0.0;
 
-    /**
-     * Creates the popularity factor.
-     */
+    /** Creates the popularity factor. */
     public PopularitySubScore() {
         // Stateless: everything needed arrives through scoreFor.
     }

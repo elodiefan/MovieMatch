@@ -34,12 +34,7 @@ import interface_adapter.search_result.SearchResultState;
 import interface_adapter.search_result.SearchResultViewModel;
 import use_case.filter.FilterCriteria;
 
-/**
- * View for displaying and filtering search results.
- * genre id and name: ...
- * and ....
- * Language: ...
- */
+/** View for displaying and filtering search results. */
 public class SearchResultView extends JPanel
         implements PropertyChangeListener {
     private static final int TITLE_FILTER_SPACING = 5;
@@ -542,14 +537,7 @@ public class SearchResultView extends JPanel
         this.repaint();
     }
 
-    /**
-     * Describes how much of the result set is on screen.
-     *
-     * Results arrive a few pages at a time, so the count has to distinguish
-     * what has been loaded from what exists. Filters only ever narrow what is
-     * already loaded, so when one is active the total is not the useful number
-     * to compare against.
-     */
+    /** Describes how much of the result set is on screen. */
     private String countMessage(SearchResultState state) {
         final int shown = state.getResults().size();
         final int loaded = state.getOriginalResults().size();
@@ -568,9 +556,7 @@ public class SearchResultView extends JPanel
         return message;
     }
 
-    /**
-     * Fetches the next block of results without blocking the window.
-     */
+    /** Fetches the next block of results without blocking the window. */
     private void loadMore() {
         final SearchResultState state = searchResultViewModel.getState();
         final String keyword = state.getKeyword();

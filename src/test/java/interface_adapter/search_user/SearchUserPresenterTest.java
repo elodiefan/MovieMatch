@@ -15,9 +15,7 @@ import use_case.search_user.SearchUserInputData;
 import use_case.search_user.SearchUserInteractor;
 
 /**
- * Drives the real interactor, presenter and view model together over the
- * in-memory store, so everything between a typed keyword and the state the view
- * draws is covered without a database.
+ * Drives the real interactor, presenter and view model together over the in-memory store, so everything between a typed keyword and the state the view draws is covered without a database.
  */
 class SearchUserPresenterTest {
 

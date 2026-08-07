@@ -31,16 +31,7 @@ import javax.swing.JSlider;
 import javax.swing.border.TitledBorder;
 import javax.swing.plaf.FontUIResource;
 
-/**
- * The application's look and feel.
- *
- * Swing bakes colours and fonts into a component when it is constructed, so
- * everything here has to be set before the first view exists. #install()
- * is therefore called at the very top of Main, ahead of the AppBuilder.
- *
- * The base is Nimbus, which ships with the JDK and looks considerably less dated
- * than the default Metal theme. The palette below then retints it.
- */
+/** The application's look and feel. */
 public final class UiTheme {
 
     /** Page background. */
@@ -79,13 +70,7 @@ public final class UiTheme {
     /** Padding inside a screen, so content is not flush against the window. */
     public static final int PAGE_PADDING = 18;
 
-    /**
-     * How wide the content column is allowed to get.
-     *
-     * Rows stretched to the full window look lost on a maximised screen, where
-     * a few controls end up marooned in the middle of a very wide page. Holding
-     * them to a column keeps a screen looking the same whatever the window does.
-     */
+    /** How wide the content column is allowed to get. */
     public static final int CONTENT_MAX_WIDTH = 720;
 
     /** Vertical breathing room between rows of a screen. */
@@ -106,9 +91,7 @@ public final class UiTheme {
     private UiTheme() {
     }
 
-    /**
-     * Installs the look and feel. Safe to call once, before any UI is built.
-     */
+    /** Installs the look and feel. */
     public static void install() {
         try {
             for (UIManager.LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
@@ -132,16 +115,7 @@ public final class UiTheme {
         UIManager.put("TextField.contentMargins", new Insets(6, 8, 6, 8));
     }
 
-    /**
-     * Switches the whole application between the light and dark palettes and
-     * changes its text size.
-     *
-     * Nimbus paints components through its own delegates rather than from the
-     * background colour of each component, so setting colours by hand only
-     * reaches plain panels and labels. Replacing the palette keys and then
-     * rebuilding the delegates with updateComponentTreeUI is what makes
-     * buttons, fields and scroll bars change too.
-     */
+    /** Switches the whole application between the light and dark palettes and changes its text size. */
     public static void applyAppearance(Component root, boolean darkMode, int textSize) {
         putPalette(darkMode);
         putFontSize(textSize);
@@ -215,13 +189,7 @@ public final class UiTheme {
         UIManager.put("defaultFont", base);
     }
 
-    /**
-     * Sets the font size on a component and everything inside it.
-     *
-     * The look and feel only reaches components it created the font for, which
-     * leaves anything built by hand at its original size. Walking the tree is
-     * what makes a size change reach every screen rather than just some of them.
-     */
+    /** Sets the font size on a component and everything inside it. */
     private static void applyFontSize(Component root, int textSize) {
         final Font current = root.getFont();
         if (current != null) {
@@ -259,9 +227,7 @@ public final class UiTheme {
         }
     }
 
-    /**
-     * Refreshes the pinned row heights after the text size has changed.
-     */
+    /** Refreshes the pinned row heights after the text size has changed. */
     private static void repinRows(Component root) {
         if (root instanceof JComponent) {
             final JComponent component = (JComponent) root;
@@ -277,24 +243,17 @@ public final class UiTheme {
         }
     }
 
-    /**
-     * Builds a font, falling back to the platform default if the preferred
-     * family is not installed.
-     */
+    /** Builds a font, falling back to the platform default if the preferred family is not installed. */
     public static Font baseFont(int style, int size) {
         return new Font(PREFERRED_FONT, style, size);
     }
 
-    /**
-     * Styles a label as a screen heading.
-     */
+    /** Styles a label as a screen heading. */
     public static JLabel asTitle(JLabel label) {
         return asTitle(label, BASE_FONT_SIZE);
     }
 
-    /**
-     * Styles a label as a screen heading, scaled to the current text size.
-     */
+    /** Styles a label as a screen heading, scaled to the current text size. */
     public static JLabel asTitle(JLabel label, int textSize) {
         final int headingSize = TITLE_FONT_SIZE + (textSize - BASE_FONT_SIZE);
         label.setFont(baseFont(Font.BOLD, headingSize));
@@ -302,37 +261,19 @@ public final class UiTheme {
         return label;
     }
 
-    /**
-     * Reports whether the dark palette is currently installed.
-     */
+    /** Reports whether the dark palette is currently installed. */
     public static boolean darkModeActive() {
         return DARK_BACKGROUND.equals(UIManager.get("control"));
     }
 
-    /**
-     * Gives a screen breathing room and a consistent background.
-     *
-     * Applied to each registered view rather than inside the views themselves,
-     * so no individual screen has to know about it.
-     */
+    /** Gives a screen breathing room and a consistent background. */
     public static void padScreen(JComponent view) {
         view.setBorder(BorderFactory.createEmptyBorder(
                 PAGE_PADDING, PAGE_PADDING, PAGE_PADDING, PAGE_PADDING));
         view.setBackground(darkModeActive() ? DARK_BACKGROUND : BACKGROUND);
     }
 
-    /**
-     * Stops a vertical screen from spreading its content into the whole window.
-     *
-     * A BoxLayout on the Y axis shares surplus height between its
-     * children, and a JPanel's maximum height is unbounded by default,
-     * so on a large window every row drifts apart into bands of empty space.
-     * Pinning each row to its preferred height and absorbing the remainder in a
-     * single glue at the bottom keeps the screen together as the window grows.
-     *
-     * Scroll panes are deliberately left unbounded: those are the parts that
-     * should take the extra room.
-     */
+    /** Stops a vertical screen from spreading its content into the whole window. */
     public static void tidyVerticalScreen(JPanel view) {
         if (!(view.getLayout() instanceof BoxLayout)) {
             return;
@@ -383,19 +324,12 @@ public final class UiTheme {
         }
     }
 
-    /**
-     * Styles the first label on a screen as its heading.
-     *
-     * Every screen here opens with a title label, but they were all left at the
-     * default body size, so nothing read as a heading.
-     */
+    /** Styles the first label on a screen as its heading. */
     public static void styleFirstLabelAsTitle(Container view) {
         styleFirstLabelAsTitle(view, BASE_FONT_SIZE);
     }
 
-    /**
-     * Styles the first label on a screen as its heading, at the current text size.
-     */
+    /** Styles the first label on a screen as its heading, at the current text size. */
     public static void styleFirstLabelAsTitle(Container view, int textSize) {
         final JLabel first = findFirstLabel(view);
         if (first != null) {
@@ -417,19 +351,12 @@ public final class UiTheme {
         return result;
     }
 
-    /**
-     * Applies the palette to a component and everything inside it.
-     *
-     * Views built before #install() took effect, or built by hand with
-     * explicit colours, would otherwise keep the old defaults.
-     */
+    /** Applies the palette to a component and everything inside it. */
     public static void applyTo(Component root) {
         applyTo(root, darkModeActive());
     }
 
-    /**
-     * Applies one of the two palettes to a component and everything inside it.
-     */
+    /** Applies one of the two palettes to a component and everything inside it. */
     public static void applyTo(Component root, boolean darkMode) {
         final Color background = darkMode ? DARK_BACKGROUND : BACKGROUND;
         final Color surface = darkMode ? DARK_SURFACE : SURFACE;

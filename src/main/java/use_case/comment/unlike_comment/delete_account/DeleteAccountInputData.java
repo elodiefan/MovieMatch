@@ -1,8 +1,6 @@
 package use_case.comment.unlike_comment.delete_account;
 
-/**
- * The input data for the Delete Account Use Case.
- */
+/** The input data for the Delete Account Use Case. */
 
 public class DeleteAccountInputData {
 

@@ -8,49 +8,24 @@ import java.util.Map;
 import use_case.recommendation.RecommendationDataAccessInterface;
 import use_case.recommendation.UserRating;
 
-/**
- * Holds ratings in memory, standing in for the review feature until it lands.
- *
- * Ratings and friends both belong to work being done elsewhere: reviews are
- * being built on another branch, and the app has no concept of friends at all.
- * Rather than wait, this keeps them in maps so the recommendation feature can be
- * built and demonstrated now.
- *
- * Swapping in the real thing means writing another
- * {@link RecommendationDataAccessInterface} and changing one line in
- * {@code AppBuilder}.
- */
+/** Holds ratings in memory, standing in for the review feature until it lands. */
 public class InMemoryRecommendationDataAccessObject implements RecommendationDataAccessInterface {
 
     private final Map<String, List<UserRating>> ratingsByUser = new HashMap<>();
     private final Map<String, List<String>> friendsByUser = new HashMap<>();
 
-    /**
-     * Creates an empty store.
-     */
+    /** Creates an empty store. */
     public InMemoryRecommendationDataAccessObject() {
         // Ratings are added through recordRating.
     }
 
-    /**
-     * Records that a user rated a title.
-     *
-     * @param username who rated it
-     * @param mediaId what they rated
-     * @param rating the stars they gave, on a 1-5 scale
-     */
+    /** Records that a user rated a title. */
     public void recordRating(final String username, final int mediaId, final double rating) {
         this.ratingsByUser.computeIfAbsent(username, key -> new ArrayList<>())
                 .add(new UserRating(mediaId, rating));
     }
 
-    /**
-     * Records a one-way friendship, so friends' ratings can be demonstrated
-     * before a real friend feature exists.
-     *
-     * @param username the user
-     * @param friendUsername someone whose ratings should count for them
-     */
+    /** Records a one-way friendship, so friends' ratings can be demonstrated before a real friend feature exists. */
     public void recordFriend(final String username, final String friendUsername) {
         this.friendsByUser.computeIfAbsent(username, key -> new ArrayList<>())
                 .add(friendUsername);

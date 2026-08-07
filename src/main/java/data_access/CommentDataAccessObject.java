@@ -17,11 +17,7 @@ public interface CommentDataAccessObject extends
         LikeCommentDataAccessInterface,
         UnlikeCommentDataAccessInterface {
 
-    /**
-     * Releases any resources held by this data store, such as an open database
-     * connection. Call once when the app shuts down. Implementations with
-     * nothing to release may do nothing.
-     */
+    /** Releases any resources held by this data store, such as an open database connection. */
     void close();
 }
 

@@ -1,13 +1,6 @@
 package use_case.recommendation;
 
-/**
- * One suggestion, ready for a screen to display.
- *
- * Everything here is already formatted or resolved, so presenters and views do
- * no arithmetic and no lookups — they read fields and put them on screen. That
- * is what lets the same result feed both the home page list and the detailed
- * view without either of them knowing how a score was reached.
- */
+/** One suggestion, ready for a screen to display. */
 public class RecommendedMedia {
 
     private final int mediaId;
@@ -17,16 +10,7 @@ public class RecommendedMedia {
     private final String primaryGenre;
     private final String explanation;
 
-    /**
-     * Creates a suggestion.
-     *
-     * @param mediaId the title's id
-     * @param title the title's name
-     * @param releaseYear the year it came out
-     * @param score its final recommendation score
-     * @param primaryGenre the genre it is grouped under
-     * @param explanation why it was suggested, possibly empty
-     */
+    /** Creates a suggestion. */
     public RecommendedMedia(final int mediaId, final String title, final int releaseYear,
                             final double score, final String primaryGenre,
                             final String explanation) {
@@ -38,56 +22,32 @@ public class RecommendedMedia {
         this.explanation = explanation;
     }
 
-    /**
-     * Returns the title's id.
-     *
-     * @return the media id
-     */
+    /** Returns the title's id. */
     public int getMediaId() {
         return this.mediaId;
     }
 
-    /**
-     * Returns the title's name.
-     *
-     * @return the title
-     */
+    /** Returns the title's name. */
     public String getTitle() {
         return this.title;
     }
 
-    /**
-     * Returns the year it came out.
-     *
-     * @return the release year
-     */
+    /** Returns the year it came out. */
     public int getReleaseYear() {
         return this.releaseYear;
     }
 
-    /**
-     * Returns the recommendation score.
-     *
-     * @return the score, normally between 0 and 1
-     */
+    /** Returns the recommendation score. */
     public double getScore() {
         return this.score;
     }
 
-    /**
-     * Returns the genre this is grouped under.
-     *
-     * @return the primary genre name
-     */
+    /** Returns the genre this is grouped under. */
     public String getPrimaryGenre() {
         return this.primaryGenre;
     }
 
-    /**
-     * Returns why this was suggested.
-     *
-     * @return the explanation, or an empty string if none was produced
-     */
+    /** Returns why this was suggested. */
     public String getExplanation() {
         return this.explanation;
     }

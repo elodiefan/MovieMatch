@@ -4,9 +4,7 @@ import java.util.List;
 
 import org.bson.Document;
 
-/**
- * Class used to clean data for packaging as entities.
- */
+/** Class used to clean data for packaging as entities. */
 public class MongoDataCleaning {
 
     private static final String MEDIA_TITLE = "mediaTitle";
@@ -15,9 +13,7 @@ public class MongoDataCleaning {
     private static final int INDEX_OF_DATE = 10;
     private static final String NEW_LINE = "\n";
 
-    /**
-     * Takes in raw MongoDB watchlist data and converts it to a String for a UserList watchlist.
-     */
+    /** Takes in raw MongoDB watchlist data and converts it to a String for a UserList watchlist. */
     public static String convertWatchlistToString(List<Document> watchlist) {
         final StringBuilder userWatchlist = new StringBuilder();
         if (watchlist != null) {
@@ -34,9 +30,7 @@ public class MongoDataCleaning {
         return userWatchlist.toString();
     }
 
-    /**
-     * Takes in raw MongoDB watch history data and converts it to a String for a UserList watchhistory.
-     */
+    /** Takes in raw MongoDB watch history data and converts it to a String for a UserList watchhistory. */
     public static String convertWatchHistoryToString(List<Document> watchHistory) {
         final StringBuilder userWatchHistory = new StringBuilder();
         if (watchHistory != null) {
@@ -53,9 +47,7 @@ public class MongoDataCleaning {
         return userWatchHistory.toString();
     }
 
-    /**
-     * Takes in raw MongoDB blocked users data and converts it to a String for a UserList watchlist.
-     */
+    /** Takes in raw MongoDB blocked users data and converts it to a String for a UserList watchlist. */
     public static String convertBlockedUsersToString(List<String> blockedUsers) {
         final StringBuilder userBlockedUsers = new StringBuilder();
         if (blockedUsers != null) {
@@ -67,9 +59,7 @@ public class MongoDataCleaning {
         return userBlockedUsers.toString();
     }
 
-    /**
-     * Formats raw MongoDB date data as a shortened String for output.
-     */
+    /** Formats raw MongoDB date data as a shortened String for output. */
     public static String formatDate(String rawDateData) {
         // "2026-07-01T09:07:00-04:00"
         final String date;

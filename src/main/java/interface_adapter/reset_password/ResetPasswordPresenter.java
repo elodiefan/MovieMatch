@@ -3,14 +3,7 @@ package interface_adapter.reset_password;
 import use_case.reset_password.ResetPasswordOutputBoundary;
 import use_case.reset_password.ResetPasswordOutputData;
 
-/**
- * Presenter for the Reset Password use case.
- *
- * On failure it shows the validation error and stays put, so the user can
- * correct the input. On success it clears the form and hands off to a
- * PasswordResetCompletedHandler, which decides where the user goes
- * next. That keeps this presenter independent of any other feature's package.
- */
+/** Presenter for the Reset Password use case. */
 public class ResetPasswordPresenter implements ResetPasswordOutputBoundary {
 
     private final ResetPasswordViewModel resetPasswordViewModel;

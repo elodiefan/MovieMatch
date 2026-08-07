@@ -4,9 +4,7 @@ import java.util.List;
 
 import entity.Genre;
 
-/**
- * Output data for the Media Detail Use Case.
- */
+/** Output data for the Media Detail Use Case. */
 public class MediaDetailOutputData {
 
     private final int mediaId;

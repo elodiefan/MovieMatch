@@ -2,9 +2,7 @@ package use_case.get_profile;
 
 import interface_adapter.home_page.HomePagePresenter;
 
-/**
- * Interactor for get user profile use case.
- */
+/** Interactor for get user profile use case. */
 
 public class GetProfileInteractor implements GetProfileInputBoundary {
     private final GetProfileUserDataAccessInterface userDataAccessObject;
@@ -16,9 +14,7 @@ public class GetProfileInteractor implements GetProfileInputBoundary {
         this.userPresenter = homePagePresenter;
     }
 
-    /**
-     * Executes the get user profile use case.
-     */
+    /** Executes the get user profile use case. */
     @Override
     public void execute(GetProfileInputData getProfileInputData) {
         final String currentUsername = userDataAccessObject.getCurrentUsername();

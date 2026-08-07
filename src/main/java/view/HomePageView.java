@@ -21,9 +21,7 @@ import interface_adapter.home_page.HomePageController;
 import interface_adapter.home_page.HomePageState;
 import interface_adapter.home_page.HomePageViewModel;
 
-/**
- * The View for the homepage.
- */
+/** The View for the homepage. */
 
 public class HomePageView extends JPanel implements PropertyChangeListener {
 
@@ -156,9 +154,7 @@ public class HomePageView extends JPanel implements PropertyChangeListener {
         }
     }
 
-    /**
-     * Puts the live recommendation strip where the placeholder was.
-     */
+    /** Puts the live recommendation strip where the placeholder was. */
     public void setRecommendationsPanel(HomeRecommendationsPanel recommendationsPanel) {
         this.recommendationsPanel = recommendationsPanel;
         this.remove(recommendationsScroll);

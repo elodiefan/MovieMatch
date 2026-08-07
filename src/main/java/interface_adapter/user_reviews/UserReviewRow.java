@@ -2,9 +2,7 @@ package interface_adapter.user_reviews;
 
 import java.time.ZonedDateTime;
 
-/**
- * Display data for one review written by the user.
- */
+/** Display data for one review written by the user. */
 public final class UserReviewRow {
     /** The review id. */
     private final String reviewId;
@@ -25,9 +23,7 @@ public final class UserReviewRow {
     /** The like count. */
     private final int likeCount;
 
-    /**
-     * Creates display data for one user review row.
-     */
+    /** Creates display data for one user review row. */
     public UserReviewRow(final String inputReviewId,
                          final int inputMediaId,
                          final String inputMediaType,

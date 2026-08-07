@@ -12,19 +12,7 @@ import entity.Movie;
 import entity.TVShow;
 import use_case.recommendation.MediaCatalogueDataAccessInterface;
 
-/**
- * A small fixed catalogue, so the recommendation feature can run before the real
- * one exists.
- *
- * The project's media data is meant to come from TMDB, but the generator that
- * produces it has not been written yet and the local JSON files are empty. This
- * stands in until then: a handful of titles spanning several genres, decades and
- * shared cast members, chosen so a ranking can be checked by hand.
- *
- * Replacing it means writing another {@link MediaCatalogueDataAccessInterface}
- * and changing one line in {@code AppBuilder}. Nothing in the use case layer
- * knows the difference.
- */
+/** A small fixed catalogue, so the recommendation feature can run before the real one exists. */
 public class SeedMediaCatalogue implements MediaCatalogueDataAccessInterface {
 
     private static final Genre ACTION = new Genre(28, "Action");
@@ -41,18 +29,12 @@ public class SeedMediaCatalogue implements MediaCatalogueDataAccessInterface {
 
     private final List<Media> catalogue;
 
-    /**
-     * Builds the seed catalogue.
-     */
+    /** Builds the seed catalogue. */
     public SeedMediaCatalogue() {
         this.catalogue = createSeedData();
     }
 
-    /**
-     * Returns every title in the catalogue.
-     *
-     * @return an unmodifiable view of the whole catalogue
-     */
+    /** Returns every title in the catalogue. */
     public List<Media> getAll() {
         return Collections.unmodifiableList(this.catalogue);
     }
@@ -80,25 +62,12 @@ public class SeedMediaCatalogue implements MediaCatalogueDataAccessInterface {
         return found;
     }
 
-    /**
-     * Reports whether a title is worth offering for the given genres.
-     *
-     * An empty genre set means the user has rated nothing yet, so everything is
-     * a candidate — otherwise a new user would be shown an empty screen.
-     *
-     * @param media the title to test
-     * @param genres the genres the user likes, possibly empty
-     * @return true if the title should be considered
-     */
+    /** Reports whether a title is worth offering for the given genres. */
     private static boolean sharesGenre(final Media media, final Set<Genre> genres) {
         return genres.isEmpty() || !Collections.disjoint(media.getGenres(), genres);
     }
 
-    /**
-     * Creates the fixed set of titles.
-     *
-     * @return the seed catalogue
-     */
+    /** Creates the fixed set of titles. */
     private static List<Media> createSeedData() {
         final List<Media> seed = new ArrayList<>();
 

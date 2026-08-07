@@ -8,10 +8,7 @@ import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.nio.charset.StandardCharsets;
 
-/**
- * Sends HTTP requests to the TMDB API.
- * The source link annotation regarding the API usage method is in Javadoc for reference.
- */
+/** Sends HTTP requests to the TMDB API. */
 public class TmdbApiClient {
 
     private static final String BASE_URL =
@@ -20,18 +17,13 @@ public class TmdbApiClient {
     private final HttpClient httpClient;
     private final String accessToken;
 
-    /**
-     * Creates a client for accessing the TMDB API.
-     */
+    /** Creates a client for accessing the TMDB API. */
     public TmdbApiClient() {
         this.httpClient = HttpClient.newHttpClient();
         this.accessToken = System.getenv("Tmdb_Read_Access");
     }
 
-    /**
-     * Searches for movies and TV shows from TMDB.
-     * ...
-     */
+    /** Searches for movies and TV shows from TMDB. */
     public String searchMulti(String keyword, int page)
             throws IOException {
         final String encodedKeyword = URLEncoder.encode(
@@ -47,21 +39,12 @@ public class TmdbApiClient {
         return sendGetRequest(path);
     }
 
-    /**
-     * Searches for movies only.
-     *
-     * Multi-search also returns people, who are dropped on the way through, so
-     * a page of it can yield nothing at all and its result count bears little
-     * relation to how many films and shows there are. These endpoints return
-     * only what the application can actually show.
-     */
+    /** Searches for movies only. */
     public String searchMovies(String keyword, int page) throws IOException {
         return sendGetRequest("/search/movie?query=" + encode(keyword) + "&page=" + page);
     }
 
-    /**
-     * Searches for TV shows only.
-     */
+    /** Searches for TV shows only. */
     public String searchTvShows(String keyword, int page) throws IOException {
         return sendGetRequest("/search/tv?query=" + encode(keyword) + "&page=" + page);
     }
@@ -70,68 +53,43 @@ public class TmdbApiClient {
         return URLEncoder.encode(keyword.trim(), StandardCharsets.UTF_8);
     }
 
-    /**
-     * Finds popular movies in the given genres.
-     *
-     * Used to build recommendation candidates for someone whose taste profile
-     * points at particular genres.
-     */
+    /** Finds popular movies in the given genres. */
     public String discoverMovies(String genreIds, int page) throws IOException {
         return sendGetRequest("/discover/movie?with_genres=" + genreIds
                 + "&sort_by=popularity.desc&page=" + page);
     }
 
-    /**
-     * Finds popular TV shows in the given genres.
-     */
+    /** Finds popular TV shows in the given genres. */
     public String discoverTvShows(String genreIds, int page) throws IOException {
         return sendGetRequest("/discover/tv?with_genres=" + genreIds
                 + "&sort_by=popularity.desc&page=" + page);
     }
 
-    /**
-     * Returns what is popular right now, regardless of genre.
-     *
-     * This is the fallback for a user with nothing in their lists yet, who has
-     * no taste profile to narrow the search with.
-     */
+    /** Returns what is popular right now, regardless of genre. */
     public String getPopularMovies(int page) throws IOException {
         return sendGetRequest("/movie/popular?page=" + page);
     }
 
-    /**
-     * Returns the TV shows that are popular right now.
-     */
+    /** Returns the TV shows that are popular right now. */
     public String getPopularTvShows(int page) throws IOException {
         return sendGetRequest("/tv/popular?page=" + page);
     }
 
-    /**
-     * Gets the official movie genre list from TMDB.
-     * ...
-     */
+    /** Gets the official movie genre list from TMDB. */
     public String getMovieGenres() throws IOException {
         return sendGetRequest(
                 "/genre/movie/list?language=en-US"
         );
     }
 
-    /**
-     * Gets the official TV-show genre list from TMDB.
-     * ...
-     */
+    /** Gets the official TV-show genre list from TMDB. */
     public String getTvGenres() throws IOException {
         return sendGetRequest(
                 "/genre/tv/list?language=en-US"
         );
     }
 
-    /**
-     * Sends an authenticated GET request to TMDB.
-     * As mentioned in TMDB API Reference, when response = 200, it is a seuccessful
-     * response for GET endpoint.
-     *  ...
-     */
+    /** Sends an authenticated GET request to TMDB. */
     private String sendGetRequest(String path) throws IOException {
         validateAccessToken();
 
@@ -171,9 +129,7 @@ public class TmdbApiClient {
         }
     }
 
-    /**
-     * Checks whether the TMDB token is available.
-     */
+    /** Checks whether the TMDB token is available. */
     private void validateAccessToken() throws IOException {
         if (accessToken == null
                 || accessToken.trim().isEmpty()) {
@@ -183,9 +139,7 @@ public class TmdbApiClient {
         }
     }
 
-    /**
-     * Gets complete movie details and credits from TMDB.
-     */
+    /** Gets complete movie details and credits from TMDB. */
     public String getMovieDetails(int movieId) throws IOException {
         final String path =
                 "/movie/" + movieId
@@ -194,16 +148,12 @@ public class TmdbApiClient {
         return sendGetRequest(path);
     }
 
-    /**
-     * Gets reviews for one movie from TMDB.
-     */
+    /** Gets reviews for one movie from TMDB. */
     public String getMovieReviews(int movieId) throws IOException {
         return sendGetRequest("/movie/" + movieId + "/reviews");
     }
 
-    /**
-     * Gets complete TV-show details and credits from TMDB.
-     */
+    /** Gets complete TV-show details and credits from TMDB. */
     public String getTvShowDetails(int tvShowId) throws IOException {
         final String path =
                 "/tv/" + tvShowId
@@ -212,9 +162,7 @@ public class TmdbApiClient {
         return sendGetRequest(path);
     }
 
-    /**
-     * Gets reviews for one TV show from TMDB.
-     */
+    /** Gets reviews for one TV show from TMDB. */
     public String getTvShowReviews(int tvShowId) throws IOException {
         return sendGetRequest("/tv/" + tvShowId + "/reviews");
     }

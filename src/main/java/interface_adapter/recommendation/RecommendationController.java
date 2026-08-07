@@ -4,13 +4,7 @@ import interface_adapter.ViewManagerModel;
 import use_case.recommendation.RecommendationInputBoundary;
 import use_case.recommendation.RecommendationInputData;
 
-/**
- * Turns a click into a request the recommendation use case understands.
- *
- * Knows nothing about how recommendations are produced. It builds input data
- * and calls the input boundary, which is the only thing it depends on besides
- * the view manager it uses to change screens.
- */
+/** Turns a click into a request the recommendation use case understands. */
 public class RecommendationController {
 
     private final RecommendationInputBoundary recommendationInteractor;
@@ -25,32 +19,24 @@ public class RecommendationController {
         this.homePageViewName = homePageViewName;
     }
 
-    /**
-     * Loads the short, ungrouped list the home page shows.
-     */
+    /** Loads the short, ungrouped list the home page shows. */
     public void loadForHomePage(String username) {
         recommendationInteractor.recommend(new RecommendationInputData(
                 username, RecommendationInputData.HOME_PAGE_LIMIT, false));
     }
 
-    /**
-     * Loads the longer list, grouped into genre sections, for the full screen.
-     */
+    /** Loads the longer list, grouped into genre sections, for the full screen. */
     public void loadDetailed(String username) {
         recommendationInteractor.recommend(new RecommendationInputData(
                 username, RecommendationInputData.DETAILED_LIMIT, true));
     }
 
-    /**
-     * Opens the full recommendation screen.
-     */
+    /** Opens the full recommendation screen. */
     public void switchToRecommendationView() {
         viewManagerModel.switchView(RecommendationViewModel.VIEW_NAME);
     }
 
-    /**
-     * Returns to the home page.
-     */
+    /** Returns to the home page. */
     public void switchToHomePageView() {
         viewManagerModel.switchView(homePageViewName);
     }

@@ -1,8 +1,6 @@
 package entity;
 
-/**
- * Represents a premium user of the app. Includes bonus features exclusive to VIP.
- */
+/** Represents a premium user of the app. */
 
 public class PremiumUser extends StandardUser implements Customizable {
 

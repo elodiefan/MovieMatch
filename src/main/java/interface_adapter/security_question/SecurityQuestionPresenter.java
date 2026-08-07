@@ -7,23 +7,7 @@ import interface_adapter.reset_password.ResetPasswordViewModel;
 import use_case.security_question.SecurityQuestionOutputBoundary;
 import use_case.security_question.SecurityQuestionOutputData;
 
-/**
- * Presenter for the Security Question use case.
- *
- * Translates use-case results into view-model state changes:
- *
- *     #presentSecurityQuestion — put the question on screen;
- *     #prepareSuccessView — identity confirmed, so seed the
- *     reset-password screen with the verified username and switch to it via the
- *     ViewManagerModel;
- *     #prepareFailView — show a wrong-answer / locked-out / no-account
- *     message and (when locked) disable the inputs.
- *
- * It also implements PasswordResetCompletedHandler: once the password
- * has actually been changed, this screen is where the user is returned to, with
- * a confirmation message. Doing it here means the reset-password package never
- * has to know this package exists.
- */
+/** Presenter for the Security Question use case. */
 public class SecurityQuestionPresenter
         implements SecurityQuestionOutputBoundary, PasswordResetCompletedHandler {
 
@@ -103,10 +87,7 @@ public class SecurityQuestionPresenter
         securityQuestionViewModel.firePropertyChanged();
     }
 
-    /**
-     * The password has been changed, so clear this screen, confirm what
-     * happened, and bring the user back to it.
-     */
+    /** The password has been changed, so clear this screen, confirm what happened, and bring the user back to it. */
     @Override
     public void passwordResetCompleted(String username) {
         final SecurityQuestionState state = securityQuestionViewModel.getState();

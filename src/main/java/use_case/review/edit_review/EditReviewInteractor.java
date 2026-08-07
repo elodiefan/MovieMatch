@@ -6,18 +6,12 @@ import java.util.Optional;
 import entity.Review;
 import entity.UserContent;
 
-/**
- * Interactor for editing a review.
- */
+/** Interactor for editing a review. */
 public final class EditReviewInteractor implements EditReviewInputBoundary {
-    /**
-     * Smallest valid rating percentage.
-     */
+    /** Smallest valid rating percentage. */
     private static final double MIN_RATING = 0.0;
 
-    /**
-     * Largest valid rating percentage.
-     */
+    /** Largest valid rating percentage. */
     private static final double MAX_RATING = 100.0;
 
     /** The review data access object. */
@@ -25,24 +19,18 @@ public final class EditReviewInteractor implements EditReviewInputBoundary {
     /** The presenter. */
     private final EditReviewOutputBoundary presenter;
 
-    /**
-     * Creates an edit review interactor without persistence.
-     */
+    /** Creates an edit review interactor without persistence. */
     public EditReviewInteractor() {
         this(null, null);
     }
 
-    /**
-     * Creates an edit review interactor with persistence.
-     */
+    /** Creates an edit review interactor with persistence. */
     public EditReviewInteractor(
             final EditReviewDataAccessInterface inputReviewDataAccessObject) {
         this(inputReviewDataAccessObject, null);
     }
 
-    /**
-     * Handles this review or comment operation.
-     */
+    /** Handles this review or comment operation. */
     public EditReviewInteractor(
             final EditReviewDataAccessInterface inputReviewDataAccessObject,
             final EditReviewOutputBoundary inputPresenter) {
@@ -69,9 +57,7 @@ public final class EditReviewInteractor implements EditReviewInputBoundary {
         }
     }
 
-    /**
-     * Edits one persisted review written by the given user.
-     */
+    /** Edits one persisted review written by the given user. */
     private Review editReview(final String reviewId, final String username,
                              final double newRating,
                              final String newReviewText) {
@@ -93,9 +79,7 @@ public final class EditReviewInteractor implements EditReviewInputBoundary {
         return editedReview;
     }
 
-    /**
-     * Edits an existing review.
-     */
+    /** Edits an existing review. */
     private Review editReview(final Review review, final double newRating,
                              final String newReviewText) {
         validateEditReviewData(review, newRating);
@@ -105,9 +89,7 @@ public final class EditReviewInteractor implements EditReviewInputBoundary {
         return review;
     }
 
-    /**
-     * Validates the data needed to edit a review.
-     */
+    /** Validates the data needed to edit a review. */
     private void validateEditReviewData(final Review review,
                                         final double rating) {
         if (review == null) {
@@ -118,9 +100,7 @@ public final class EditReviewInteractor implements EditReviewInputBoundary {
         }
     }
 
-    /**
-     * Validates the data needed to edit a persisted review.
-     */
+    /** Validates the data needed to edit a persisted review. */
     private void validateEditReviewData(final String reviewId,
                                         final String username,
                                         final double rating) {
@@ -144,9 +124,7 @@ public final class EditReviewInteractor implements EditReviewInputBoundary {
         }
     }
 
-    /**
-     * Saves an edited review through the DAO and updates the entity copy.
-     */
+    /** Saves an edited review through the DAO and updates the entity copy. */
     private Review editPersistedReview(final Review review,
                                        final double newRating,
                                        final String newReviewText) {
@@ -157,16 +135,12 @@ public final class EditReviewInteractor implements EditReviewInputBoundary {
         return review;
     }
 
-    /**
-     * Checks whether a text value is empty or only whitespace.
-     */
+    /** Checks whether a text value is empty or only whitespace. */
     private boolean isBlank(final String value) {
         return value == null || value.trim().isEmpty();
     }
 
-    /**
-     * Trims a text value, or returns an empty string if it is null.
-     */
+    /** Trims a text value, or returns an empty string if it is null. */
     private String trimToEmpty(final String value) {
         final String trimmedValue;
         if (value == null) {

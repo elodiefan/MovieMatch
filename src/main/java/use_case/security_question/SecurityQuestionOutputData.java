@@ -1,12 +1,6 @@
 package use_case.security_question;
 
-/**
- * Output data for the Security Question use case.
- *
- * One immutable object describes every outcome the presenter/view might need
- * to render: the question to show, whether the step failed, how many tries are
- * left, and — if the account is locked — how long until it unlocks.
- */
+/** Output data for the Security Question use case. */
 public class SecurityQuestionOutputData {
 
     private final String username;
@@ -30,7 +24,7 @@ public class SecurityQuestionOutputData {
         return username;
     }
 
-    /** The user's security question, or "" when unknown (e.g. no such account). */
+    /** The user's security question, or blank when there is no such account. */
     public String getSecurityQuestion() {
         return securityQuestion;
     }

@@ -4,9 +4,7 @@ import java.util.List;
 
 import entity.Genre;
 
-/**
- * The state for Media Detail View.
- */
+/** The state for Media Detail View. */
 public class MediaDetailState {
 
     private String title;

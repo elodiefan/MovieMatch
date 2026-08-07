@@ -4,61 +4,30 @@ import java.util.Collections;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-/**
- * The individual factor values behind one candidate's final score.
- *
- * Kept alongside the total for two reasons. It lets the app explain a suggestion
- * in the user's own terms — "because you like Sci-Fi" — without recomputing
- * anything. And when a scoring test fails it shows which factor was wrong rather
- * than only that the total missed, which is the difference between a one-minute
- * fix and an afternoon.
- *
- * Insertion order is preserved so breakdowns always read in the same order.
- */
+/** The individual factor values behind one candidate's final score. */
 public class SubScoreBreakdown {
 
     private final Map<String, Double> rawScores;
     private final Map<String, Double> weightedScores;
 
-    /**
-     * Creates a breakdown.
-     *
-     * @param rawScores each factor's own [0, 1] value, keyed by factor name
-     * @param weightedScores each factor's value after its weight is applied
-     */
+    /** Creates a breakdown. */
     public SubScoreBreakdown(final Map<String, Double> rawScores,
                              final Map<String, Double> weightedScores) {
         this.rawScores = Collections.unmodifiableMap(new LinkedHashMap<>(rawScores));
         this.weightedScores = Collections.unmodifiableMap(new LinkedHashMap<>(weightedScores));
     }
 
-    /**
-     * Returns each factor's unweighted value.
-     *
-     * @return an unmodifiable map from factor name to its [0, 1] score
-     */
+    /** Returns each factor's unweighted value. */
     public Map<String, Double> getRawScores() {
         return this.rawScores;
     }
 
-    /**
-     * Returns each factor's contribution to the total.
-     *
-     * @return an unmodifiable map from factor name to its weighted score
-     */
+    /** Returns each factor's contribution to the total. */
     public Map<String, Double> getWeightedScores() {
         return this.weightedScores;
     }
 
-    /**
-     * Returns the name of the factor that contributed most to the total.
-     *
-     * This is what makes a suggestion explainable: the strongest contributor is
-     * the honest answer to "why am I being shown this?".
-     *
-     * @return the highest-contributing factor's name, or an empty string if there
-     *         are no factors
-     */
+    /** Returns the name of the factor that contributed most to the total. */
     public String getStrongestFactor() {
         return this.weightedScores.entrySet().stream()
                 .max(Map.Entry.comparingByValue())

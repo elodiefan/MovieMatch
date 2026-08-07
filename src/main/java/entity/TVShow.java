@@ -2,9 +2,7 @@ package entity;
 
 import java.util.List;
 
-/**
- * Represents a TV show.
- */
+/** Represents a TV show. */
 
 public class TVShow implements Media {
 
@@ -18,9 +16,7 @@ public class TVShow implements Media {
     private final int numberOfSeasons;
     private final int numberOfEpisodes;
 
-    /**
-     * Creates a new movie.
-     */
+    /** Creates a new movie. */
     public TVShow(int id,
                   String title,
                   int releaseYear,
@@ -75,16 +71,12 @@ public class TVShow implements Media {
         return cast;
     }
 
-    /**
-     * Returns the amount of seasons of this show.
-     */
+    /** Returns the amount of seasons of this show. */
     public int numberOfSeasons() {
         return numberOfSeasons;
     }
 
-    /**
-     * Returns the amount of episodes of this show.
-     */
+    /** Returns the amount of episodes of this show. */
     public int numberOfEpisodes() {
         return numberOfEpisodes;
     }

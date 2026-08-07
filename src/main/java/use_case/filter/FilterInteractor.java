@@ -6,9 +6,7 @@ import java.util.List;
 import entity.Genre;
 import entity.Media;
 
-/**
- * The Filter Interactor.
- */
+/** The Filter Interactor. */
 public class FilterInteractor implements FilterInputBoundary {
 
     private static final double MINIMUM_ALLOWED_RATING = 0.0;

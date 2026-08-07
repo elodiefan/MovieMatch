@@ -1,8 +1,6 @@
 package use_case.search;
 
-/**
- * The Input Data for the Search Use Case.
- */
+/** The Input Data for the Search Use Case. */
 public class SearchInputData {
 
     private final String keyword;
@@ -17,16 +15,12 @@ public class SearchInputData {
         this.startPage = startPage;
     }
 
-    /**
-     * Returns the search keyword.
-     */
+    /** Returns the search keyword. */
     public String getKeyword() {
         return keyword;
     }
 
-    /**
-     * Returns the first page this request should fetch.
-     */
+    /** Returns the first page this request should fetch. */
     public int getStartPage() {
         return startPage;
     }

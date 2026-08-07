@@ -2,26 +2,14 @@ package entity.recommendation;
 
 import entity.Media;
 
-/**
- * Scores a candidate on how recently it came out.
- *
- * Nudges the list toward things the user has plausibly not already seen, without
- * burying older titles entirely — the lightest of the five factors. Decays
- * linearly over a fixed window, so a title released this year scores 1.0 and one
- * older than the window scores 0.
- *
- * The year is taken from the {@link ScoringContext} rather than the system clock
- * so that scores stay reproducible and tests do not start failing in January.
- */
+/** Scores a candidate on how recently it came out. */
 public class RecencySubScore implements SubScore {
 
     private static final String NAME = "recency";
     private static final double OLDEST = 0.0;
     private static final double NEWEST = 1.0;
 
-    /**
-     * Creates the recency factor.
-     */
+    /** Creates the recency factor. */
     public RecencySubScore() {
         // Stateless: everything needed arrives through scoreFor.
     }

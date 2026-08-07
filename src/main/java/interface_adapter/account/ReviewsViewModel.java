@@ -2,9 +2,7 @@ package interface_adapter.account;
 
 import interface_adapter.ViewModel;
 
-/**
- * The View Model for the reviews view opened from a user's account.
- */
+/** The View Model for the reviews view opened from a user's account. */
 public class ReviewsViewModel extends ViewModel<ReviewsState> {
 
     public static final String TITLE_LABEL = "My Reviews and Comments";

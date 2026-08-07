@@ -5,13 +5,7 @@ import java.util.List;
 
 import entity.Media;
 
-/**
- * One page of search results, and how many pages exist in total.
- *
- * Search sources hand back results a page at a time. Carrying the page count
- * alongside the results is what lets the use case decide how many pages to ask
- * for, rather than the data access deciding for it.
- */
+/** One page of search results, and how many pages exist in total. */
 public class MediaPage {
 
     private final List<Media> media;
@@ -33,8 +27,7 @@ public class MediaPage {
     }
 
     /**
-     * Returns how many results the source says exist for this keyword, across
-     * every page, not just the ones fetched so far.
+     * Returns how many results the source says exist for this keyword, across every page, not just the ones fetched so far.
      */
     public int getTotalResults() {
         return totalResults;

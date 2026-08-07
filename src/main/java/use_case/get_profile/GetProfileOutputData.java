@@ -1,8 +1,6 @@
 package use_case.get_profile;
 
-/**
- * Output Data for the Get Profile Use Case.
- */
+/** Output Data for the Get Profile Use Case. */
 
 public class GetProfileOutputData {
 

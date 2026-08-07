@@ -2,9 +2,7 @@ package interface_adapter.other_account;
 
 import interface_adapter.ViewModel;
 
-/**
- * The View Model for the Account View.
- */
+/** The View Model for the Account View. */
 public class OtherAccountViewModel extends ViewModel<OtherAccountState> {
 
     public static final String VIEW_NAME = "other account";

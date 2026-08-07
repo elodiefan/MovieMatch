@@ -1,12 +1,8 @@
 package use_case.comment.unlike_comment;
 
-/**
- * Data access interface for unliking comments.
- */
+/** Data access interface for unliking comments. */
 public interface UnlikeCommentDataAccessInterface {
 
-    /**
-     * Removes a user's like from one comment.
-     */
+    /** Removes a user's like from one comment. */
     boolean unlikeComment(String commentId, String username);
 }

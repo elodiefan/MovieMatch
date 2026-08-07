@@ -9,9 +9,7 @@ import interface_adapter.logout.LogoutState;
 import interface_adapter.logout.LogoutViewModel;
 import use_case.get_security_question.GetSecurityQuestionInputBoundary;
 
-/**
- * The controller for the Account Use Case.
- */
+/** The controller for the Account Use Case. */
 public class PersonalAccountController {
 
     private final GetSecurityQuestionInputBoundary getSecurityQuestionInteractor;
@@ -41,12 +39,7 @@ public class PersonalAccountController {
         this.getReviewsViewName = getReviewsViewName;
     }
 
-    /**
-     * Switches to the logout confirmation view.
-     *
-     * The confirm view needs to know who is logging out, so the username is
-     * carried across in the logout state before the view is shown.
-     */
+    /** Switches to the logout confirmation view. */
     public void switchToLogoutConfirmView(String username) {
         final LogoutState logoutState = logoutViewModel.getState();
         logoutState.setUsername(username);
@@ -55,60 +48,44 @@ public class PersonalAccountController {
         viewManagerModel.switchView(logoutViewModel.getViewName());
     }
 
-    /**
-     * Executes the reviews view use case.
-     */
+    /** Executes the reviews view use case. */
     public void switchToReviewsView() {
         viewManagerModel.switchView(getReviewsViewName);
     }
 //
-//    /**
-//     * Executes the log out view use case.
-//     */
+//    /** // * Executes the log out view use case. */
 //    public void switchToLogOutConfirmView() {
 //        accountUseCaseInteractor.switchToLogOutConfirmView();
 //    }
 
-    /**
-     * Executes the reset password view use case.
-     */
+    /** Executes the reset password view use case. */
     public void switchToResetPasswordView() {
         viewManagerModel.switchView(resetPasswordViewName);
     }
 
-    /**
-     * Executes the delete account view use case.
-     */
+    /** Executes the delete account view use case. */
     public void switchToDeleteAccountView() {
         getSecurityQuestionInteractor.switchToDeleteAccountView();
     }
 
-    /**
-     * Switches view to home page.
-     */
+    /** Switches view to home page. */
     public void switchToHomePageView() {
         viewManagerModel.switchView(homePageViewName);
     }
 
-    /**
-     * Executes the get watchlist view use case.
-     */
+    /** Executes the get watchlist view use case. */
     public void switchToWatchlistView(String username, String displayName) {
         viewManagerModel.switchView(getListsViewName);
         getListsController.executeWatchlistUseCase(username, displayName);
     }
 
-    /**
-     * Executes the get watch history view use case.
-     */
+    /** Executes the get watch history view use case. */
     public void switchToWatchHistoryView(String username, String displayName) {
         viewManagerModel.switchView(getListsViewName);
         getListsController.executeWatchHistoryUseCase(username, displayName);
     }
 
-    /**
-     * Executes the get watch history view use case.
-     */
+    /** Executes the get watch history view use case. */
     public void switchToBlockedUsersView(String username, String displayName) {
         viewManagerModel.switchView(getListsViewName);
         getListsController.executeBlockUsersUseCase(username, displayName);

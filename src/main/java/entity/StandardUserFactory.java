@@ -1,8 +1,6 @@
 package entity;
 
-/**
- * Factory for creating StandardUser objects.
- */
+/** Factory for creating StandardUser objects. */
 
 public class StandardUserFactory implements UserFactory {
 

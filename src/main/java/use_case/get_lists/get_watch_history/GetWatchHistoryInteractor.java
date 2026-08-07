@@ -3,9 +3,7 @@ package use_case.get_lists.get_watch_history;
 import use_case.get_lists.GetListsInputData;
 import use_case.get_lists.GetListsUserDataAccessInterface;
 
-/**
- * The Watch History View Interactor.
- */
+/** The Watch History View Interactor. */
 
 public class GetWatchHistoryInteractor implements GetWatchHistoryInputBoundary {
 
@@ -28,9 +26,7 @@ public class GetWatchHistoryInteractor implements GetWatchHistoryInputBoundary {
         getListsPresenter.prepareSuccessView(getWatchHistoryOutputData);
     }
 
-    /**
-     * Switches from list view to account view.
-     */
+    /** Switches from list view to account view. */
     @Override
     public void switchToAccountView(GetListsInputData getListsInputData) {
         if (userDataAccessObject.getCurrentUsername().equals(getListsInputData.getUsername())) {

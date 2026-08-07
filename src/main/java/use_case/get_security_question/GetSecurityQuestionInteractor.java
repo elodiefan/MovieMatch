@@ -1,8 +1,6 @@
 package use_case.get_security_question;
 
-/**
- * The Account Interactor.
- */
+/** The Account Interactor. */
 public class GetSecurityQuestionInteractor implements GetSecurityQuestionInputBoundary {
     private final GetSecurityQuestionUserDataAccessInterface userDataAccessObject;
     private final GetSecurityQuestionOutputBoundary personalAccountPresenter;
@@ -13,9 +11,7 @@ public class GetSecurityQuestionInteractor implements GetSecurityQuestionInputBo
         this.personalAccountPresenter = getSecurityQuestionOutputBoundary;
     }
 
-    /**
-     * Switches from account view to delete account view.
-     */
+    /** Switches from account view to delete account view. */
     @Override
     public void switchToDeleteAccountView() {
         final String username = userDataAccessObject.getCurrentUsername();

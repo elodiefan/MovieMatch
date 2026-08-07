@@ -1,8 +1,6 @@
 package use_case.settings;
 
-/**
- * The input data for the Change Settings Use Case.
- */
+/** The input data for the Change Settings Use Case. */
 public class SettingsInputData {
 
     private final boolean darkMode;

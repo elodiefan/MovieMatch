@@ -14,20 +14,14 @@ import use_case.search.SearchMediaDataAccess;
 import use_case.search.SearchOutputBoundary;
 import view.SearchView;
 
-/**
- * Factory for assembling the Search Use Case to avoid direct changing of appbuilder.
- */
+/** Factory for assembling the Search Use Case to avoid direct changing of appbuilder. */
 public final class SearchUseCaseFactory {
 
-    /**
-     * Prevents this utility class from being instantiated.
-     */
+    /** Prevents this utility class from being instantiated. */
     private SearchUseCaseFactory() {
     }
 
-    /**
-     * Creates and connects the Search Use Case.
-     */
+    /** Creates and connects the Search Use Case. */
     public static void create(
             ViewManagerModel viewManagerModel,
             SearchViewModel searchViewModel,

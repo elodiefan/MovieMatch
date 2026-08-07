@@ -3,20 +3,7 @@ package use_case.security_question;
 import entity.AccountLockout;
 import entity.User;
 
-/**
- * Interactor (business logic) for changing a password via a security question.
- *
- * Responsibilities, matching the feature spec:
- *
- *     show the user's security question;
- *     verify the typed answer;
- *     let the user keep trying while wrong;
- *     lock the account once too many attempts fail.
- *
- * The counting and timing rules live in AccountLockout, and the records
- * themselves are kept by a LockoutTracker. This class holds no state of
- * its own: it only decides which rule to apply and what to report back.
- */
+/** Interactor (business logic) for changing a password via a security question. */
 public class SecurityQuestionInteractor implements SecurityQuestionInputBoundary {
 
     private final SecurityQuestionUserDataAccessInterface userDataAccessObject;

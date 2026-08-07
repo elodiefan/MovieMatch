@@ -1,8 +1,6 @@
 package use_case.logout;
 
-/**
- * The Logout Interactor.
- */
+/** The Logout Interactor. */
 public class LogoutInteractor implements LogoutInputBoundary {
     private LogoutUserDataAccessInterface userDataAccessObject;
     private LogoutOutputBoundary logoutPresenter;

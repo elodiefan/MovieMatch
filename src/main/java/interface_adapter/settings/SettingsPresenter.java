@@ -3,13 +3,7 @@ package interface_adapter.settings;
 import use_case.settings.SettingsOutputBoundary;
 import use_case.settings.SettingsOutputData;
 
-/**
- * The Presenter for the Change Settings Use Case.
- *
- * Changing a setting never leaves the settings screen, so this only writes
- * state. Repainting the application is left to whoever listens to the view
- * model, which keeps Swing out of the interface adapter layer.
- */
+/** The Presenter for the Change Settings Use Case. */
 public class SettingsPresenter implements SettingsOutputBoundary {
 
     private final SettingsViewModel settingsViewModel;

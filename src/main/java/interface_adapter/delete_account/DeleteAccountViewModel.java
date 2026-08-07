@@ -2,9 +2,7 @@ package interface_adapter.delete_account;
 
 import interface_adapter.ViewModel;
 
-/**
- * The View Model for the Delete Account View.
- */
+/** The View Model for the Delete Account View. */
 
 public class DeleteAccountViewModel extends ViewModel<DeleteAccountState> {
 

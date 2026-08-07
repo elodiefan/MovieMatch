@@ -21,21 +21,7 @@ import use_case.recommendation.Adjustment;
 import use_case.recommendation.ScoreAdjuster;
 import use_case.recommendation.ScoreAdjustmentException;
 
-/**
- * Asks Gemini to nudge one candidate's score and explain it in a sentence.
- *
- * This is Section 7 of the algorithm document. The deterministic score decides
- * the ranking; this only refines a shortlist that already scored well, and only
- * by a small amount, to catch nuance like tone or theme that genre and cast
- * overlap cannot see.
- *
- * Nothing here can take over the recommendation. It never sees candidates that
- * scored poorly, it returns one number rather than an ordering, and that number
- * is clamped twice — by ScoreAdjustmentApplier and again by
- * ClampingScoreAdjuster. A missing key, a failed call or an unreadable reply
- * raises ScoreAdjustmentException, which the applier turns into no change at
- * all, leaving the deterministic ranking exactly as it was.
- */
+/** Asks Gemini to nudge one candidate's score and explain it in a sentence. */
 public class GeminiScoreAdjuster implements ScoreAdjuster {
 
     /** Where the key is read from, matching how the TMDB token is supplied. */
@@ -44,13 +30,7 @@ public class GeminiScoreAdjuster implements ScoreAdjuster {
     /** Overridable so the model can be changed without a rebuild. */
     public static final String MODEL_VARIABLE = "Gemini_Model";
 
-    /**
-     * Used when the model variable is not set.
-     *
-     * An alias rather than a pinned version, so it keeps working as models are
-     * retired. The lite tier is deliberate: this asks for one number and one
-     * sentence, and it has free quota where the full flash models do not.
-     */
+    /** Used when the model variable is not set. */
     public static final String DEFAULT_MODEL = "gemini-flash-lite-latest";
 
     private static final String ENDPOINT =
@@ -85,8 +65,7 @@ public class GeminiScoreAdjuster implements ScoreAdjuster {
     }
 
     /**
-     * Says whether a key is configured, so callers can skip the network
-     * entirely rather than failing once per candidate.
+     * Says whether a key is configured, so callers can skip the network entirely rather than failing once per candidate.
      */
     public boolean isConfigured() {
         return apiKey != null && !apiKey.isBlank();
@@ -113,16 +92,7 @@ public class GeminiScoreAdjuster implements ScoreAdjuster {
         }
     }
 
-    /**
-     * Asks about the whole shortlist in one request.
-     *
-     * One round trip instead of one per title. Asking separately took about
-     * twenty seconds for a ten title list and hit the free tier hard enough
-     * that some titles lost their explanation entirely.
-     *
-     * A failure here costs no more than the explanations: every candidate falls
-     * back to no adjustment, so the deterministic ranking still stands.
-     */
+    /** Asks about the whole shortlist in one request. */
     @Override
     public List<Adjustment> adjustAll(List<Media> candidates, TasteProfile tasteProfile) {
         final List<Adjustment> adjustments = new ArrayList<>();
@@ -172,9 +142,7 @@ public class GeminiScoreAdjuster implements ScoreAdjuster {
                 + "\"explanation\": \"<one short sentence>\"}]}";
     }
 
-    /**
-     * Reads a batch reply, keeping every candidate lined up with its own entry.
-     */
+    /** Reads a batch reply, keeping every candidate lined up with its own entry. */
     private List<Adjustment> parseBatch(String reply, int expected) throws IOException {
         final List<Adjustment> adjustments = new ArrayList<>();
         for (int i = 0; i < expected; i++) {
@@ -203,12 +171,7 @@ public class GeminiScoreAdjuster implements ScoreAdjuster {
                 Math.max(-MAX_ADJUSTMENT, Math.min(MAX_ADJUSTMENT, delta)), explanation);
     }
 
-    /**
-     * Pulls the JSON object out of a reply.
-     *
-     * Models routinely wrap it in a code fence or a sentence, so the object is
-     * located rather than assumed to be the whole string.
-     */
+    /** Pulls the JSON object out of a reply. */
     private String extractJson(String reply) throws IOException {
         final JsonNode root = objectMapper.readTree(reply);
         final String text = root.path("candidates").path(0)
@@ -227,8 +190,7 @@ public class GeminiScoreAdjuster implements ScoreAdjuster {
     }
 
     /**
-     * Describes the candidate and the user's taste, and asks for exactly the two
-     * values the algorithm allows this step to contribute.
+     * Describes the candidate and the user's taste, and asks for exactly the two values the algorithm allows this step to contribute.
      */
     private String buildPrompt(Media candidate, TasteProfile tasteProfile) {
         final String likedGenres = tasteProfile.getGenres().stream()
@@ -285,12 +247,7 @@ public class GeminiScoreAdjuster implements ScoreAdjuster {
         return response.body();
     }
 
-    /**
-     * Reads the number and sentence out of the reply.
-     *
-     * Models often wrap JSON in a code fence, so the object is located rather
-     * than assumed to be the whole string.
-     */
+    /** Reads the number and sentence out of the reply. */
     private Adjustment parse(String reply) throws IOException {
         final JsonNode parsed = objectMapper.readTree(extractJson(reply));
         final double delta = parsed.path("delta").asDouble(0.0);

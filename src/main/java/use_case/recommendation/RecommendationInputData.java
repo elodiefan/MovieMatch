@@ -1,12 +1,6 @@
 package use_case.recommendation;
 
-/**
- * A request for recommendations.
- *
- * Carries what differs between the two screens that ask for them: the home page
- * wants a handful, ungrouped; the dedicated view wants more, arranged into
- * genre sections. Both go through the same use case.
- */
+/** A request for recommendations. */
 public class RecommendationInputData {
 
     /** How many suggestions the home page strip shows. */
@@ -19,13 +13,7 @@ public class RecommendationInputData {
     private final int limit;
     private final boolean groupByGenre;
 
-    /**
-     * Creates a request.
-     *
-     * @param username the user to recommend for
-     * @param limit how many suggestions to return
-     * @param groupByGenre whether to arrange the results into genre sections
-     */
+    /** Creates a request. */
     public RecommendationInputData(final String username, final int limit,
                                    final boolean groupByGenre) {
         this.username = username;
@@ -33,29 +21,17 @@ public class RecommendationInputData {
         this.groupByGenre = groupByGenre;
     }
 
-    /**
-     * Returns the user to recommend for.
-     *
-     * @return the username
-     */
+    /** Returns the user to recommend for. */
     public String getUsername() {
         return this.username;
     }
 
-    /**
-     * Returns how many suggestions to return.
-     *
-     * @return the limit
-     */
+    /** Returns how many suggestions to return. */
     public int getLimit() {
         return this.limit;
     }
 
-    /**
-     * Reports whether results should be grouped into genre sections.
-     *
-     * @return true if the caller wants sections
-     */
+    /** Reports whether results should be grouped into genre sections. */
     public boolean isGroupByGenre() {
         return this.groupByGenre;
     }

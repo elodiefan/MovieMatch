@@ -12,9 +12,7 @@ import entity.Review;
 
 import use_case.review.get_media_reviews.GetMediaReviewsDataAccessInterface;
 
-/**
- * Loads read-only review data from TMDB.
- */
+/** Loads read-only review data from TMDB. */
 public final class TmdbReviewDataAccessObject
         implements GetMediaReviewsDataAccessInterface {
     /** Movie media type. */
@@ -37,9 +35,7 @@ public final class TmdbReviewDataAccessObject
     /** JSON mapper. */
     private final ObjectMapper objectMapper = new ObjectMapper();
 
-    /**
-     * Creates a TMDB review data access object.
-     */
+    /** Creates a TMDB review data access object. */
     public TmdbReviewDataAccessObject(
             final TmdbApiClient inputTmdbApiClient) {
         this.tmdbApiClient = inputTmdbApiClient;
@@ -61,9 +57,7 @@ public final class TmdbReviewDataAccessObject
         return reviews;
     }
 
-    /**
-     * Requests review JSON from TMDB.
-     */
+    /** Requests review JSON from TMDB. */
     private String getReviewsJson(final int mediaId, final String mediaType)
             throws IOException {
         final String reviewsJson;
@@ -75,9 +69,7 @@ public final class TmdbReviewDataAccessObject
         return reviewsJson;
     }
 
-    /**
-     * Parses TMDB reviews into Review entities.
-     */
+    /** Parses TMDB reviews into Review entities. */
     private List<Review> parseReviews(final int mediaId,
                                       final String mediaType,
                                       final String reviewsJson)
@@ -90,9 +82,7 @@ public final class TmdbReviewDataAccessObject
         return reviews;
     }
 
-    /**
-     * Converts one TMDB review JSON object into a Review.
-     */
+    /** Converts one TMDB review JSON object into a Review. */
     private Review toReview(final int mediaId, final String mediaType,
                             final JsonNode reviewNode) {
         final JsonNode authorDetails = reviewNode.path("author_details");
@@ -114,9 +104,7 @@ public final class TmdbReviewDataAccessObject
                 TMDB_SOURCE, new HashSet<>());
     }
 
-    /**
-     * Converts a TMDB rating into a percentage.
-     */
+    /** Converts a TMDB rating into a percentage. */
     private double parseRating(final JsonNode ratingNode) {
         final double rating;
         if (ratingNode == null || ratingNode.isMissingNode()
@@ -130,9 +118,7 @@ public final class TmdbReviewDataAccessObject
         return rating;
     }
 
-    /**
-     * Parses a TMDB ISO timestamp.
-     */
+    /** Parses a TMDB ISO timestamp. */
     private ZonedDateTime parseDateTime(final String value) {
         final ZonedDateTime parsedTime;
         if (isBlank(value)) {
@@ -143,9 +129,7 @@ public final class TmdbReviewDataAccessObject
         return parsedTime;
     }
 
-    /**
-     * Returns the first non-blank value.
-     */
+    /** Returns the first non-blank value. */
     private String firstNonBlank(final String first, final String second,
                                  final String fallback) {
         final String value;
@@ -159,9 +143,7 @@ public final class TmdbReviewDataAccessObject
         return value;
     }
 
-    /**
-     * Checks whether a value is blank.
-     */
+    /** Checks whether a value is blank. */
     private boolean isBlank(final String value) {
         return value == null || value.trim().isEmpty();
     }

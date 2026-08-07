@@ -2,9 +2,7 @@ package interface_adapter.user_reviews;
 
 import interface_adapter.ViewModel;
 
-/**
- * View model for the user reviews view.
- */
+/** View model for the user reviews view. */
 public final class UserReviewsViewModel extends ViewModel<UserReviewsState> {
 
     /** The view name. */
@@ -30,9 +28,7 @@ public final class UserReviewsViewModel extends ViewModel<UserReviewsState> {
     /** The back button label. */
     public static final String BACK_BUTTON_LABEL = "Back";
 
-    /**
-     * Handles this review or comment operation.
-     */
+    /** Handles this review or comment operation. */
     public UserReviewsViewModel() {
         super(VIEW_NAME);
         setState(new UserReviewsState());

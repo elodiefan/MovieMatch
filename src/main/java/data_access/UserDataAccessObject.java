@@ -16,24 +16,7 @@ import use_case.search_user.SearchUserDataAccess;
 import use_case.security_question.SecurityQuestionUserDataAccessInterface;
 import use_case.signup.SignupUserDataAccessInterface;
 
-/**
- * The storage contract for the whole app.
- *
- * It gathers every use case's data-access interface into a single interface, so
- * a data store only has to implement this one thing to satisfy all of them.
- * Swapping databases means writing a new class that implements this interface
- * and changing one line in AppBuilder — no use case, interactor,
- * presenter, or view changes.
- *
- * Implemented by MongoUserDataAccessObject (the real MongoDB Atlas
- * database) and InMemoryUserDataAccessObject (plain maps, for running
- * and testing without a network).
- *
- * When you add a use case: write its own
- * ...UserDataAccessInterface in your use_case package, add it to
- * the extends list below, then implement the new methods in both
- * classes. Nothing else needs to change.
- */
+/** The storage contract for the whole app. */
 public interface UserDataAccessObject extends
         AccessMessageChatUserDataAccessInterface,
         BlockUserUserDataAccessInterface,
@@ -51,10 +34,6 @@ public interface UserDataAccessObject extends
         SignupUserDataAccessInterface,
         WatchedMediaDataAccessInterface {
 
-    /**
-     * Releases any resources held by this data store, such as an open database
-     * connection. Call once when the app shuts down. Implementations with
-     * nothing to release may do nothing.
-     */
+    /** Releases any resources held by this data store, such as an open database connection. */
     void close();
 }

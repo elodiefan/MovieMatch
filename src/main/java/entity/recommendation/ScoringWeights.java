@@ -1,17 +1,6 @@
 package entity.recommendation;
 
-/**
- * How much each factor counts toward a candidate's final score.
- *
- * The algorithm document describes these as configurable constants rather than
- * derived values, "best tuned after testing against real user data — for
- * instance, lowering the genre weight if recommendations start to feel
- * repetitive". They are therefore held in their own object and injected, so the
- * weighting can be changed without touching any scoring code.
- *
- * The five weights must sum to 1.0, which keeps every final score inside the
- * range [0, 1]. {@link #ScoringWeights} rejects any set that does not.
- */
+/** How much each factor counts toward a candidate's final score. */
 public class ScoringWeights {
 
     /** Weight of genre overlap in the default weighting. */
@@ -45,17 +34,7 @@ public class ScoringWeights {
     private final double recency;
     private final int recencyWindowYears;
 
-    /**
-     * Creates a weighting.
-     *
-     * @param genre weight of the genre overlap score
-     * @param cast weight of the cast overlap score
-     * @param popularity weight of the popularity score
-     * @param friend weight of the friends' rating score
-     * @param recency weight of the recency score
-     * @param recencyWindowYears years over which recency decays to zero
-     * @throws IllegalArgumentException if the five weights do not sum to 1.0
-     */
+    /** Creates a weighting. */
     public ScoringWeights(final double genre, final double cast, final double popularity,
                           final double friend, final double recency, final int recencyWindowYears) {
         final double total = genre + cast + popularity + friend + recency;
@@ -71,66 +50,38 @@ public class ScoringWeights {
         this.recencyWindowYears = recencyWindowYears;
     }
 
-    /**
-     * Returns the weighting described in the algorithm document.
-     *
-     * @return the default weights
-     */
+    /** Returns the weighting described in the algorithm document. */
     public static ScoringWeights createDefault() {
         return new ScoringWeights(DEFAULT_GENRE, DEFAULT_CAST, DEFAULT_POPULARITY,
                 DEFAULT_FRIEND, DEFAULT_RECENCY, DEFAULT_RECENCY_WINDOW_YEARS);
     }
 
-    /**
-     * Returns the weight of the genre overlap score.
-     *
-     * @return the genre weight
-     */
+    /** Returns the weight of the genre overlap score. */
     public double getGenre() {
         return this.genre;
     }
 
-    /**
-     * Returns the weight of the cast overlap score.
-     *
-     * @return the cast weight
-     */
+    /** Returns the weight of the cast overlap score. */
     public double getCast() {
         return this.cast;
     }
 
-    /**
-     * Returns the weight of the popularity score.
-     *
-     * @return the popularity weight
-     */
+    /** Returns the weight of the popularity score. */
     public double getPopularity() {
         return this.popularity;
     }
 
-    /**
-     * Returns the weight of the friends' rating score.
-     *
-     * @return the friend weight
-     */
+    /** Returns the weight of the friends' rating score. */
     public double getFriend() {
         return this.friend;
     }
 
-    /**
-     * Returns the weight of the recency score.
-     *
-     * @return the recency weight
-     */
+    /** Returns the weight of the recency score. */
     public double getRecency() {
         return this.recency;
     }
 
-    /**
-     * Returns how many years it takes recency to decay to zero.
-     *
-     * @return the recency window in years
-     */
+    /** Returns how many years it takes recency to decay to zero. */
     public int getRecencyWindowYears() {
         return this.recencyWindowYears;
     }

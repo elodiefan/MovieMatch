@@ -1,8 +1,6 @@
 package entity;
 
-/**
- * Class representing the lists of a given user.
- */
+/** Class representing the lists of a given user. */
 
 public class UserLists {
 

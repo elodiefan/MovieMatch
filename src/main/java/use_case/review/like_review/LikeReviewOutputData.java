@@ -1,22 +1,16 @@
 package use_case.review.like_review;
 
-/**
- * Output data for liking a review.
- */
+/** Output data for liking a review. */
 public final class LikeReviewOutputData {
     /** The liked. */
     private final boolean liked;
 
-    /**
-     * Handles this review or comment operation.
-     */
+    /** Handles this review or comment operation. */
     public LikeReviewOutputData(final boolean inputLiked) {
         this.liked = inputLiked;
     }
 
-    /**
-     * Handles this review or comment operation.
-     */
+    /** Handles this review or comment operation. */
     public boolean isLiked() {
         return liked;
     }

@@ -1,8 +1,6 @@
 package interface_adapter.personal_account;
 
-/**
- * The state for the Account View Model.
- */
+/** The state for the Account View Model. */
 public class PersonalAccountState {
     private String username = "";
     private String displayName = "";

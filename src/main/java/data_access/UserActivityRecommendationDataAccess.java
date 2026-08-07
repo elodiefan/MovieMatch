@@ -12,26 +12,11 @@ import use_case.recommendation.UserRating;
 import use_case.recommendation.WatchedMediaDataAccessInterface;
 import use_case.review.ReviewDataAccessInterface;
 
-/**
- * Turns what a user has actually done in MovieMatch into ratings the
- * recommendation algorithm can score with.
- *
- * Implements an interface owned by the use case layer, and is assembled from
- * two other such interfaces, so nothing here reaches inward. Ratings come from
- * two places and are combined here rather than in the interactor, which should
- * not have to know that MovieMatch keeps reviews and watch lists separately.
- */
+/** Turns a user's activity into ratings the algorithm can score with. */
 public class UserActivityRecommendationDataAccess
         implements RecommendationDataAccessInterface {
 
-    /**
-     * The score given to something watched or saved but never reviewed.
-     *
-     * Adding a title to a list is a weaker signal than rating it, but it is
-     * still a signal, and most users will have far more list entries than
-     * reviews. Sitting slightly above the middle of a ten point scale says
-     * "probably liked" without drowning out an explicit rating.
-     */
+    /** The score given to something watched or saved but never reviewed. */
     public static final double IMPLIED_RATING = 6.5;
 
     private final WatchedMediaDataAccessInterface watchedMediaDataAccess;
@@ -65,12 +50,7 @@ public class UserActivityRecommendationDataAccess
         return userRatings;
     }
 
-    /**
-     * MovieMatch has no friends feature, so this is empty by design.
-     *
-     * The algorithm defines that case: the friends factor scores zero and the
-     * remaining factors decide the ranking.
-     */
+    /** MovieMatch has no friends feature, so this is empty by design. */
     @Override
     public List<String> findFriendUsernames(String username) {
         return new ArrayList<>();
@@ -81,10 +61,7 @@ public class UserActivityRecommendationDataAccess
         return new ArrayList<>();
     }
 
-    /**
-     * Returns the titles a user has already engaged with, so they can be kept
-     * out of their own recommendations.
-     */
+    /** Titles the user already saved or watched, so they are not suggested again. */
     public Set<Integer> engagedMediaIds(String username) {
         return watchedMediaDataAccess.findEngagedMediaIds(username);
     }

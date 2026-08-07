@@ -3,13 +3,7 @@ package interface_adapter.search_user;
 import use_case.search_user.SearchUserOutputBoundary;
 import use_case.search_user.SearchUserOutputData;
 
-/**
- * The Presenter for the Search User Use Case.
- *
- * Results are shown on the search view itself rather than a separate results
- * view, so neither method switches view. Failing only means the search did not
- * run, so that case leaves the previous results alone and just shows why.
- */
+/** The Presenter for the Search User Use Case. */
 public class SearchUserPresenter implements SearchUserOutputBoundary {
 
     private final SearchUserViewModel searchUserViewModel;

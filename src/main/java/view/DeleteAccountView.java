@@ -19,9 +19,7 @@ import interface_adapter.delete_account.DeleteAccountController;
 import interface_adapter.delete_account.DeleteAccountState;
 import interface_adapter.delete_account.DeleteAccountViewModel;
 
-/**
- * The View for when the user wants to delete their account.
- */
+/** The View for when the user wants to delete their account. */
 public class DeleteAccountView extends JPanel implements PropertyChangeListener {
 
     private final String viewName = "delete account";

@@ -5,9 +5,7 @@ import java.util.List;
 
 import entity.Comment;
 
-/**
- * Interactor for loading comments on a review.
- */
+/** Interactor for loading comments on a review. */
 public final class GetReviewCommentsInteractor
         implements GetReviewCommentsInputBoundary {
     /** The comment data access object. */
@@ -15,25 +13,19 @@ public final class GetReviewCommentsInteractor
     /** The presenter. */
     private final GetReviewCommentsOutputBoundary presenter;
 
-    /**
-     * Creates a comments interactor without persistence.
-     */
+    /** Creates a comments interactor without persistence. */
     public GetReviewCommentsInteractor() {
         this(null, null);
     }
 
-    /**
-     * Creates a comments interactor with persistence.
-     */
+    /** Creates a comments interactor with persistence. */
     public GetReviewCommentsInteractor(
             final GetReviewCommentsDataAccessInterface
                     inputCommentDataAccessObject) {
         this(inputCommentDataAccessObject, null);
     }
 
-    /**
-     * Handles this review or comment operation.
-     */
+    /** Handles this review or comment operation. */
     public GetReviewCommentsInteractor(
             final GetReviewCommentsDataAccessInterface
                     inputCommentDataAccessObject,
@@ -58,9 +50,7 @@ public final class GetReviewCommentsInteractor
         }
     }
 
-    /**
-     * Returns persisted comments on one review, ordered from oldest to newest.
-     */
+    /** Returns persisted comments on one review, ordered from oldest to newest. */
     private List<Comment> getReviewComments(final String reviewId) {
         final String trimmedReviewId = trimToEmpty(reviewId);
         validateReviewId(trimmedReviewId);
@@ -71,9 +61,7 @@ public final class GetReviewCommentsInteractor
         return matchingComments;
     }
 
-    /**
-     * Validates the review id needed to load persisted comments.
-     */
+    /** Validates the review id needed to load persisted comments. */
     private void validateReviewId(final String reviewId) {
         if (isBlank(reviewId)) {
             throw new IllegalArgumentException("Review id cannot be empty.");
@@ -90,16 +78,12 @@ public final class GetReviewCommentsInteractor
         }
     }
 
-    /**
-     * Checks whether a text value is empty or only whitespace.
-     */
+    /** Checks whether a text value is empty or only whitespace. */
     private boolean isBlank(final String value) {
         return value == null || value.trim().isEmpty();
     }
 
-    /**
-     * Trims a text value, or returns an empty string if it is null.
-     */
+    /** Trims a text value, or returns an empty string if it is null. */
     private String trimToEmpty(final String value) {
         final String trimmedValue;
         if (value == null) {

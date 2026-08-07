@@ -2,9 +2,7 @@ package use_case.login;
 
 import entity.User;
 
-/**
- * The Login Interactor.
- */
+/** The Login Interactor. */
 public class LoginInteractor implements LoginInputBoundary {
     private final LoginUserDataAccessInterface userDataAccessObject;
     private final LoginOutputBoundary loginPresenter;
@@ -40,17 +38,13 @@ public class LoginInteractor implements LoginInputBoundary {
         }
     }
 
-    /**
-     * Switches from login view to sign up view.
-     */
+    /** Switches from login view to sign up view. */
     @Override
     public void switchToSignUpView() {
         loginPresenter.switchToSignUpView();
     }
 
-    /**
-     * Switches from login view to home page view.
-     */
+    /** Switches from login view to home page view. */
     @Override
     public void switchToHomePageView() {
         loginPresenter.switchToHomePageView();

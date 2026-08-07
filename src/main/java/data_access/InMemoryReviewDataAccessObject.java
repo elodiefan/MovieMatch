@@ -18,33 +18,25 @@ import use_case.review.like_review.LikeReviewDataAccessInterface;
 import use_case.review.ReviewDataAccessInterface;
 import use_case.review.unlike_review.UnlikeReviewDataAccessInterface;
 
-/**
- * In-memory data access object for review data.
- */
+/** In-memory data access object for review data. */
 public class InMemoryReviewDataAccessObject implements ReviewDataAccessObject {
     private final Map<String, Review> reviews = new LinkedHashMap<>();
     // creates the actual in memory database for reviews
     // LinkedHashMap instead of regular HashMap because LinkedHashMap remembers insertion order
     // so later if we call getAllReviews() they will be returned in order
 
-    /**
-     * Saves a review.
-     */
+    /** Saves a review. */
     public void saveReview(Review review) {
         reviews.put(review.getReviewId(), review);
         // reviews.put(key, value)
     }
 
-    /**
-     * Returns whether a review exists.
-     */
+    /** Returns whether a review exists. */
     public boolean existsByReviewId(String reviewId) {
         return reviews.containsKey(reviewId);
     }
 
-    /**
-     * Returns a review by id.
-     */
+    /** Returns a review by id. */
     public Optional<Review> getReviewById(String reviewId) {
         return Optional.ofNullable(reviews.get(reviewId));
         // Optional.ofNullable(...) is used because a review could exist or not
@@ -53,9 +45,7 @@ public class InMemoryReviewDataAccessObject implements ReviewDataAccessObject {
         // it will return an empty Optional
     }
 
-    /**
-     * Returns all reviews written by a user.
-     */
+    /** Returns all reviews written by a user. */
     public List<Review> getReviewsByUsername(String username) {
         final List<Review> matchingReviews = new ArrayList<>();
         // so that this variable name cannot be reassigned to a different list later
@@ -69,9 +59,7 @@ public class InMemoryReviewDataAccessObject implements ReviewDataAccessObject {
         return matchingReviews;
     }
 
-    /**
-     * Returns all reviews for one media item.
-     */
+    /** Returns all reviews for one media item. */
     public List<Review> getReviewsByMedia(int mediaId, String mediaType) {
         final List<Review> matchingReviews = new ArrayList<>();
 
@@ -84,9 +72,7 @@ public class InMemoryReviewDataAccessObject implements ReviewDataAccessObject {
         return matchingReviews;
     }
 
-    /**
-     * Updates an existing review.
-     */
+    /** Updates an existing review. */
     public boolean editReview(String reviewId, double newRating, String newReviewText,
                               ZonedDateTime newUpdatedAt) {
         final Optional<Review> review = getReviewById(reviewId);
@@ -99,9 +85,7 @@ public class InMemoryReviewDataAccessObject implements ReviewDataAccessObject {
         return reviewExists;
     }
 
-    /**
-     * Deletes a review.
-     */
+    /** Deletes a review. */
     public boolean deleteReview(String reviewId) {
         final boolean reviewExists = existsByReviewId(reviewId);
 
@@ -119,9 +103,7 @@ public class InMemoryReviewDataAccessObject implements ReviewDataAccessObject {
         // this doesn't mean the rating got deleted
     }
 
-    /**
-     * Adds a user's like to a review.
-     */
+    /** Adds a user's like to a review. */
     public boolean likeReview(String reviewId, String username) {
         final Optional<Review> review = getReviewById(reviewId);
         final boolean reviewExists = review.isPresent();
@@ -133,9 +115,7 @@ public class InMemoryReviewDataAccessObject implements ReviewDataAccessObject {
         return reviewExists;
     }
 
-    /**
-     * Removes a user's like from a review.
-     */
+    /** Removes a user's like from a review. */
     public boolean unlikeReview(String reviewId, String username) {
         final Optional<Review> review = getReviewById(reviewId);
         final boolean reviewExists = review.isPresent();
@@ -147,9 +127,7 @@ public class InMemoryReviewDataAccessObject implements ReviewDataAccessObject {
         return reviewExists;
     }
 
-    /**
-     * Returns all saved reviews.
-     */
+    /** Returns all saved reviews. */
     public List<Review> getAllReviews() {
         return new ArrayList<>(reviews.values());
     }

@@ -11,9 +11,7 @@ public class AccessMessageChatInteractor implements AccessMessageChatInputBounda
         this.userPresenter = accessMessageChatOutputBoundary;
     }
 
-    /**
-     * Executes the access message chat use case.
-     */
+    /** Executes the access message chat use case. */
     @Override
     public void execute(AccessMessageChatInputData accessMessageChatInputData) {
         final String otherUsername = accessMessageChatInputData.getOtherUsername();

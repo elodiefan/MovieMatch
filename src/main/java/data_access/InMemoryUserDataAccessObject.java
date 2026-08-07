@@ -11,14 +11,7 @@ import entity.StandardUser;
 import entity.User;
 import entity.UserLists;
 
-/**
- * In-memory implementation of UserDataAccessObject.
- *
- * Stores users in a plain map, so the app and its tests can run with no network
- * and no database. Because it implements the same interface as
- * MongoUserDataAccessObject, switching between them is a one-line change
- * in AppBuilder. All data is lost when the program exits.
- */
+/** In-memory implementation of UserDataAccessObject. */
 public class InMemoryUserDataAccessObject implements UserDataAccessObject {
 
     private final Map<String, User> users = new HashMap<>();
@@ -40,11 +33,7 @@ public class InMemoryUserDataAccessObject implements UserDataAccessObject {
         return users.containsKey(username);
     }
 
-    /**
-     * Same check as #existsByName, under the name the login use case
-     * uses. Signup calls it existsByName and login calls it existsByUsername,
-     * so both are provided; there is only one implementation.
-     */
+    /** Same check as #existsByName, under the name the login use case uses. */
     @Override
     public boolean existsByUsername(String username) {
         return existsByName(username);
@@ -153,10 +142,7 @@ public class InMemoryUserDataAccessObject implements UserDataAccessObject {
 
     // ---------- Search for users ----------
 
-    /**
-     * Finds accounts whose username or display name contains the keyword,
-     * ignoring case. Same contract as the Mongo version, over a plain map.
-     */
+    /** Finds accounts whose username or display name contains the keyword, ignoring case. */
     @Override
     public List<User> search(String keyword) {
         final String needle = keyword.toLowerCase();
@@ -213,8 +199,7 @@ public class InMemoryUserDataAccessObject implements UserDataAccessObject {
     }
 
     /**
-     * Remembers the id as well as the display line, since the lists themselves
-     * are kept as text and recommendations need something to match on.
+     * Remembers the id as well as the display line, since the lists themselves are kept as text and recommendations need something to match on.
      */
     private void recordEngaged(String username, int mediaId) {
         engagedMediaIds.computeIfAbsent(username, key -> new LinkedHashSet<>()).add(mediaId);

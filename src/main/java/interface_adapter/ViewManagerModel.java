@@ -1,9 +1,6 @@
 package interface_adapter;
 
-/**
- * Model for the View Manager. Its state is the name of the View which
- * is currently active. An initial state of "" is used.
- */
+/** Model for the View Manager. */
 public class ViewManagerModel extends ViewModel<String> {
 
     public ViewManagerModel() {
@@ -11,9 +8,7 @@ public class ViewManagerModel extends ViewModel<String> {
         this.setState("");
     }
 
-    /**
-     * Switches view.
-     */
+    /** Switches view. */
     public void switchView(String viewName) {
         setState(viewName);
         firePropertyChanged();

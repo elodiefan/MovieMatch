@@ -7,9 +7,7 @@ import use_case.access_message_chat.AccessMessageChatOutputData;
 import use_case.block_user.BlockUserOutputBoundary;
 import use_case.block_user.BlockUserOutputData;
 
-/**
- * The Presenter for Other Account.
- */
+/** The Presenter for Other Account. */
 public class OtherAccountPresenter implements BlockUserOutputBoundary { //, AccessMessageChatOutputBoundary {
 
     private final OtherAccountViewModel otherAccountViewModel;

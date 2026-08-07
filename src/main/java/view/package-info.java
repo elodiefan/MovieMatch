@@ -1,4 +1,2 @@
-/**
- * Swing views for the MovieMatch application.
- */
+/** Swing views for the MovieMatch application. */
 package view;

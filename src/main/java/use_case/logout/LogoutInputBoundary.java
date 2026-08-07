@@ -1,12 +1,8 @@
 package use_case.logout;
 
-/**
- * Input Boundary for actions which are related to logging in.
- */
+/** Input Boundary for actions which are related to logging in. */
 public interface LogoutInputBoundary {
 
-    /**
-     * Executes the Logout use case.
-     */
+    /** Executes the Logout use case. */
     void execute(LogoutInputData LogoutInputData);
 }

@@ -3,9 +3,7 @@ package use_case.log_media;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
 
-/**
- * Interactor for logging media to watchlist and watch history.
- */
+/** Interactor for logging media to watchlist and watch history. */
 public class LogMediaInteractor implements LogMediaInputBoundary {
     /** Toronto time zone id. */
     private static final ZoneId TORONTO_ZONE =
@@ -24,9 +22,7 @@ public class LogMediaInteractor implements LogMediaInputBoundary {
     /** The output boundary. */
     private final LogMediaOutputBoundary presenter;
 
-    /**
-     * Creates an interactor for logging media.
-     */
+    /** Creates an interactor for logging media. */
     public LogMediaInteractor(
             final LogMediaDataAccessInterface inputDataAccessObject,
             final LogMediaOutputBoundary inputPresenter) {
@@ -66,9 +62,7 @@ public class LogMediaInteractor implements LogMediaInputBoundary {
         }
     }
 
-    /**
-     * Validates the media item and current user.
-     */
+    /** Validates the media item and current user. */
     private String validateInput(final LogMediaInputData inputData) {
         final String error;
         if (inputData == null) {
@@ -81,9 +75,7 @@ public class LogMediaInteractor implements LogMediaInputBoundary {
         return error;
     }
 
-    /**
-     * Validates the selected media item.
-     */
+    /** Validates the selected media item. */
     private String validateMedia(final LogMediaInputData inputData) {
         final String error;
         if (inputData.getMediaId() < MIN_MEDIA_ID) {
@@ -98,23 +90,17 @@ public class LogMediaInteractor implements LogMediaInputBoundary {
         return error;
     }
 
-    /**
-     * Returns the current Toronto timestamp.
-     */
+    /** Returns the current Toronto timestamp. */
     private String getCurrentTorontoTimestamp() {
         return ZonedDateTime.now(TORONTO_ZONE).toOffsetDateTime().toString();
     }
 
-    /**
-     * Checks whether a string is blank.
-     */
+    /** Checks whether a string is blank. */
     private boolean isBlank(final String value) {
         return value == null || value.trim().isEmpty();
     }
 
-    /**
-     * Trims a value or returns an empty string.
-     */
+    /** Trims a value or returns an empty string. */
     private String trimToEmpty(final String value) {
         final String trimmedValue;
         if (value == null) {

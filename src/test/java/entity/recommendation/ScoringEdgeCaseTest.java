@@ -17,9 +17,7 @@ import entity.Genre;
 import entity.Movie;
 
 /**
- * Covers the cases real data produces that the worked example does not: missing
- * cast lists, users with no friends, titles older than the recency window, and
- * misconfigured weights.
+ * Covers the cases real data produces that the worked example does not: missing cast lists, users with no friends, titles older than the recency window, and misconfigured weights.
  */
 class ScoringEdgeCaseTest {
 

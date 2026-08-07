@@ -6,16 +6,7 @@ import java.util.List;
 import entity.recommendation.ScoredMedia;
 import entity.recommendation.TasteProfile;
 
-/**
- * Lets an adjuster refine the ranking, within strict limits.
- *
- * Enforces the three rules that keep an outside intelligence from taking over
- * the recommendation. Only the shortlist is offered to it, so anything that
- * scored poorly stays invisible. Whatever comes back is clamped to a small
- * range, so a strange answer can at most reorder titles that were already close
- * together. And if the adjuster fails, the adjustment silently becomes zero and
- * the user sees the deterministic ranking unchanged.
- */
+/** Lets an adjuster refine the ranking, within strict limits. */
 public class ScoreAdjustmentApplier {
 
     /** The most an adjuster may move a score in either direction. */
@@ -23,22 +14,12 @@ public class ScoreAdjustmentApplier {
 
     private final ScoreAdjuster adjuster;
 
-    /**
-     * Creates an applier wrapping the given adjuster.
-     *
-     * @param adjuster the adjuster to consult
-     */
+    /** Creates an applier wrapping the given adjuster. */
     public ScoreAdjustmentApplier(final ScoreAdjuster adjuster) {
         this.adjuster = adjuster;
     }
 
-    /**
-     * Applies clamped adjustments to a shortlist.
-     *
-     * @param shortlist the best candidates so far, already ranked
-     * @param profile what the user is known to enjoy
-     * @return a new list with adjusted scores and explanations attached
-     */
+    /** Applies clamped adjustments to a shortlist. */
     public List<ScoredMedia> applyTo(final List<ScoredMedia> shortlist, final TasteProfile profile) {
         final List<entity.Media> candidates = new ArrayList<>();
         for (final ScoredMedia scored : shortlist) {
@@ -71,13 +52,7 @@ public class ScoreAdjustmentApplier {
         return adjusted;
     }
 
-    /**
-     * Adjusts a single result, falling back to no change if the adjuster fails.
-     *
-     * @param scored the result to adjust
-     * @param profile what the user is known to enjoy
-     * @return the result with any clamped adjustment applied
-     */
+    /** Adjusts a single result, falling back to no change if the adjuster fails. */
     private ScoredMedia applyOne(final ScoredMedia scored, final Adjustment adjustment) {
         // Clamped here, and again inside ClampingScoreAdjuster, which is the
         // two places the algorithm document asks for.

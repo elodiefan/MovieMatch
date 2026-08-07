@@ -20,20 +20,7 @@ import interface_adapter.security_question.SecurityQuestionController;
 import interface_adapter.security_question.SecurityQuestionState;
 import interface_adapter.security_question.SecurityQuestionViewModel;
 
-/**
- * The View for recovering an account by answering a security question.
- *
- * Layout, top to bottom:
- *
- *     a username field + a "Show question" button;
- *     a label that displays the loaded security question;
- *     an answer field + a "Verify" button;
- *     a message label (green success / red-ish error and attempts left).
- *
- * The view is "dumb": it only reads/writes SecurityQuestionState and
- * calls the SecurityQuestionController. All decisions (right/wrong,
- * attempts, lock-out) happen in the interactor.
- */
+/** The View for recovering an account by answering a security question. */
 public class SecurityQuestionView extends JPanel implements PropertyChangeListener {
 
     private final String viewName = "security question";

@@ -6,14 +6,7 @@ import java.util.Set;
 import entity.Genre;
 import entity.Media;
 
-/**
- * Collects a user's highly-rated media into a {@link TasteProfile}.
- *
- * Implements section 2 of the recommendation algorithm. Media is offered one at
- * a time along with the rating the user gave it; anything below the four-star
- * threshold is ignored, so only titles the user genuinely liked shape the
- * profile.
- */
+/** Collects a user's highly-rated media into a {@link TasteProfile}. */
 public class TasteProfileBuilder {
 
     /** A rating at or above this counts as "highly rated" — algorithm section 1. */
@@ -22,20 +15,12 @@ public class TasteProfileBuilder {
     private final Set<Genre> genres = new HashSet<>();
     private final Set<String> cast = new HashSet<>();
 
-    /**
-     * Creates an empty builder.
-     */
+    /** Creates an empty builder. */
     public TasteProfileBuilder() {
         // Nothing to set up; media is added through add().
     }
 
-    /**
-     * Folds one rated title into the profile, if the user rated it highly enough.
-     *
-     * @param media the title the user rated
-     * @param rating the stars the user gave it, on a 1-5 scale
-     * @return this builder, so calls can be chained
-     */
+    /** Folds one rated title into the profile, if the user rated it highly enough. */
     public TasteProfileBuilder add(final Media media, final double rating) {
         if (rating >= HIGHLY_RATED_THRESHOLD) {
             this.genres.addAll(media.getGenres());
@@ -44,11 +29,7 @@ public class TasteProfileBuilder {
         return this;
     }
 
-    /**
-     * Produces the profile accumulated so far.
-     *
-     * @return a new immutable taste profile
-     */
+    /** Produces the profile accumulated so far. */
     public TasteProfile build() {
         return new TasteProfile(new HashSet<>(this.genres), new HashSet<>(this.cast));
     }

@@ -1,8 +1,6 @@
 package use_case.get_lists.get_watch_history;
 
-/**
- * Output Data for the Watch History View Use Case.
- */
+/** Output Data for the Watch History View Use Case. */
 public class GetWatchHistoryOutputData {
 
     private final String username;

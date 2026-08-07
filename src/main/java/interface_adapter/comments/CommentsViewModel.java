@@ -2,9 +2,7 @@ package interface_adapter.comments;
 
 import interface_adapter.ViewModel;
 
-/**
- * View model for review comments.
- */
+/** View model for review comments. */
 public final class CommentsViewModel extends ViewModel<CommentsState> {
 
     /** The view name. */
@@ -24,9 +22,7 @@ public final class CommentsViewModel extends ViewModel<CommentsState> {
     /** The unlike button label. */
     public static final String UNLIKE_BUTTON_LABEL = "Unlike";
 
-    /**
-     * Handles this review or comment operation.
-     */
+    /** Handles this review or comment operation. */
     public CommentsViewModel() {
         super(VIEW_NAME);
         setState(new CommentsState());

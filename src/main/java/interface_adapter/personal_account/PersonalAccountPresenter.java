@@ -8,9 +8,7 @@ import interface_adapter.reset_password.ResetPasswordViewModel;
 import use_case.get_security_question.GetSecurityQuestionOutputBoundary;
 import use_case.get_security_question.GetSecurityQuestionOutputData;
 
-/**
- * The Presenter for the Account Use Case.
- */
+/** The Presenter for the Account Use Case. */
 public class PersonalAccountPresenter implements GetSecurityQuestionOutputBoundary {
 
     private final PersonalAccountViewModel accountViewModel;

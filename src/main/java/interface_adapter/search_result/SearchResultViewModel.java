@@ -2,9 +2,7 @@ package interface_adapter.search_result;
 
 import interface_adapter.ViewModel;
 
-/**
- * The ViewModel for displaying search results.
- */
+/** The ViewModel for displaying search results. */
 public class SearchResultViewModel extends ViewModel<SearchResultState> {
 
     public static final String VIEW_NAME = "search result";

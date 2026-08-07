@@ -13,17 +13,7 @@ import javax.swing.JPanel;
 import javax.swing.JProgressBar;
 import javax.swing.SwingConstants;
 
-/**
- * A centred "working on it" panel, shown while a screen waits on the network.
- *
- * Pure presentation with no controller and no state of its own, so any screen
- * can drop one in without pulling anything else along.
- *
- * The bar is indeterminate on purpose. Recommendations take a couple of seconds
- * and there is no honest way to report progress through them, so a bar that
- * pretends to know a percentage would be lying. A moving one says "still
- * working" without claiming more than that.
- */
+/** A centred "working on it" panel, shown while a screen waits on the network. */
 public class LoadingPanel extends JPanel {
 
     private static final int BAR_WIDTH = 260;
@@ -65,16 +55,12 @@ public class LoadingPanel extends JPanel {
         this.add(column, BorderLayout.CENTER);
     }
 
-    /**
-     * Changes the headline while still loading.
-     */
+    /** Changes the headline while still loading. */
     public void setMessage(String text) {
         message.setText(text);
     }
 
-    /**
-     * Sets the smaller line under the bar, for saying what is happening.
-     */
+    /** Sets the smaller line under the bar, for saying what is happening. */
     public void setDetail(String text) {
         if (text == null || text.isBlank()) {
             detail.setText(" ");
@@ -84,10 +70,7 @@ public class LoadingPanel extends JPanel {
         }
     }
 
-    /**
-     * Stops the animation when hidden, so an off-screen panel is not repainting
-     * forever in the background.
-     */
+    /** Stops the animation when hidden, so it does not repaint forever offscreen. */
     public void setAnimating(boolean animating) {
         bar.setIndeterminate(animating);
     }

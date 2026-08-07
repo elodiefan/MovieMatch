@@ -6,9 +6,7 @@ import java.util.List;
 import entity.Review;
 import use_case.review.get_media_reviews.GetMediaReviewsDataAccessInterface;
 
-/**
- * Combines external TMDB reviews with MovieMatch reviews.
- */
+/** Combines external TMDB reviews with MovieMatch reviews. */
 public final class CombinedMediaReviewDataAccessObject
         implements GetMediaReviewsDataAccessInterface {
     /** External review source. */
@@ -16,9 +14,7 @@ public final class CombinedMediaReviewDataAccessObject
     /** MovieMatch review source. */
     private final GetMediaReviewsDataAccessInterface localReviewDataAccess;
 
-    /**
-     * Creates a combined media review data access object.
-     */
+    /** Creates a combined media review data access object. */
     public CombinedMediaReviewDataAccessObject(
             final GetMediaReviewsDataAccessInterface
                     inputExternalReviewDataAccess,
@@ -36,9 +32,7 @@ public final class CombinedMediaReviewDataAccessObject
         return reviews;
     }
 
-    /**
-     * Adds external TMDB reviews when the API is available.
-     */
+    /** Adds external TMDB reviews when the API is available. */
     private void addExternalReviews(final List<Review> reviews,
                                     final int mediaId,
                                     final String mediaType) {
@@ -52,9 +46,7 @@ public final class CombinedMediaReviewDataAccessObject
         }
     }
 
-    /**
-     * Adds MovieMatch reviews.
-     */
+    /** Adds MovieMatch reviews. */
     private void addLocalReviews(final List<Review> reviews,
                                  final int mediaId,
                                  final String mediaType) {

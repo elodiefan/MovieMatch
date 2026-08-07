@@ -1,8 +1,6 @@
 package use_case.block_user;
 
-/**
- * The Block User Interactor.
- */
+/** The Block User Interactor. */
 
 public class BlockUserInteractor implements BlockUserInputBoundary {
 
@@ -15,9 +13,7 @@ public class BlockUserInteractor implements BlockUserInputBoundary {
         this.userPresenter = blockUserOutputBoundary;
     }
 
-    /**
-     * Executes the Block User Use Case.
-     */
+    /** Executes the Block User Use Case. */
     @Override
     public void execute(BlockUserInputData blockUserInputData) {
         final String otherUsername = blockUserInputData.getOtherUsername();

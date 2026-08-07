@@ -6,14 +6,7 @@ import java.util.Map;
 import entity.AccountLockout;
 import use_case.security_question.LockoutTracker;
 
-/**
- * In-memory implementation of LockoutTracker.
- *
- * Holds one AccountLockout per username for as long as the app runs, so
- * failed attempts and lock-outs are forgotten on restart. That is fine for a
- * desktop app with a single running copy. Storing them in the database instead
- * would only mean writing another class that implements the same interface.
- */
+/** In-memory implementation of LockoutTracker. */
 public class InMemoryLockoutTracker implements LockoutTracker {
 
     private final Map<String, AccountLockout> lockouts = new HashMap<>();

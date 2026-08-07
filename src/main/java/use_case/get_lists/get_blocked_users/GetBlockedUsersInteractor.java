@@ -3,9 +3,7 @@ package use_case.get_lists.get_blocked_users;
 import use_case.get_lists.GetListsInputData;
 import use_case.get_lists.GetListsUserDataAccessInterface;
 
-/**
- * The Blocked Users View Interactor.
- */
+/** The Blocked Users View Interactor. */
 public class GetBlockedUsersInteractor implements GetBlockedUsersInputBoundary {
 
     private final GetListsUserDataAccessInterface userDataAccessObject;
@@ -27,9 +25,7 @@ public class GetBlockedUsersInteractor implements GetBlockedUsersInputBoundary {
         getListsPresenter.prepareSuccessView(getBlockedUsersOutputData);
     }
 
-    /**
-     * Switches from list view to account view.
-     */
+    /** Switches from list view to account view. */
     @Override
     public void switchToAccountView(GetListsInputData getListsInputData) {
         if (userDataAccessObject.getCurrentUsername().equals(getListsInputData.getUsername())) {

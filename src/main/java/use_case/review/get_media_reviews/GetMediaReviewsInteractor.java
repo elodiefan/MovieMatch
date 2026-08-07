@@ -5,14 +5,10 @@ import java.util.List;
 
 import entity.Review;
 
-/**
- * Interactor for loading reviews for one media item.
- */
+/** Interactor for loading reviews for one media item. */
 public final class GetMediaReviewsInteractor
         implements GetMediaReviewsInputBoundary {
-    /**
-     * Smallest valid media id.
-     */
+    /** Smallest valid media id. */
     private static final int MIN_MEDIA_ID = 0;
 
     /** The review data access object. */
@@ -20,25 +16,19 @@ public final class GetMediaReviewsInteractor
     /** The presenter. */
     private final GetMediaReviewsOutputBoundary presenter;
 
-    /**
-     * Creates a media reviews interactor without persistence.
-     */
+    /** Creates a media reviews interactor without persistence. */
     public GetMediaReviewsInteractor() {
         this(null, null);
     }
 
-    /**
-     * Creates a media reviews interactor with persistence.
-     */
+    /** Creates a media reviews interactor with persistence. */
     public GetMediaReviewsInteractor(
             final GetMediaReviewsDataAccessInterface
                     inputReviewDataAccessObject) {
         this(inputReviewDataAccessObject, null);
     }
 
-    /**
-     * Handles this review or comment operation.
-     */
+    /** Handles this review or comment operation. */
     public GetMediaReviewsInteractor(
             final GetMediaReviewsDataAccessInterface
                     inputReviewDataAccessObject,
@@ -62,9 +52,7 @@ public final class GetMediaReviewsInteractor
         }
     }
 
-    /**
-     * Returns persisted reviews for one media item, ordered newest to oldest.
-     */
+    /** Returns persisted reviews for one media item, ordered newest to oldest. */
     private List<Review> getMediaReviews(final int mediaId,
                                         final String mediaType) {
         final String trimmedMediaType = trimToEmpty(mediaType);
@@ -78,9 +66,7 @@ public final class GetMediaReviewsInteractor
         return matchingReviews;
     }
 
-    /**
-     * Validates data needed to load persisted media reviews.
-     */
+    /** Validates data needed to load persisted media reviews. */
     private void validateGetMediaReviewsData(final int mediaId,
                                              final String mediaType) {
         if (mediaId < MIN_MEDIA_ID) {
@@ -100,16 +86,12 @@ public final class GetMediaReviewsInteractor
         }
     }
 
-    /**
-     * Checks whether a text value is empty or only whitespace.
-     */
+    /** Checks whether a text value is empty or only whitespace. */
     private boolean isBlank(final String value) {
         return value == null || value.trim().isEmpty();
     }
 
-    /**
-     * Trims a text value, or returns an empty string if it is null.
-     */
+    /** Trims a text value, or returns an empty string if it is null. */
     private String trimToEmpty(final String value) {
         final String trimmedValue;
         if (value == null) {

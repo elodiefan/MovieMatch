@@ -12,9 +12,7 @@ import interface_adapter.logout.LogoutController;
 import interface_adapter.logout.LogoutState;
 import interface_adapter.logout.LogoutViewModel;
 
-/**
- * The View for confirming logout.
- */
+/** The View for confirming logout. */
 public class LogoutConfirmView extends JPanel implements ActionListener {
 
     private final String viewName = "logout confirm";

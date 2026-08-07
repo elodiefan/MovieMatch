@@ -13,10 +13,7 @@ import entity.TVShow;
 import use_case.search.MediaPage;
 import use_case.search.SearchMediaDataAccess;
 
-/**
- * Accesses TMDB search data and converts the responses into Media entities.
- * String literals defined for avoiding multiple times of using same string.
- */
+/** Accesses TMDB search data and converts the responses into Media entities. */
 public class TmdbSearchMediaDataAccess
         implements SearchMediaDataAccess {
 
@@ -34,32 +31,20 @@ public class TmdbSearchMediaDataAccess
     private final TmdbApiClient tmdbApiClient;
     private final ObjectMapper objectMapper;
 
-    /**
-     * Creates a data access object that searches TMDB through client
-     * Data are translated by object mapper.
-     */
+    /** Creates a data access object that searches TMDB through client Data are translated by object mapper. */
     public TmdbSearchMediaDataAccess(
             TmdbApiClient tmdbApiClient) {
         this.tmdbApiClient = tmdbApiClient;
         this.objectMapper = new ObjectMapper();
     }
 
-    /**
-     * Searches TMDB for movies and TV shows matching a keyword.
-     * Externally connected to search interactor, checking input/output and handling exceptions.
-     */
+    /** Searches TMDB for movies and TV shows matching a keyword. */
     @Override
     public List<Media> search(String keyword) {
         return searchPage(keyword, 1).getMedia();
     }
 
-    /**
-     * Fetches one page of TMDB results and reports how many pages exist.
-     *
-     * Only the page asked for is fetched. Requesting every page TMDB reports
-     * meant up to 500 page requests plus a details request per result, which
-     * for a common word is over ten thousand calls.
-     */
+    /** Fetches one page of TMDB results and reports how many pages exist. */
     @Override
     public MediaPage searchPage(String keyword, int page) {
         final List<Media> results = new ArrayList<>();
@@ -96,8 +81,7 @@ public class TmdbSearchMediaDataAccess
 
 
     /**
-     * Converts one page of results, which are all of the same kind because the
-     * movie and TV endpoints are queried separately.
+     * Converts one page of results, which are all of the same kind because the movie and TV endpoints are queried separately.
      */
     private void addMediaFromPage(
             JsonNode pageNode,
@@ -115,9 +99,7 @@ public class TmdbSearchMediaDataAccess
         }
     }
 
-    /**
-     * Gets detailed movie information and converts it into a Movie.
-     */
+    /** Gets detailed movie information and converts it into a Movie. */
     private Movie getMovie(int movieId) throws IOException {
         final String detailsJson =
                 tmdbApiClient.getMovieDetails(movieId);
@@ -156,9 +138,7 @@ public class TmdbSearchMediaDataAccess
         );
     }
 
-    /**
-     * Gets complete TV-show information and converts it into a TVShow.
-     */
+    /** Gets complete TV-show information and converts it into a TVShow. */
     private TVShow getTvShow(int tvShowId) throws IOException {
         final String detailsJson =
                 tmdbApiClient.getTvShowDetails(tvShowId);
@@ -200,9 +180,7 @@ public class TmdbSearchMediaDataAccess
         );
     }
 
-    /**
-     * Converts a TMDB genre array into Genre list containing both id and name of genre.
-     */
+    /** Converts a TMDB genre array into Genre list containing both id and name of genre. */
     private List<Genre> parseGenres(JsonNode genreNodes) {
         final List<Genre> genres = new ArrayList<>();
 
@@ -218,9 +196,7 @@ public class TmdbSearchMediaDataAccess
         return genres;
     }
 
-    /**
-     * Extracts only cast-member names from TMDB credits.
-     */
+    /** Extracts only cast-member names from TMDB credits. */
     private List<String> parseCast(JsonNode castNodes) {
         final List<String> cast = new ArrayList<>();
 
@@ -233,11 +209,7 @@ public class TmdbSearchMediaDataAccess
         return cast;
     }
 
-    /**
-     * Extracts the year from a date using the YYYY-MM-DD format.
-     * Lost release year is shown as 0.
-     * 4 is the amount of character that represents a year.
-     */
+    /** Extracts the year from a date using the YYYY-MM-DD format. */
     private int parseYear(String date) {
         int year = 0;
 

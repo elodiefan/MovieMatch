@@ -4,13 +4,9 @@ import java.util.List;
 
 import entity.Comment;
 
-/**
- * Data access interface for loading comments written by one user.
- */
+/** Data access interface for loading comments written by one user. */
 public interface GetUserCommentsDataAccessInterface {
 
-    /**
-     * Gets all comments written by one user.
-     */
+    /** Gets all comments written by one user. */
     List<Comment> getCommentsByUsername(String username);
 }

@@ -1,8 +1,6 @@
 package use_case.get_profile;
 
-/**
- * The input data for the get profile use case.
- */
+/** The input data for the get profile use case. */
 
 public class GetProfileInputData {
 

@@ -1,8 +1,6 @@
 package interface_adapter.other_account;
 
-/**
- * The state for the Account View Model.
- */
+/** The state for the Account View Model. */
 public class OtherAccountState {
     private String username = "";
     private String displayName = "";

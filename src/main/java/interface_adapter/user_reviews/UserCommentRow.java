@@ -2,9 +2,7 @@ package interface_adapter.user_reviews;
 
 import java.time.ZonedDateTime;
 
-/**
- * Display data for one comment in the user's comment history.
- */
+/** Display data for one comment in the user's comment history. */
 public final class UserCommentRow {
     /** The comment id. */
     private final String commentId;
@@ -21,9 +19,7 @@ public final class UserCommentRow {
     /** The like count. */
     private final int likeCount;
 
-    /**
-     * Creates display data for one comment row.
-     */
+    /** Creates display data for one comment row. */
     public UserCommentRow(final String inputCommentId,
                           final String inputReviewId,
                           final String inputMediaTitle,

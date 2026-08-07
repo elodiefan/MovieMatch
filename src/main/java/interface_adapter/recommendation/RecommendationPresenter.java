@@ -5,18 +5,7 @@ import javax.swing.SwingUtilities;
 import use_case.recommendation.RecommendationOutputBoundary;
 import use_case.recommendation.RecommendationOutputData;
 
-/**
- * Presents recommendations onto one view model.
- *
- * Implements a boundary owned by the use case, so the interactor reports its
- * result without knowing whether a home page strip or a full screen is
- * listening. Two of these are built over the same interactor class, one per
- * screen, which is what the output boundary's own javadoc anticipates.
- *
- * Recommendations are produced off the UI thread because they reach TMDB and
- * possibly Gemini, so updates are handed back to it here rather than in the
- * view.
- */
+/** Presents recommendations onto one view model. */
 public class RecommendationPresenter implements RecommendationOutputBoundary {
 
     private final RecommendationViewModel recommendationViewModel;

@@ -5,9 +5,7 @@ import java.util.List;
 
 import use_case.search_user.UserSummary;
 
-/**
- * The state for the Search User View Model.
- */
+/** The state for the Search User View Model. */
 public class SearchUserState {
 
     private List<UserSummary> results = new ArrayList<>();
@@ -39,11 +37,7 @@ public class SearchUserState {
         this.searchError = searchError;
     }
 
-    /**
-     * Whether a search has run yet. Lets the view tell "nobody matched" apart
-     * from "you have not searched for anything yet", which both show an empty
-     * list but mean different things.
-     */
+    /** Whether a search has run yet. */
     public boolean isSearched() {
         return searched;
     }

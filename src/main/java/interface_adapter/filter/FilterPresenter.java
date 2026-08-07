@@ -5,9 +5,7 @@ import interface_adapter.search_result.SearchResultViewModel;
 import use_case.filter.FilterOutputBoundary;
 import use_case.filter.FilterOutputData;
 
-/**
- * Presenter for the Filter Use Case.
- */
+/** Presenter for the Filter Use Case. */
 public class FilterPresenter implements FilterOutputBoundary {
 
     private final SearchResultViewModel searchResultViewModel;

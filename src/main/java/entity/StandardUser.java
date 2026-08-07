@@ -1,8 +1,6 @@
 package entity;
 
-/**
- * Represents a standard user of the app.
- */
+/** Represents a standard user of the app. */
 
 public class StandardUser implements User {
 

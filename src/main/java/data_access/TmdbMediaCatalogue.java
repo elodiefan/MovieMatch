@@ -18,22 +18,10 @@ import entity.Movie;
 import entity.TVShow;
 import use_case.recommendation.MediaCatalogueDataAccessInterface;
 
-/**
- * Supplies recommendation candidates from TMDB.
- *
- * Implements an interface declared in the use case layer, so the interactor
- * depends on the idea of a catalogue rather than on TMDB. Swapping this for a
- * local copy, or for the seed catalogue used in tests, changes nothing inward
- * of here.
- *
- * When the user has no taste profile yet — nothing watched, nothing rated — the
- * genre set arrives empty and this falls back to what is popular right now,
- * which is what the interface asks implementations to do rather than returning
- * nothing to a new user.
- */
+/** Supplies recommendation candidates from TMDB. */
 public class TmdbMediaCatalogue implements MediaCatalogueDataAccessInterface {
 
-    /** How many pages of candidates to gather. Enough to rank, cheap to fetch. */
+    /** How many pages of candidates to gather. */
     private static final int CANDIDATE_PAGES = 1;
 
     private static final String RESULTS_FIELD = "results";
@@ -95,9 +83,7 @@ public class TmdbMediaCatalogue implements MediaCatalogueDataAccessInterface {
         return result;
     }
 
-    /**
-     * Drops anything the user has already seen or rated.
-     */
+    /** Drops anything the user has already seen or rated. */
     private List<Media> withoutExcluded(List<Media> candidates, Set<Integer> excludeMediaIds) {
         final List<Media> kept = new ArrayList<>();
         for (Media media : candidates) {
@@ -120,14 +106,7 @@ public class TmdbMediaCatalogue implements MediaCatalogueDataAccessInterface {
         }
     }
 
-    /**
-     * Builds a Movie from a listing entry.
-     *
-     * Listings carry no cast, and fetching it would mean an extra request per
-     * candidate. The cast factor simply scores zero in that case, exactly as the
-     * algorithm already handles a user with no friends, and the remaining
-     * factors decide the ranking.
-     */
+    /** Builds a Movie from a listing entry. */
     private Movie toMovieSummary(JsonNode item) {
         return new Movie(
                 item.path(ID_FIELD).asInt(),
@@ -169,9 +148,7 @@ public class TmdbMediaCatalogue implements MediaCatalogueDataAccessInterface {
                 details.path("runtime").asInt());
     }
 
-    /**
-     * Turns TMDB's genre ids into genres, naming them where possible.
-     */
+    /** Turns TMDB's genre ids into genres, naming them where possible. */
     private List<Genre> toGenres(JsonNode genreIds) {
         final Map<Integer, String> names = genreNames();
         final List<Genre> genres = new ArrayList<>();
@@ -182,9 +159,7 @@ public class TmdbMediaCatalogue implements MediaCatalogueDataAccessInterface {
         return genres;
     }
 
-    /**
-     * Loads the genre names once per run.
-     */
+    /** Loads the genre names once per run. */
     private Map<Integer, String> genreNames() {
         if (genreNames == null) {
             genreNames = new HashMap<>();
@@ -221,8 +196,7 @@ public class TmdbMediaCatalogue implements MediaCatalogueDataAccessInterface {
     }
 
     /**
-     * Returns the distinct genres across some titles, used to build a taste
-     * profile from what a user has already engaged with.
+     * Returns the distinct genres across some titles, used to build a taste profile from what a user has already engaged with.
      */
     public Set<Genre> genresOf(List<Media> media) {
         final Set<Genre> genres = new LinkedHashSet<>();

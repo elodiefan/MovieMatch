@@ -6,13 +6,7 @@ import java.util.List;
 import use_case.recommendation.GenreSection;
 import use_case.recommendation.RecommendedMedia;
 
-/**
- * What the recommendation screens draw.
- *
- * Holds only the output data the use case produced, never entities and never
- * anything from TMDB. The view reads this and nothing else, so a change to how
- * recommendations are produced cannot reach the screen.
- */
+/** What the recommendation screens draw. */
 public class RecommendationState {
 
     private List<RecommendedMedia> recommendations = new ArrayList<>();

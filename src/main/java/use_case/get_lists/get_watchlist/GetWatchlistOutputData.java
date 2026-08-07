@@ -1,8 +1,6 @@
 package use_case.get_lists.get_watchlist;
 
-/**
- * Output Data for the List View Use Case.
- */
+/** Output Data for the List View Use Case. */
 public class GetWatchlistOutputData {
 
     private final String username;

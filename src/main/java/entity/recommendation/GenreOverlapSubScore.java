@@ -2,21 +2,12 @@ package entity.recommendation;
 
 import entity.Media;
 
-/**
- * Scores a candidate on how many of its genres the user already enjoys.
- *
- * The heaviest factor in the algorithm: someone who rates science fiction highly
- * should mostly be shown science fiction. Computed as the share of the
- * candidate's own genres that appear in the user's taste profile, so a candidate
- * squarely inside the user's taste scores 1.0 and one sharing nothing scores 0.
- */
+/** Scores a candidate on how many of its genres the user already enjoys. */
 public class GenreOverlapSubScore implements SubScore {
 
     private static final String NAME = "genre";
 
-    /**
-     * Creates the genre overlap factor.
-     */
+    /** Creates the genre overlap factor. */
     public GenreOverlapSubScore() {
         // Stateless: everything needed arrives through scoreFor.
     }
