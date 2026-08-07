@@ -12,14 +12,12 @@ import com.mongodb.DBObject;
 import com.mongodb.client.model.Updates;
 import entity.Message;
 import org.bson.Document;
-import org.bson.conversions.Bson;
 
 import com.mongodb.client.MongoClient;
 import com.mongodb.client.MongoClients;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
 import com.mongodb.client.model.Filters;
-import com.mongodb.client.model.Sorts;
 import use_case.access_message_chat.AccessMessageChatMessageDataAccessInterface;
 import use_case.fetch_chat_history.FetchChatHistoryMessageDataAccessInterface;
 import use_case.send_message.SendMessageMessageDataAccessInterface;
@@ -38,6 +36,8 @@ public class MongoMessagesDataAccessObject implements AccessMessageChatMessageDa
     private static final String SENDER = "sender";
     private static final String BODY = "body";
     private static final String TIMESTAMP = "timestamp";
+    private static final String EMPTY_STRING = "";
+    private static final String WHITE_SPACE = " ";
 
     private final MongoClient mongoClient;
     private final MongoCollection<Document> messages;
@@ -68,8 +68,8 @@ public class MongoMessagesDataAccessObject implements AccessMessageChatMessageDa
      */
     public boolean chatExists(String username, String otherUsername) {
         if (messages.find(Filters.or(
-                Filters.eq(CHAT_ID, username + " " + otherUsername),
-                Filters.eq(CHAT_ID, otherUsername + " " + username))).first() != null) {
+                Filters.eq(CHAT_ID, username + WHITE_SPACE + otherUsername),
+                Filters.eq(CHAT_ID, otherUsername + WHITE_SPACE + username))).first() != null) {
             return true;
         }
         return false;
@@ -84,12 +84,12 @@ public class MongoMessagesDataAccessObject implements AccessMessageChatMessageDa
     public String getNewMessages(String username, String otherUsername) {
         if (chatExists(username, otherUsername)) {
             final Document chatHistory = messages.find(Filters.or(
-                    Filters.eq(CHAT_ID, username + " " + otherUsername), Filters.eq(
-                            CHAT_ID, otherUsername + " " + username))).first();
+                    Filters.eq(CHAT_ID, username + WHITE_SPACE + otherUsername), Filters.eq(
+                            CHAT_ID, otherUsername + WHITE_SPACE + username))).first();
             final List<Document> chats = chatHistory.getList(HISTORY, Document.class);
             return MongoDataCleaning.formatChat(chats);
         }
-        return "";
+        return EMPTY_STRING;
     }
 
     /**
@@ -101,16 +101,15 @@ public class MongoMessagesDataAccessObject implements AccessMessageChatMessageDa
      */
     public String getNewMessages(String username, String otherUsername, LocalDateTime lastFetchTime) {
         if (chatExists(username, otherUsername)) {
-            final Document chatHistory = messages.find(Filters.or(
-                    Filters.eq(CHAT_ID, username + " " + otherUsername), Filters.eq(
-                            CHAT_ID, otherUsername + " " + username))).first();
-            List<Document> chats = chatHistory.getList(HISTORY, Document.class);
-            for (Document chat : chats) {
-                if (chat.getDate(TIMESTAMP).equals(lastFetchTime)) {
-
-                }
-            }
+            final List<Document> chats = new ArrayList<>();
+            messages.find(
+                    Filters.and(
+                            Filters.or(Filters.eq(CHAT_ID, username + WHITE_SPACE + otherUsername), Filters.eq(CHAT_ID,
+                                    otherUsername + WHITE_SPACE + username)),
+                            Filters.gte(TIMESTAMP, lastFetchTime))).forEach(doc -> chats.add(doc));
+            return MongoDataCleaning.formatChat(chats);
         }
+        return EMPTY_STRING;
     }
 
     /**
@@ -119,7 +118,7 @@ public class MongoMessagesDataAccessObject implements AccessMessageChatMessageDa
      * @param otherUsername username of other user
      */
     public void createChat(String username, String otherUsername) {
-        messages.insertOne(new Document(CHAT_ID, username + " " + otherUsername)
+        messages.insertOne(new Document(CHAT_ID, username + WHITE_SPACE + otherUsername)
                         .append(HISTORY, new ArrayList<DBObject>()));
     }
 
@@ -128,11 +127,11 @@ public class MongoMessagesDataAccessObject implements AccessMessageChatMessageDa
      * @param message message being sent
      */
     public void addMessage(Message message) {
-        private final String sender = message.getSender();
-        private final String recipient = message.getRecipient();
-        messages.updateOne(Filters.or
-                (Filters.eq(CHAT_ID, sender + " " + recipient),
-                        (Filters.eq(CHAT_ID, recipient + " " + sender))),
+        final String sender = message.getSender();
+        final String recipient = message.getRecipient();
+        messages.updateOne(Filters.or(
+                Filters.eq(CHAT_ID, sender + WHITE_SPACE + recipient),
+                        Filters.eq(CHAT_ID, recipient + WHITE_SPACE + sender)),
                 Updates.combine(
                     Updates.addToSet(HISTORY, new Document(SENDER, sender)
                       .append(BODY, message.getBody())
@@ -152,60 +151,53 @@ public class MongoMessagesDataAccessObject implements AccessMessageChatMessageDa
 
 
 
-    /**
-     * Stores one message.
-     *
-     * @param from sender's username
-     * @param to recipient's username
-     * @param body the text
-     */
-    public void send(final String from, final String to, final String body) {
-        this.messages.insertOne(new Document(SENDER, from)
-                .append(RECIPIENT, to)
-                .append(BODY, body)
-                .append(SENT_AT, System.currentTimeMillis()));
-    }
-
-    /**
-     * Finds messages in one conversation that arrived after a given moment.
-     * <p>
-     * A conversation is both directions at once, which is why the filter is an
-     * OR of the two sender/recipient pairs. Passing the timestamp of the newest
-     * message already on screen means each poll only fetches what is new,
-     * rather than re-downloading the whole history every two seconds.
-     *
-     * @param me one participant
-     * @param them the other participant
-     * @param since only return messages newer than this (epoch milliseconds)
-     * @return the new messages, oldest first
-     */
-    public List<PocMessage> conversationSince(final String me, final String them, final long since) {
-        final Bson betweenTheTwoOfUs = Filters.or(
-                Filters.and(Filters.eq(SENDER, me), Filters.eq(RECIPIENT, them)),
-                Filters.and(Filters.eq(SENDER, them), Filters.eq(RECIPIENT, me)));
-        final Bson query = Filters.and(betweenTheTwoOfUs, Filters.gt(SENT_AT, since));
-
-        final List<PocMessage> found = new ArrayList<>();
-        for (Document doc : this.messages.find(query).sort(Sorts.ascending(SENT_AT))) {
-            found.add(new PocMessage(
-                    doc.getString(SENDER),
-                    doc.getString(BODY),
-                    doc.getLong(SENT_AT)));
-        }
-        return found;
-    }
-
-    /**
-     * Deletes every message in the scratch collection.
-     */
-    public void deleteEverything() {
-        this.messages.deleteMany(new Document());
-    }
-
-    /**
-     * Closes the connection.
-     */
-    public void close() {
-        this.mongoClient.close();
-    }
+//    /**
+//     * Stores one message.
+//     *
+//     * @param from sender's username
+//     * @param to recipient's username
+//     * @param body the text
+//     */
+//    public void send(final String from, final String to, final String body) {
+//        this.messages.insertOne(new Document(SENDER, from)
+//                .append(RECIPIENT, to)
+//                .append(BODY, body)
+//                .append(SENT_AT, System.currentTimeMillis()));
+//    }
+//
+//    /**
+//     * Finds messages in one conversation that arrived after a given moment.
+//     * <p>
+//     * A conversation is both directions at once, which is why the filter is an
+//     * OR of the two sender/recipient pairs. Passing the timestamp of the newest
+//     * message already on screen means each poll only fetches what is new,
+//     * rather than re-downloading the whole history every two seconds.
+//     *
+//     * @param me one participant
+//     * @param them the other participant
+//     * @param since only return messages newer than this (epoch milliseconds)
+//     * @return the new messages, oldest first
+//     */
+//    public List<PocMessage> conversationSince(final String me, final String them, final long since) {
+//        final Bson betweenTheTwoOfUs = Filters.or(
+//                Filters.and(Filters.eq(SENDER, me), Filters.eq(RECIPIENT, them)),
+//                Filters.and(Filters.eq(SENDER, them), Filters.eq(RECIPIENT, me)));
+//        final Bson query = Filters.and(betweenTheTwoOfUs, Filters.gt(SENT_AT, since));
+//
+//        final List<PocMessage> found = new ArrayList<>();
+//        for (Document doc : this.messages.find(query).sort(Sorts.ascending(SENT_AT))) {
+//            found.add(new PocMessage(
+//                    doc.getString(SENDER),
+//                    doc.getString(BODY),
+//                    doc.getLong(SENT_AT)));
+//        }
+//        return found;
+//    }
+//
+//    /**
+//     * Deletes every message in the scratch collection.
+//     */
+//    public void deleteEverything() {
+//        this.messages.deleteMany(new Document());
+//    }
 }
