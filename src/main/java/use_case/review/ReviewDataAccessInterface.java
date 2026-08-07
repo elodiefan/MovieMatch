@@ -5,11 +5,27 @@ import java.util.List;
 import java.util.Optional;
 
 import entity.Review;
+import use_case.comment.GetUserCommentsReviewDataAccessInterface;
+import use_case.review.create_review.CreateReviewDataAccessInterface;
+import use_case.review.delete_review.DeleteReviewDataAccessInterface;
+import use_case.review.edit_review.EditReviewDataAccessInterface;
+import use_case.review.get_media_reviews.GetMediaReviewsDataAccessInterface;
+import use_case.review.get_user_reviews.GetUserReviewsDataAccessInterface;
+import use_case.review.like_review.LikeReviewDataAccessInterface;
+import use_case.review.unlike_review.UnlikeReviewDataAccessInterface;
 
 /**
  * Data access interface for review persistence.
  */
-public interface ReviewDataAccessInterface {
+public interface ReviewDataAccessInterface extends
+        CreateReviewDataAccessInterface,
+        DeleteReviewDataAccessInterface,
+        EditReviewDataAccessInterface,
+        GetMediaReviewsDataAccessInterface,
+        GetUserReviewsDataAccessInterface,
+        GetUserCommentsReviewDataAccessInterface,
+        LikeReviewDataAccessInterface,
+        UnlikeReviewDataAccessInterface {
 
     /**
      * Saves a review.

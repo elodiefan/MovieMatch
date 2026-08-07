@@ -4,11 +4,23 @@ import java.util.List;
 import java.util.Optional;
 
 import entity.Comment;
+import use_case.comment.create_comment.CreateCommentDataAccessInterface;
+import use_case.comment.delete_comment.DeleteCommentDataAccessInterface;
+import use_case.comment.get_review_comments.GetReviewCommentsDataAccessInterface;
+import use_case.comment.get_user_comments.GetUserCommentsDataAccessInterface;
+import use_case.comment.like_comment.LikeCommentDataAccessInterface;
+import use_case.comment.unlike_comment.UnlikeCommentDataAccessInterface;
 
 /**
  * Data access interface for comment persistence.
  */
-public interface CommentDataAccessInterface {
+public interface CommentDataAccessInterface extends
+        CreateCommentDataAccessInterface,
+        DeleteCommentDataAccessInterface,
+        GetReviewCommentsDataAccessInterface,
+        GetUserCommentsDataAccessInterface,
+        LikeCommentDataAccessInterface,
+        UnlikeCommentDataAccessInterface {
 
     /**
      * Saves a comment.

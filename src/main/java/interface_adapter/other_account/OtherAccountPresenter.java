@@ -1,7 +1,6 @@
 package interface_adapter.other_account;
 
 import interface_adapter.ViewManagerModel;
-import interface_adapter.account.ReviewsViewModel;
 import use_case.access_message_chat.AccessMessageChatOutputBoundary;
 import use_case.access_message_chat.AccessMessageChatOutputData;
 import use_case.block_user.BlockUserOutputBoundary;
@@ -14,14 +13,11 @@ public class OtherAccountPresenter implements BlockUserOutputBoundary { //, Acce
 
     private final OtherAccountViewModel otherAccountViewModel;
     private final ViewManagerModel viewManagerModel;
-    // private final ReviewsViewModel reviewsViewModel;
 
     public OtherAccountPresenter(ViewManagerModel viewManagerModel,
-                                 OtherAccountViewModel otherAccountViewModel,
-                                 ReviewsViewModel reviewsViewModel) {
+                                 OtherAccountViewModel otherAccountViewModel) {
         this.viewManagerModel = viewManagerModel;
         this.otherAccountViewModel = otherAccountViewModel;
-        //  this.reviewsViewModel = reviewsViewModel;
     }
 
 

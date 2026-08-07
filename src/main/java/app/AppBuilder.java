@@ -37,7 +37,6 @@ import interface_adapter.media_detail.MediaDetailViewModel;
 import interface_adapter.media_reviews.MediaReviewsController;
 import interface_adapter.media_reviews.MediaReviewsPresenter;
 import interface_adapter.media_reviews.MediaReviewsViewModel;
-import interface_adapter.account.ReviewsViewModel;
 import interface_adapter.other_account.OtherAccountController;
 import interface_adapter.other_account.OtherAccountPresenter;
 import interface_adapter.other_account.OtherAccountViewModel;
@@ -88,6 +87,7 @@ import use_case.comment.get_user_comments.GetUserCommentsInputBoundary;
 import use_case.comment.get_user_comments.GetUserCommentsInteractor;
 import use_case.comment.like_comment.LikeCommentInteractor;
 import use_case.comment.unlike_comment.UnlikeCommentInteractor;
+import use_case.comment.CommentDataAccessInterface;
 import use_case.block_user.BlockUserInputBoundary;
 import use_case.block_user.BlockUserInteractor;
 import use_case.filter.FilterInputBoundary;
@@ -137,6 +137,7 @@ import use_case.review.get_user_reviews.GetUserReviewsInteractor;
 import use_case.review.get_user_reviews.GetUserReviewsOutputBoundary;
 import use_case.review.like_review.LikeReviewInputBoundary;
 import use_case.review.like_review.LikeReviewInteractor;
+import use_case.review.ReviewDataAccessInterface;
 import use_case.review.unlike_review.UnlikeReviewInputBoundary;
 import use_case.review.unlike_review.UnlikeReviewInteractor;
 import use_case.security_question.SecurityQuestionInputBoundary;
@@ -188,8 +189,8 @@ public class AppBuilder {
     // Needs a mongo.properties file in the project root; see the MongoDB guide.
     // Swap to InMemoryUserDataAccessObject to run without a network.
     private final UserDataAccessObject userDataAccessObject = new MongoUserDataAccessObject();
-    private final ReviewDataAccessObject reviewDataAccessObject = new MongoReviewDataAccessObject();
-    private final CommentDataAccessObject commentDataAccessObject = new MongoCommentDataAccessObject();
+    private final ReviewDataAccessInterface reviewDataAccessObject = new MongoReviewDataAccessObject();
+    private final CommentDataAccessInterface commentDataAccessObject = new MongoCommentDataAccessObject();
 
     // Counts failed security answers and holds lock-outs. One shared instance, so
     // every attempt on the same account is counted together.
@@ -324,7 +325,7 @@ public class AppBuilder {
         // The presenter accepts a reviews view model but currently discards it,
         // so this is inert until that part of the presenter is finished.
         final OtherAccountPresenter otherAccountPresenter = new OtherAccountPresenter(viewManagerModel,
-                otherAccountViewModel, new ReviewsViewModel());
+                otherAccountViewModel);
         final BlockUserInputBoundary blockUserInteractor = new BlockUserInteractor(userDataAccessObject,
                 otherAccountPresenter);
 
