@@ -24,6 +24,7 @@ public class PersonalAccountView extends JPanel implements PropertyChangeListene
     private final PersonalAccountViewModel personalAccountViewModel;
     private PersonalAccountController personalAccountController;
 
+    private final JLabel welcomeLabel;
     private final JLabel username;
     private final JLabel displayName;
     private final JButton customizeButton;
@@ -44,6 +45,7 @@ public class PersonalAccountView extends JPanel implements PropertyChangeListene
         title.setAlignmentX(Component.CENTER_ALIGNMENT);
 
         final JPanel profilePanel = new JPanel();
+        welcomeLabel = new JLabel();
         username = new JLabel();
         displayName = new JLabel();
         profilePanel.add(username);
@@ -91,14 +93,14 @@ public class PersonalAccountView extends JPanel implements PropertyChangeListene
                 }
         );
 
-//        reviewsButton.addActionListener(
-//                new ActionListener() {
-//                    @Override
-//                    public void actionPerformed(ActionEvent e) {
-//                        accountController.switchToReviewsView();
-//                    }
-//                }
-//        );
+        reviewsButton.addActionListener(
+                new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        personalAccountController.switchToReviewsView();
+                    }
+                }
+        );
 
         blockedUsersButton.addActionListener(
                 new ActionListener() {
@@ -128,14 +130,15 @@ public class PersonalAccountView extends JPanel implements PropertyChangeListene
                 }
         );
 
-//        logoutButton.addActionListener(
-//                new ActionListener() {
-//                    @Override
-//                    public void actionPerformed(ActionEvent e) {
-//                        accountController.switchToLogOutConfirmView();
-//                    }
-//                }
-//        );
+        logoutButton.addActionListener(
+                new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        final PersonalAccountState state = personalAccountViewModel.getState();
+                        personalAccountController.switchToLogoutConfirmView(state.getUsername());
+                    }
+                }
+        );
 
         resetPasswordButton.addActionListener(
                 new ActionListener() {
@@ -167,8 +170,9 @@ public class PersonalAccountView extends JPanel implements PropertyChangeListene
     public void propertyChange(PropertyChangeEvent evt) {
         if (evt.getPropertyName().equals("state")) {
             final PersonalAccountState state = (PersonalAccountState) evt.getNewValue();
-            username.setText(state.getUsername());
-            displayName.setText(state.getDisplayName());
+            welcomeLabel.setText(personalAccountViewModel.TITLE_LABEL);
+            username.setText(personalAccountViewModel.USERNAME_LABEL + state.getUsername());
+            displayName.setText(personalAccountViewModel.DISPLAY_NAME_LABEL + state.getDisplayName());
         }
     }
 

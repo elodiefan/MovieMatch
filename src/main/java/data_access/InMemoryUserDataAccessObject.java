@@ -1,6 +1,8 @@
 package data_access;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import entity.StandardUser;
@@ -89,6 +91,32 @@ public class InMemoryUserDataAccessObject implements UserDataAccessObject {
         return user.getUserLists();
     }
 
+    @Override
+    public void addToWatchlist(String username, int mediaId,
+                               String mediaType, String mediaTitle,
+                               String addedAt) {
+        final User user = users.get(username);
+        if (user != null) {
+            final String watchlist = appendMediaLog(user.getWatchlist(),
+                    mediaTitle, addedAt);
+            user.setUserLists(new UserLists(username, watchlist,
+                    user.getWatchHistory(), user.getBlockedUsers()));
+        }
+    }
+
+    @Override
+    public void addToWatchHistory(String username, int mediaId,
+                                  String mediaType, String mediaTitle,
+                                  String watchedAt) {
+        final User user = users.get(username);
+        if (user != null) {
+            final String watchHistory = appendMediaLog(user.getWatchHistory(),
+                    mediaTitle, watchedAt);
+            user.setUserLists(new UserLists(username, user.getWatchlist(),
+                    watchHistory, user.getBlockedUsers()));
+        }
+    }
+
     // ---------- Delete account (after the security question is answered) ----------
 
     @Override
@@ -112,6 +140,31 @@ public class InMemoryUserDataAccessObject implements UserDataAccessObject {
     @Override
         public String getSecurityQuestion() {
         return users.get(currentUsername).getSecurityQuestion();
+    }
+
+    // ---------- Search for users ----------
+
+    /**
+     * Finds accounts whose username or display name contains the keyword,
+     * ignoring case. Same contract as the Mongo version, over a plain map.
+     * @param keyword what the user typed
+     * @return the matching accounts
+     */
+    @Override
+    public List<User> search(String keyword) {
+        final String needle = keyword.toLowerCase();
+        final List<User> found = new ArrayList<>();
+        for (User user : users.values()) {
+            if (matches(user, needle)) {
+                found.add(user);
+            }
+        }
+        return found;
+    }
+
+    private boolean matches(User user, String lowercaseKeyword) {
+        return user.getUsername().toLowerCase().contains(lowercaseKeyword)
+                || user.getDisplayName().toLowerCase().contains(lowercaseKeyword);
     }
 
     // ---------- Block user ----------
@@ -145,5 +198,10 @@ public class InMemoryUserDataAccessObject implements UserDataAccessObject {
     @Override
     public void close() {
         // No resources to free for an in-memory store.
+    }
+
+    private String appendMediaLog(String currentList, String mediaTitle,
+                                  String loggedAt) {
+        return currentList + mediaTitle + " -- " + loggedAt + "\n";
     }
 }

@@ -6,7 +6,11 @@ import java.awt.event.ActionListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
-import javax.swing.*;
+import javax.swing.BoxLayout;
+import javax.swing.JButton;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
 
 import interface_adapter.delete_account.DeleteAccountState;
 import interface_adapter.other_account.OtherAccountController;
@@ -130,9 +134,9 @@ public class OtherAccountView extends JPanel implements PropertyChangeListener {
     public void propertyChange(PropertyChangeEvent evt) {
         if (evt.getPropertyName().equals("state")) {
             final OtherAccountState state = (OtherAccountState) evt.getNewValue();
-            title.setText(state.getDisplayName() + "'s Account");
-            username.setText(state.getUsername());
-            displayName.setText(state.getDisplayName());
+            title.setText(state.getDisplayName() + otherAccountViewModel.TITLE_LABEL);
+            username.setText(otherAccountViewModel.USERNAME_LABEL + state.getUsername());
+            displayName.setText(otherAccountViewModel.DISPLAY_NAME_LABEL + state.getDisplayName());
             if (state.getViewMessageError() != null) {
                 JOptionPane.showMessageDialog(this, state.getViewMessageError());
             }

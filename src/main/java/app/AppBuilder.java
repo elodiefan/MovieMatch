@@ -6,21 +6,30 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.WindowConstants;
 
-import data_access.InMemoryLockoutTracker;
-import data_access.MongoUserDataAccessObject;
-import data_access.UserDataAccessObject;
+import data_access.*;
 
-import interface_adapter.account.ReviewsViewModel;
+import interface_adapter.comments.CommentsController;
+import interface_adapter.comments.CommentsPresenter;
+import interface_adapter.comments.CommentsViewModel;
 import interface_adapter.delete_account.DeleteAccountController;
 import interface_adapter.delete_account.DeleteAccountPresenter;
 import interface_adapter.delete_account.DeleteAccountViewModel;
+import interface_adapter.filter.FilterController;
+import interface_adapter.filter.FilterPresenter;
 import interface_adapter.get_lists.GetListsController;
 import interface_adapter.get_lists.GetListsPresenter;
 import interface_adapter.get_lists.GetListsViewModel;
 import interface_adapter.home_page.HomePageController;
 import interface_adapter.home_page.HomePagePresenter;
-import interface_adapter.other_account.OtherAccountController;
-import interface_adapter.other_account.OtherAccountPresenter;
+import interface_adapter.log_media.LogMediaController;
+import interface_adapter.log_media.LogMediaPresenter;
+import interface_adapter.log_media.LogMediaViewModel;
+import interface_adapter.media_detail.MediaDetailController;
+import interface_adapter.media_detail.MediaDetailPresenter;
+import interface_adapter.media_detail.MediaDetailViewModel;
+import interface_adapter.media_reviews.MediaReviewsController;
+import interface_adapter.media_reviews.MediaReviewsPresenter;
+import interface_adapter.media_reviews.MediaReviewsViewModel;
 import interface_adapter.other_account.OtherAccountViewModel;
 import interface_adapter.personal_account.PersonalAccountController;
 import interface_adapter.personal_account.PersonalAccountPresenter;
@@ -28,6 +37,10 @@ import interface_adapter.personal_account.PersonalAccountViewModel;
 import interface_adapter.reset_password.ResetPasswordController;
 import interface_adapter.reset_password.ResetPasswordPresenter;
 import interface_adapter.reset_password.ResetPasswordViewModel;
+import view.SearchUserView;
+import interface_adapter.search_user.SearchUserViewModel;
+import interface_adapter.search.SearchViewModel;
+import interface_adapter.search_result.SearchResultViewModel;
 import interface_adapter.security_question.SecurityQuestionController;
 import interface_adapter.security_question.SecurityQuestionPresenter;
 import interface_adapter.security_question.SecurityQuestionViewModel;
@@ -38,51 +51,93 @@ import interface_adapter.home_page.HomePageViewModel;
 import interface_adapter.login.LoginController;
 import interface_adapter.login.LoginPresenter;
 import interface_adapter.login.LoginViewModel;
+import interface_adapter.logged_in.LoggedInViewModel;
 import interface_adapter.logout.LogoutController;
 import interface_adapter.logout.LogoutPresenter;
 import interface_adapter.logout.LogoutViewModel;
 import interface_adapter.signup.SignupController;
 import interface_adapter.signup.SignupPresenter;
 import interface_adapter.signup.SignupViewModel;
+import interface_adapter.user_reviews.UserReviewsController;
+import interface_adapter.user_reviews.UserReviewsPresenter;
+import interface_adapter.user_reviews.UserReviewsViewModel;
+import use_case.comment.create_comment.CreateCommentInteractor;
+import use_case.comment.delete_comment.DeleteCommentInteractor;
+import use_case.comment.get_review_comments.GetReviewCommentsInteractor;
+import use_case.comment.get_user_comments.GetUserCommentsInputBoundary;
+import use_case.comment.get_user_comments.GetUserCommentsInteractor;
+import use_case.comment.like_comment.LikeCommentInteractor;
+import use_case.comment.unlike_comment.UnlikeCommentInteractor;
+import use_case.filter.FilterInputBoundary;
+import use_case.filter.FilterInteractor;
+import use_case.filter.FilterOutputBoundary;
 import use_case.get_lists.get_blocked_users.GetBlockedUsersInputBoundary;
 import use_case.get_lists.get_blocked_users.GetBlockedUsersInteractor;
 import use_case.get_lists.get_blocked_users.GetBlockedUsersOutputBoundary;
 import use_case.get_lists.get_watch_history.GetWatchHistoryInputBoundary;
 import use_case.get_lists.get_watch_history.GetWatchHistoryInteractor;
 import use_case.get_lists.get_watch_history.GetWatchHistoryOutputBoundary;
-import use_case.get_lists.get_watch_history.GetWatchHistoryOutputData;
 import use_case.get_lists.get_watchlist.GetWatchlistOutputBoundary;
 import use_case.get_profile.GetProfileInputBoundary;
 import use_case.get_profile.GetProfileInteractor;
 import use_case.get_profile.GetProfileOutputBoundary;
-import use_case.delete_account.DeleteAccountInputBoundary;
-import use_case.delete_account.DeleteAccountInteractor;
-import use_case.delete_account.DeleteAccountOutputBoundary;
-import use_case.get_lists.GetListsOutputBoundary;
+import use_case.comment.unlike_comment.delete_account.DeleteAccountInputBoundary;
+import use_case.comment.unlike_comment.delete_account.DeleteAccountInteractor;
+import use_case.comment.unlike_comment.delete_account.DeleteAccountOutputBoundary;
 import use_case.get_lists.get_watchlist.GetWatchlistInputBoundary;
 import use_case.get_lists.get_watchlist.GetWatchlistInteractor;
 import use_case.get_security_question.GetSecurityQuestionInputBoundary;
 import use_case.get_security_question.GetSecurityQuestionInteractor;
 import use_case.get_security_question.GetSecurityQuestionOutputBoundary;
-import use_case.home_page.HomePageInputBoundary;
-import use_case.home_page.HomePageInteractor;
-import use_case.home_page.HomePageOutputBoundary;
+import use_case.media_detail.MediaDetailInputBoundary;
+import use_case.media_detail.MediaDetailInteractor;
+import use_case.media_detail.MediaDetailOutputBoundary;
 import use_case.login.LoginInputBoundary;
 import use_case.login.LoginInteractor;
 import use_case.login.LoginOutputBoundary;
+import use_case.log_media.LogMediaInputBoundary;
+import use_case.log_media.LogMediaInteractor;
+import use_case.log_media.LogMediaOutputBoundary;
 import use_case.logout.LogoutInputBoundary;
 import use_case.logout.LogoutInteractor;
 import use_case.logout.LogoutOutputBoundary;
 import use_case.reset_password.ResetPasswordInputBoundary;
 import use_case.reset_password.ResetPasswordInteractor;
 import use_case.reset_password.ResetPasswordOutputBoundary;
+import use_case.review.create_review.CreateReviewInteractor;
+import use_case.review.delete_review.DeleteReviewInputBoundary;
+import use_case.review.delete_review.DeleteReviewInteractor;
+import use_case.review.edit_review.EditReviewInputBoundary;
+import use_case.review.edit_review.EditReviewInteractor;
+import use_case.review.get_media_reviews.GetMediaReviewsInteractor;
+import use_case.review.get_user_reviews.GetUserReviewsInputBoundary;
+import use_case.review.get_user_reviews.GetUserReviewsInteractor;
+import use_case.review.get_user_reviews.GetUserReviewsOutputBoundary;
+import use_case.review.like_review.LikeReviewInputBoundary;
+import use_case.review.like_review.LikeReviewInteractor;
+import use_case.review.unlike_review.UnlikeReviewInputBoundary;
+import use_case.review.unlike_review.UnlikeReviewInteractor;
 import use_case.security_question.SecurityQuestionInputBoundary;
 import use_case.security_question.SecurityQuestionInteractor;
 import use_case.security_question.SecurityQuestionOutputBoundary;
 import use_case.signup.SignupInputBoundary;
 import use_case.signup.SignupInteractor;
 import use_case.signup.SignupOutputBoundary;
-import view.*;
+import view.DeleteAccountView;
+import view.GetListsView;
+import view.HomePageView;
+import view.LoginView;
+import view.LogoutConfirmView;
+import view.MediaDetailView;
+import view.MyReviewsView;
+import view.OtherAccountView;
+import view.PersonalAccountView;
+import view.ResetPasswordView;
+import view.SearchResultView;
+import view.SearchView;
+import view.SecurityQuestionView;
+import view.SignupView;
+import view.ViewManager;
 
 /**
  * The AppBuilder class is responsible for putting together the pieces of
@@ -100,10 +155,22 @@ public class AppBuilder {
     // Needs a mongo.properties file in the project root; see the MongoDB guide.
     // Swap to InMemoryUserDataAccessObject to run without a network.
     private final UserDataAccessObject userDataAccessObject = new MongoUserDataAccessObject();
+    private final ReviewDataAccessObject reviewDataAccessObject = new MongoReviewDataAccessObject();
+    private final CommentDataAccessObject commentDataAccessObject = new MongoCommentDataAccessObject();
 
     // Counts failed security answers and holds lock-outs. One shared instance, so
     // every attempt on the same account is counted together.
     private final InMemoryLockoutTracker lockoutTracker = new InMemoryLockoutTracker();
+    private final MongoReviewDataAccessObject mongoReviewDataAccessObject =
+            new MongoReviewDataAccessObject();
+    private final MongoCommentDataAccessObject mongoCommentDataAccessObject =
+            new MongoCommentDataAccessObject();
+    private final TmdbReviewDataAccessObject tmdbReviewDataAccessObject =
+            new TmdbReviewDataAccessObject(new TmdbApiClient());
+    private final CombinedMediaReviewDataAccessObject
+            mediaReviewDataAccessObject =
+            new CombinedMediaReviewDataAccessObject(tmdbReviewDataAccessObject,
+                    mongoReviewDataAccessObject);
 
     private DeleteAccountView deleteAccountView;
     private DeleteAccountViewModel deleteAccountViewModel;
@@ -121,12 +188,23 @@ public class AppBuilder {
     private PersonalAccountViewModel personalAccountViewModel;
     private ResetPasswordView resetPasswordView;
     private ResetPasswordViewModel resetPasswordViewModel;
-    private ReviewsView reviewsView;
-    private ReviewsViewModel reviewsViewModel;
+    private MyReviewsView userReviewsView;
+    private UserReviewsViewModel userReviewsViewModel;
     private SecurityQuestionView securityQuestionView;
     private SecurityQuestionViewModel securityQuestionViewModel;
+    private SearchUserView searchUserView;
+    private SearchUserViewModel searchUserViewModel;
     private SignupView signupView;
     private SignupViewModel signupViewModel;
+    private SearchView searchView;
+    private SearchViewModel searchViewModel;
+    private SearchResultView searchResultView;
+    private SearchResultViewModel searchResultViewModel;
+    private MediaDetailView mediaDetailView;
+    private MediaDetailViewModel mediaDetailViewModel;
+    private MediaReviewsViewModel mediaReviewsViewModel;
+    private CommentsViewModel commentsViewModel;
+    private LogMediaViewModel logMediaViewModel;
 
     public AppBuilder() {
         cardPanel.setLayout(cardLayout);
@@ -182,7 +260,8 @@ public class AppBuilder {
      */
     public AppBuilder addLogoutView() {
         logoutViewModel = new LogoutViewModel();
-        logoutView = new LogoutConfirmView(logoutViewModel);
+        logoutView = new LogoutConfirmView(logoutViewModel, viewManagerModel,
+                PersonalAccountViewModel.VIEW_NAME);
         cardPanel.add(logoutView, logoutView.getViewName());
         return this;
     }
@@ -221,13 +300,13 @@ public class AppBuilder {
     }
 
     /**
-     * Adds the Reviews View to the application.
+     * Adds the My Reviews View to the application.
      * @return this builder
      */
-    public AppBuilder addReviewsView() {
-        reviewsViewModel = new ReviewsViewModel();
-        reviewsView = new ReviewsView(reviewsViewModel);
-        cardPanel.add(reviewsView, reviewsView.getViewName());
+    public AppBuilder addUserReviewsView() {
+        userReviewsViewModel = new UserReviewsViewModel();
+        userReviewsView = new MyReviewsView(userReviewsViewModel);
+        cardPanel.add(userReviewsView, userReviewsView.getViewName());
         return this;
     }
 
@@ -239,6 +318,17 @@ public class AppBuilder {
         securityQuestionViewModel = new SecurityQuestionViewModel();
         securityQuestionView = new SecurityQuestionView(securityQuestionViewModel, viewManagerModel);
         cardPanel.add(securityQuestionView, securityQuestionView.getViewName());
+        return this;
+    }
+
+    /**
+     * Adds the Search User View to the application.
+     * @return this builder
+     */
+    public AppBuilder addSearchUserView() {
+        searchUserViewModel = new SearchUserViewModel();
+        searchUserView = new SearchUserView(searchUserViewModel);
+        cardPanel.add(searchUserView, searchUserView.getViewName());
         return this;
     }
 
@@ -278,7 +368,7 @@ public class AppBuilder {
         final GetWatchlistInputBoundary getWatchlistInteractor = new GetWatchlistInteractor(
                 userDataAccessObject, getWatchlistOutputBoundary);
 
-        final GetListsController getListsController = new GetListsController(getWatchlistInteractor);
+        final GetListsController getListsController = createGetListsController();
         getListsView.setGetListsController(getListsController);
         return this;
     }
@@ -324,7 +414,11 @@ public class AppBuilder {
         final GetProfileInputBoundary getProfileInteractor = new GetProfileInteractor(userDataAccessObject,
                 (HomePagePresenter) userPresenter);
 
-        final HomePageController homePageController = new HomePageController(getProfileInteractor);
+        final HomePageController homePageController =
+                new HomePageController(
+                        getProfileInteractor,
+                        viewManagerModel
+                );
         homePageView.setHomePageController(homePageController);
         return this;
 //        final HomePageOutputBoundary homePageOutputBoundary = new HomePagePresenter(viewManagerModel,
@@ -337,6 +431,29 @@ public class AppBuilder {
 //        final HomePageController homePageController = new HomePageController(homePageInteractor);
 //        homePageView.setHomePageController(homePageController);
 //        return this;
+    }
+
+    /**
+     * Adds the Search User Use Case to the application.
+     * <p>
+     * The assembly lives in {@link SearchUserUseCaseFactory}, following the
+     * convention Yidan set with {@code SearchUseCaseFactory}.
+     * @return this builder
+     */
+    public AppBuilder addSearchUserUseCase() {
+        final GetProfileOutputBoundary getProfileOutputBoundary = new HomePagePresenter(viewManagerModel,
+                homePageViewModel, personalAccountViewModel, otherAccountViewModel);
+        final GetProfileInputBoundary getProfileInteractor = new GetProfileInteractor(userDataAccessObject,
+                (HomePagePresenter) getProfileOutputBoundary);
+
+        SearchUserUseCaseFactory.create(
+                viewManagerModel,
+                searchUserViewModel,
+                searchUserView,
+                userDataAccessObject,
+                getProfileInteractor,
+                homePageViewModel.getViewName());
+        return this;
     }
 
     /**
@@ -373,11 +490,31 @@ public class AppBuilder {
         final PersonalAccountController personalAccountController = new PersonalAccountController(viewManagerModel,
                 getSecurityQuestionInteractor,
                 getListsController,
+                logoutViewModel,
                 resetPasswordViewModel.getViewName(),
                 homePageViewModel.getViewName(),
-                getListsViewModel.getViewName());
+                getListsViewModel.getViewName(),
+                userReviewsViewModel.getViewName());
 
         personalAccountView.setPersonalAccountController(personalAccountController);
+        return this;
+    }
+
+    /**
+     * Adds the Logout Use Case to the application.
+     * <p>
+     * Every piece of this use case already existed but was never assembled, so the
+     * Log Out button on the personal account page did nothing.
+     * @return this builder
+     */
+    public AppBuilder addLogoutUseCase() {
+        final LogoutOutputBoundary logoutOutputBoundary = new LogoutPresenter(viewManagerModel,
+                new LoggedInViewModel(), loginViewModel);
+        final LogoutInputBoundary logoutInteractor = new LogoutInteractor(userDataAccessObject,
+                logoutOutputBoundary);
+
+        final LogoutController logoutController = new LogoutController(logoutInteractor);
+        logoutView.setLogoutController(logoutController);
         return this;
     }
 
@@ -399,20 +536,31 @@ public class AppBuilder {
 //        return this;
 //    }
 
-//    // TODO: For Elodie -> Implement reviews files.
-//    /**
-//     * Adds the Reviews Use Case to the application.
-//     * @return this builder
-//     */
-//    public AppBuilder addReviewsUseCase() {
-//        final ReviewsOutputBoundary reviewsOutputBoundary = new ReviewsPresenter(viewManagerModel, reviewsViewModel);
-//        final ReviewsInputBoundary reviewsInteractor = new ReviewsInteractor(
-//                userDataAccessObject, reviewsOutputBoundary);
-//
-//        final ReviewsController reviewsController = new ReviewsController(reviewsInteractor);
-//        reviewsView.setReviewsController(reviewsController);
-//        return this;
-//    }
+    /**
+     * Adds the User Reviews Use Case to the application.
+     * @return this builder
+     */
+    public AppBuilder addUserReviewsUseCase() {
+        final GetUserReviewsOutputBoundary userReviewsOutputBoundary = new UserReviewsPresenter(userReviewsViewModel);
+        final GetUserReviewsInputBoundary userReviewsInteractor = new GetUserReviewsInteractor(reviewDataAccessObject,
+                userReviewsOutputBoundary);
+
+        final EditReviewInputBoundary editReviewsInteractor = new EditReviewInteractor();
+        final DeleteReviewInputBoundary deleteReviewsInteractor = new DeleteReviewInteractor();
+        final LikeReviewInputBoundary likeReviewsInteractor = new LikeReviewInteractor();
+        final UnlikeReviewInputBoundary unlikeReviewsInteractor = new UnlikeReviewInteractor();
+        final GetUserCommentsInputBoundary userCommentsInteractor = new GetUserCommentsInteractor(commentDataAccessObject,
+                reviewDataAccessObject);
+
+        final UserReviewsController userReviewsController = new UserReviewsController(userReviewsInteractor,
+                editReviewsInteractor,
+                deleteReviewsInteractor,
+                likeReviewsInteractor,
+                unlikeReviewsInteractor,
+                userCommentsInteractor);
+        userReviewsView.setUserReviewsController(userReviewsController);
+        return this;
+    }
 
     /**
      * Adds the Reset Password Use Case to the application.
@@ -473,6 +621,139 @@ public class AppBuilder {
     }
 
     /**
+     * Adds the Search View to the application.
+     *
+     * @return this builder
+     */
+    public AppBuilder addSearchView() {
+        searchViewModel = new SearchViewModel();
+        searchView = new SearchView(searchViewModel, viewManagerModel, HomePageViewModel.VIEW_NAME);
+
+        cardPanel.add(
+                searchView,
+                searchView.getViewName()
+        );
+
+        return this;
+    }
+
+    /**
+     * Adds the Search Result View to the application.
+     *
+     * @return this builder
+     */
+    public AppBuilder addSearchResultView() {
+        searchResultViewModel = new SearchResultViewModel();
+        searchResultView = new SearchResultView(searchResultViewModel, viewManagerModel,
+                SearchViewModel.VIEW_NAME);
+        cardPanel.add(searchResultView, searchResultView.getViewName());
+        return this;
+    }
+
+    /**
+     * Adds the Search Use Case to the application.
+     *
+     * @return this builder
+     */
+    public AppBuilder addSearchUseCase() {
+        SearchUseCaseFactory.create(
+                viewManagerModel,
+                searchViewModel,
+                searchResultViewModel,
+                searchView
+        );
+        return this;
+    }
+
+    /**
+     * Adds the Filter Use Case to the application.
+     *
+     * @return this builder
+     */
+    public AppBuilder addFilterUseCase() {
+        final FilterOutputBoundary filterPresenter =
+                new FilterPresenter(searchResultViewModel);
+
+        final FilterInputBoundary filterInteractor =
+                new FilterInteractor(filterPresenter);
+
+        final FilterController filterController =
+                new FilterController(
+                        filterInteractor,
+                        searchResultViewModel
+                );
+
+        searchResultView.setFilterController(filterController);
+
+        return this;
+    }
+
+    /**
+     * Adds the Media Detail View to the application.
+     *
+     * @return this builder
+     */
+    public AppBuilder addMediaDetailView() {
+        mediaDetailViewModel = new MediaDetailViewModel();
+        mediaReviewsViewModel = new MediaReviewsViewModel();
+        commentsViewModel = new CommentsViewModel();
+        logMediaViewModel = new LogMediaViewModel();
+
+        mediaDetailView = new MediaDetailView(
+                mediaDetailViewModel,
+                mediaReviewsViewModel,
+                commentsViewModel,
+                logMediaViewModel
+        );
+
+        cardPanel.add(
+                mediaDetailView,
+                mediaDetailView.getViewName()
+        );
+
+        return this;
+    }
+
+    /**
+     * Adds the Media Detail Use Case to the application.
+     *
+     * @return this builder
+     */
+    public AppBuilder addMediaDetailUseCase() {
+        final MediaDetailOutputBoundary mediaDetailPresenter =
+                new MediaDetailPresenter(
+                        viewManagerModel,
+                        mediaDetailViewModel,
+                        mediaReviewsViewModel
+                );
+
+        final MediaDetailInputBoundary mediaDetailInteractor =
+                new MediaDetailInteractor(mediaDetailPresenter);
+
+        final MediaDetailController mediaDetailController =
+                new MediaDetailController(mediaDetailInteractor);
+
+        searchResultView.setMediaDetailController(
+                mediaDetailController
+        );
+
+        mediaDetailView.setMediaDetailController(
+                mediaDetailController
+        );
+        mediaDetailView.setMediaReviewsController(
+                createMediaReviewsController()
+        );
+        mediaDetailView.setCommentsController(
+                createCommentsController()
+        );
+        mediaDetailView.setLogMediaController(
+                createLogMediaController()
+        );
+
+        return this;
+    }
+
+    /**
      * Creates the JFrame for the application and initially sets the SignupView to be displayed.
      * @return the application
      */
@@ -507,4 +788,67 @@ public class AppBuilder {
                 getWatchHistoryInteractor, getBlockedUsersInteractor);
         return getListsController;
     }
+
+    private MediaReviewsController createMediaReviewsController() {
+        final MediaReviewsPresenter mediaReviewsPresenter =
+                new MediaReviewsPresenter(mediaReviewsViewModel);
+        final GetMediaReviewsInteractor getMediaReviewsInteractor =
+                new GetMediaReviewsInteractor(mediaReviewDataAccessObject,
+                        mediaReviewsPresenter);
+        final CreateReviewInteractor createReviewInteractor =
+                new CreateReviewInteractor(mongoReviewDataAccessObject,
+                        mediaReviewsPresenter);
+        final EditReviewInteractor editReviewInteractor =
+                new EditReviewInteractor(mongoReviewDataAccessObject,
+                        mediaReviewsPresenter);
+        final DeleteReviewInteractor deleteReviewInteractor =
+                new DeleteReviewInteractor(mongoReviewDataAccessObject,
+                        mediaReviewsPresenter);
+        final LikeReviewInteractor likeReviewInteractor =
+                new LikeReviewInteractor(mongoReviewDataAccessObject,
+                        mediaReviewsPresenter);
+        final UnlikeReviewInteractor unlikeReviewInteractor =
+                new UnlikeReviewInteractor(mongoReviewDataAccessObject,
+                        mediaReviewsPresenter);
+
+        return new MediaReviewsController(getMediaReviewsInteractor,
+                createReviewInteractor, editReviewInteractor,
+                deleteReviewInteractor, likeReviewInteractor,
+                unlikeReviewInteractor);
+    }
+
+    private CommentsController createCommentsController() {
+        final CommentsPresenter commentsPresenter =
+                new CommentsPresenter(commentsViewModel);
+        final GetReviewCommentsInteractor getReviewCommentsInteractor =
+                new GetReviewCommentsInteractor(mongoCommentDataAccessObject,
+                        commentsPresenter);
+        final CreateCommentInteractor createCommentInteractor =
+                new CreateCommentInteractor(mongoCommentDataAccessObject,
+                        commentsPresenter);
+        final DeleteCommentInteractor deleteCommentInteractor =
+                new DeleteCommentInteractor(mongoCommentDataAccessObject,
+                        commentsPresenter);
+        final LikeCommentInteractor likeCommentInteractor =
+                new LikeCommentInteractor(mongoCommentDataAccessObject,
+                        commentsPresenter);
+        final UnlikeCommentInteractor unlikeCommentInteractor =
+                new UnlikeCommentInteractor(mongoCommentDataAccessObject,
+                        commentsPresenter);
+
+        return new CommentsController(getReviewCommentsInteractor,
+                createCommentInteractor, deleteCommentInteractor,
+                likeCommentInteractor, unlikeCommentInteractor);
+    }
+
+    private LogMediaController createLogMediaController() {
+        final LogMediaOutputBoundary logMediaPresenter =
+                new LogMediaPresenter(logMediaViewModel);
+        final LogMediaInputBoundary logMediaInteractor =
+                new LogMediaInteractor(userDataAccessObject,
+                        logMediaPresenter);
+
+        return new LogMediaController(logMediaInteractor);
+    }
+
 }
