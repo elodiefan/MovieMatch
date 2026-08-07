@@ -11,9 +11,6 @@ public class Genre {
 
     /**
      * Gets a new genre.
-     *
-     * @param id the unique identifier of the genre
-     * @param name the name of the genre
      */
     public Genre(int id, String name) {
         this.id = id;
@@ -22,8 +19,6 @@ public class Genre {
 
     /**
      * Returns the id of this genre.
-     *
-     * @return the genre id
      */
     public int getId() {
         return id;
@@ -31,8 +26,6 @@ public class Genre {
 
     /**
      * Returns the name of this genre.
-     *
-     * @return the genre name
      */
     public String getName() {
         return name;

@@ -16,8 +16,6 @@ public interface LockoutTracker {
     /**
      * Returns the lock-out record for an account, creating an empty one the
      * first time an account is seen.
-     * @param username the account to look up
-     * @return that account's lock-out record, never null
      */
     AccountLockout forUser(String username);
 }

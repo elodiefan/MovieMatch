@@ -13,7 +13,6 @@ public class SearchInputData {
 
     /**
      * Returns the search keyword.
-     * @return the keyword entered by the user
      */
     public String getKeyword() {
         return keyword;

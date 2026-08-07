@@ -9,7 +9,6 @@ public final class GetUserReviewsInputData {
 
     /**
      * Creates input data for loading user reviews.
-     * @param inputUsername the username whose reviews should be loaded
      */
     public GetUserReviewsInputData(final String inputUsername) {
         this.username = inputUsername;
@@ -17,7 +16,6 @@ public final class GetUserReviewsInputData {
 
     /**
      * Returns the username whose reviews should be loaded.
-     * @return the username
      */
     public String getUsername() {
         return username;

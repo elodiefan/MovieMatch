@@ -22,19 +22,19 @@ import entity.User;
 import entity.UserLists;
 
 /**
- * MongoDB Atlas implementation of {@link UserDataAccessObject}.
+ * MongoDB Atlas implementation of UserDataAccessObject.
  * <p>
- * This is the only class in the project that imports {@code com.mongodb}: all
+ * This is the only class in the project that imports com.mongodb: all
  * the driver code lives here, so the rest of the app never knows which database
  * is behind the interface.
  * <p>
- * Build one instance in {@code AppBuilder} and share it with every interactor —
- * the underlying {@code MongoClient} is expensive to create and is safe to reuse
+ * Build one instance in AppBuilder and share it with every interactor —
+ * the underlying MongoClient is expensive to create and is safe to reuse
  * across the whole app.
  * <p>
  * Connection settings are read from a properties file (default
- * {@value #DEFAULT_PROPERTIES}) holding {@code uri}, {@code database} and
- * {@code collection}. That file is git-ignored because it contains a password.
+ * DEFAULT_PROPERTIES) holding uri, database and
+ * collection. That file is git-ignored because it contains a password.
  */
 public class MongoUserDataAccessObject implements UserDataAccessObject {
 
@@ -71,7 +71,7 @@ public class MongoUserDataAccessObject implements UserDataAccessObject {
     private String currentUsername;
 
     /**
-     * Connects using the settings in {@value #DEFAULT_PROPERTIES}.
+     * Connects using the settings in DEFAULT_PROPERTIES.
      */
     public MongoUserDataAccessObject() {
         this(DEFAULT_PROPERTIES);
@@ -79,7 +79,6 @@ public class MongoUserDataAccessObject implements UserDataAccessObject {
 
     /**
      * Connects using the settings in the given properties file.
-     * @param propertiesPath path to the file (e.g. "mongo.properties")
      */
     public MongoUserDataAccessObject(String propertiesPath) {
         final Properties props = new Properties();
@@ -103,11 +102,9 @@ public class MongoUserDataAccessObject implements UserDataAccessObject {
     }
 
     /**
-     * Same check as {@link #existsByName}, under the name the login use case
+     * Same check as #existsByName, under the name the login use case
      * uses. Signup calls it existsByName and login calls it existsByUsername,
      * so both are provided; there is only one implementation.
-     * @param username the account to look for
-     * @return true if the account exists
      */
     @Override
     public boolean existsByUsername(String username) {
@@ -271,12 +268,10 @@ public class MongoUserDataAccessObject implements UserDataAccessObject {
      * Finds accounts whose username or display name contains the keyword,
      * ignoring case.
      * <p>
-     * The keyword is wrapped in {@link Pattern#quote} before it reaches Mongo.
+     * The keyword is wrapped in Pattern#quote before it reaches Mongo.
      * Without that, whatever the user types is treated as a regular expression:
-     * typing {@code .*} would match every account in the database, and typing an
+     * typing .* would match every account in the database, and typing an
      * unbalanced bracket would throw instead of returning nothing.
-     * @param keyword what the user typed
-     * @return the matching accounts, at most {@value #SEARCH_LIMIT} of them
      */
     @Override
     public List<User> search(String keyword) {
@@ -344,9 +339,7 @@ public class MongoUserDataAccessObject implements UserDataAccessObject {
      * Reads one field off the logged-in user's document.
      * <p>
      * These three getters take no username: they all mean "for whoever is logged
-     * in right now", which is {@link #currentUsername}.
-     * @param field the document field to read
-     * @return the stored value, or null if nobody is logged in or the account is gone
+     * in right now", which is #currentUsername.
      */
     private String currentUserField(String field) {
         String value = null;
@@ -362,9 +355,6 @@ public class MongoUserDataAccessObject implements UserDataAccessObject {
     /**
      * Reads one field off the specified user's document.
      * <p>
-     * @param username the specified user
-     * @param field the document field to read
-     * @return the stored value, or null if nobody is logged in or the account is gone
      */
     private String userField(String username, String field) {
         String value = null;

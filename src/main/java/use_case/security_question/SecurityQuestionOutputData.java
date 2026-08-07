@@ -30,27 +30,27 @@ public class SecurityQuestionOutputData {
         return username;
     }
 
-    /** @return the user's security question, or "" when unknown (e.g. no such account). */
+    /** The user's security question, or "" when unknown (e.g. no such account). */
     public String getSecurityQuestion() {
         return securityQuestion;
     }
 
-    /** @return true if this step did not succeed (wrong answer, locked out, or no account). */
+    /** True if this step did not succeed (wrong answer, locked out, or no account). */
     public boolean isUseCaseFailed() {
         return useCaseFailed;
     }
 
-    /** @return how many attempts remain before lock-out. */
+    /** How many attempts remain before lock-out. */
     public int getRemainingAttempts() {
         return remainingAttempts;
     }
 
-    /** @return true if the account is currently locked. */
+    /** True if the account is currently locked. */
     public boolean isLockedOut() {
         return lockedOut;
     }
 
-    /** @return seconds left on the current lock-out (0 if not locked). */
+    /** Seconds left on the current lock-out (0 if not locked). */
     public long getLockRemainingSeconds() {
         return lockRemainingSeconds;
     }

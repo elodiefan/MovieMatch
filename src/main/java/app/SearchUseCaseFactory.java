@@ -26,11 +26,6 @@ public final class SearchUseCaseFactory {
 
     /**
      * Creates and connects the Search Use Case.
-     *
-     * @param viewManagerModel manages switching between views
-     * @param searchViewModel stores the search-view state
-     * @param searchResultViewModel stores the search results
-     * @param searchView the view receiving the search controller
      */
     public static void create(
             ViewManagerModel viewManagerModel,

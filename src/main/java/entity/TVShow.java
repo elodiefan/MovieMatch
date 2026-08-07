@@ -20,16 +20,6 @@ public class TVShow implements Media {
 
     /**
      * Creates a new movie.
-     *
-     * @param id the id of the movie
-     * @param title the title of the movie
-     * @param releaseYear the release year of the movie
-     * @param averageRating the rating of the movie
-     * @param genres the genres of the movie
-     * @param language the language of the movie
-     * @param cast the cast of the movie
-     * @param numberOfSeasons the number of seasons of the movie
-     * @param numberOfEpisodes the number of episodes of the movie
      */
     public TVShow(int id,
                   String title,
@@ -87,8 +77,6 @@ public class TVShow implements Media {
 
     /**
      * Returns the amount of seasons of this show.
-     *
-     * @return the genre id
      */
     public int numberOfSeasons() {
         return numberOfSeasons;
@@ -96,8 +84,6 @@ public class TVShow implements Media {
 
     /**
      * Returns the amount of episodes of this show.
-     *
-     * @return the genre id
      */
     public int numberOfEpisodes() {
         return numberOfEpisodes;

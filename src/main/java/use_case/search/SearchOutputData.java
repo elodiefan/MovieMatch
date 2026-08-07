@@ -17,8 +17,6 @@ public class SearchOutputData {
 
     /**
      * Returns the search results.
-     *
-     * @return list of media results
      */
     public List<Media> getResults() {
         return results;

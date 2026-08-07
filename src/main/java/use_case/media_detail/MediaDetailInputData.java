@@ -15,8 +15,6 @@ public class MediaDetailInputData {
 
     /**
      * Returns the selected media.
-     *
-     * @return the selected media
      */
     public Media getMedia() {
         return media;

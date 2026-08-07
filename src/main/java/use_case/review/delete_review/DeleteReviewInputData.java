@@ -11,8 +11,6 @@ public final class DeleteReviewInputData {
 
     /**
      * Handles this review or comment operation.
-     * @param inputReviewId the inputReviewId
-     * @param inputUsername the inputUsername
      */
     public DeleteReviewInputData(final String inputReviewId,
                                  final String inputUsername) {
@@ -22,14 +20,12 @@ public final class DeleteReviewInputData {
 
     /**
      * Handles this review or comment operation.
-     * @return the result
      */
     public String getReviewId() {
         return reviewId;
     }
     /**
      * Handles this review or comment operation.
-     * @return the result
      */
     public String getUsername() {
         return username;

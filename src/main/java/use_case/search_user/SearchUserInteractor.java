@@ -23,7 +23,6 @@ public class SearchUserInteractor implements SearchUserInputBoundary {
 
     /**
      * Executes the Search User Use Case.
-     * @param searchUserInputData the keyword the user typed
      */
     @Override
     public void execute(SearchUserInputData searchUserInputData) {
@@ -41,8 +40,6 @@ public class SearchUserInteractor implements SearchUserInputBoundary {
 
     /**
      * Drops everything about each user except the two fields a result row shows.
-     * @param users the users the data store returned
-     * @return the same users, without their credentials
      */
     private List<UserSummary> toSummaries(List<User> users) {
         final List<UserSummary> summaries = new ArrayList<>();

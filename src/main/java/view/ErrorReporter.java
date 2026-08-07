@@ -32,8 +32,6 @@ public final class ErrorReporter {
 
     /**
      * Shows a readable message for a failure.
-     * @param parent the component to centre the dialog on, may be null
-     * @param throwable what went wrong
      */
     public static void show(Component parent, Throwable throwable) {
         final boolean connection = isConnectionProblem(throwable);
@@ -51,9 +49,6 @@ public final class ErrorReporter {
 
     /**
      * Builds the wording shown to the user.
-     * @param throwable what went wrong
-     * @param connection whether this looks like a connectivity failure
-     * @return the message to display
      */
     private static String messageFor(Throwable throwable, boolean connection) {
         final String result;
@@ -72,8 +67,6 @@ public final class ErrorReporter {
 
     /**
      * Decides whether a failure is about reaching the network.
-     * @param throwable what went wrong
-     * @return true if it looks like a connection problem
      */
     private static boolean isConnectionProblem(Throwable throwable) {
         boolean result = false;
@@ -91,8 +84,6 @@ public final class ErrorReporter {
 
     /**
      * Trims an exception message to something that fits in a dialog.
-     * @param throwable what went wrong
-     * @return a short description
      */
     private static String shortMessage(Throwable throwable) {
         String message = throwable.getMessage();

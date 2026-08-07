@@ -6,7 +6,7 @@ package use_case.reset_password;
  * Validates the new password, then writes it through the DAO. Rules:
  * <ul>
  *     <li>the new password must not be blank;</li>
- *     <li>it must be at least {@link #MIN_LENGTH} characters;</li>
+ *     <li>it must be at least #MIN_LENGTH characters;</li>
  *     <li>the "new" and "confirm" entries must match.</li>
  * </ul>
  * On success it reports back through the presenter; on any rule violation it

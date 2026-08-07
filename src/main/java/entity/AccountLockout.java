@@ -3,8 +3,8 @@ package entity;
 /**
  * The lock-out rules for one account.
  * <p>
- * After {@link #MAX_ATTEMPTS} wrong security answers the account is locked for
- * {@link #LOCKOUT_MINUTES} minutes, and answers are refused until the lock
+ * After #MAX_ATTEMPTS wrong security answers the account is locked for
+ * #LOCKOUT_MINUTES minutes, and answers are refused until the lock
  * expires. Keeping these rules here rather than in an interactor means the
  * policy lives with the other business rules and can be unit-tested on its own.
  */
@@ -45,10 +45,6 @@ public class AccountLockout {
         lockedUntil = 0L;
     }
 
-    /**
-     * @return true if the account is locked right now. An expired lock is
-     *     cleared here, so the next attempt is allowed.
-     */
     public boolean isLockedOut() {
         if (lockedUntil == 0L) {
             return false;
@@ -60,16 +56,10 @@ public class AccountLockout {
         return true;
     }
 
-    /**
-     * @return how many attempts remain before the account locks
-     */
     public int remainingAttempts() {
         return MAX_ATTEMPTS - failedAttempts;
     }
 
-    /**
-     * @return seconds left on the current lock-out, or 0 if not locked
-     */
     public long remainingLockSeconds() {
         if (lockedUntil == 0L) {
             return 0L;

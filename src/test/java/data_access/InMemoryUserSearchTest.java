@@ -75,8 +75,8 @@ class InMemoryUserSearchTest {
 
     /**
      * Regex metacharacters must be treated as ordinary text. The Mongo
-     * implementation gets this from {@code Pattern.quote}; if that were ever
-     * dropped, {@code .*} would quietly return every account in the database.
+     * implementation gets this from Pattern.quote; if that were ever
+     * dropped, .* would quietly return every account in the database.
      */
     @Test
     void regexCharactersAreLiteralNotWildcards() {

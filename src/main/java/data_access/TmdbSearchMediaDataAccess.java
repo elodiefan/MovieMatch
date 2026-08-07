@@ -34,8 +34,6 @@ public class TmdbSearchMediaDataAccess
     /**
      * Creates a data access object that searches TMDB through client
      * Data are translated by object mapper.
-     *
-     * @param tmdbApiClient client used to send requests to TMDB
      */
     public TmdbSearchMediaDataAccess(
             TmdbApiClient tmdbApiClient) {
@@ -46,9 +44,6 @@ public class TmdbSearchMediaDataAccess
     /**
      * Searches TMDB for movies and TV shows matching a keyword.
      * Externally connected to search interactor, checking input/output and handling exceptions.
-     *
-     * @param keyword keyword entered by the user
-     * @return matching movies and TV shows
      */
     @Override
     public List<Media> search(String keyword) {
@@ -72,10 +67,6 @@ public class TmdbSearchMediaDataAccess
     /**
      * Requests all search-result pages reported by TMDB.
      * Internal helper,fill in the preset list <Media> in batches and make the JSON string readable.
-     *
-     * @param keyword title entered by the user
-     * @param results destination for the converted media
-     * @throws IOException if a request or JSON conversion fails
      */
     private void addSearchPages(
             String keyword,
@@ -103,10 +94,6 @@ public class TmdbSearchMediaDataAccess
     /**
      * Converts the movie and TV results (id & media type) within one search page.
      * Person results returned by multi-search are ignored since it's not included in if-else conditions.
-     *
-     * @param pageNode one TMDB search-response page
-     * @param results destination for the converted media
-     * @throws IOException if a details request cannot be completed
      */
     private void addMediaFromPage(
             JsonNode pageNode,
@@ -128,10 +115,6 @@ public class TmdbSearchMediaDataAccess
 
     /**
      * Gets detailed movie information and converts it into a Movie.
-     *
-     * @param movieId the movie ID supplied by TMDB
-     * @return the converted movie
-     * @throws IOException if the details cannot be requested or parsed
      */
     private Movie getMovie(int movieId) throws IOException {
         final String detailsJson =
@@ -173,10 +156,6 @@ public class TmdbSearchMediaDataAccess
 
     /**
      * Gets complete TV-show information and converts it into a TVShow.
-     *
-     * @param tvShowId the TV-show ID supplied by TMDB
-     * @return the converted TV show
-     * @throws IOException if the details cannot be requested or parsed
      */
     private TVShow getTvShow(int tvShowId) throws IOException {
         final String detailsJson =
@@ -221,9 +200,6 @@ public class TmdbSearchMediaDataAccess
 
     /**
      * Converts a TMDB genre array into Genre list containing both id and name of genre.
-     *
-     * @param genreNodes genre array from a TMDB details response
-     * @return converted genres
      */
     private List<Genre> parseGenres(JsonNode genreNodes) {
         final List<Genre> genres = new ArrayList<>();
@@ -242,9 +218,6 @@ public class TmdbSearchMediaDataAccess
 
     /**
      * Extracts only cast-member names from TMDB credits.
-     *
-     * @param castNodes cast array from a TMDB details response
-     * @return cast-member names
      */
     private List<String> parseCast(JsonNode castNodes) {
         final List<String> cast = new ArrayList<>();
@@ -262,9 +235,6 @@ public class TmdbSearchMediaDataAccess
      * Extracts the year from a date using the YYYY-MM-DD format.
      * Lost release year is shown as 0.
      * 4 is the amount of character that represents a year.
-     *
-     * @param date date returned by TMDB
-     * @return the extracted year, or zero if it cannot be parsed
      */
     private int parseYear(String date) {
         int year = 0;

@@ -16,8 +16,6 @@ public class SearchController {
 
     /**
      * Executes the Search Use Case.
-     *
-     * @param keyword the keyword entered by the user
      */
     public void execute(String keyword) {
         final SearchInputData searchInputData =

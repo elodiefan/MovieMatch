@@ -14,13 +14,6 @@ public class SignupInputData {
 
     /**
      * Creates the input data needed to attempt a new account signup.
-     *
-     * @param username the username requested for the new account
-     * @param displayName the public display name for the new account
-     * @param password the password entered by the user
-     * @param repeatPassword the repeated password entered for confirmation
-     * @param securityQuestion the selected security question for account recovery
-     * @param securityAnswer the answer to the selected security question
      */
     public SignupInputData(String username, String displayName, String password,
                            String repeatPassword, String securityQuestion, String securityAnswer) {
@@ -34,8 +27,6 @@ public class SignupInputData {
 
     /**
      * Returns the username requested for the new account.
-     *
-     * @return the requested username
      */
     String getUsername() {
         return username;
@@ -43,8 +34,6 @@ public class SignupInputData {
 
     /**
      * Returns the public display name for the new account.
-     *
-     * @return the display name
      */
     String getDisplayName() {
         return displayName;
@@ -52,8 +41,6 @@ public class SignupInputData {
 
     /**
      * Returns the password entered by the user.
-     *
-     * @return the entered password
      */
     String getPassword() {
         return password;
@@ -61,8 +48,6 @@ public class SignupInputData {
 
     /**
      * Returns the repeated password entered for confirmation.
-     *
-     * @return the repeated password
      */
     String getRepeatPassword() {
         return repeatPassword;
@@ -70,8 +55,6 @@ public class SignupInputData {
 
     /**
      * Returns the selected security question for account recovery.
-     *
-     * @return the selected security question
      */
     String getSecurityQuestion() {
         return securityQuestion;
@@ -79,8 +62,6 @@ public class SignupInputData {
 
     /**
      * Returns the answer to the selected security question.
-     *
-     * @return the security answer
      */
     String getSecurityAnswer() {
         return securityAnswer;

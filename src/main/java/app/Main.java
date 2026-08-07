@@ -11,7 +11,6 @@ import view.UiTheme;
 public class Main {
     /**
      * Builds and runs the CA architecture of the application.
-     * @param args unused arguments
      */
     public static void main(String[] args) {
         // Without this a failed database call just prints to the console and the
@@ -53,7 +52,9 @@ public class Main {
                 .addSignupUseCase()
                 .addSearchView()
                 .addSearchResultView()
+                .addSettingsView()
                 .addSearchUseCase()
+                .addSettingsUseCase()
                 .addFilterUseCase()
                 .addUserReviewsUseCase()
                 .addMediaDetailView()

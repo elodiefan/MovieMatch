@@ -11,9 +11,6 @@ public interface GetMediaReviewsDataAccessInterface {
 
     /**
      * Gets all reviews for one media item.
-     * @param mediaId the media id
-     * @param mediaType the media type
-     * @return the reviews for the media item
      */
     List<Review> getReviewsByMedia(int mediaId, String mediaType);
 }

@@ -30,8 +30,8 @@ import interface_adapter.security_question.SecurityQuestionViewModel;
  *     <li>an answer field + a "Verify" button;</li>
  *     <li>a message label (green success / red-ish error and attempts left).</li>
  * </ol>
- * The view is "dumb": it only reads/writes {@link SecurityQuestionState} and
- * calls the {@link SecurityQuestionController}. All decisions (right/wrong,
+ * The view is "dumb": it only reads/writes SecurityQuestionState and
+ * calls the SecurityQuestionController. All decisions (right/wrong,
  * attempts, lock-out) happen in the interactor.
  */
 public class SecurityQuestionView extends JPanel implements PropertyChangeListener {

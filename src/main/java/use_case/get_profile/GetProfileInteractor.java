@@ -18,7 +18,6 @@ public class GetProfileInteractor implements GetProfileInputBoundary {
 
     /**
      * Executes the get user profile use case.
-     * @param getProfileInputData the user's input info
      */
     @Override
     public void execute(GetProfileInputData getProfileInputData) {

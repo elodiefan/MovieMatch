@@ -9,7 +9,6 @@ public final class GetReviewCommentsInputData {
 
     /**
      * Handles this review or comment operation.
-     * @param inputReviewId the inputReviewId
      */
     public GetReviewCommentsInputData(final String inputReviewId) {
         this.reviewId = inputReviewId;
@@ -17,7 +16,6 @@ public final class GetReviewCommentsInputData {
 
     /**
      * Handles this review or comment operation.
-     * @return the result
      */
     public String getReviewId() {
         return reviewId;

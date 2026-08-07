@@ -32,7 +32,6 @@ public class SearchUserController {
 
     /**
      * Executes the Search User Use Case.
-     * @param keyword the keyword entered by the user
      */
     public void execute(String keyword) {
         searchUserInteractor.execute(new SearchUserInputData(keyword));
@@ -40,8 +39,6 @@ public class SearchUserController {
 
     /**
      * Opens the account page of a user from the results.
-     * @param username the account to open
-     * @param displayName that account's display name
      */
     public void openProfile(String username, String displayName) {
         getProfileInteractor.execute(new GetProfileInputData(username, displayName));

@@ -43,7 +43,6 @@ public class SearchUserState {
      * Whether a search has run yet. Lets the view tell "nobody matched" apart
      * from "you have not searched for anything yet", which both show an empty
      * list but mean different things.
-     * @return true once a search has completed
      */
     public boolean isSearched() {
         return searched;

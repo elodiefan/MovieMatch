@@ -10,9 +10,6 @@ public class SignupOutputData {
 
     /**
      * Creates the output data for a signup result.
-     *
-     * @param username the username of the created account
-     * @param displayName the display name of the created account
      */
     public SignupOutputData(String username, String displayName) {
         this.username = username;
@@ -21,8 +18,6 @@ public class SignupOutputData {
 
     /**
      * Returns the username of the created account.
-     *
-     * @return the created account's username
      */
     public String getUsername() {
         return username;
@@ -30,8 +25,6 @@ public class SignupOutputData {
 
     /**
      * Returns the display name of the created account.
-     *
-     * @return the created account's display name
      */
     public String getDisplayName() {
         return displayName;

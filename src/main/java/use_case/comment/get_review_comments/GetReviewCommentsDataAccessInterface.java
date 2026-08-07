@@ -11,8 +11,6 @@ public interface GetReviewCommentsDataAccessInterface {
 
     /**
      * Gets all comments for one review.
-     * @param reviewId the id of the review
-     * @return the comments for the review
      */
     List<Comment> getCommentsByReviewId(String reviewId);
 }

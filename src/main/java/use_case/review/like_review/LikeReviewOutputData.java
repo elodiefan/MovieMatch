@@ -9,7 +9,6 @@ public final class LikeReviewOutputData {
 
     /**
      * Handles this review or comment operation.
-     * @param inputLiked the inputLiked
      */
     public LikeReviewOutputData(final boolean inputLiked) {
         this.liked = inputLiked;
@@ -17,7 +16,6 @@ public final class LikeReviewOutputData {
 
     /**
      * Handles this review or comment operation.
-     * @return the result
      */
     public boolean isLiked() {
         return liked;

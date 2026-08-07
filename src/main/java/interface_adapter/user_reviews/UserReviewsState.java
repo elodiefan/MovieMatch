@@ -20,7 +20,6 @@ public final class UserReviewsState {
 
     /**
      * Returns the username whose reviews are displayed.
-     * @return the username
      */
     public String getUsername() {
         return username;
@@ -28,7 +27,6 @@ public final class UserReviewsState {
 
     /**
      * Sets the username whose reviews are displayed.
-     * @param inputUsername the username
      */
     public void setUsername(final String inputUsername) {
         this.username = inputUsername;
@@ -36,7 +34,6 @@ public final class UserReviewsState {
 
     /**
      * Returns the review rows displayed in the view.
-     * @return a copy of the review rows
      */
     public List<UserReviewRow> getReviews() {
         return new ArrayList<>(reviews);
@@ -44,7 +41,6 @@ public final class UserReviewsState {
 
     /**
      * Sets the review rows displayed in the view.
-     * @param inputReviews the review rows
      */
     public void setReviews(final List<UserReviewRow> inputReviews) {
         this.reviews = new ArrayList<>(inputReviews);
@@ -52,7 +48,6 @@ public final class UserReviewsState {
 
     /**
      * Returns the comment rows displayed in the view.
-     * @return a copy of the comment rows
      */
     public List<UserCommentRow> getComments() {
         return new ArrayList<>(comments);
@@ -60,7 +55,6 @@ public final class UserReviewsState {
 
     /**
      * Sets the comment rows displayed in the view.
-     * @param inputComments the comment rows
      */
     public void setComments(final List<UserCommentRow> inputComments) {
         this.comments = new ArrayList<>(inputComments);
@@ -68,7 +62,6 @@ public final class UserReviewsState {
 
     /**
      * Returns the selected review id.
-     * @return the selected review id
      */
     public String getSelectedReviewId() {
         return selectedReviewId;
@@ -76,7 +69,6 @@ public final class UserReviewsState {
 
     /**
      * Sets the selected review id.
-     * @param inputSelectedReviewId the selected review id
      */
     public void setSelectedReviewId(final String inputSelectedReviewId) {
         this.selectedReviewId = inputSelectedReviewId;
@@ -84,7 +76,6 @@ public final class UserReviewsState {
 
     /**
      * Returns the current user reviews error message.
-     * @return the error message
      */
     public String getUserReviewsError() {
         return userReviewsError;
@@ -92,7 +83,6 @@ public final class UserReviewsState {
 
     /**
      * Sets the current user reviews error message.
-     * @param inputUserReviewsError the error message
      */
     public void setUserReviewsError(final String inputUserReviewsError) {
         this.userReviewsError = inputUserReviewsError;

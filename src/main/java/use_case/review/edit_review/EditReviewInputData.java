@@ -15,10 +15,6 @@ public final class EditReviewInputData {
 
     /**
      * Handles this review or comment operation.
-     * @param inputReviewId the inputReviewId
-     * @param inputUsername the inputUsername
-     * @param inputRating the inputRating
-     * @param inputReviewText the inputReviewText
      */
     public EditReviewInputData(final String inputReviewId,
                                final String inputUsername,
@@ -32,28 +28,24 @@ public final class EditReviewInputData {
 
     /**
      * Handles this review or comment operation.
-     * @return the result
      */
     public String getReviewId() {
         return reviewId;
     }
     /**
      * Handles this review or comment operation.
-     * @return the result
      */
     public String getUsername() {
         return username;
     }
     /**
      * Handles this review or comment operation.
-     * @return the result
      */
     public double getRating() {
         return rating;
     }
     /**
      * Handles this review or comment operation.
-     * @return the result
      */
     public String getReviewText() {
         return reviewText;

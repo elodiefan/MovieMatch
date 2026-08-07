@@ -133,7 +133,6 @@ public class MediaDetailView extends JPanel implements PropertyChangeListener {
 
     /**
      * Sets the controller used to log media to user lists.
-     * @param inputLogMediaController the log media controller
      */
     public void setLogMediaController(
             LogMediaController inputLogMediaController) {
@@ -142,8 +141,6 @@ public class MediaDetailView extends JPanel implements PropertyChangeListener {
 
     /**
      * Sets the controller used by the embedded media reviews panel.
-     *
-     * @param mediaReviewsController the media reviews controller
      */
     public void setMediaReviewsController(
             MediaReviewsController mediaReviewsController) {
@@ -152,8 +149,6 @@ public class MediaDetailView extends JPanel implements PropertyChangeListener {
 
     /**
      * Sets the controller used by the embedded comments panel.
-     *
-     * @param commentsController the comments controller
      */
     public void setCommentsController(CommentsController commentsController) {
         mediaReviewsPanel.setCommentsController(commentsController);

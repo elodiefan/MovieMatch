@@ -9,7 +9,6 @@ public final class GetUserCommentsInputData {
 
     /**
      * Creates input data for loading user comments.
-     * @param inputUsername the username whose comments should be loaded
      */
     public GetUserCommentsInputData(final String inputUsername) {
         this.username = inputUsername;
@@ -17,7 +16,6 @@ public final class GetUserCommentsInputData {
 
     /**
      * Returns the username whose comments should be loaded.
-     * @return the username
      */
     public String getUsername() {
         return username;

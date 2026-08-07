@@ -11,7 +11,6 @@ public final class CreateReviewOutputData {
 
     /**
      * Handles this review or comment operation.
-     * @param inputReview the inputReview
      */
     public CreateReviewOutputData(final Review inputReview) {
         this.review = inputReview;
@@ -19,7 +18,6 @@ public final class CreateReviewOutputData {
 
     /**
      * Handles this review or comment operation.
-     * @return the result
      */
     public Review getReview() {
         return review;

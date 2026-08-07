@@ -23,13 +23,6 @@ public final class UserCommentSummaryData {
 
     /**
      * Creates summary data for one user comment.
-     * @param inputCommentId the comment id
-     * @param inputReviewId the review id
-     * @param inputMediaTitle the reviewed media title
-     * @param inputReviewText the review text the user commented on
-     * @param inputCommentText the user's comment text
-     * @param inputCreatedAt the comment creation time
-     * @param inputLikeCount the number of likes on the comment
      */
     public UserCommentSummaryData(final String inputCommentId,
                                   final String inputReviewId,
@@ -49,7 +42,6 @@ public final class UserCommentSummaryData {
 
     /**
      * Returns the comment id.
-     * @return the comment id
      */
     public String getCommentId() {
         return commentId;
@@ -57,7 +49,6 @@ public final class UserCommentSummaryData {
 
     /**
      * Returns the review id.
-     * @return the review id
      */
     public String getReviewId() {
         return reviewId;
@@ -65,7 +56,6 @@ public final class UserCommentSummaryData {
 
     /**
      * Returns the media title.
-     * @return the media title
      */
     public String getMediaTitle() {
         return mediaTitle;
@@ -73,7 +63,6 @@ public final class UserCommentSummaryData {
 
     /**
      * Returns the review text.
-     * @return the review text
      */
     public String getReviewText() {
         return reviewText;
@@ -81,7 +70,6 @@ public final class UserCommentSummaryData {
 
     /**
      * Returns the comment text.
-     * @return the comment text
      */
     public String getCommentText() {
         return commentText;
@@ -89,7 +77,6 @@ public final class UserCommentSummaryData {
 
     /**
      * Returns the comment creation time.
-     * @return the creation time
      */
     public ZonedDateTime getCreatedAt() {
         return createdAt;
@@ -97,7 +84,6 @@ public final class UserCommentSummaryData {
 
     /**
      * Returns the comment like count.
-     * @return the like count
      */
     public int getLikeCount() {
         return likeCount;

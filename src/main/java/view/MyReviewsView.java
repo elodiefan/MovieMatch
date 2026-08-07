@@ -56,7 +56,6 @@ public final class MyReviewsView extends JPanel
 
     /**
      * Handles this review or comment operation.
-     * @param inputUserReviewsViewModel the inputUserReviewsViewModel
      */
     public MyReviewsView(final UserReviewsViewModel inputUserReviewsViewModel) {
         this.userReviewsViewModel = inputUserReviewsViewModel;
@@ -85,7 +84,6 @@ public final class MyReviewsView extends JPanel
 
     /**
      * Updates the view when the user reviews state changes.
-     * @param event the property change event
      */
     @Override
     public void propertyChange(final PropertyChangeEvent event) {
@@ -96,7 +94,6 @@ public final class MyReviewsView extends JPanel
 
     /**
      * Returns this view's name.
-     * @return the view name
      */
     public String getViewName() {
         return viewName;
@@ -104,7 +101,6 @@ public final class MyReviewsView extends JPanel
 
     /**
      * Returns the back button so app wiring can attach navigation.
-     * @return the back button
      */
     public JButton getBackButton() {
         return backButton;
@@ -112,7 +108,6 @@ public final class MyReviewsView extends JPanel
 
     /**
      * Sets the controller for user review actions.
-     * @param inputUserReviewsController the user reviews controller
      */
     public void setUserReviewsController(
             final UserReviewsController inputUserReviewsController) {
@@ -121,7 +116,6 @@ public final class MyReviewsView extends JPanel
 
     /**
      * Refreshes all visible content from state.
-     * @param state the user reviews state
      */
     private void updateView(final UserReviewsState state) {
         if (state != null) {
@@ -134,7 +128,6 @@ public final class MyReviewsView extends JPanel
 
     /**
      * Loads persisted user reviews and comments into state.
-     * @param state the user reviews state
      */
     private void loadContent(final UserReviewsState state) {
         if (!loadingContent && userReviewsController != null
@@ -148,7 +141,6 @@ public final class MyReviewsView extends JPanel
 
     /**
      * Displays the given review rows.
-     * @param reviews the review rows to display
      */
     private void setReviews(final List<UserReviewRow> reviews) {
         reviewsPanel.removeAll();
@@ -169,7 +161,6 @@ public final class MyReviewsView extends JPanel
 
     /**
      * Displays the given comment rows.
-     * @param comments the comment rows to display
      */
     private void setComments(final List<UserCommentRow> comments) {
         commentsPanel.removeAll();
@@ -190,8 +181,6 @@ public final class MyReviewsView extends JPanel
 
     /**
      * Creates the display card for one review.
-     * @param review the review row to display
-     * @return the review card
      */
     private Component createReviewCard(final UserReviewRow review) {
         final JPanel card = new JPanel();
@@ -210,8 +199,6 @@ public final class MyReviewsView extends JPanel
 
     /**
      * Creates the display card for one comment.
-     * @param comment the comment row to display
-     * @return the comment card
      */
     private Component createCommentCard(final UserCommentRow comment) {
         final JPanel card = new JPanel();
@@ -228,8 +215,6 @@ public final class MyReviewsView extends JPanel
 
     /**
      * Creates the action buttons for one review row.
-     * @param review the review row
-     * @return the button panel
      */
     private Component createButtonPanel(final UserReviewRow review) {
         final JPanel buttonPanel = new JPanel();
@@ -250,8 +235,6 @@ public final class MyReviewsView extends JPanel
 
     /**
      * Formats a date and time for display.
-     * @param dateTime the date and time
-     * @return the formatted date and time
      */
     private String formatTime(final ZonedDateTime dateTime) {
         final String formattedTime;
@@ -265,8 +248,6 @@ public final class MyReviewsView extends JPanel
 
     /**
      * Checks whether a value is null, empty, or only whitespace.
-     * @param value the value to check
-     * @return true if the value is blank
      */
     private boolean isBlank(final String value) {
         return value == null || value.trim().isEmpty();
