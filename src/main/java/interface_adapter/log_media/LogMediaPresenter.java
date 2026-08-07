@@ -12,7 +12,6 @@ public class LogMediaPresenter implements LogMediaOutputBoundary {
 
     /**
      * Creates a presenter for log media output.
-     * @param inputLogMediaViewModel the log media view model
      */
     public LogMediaPresenter(
             final LogMediaViewModel inputLogMediaViewModel) {

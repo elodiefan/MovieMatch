@@ -39,7 +39,6 @@ public final class CreateReviewInteractor implements CreateReviewInputBoundary {
 
     /**
      * Creates a review interactor with persistence.
-     * @param inputReviewDataAccessObject the DAO used to save reviews
      */
     public CreateReviewInteractor(
             final CreateReviewDataAccessInterface inputReviewDataAccessObject) {
@@ -48,8 +47,6 @@ public final class CreateReviewInteractor implements CreateReviewInputBoundary {
 
     /**
      * Creates a review interactor with persistence and presentation.
-     * @param inputReviewDataAccessObject the DAO used to save reviews
-     * @param inputPresenter the output boundary
      */
     public CreateReviewInteractor(
             final CreateReviewDataAccessInterface inputReviewDataAccessObject,
@@ -60,7 +57,6 @@ public final class CreateReviewInteractor implements CreateReviewInputBoundary {
 
     /**
      * Executes the use case.
-     * @param inputData the input data
      */
     @Override
     public void execute(final CreateReviewInputData inputData) {
@@ -81,14 +77,6 @@ public final class CreateReviewInteractor implements CreateReviewInputBoundary {
 
     /**
      * Creates a new MovieMatch review.
-     * @param mediaId the reviewed media's identifier
-     * @param mediaType the reviewed media's type
-     * @param mediaTitle the reviewed media's title
-     * @param authorUsername the review author's username
-     * @param authorDisplayName the review author's display name
-     * @param rating the rating percentage
-     * @param reviewText the written review text
-     * @return the created review
      */
     private Review createReview(final int mediaId, final String mediaType,
                                final String mediaTitle,
@@ -119,12 +107,6 @@ public final class CreateReviewInteractor implements CreateReviewInputBoundary {
 
     /**
      * Validates submitted review data.
-     * @param mediaId the reviewed media's identifier
-     * @param mediaType the reviewed media's type
-     * @param mediaTitle the reviewed media's title
-     * @param authorUsername the review author's username
-     * @param authorDisplayName the review author's display name
-     * @param rating the submitted rating
      */
     private void validateReviewData(final int mediaId, final String mediaType,
                                     final String mediaTitle,
@@ -161,8 +143,6 @@ public final class CreateReviewInteractor implements CreateReviewInputBoundary {
 
     /**
      * Checks whether a text value is empty or only whitespace.
-     * @param value the value to check
-     * @return true if the value is blank
      */
     private boolean isBlank(final String value) {
         return value == null || value.trim().isEmpty();
@@ -170,8 +150,6 @@ public final class CreateReviewInteractor implements CreateReviewInputBoundary {
 
     /**
      * Trims a text value, or returns an empty string if it is null.
-     * @param value the value to trim
-     * @return the trimmed value
      */
     private String trimToEmpty(final String value) {
         final String trimmedValue;

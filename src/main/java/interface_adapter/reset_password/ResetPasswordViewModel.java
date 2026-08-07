@@ -2,10 +2,7 @@ package interface_adapter.reset_password;
 
 import interface_adapter.ViewModel;
 
-/**
- * View model for the Reset Password view. Its view name — "reset password" — is
- * the target the security-question presenter switches to on success.
- */
+/** View model for the Reset Password view. */
 public class ResetPasswordViewModel extends ViewModel<ResetPasswordState> {
 
     public static final String VIEW_NAME = "reset password";

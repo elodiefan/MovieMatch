@@ -28,8 +28,6 @@ public class FilterCriteria {
 
     /**
      * Returns the selected languages.
-     *
-     * @return the selected language codes
      */
     public List<String> getLanguages() {
         return languages;
@@ -37,8 +35,6 @@ public class FilterCriteria {
 
     /**
      * Returns the minimum acceptable rating.
-     *
-     * @return the minimum rating, or null when not selected
      */
     public Double getMinimumRating() {
         return minimumRating;
@@ -46,8 +42,6 @@ public class FilterCriteria {
 
     /**
      * Returns the selected genre IDs.
-     *
-     * @return the selected genre IDs
      */
     public List<Integer> getGenreIds() {
         return genreIds;
@@ -55,8 +49,6 @@ public class FilterCriteria {
 
     /**
      * Returns the earliest acceptable release year.
-     *
-     * @return the earliest year, or null when not selected
      */
     public Integer getEarliestYear() {
         return earliestYear;
@@ -64,8 +56,6 @@ public class FilterCriteria {
 
     /**
      * Returns the latest acceptable release year.
-     *
-     * @return the latest year, or null when not selected
      */
     public Integer getLatestYear() {
         return latestYear;

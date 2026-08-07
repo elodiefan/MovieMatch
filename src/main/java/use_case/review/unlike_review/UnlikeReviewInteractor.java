@@ -18,7 +18,6 @@ public final class UnlikeReviewInteractor implements UnlikeReviewInputBoundary {
 
     /**
      * Creates an unlike review interactor with persistence.
-     * @param inputReviewDataAccessObject the DAO used to unlike reviews
      */
     public UnlikeReviewInteractor(
             final UnlikeReviewDataAccessInterface inputReviewDataAccessObject) {
@@ -27,8 +26,6 @@ public final class UnlikeReviewInteractor implements UnlikeReviewInputBoundary {
 
     /**
      * Handles this review or comment operation.
-     * @param inputReviewDataAccessObject the inputReviewDataAccessObject
-     * @param inputPresenter the inputPresenter
      */
     public UnlikeReviewInteractor(
             final UnlikeReviewDataAccessInterface inputReviewDataAccessObject,
@@ -53,9 +50,6 @@ public final class UnlikeReviewInteractor implements UnlikeReviewInputBoundary {
 
     /**
      * Removes a user's like from a persisted review.
-     * @param reviewId the id of the review to unlike
-     * @param username the username of the user unliking the review
-     * @return true if the review was found and unliked
      */
     private boolean unlikeReview(final String reviewId,
                                 final String username) {
@@ -68,8 +62,6 @@ public final class UnlikeReviewInteractor implements UnlikeReviewInputBoundary {
 
     /**
      * Validates the data needed to unlike a persisted review.
-     * @param reviewId the review id to validate
-     * @param username the username to validate
      */
     private void validateUnlikeReviewData(final String reviewId,
                                           final String username) {
@@ -92,8 +84,6 @@ public final class UnlikeReviewInteractor implements UnlikeReviewInputBoundary {
 
     /**
      * Checks whether a text value is empty or only whitespace.
-     * @param value the value to check
-     * @return true if the value is blank
      */
     private boolean isBlank(final String value) {
         return value == null || value.trim().isEmpty();
@@ -101,8 +91,6 @@ public final class UnlikeReviewInteractor implements UnlikeReviewInputBoundary {
 
     /**
      * Trims a text value, or returns an empty string if it is null.
-     * @param value the value to trim
-     * @return the trimmed value
      */
     private String trimToEmpty(final String value) {
         final String trimmedValue;

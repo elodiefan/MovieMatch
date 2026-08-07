@@ -27,15 +27,6 @@ public final class UserReviewRow {
 
     /**
      * Creates display data for one user review row.
-     * @param inputReviewId the review id
-     * @param inputMediaId the media id
-     * @param inputMediaType the media type
-     * @param inputMediaTitle the media title
-     * @param inputRating the rating
-     * @param inputReviewText the review text
-     * @param inputCreatedAt the creation time
-     * @param inputUpdatedAt the update time
-     * @param inputLikeCount the like count
      */
     public UserReviewRow(final String inputReviewId,
                          final int inputMediaId,

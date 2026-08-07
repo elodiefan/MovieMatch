@@ -1,5 +1,8 @@
 package view;
 
+import java.util.function.Function;
+import java.util.function.Supplier;
+
 import java.awt.Component;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
@@ -36,6 +39,10 @@ public class MediaDetailView extends JPanel implements PropertyChangeListener {
     private final JLabel genreLabel;
     private final JLabel languageLabel;
     private final MediaReviewsPanel mediaReviewsPanel;
+
+    /** How this screen finds out who is signed in. */
+    private Supplier<String> usernameSource;
+    private Function<String, String> displayNameSource;
     private MediaDetailController mediaDetailController;
     private LogMediaController logMediaController;
 
@@ -133,7 +140,6 @@ public class MediaDetailView extends JPanel implements PropertyChangeListener {
 
     /**
      * Sets the controller used to log media to user lists.
-     * @param inputLogMediaController the log media controller
      */
     public void setLogMediaController(
             LogMediaController inputLogMediaController) {
@@ -142,8 +148,6 @@ public class MediaDetailView extends JPanel implements PropertyChangeListener {
 
     /**
      * Sets the controller used by the embedded media reviews panel.
-     *
-     * @param mediaReviewsController the media reviews controller
      */
     public void setMediaReviewsController(
             MediaReviewsController mediaReviewsController) {
@@ -152,15 +156,46 @@ public class MediaDetailView extends JPanel implements PropertyChangeListener {
 
     /**
      * Sets the controller used by the embedded comments panel.
-     *
-     * @param commentsController the comments controller
      */
     public void setCommentsController(CommentsController commentsController) {
         mediaReviewsPanel.setCommentsController(commentsController);
     }
 
+    /**
+     * Tells this screen how to find out who is signed in.
+     *
+     * The reviews and comments panels refuse to act without a signed-in user,
+     * and nothing was ever telling them who that is, so writing a review did
+     * nothing at all. Nobody is signed in when the screen is built, so this
+     * takes suppliers and asks them each time the screen is shown.
+     */
+    public void setCurrentUserSource(Supplier<String> usernameSource,
+                                     Function<String, String> displayNameSource) {
+        this.usernameSource = usernameSource;
+        this.displayNameSource = displayNameSource;
+    }
+
+    /**
+     * Passes the signed-in user down to the panels that need one.
+     */
+    private void refreshCurrentUser() {
+        if (usernameSource == null) {
+            return;
+        }
+        final String username = usernameSource.get();
+        String displayName = "";
+        if (username != null && !username.isEmpty() && displayNameSource != null) {
+            displayName = displayNameSource.apply(username);
+        }
+        mediaReviewsPanel.setCurrentUser(username, displayName);
+    }
+
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
+        // Who is signed in can change between visits, so it is read each time
+        // rather than captured once when the screen was built.
+        refreshCurrentUser();
+
         if (evt.getSource() == logMediaViewModel) {
             updateLogMediaStatus((LogMediaState) evt.getNewValue());
         } else {

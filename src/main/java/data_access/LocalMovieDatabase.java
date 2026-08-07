@@ -13,8 +13,6 @@ public class LocalMovieDatabase {
 
     /**
      * Creates a local movie database.
-     *
-     * @param movies the movies stored inside the database.
      */
     public LocalMovieDatabase(List<Movie> movies) {
         this.movies = movies;
@@ -22,8 +20,6 @@ public class LocalMovieDatabase {
 
     /**
      * Return all movies stored in database.
-     *
-     * @return all movies
      */
     public List<Movie> getMovies() {
         return movies;

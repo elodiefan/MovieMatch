@@ -13,9 +13,7 @@ import org.junit.jupiter.api.Test;
 import entity.StandardUser;
 import entity.User;
 
-/**
- * Tests for the Search User Interactor.
- */
+/** Tests for the Search User Interactor. */
 class SearchUserInteractorTest {
 
     /** Records what the interactor searched for and returns whatever it was given. */
@@ -112,9 +110,7 @@ class SearchUserInteractorTest {
     }
 
     /**
-     * The point of {@link UserSummary}: whatever the data store hands back, only
-     * the username and display name are allowed past the output boundary. If
-     * someone later widens it to carry a whole {@code User}, this fails.
+     * The point of UserSummary: whatever the data store hands back, only the username and display name are allowed past the output boundary.
      */
     @Test
     void resultsCarryNoCredentials() {

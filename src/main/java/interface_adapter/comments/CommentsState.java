@@ -20,7 +20,6 @@ public final class CommentsState {
 
     /**
      * Returns the review id whose comments are displayed.
-     * @return the review id
      */
     public String getReviewId() {
         return reviewId;
@@ -28,7 +27,6 @@ public final class CommentsState {
 
     /**
      * Sets the review id whose comments are displayed.
-     * @param inputReviewId the review id
      */
     public void setReviewId(final String inputReviewId) {
         this.reviewId = inputReviewId;
@@ -36,7 +34,6 @@ public final class CommentsState {
 
     /**
      * Returns the displayed comment rows.
-     * @return a copy of the comment rows
      */
     public List<CommentRow> getComments() {
         return new ArrayList<>(comments);
@@ -44,7 +41,6 @@ public final class CommentsState {
 
     /**
      * Sets the displayed comment rows.
-     * @param inputComments the comment rows
      */
     public void setComments(final List<CommentRow> inputComments) {
         this.comments = new ArrayList<>(inputComments);
@@ -52,7 +48,6 @@ public final class CommentsState {
 
     /**
      * Returns the selected comment id.
-     * @return the selected comment id
      */
     public String getSelectedCommentId() {
         return selectedCommentId;
@@ -60,7 +55,6 @@ public final class CommentsState {
 
     /**
      * Sets the selected comment id.
-     * @param inputSelectedCommentId the selected comment id
      */
     public void setSelectedCommentId(final String inputSelectedCommentId) {
         this.selectedCommentId = inputSelectedCommentId;
@@ -68,7 +62,6 @@ public final class CommentsState {
 
     /**
      * Returns the parent comment id for a reply being written.
-     * @return the parent comment id
      */
     public String getParentCommentId() {
         return parentCommentId;
@@ -76,7 +69,6 @@ public final class CommentsState {
 
     /**
      * Sets the parent comment id for a reply being written.
-     * @param inputParentCommentId the parent comment id
      */
     public void setParentCommentId(final String inputParentCommentId) {
         this.parentCommentId = inputParentCommentId;
@@ -84,7 +76,6 @@ public final class CommentsState {
 
     /**
      * Returns the current comments error message.
-     * @return the error message
      */
     public String getCommentsError() {
         return commentsError;
@@ -92,7 +83,6 @@ public final class CommentsState {
 
     /**
      * Sets the current comments error message.
-     * @param inputCommentsError the error message
      */
     public void setCommentsError(final String inputCommentsError) {
         this.commentsError = inputCommentsError;

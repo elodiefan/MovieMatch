@@ -39,8 +39,6 @@ public final class TmdbReviewDataAccessObject
 
     /**
      * Creates a TMDB review data access object.
-     *
-     * @param inputTmdbApiClient the TMDB API client
      */
     public TmdbReviewDataAccessObject(
             final TmdbApiClient inputTmdbApiClient) {
@@ -65,11 +63,6 @@ public final class TmdbReviewDataAccessObject
 
     /**
      * Requests review JSON from TMDB.
-     *
-     * @param mediaId the TMDB media id
-     * @param mediaType the TMDB media type
-     * @return the raw TMDB reviews JSON
-     * @throws IOException if the request fails
      */
     private String getReviewsJson(final int mediaId, final String mediaType)
             throws IOException {
@@ -84,12 +77,6 @@ public final class TmdbReviewDataAccessObject
 
     /**
      * Parses TMDB reviews into Review entities.
-     *
-     * @param mediaId the reviewed media id
-     * @param mediaType the reviewed media type
-     * @param reviewsJson the raw TMDB reviews JSON
-     * @return parsed reviews
-     * @throws IOException if the JSON cannot be parsed
      */
     private List<Review> parseReviews(final int mediaId,
                                       final String mediaType,
@@ -105,11 +92,6 @@ public final class TmdbReviewDataAccessObject
 
     /**
      * Converts one TMDB review JSON object into a Review.
-     *
-     * @param mediaId the reviewed media id
-     * @param mediaType the reviewed media type
-     * @param reviewNode the TMDB review node
-     * @return the converted review
      */
     private Review toReview(final int mediaId, final String mediaType,
                             final JsonNode reviewNode) {
@@ -134,9 +116,6 @@ public final class TmdbReviewDataAccessObject
 
     /**
      * Converts a TMDB rating into a percentage.
-     *
-     * @param ratingNode the TMDB rating node
-     * @return rating percentage
      */
     private double parseRating(final JsonNode ratingNode) {
         final double rating;
@@ -153,9 +132,6 @@ public final class TmdbReviewDataAccessObject
 
     /**
      * Parses a TMDB ISO timestamp.
-     *
-     * @param value the timestamp value
-     * @return parsed time, or the current time when missing
      */
     private ZonedDateTime parseDateTime(final String value) {
         final ZonedDateTime parsedTime;
@@ -169,11 +145,6 @@ public final class TmdbReviewDataAccessObject
 
     /**
      * Returns the first non-blank value.
-     *
-     * @param first the first value
-     * @param second the second value
-     * @param fallback the fallback value
-     * @return the first usable value
      */
     private String firstNonBlank(final String first, final String second,
                                  final String fallback) {
@@ -190,9 +161,6 @@ public final class TmdbReviewDataAccessObject
 
     /**
      * Checks whether a value is blank.
-     *
-     * @param value the value to check
-     * @return true if the value is blank
      */
     private boolean isBlank(final String value) {
         return value == null || value.trim().isEmpty();

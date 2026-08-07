@@ -13,9 +13,6 @@ public class LogMediaInputData {
 
     /**
      * Creates input data for one media item.
-     * @param inputMediaId the media id
-     * @param inputMediaType the media type
-     * @param inputMediaTitle the media title
      */
     public LogMediaInputData(final int inputMediaId,
                              final String inputMediaType,
@@ -27,7 +24,6 @@ public class LogMediaInputData {
 
     /**
      * Returns the media id.
-     * @return the media id
      */
     public int getMediaId() {
         return mediaId;
@@ -35,7 +31,6 @@ public class LogMediaInputData {
 
     /**
      * Returns the media type.
-     * @return the media type
      */
     public String getMediaType() {
         return mediaType;
@@ -43,7 +38,6 @@ public class LogMediaInputData {
 
     /**
      * Returns the media title.
-     * @return the media title
      */
     public String getMediaTitle() {
         return mediaTitle;

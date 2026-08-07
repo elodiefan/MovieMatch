@@ -7,6 +7,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
 import java.util.regex.Pattern;
+import java.util.LinkedHashSet;
+import java.util.Set;
 
 import org.bson.Document;
 import org.bson.conversions.Bson;
@@ -21,21 +23,7 @@ import entity.StandardUser;
 import entity.User;
 import entity.UserLists;
 
-/**
- * MongoDB Atlas implementation of {@link UserDataAccessObject}.
- * <p>
- * This is the only class in the project that imports {@code com.mongodb}: all
- * the driver code lives here, so the rest of the app never knows which database
- * is behind the interface.
- * <p>
- * Build one instance in {@code AppBuilder} and share it with every interactor —
- * the underlying {@code MongoClient} is expensive to create and is safe to reuse
- * across the whole app.
- * <p>
- * Connection settings are read from a properties file (default
- * {@value #DEFAULT_PROPERTIES}) holding {@code uri}, {@code database} and
- * {@code collection}. That file is git-ignored because it contains a password.
- */
+/** MongoDB Atlas implementation of UserDataAccessObject. */
 public class MongoUserDataAccessObject implements UserDataAccessObject {
 
     /** Default location of the connection settings. */
@@ -67,20 +55,15 @@ public class MongoUserDataAccessObject implements UserDataAccessObject {
     private final MongoClient mongoClient;
     private final MongoCollection<Document> users;
 
-    /** Who is logged in right now. Session state, so it stays in memory. */
+    /** Who is logged in right now. */
     private String currentUsername;
 
-    /**
-     * Connects using the settings in {@value #DEFAULT_PROPERTIES}.
-     */
+    /** Connects using the settings in DEFAULT_PROPERTIES. */
     public MongoUserDataAccessObject() {
         this(DEFAULT_PROPERTIES);
     }
 
-    /**
-     * Connects using the settings in the given properties file.
-     * @param propertiesPath path to the file (e.g. "mongo.properties")
-     */
+    /** Connects using the settings in the given properties file. */
     public MongoUserDataAccessObject(String propertiesPath) {
         final Properties props = new Properties();
         try (InputStream in = new FileInputStream(propertiesPath)) {
@@ -102,13 +85,7 @@ public class MongoUserDataAccessObject implements UserDataAccessObject {
         return users.find(Filters.eq(USERNAME, username)).first() != null;
     }
 
-    /**
-     * Same check as {@link #existsByName}, under the name the login use case
-     * uses. Signup calls it existsByName and login calls it existsByUsername,
-     * so both are provided; there is only one implementation.
-     * @param username the account to look for
-     * @return true if the account exists
-     */
+    /** Same check as #existsByName, under the name the login use case uses. */
     @Override
     public boolean existsByUsername(String username) {
         return existsByName(username);
@@ -211,6 +188,30 @@ public class MongoUserDataAccessObject implements UserDataAccessObject {
         return blockedUsers;
     }
 
+    /** Returns the ids of everything on the user's watchlist or watch history. */
+    @Override
+    public Set<Integer> findEngagedMediaIds(String username) {
+        final Set<Integer> mediaIds = new LinkedHashSet<>();
+        final Document doc = users.find(Filters.eq(USERNAME, username)).first();
+
+        if (doc != null) {
+            addMediaIds(getWatchlist(doc), mediaIds);
+            addMediaIds(getWatchHistory(doc), mediaIds);
+        }
+        return mediaIds;
+    }
+
+    private static void addMediaIds(List<Document> entries, Set<Integer> into) {
+        if (entries != null) {
+            for (Document entry : entries) {
+                final Integer mediaId = entry.getInteger(MEDIA_ID);
+                if (mediaId != null) {
+                    into.add(mediaId);
+                }
+            }
+        }
+    }
+
     private static List<Document> getWatchHistory(Document doc) {
         final List<Document> watchHistory = doc.get(WATCH_HISTORY, List.class);
         return watchHistory;
@@ -267,17 +268,7 @@ public class MongoUserDataAccessObject implements UserDataAccessObject {
 
     // ---------- Search for users ----------
 
-    /**
-     * Finds accounts whose username or display name contains the keyword,
-     * ignoring case.
-     * <p>
-     * The keyword is wrapped in {@link Pattern#quote} before it reaches Mongo.
-     * Without that, whatever the user types is treated as a regular expression:
-     * typing {@code .*} would match every account in the database, and typing an
-     * unbalanced bracket would throw instead of returning nothing.
-     * @param keyword what the user typed
-     * @return the matching accounts, at most {@value #SEARCH_LIMIT} of them
-     */
+    /** Finds accounts whose username or display name contains the keyword, ignoring case. */
     @Override
     public List<User> search(String keyword) {
         final String literal = Pattern.quote(keyword);
@@ -340,14 +331,7 @@ public class MongoUserDataAccessObject implements UserDataAccessObject {
 
     // ---------- Helpers ----------
 
-    /**
-     * Reads one field off the logged-in user's document.
-     * <p>
-     * These three getters take no username: they all mean "for whoever is logged
-     * in right now", which is {@link #currentUsername}.
-     * @param field the document field to read
-     * @return the stored value, or null if nobody is logged in or the account is gone
-     */
+    /** Reads one field off the logged-in user's document. */
     private String currentUserField(String field) {
         String value = null;
         if (currentUsername != null) {
@@ -359,13 +343,7 @@ public class MongoUserDataAccessObject implements UserDataAccessObject {
         return value;
     }
 
-    /**
-     * Reads one field off the specified user's document.
-     * <p>
-     * @param username the specified user
-     * @param field the document field to read
-     * @return the stored value, or null if nobody is logged in or the account is gone
-     */
+    /** Reads one field off the specified user's document. */
     private String userField(String username, String field) {
         String value = null;
         if (username != null) {

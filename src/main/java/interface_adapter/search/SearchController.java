@@ -16,13 +16,18 @@ public class SearchController {
 
     /**
      * Executes the Search Use Case.
-     *
-     * @param keyword the keyword entered by the user
      */
     public void execute(String keyword) {
         final SearchInputData searchInputData =
                 new SearchInputData(keyword);
 
         searchUseCaseInteractor.execute(searchInputData);
+    }
+
+    /**
+     * Fetches the next block of pages for a search already on screen.
+     */
+    public void loadMore(String keyword, int nextPage) {
+        searchUseCaseInteractor.loadMore(new SearchInputData(keyword, nextPage));
     }
 }

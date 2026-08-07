@@ -1,11 +1,6 @@
 package interface_adapter.reset_password;
 
-/**
- * State backing the Reset Password view.
- * <p>
- * {@code username} is seeded by the security-question step (the account whose
- * identity was just confirmed); the two password fields are typed by the user.
- */
+/** State backing the Reset Password view. */
 public class ResetPasswordState {
 
     private String username = "";

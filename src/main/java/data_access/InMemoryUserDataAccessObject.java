@@ -4,23 +4,25 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.LinkedHashSet;
+import java.util.Set;
 
 import entity.StandardUser;
 import entity.User;
 import entity.UserLists;
 
-/**
- * In-memory implementation of {@link UserDataAccessObject}.
- *
- * <p>
- * Stores users in a plain map, so the app and its tests can run with no network
- * and no database. Because it implements the same interface as
- * {@link MongoUserDataAccessObject}, switching between them is a one-line change
- * in {@code AppBuilder}. All data is lost when the program exits.
- */
+/** In-memory implementation of UserDataAccessObject. */
 public class InMemoryUserDataAccessObject implements UserDataAccessObject {
 
     private final Map<String, User> users = new HashMap<>();
+
+    /** Watchlist and watch history ids, kept per user for the offline store. */
+    private final Map<String, Set<Integer>> engagedMediaIds = new HashMap<>();
+
+    @Override
+    public Set<Integer> findEngagedMediaIds(String username) {
+        return new LinkedHashSet<>(engagedMediaIds.getOrDefault(username, new LinkedHashSet<>()));
+    }
 
     private String currentUsername;
 
@@ -31,13 +33,7 @@ public class InMemoryUserDataAccessObject implements UserDataAccessObject {
         return users.containsKey(username);
     }
 
-    /**
-     * Same check as {@link #existsByName}, under the name the login use case
-     * uses. Signup calls it existsByName and login calls it existsByUsername,
-     * so both are provided; there is only one implementation.
-     * @param username the account to look for
-     * @return true if the account exists
-     */
+    /** Same check as #existsByName, under the name the login use case uses. */
     @Override
     public boolean existsByUsername(String username) {
         return existsByName(username);
@@ -101,6 +97,7 @@ public class InMemoryUserDataAccessObject implements UserDataAccessObject {
                     mediaTitle, addedAt);
             user.setUserLists(new UserLists(username, watchlist,
                     user.getWatchHistory(), user.getBlockedUsers()));
+            recordEngaged(username, mediaId);
         }
     }
 
@@ -114,6 +111,7 @@ public class InMemoryUserDataAccessObject implements UserDataAccessObject {
                     mediaTitle, watchedAt);
             user.setUserLists(new UserLists(username, user.getWatchlist(),
                     watchHistory, user.getBlockedUsers()));
+            recordEngaged(username, mediaId);
         }
     }
 
@@ -144,12 +142,7 @@ public class InMemoryUserDataAccessObject implements UserDataAccessObject {
 
     // ---------- Search for users ----------
 
-    /**
-     * Finds accounts whose username or display name contains the keyword,
-     * ignoring case. Same contract as the Mongo version, over a plain map.
-     * @param keyword what the user typed
-     * @return the matching accounts
-     */
+    /** Finds accounts whose username or display name contains the keyword, ignoring case. */
     @Override
     public List<User> search(String keyword) {
         final String needle = keyword.toLowerCase();
@@ -203,5 +196,12 @@ public class InMemoryUserDataAccessObject implements UserDataAccessObject {
     private String appendMediaLog(String currentList, String mediaTitle,
                                   String loggedAt) {
         return currentList + mediaTitle + " -- " + loggedAt + "\n";
+    }
+
+    /**
+     * Remembers the id as well as the display line, since the lists themselves are kept as text and recommendations need something to match on.
+     */
+    private void recordEngaged(String username, int mediaId) {
+        engagedMediaIds.computeIfAbsent(username, key -> new LinkedHashSet<>()).add(mediaId);
     }
 }
