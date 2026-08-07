@@ -40,9 +40,33 @@ public class ScoreAdjustmentApplier {
      * @return a new list with adjusted scores and explanations attached
      */
     public List<ScoredMedia> applyTo(final List<ScoredMedia> shortlist, final TasteProfile profile) {
-        final List<ScoredMedia> adjusted = new ArrayList<>();
+        final List<entity.Media> candidates = new ArrayList<>();
         for (final ScoredMedia scored : shortlist) {
-            adjusted.add(this.adjustOne(scored, profile));
+            candidates.add(scored.getMedia());
+        }
+
+        // Asked for in one go rather than one at a time, which is what makes
+        // this affordable enough to run on every load.
+        List<Adjustment> adjustments;
+        try {
+            adjustments = this.adjuster.adjustAll(candidates, profile);
+        }
+        catch (ScoreAdjustmentException ex) {
+            adjustments = new ArrayList<>();
+        }
+
+        final List<ScoredMedia> adjusted = new ArrayList<>();
+        for (int i = 0; i < shortlist.size(); i++) {
+            final Adjustment adjustment;
+            if (i < adjustments.size() && adjustments.get(i) != null) {
+                adjustment = adjustments.get(i);
+            }
+            else {
+                // An adjuster that returned a short list, or none at all, leaves
+                // the deterministic ranking in place for the rest.
+                adjustment = Adjustment.NONE;
+            }
+            adjusted.add(this.applyOne(shortlist.get(i), adjustment));
         }
         return adjusted;
     }
@@ -54,16 +78,9 @@ public class ScoreAdjustmentApplier {
      * @param profile what the user is known to enjoy
      * @return the result with any clamped adjustment applied
      */
-    private ScoredMedia adjustOne(final ScoredMedia scored, final TasteProfile profile) {
-        Adjustment adjustment;
-        try {
-            adjustment = this.adjuster.adjust(scored.getMedia(), profile);
-        }
-        catch (ScoreAdjustmentException ex) {
-            // The deterministic ranking is a complete answer on its own, so a
-            // failed adjuster is not worth failing the whole request over.
-            adjustment = Adjustment.NONE;
-        }
+    private ScoredMedia applyOne(final ScoredMedia scored, final Adjustment adjustment) {
+        // Clamped here, and again inside ClampingScoreAdjuster, which is the
+        // two places the algorithm document asks for.
         final double clamped = Math.max(-MAX_ADJUSTMENT,
                 Math.min(MAX_ADJUSTMENT, adjustment.getDelta()));
         return scored.withAdjustment(clamped, adjustment.getExplanation());

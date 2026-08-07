@@ -1,5 +1,8 @@
 package use_case.recommendation;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import entity.Media;
 import entity.recommendation.TasteProfile;
 
@@ -27,4 +30,36 @@ public interface ScoreAdjuster {
      * @throws ScoreAdjustmentException if no usable adjustment could be produced
      */
     Adjustment adjust(Media candidate, TasteProfile tasteProfile);
+
+    /**
+     * Suggests a shift for every candidate on the shortlist at once.
+     *
+     * Asking about the whole shortlist in one go is what keeps this step
+     * affordable. Adjusting a ten title list one at a time meant a dozen
+     * separate round trips, which took twenty seconds and tripped rate limits
+     * badly enough that some titles came back with no explanation at all.
+     *
+     * The default implementation asks about each candidate in turn, so an
+     * adjuster with nothing to gain from batching need not implement it. A
+     * candidate whose adjustment cannot be produced gets Adjustment.NONE, so
+     * one failure never costs the whole shortlist.
+     *
+     * @param candidates the shortlist, in ranked order
+     * @param tasteProfile what the user is known to enjoy
+     * @return one adjustment per candidate, in the same order
+     */
+    default List<Adjustment> adjustAll(List<Media> candidates, TasteProfile tasteProfile) {
+        final List<Adjustment> adjustments = new ArrayList<>();
+        for (final Media candidate : candidates) {
+            Adjustment adjustment;
+            try {
+                adjustment = adjust(candidate, tasteProfile);
+            }
+            catch (ScoreAdjustmentException exception) {
+                adjustment = Adjustment.NONE;
+            }
+            adjustments.add(adjustment);
+        }
+        return adjustments;
+    }
 }

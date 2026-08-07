@@ -6,6 +6,8 @@ import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.time.Duration;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.stream.Collectors;
 
 import com.fasterxml.jackson.databind.JsonNode;
@@ -112,6 +114,119 @@ public class GeminiScoreAdjuster implements ScoreAdjuster {
     }
 
     /**
+     * Asks about the whole shortlist in one request.
+     *
+     * One round trip instead of one per title. Asking separately took about
+     * twenty seconds for a ten title list and hit the free tier hard enough
+     * that some titles lost their explanation entirely.
+     *
+     * A failure here costs no more than the explanations: every candidate falls
+     * back to no adjustment, so the deterministic ranking still stands.
+     */
+    @Override
+    public List<Adjustment> adjustAll(List<Media> candidates, TasteProfile tasteProfile) {
+        final List<Adjustment> adjustments = new ArrayList<>();
+
+        if (!isConfigured() || candidates.isEmpty()) {
+            for (int i = 0; i < candidates.size(); i++) {
+                adjustments.add(Adjustment.NONE);
+            }
+            return adjustments;
+        }
+
+        try {
+            final String reply = send(buildBatchPrompt(candidates, tasteProfile));
+            return parseBatch(reply, candidates.size());
+        }
+        catch (IOException | InterruptedException | RuntimeException exception) {
+            if (exception instanceof InterruptedException) {
+                Thread.currentThread().interrupt();
+            }
+            for (int i = 0; i < candidates.size(); i++) {
+                adjustments.add(Adjustment.NONE);
+            }
+            return adjustments;
+        }
+    }
+
+    private String buildBatchPrompt(List<Media> candidates, TasteProfile tasteProfile) {
+        final StringBuilder titles = new StringBuilder();
+        for (int i = 0; i < candidates.size(); i++) {
+            final Media candidate = candidates.get(i);
+            titles.append(i).append(". ").append(candidate.getTitle())
+                    .append(" (").append(candidate.getReleaseYear()).append("), genres: ")
+                    .append(orNone(namesOf(candidate.getGenres())))
+                    .append(", audience rating ").append(candidate.getAverageRating())
+                    .append("/10\n");
+        }
+
+        return "You are refining film recommendations already ranked by a deterministic "
+                + "formula. Do not re-rank them yourself.\n\n"
+                + "The viewer tends to enjoy these genres: "
+                + orNone(namesOf(tasteProfile.getGenres())) + ".\n\n"
+                + "Candidates:\n" + titles + "\n"
+                + "For each candidate, considering nuance the formula cannot see such as tone "
+                + "or theme, reply with strict JSON and nothing else, one entry per candidate "
+                + "in the same order:\n"
+                + "{\"adjustments\":[{\"index\": <number>, \"delta\": <between -0.05 and 0.05>, "
+                + "\"explanation\": \"<one short sentence>\"}]}";
+    }
+
+    /**
+     * Reads a batch reply, keeping every candidate lined up with its own entry.
+     */
+    private List<Adjustment> parseBatch(String reply, int expected) throws IOException {
+        final List<Adjustment> adjustments = new ArrayList<>();
+        for (int i = 0; i < expected; i++) {
+            adjustments.add(Adjustment.NONE);
+        }
+
+        final JsonNode parsed = objectMapper.readTree(extractJson(reply));
+        for (JsonNode entry : parsed.path("adjustments")) {
+            final int index = entry.path("index").asInt(-1);
+            // An index outside the shortlist is ignored rather than trusted, so
+            // a strange reply cannot touch a candidate that was never offered.
+            if (index >= 0 && index < expected) {
+                adjustments.set(index, toAdjustment(entry));
+            }
+        }
+        return adjustments;
+    }
+
+    private Adjustment toAdjustment(JsonNode entry) {
+        String explanation = entry.path("explanation").asText("");
+        if (explanation.length() > MAX_EXPLANATION_LENGTH) {
+            explanation = explanation.substring(0, MAX_EXPLANATION_LENGTH);
+        }
+        final double delta = entry.path("delta").asDouble(0.0);
+        return new Adjustment(
+                Math.max(-MAX_ADJUSTMENT, Math.min(MAX_ADJUSTMENT, delta)), explanation);
+    }
+
+    /**
+     * Pulls the JSON object out of a reply.
+     *
+     * Models routinely wrap it in a code fence or a sentence, so the object is
+     * located rather than assumed to be the whole string.
+     */
+    private String extractJson(String reply) throws IOException {
+        final JsonNode root = objectMapper.readTree(reply);
+        final String text = root.path("candidates").path(0)
+                .path("content").path("parts").path(0).path("text").asText();
+
+        final int start = text.indexOf('{');
+        final int end = text.lastIndexOf('}');
+        if (start < 0 || end <= start) {
+            throw new IOException("Gemini did not return a JSON object.");
+        }
+        return text.substring(start, end + 1);
+    }
+
+    private String namesOf(java.util.Collection<Genre> genres) {
+        return genres.stream().map(Genre::getName).collect(Collectors.joining(", "));
+    }
+
+    /**
      * Describes the candidate and the user's taste, and asks for exactly the two
      * values the algorithm allows this step to contribute.
      */
@@ -177,17 +292,7 @@ public class GeminiScoreAdjuster implements ScoreAdjuster {
      * than assumed to be the whole string.
      */
     private Adjustment parse(String reply) throws IOException {
-        final JsonNode root = objectMapper.readTree(reply);
-        final String text = root.path("candidates").path(0)
-                .path("content").path("parts").path(0).path("text").asText();
-
-        final int start = text.indexOf('{');
-        final int end = text.lastIndexOf('}');
-        if (start < 0 || end <= start) {
-            throw new IOException("Gemini did not return a JSON object.");
-        }
-
-        final JsonNode parsed = objectMapper.readTree(text.substring(start, end + 1));
+        final JsonNode parsed = objectMapper.readTree(extractJson(reply));
         final double delta = parsed.path("delta").asDouble(0.0);
         String explanation = parsed.path("explanation").asText("");
 
