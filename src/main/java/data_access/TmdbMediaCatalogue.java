@@ -118,7 +118,9 @@ public class TmdbMediaCatalogue implements MediaCatalogueDataAccessInterface {
                 toGenres(item.path(GENRE_IDS_FIELD)),
                 item.path(ORIGINAL_LANGUAGE_FIELD).asText(),
                 new ArrayList<>(),
-                0);
+                0,
+                item.path("overview").asText(""),
+                item.path("poster_path").asText(""));
     }
 
     private TVShow toTvSummary(JsonNode item) {
@@ -131,7 +133,9 @@ public class TmdbMediaCatalogue implements MediaCatalogueDataAccessInterface {
                 item.path(ORIGINAL_LANGUAGE_FIELD).asText(),
                 new ArrayList<>(),
                 0,
-                0);
+                0,
+                item.path("overview").asText(""),
+                item.path("poster_path").asText(""));
     }
 
     private Movie toMovie(JsonNode details) {
@@ -147,7 +151,9 @@ public class TmdbMediaCatalogue implements MediaCatalogueDataAccessInterface {
                 genres,
                 details.path(ORIGINAL_LANGUAGE_FIELD).asText(),
                 new ArrayList<>(),
-                details.path("runtime").asInt());
+                details.path("runtime").asInt(),
+                details.path("overview").asText(""),
+                details.path("poster_path").asText(""));
     }
 
     /** Turns TMDB's genre ids into genres, naming them where possible. */

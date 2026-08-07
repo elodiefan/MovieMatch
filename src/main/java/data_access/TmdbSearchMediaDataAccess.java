@@ -33,6 +33,8 @@ public class TmdbSearchMediaDataAccess
 
     private final TmdbApiClient tmdbApiClient;
     private final ObjectMapper objectMapper;
+    private static final String OVERVIEW_FIELD = "overview";
+    private static final String POSTER_PATH_FIELD = "poster_path";
 
     /**
      * Creates a data access object that searches TMDB through client
@@ -45,8 +47,11 @@ public class TmdbSearchMediaDataAccess
     }
 
     /**
-     * Searches TMDB for movies and TV shows matching a keyword.
+     * Searches TMDB for movies.json and TV shows matching a keyword.
      * Externally connected to search interactor, checking input/output and handling exceptions.
+     *
+     * @param keyword keyword entered by the user
+     * @return matching movies.json and TV shows
      */
     @Override
     public List<Media> search(String keyword) {
@@ -144,6 +149,12 @@ public class TmdbSearchMediaDataAccess
         final int runtime =
                 details.path("runtime").asInt();
 
+        final String overview =
+                details.path(OVERVIEW_FIELD).asText("");
+
+        final String posterPath =
+                details.path(POSTER_PATH_FIELD).asText("");
+
         return new Movie(
                 id,
                 title,
@@ -152,7 +163,9 @@ public class TmdbSearchMediaDataAccess
                 genres,
                 language,
                 cast,
-                runtime
+                runtime,
+                overview,
+                posterPath
         );
     }
 
@@ -187,6 +200,12 @@ public class TmdbSearchMediaDataAccess
         final int numberOfEpisodes =
                 details.path("number_of_episodes").asInt();
 
+        final String overview =
+                details.path(OVERVIEW_FIELD).asText("");
+
+        final String posterPath =
+                details.path(POSTER_PATH_FIELD).asText("");
+
         return new TVShow(
                 id,
                 title,
@@ -196,7 +215,9 @@ public class TmdbSearchMediaDataAccess
                 language,
                 cast,
                 numberOfSeasons,
-                numberOfEpisodes
+                numberOfEpisodes,
+                overview,
+                posterPath
         );
     }
 

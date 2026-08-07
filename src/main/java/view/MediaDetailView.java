@@ -1,17 +1,29 @@
 package view;
 
-import java.util.function.Function;
-import java.util.function.Supplier;
-
+import java.awt.BorderLayout;
 import java.awt.Component;
+import java.awt.Dimension;
+import java.awt.FlowLayout;
+import java.awt.Image;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.net.MalformedURLException;
+import java.net.URI;
+import java.util.concurrent.ExecutionException;
+import java.util.function.Function;
+import java.util.function.Supplier;
+import java.util.stream.Collectors;
 
+import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JTextArea;
+import javax.swing.SwingWorker;
 
+import entity.Genre;
 import interface_adapter.comments.CommentsController;
 import interface_adapter.comments.CommentsViewModel;
 import interface_adapter.log_media.LogMediaController;
@@ -28,6 +40,12 @@ import interface_adapter.media_reviews.MediaReviewsViewModel;
  */
 public class MediaDetailView extends JPanel implements PropertyChangeListener {
 
+    private static final String POSTER_BASE_URL =
+            "https://image.tmdb.org/t/p/w342";
+    private static final int POSTER_WIDTH = 140;
+    private static final int POSTER_HEIGHT = 210;
+    private static final int DETAIL_GAP = 12;
+
     private final String viewName = MediaDetailViewModel.VIEW_NAME;
 
     private final MediaDetailViewModel mediaDetailViewModel;
@@ -38,6 +56,8 @@ public class MediaDetailView extends JPanel implements PropertyChangeListener {
     private final JLabel ratingLabel;
     private final JLabel genreLabel;
     private final JLabel languageLabel;
+    private final JTextArea overviewTextArea;
+    private final JLabel posterLabel;
     private final MediaReviewsPanel mediaReviewsPanel;
 
     /** How this screen finds out who is signed in. */
@@ -69,7 +89,7 @@ public class MediaDetailView extends JPanel implements PropertyChangeListener {
         final JLabel pageTitle =
                 new JLabel(MediaDetailViewModel.TITLE_LABEL);
 
-        pageTitle.setAlignmentX(Component.CENTER_ALIGNMENT);
+        pageTitle.setAlignmentX(Component.LEFT_ALIGNMENT);
 
         titleLabel = new JLabel();
 
@@ -80,6 +100,20 @@ public class MediaDetailView extends JPanel implements PropertyChangeListener {
         genreLabel = new JLabel();
 
         languageLabel = new JLabel();
+
+        overviewTextArea = new JTextArea(5, 42);
+        overviewTextArea.setEditable(false);
+        overviewTextArea.setLineWrap(true);
+        overviewTextArea.setWrapStyleWord(true);
+        overviewTextArea.setOpaque(false);
+        overviewTextArea.setAlignmentX(Component.LEFT_ALIGNMENT);
+
+        posterLabel = new JLabel();
+        posterLabel.setPreferredSize(
+                new Dimension(POSTER_WIDTH, POSTER_HEIGHT)
+        );
+        posterLabel.setHorizontalAlignment(JLabel.CENTER);
+        posterLabel.setVerticalAlignment(JLabel.TOP);
 
         errorLabel = new JLabel();
         logMediaLabel = new JLabel();
@@ -103,24 +137,54 @@ public class MediaDetailView extends JPanel implements PropertyChangeListener {
         this.setLayout(
                 new BoxLayout(this, BoxLayout.Y_AXIS)
         );
+        this.setBorder(
+                BorderFactory.createEmptyBorder(
+                        DETAIL_GAP,
+                        DETAIL_GAP,
+                        DETAIL_GAP,
+                        DETAIL_GAP
+                )
+        );
 
         this.add(pageTitle);
 
-        this.add(titleLabel);
+        final JPanel informationPanel = new JPanel();
+        informationPanel.setLayout(
+                new BoxLayout(informationPanel, BoxLayout.Y_AXIS)
+        );
+        informationPanel.setAlignmentX(Component.LEFT_ALIGNMENT);
+        titleLabel.setAlignmentX(Component.LEFT_ALIGNMENT);
+        releaseYearLabel.setAlignmentX(Component.LEFT_ALIGNMENT);
+        ratingLabel.setAlignmentX(Component.LEFT_ALIGNMENT);
+        genreLabel.setAlignmentX(Component.LEFT_ALIGNMENT);
+        languageLabel.setAlignmentX(Component.LEFT_ALIGNMENT);
+        informationPanel.add(titleLabel);
+        informationPanel.add(releaseYearLabel);
+        informationPanel.add(ratingLabel);
+        informationPanel.add(genreLabel);
+        informationPanel.add(languageLabel);
+        informationPanel.add(overviewTextArea);
 
-        this.add(releaseYearLabel);
+        final JPanel actionPanel =
+                new JPanel(new FlowLayout(FlowLayout.LEFT, 0, 0));
+        actionPanel.setAlignmentX(Component.LEFT_ALIGNMENT);
+        actionPanel.add(watchlistButton);
+        actionPanel.add(watchHistoryButton);
+        informationPanel.add(actionPanel);
+        informationPanel.add(logMediaLabel);
 
-        this.add(ratingLabel);
+        final JPanel detailHeaderPanel =
+                new JPanel(new BorderLayout(DETAIL_GAP, 0));
+        detailHeaderPanel.setAlignmentX(Component.LEFT_ALIGNMENT);
+        detailHeaderPanel.setBorder(
+                BorderFactory.createEmptyBorder(
+                        DETAIL_GAP, 0, DETAIL_GAP, 0
+                )
+        );
+        detailHeaderPanel.add(posterLabel, BorderLayout.WEST);
+        detailHeaderPanel.add(informationPanel, BorderLayout.CENTER);
 
-        this.add(genreLabel);
-
-        this.add(languageLabel);
-
-        this.add(watchlistButton);
-
-        this.add(watchHistoryButton);
-
-        this.add(logMediaLabel);
+        this.add(detailHeaderPanel);
 
         this.add(mediaReviewsPanel);
 
@@ -198,7 +262,8 @@ public class MediaDetailView extends JPanel implements PropertyChangeListener {
 
         if (evt.getSource() == logMediaViewModel) {
             updateLogMediaStatus((LogMediaState) evt.getNewValue());
-        } else {
+        }
+        else {
             updateMediaDetails((MediaDetailState) evt.getNewValue());
         }
     }
@@ -216,21 +281,89 @@ public class MediaDetailView extends JPanel implements PropertyChangeListener {
                         + state.getAverageRating());
 
         genreLabel.setText(
-                "Genres: "
-                        + state.getGenres());
+                "Genres: " + state.getGenres().stream()
+                        .map(Genre::getName)
+                        .collect(Collectors.joining(", "))
+        );
 
         languageLabel.setText(
                 "Language: "
                         + state.getLanguage());
 
+        overviewTextArea.setText(
+                "Overview: " + state.getOverview());
+        overviewTextArea.setCaretPosition(0);
+
+        updatePoster(state.getPosterPath());
+
         errorLabel.setText(state.getMediaDetailError());
+    }
+
+    private void updatePoster(String posterPath) {
+        posterLabel.setIcon(null);
+
+        if (posterPath == null || posterPath.isEmpty()) {
+            posterLabel.setText("Poster unavailable.");
+            return;
+        }
+
+        posterLabel.setText("Loading poster...");
+
+        new SwingWorker<ImageIcon, Void>() {
+            @Override
+            protected ImageIcon doInBackground() {
+                try {
+                    final ImageIcon original =
+                            new ImageIcon(URI.create(
+                                    POSTER_BASE_URL + posterPath
+                            ).toURL());
+                    if (original.getIconWidth() <= 0) {
+                        return null;
+                    }
+                    final Image scaled = original.getImage().getScaledInstance(
+                            POSTER_WIDTH,
+                            POSTER_HEIGHT,
+                            Image.SCALE_SMOOTH
+                    );
+                    return new ImageIcon(scaled);
+                }
+                catch (MalformedURLException | IllegalArgumentException
+                       exception) {
+                    return null;
+                }
+            }
+
+            @Override
+            protected void done() {
+                if (!posterPath.equals(
+                        mediaDetailViewModel.getState().getPosterPath())) {
+                    return;
+                }
+
+                try {
+                    final ImageIcon poster = get();
+                    posterLabel.setIcon(poster);
+                    posterLabel.setText(
+                            poster == null ? "Poster unavailable." : ""
+                    );
+                }
+                catch (InterruptedException exception) {
+                    Thread.currentThread().interrupt();
+                    posterLabel.setText("Poster unavailable.");
+                }
+                catch (ExecutionException exception) {
+                    posterLabel.setText("Poster unavailable.");
+                }
+            }
+        }.execute();
     }
 
     private void updateLogMediaStatus(LogMediaState state) {
         final String statusText;
         if (state.getError() == null || state.getError().isEmpty()) {
             statusText = state.getMessage();
-        } else {
+        }
+        else {
             statusText = state.getError();
         }
         logMediaLabel.setText(statusText);

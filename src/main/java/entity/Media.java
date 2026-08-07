@@ -54,4 +54,18 @@ public interface Media {
      * Gets the type of this media.
      */
     MediaType getMediaType();
+
+    /**
+     * Gets the overview of this media.
+     *
+     * @return the media overview
+     */
+    String getOverview();
+
+    /**
+     * Gets the TMDB poster path of this media.
+     *
+     * @return the poster path, or an empty string if unavailable
+     */
+    String getPosterPath();
 }
