@@ -7,10 +7,10 @@ package use_case.access_message_chat;
 public interface AccessMessageChatMessageDataAccessInterface {
 
     /**
-     * Gets the messages for the chat between two users.
-     * @param username username for current user
-     * @param otherUsername username for other user
-     * @return messages as a string
+     * Gets the entire chat history between the two users.
+     * @param username the username of the current user
+     * @param otherUsername the username of the other user
+     * @return chat history as String
      */
-    String getChatHistory(String username, String otherUsername);
+    String getNewMessages(String username, String otherUsername);
 }

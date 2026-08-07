@@ -29,18 +29,13 @@ public class SendMessageInteractor implements SendMessageInputBoundary {
         final String body = sendMessageInputData.getBody();
         final LocalDateTime date = sendMessageInputData.getDate();
 
+        final Message message = new Message(username, otherUsername, body, date);
         if (!messageDataAccessObject.chatExists(username, otherUsername)) {
-            final Message message = new Message(username, otherUsername, body, date);
-            messageDataAccessObject.createChat(message);
-            final SendMessageOutputData sendMessageOutputData = new SendMessageOutputData(username, body, false);
-            userPresenter.prepareSendMessageSuccessView(sendMessageOutputData);
+            messageDataAccessObject.createChat(username, otherUsername);
         }
-        else {
-            final Message message = new Message(username, otherUsername, body, date);
-            messageDataAccessObject.addMessage(message);
-            final SendMessageOutputData sendMessageOutputData = new SendMessageOutputData(username, body, false);
-            userPresenter.prepareSendMessageSuccessView(sendMessageOutputData);
-        }
+        messageDataAccessObject.addMessage(message);
+        final SendMessageOutputData sendMessageOutputData = new SendMessageOutputData(username, body, false);
+        userPresenter.prepareSendMessageSuccessView(sendMessageOutputData);
     }
 
     @Override

@@ -14,6 +14,12 @@ public class MongoDataCleaning {
     private static final int INDEX_OF_DATE = 10;
     private static final String NEW_LINE = "\n";
 
+    private static final String SENDER = "sender";
+    private static final String BODY = "body";
+    private static final String TIMESTAMP = "timestamp";
+    private static final int INDEX_OF_START_TIME = 11;
+    private static final int INDEX_OF_END_TIME = 19;
+
     /**
      * Takes in raw MongoDB watchlist data and converts it to a String for a UserList watchlist.
      * @param watchlist the list of MongoDb Documents with watchlist data.
@@ -22,7 +28,7 @@ public class MongoDataCleaning {
     public static String convertWatchlistToString(List<Document> watchlist) {
         final StringBuilder userWatchlist = new StringBuilder();
         for (Document mediaToWatch : watchlist) {
-            final String date = formatDate(mediaToWatch.get(ADDED_AT, String.class));
+            final String date = formatDate(mediaToWatch.get(ADDED_AT, String.class), 0, INDEX_OF_DATE);
             userWatchlist.append(mediaToWatch.get(MEDIA_TITLE, String.class));
             userWatchlist.append("-- ");
             userWatchlist.append(date);
@@ -39,7 +45,7 @@ public class MongoDataCleaning {
     public static String convertWatchHistoryToString(List<Document> watchHistory) {
         final StringBuilder userWatchHistory = new StringBuilder();
         for (Document mediaWatched: watchHistory) {
-            final String date = formatDate(mediaWatched.get(ADDED_AT, String.class));
+            final String date = formatDate(mediaWatched.get(ADDED_AT, String.class), 0, INDEX_OF_DATE);
             userWatchHistory.append(mediaWatched.get(MEDIA_TITLE, String.class));
             userWatchHistory.append("-- ");
             userWatchHistory.append(date);
@@ -64,12 +70,27 @@ public class MongoDataCleaning {
 
     /**
      * Formats raw MongoDB date data as a shortened String for output.
-     * @param rawDateData
+     * @param rawDateData data in raw form
+     * @param start start index
+     * @param end end index
      * @return the data as a shortened String.
      */
-    public static String formatDate(String rawDateData) {
+    public static String formatDate(String rawDateData, int start, int end) {
         // "2026-07-01T09:07:00-04:00"
-        return rawDateData.substring(0, INDEX_OF_DATE);
+        return rawDateData.substring(start, end);
+    }
 
+    public static String formatChat(List<Document> chatHistory) {
+        final StringBuilder formattedChat = new StringBuilder();
+        for (Document message: chatHistory) {
+            final String date = formatDate(message.get(ADDED_AT, String.class), 0, INDEX_OF_DATE);
+            final String time = formatDate(message.get(ADDED_AT, String.class), INDEX_OF_START_TIME, INDEX_OF_END_TIME);
+            formattedChat.append(message.get(SENDER, String.class));
+            formattedChat.append(" - ");
+            formattedChat.append(message.get(BODY, String.class));
+            formattedChat.append("(" + date + ", " + time + ")");
+            formattedChat.append(NEW_LINE);
+        }
+        return formattedChat.toString();
     }
 }

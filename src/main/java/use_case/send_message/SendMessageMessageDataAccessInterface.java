@@ -14,9 +14,10 @@ public interface SendMessageMessageDataAccessInterface {
 
     /**
      * Creates a new chatroom to add message logs.
-     * @param message message being sent and added to new chat
+     * @param username username of current user
+     * @param otherUsername username of other user
      */
-    void createChat(Message message);
+    void createChat(String username, String otherUsername);
 
     /**
      * Adds a message log to an existing chatroom.
