@@ -31,12 +31,12 @@ public class MongoDataCleaning {
         if (watchlist != null) {
             for (Document mediaToWatch : watchlist) {
                 final String date = formatDate(mediaToWatch.get(ADDED_AT, String.class), 0, INDEX_OF_DATE);
-                userWatchlist.append(mediaToWatch.get(MEDIA_TITLE,
-                        String.class));
+                userWatchlist.append(mediaToWatch.get(MEDIA_TITLE, String.class));
                 userWatchlist.append(" -- ");
                 userWatchlist.append(date);
                 userWatchlist.append(NEW_LINE);
             }
+        }
         return userWatchlist.toString();
     }
 
@@ -87,10 +87,12 @@ public class MongoDataCleaning {
         final String date;
         if (rawDateData == null || rawDateData.length() < end) {
             date = "";
-        } else {
+        }
+        else {
             date = rawDateData.substring(start, INDEX_OF_DATE);
         }
         return date;
+    }
 
     public static String formatChat(List<Document> chatHistory) {
         final StringBuilder formattedChat = new StringBuilder();
