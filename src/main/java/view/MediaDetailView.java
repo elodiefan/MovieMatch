@@ -3,12 +3,14 @@ package view;
 import java.awt.Component;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.util.stream.Collectors;
 
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+import entity.Genre;
 import interface_adapter.comments.CommentsController;
 import interface_adapter.comments.CommentsViewModel;
 import interface_adapter.log_media.LogMediaController;
@@ -163,7 +165,8 @@ public class MediaDetailView extends JPanel implements PropertyChangeListener {
     public void propertyChange(PropertyChangeEvent evt) {
         if (evt.getSource() == logMediaViewModel) {
             updateLogMediaStatus((LogMediaState) evt.getNewValue());
-        } else {
+        }
+        else {
             updateMediaDetails((MediaDetailState) evt.getNewValue());
         }
     }
@@ -181,8 +184,10 @@ public class MediaDetailView extends JPanel implements PropertyChangeListener {
                         + state.getAverageRating());
 
         genreLabel.setText(
-                "Genres: "
-                        + state.getGenres());
+                "Genres: " + state.getGenres().stream()
+                        .map(Genre::getName)
+                        .collect(Collectors.joining(", "))
+        );
 
         languageLabel.setText(
                 "Language: "
@@ -195,7 +200,8 @@ public class MediaDetailView extends JPanel implements PropertyChangeListener {
         final String statusText;
         if (state.getError() == null || state.getError().isEmpty()) {
             statusText = state.getMessage();
-        } else {
+        }
+        else {
             statusText = state.getError();
         }
         logMediaLabel.setText(statusText);

@@ -1,0 +1,1637 @@
+[ {
+  "id" : 94997,
+  "title" : "House of the Dragon",
+  "releaseYear" : 2022,
+  "averageRating" : 8.384,
+  "genres" : [ {
+    "id" : 10765,
+    "name" : "Sci-Fi & Fantasy"
+  }, {
+    "id" : 18,
+    "name" : "Drama"
+  }, {
+    "id" : 10759,
+    "name" : "Action & Adventure"
+  } ],
+  "language" : "en",
+  "cast" : [ "Matt Smith", "Emma D'Arcy", "Olivia Cooke", "James Norton", "Steve Toussaint", "Fabien Frankel", "Matthew Needham", "Sonoya Mizuno", "Tom Glynn-Carney", "Ewan Mitchell", "Harry Collett", "Phia Saban", "Bethany Antonia", "Jefferson Hall", "Abubakar Salim", "Clinton Liberty", "Phoebe Campbell", "Kurt Egyiawan", "Freddie Fox", "Gayle Rankin", "Kieran Bew", "Tom Bennett", "Joplin Sibtain" ],
+  "numberOfSeasons" : 3,
+  "numberOfEpisodes" : 26
+}, {
+  "id" : 233643,
+  "title" : "Secret Mission - Undercover Agents Never Back Down!",
+  "releaseYear" : 2023,
+  "averageRating" : 6.2,
+  "genres" : [ {
+    "id" : 16,
+    "name" : "Animation"
+  } ],
+  "language" : "ja",
+  "cast" : [ "Sahomi Koyama", "Jun Osuka" ],
+  "numberOfSeasons" : 1,
+  "numberOfEpisodes" : 8
+}, {
+  "id" : 5920,
+  "title" : "The Mentalist",
+  "releaseYear" : 2008,
+  "averageRating" : 8.374,
+  "genres" : [ {
+    "id" : 80,
+    "name" : "Crime"
+  }, {
+    "id" : 18,
+    "name" : "Drama"
+  }, {
+    "id" : 9648,
+    "name" : "Mystery"
+  } ],
+  "language" : "en",
+  "cast" : [ "Simon Baker", "Robin Tunney", "Tim Kang", "Rockmond Dunbar", "Joe Adler", "Josie Loren" ],
+  "numberOfSeasons" : 7,
+  "numberOfEpisodes" : 151
+}, {
+  "id" : 2734,
+  "title" : "Law & Order: Special Victims Unit",
+  "releaseYear" : 1999,
+  "averageRating" : 7.959,
+  "genres" : [ {
+    "id" : 80,
+    "name" : "Crime"
+  }, {
+    "id" : 18,
+    "name" : "Drama"
+  }, {
+    "id" : 9648,
+    "name" : "Mystery"
+  } ],
+  "language" : "en",
+  "cast" : [ "Mariska Hargitay", "Ice-T", "Kelli Giddish", "Peter Scanavino", "Aimé Donna Kelly", "Kevin Kane", "Corey Cott" ],
+  "numberOfSeasons" : 28,
+  "numberOfEpisodes" : 595
+}, {
+  "id" : 79744,
+  "title" : "The Rookie",
+  "releaseYear" : 2018,
+  "averageRating" : 8.547,
+  "genres" : [ {
+    "id" : 80,
+    "name" : "Crime"
+  }, {
+    "id" : 18,
+    "name" : "Drama"
+  }, {
+    "id" : 35,
+    "name" : "Comedy"
+  } ],
+  "language" : "en",
+  "cast" : [ "Nathan Fillion", "Melissa O'Neil", "Eric Winter", "Alyssa Diaz", "Mekia Cox", "Richard T. Jones", "Shawn Ashmore", "Jenna Dewan", "Lisseth Chavez", "Deric Augustine" ],
+  "numberOfSeasons" : 9,
+  "numberOfEpisodes" : 144
+}, {
+  "id" : 113962,
+  "title" : "Lioness",
+  "releaseYear" : 2023,
+  "averageRating" : 8.015,
+  "genres" : [ {
+    "id" : 18,
+    "name" : "Drama"
+  }, {
+    "id" : 10768,
+    "name" : "War & Politics"
+  } ],
+  "language" : "en",
+  "cast" : [ "Zoe Saldaña", "Laysla De Oliveira", "Dave Annable", "Jill Wagner", "LaMonica Garrett", "James Jordan", "Genesis Rodriguez", "Michael Kelly", "Austin Hébert", "Jonah Wharton", "Hannah Love Lanier", "Nicole Kidman", "Morgan Freeman", "Ian Bohen", "Thad Luckinbill" ],
+  "numberOfSeasons" : 3,
+  "numberOfEpisodes" : 24
+}, {
+  "id" : 51025,
+  "title" : "Paradise Hotel",
+  "releaseYear" : 2005,
+  "averageRating" : 5.6,
+  "genres" : [ {
+    "id" : 10764,
+    "name" : "Reality"
+  } ],
+  "language" : "da",
+  "cast" : [ ],
+  "numberOfSeasons" : 22,
+  "numberOfEpisodes" : 992
+}, {
+  "id" : 65334,
+  "title" : "Miraculous: Tales of Ladybug & Cat Noir",
+  "releaseYear" : 2015,
+  "averageRating" : 8.058,
+  "genres" : [ {
+    "id" : 10759,
+    "name" : "Action & Adventure"
+  }, {
+    "id" : 16,
+    "name" : "Animation"
+  }, {
+    "id" : 10762,
+    "name" : "Kids"
+  } ],
+  "language" : "fr",
+  "cast" : [ "Anouck Hautbois", "Benjamin Bollen", "Marie Nonnenmacher", "Thierry Kazazian" ],
+  "numberOfSeasons" : 6,
+  "numberOfEpisodes" : 155
+}, {
+  "id" : 60625,
+  "title" : "Rick and Morty",
+  "releaseYear" : 2013,
+  "averageRating" : 8.681,
+  "genres" : [ {
+    "id" : 16,
+    "name" : "Animation"
+  }, {
+    "id" : 35,
+    "name" : "Comedy"
+  }, {
+    "id" : 10765,
+    "name" : "Sci-Fi & Fantasy"
+  }, {
+    "id" : 10759,
+    "name" : "Action & Adventure"
+  } ],
+  "language" : "en",
+  "cast" : [ "Chris Parnell", "Spencer Grammer", "Sarah Chalke", "Ian Cardoni", "Harry Belden" ],
+  "numberOfSeasons" : 9,
+  "numberOfEpisodes" : 91
+}, {
+  "id" : 1416,
+  "title" : "Grey's Anatomy",
+  "releaseYear" : 2005,
+  "averageRating" : 8.207,
+  "genres" : [ {
+    "id" : 18,
+    "name" : "Drama"
+  } ],
+  "language" : "en",
+  "cast" : [ "Ellen Pompeo", "Chandra Wilson", "James Pickens Jr.", "Caterina Scorsone", "Camilla Luddington", "Kevin McKidd", "Kim Raver", "Jason George", "Chris Carmack", "Anthony Hill", "Adelaide Kane", "Alexis Floyd", "Niko Terho", "Harry Shum Jr.", "Trevor Jackson" ],
+  "numberOfSeasons" : 23,
+  "numberOfEpisodes" : 466
+}, {
+  "id" : 1396,
+  "title" : "Breaking Bad",
+  "releaseYear" : 2008,
+  "averageRating" : 8.947,
+  "genres" : [ {
+    "id" : 18,
+    "name" : "Drama"
+  }, {
+    "id" : 80,
+    "name" : "Crime"
+  } ],
+  "language" : "en",
+  "cast" : [ "Bryan Cranston", "Aaron Paul", "Anna Gunn", "RJ Mitte", "Dean Norris", "Betsy Brandt", "Bob Odenkirk", "Jonathan Banks" ],
+  "numberOfSeasons" : 5,
+  "numberOfEpisodes" : 62
+}, {
+  "id" : 456,
+  "title" : "The Simpsons",
+  "releaseYear" : 1989,
+  "averageRating" : 8.02,
+  "genres" : [ {
+    "id" : 16,
+    "name" : "Animation"
+  }, {
+    "id" : 35,
+    "name" : "Comedy"
+  } ],
+  "language" : "en",
+  "cast" : [ "Dan Castellaneta", "Julie Kavner", "Nancy Cartwright", "Yeardley Smith", "Hank Azaria", "Harry Shearer" ],
+  "numberOfSeasons" : 38,
+  "numberOfEpisodes" : 802
+}, {
+  "id" : 549,
+  "title" : "Law & Order",
+  "releaseYear" : 1990,
+  "averageRating" : 7.286,
+  "genres" : [ {
+    "id" : 80,
+    "name" : "Crime"
+  }, {
+    "id" : 18,
+    "name" : "Drama"
+  } ],
+  "language" : "en",
+  "cast" : [ "Reid Scott", "Maura Tierney", "Tony Goldwyn", "Hugh Dancy", "Odelya Halevi" ],
+  "numberOfSeasons" : 26,
+  "numberOfEpisodes" : 545
+}, {
+  "id" : 125988,
+  "title" : "Silo",
+  "releaseYear" : 2023,
+  "averageRating" : 8.186,
+  "genres" : [ {
+    "id" : 10765,
+    "name" : "Sci-Fi & Fantasy"
+  }, {
+    "id" : 18,
+    "name" : "Drama"
+  } ],
+  "language" : "en",
+  "cast" : [ "Rebecca Ferguson", "Common", "Chinaza Uche", "Ashley Zukerman", "Shane McRae", "Remmie Milner", "Alexandria Riley", "Reed Birney", "Laura Innes", "Jessica Brown Findlay", "Billy Postlethwaite", "Morven Christie", "Matt Craven", "Tim Robbins" ],
+  "numberOfSeasons" : 4,
+  "numberOfEpisodes" : 30
+}, {
+  "id" : 4057,
+  "title" : "Criminal Minds",
+  "releaseYear" : 2005,
+  "averageRating" : 8.301,
+  "genres" : [ {
+    "id" : 80,
+    "name" : "Crime"
+  }, {
+    "id" : 18,
+    "name" : "Drama"
+  }, {
+    "id" : 9648,
+    "name" : "Mystery"
+  } ],
+  "language" : "en",
+  "cast" : [ "Joe Mantegna", "Paget Brewster", "Adam Rodriguez", "Kirsten Vangsness", "A.J. Cook", "Aisha Tyler", "Zach Gilford", "Ryan-James Hatanaka" ],
+  "numberOfSeasons" : 19,
+  "numberOfEpisodes" : 364
+}, {
+  "id" : 63770,
+  "title" : "The Late Show with Stephen Colbert",
+  "releaseYear" : 2015,
+  "averageRating" : 6.084,
+  "genres" : [ {
+    "id" : 35,
+    "name" : "Comedy"
+  }, {
+    "id" : 10767,
+    "name" : "Talk"
+  } ],
+  "language" : "en",
+  "cast" : [ "Stephen Colbert" ],
+  "numberOfSeasons" : 11,
+  "numberOfEpisodes" : 1816
+}, {
+  "id" : 1622,
+  "title" : "Supernatural",
+  "releaseYear" : 2005,
+  "averageRating" : 8.313,
+  "genres" : [ {
+    "id" : 18,
+    "name" : "Drama"
+  }, {
+    "id" : 9648,
+    "name" : "Mystery"
+  }, {
+    "id" : 10765,
+    "name" : "Sci-Fi & Fantasy"
+  } ],
+  "language" : "en",
+  "cast" : [ "Jared Padalecki", "Jensen Ackles", "Misha Collins" ],
+  "numberOfSeasons" : 15,
+  "numberOfEpisodes" : 327
+}, {
+  "id" : 4614,
+  "title" : "NCIS",
+  "releaseYear" : 2003,
+  "averageRating" : 7.607,
+  "genres" : [ {
+    "id" : 80,
+    "name" : "Crime"
+  }, {
+    "id" : 18,
+    "name" : "Drama"
+  }, {
+    "id" : 10759,
+    "name" : "Action & Adventure"
+  } ],
+  "language" : "en",
+  "cast" : [ ],
+  "numberOfSeasons" : 24,
+  "numberOfEpisodes" : 508
+}, {
+  "id" : 134764,
+  "title" : "The World of Hammer",
+  "releaseYear" : 1994,
+  "averageRating" : 6.75,
+  "genres" : [ {
+    "id" : 99,
+    "name" : "Documentary"
+  } ],
+  "language" : "en",
+  "cast" : [ "Oliver Reed" ],
+  "numberOfSeasons" : 1,
+  "numberOfEpisodes" : 13
+}, {
+  "id" : 124364,
+  "title" : "FROM",
+  "releaseYear" : 2022,
+  "averageRating" : 8.5,
+  "genres" : [ {
+    "id" : 9648,
+    "name" : "Mystery"
+  }, {
+    "id" : 18,
+    "name" : "Drama"
+  }, {
+    "id" : 10765,
+    "name" : "Sci-Fi & Fantasy"
+  } ],
+  "language" : "en",
+  "cast" : [ "Harold Perrineau", "Catalina Sandino Moreno", "Ricky He", "David Alpay", "Chloe Van Landschoot", "Hannah Cheramy", "Pegah Ghafoori", "Simon Webster", "Elizabeth Saunders", "Avery Konrad", "Julia Doyle", "Samantha Brown", "Scott McCord", "Corteon Moore", "A.J. Simmons", "Robert Joy", "Nathan D. Simmons", "Kaelen Ohm" ],
+  "numberOfSeasons" : 4,
+  "numberOfEpisodes" : 40
+}, {
+  "id" : 1408,
+  "title" : "House",
+  "releaseYear" : 2004,
+  "averageRating" : 8.566,
+  "genres" : [ {
+    "id" : 18,
+    "name" : "Drama"
+  } ],
+  "language" : "en",
+  "cast" : [ "Hugh Laurie", "Robert Sean Leonard", "Omar Epps", "Jesse Spencer", "Odette Annable", "Peter Jacobson", "Lo Mutuc" ],
+  "numberOfSeasons" : 8,
+  "numberOfEpisodes" : 176
+}, {
+  "id" : 1434,
+  "title" : "Family Guy",
+  "releaseYear" : 1999,
+  "averageRating" : 7.408,
+  "genres" : [ {
+    "id" : 16,
+    "name" : "Animation"
+  }, {
+    "id" : 35,
+    "name" : "Comedy"
+  } ],
+  "language" : "en",
+  "cast" : [ "Seth MacFarlane", "Alex Borstein", "Mila Kunis", "Seth Green", "Patrick Warburton", "Arif Zahir" ],
+  "numberOfSeasons" : 24,
+  "numberOfEpisodes" : 456
+}, {
+  "id" : 13436,
+  "title" : "Roots: The Next Generations",
+  "releaseYear" : 1979,
+  "averageRating" : 7.5,
+  "genres" : [ {
+    "id" : 18,
+    "name" : "Drama"
+  } ],
+  "language" : "en",
+  "cast" : [ ],
+  "numberOfSeasons" : 1,
+  "numberOfEpisodes" : 7
+}, {
+  "id" : 19215,
+  "title" : "Baseball",
+  "releaseYear" : 1994,
+  "averageRating" : 7.5,
+  "genres" : [ {
+    "id" : 99,
+    "name" : "Documentary"
+  } ],
+  "language" : "en",
+  "cast" : [ "John Chancellor", "Daniel Okrent", "Buck O'Neil", "Studs Terkel" ],
+  "numberOfSeasons" : 1,
+  "numberOfEpisodes" : 9
+}, {
+  "id" : 34307,
+  "title" : "Shameless",
+  "releaseYear" : 2011,
+  "averageRating" : 8.167,
+  "genres" : [ {
+    "id" : 18,
+    "name" : "Drama"
+  }, {
+    "id" : 35,
+    "name" : "Comedy"
+  } ],
+  "language" : "en",
+  "cast" : [ "William H. Macy", "Jeremy Allen White", "Ethan Cutkosky", "Shanola Hampton", "Steve Howey", "Emma Kenney", "Christian Isaiah", "Cameron Monaghan", "Noel Fisher", "Kate Miner" ],
+  "numberOfSeasons" : 11,
+  "numberOfEpisodes" : 134
+}, {
+  "id" : 276161,
+  "title" : "Teach You a Lesson",
+  "releaseYear" : 2026,
+  "averageRating" : 9.419,
+  "genres" : [ {
+    "id" : 10759,
+    "name" : "Action & Adventure"
+  }, {
+    "id" : 18,
+    "name" : "Drama"
+  }, {
+    "id" : 35,
+    "name" : "Comedy"
+  } ],
+  "language" : "ko",
+  "cast" : [ "Kim Moo-yul", "Lee Sung-min", "Jin Ki-joo", "Pyo Ji-hoon", "Kim Jong-soo", "Ahn Ha-young", "Lee Bong-joon" ],
+  "numberOfSeasons" : 1,
+  "numberOfEpisodes" : 10
+}, {
+  "id" : 299167,
+  "title" : "Dutton Ranch",
+  "releaseYear" : 2026,
+  "averageRating" : 9.2,
+  "genres" : [ {
+    "id" : 37,
+    "name" : "Western"
+  }, {
+    "id" : 18,
+    "name" : "Drama"
+  } ],
+  "language" : "en",
+  "cast" : [ "Kelly Reilly", "Cole Hauser", "Finn Little", "Juan Pablo Raba", "Jai Courtney", "J.R. Villarreal", "Marc Menchaca", "Natalie Alyn Lind", "Ed Harris", "Annette Bening" ],
+  "numberOfSeasons" : 1,
+  "numberOfEpisodes" : 9
+}, {
+  "id" : 273240,
+  "title" : "Off Campus",
+  "releaseYear" : 2026,
+  "averageRating" : 8.931,
+  "genres" : [ {
+    "id" : 18,
+    "name" : "Drama"
+  } ],
+  "language" : "en",
+  "cast" : [ "Ella Bright", "Belmont Cameli", "Mika Abdalla", "Stephen Kalyn", "Jalen Thomas Brooks", "Antonio Cipriano" ],
+  "numberOfSeasons" : 1,
+  "numberOfEpisodes" : 8
+}, {
+  "id" : 259837,
+  "title" : "The WONDERfools",
+  "releaseYear" : 2026,
+  "averageRating" : 8.905,
+  "genres" : [ {
+    "id" : 10759,
+    "name" : "Action & Adventure"
+  }, {
+    "id" : 35,
+    "name" : "Comedy"
+  }, {
+    "id" : 10765,
+    "name" : "Sci-Fi & Fantasy"
+  }, {
+    "id" : 18,
+    "name" : "Drama"
+  } ],
+  "language" : "ko",
+  "cast" : [ "Park Eun-bin", "Cha Eun-woo", "Choi Dae-hoon", "Im Sung-jae", "Kim Hae-sook", "Son Hyun-joo", "Bae Na-ra", "Jung Yi-seo", "Choi Yoon-ji" ],
+  "numberOfSeasons" : 1,
+  "numberOfEpisodes" : 8
+}, {
+  "id" : 209867,
+  "title" : "Frieren: Beyond Journey's End",
+  "releaseYear" : 2023,
+  "averageRating" : 8.802,
+  "genres" : [ {
+    "id" : 16,
+    "name" : "Animation"
+  }, {
+    "id" : 10759,
+    "name" : "Action & Adventure"
+  }, {
+    "id" : 18,
+    "name" : "Drama"
+  }, {
+    "id" : 10765,
+    "name" : "Sci-Fi & Fantasy"
+  } ],
+  "language" : "ja",
+  "cast" : [ "Atsumi Tanezaki", "Kana Ichinose", "Chiaki Kobayashi", "Nobuhiko Okamoto", "Hiroki Touchi", "Yoji Ueda" ],
+  "numberOfSeasons" : 1,
+  "numberOfEpisodes" : 38
+}, {
+  "id" : 85077,
+  "title" : "The Chosen",
+  "releaseYear" : 2019,
+  "averageRating" : 8.8,
+  "genres" : [ {
+    "id" : 10759,
+    "name" : "Action & Adventure"
+  }, {
+    "id" : 10751,
+    "name" : "Family"
+  }, {
+    "id" : 18,
+    "name" : "Drama"
+  } ],
+  "language" : "en",
+  "cast" : [ "Jonathan Roumie", "Shahar Isaac", "Elizabeth Tabish", "Paras Patel", "Noah James", "George H. Xanthis", "Abe Bueno-Jallad", "Joey Vahedi", "Giavani Cairo", "Jordan Walker Ross", "Shaan Sharma", "Kirk B.R. Woller", "Vanessa Benavente", "Austin Reed Alleman", "Alaa Safi", "Luke Dimyan", "Amber Shana Williams", "Lara Silva", "Nick Shakoour", "Ivan Jasso", "Elijah Alexander", "Reza Diako", "Brandon Potter" ],
+  "numberOfSeasons" : 6,
+  "numberOfEpisodes" : 47
+}, {
+  "id" : 246,
+  "title" : "Avatar: The Last Airbender",
+  "releaseYear" : 2005,
+  "averageRating" : 8.775,
+  "genres" : [ {
+    "id" : 16,
+    "name" : "Animation"
+  }, {
+    "id" : 10759,
+    "name" : "Action & Adventure"
+  }, {
+    "id" : 10765,
+    "name" : "Sci-Fi & Fantasy"
+  } ],
+  "language" : "en",
+  "cast" : [ "Zach Tyler Eisen", "Mae Whitman", "Jack De Sena", "Dante Basco", "Michaela Jill Murphy", "Dee Bradley Baker" ],
+  "numberOfSeasons" : 3,
+  "numberOfEpisodes" : 61
+}, {
+  "id" : 64010,
+  "title" : "Reply 1988",
+  "releaseYear" : 2015,
+  "averageRating" : 8.762,
+  "genres" : [ {
+    "id" : 35,
+    "name" : "Comedy"
+  } ],
+  "language" : "ko",
+  "cast" : [ "Lee Hye-ri", "Ryu Jun-yeol", "Park Bo-gum", "Go Kyung-pyo", "Lee Dong-hwi", "Ryu Hye-young", "Choi Seong-won", "Ahn Jae-hong", "Kim Seol", "Sung Dong-il", "Lee Il-hwa", "Kim Sung-kyun", "Ra Mi-ran", "Choi Mu-sung", "Kim Sun-young", "Yoo Jae-myung", "Lee Min-ji", "Lee Se-young", "Bae Yu-ram", "Lee Cheong-mi" ],
+  "numberOfSeasons" : 1,
+  "numberOfEpisodes" : 20
+}, {
+  "id" : 219246,
+  "title" : "When Life Gives You Tangerines",
+  "releaseYear" : 2025,
+  "averageRating" : 8.8,
+  "genres" : [ {
+    "id" : 18,
+    "name" : "Drama"
+  } ],
+  "language" : "ko",
+  "cast" : [ "IU", "Park Bo-gum", "Moon So-ri", "Park Hae-joon" ],
+  "numberOfSeasons" : 1,
+  "numberOfEpisodes" : 16
+}, {
+  "id" : 94605,
+  "title" : "Arcane",
+  "releaseYear" : 2021,
+  "averageRating" : 8.753,
+  "genres" : [ {
+    "id" : 16,
+    "name" : "Animation"
+  }, {
+    "id" : 10759,
+    "name" : "Action & Adventure"
+  }, {
+    "id" : 10765,
+    "name" : "Sci-Fi & Fantasy"
+  } ],
+  "language" : "en",
+  "cast" : [ "Hailee Steinfeld", "Ella Purnell" ],
+  "numberOfSeasons" : 2,
+  "numberOfEpisodes" : 18
+}, {
+  "id" : 301507,
+  "title" : "Heated Rivalry",
+  "releaseYear" : 2025,
+  "averageRating" : 8.746,
+  "genres" : [ {
+    "id" : 18,
+    "name" : "Drama"
+  } ],
+  "language" : "en",
+  "cast" : [ "Hudson Williams", "Connor Storrie", "François Arnaud" ],
+  "numberOfSeasons" : 1,
+  "numberOfEpisodes" : 6
+}, {
+  "id" : 37854,
+  "title" : "One Piece",
+  "releaseYear" : 1999,
+  "averageRating" : 8.751,
+  "genres" : [ {
+    "id" : 10759,
+    "name" : "Action & Adventure"
+  }, {
+    "id" : 35,
+    "name" : "Comedy"
+  }, {
+    "id" : 16,
+    "name" : "Animation"
+  } ],
+  "language" : "ja",
+  "cast" : [ "Mayumi Tanaka", "Kazuya Nakai", "Mari Yaguchi", "Akemi Okamura", "Kappei Yamaguchi", "Hiroaki Hirata", "Ikue Otani", "Yuriko Yamaguchi", "Kazuki Yao", "Katsuhisa Houki", "Cho", "Hideyuki Tanaka" ],
+  "numberOfSeasons" : 23,
+  "numberOfEpisodes" : 1181
+}, {
+  "id" : 250307,
+  "title" : "The Pitt",
+  "releaseYear" : 2025,
+  "averageRating" : 8.735,
+  "genres" : [ {
+    "id" : 18,
+    "name" : "Drama"
+  } ],
+  "language" : "en",
+  "cast" : [ "Noah Wyle", "Patrick Ball", "Katherine LaNasa", "Supriya Ganesh", "Fiona Dourif", "Taylor Dearden", "Isa Briones", "Gerran Howell", "Shabana Azeez", "Sepideh Moafi" ],
+  "numberOfSeasons" : 3,
+  "numberOfEpisodes" : 30
+}, {
+  "id" : 87108,
+  "title" : "Chernobyl",
+  "releaseYear" : 2019,
+  "averageRating" : 8.721,
+  "genres" : [ {
+    "id" : 18,
+    "name" : "Drama"
+  } ],
+  "language" : "en",
+  "cast" : [ "Jared Harris", "Stellan Skarsgård", "Emily Watson", "Paul Ritter", "Jessie Buckley", "Adam Nagaitis", "Sam Troughton", "Robert Emms", "Con O'Neill", "Adrian Rawlins", "Alan Williams", "David Dencik", "Mark Lewis Jones", "Ralph Ineson", "Barry Keoghan", "Alex Ferns", "Fares Fares", "Michael McElhatton" ],
+  "numberOfSeasons" : 1,
+  "numberOfEpisodes" : 5
+}, {
+  "id" : 31911,
+  "title" : "Fullmetal Alchemist: Brotherhood",
+  "releaseYear" : 2009,
+  "averageRating" : 8.716,
+  "genres" : [ {
+    "id" : 16,
+    "name" : "Animation"
+  }, {
+    "id" : 10759,
+    "name" : "Action & Adventure"
+  }, {
+    "id" : 10765,
+    "name" : "Sci-Fi & Fantasy"
+  }, {
+    "id" : 18,
+    "name" : "Drama"
+  } ],
+  "language" : "ja",
+  "cast" : [ "Romi Park", "Rie Kugimiya", "Shin-ichiro Miki", "Fumiko Orikasa", "Megumi Takamoto" ],
+  "numberOfSeasons" : 1,
+  "numberOfEpisodes" : 64
+}, {
+  "id" : 60059,
+  "title" : "Better Call Saul",
+  "releaseYear" : 2015,
+  "averageRating" : 8.71,
+  "genres" : [ {
+    "id" : 80,
+    "name" : "Crime"
+  }, {
+    "id" : 18,
+    "name" : "Drama"
+  } ],
+  "language" : "en",
+  "cast" : [ "Bob Odenkirk", "Jonathan Banks", "Rhea Seehorn", "Tony Dalton", "Giancarlo Esposito" ],
+  "numberOfSeasons" : 6,
+  "numberOfEpisodes" : 63
+}, {
+  "id" : 200709,
+  "title" : "Weak Hero",
+  "releaseYear" : 2022,
+  "averageRating" : 8.693,
+  "genres" : [ {
+    "id" : 10759,
+    "name" : "Action & Adventure"
+  }, {
+    "id" : 18,
+    "name" : "Drama"
+  } ],
+  "language" : "ko",
+  "cast" : [ "Park Ji-hoon", "Choi Hyun-wook", "Hong Kyung", "Ryeoun", "Choi Min-yeong", "Yoo Su-bin", "Cha Woo-min", "Bae Na-ra", "Lee Min-jae", "Lee Jun-young", "Cha Se-jin" ],
+  "numberOfSeasons" : 2,
+  "numberOfEpisodes" : 16
+}, {
+  "id" : 1429,
+  "title" : "Attack on Titan",
+  "releaseYear" : 2013,
+  "averageRating" : 8.684,
+  "genres" : [ {
+    "id" : 16,
+    "name" : "Animation"
+  }, {
+    "id" : 10765,
+    "name" : "Sci-Fi & Fantasy"
+  }, {
+    "id" : 10759,
+    "name" : "Action & Adventure"
+  } ],
+  "language" : "ja",
+  "cast" : [ "Marina Inoue", "Hiro Shimono", "Yuki Kaji", "Natsuki Hanae", "Ayane Sakura", "Kisho Taniyama", "Yui Ishikawa", "Yoshimasa Hosoya", "Takehito Koyasu" ],
+  "numberOfSeasons" : 4,
+  "numberOfEpisodes" : 87
+}, {
+  "id" : 138502,
+  "title" : "X-Men '97",
+  "releaseYear" : 2024,
+  "averageRating" : 8.7,
+  "genres" : [ {
+    "id" : 16,
+    "name" : "Animation"
+  }, {
+    "id" : 10759,
+    "name" : "Action & Adventure"
+  }, {
+    "id" : 10765,
+    "name" : "Sci-Fi & Fantasy"
+  } ],
+  "language" : "en",
+  "cast" : [ ],
+  "numberOfSeasons" : 2,
+  "numberOfEpisodes" : 19
+}, {
+  "id" : 1398,
+  "title" : "The Sopranos",
+  "releaseYear" : 1999,
+  "averageRating" : 8.673,
+  "genres" : [ {
+    "id" : 80,
+    "name" : "Crime"
+  }, {
+    "id" : 18,
+    "name" : "Drama"
+  } ],
+  "language" : "en",
+  "cast" : [ "James Gandolfini", "Edie Falco", "Jamie-Lynn Sigler", "Robert Iler", "Lorraine Bracco", "Michael Imperioli", "Steven Van Zandt", "Tony Sirico", "Dominic Chianese", "Aida Turturro", "Steve Schirripa" ],
+  "numberOfSeasons" : 6,
+  "numberOfEpisodes" : 86
+}, {
+  "id" : 92685,
+  "title" : "The Owl House",
+  "releaseYear" : 2020,
+  "averageRating" : 8.7,
+  "genres" : [ {
+    "id" : 16,
+    "name" : "Animation"
+  }, {
+    "id" : 10759,
+    "name" : "Action & Adventure"
+  }, {
+    "id" : 35,
+    "name" : "Comedy"
+  }, {
+    "id" : 10765,
+    "name" : "Sci-Fi & Fantasy"
+  }, {
+    "id" : 10751,
+    "name" : "Family"
+  } ],
+  "language" : "en",
+  "cast" : [ "Sarah-Nicole Robles", "Issac Ryan Brown", "Wendie Malick", "Tati Gabrielle", "Mae Whitman", "Zeno Robinson", "Alex Hirsch" ],
+  "numberOfSeasons" : 3,
+  "numberOfEpisodes" : 43
+}, {
+  "id" : 42573,
+  "title" : "Slam Dunk",
+  "releaseYear" : 1993,
+  "averageRating" : 8.7,
+  "genres" : [ {
+    "id" : 16,
+    "name" : "Animation"
+  }, {
+    "id" : 35,
+    "name" : "Comedy"
+  } ],
+  "language" : "ja",
+  "cast" : [ "Takeshi Kusao", "Hikaru Midorikawa", "Kiyoyuki Yanada", "Yoku Shioya", "Ryotaro Okiayu", "Akiko Hiramatsu", "Eriko Hara", "Hideyuki Tanaka", "Hisao Egawa", "Hochu Otsuka", "Tomomichi Nishimura", "Toshiyuki Morikawa", "Yukimasa Kishino", "Kozo Shioya", "Yûji Mikimoto", "Nobutoshi Canna", "Hiromi Nishikawa", "Machiko Toyoshima" ],
+  "numberOfSeasons" : 1,
+  "numberOfEpisodes" : 101
+}, {
+  "id" : 127532,
+  "title" : "Solo Leveling",
+  "releaseYear" : 2024,
+  "averageRating" : 8.667,
+  "genres" : [ {
+    "id" : 16,
+    "name" : "Animation"
+  }, {
+    "id" : 10759,
+    "name" : "Action & Adventure"
+  }, {
+    "id" : 10765,
+    "name" : "Sci-Fi & Fantasy"
+  } ],
+  "language" : "ja",
+  "cast" : [ "Taito Ban", "Genta Nakamura", "Haruna Mikawa", "Reina Ueda", "Daisuke Hirakawa", "Hiroki Touchi", "Banjo Ginga", "Makoto Furukawa" ],
+  "numberOfSeasons" : 1,
+  "numberOfEpisodes" : 25
+}, {
+  "id" : 46298,
+  "title" : "Hunter x Hunter",
+  "releaseYear" : 2011,
+  "averageRating" : 8.661,
+  "genres" : [ {
+    "id" : 16,
+    "name" : "Animation"
+  }, {
+    "id" : 10759,
+    "name" : "Action & Adventure"
+  }, {
+    "id" : 10765,
+    "name" : "Sci-Fi & Fantasy"
+  } ],
+  "language" : "ja",
+  "cast" : [ "Megumi Han", "Mariya Ise", "Issei Futamata", "Keiji Fujiwara" ],
+  "numberOfSeasons" : 3,
+  "numberOfEpisodes" : 148
+}, {
+  "id" : 42705,
+  "title" : "Fighting Spirit",
+  "releaseYear" : 2000,
+  "averageRating" : 8.66,
+  "genres" : [ {
+    "id" : 16,
+    "name" : "Animation"
+  }, {
+    "id" : 35,
+    "name" : "Comedy"
+  }, {
+    "id" : 18,
+    "name" : "Drama"
+  }, {
+    "id" : 10759,
+    "name" : "Action & Adventure"
+  } ],
+  "language" : "ja",
+  "cast" : [ "Kohei Kiyasu", "Rikiya Koyama", "Wataru Takagi", "Keiji Fujiwara", "Jurota Kosugi", "Hidenobu Kiuchi", "Hisao Egawa", "Shin-ichiro Miki" ],
+  "numberOfSeasons" : 3,
+  "numberOfEpisodes" : 126
+}, {
+  "id" : 94722,
+  "title" : "Tagesschau",
+  "releaseYear" : 1952,
+  "averageRating" : 6.768,
+  "genres" : [ {
+    "id" : 10763,
+    "name" : "News"
+  } ],
+  "language" : "de",
+  "cast" : [ ],
+  "numberOfSeasons" : 75,
+  "numberOfEpisodes" : 21352
+}, {
+  "id" : 502,
+  "title" : "Sesame Street",
+  "releaseYear" : 1969,
+  "averageRating" : 7.1,
+  "genres" : [ {
+    "id" : 10762,
+    "name" : "Kids"
+  }, {
+    "id" : 35,
+    "name" : "Comedy"
+  } ],
+  "language" : "en",
+  "cast" : [ "Frank Oz", "Sonia Manzano", "Roscoe Orman", "Martin P. Robinson", "Suki Lopez", "Violet Tinnirello", "Jennifer Barnhart", "Ryan Dillon", "Alan Muraoka" ],
+  "numberOfSeasons" : 56,
+  "numberOfEpisodes" : 3551
+}, {
+  "id" : 2261,
+  "title" : "The Tonight Show Starring Johnny Carson",
+  "releaseYear" : 1962,
+  "averageRating" : 7.538,
+  "genres" : [ {
+    "id" : 10767,
+    "name" : "Talk"
+  } ],
+  "language" : "en",
+  "cast" : [ "Johnny Carson" ],
+  "numberOfSeasons" : 31,
+  "numberOfEpisodes" : 3756
+}, {
+  "id" : 2908,
+  "title" : "The Sullivans",
+  "releaseYear" : 1976,
+  "averageRating" : 5.4,
+  "genres" : [ {
+    "id" : 18,
+    "name" : "Drama"
+  }, {
+    "id" : 10766,
+    "name" : "Soap"
+  } ],
+  "language" : "en",
+  "cast" : [ "Paul Cronin", "Steven Tandy", "Richard Morgan", "Megan Williams", "Reg Gorman", "Vikki Hammond", "Norman Yemm", "Andy Anderson", "Gary Sweet", "Fiona Paul" ],
+  "numberOfSeasons" : 23,
+  "numberOfEpisodes" : 1114
+}, {
+  "id" : 2661,
+  "title" : "Kamen Rider",
+  "releaseYear" : 1971,
+  "averageRating" : 6.413,
+  "genres" : [ {
+    "id" : 10759,
+    "name" : "Action & Adventure"
+  }, {
+    "id" : 10765,
+    "name" : "Sci-Fi & Fantasy"
+  }, {
+    "id" : 18,
+    "name" : "Drama"
+  } ],
+  "language" : "ja",
+  "cast" : [ "Ryutaro Imai", "Maho Horiguchi", "Kenta Mishima", "Rina Onuki", "Miki Yagi", "Yuki Furukawa", "Jay Kabira", "Koichi Yamadera" ],
+  "numberOfSeasons" : 37,
+  "numberOfEpisodes" : 1750
+}, {
+  "id" : 2912,
+  "title" : "Jeopardy!",
+  "releaseYear" : 1984,
+  "averageRating" : 6.9,
+  "genres" : [ {
+    "id" : 10764,
+    "name" : "Reality"
+  }, {
+    "id" : 10751,
+    "name" : "Family"
+  } ],
+  "language" : "en",
+  "cast" : [ "Ken Jennings", "Johnny Gilbert" ],
+  "numberOfSeasons" : 42,
+  "numberOfEpisodes" : 9393
+}, {
+  "id" : 18260,
+  "title" : "An Age of Kings",
+  "releaseYear" : 1960,
+  "averageRating" : 5.25,
+  "genres" : [ {
+    "id" : 18,
+    "name" : "Drama"
+  }, {
+    "id" : 10768,
+    "name" : "War & Politics"
+  } ],
+  "language" : "en",
+  "cast" : [ ],
+  "numberOfSeasons" : 1,
+  "numberOfEpisodes" : 15
+}, {
+  "id" : 48127,
+  "title" : "Thursday Theatre",
+  "releaseYear" : 1964,
+  "averageRating" : 0.0,
+  "genres" : [ {
+    "id" : 18,
+    "name" : "Drama"
+  } ],
+  "language" : "en",
+  "cast" : [ ],
+  "numberOfSeasons" : 1,
+  "numberOfEpisodes" : 23
+}, {
+  "id" : 40737,
+  "title" : "Blaulicht",
+  "releaseYear" : 1959,
+  "averageRating" : 0.0,
+  "genres" : [ {
+    "id" : 80,
+    "name" : "Crime"
+  } ],
+  "language" : "de",
+  "cast" : [ "Bruno Carstens", "Horst Torka", "Alexander Papendiek", "Werner Senftleben" ],
+  "numberOfSeasons" : 1,
+  "numberOfEpisodes" : 29
+}, {
+  "id" : 1667,
+  "title" : "Saturday Night Live",
+  "releaseYear" : 1975,
+  "averageRating" : 6.9,
+  "genres" : [ {
+    "id" : 35,
+    "name" : "Comedy"
+  }, {
+    "id" : 10763,
+    "name" : "News"
+  } ],
+  "language" : "en",
+  "cast" : [ ],
+  "numberOfSeasons" : 52,
+  "numberOfEpisodes" : 1018
+}, {
+  "id" : 4177,
+  "title" : "Perry Mason",
+  "releaseYear" : 1957,
+  "averageRating" : 7.71,
+  "genres" : [ {
+    "id" : 9648,
+    "name" : "Mystery"
+  }, {
+    "id" : 18,
+    "name" : "Drama"
+  }, {
+    "id" : 80,
+    "name" : "Crime"
+  } ],
+  "language" : "en",
+  "cast" : [ "Raymond Burr", "Barbara Hale", "William Hopper", "William Talman", "Ray Collins" ],
+  "numberOfSeasons" : 9,
+  "numberOfEpisodes" : 271
+}, {
+  "id" : 16807,
+  "title" : "Jornal Nacional",
+  "releaseYear" : 1969,
+  "averageRating" : 7.0,
+  "genres" : [ {
+    "id" : 10763,
+    "name" : "News"
+  } ],
+  "language" : "pt",
+  "cast" : [ "Renata Vasconcellos", "César Tralli" ],
+  "numberOfSeasons" : 58,
+  "numberOfEpisodes" : 11371
+}, {
+  "id" : 3034,
+  "title" : "Scene of the Crime",
+  "releaseYear" : 1970,
+  "averageRating" : 6.196,
+  "genres" : [ {
+    "id" : 18,
+    "name" : "Drama"
+  }, {
+    "id" : 80,
+    "name" : "Crime"
+  } ],
+  "language" : "de",
+  "cast" : [ ],
+  "numberOfSeasons" : 57,
+  "numberOfEpisodes" : 1338
+}, {
+  "id" : 291,
+  "title" : "Coronation Street",
+  "releaseYear" : 1960,
+  "averageRating" : 5.3,
+  "genres" : [ {
+    "id" : 10766,
+    "name" : "Soap"
+  } ],
+  "language" : "en",
+  "cast" : [ ],
+  "numberOfSeasons" : 67,
+  "numberOfEpisodes" : 4733
+}, {
+  "id" : 4239,
+  "title" : "Married... with Children",
+  "releaseYear" : 1987,
+  "averageRating" : 7.7,
+  "genres" : [ {
+    "id" : 35,
+    "name" : "Comedy"
+  } ],
+  "language" : "en",
+  "cast" : [ "Ed O'Neill", "Katey Sagal", "Amanda Bearse", "Christina Applegate", "David Faustino", "Ted McGinley" ],
+  "numberOfSeasons" : 11,
+  "numberOfEpisodes" : 258
+}, {
+  "id" : 23393,
+  "title" : "BBC Proms",
+  "releaseYear" : 1947,
+  "averageRating" : 7.7,
+  "genres" : [ {
+    "id" : 99,
+    "name" : "Documentary"
+  } ],
+  "language" : "en",
+  "cast" : [ ],
+  "numberOfSeasons" : 80,
+  "numberOfEpisodes" : 1169
+}, {
+  "id" : 4571,
+  "title" : "Hunter",
+  "releaseYear" : 1984,
+  "averageRating" : 7.133,
+  "genres" : [ {
+    "id" : 10759,
+    "name" : "Action & Adventure"
+  }, {
+    "id" : 18,
+    "name" : "Drama"
+  } ],
+  "language" : "en",
+  "cast" : [ "Fred Dryer", "Stepfanie Kramer", "Charles Hallahan", "Darlanne Fluegel" ],
+  "numberOfSeasons" : 7,
+  "numberOfEpisodes" : 152
+}, {
+  "id" : 790,
+  "title" : "Agatha Christie's Poirot",
+  "releaseYear" : 1989,
+  "averageRating" : 8.179,
+  "genres" : [ {
+    "id" : 80,
+    "name" : "Crime"
+  }, {
+    "id" : 18,
+    "name" : "Drama"
+  }, {
+    "id" : 9648,
+    "name" : "Mystery"
+  } ],
+  "language" : "en",
+  "cast" : [ "David Suchet" ],
+  "numberOfSeasons" : 13,
+  "numberOfEpisodes" : 70
+}, {
+  "id" : 224,
+  "title" : "Match of the Day",
+  "releaseYear" : 1964,
+  "averageRating" : 7.647,
+  "genres" : [ {
+    "id" : 10767,
+    "name" : "Talk"
+  }, {
+    "id" : 10763,
+    "name" : "News"
+  } ],
+  "language" : "en",
+  "cast" : [ "Mark Chapman" ],
+  "numberOfSeasons" : 62,
+  "numberOfEpisodes" : 3282
+}, {
+  "id" : 10536,
+  "title" : "The Mike Douglas Show",
+  "releaseYear" : 1961,
+  "averageRating" : 5.8,
+  "genres" : [ {
+    "id" : 35,
+    "name" : "Comedy"
+  }, {
+    "id" : 10767,
+    "name" : "Talk"
+  } ],
+  "language" : "en",
+  "cast" : [ "Mike Douglas" ],
+  "numberOfSeasons" : 21,
+  "numberOfEpisodes" : 1097
+}, {
+  "id" : 94664,
+  "title" : "Mushoku Tensei: Jobless Reincarnation",
+  "releaseYear" : 2021,
+  "averageRating" : 8.5,
+  "genres" : [ {
+    "id" : 10759,
+    "name" : "Action & Adventure"
+  }, {
+    "id" : 16,
+    "name" : "Animation"
+  }, {
+    "id" : 10765,
+    "name" : "Sci-Fi & Fantasy"
+  } ],
+  "language" : "ja",
+  "cast" : [ "Yumi Uchiyama", "Tomokazu Sugita", "Ai Kakuma", "Ai Kayano", "Konomi Kohara" ],
+  "numberOfSeasons" : 3,
+  "numberOfEpisodes" : 61
+}, {
+  "id" : 95897,
+  "title" : "Overflow",
+  "releaseYear" : 2020,
+  "averageRating" : 7.4,
+  "genres" : [ {
+    "id" : 16,
+    "name" : "Animation"
+  } ],
+  "language" : "ja",
+  "cast" : [ "Mai Kadowaki", "Tomoe Tamiyasu", "Sada Naohiro" ],
+  "numberOfSeasons" : 1,
+  "numberOfEpisodes" : 8
+}, {
+  "id" : 70998,
+  "title" : "Souryo to Majiwaru Shikiyoku no Yoru ni...",
+  "releaseYear" : 2017,
+  "averageRating" : 5.3,
+  "genres" : [ {
+    "id" : 16,
+    "name" : "Animation"
+  }, {
+    "id" : 18,
+    "name" : "Drama"
+  } ],
+  "language" : "ja",
+  "cast" : [ "Yuri Katou", "You Suzushiro", "Mutsuki Iwanaka", "Paama Kurukuru", "Sakura Nakamura" ],
+  "numberOfSeasons" : 1,
+  "numberOfEpisodes" : 12
+}, {
+  "id" : 30979,
+  "title" : "Gravitation",
+  "releaseYear" : 2000,
+  "averageRating" : 6.529,
+  "genres" : [ {
+    "id" : 16,
+    "name" : "Animation"
+  }, {
+    "id" : 18,
+    "name" : "Drama"
+  }, {
+    "id" : 35,
+    "name" : "Comedy"
+  } ],
+  "language" : "ja",
+  "cast" : [ "Tomokazu Seki", "Kazuhiko Inoue", "Yasunori Matsumoto", "Ai Orikasa", "Fujiko Takimoto", "Kappei Yamaguchi", "Ryotaro Okiayu", "Takehito Koyasu", "Haruna Ikezawa", "Hideo Ishikawa", "Rie Tanaka", "Shin-ichiro Miki", "Hiromi Tsuru" ],
+  "numberOfSeasons" : 1,
+  "numberOfEpisodes" : 13
+}, {
+  "id" : 30984,
+  "title" : "Bleach",
+  "releaseYear" : 2004,
+  "averageRating" : 8.366,
+  "genres" : [ {
+    "id" : 10759,
+    "name" : "Action & Adventure"
+  }, {
+    "id" : 16,
+    "name" : "Animation"
+  }, {
+    "id" : 10765,
+    "name" : "Sci-Fi & Fantasy"
+  } ],
+  "language" : "ja",
+  "cast" : [ "Masakazu Morita", "Fumiko Orikasa", "Hiroki Yasumoto", "Yuki Matsuoka", "Noriaki Sugiyama" ],
+  "numberOfSeasons" : 2,
+  "numberOfEpisodes" : 416
+}, {
+  "id" : 204269,
+  "title" : "Caressing My Hibernating Bear",
+  "releaseYear" : 2022,
+  "averageRating" : 5.9,
+  "genres" : [ {
+    "id" : 16,
+    "name" : "Animation"
+  } ],
+  "language" : "ja",
+  "cast" : [ "Kohei Amasaki", "Kazuyuki Okitsu", "Kengo Kawanishi", "Seiichiro Yamashita" ],
+  "numberOfSeasons" : 1,
+  "numberOfEpisodes" : 9
+}, {
+  "id" : 120013,
+  "title" : "RE-MAIN",
+  "releaseYear" : 2021,
+  "averageRating" : 6.8,
+  "genres" : [ {
+    "id" : 16,
+    "name" : "Animation"
+  }, {
+    "id" : 35,
+    "name" : "Comedy"
+  }, {
+    "id" : 18,
+    "name" : "Drama"
+  } ],
+  "language" : "ja",
+  "cast" : [ "Yuto Uemura", "Koutaro Nishiyama", "Subaru Kimura", "Lynn", "Soma Saito", "Makoto Furukawa", "Tasuku Hatanaka", "Daisuke Hirose" ],
+  "numberOfSeasons" : 1,
+  "numberOfEpisodes" : 12
+}, {
+  "id" : 220118,
+  "title" : "Sazanami Soushi ni Junketsu wo Sasagu",
+  "releaseYear" : 2023,
+  "averageRating" : 6.6,
+  "genres" : [ {
+    "id" : 16,
+    "name" : "Animation"
+  } ],
+  "language" : "ja",
+  "cast" : [ "Saho Shirasu", "Satomi Miura", "Yoshiki Nakajima", "Dai Kuki", "Daiki Hamano", "Tetsu Watake", "Kouta Mashiro", "Shuuji Inozuki" ],
+  "numberOfSeasons" : 1,
+  "numberOfEpisodes" : 8
+}, {
+  "id" : 113360,
+  "title" : "Jimihen!! Jimiko o Kae Chau Jun Isei Kouyuu",
+  "releaseYear" : 2021,
+  "averageRating" : 6.6,
+  "genres" : [ {
+    "id" : 16,
+    "name" : "Animation"
+  }, {
+    "id" : 35,
+    "name" : "Comedy"
+  } ],
+  "language" : "ja",
+  "cast" : [ "Mahito Kawamura", "Usa Fujisaki", "Hibiki Nanashino" ],
+  "numberOfSeasons" : 1,
+  "numberOfEpisodes" : 8
+}, {
+  "id" : 95479,
+  "title" : "JUJUTSU KAISEN",
+  "releaseYear" : 2020,
+  "averageRating" : 8.584,
+  "genres" : [ {
+    "id" : 16,
+    "name" : "Animation"
+  }, {
+    "id" : 10759,
+    "name" : "Action & Adventure"
+  }, {
+    "id" : 10765,
+    "name" : "Sci-Fi & Fantasy"
+  } ],
+  "language" : "ja",
+  "cast" : [ ],
+  "numberOfSeasons" : 1,
+  "numberOfEpisodes" : 59
+}, {
+  "id" : 44953,
+  "title" : "El Señor de los Cielos",
+  "releaseYear" : 2013,
+  "averageRating" : 7.988,
+  "genres" : [ {
+    "id" : 80,
+    "name" : "Crime"
+  }, {
+    "id" : 18,
+    "name" : "Drama"
+  }, {
+    "id" : 10766,
+    "name" : "Soap"
+  } ],
+  "language" : "es",
+  "cast" : [ "Rafael Amaya", "Isabella Castillo", "Carmen Aub", "Denia Agalianou", "Wendy de los Cobos", "Carlos Corona", "Roberto Sosa", "Robinson Díaz", "Sandra Echeverría", "Maricela González", "Ximena Rubio", "Leonardo  Álvarez", "Plutarco Haza", "Aleida Núñez", "David Ponce", "José Sedek", "Nicolás Haza", "Daniel Martínez Campos" ],
+  "numberOfSeasons" : 10,
+  "numberOfEpisodes" : 812
+}, {
+  "id" : 207333,
+  "title" : "One Hundred Years of Solitude",
+  "releaseYear" : 2024,
+  "averageRating" : 7.9,
+  "genres" : [ {
+    "id" : 18,
+    "name" : "Drama"
+  }, {
+    "id" : 10765,
+    "name" : "Sci-Fi & Fantasy"
+  } ],
+  "language" : "es",
+  "cast" : [ "Claudio Cataño", "Susana Morales", "Ángela Cano", "Emmanuel Restrepo", "Estefania Piñeres", "Maria Adelaida Puerta", "Emiliano Pernia", "Juanita Molina", "Laura Taylor", "Obeida Benavides", "Julián Román", "Carla Baratta" ],
+  "numberOfSeasons" : 2,
+  "numberOfEpisodes" : 16
+}, {
+  "id" : 217663,
+  "title" : "Adorable Mónica",
+  "releaseYear" : 1990,
+  "averageRating" : 9.0,
+  "genres" : [ {
+    "id" : 10766,
+    "name" : "Soap"
+  }, {
+    "id" : 18,
+    "name" : "Drama"
+  } ],
+  "language" : "es",
+  "cast" : [ "Emma Rabbe", "Guillermo Dávila", "Belén Marrero", "Mirla Castellanos", "Olga Castillo", "Marita Capote", "Sandra Bruzón", "Rolando Barral", "Julio Capote", "Alba Valvé", "Adela Romero", "Gabriela Spanic", "Iván Tamayo" ],
+  "numberOfSeasons" : 1,
+  "numberOfEpisodes" : 211
+}, {
+  "id" : 76669,
+  "title" : "Elite",
+  "releaseYear" : 2018,
+  "averageRating" : 8.004,
+  "genres" : [ {
+    "id" : 80,
+    "name" : "Crime"
+  }, {
+    "id" : 9648,
+    "name" : "Mystery"
+  }, {
+    "id" : 18,
+    "name" : "Drama"
+  } ],
+  "language" : "es",
+  "cast" : [ "Omar Ayuso", "Valentina Zenere", "André Lamoglia", "Carmen Arrufat", "Ander Puig", "Nadia Al Saidi", "Fernando Lindez", "Mirela Balić", "Gleb Abrosimov", "Iván Mendes", "Nuno Gallego", "Alejandro Albarracín", "Ane Rot", "Maribel Verdú", "Juan Perales" ],
+  "numberOfSeasons" : 8,
+  "numberOfEpisodes" : 64
+}, {
+  "id" : 117217,
+  "title" : "El conquistador",
+  "releaseYear" : 2005,
+  "averageRating" : 5.7,
+  "genres" : [ {
+    "id" : 10764,
+    "name" : "Reality"
+  } ],
+  "language" : "es",
+  "cast" : [ ],
+  "numberOfSeasons" : 22,
+  "numberOfEpisodes" : 510
+}, {
+  "id" : 327814,
+  "title" : "Final Project",
+  "releaseYear" : 2026,
+  "averageRating" : 8.875,
+  "genres" : [ {
+    "id" : 18,
+    "name" : "Drama"
+  } ],
+  "language" : "es",
+  "cast" : [ "Daniela Martínez Caballero", "Tristán Maze", "Isabella Tena", "Virgilio Delgado", "Ian Sparrowe", "Flor Eduarda Gurrola", "Ernesto Álvarez", "Julio Casado" ],
+  "numberOfSeasons" : 1,
+  "numberOfEpisodes" : 20
+}, {
+  "id" : 5455,
+  "title" : "Saber y Ganar",
+  "releaseYear" : 1997,
+  "averageRating" : 10.0,
+  "genres" : [ {
+    "id" : 10751,
+    "name" : "Family"
+  } ],
+  "language" : "es",
+  "cast" : [ "Jordi Hurtado", "Pilar Vázquez", "Elisenda Roca" ],
+  "numberOfSeasons" : 30,
+  "numberOfEpisodes" : 4817
+}, {
+  "id" : 329394,
+  "title" : "My Daughter's Father",
+  "releaseYear" : 2026,
+  "averageRating" : 9.032,
+  "genres" : [ {
+    "id" : 18,
+    "name" : "Drama"
+  } ],
+  "language" : "es",
+  "cast" : [ "Silvia Navarro", "Manolo Cardona", "Erik Hayser", "Paola Nuñez", "Azul Guaita", "Sebastián Dante", "Emilio Osorio", "Pamela Moreno", "Romina Poza" ],
+  "numberOfSeasons" : 1,
+  "numberOfEpisodes" : 10
+}, {
+  "id" : 239526,
+  "title" : "Dreams of Freedom",
+  "releaseYear" : 2024,
+  "averageRating" : 6.1,
+  "genres" : [ {
+    "id" : 18,
+    "name" : "Drama"
+  }, {
+    "id" : 10766,
+    "name" : "Soap"
+  } ],
+  "language" : "es",
+  "cast" : [ "Natalia Sánchez", "Dani Tatay", "Nancho Novo", "Marta Belmonte", "Ana Fernández", "Carolina Lapausa", "Fernando Andina", "José Milán", "Itziar Atienza", "Candela Cruz", "Isabel Moreno", "Ana Fernández", "Dèlia Brufau", "Marco H. Medina", "Pepa Aniorte", "Oriol Tarrasón", "Marina Orta", "Antea Rodríguez", "Carlos Troya", "Xenia Tostado" ],
+  "numberOfSeasons" : 3,
+  "numberOfEpisodes" : 582
+}, {
+  "id" : 6809,
+  "title" : "El hormiguero",
+  "releaseYear" : 2006,
+  "averageRating" : 4.738,
+  "genres" : [ {
+    "id" : 35,
+    "name" : "Comedy"
+  }, {
+    "id" : 10767,
+    "name" : "Talk"
+  } ],
+  "language" : "es",
+  "cast" : [ "Pablo Motos", "Juan Ibáñez Pérez", "Damián Mollá" ],
+  "numberOfSeasons" : 20,
+  "numberOfEpisodes" : 1436
+}, {
+  "id" : 3562,
+  "title" : "NOVA",
+  "releaseYear" : 1974,
+  "averageRating" : 7.0,
+  "genres" : [ {
+    "id" : 99,
+    "name" : "Documentary"
+  } ],
+  "language" : "en",
+  "cast" : [ ],
+  "numberOfSeasons" : 53,
+  "numberOfEpisodes" : 1025
+}, {
+  "id" : 90,
+  "title" : "Mayday",
+  "releaseYear" : 2003,
+  "averageRating" : 8.197,
+  "genres" : [ {
+    "id" : 99,
+    "name" : "Documentary"
+  }, {
+    "id" : 18,
+    "name" : "Drama"
+  }, {
+    "id" : 80,
+    "name" : "Crime"
+  } ],
+  "language" : "en",
+  "cast" : [ "Stephen Bogaert" ],
+  "numberOfSeasons" : 26,
+  "numberOfEpisodes" : 240
+}, {
+  "id" : 13805,
+  "title" : "A Girl's Guide to 21st Century Sex",
+  "releaseYear" : 2006,
+  "averageRating" : 4.921,
+  "genres" : [ {
+    "id" : 99,
+    "name" : "Documentary"
+  } ],
+  "language" : "en",
+  "cast" : [ "Catherine Hood", "Elizabeth Lawrence", "Stefan Hard", "Ava Cadell", "Erin Sharkey", "Raj Patel" ],
+  "numberOfSeasons" : 1,
+  "numberOfEpisodes" : 8
+}, {
+  "id" : 16656,
+  "title" : "Fuse",
+  "releaseYear" : 1962,
+  "averageRating" : 7.6,
+  "genres" : [ {
+    "id" : 35,
+    "name" : "Comedy"
+  }, {
+    "id" : 99,
+    "name" : "Documentary"
+  }, {
+    "id" : 16,
+    "name" : "Animation"
+  }, {
+    "id" : 10751,
+    "name" : "Family"
+  } ],
+  "language" : "ru",
+  "cast" : [ ],
+  "numberOfSeasons" : 47,
+  "numberOfEpisodes" : 2201
+}, {
+  "id" : 10029,
+  "title" : "Great Performances",
+  "releaseYear" : 1971,
+  "averageRating" : 6.1,
+  "genres" : [ {
+    "id" : 35,
+    "name" : "Comedy"
+  }, {
+    "id" : 99,
+    "name" : "Documentary"
+  }, {
+    "id" : 18,
+    "name" : "Drama"
+  } ],
+  "language" : "en",
+  "cast" : [ "Bray Poor" ],
+  "numberOfSeasons" : 52,
+  "numberOfEpisodes" : 712
+}, {
+  "id" : 67707,
+  "title" : "Paradise Hotel",
+  "releaseYear" : 2005,
+  "averageRating" : 5.0,
+  "genres" : [ {
+    "id" : 10764,
+    "name" : "Reality"
+  } ],
+  "language" : "sv",
+  "cast" : [ ],
+  "numberOfSeasons" : 21,
+  "numberOfEpisodes" : 752
+}, {
+  "id" : 33238,
+  "title" : "Running Man",
+  "releaseYear" : 2010,
+  "averageRating" : 8.2,
+  "genres" : [ {
+    "id" : 35,
+    "name" : "Comedy"
+  }, {
+    "id" : 10764,
+    "name" : "Reality"
+  } ],
+  "language" : "ko",
+  "cast" : [ "Yoo Jae-suk", "Jee Seok-jin", "Kim Jong-kook", "Haha", "Song Ji-hyo", "Yang Se-chan", "Ji Ye-eun", "Jeon So-min", "Lee Kwang-soo", "Kang Gary", "Song Joong-ki", "Park Soo-young" ],
+  "numberOfSeasons" : 1,
+  "numberOfEpisodes" : 818
+}, {
+  "id" : 4656,
+  "title" : "Raw",
+  "releaseYear" : 1993,
+  "averageRating" : 6.8,
+  "genres" : [ {
+    "id" : 10764,
+    "name" : "Reality"
+  } ],
+  "language" : "en",
+  "cast" : [ ],
+  "numberOfSeasons" : 34,
+  "numberOfEpisodes" : 1739
+}, {
+  "id" : 36109,
+  "title" : "Paradise Hotel",
+  "releaseYear" : 2009,
+  "averageRating" : 5.2,
+  "genres" : [ {
+    "id" : 10764,
+    "name" : "Reality"
+  } ],
+  "language" : "no",
+  "cast" : [ "Triana Iglesias" ],
+  "numberOfSeasons" : 18,
+  "numberOfEpisodes" : 758
+}, {
+  "id" : 257161,
+  "title" : "Amazing Night",
+  "releaseYear" : 2024,
+  "averageRating" : 5.714,
+  "genres" : [ {
+    "id" : 10764,
+    "name" : "Reality"
+  }, {
+    "id" : 35,
+    "name" : "Comedy"
+  } ],
+  "language" : "zh",
+  "cast" : [ "Ma Dong", "Li Dan", "Hu Xianxu", "Teng Gen", "Wang Tianfang", "Lv Yan", "Song Tianshuo", "Jerry Liu", "Liu Siwei", "Zhu Meiji", "Gao Chao", "Gao Yue", "Wang Jianhua", "Li Zhiliang", "Zhang Cheng", "Liu Tong", "Zhang Weiyi", "Deng Shuai", "Zuo Lingfeng", "Li Doudou", "Tu Dou", "Jiang Long", "Lei Songran", "Yang Yuguang", "Zhang Chi", "Wang Nan", "Wang Guang", "Zhou Tienan", "Guo Jiaquan", "Li Zixi", "Zhou Keren", "Li Minglei", "Sun Tianyu", "Jiang Yi", "Zhang Taiwei", "Xiang Qian", "Guo Zhe", "Li Fei", "Gao Haibao", "Jiang Mouyuanjian", "Yang Dongqi", "Zhang Xingchao", "Li Jiacheng" ],
+  "numberOfSeasons" : 2,
+  "numberOfEpisodes" : 46
+} ]

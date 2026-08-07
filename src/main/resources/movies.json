@@ -1,0 +1,1654 @@
+[ {
+  "id" : 969681,
+  "title" : "Spider-Man: Brand New Day",
+  "releaseYear" : 2026,
+  "averageRating" : 7.9,
+  "genres" : [ {
+    "id" : 878,
+    "name" : "Science Fiction"
+  }, {
+    "id" : 28,
+    "name" : "Action"
+  }, {
+    "id" : 12,
+    "name" : "Adventure"
+  } ],
+  "language" : "en",
+  "cast" : [ "Tom Holland", "Sadie Sink", "Tramell Tillman", "Zendaya", "Jon Bernthal", "Jacob Batalon", "Mark Ruffalo", "Liza Colón-Zayas", "Florence Pugh", "Marisa Tomei", "Naomi Watts", "Michael Mando", "Keith David", "Marvin Jones III", "Olivia Booth-Ford", "Taryn Marie Butler", "Johnny Myers", "Billy Clements", "Zabryna Guevara", "Nina Rose Galano", "Maikol Roque", "Jamel Davall Rodriguez", "Ethan Sokontwe", "Tariyé Peterside", "Phoenix Di Sebastiani", "Vivien Keene", "Kurtis Lowe", "Marc Small", "David Hepple", "Jamaal Burcher", "Lieve Carchon", "Mary Stillwaggon Stewart", "Luka Hays", "Camila López", "Robert Veng", "Aoife Haakenson", "Gabriel Blaikie", "Eman Esfandi", "Shing Moussa Chung", "Akil Young", "Benedict Cezair-Thompson", "Shannon Young Cho", "Niyi Akin", "Carlos Agualusa", "Shelley Williams", "Jud Charlton", "John Moraitis", "Beatriz Do O", "Daisy Sequerra", "Nezar Alderazi", "Daniel Kabanda", "Michael Magnet", "Simon Schatzberger", "Sean Carrington", "Anthony Nyro", "Michael Amariah", "Fan Xiaoshuang", "Elvis Carlos", "Pat Kiernan" ],
+  "runtime" : 145
+}, {
+  "id" : 1368337,
+  "title" : "The Odyssey",
+  "releaseYear" : 2026,
+  "averageRating" : 8.0,
+  "genres" : [ {
+    "id" : 12,
+    "name" : "Adventure"
+  }, {
+    "id" : 28,
+    "name" : "Action"
+  }, {
+    "id" : 14,
+    "name" : "Fantasy"
+  } ],
+  "language" : "en",
+  "cast" : [ "Matt Damon", "Tom Holland", "Anne Hathaway", "Robert Pattinson", "Himesh Patel", "Charlize Theron", "John Leguizamo", "Travis Scott", "Corey Hawkins", "Jarreth J. Merz", "Niko Nicotera", "Elliot Page", "Shiloh Fernandez", "Rafi Gavron", "Elyes Gabel", "Iddo Goldberg", "Jamie Harris", "John Ales", "Raimy Lang", "Mason Cufari", "Mia Goth", "Ryan Hurst", "Kate Fuglei", "Benny Safdie", "Adam Croasdell", "Mickey Shilowich", "Katerina Antemel", "Jovan Adepo", "Andrew Howard", "Josh Stewart", "Logan Marshall-Green", "Nick E. Tarabay", "Zendaya", "Jon Bernthal", "Jimmy Gonzales", "Jesse Garcia", "Ryan de Quintal", "Will Yun Lee", "Anthony Molinari", "Stephen Murphy", "Matt Lasky", "Ian Casselberry", "Sean Avery", "Yannis Kokiasmenos", "Bill Irwin", "Maurice Compte", "Lupita Nyong'o", "Xavier Brown", "Jessie Cohen", "Chess Lopez", "Craig Gellis", "Artoun Nazareth", "Chris Riggi", "Tyler Beardsley", "Daniel Dorr", "Barnaby Nolan", "John King", "Samantha Morton", "James Remar", "Brian Vernel", "Michael Vlamis", "Kamden Riley", "Andrei Lenart", "Jorge Leon", "J.P. Manoux", "Douglas Rouillard", "Evan Shafran" ],
+  "runtime" : 173
+}, {
+  "id" : 634649,
+  "title" : "Spider-Man: No Way Home",
+  "releaseYear" : 2021,
+  "averageRating" : 7.937,
+  "genres" : [ {
+    "id" : 28,
+    "name" : "Action"
+  }, {
+    "id" : 12,
+    "name" : "Adventure"
+  }, {
+    "id" : 878,
+    "name" : "Science Fiction"
+  } ],
+  "language" : "en",
+  "cast" : [ "Tom Holland", "Zendaya", "Benedict Cumberbatch", "Jacob Batalon", "Jon Favreau", "Jamie Foxx", "Willem Dafoe", "Alfred Molina", "Benedict Wong", "Tony Revolori", "Marisa Tomei", "Andrew Garfield", "Tobey Maguire", "Angourie Rice", "Arian Moayed", "Paula Newsome", "Hannibal Buress", "Martin Starr", "JB Smoove", "J.K. Simmons", "Rhys Ifans", "Charlie Cox", "Thomas Haden Church", "Haroon Khan", "Emily Fong", "Mary Rivera", "Rudy Eisenzopf", "Kathleen Cardoso", "Jonathan Sam", "Andrew Dunlap", "Zany Dunlap", "B. Clutch Dunlap", "Minnah Dunlap", "Ben VanderMey", "Gary Weeks", "Gregory Konow", "Carol Anne Dines", "Anisa Nyell Johnson", "Willie D. Burton", "Mallory Hoff", "Greg Clarkson", "Regina Ting Chen", "Robert Mitchel Owenby", "Glenn Keogh", "Paris Benjamin", "Jwaundace Candece", "Taylor St. Clair", "Rolando Fernandez", "Gabriella Cila", "Darnell Appling", "Edward Force", "Michael Le", "Dean Meminger", "Frederick A. Brown", "Cristo Fernández", "Clay Savage", "Tom Hardy", "Jay Karales", "Harry Holland", "John M. Maiers", "Robert Tinsley", "Cole Failing", "Justin East" ],
+  "runtime" : 148
+}, {
+  "id" : 1081003,
+  "title" : "Supergirl",
+  "releaseYear" : 2026,
+  "averageRating" : 6.757,
+  "genres" : [ {
+    "id" : 28,
+    "name" : "Action"
+  }, {
+    "id" : 12,
+    "name" : "Adventure"
+  }, {
+    "id" : 878,
+    "name" : "Science Fiction"
+  } ],
+  "language" : "en",
+  "cast" : [ "Milly Alcock", "Eve Ridley", "Matthias Schoenaerts", "Jason Momoa", "David Krumholtz", "Emily Beecham", "David Corenswet", "Kadiff Kirwan", "Thalissa Teixeira", "Ferdinand Kingsley", "Emily Piggford", "Diarmaid Murtagh", "Clara Rosager", "Alice Hewkin", "Heather Agyepong", "Wil Coban", "George Montague", "Bruce Lennox", "Audrey Brisson-Jutras", "Avye Leventis", "Leo Bill", "Keeley Forsyth", "Asha Soetan", "Naomi Wirthner", "Imogen Turner", "Paul Hunter", "Charlie Rawes", "Craig Binning", "Luke Rollason", "Adam Young", "Winnie Ama", "Henry Tozer", "Jordan Coulson", "James Eeles", "Tom Godwin", "Shaun Mason", "Dean Nolan", "Daniel Scott-Smith", "Audrey Kattan", "Florisa Kamara", "Seth Rogen" ],
+  "runtime" : 108
+}, {
+  "id" : 1698863,
+  "title" : "The Odyssey",
+  "releaseYear" : 2026,
+  "averageRating" : 6.222,
+  "genres" : [ {
+    "id" : 12,
+    "name" : "Adventure"
+  }, {
+    "id" : 14,
+    "name" : "Fantasy"
+  }, {
+    "id" : 28,
+    "name" : "Action"
+  } ],
+  "language" : "en",
+  "cast" : [ "Myrom Kingery", "Morgan Flanagan", "Patrick Byrnes", "Dominic Keating", "Llana Barron", "Jordan Iverach", "Tony Wood", "Ashton Rogers", "Angelo Kern", "Martin Richard Chappell" ],
+  "runtime" : 86
+}, {
+  "id" : 1339713,
+  "title" : "Obsession",
+  "releaseYear" : 2026,
+  "averageRating" : 8.23,
+  "genres" : [ {
+    "id" : 27,
+    "name" : "Horror"
+  }, {
+    "id" : 53,
+    "name" : "Thriller"
+  } ],
+  "language" : "en",
+  "cast" : [ "Michael Johnston", "Inde Navarrette", "Cooper Tomlinson", "Megan Lawless", "Andy Richter", "Haley Fitzgerald", "Darin Toonder", "Anthony Pavone", "Justice", "Anthony Casabianca", "Chloe Breen", "Malcolm Kelner", "Charles Santa Cruz", "Alex Maystrik", "Mariana Silva", "Kyle Blumenthal", "Jorge Luquin", "Jose Herrera", "Emilio Flores", "Manny Liotta", "Mai Chi Nguyen", "Tim Robinson", "Evan Brown", "Maddi Hulburt", "Jacob Stephens", "Skyler Zurn", "Danielle Krett", "Dylan Michael Searle", "Matthew Jackson", "Itzel Ximena Gonzalez", "Evan Lugo", "Kevin Kim", "Dannell Brown", "Dario Ramos", "Gabriel Rubalcava", "Sabina Tenorio", "Claudio Parrone Jr.", "Max Maher", "Travis Beck", "Ben Scattone", "Ian Brown", "Chelsey Kaye", "Cydney Jenks", "Michael Brockmann", "Iyana Fawcett", "Curry Barker", "Jeff Barker" ],
+  "runtime" : 109
+}, {
+  "id" : 1275779,
+  "title" : "Disclosure Day",
+  "releaseYear" : 2026,
+  "averageRating" : 7.432,
+  "genres" : [ {
+    "id" : 878,
+    "name" : "Science Fiction"
+  }, {
+    "id" : 53,
+    "name" : "Thriller"
+  } ],
+  "language" : "en",
+  "cast" : [ "Emily Blunt", "Josh O'Connor", "Colin Firth", "Colman Domingo", "Eve Hewson", "Wyatt Russell", "Elizabeth Marvel", "Henry Lloyd-Hughes", "Courtney Grace", "Jeremy Shamos", "Michael Gaston", "Gabby Beans", "Elliot Villar", "Noah Robbins", "Clarke Thorell", "Elizabeth Stanley", "Nina White", "Emily Jackson", "Margo Seibert", "Chavo Guerrero Jr.", "Brian Button", "Lance Hoyt", "Ron Song", "Ephraim Birney", "Hettienne Park", "Tommy Martinez", "Brandon Wilson", "Delaney Anne Cuthbert", "Tyler Maxwell Renaud", "Jim Parrack", "Priyanka Kedia", "Lora Lee Gayer", "Bob Greenberg", "Robert Engel", "Viveca Chow", "Lucy Taylor", "Lilli Stein", "Elaine Baez", "Revon Yousif", "Eboni Booth", "Kit Williams", "Jordan Gelber", "Brooke Morris", "Michael Kaurene", "Gibson Frazier" ],
+  "runtime" : 146
+}, {
+  "id" : 1084244,
+  "title" : "Toy Story 5",
+  "releaseYear" : 2026,
+  "averageRating" : 7.413,
+  "genres" : [ {
+    "id" : 16,
+    "name" : "Animation"
+  }, {
+    "id" : 10751,
+    "name" : "Family"
+  }, {
+    "id" : 35,
+    "name" : "Comedy"
+  }, {
+    "id" : 12,
+    "name" : "Adventure"
+  } ],
+  "language" : "en",
+  "cast" : [ "Tom Hanks", "Tim Allen", "Joan Cusack", "Greta Lee", "Conan O'Brien", "Craig Robinson", "Shelby Rabara", "Tony Hale", "Scarlett Spears", "Jay Hernandez", "Lori Alan", "Bonnie Hunt", "Kristen Schaal", "Wallace Shawn", "John Ratzenberger", "Blake Clark", "Jeff Bergman", "Anna Vocino", "Annie Potts", "Mykal-Michelle Harris", "Keanu Reeves", "Ernie Hudson", "Jeff Garlin", "Melissa Villaseñor", "Matty Matheson", "John Hopkins", "Jeff Pidgeon", "Krys Marshall", "Alan Cumming", "Bad Bunny", "Jerome Ranft", "Andrew Stanton", "Paxton Andrews", "Bob Bergen", "Barbara Goodson", "Paul Karmiryan", "Mona Marshall", "Scott Menville", "Jamieson Price", "Tara Strong", "Cheyah Rukavina", "Lucie Vuong", "Ashley Bell", "Daniel MK Cohen", "Sarah Hollis", "Anndi McAfee", "Brian Larsen", "Sailor Mae Money", "Hazel Shea", "Jordan Sunshine", "Kari Wahlgren", "Shelby Young", "Michael Bell", "Terri Douglas", "Keston John", "Lucy Lowe", "Amari McCoy", "Brad Norman", "Fred Tatasciore", "Kayleigh Rayne", "Hynden Walch" ],
+  "runtime" : 102
+}, {
+  "id" : 1284465,
+  "title" : "The Death of Robin Hood",
+  "releaseYear" : 2026,
+  "averageRating" : 6.503,
+  "genres" : [ {
+    "id" : 12,
+    "name" : "Adventure"
+  }, {
+    "id" : 18,
+    "name" : "Drama"
+  }, {
+    "id" : 28,
+    "name" : "Action"
+  } ],
+  "language" : "en",
+  "cast" : [ "Hugh Jackman", "Jodie Comer", "Bill Skarsgård", "Murray Bartlett", "Noah Jupe", "Jade Croot", "Faith Delaney", "Tabitha Smyth", "Beau Thompson", "Alfie Lawless", "Asher de Silva", "Elijah Ungvary", "Fintan Shevlin", "Katie Breen", "Michael Hanna", "Andrew McCracken", "Clive Russell", "Amy McElhatton", "Maeve Connelly", "Maggie Hayes", "Richie Wilson" ],
+  "runtime" : 123
+}, {
+  "id" : 454639,
+  "title" : "Masters of the Universe",
+  "releaseYear" : 2026,
+  "averageRating" : 7.246,
+  "genres" : [ {
+    "id" : 28,
+    "name" : "Action"
+  }, {
+    "id" : 14,
+    "name" : "Fantasy"
+  }, {
+    "id" : 878,
+    "name" : "Science Fiction"
+  } ],
+  "language" : "en",
+  "cast" : [ "Nicholas Galitzine", "Camila Mendes", "Idris Elba", "Jared Leto", "Alison Brie", "Jóhannes Haukur Jóhannesson", "Jon Xue Zhang", "Sam C. Wilson", "James Purefoy", "Charlotte Riley", "Morena Baccarin", "Kristen Wiig", "Tom Wilton", "Christiaan Bettridge", "Artie Wilkinson-Hunt", "Eire Farrell", "James Wilkinson", "Dolph Lundgren", "Kojo Attah", "Hung Dante Dong", "James Apps", "Hafþór Júlíus Björnsson", "Arun Bassi", "Christian Vunipola", "Sasheer Zamata", "Max Kraus", "Kelly Coughlin", "Elena Rivers", "Stephen Adentan", "Michael Bijok", "Everleigh Brenner", "Emma Mulkern", "Elliott Culpepper", "Dylan Zalikowski", "Michelle Schechter", "Chanelle Nicole", "Susie Coutts", "Eddison Burch", "Arthur Galiano", "Aaron Lynn", "Delilah O’Riordan", "Callum Burns", "Devonté Sackitey", "Mark Conway", "Connor Crawford", "Richard David-Caine", "Olivia Marcus", "Billy Clements", "Piotr Michael", "Christopher Ragland", "Fletcher Glenn", "Gary Martin", "Lauren Saliu", "Charlie Jimenez", "Kellen Goff", "Justin Yau" ],
+  "runtime" : 141
+}, {
+  "id" : 1108427,
+  "title" : "Moana",
+  "releaseYear" : 2026,
+  "averageRating" : 5.942,
+  "genres" : [ {
+    "id" : 10751,
+    "name" : "Family"
+  }, {
+    "id" : 14,
+    "name" : "Fantasy"
+  }, {
+    "id" : 35,
+    "name" : "Comedy"
+  }, {
+    "id" : 12,
+    "name" : "Adventure"
+  } ],
+  "language" : "en",
+  "cast" : [ "Catherine Lagaʻaia", "Dwayne Johnson", "Rena Owen", "John Tui", "Frankie Adams", "Jemaine Clement", "Emma Puahi-Shapazian", "Amaya Masoli", "Sam Puefua", "Sione Milford", "Kapeneta Te'o-Tafiti", "Eric Scanlan", "Moses Goods", "La Masae Fa‘amausili-Siliato", "Ehulani Hope Kāne", "Hanalē Ka‘anapu", "Michael Alisa", "Michael Metuakore", "Patricia Fa'asua", "Malosi Scanlan", "Elijah Fui", "Sione Kite", "Pisila Kioa", "Huxley Hiko", "Eli Matthew-Lauvao Lutali", "Tealoha Hokulani Carrera", "Joe Momoa" ],
+  "runtime" : 115
+}, {
+  "id" : 1315772,
+  "title" : "Minions & Monsters",
+  "releaseYear" : 2026,
+  "averageRating" : 6.361,
+  "genres" : [ {
+    "id" : 12,
+    "name" : "Adventure"
+  }, {
+    "id" : 16,
+    "name" : "Animation"
+  }, {
+    "id" : 35,
+    "name" : "Comedy"
+  }, {
+    "id" : 10751,
+    "name" : "Family"
+  }, {
+    "id" : 14,
+    "name" : "Fantasy"
+  } ],
+  "language" : "en",
+  "cast" : [ "Pierre Coffin", "Trey Parker", "Allison Janney", "Christoph Waltz", "Jeff Bridges", "Jesse Eisenberg", "Zoey Deutch", "Bobby Moynihan", "Phil LaMarr", "George Lucas", "Barbara Eve Harris", "Eric Bauza", "Aaron Hendry", "Camden Brooks", "JP Karliak", "Ashly Burch", "John Kassir", "Rachel Butera", "Arif S. Kinchen", "Nia Castro", "Mick Lauer", "Cathy Cavadini", "Danny Mann", "Will Collyer", "Laraine Newman", "Ken Daurio", "Levi Nunez", "Debi Derryberry", "Alessandra Perez", "Jessica DiCicco", "Noreen Reardon", "Claire Dodgson", "Isaac Robinson-Smith", "Dave Fennoy", "Lorenzo Ross", "Aaron Fors", "Fred Tatasciore", "Damon Fung", "Bryan Tuck", "Willow Geer", "Nisa Ward", "Isa Hall", "Debra Wilson", "Jess Harnell", "Matthew Wood", "Nora Wyman", "Carlos Alazraqui", "Steve Carell" ],
+  "runtime" : 90
+}, {
+  "id" : 1481343,
+  "title" : "The Devil's Mouth",
+  "releaseYear" : 2026,
+  "averageRating" : 6.519,
+  "genres" : [ {
+    "id" : 27,
+    "name" : "Horror"
+  }, {
+    "id" : 53,
+    "name" : "Thriller"
+  } ],
+  "language" : "en",
+  "cast" : [ "Kathryn Newton", "Lana Condor", "Nico Hiraga", "Gavin Casalegno", "Tommi Rose", "Tayme Thapthimthong", "Sahajak Boonthanakit", "Harrison Luna" ],
+  "runtime" : 106
+}, {
+  "id" : 47612,
+  "title" : "Au Bonheur des Dames",
+  "releaseYear" : 1930,
+  "averageRating" : 6.3,
+  "genres" : [ {
+    "id" : 18,
+    "name" : "Drama"
+  }, {
+    "id" : 10749,
+    "name" : "Romance"
+  } ],
+  "language" : "fr",
+  "cast" : [ "Dita Parlo", "Ginette Maddie", "Andrée Brabant", "Nadia Sibirskaïa", "Germaine Rouer", "Pierre de Guingand", "Madame Barsac", "Fabien Haziza", "Fernand Mailly", "René Donnio", "Albert Bras", "Adolphe Candé", "Simone Bourday" ],
+  "runtime" : 95
+}, {
+  "id" : 82976,
+  "title" : "The Novices",
+  "releaseYear" : 1970,
+  "averageRating" : 4.769,
+  "genres" : [ {
+    "id" : 35,
+    "name" : "Comedy"
+  }, {
+    "id" : 18,
+    "name" : "Drama"
+  } ],
+  "language" : "fr",
+  "cast" : [ "Brigitte Bardot", "Annie Girardot", "Jacques Duby", "Jean Carmet", "Jess Hahn", "Jacques Jouanneau", "Noël Roquevert", "Dominique Zardi", "Angelo Bardi", "Lucien Barjon", "Henri Déus", "Michel Duplaix", "Clément Michu", "Antonio Passalia", "Jean Roquel", "René Wiard", "Odette Berroyer" ],
+  "runtime" : 91
+}, {
+  "id" : 1083381,
+  "title" : "Backrooms",
+  "releaseYear" : 2026,
+  "averageRating" : 7.1,
+  "genres" : [ {
+    "id" : 27,
+    "name" : "Horror"
+  }, {
+    "id" : 9648,
+    "name" : "Mystery"
+  }, {
+    "id" : 878,
+    "name" : "Science Fiction"
+  } ],
+  "language" : "en",
+  "cast" : [ "Chiwetel Ejiofor", "Renate Reinsve", "Finn Bennett", "Lukita Maxwell", "Mark Duplass", "Avan Jogia", "Robert Bobroczkyi", "Ember Ambrose", "Krista Kosonen", "Philip Granger", "Katharine Isabelle", "Peter New", "Sarah Hayward", "Natalie Moon", "Calix Fraser", "Sawyer Fraser", "Patrick Baynham", "Rhiannon Roberts", "Dana Mahmood", "Matthew Patrick Savage", "Ramona Kim", "Milana Wan", "Kelly Craig", "Mel Kostas" ],
+  "runtime" : 111
+}, {
+  "id" : 1375646,
+  "title" : "Colony",
+  "releaseYear" : 2026,
+  "averageRating" : 8.097,
+  "genres" : [ {
+    "id" : 28,
+    "name" : "Action"
+  }, {
+    "id" : 27,
+    "name" : "Horror"
+  }, {
+    "id" : 878,
+    "name" : "Science Fiction"
+  } ],
+  "language" : "ko",
+  "cast" : [ "Gianna Jun", "Koo Kyo-hwan", "Ji Chang-wook", "Kim Shin-rock", "Shin Hyun-been", "Go Soo", "Lee Jung-ok", "Kim Jong-tae", "Hwang Jae-yeol", "Lee Dam-hee", "Chae Seo-eun", "Kim Sung", "Kim Jae-rok", "Oh Gyeong-hwa", "Choi Gwang-il", "Kim Hyeong-mook", "Hong Seok-bin", "Lee Hyun-kyun", "Lee Kang-wook", "Jeong Ae-hwa", "Kim Min-chae", "Kim Seung-hoon", "Choi Woo-jin", "Seo Suk-kyu", "Lee Dong-kyu", "Ha Seung-yeon" ],
+  "runtime" : 123
+}, {
+  "id" : 315635,
+  "title" : "Spider-Man: Homecoming",
+  "releaseYear" : 2017,
+  "averageRating" : 7.332,
+  "genres" : [ {
+    "id" : 28,
+    "name" : "Action"
+  }, {
+    "id" : 12,
+    "name" : "Adventure"
+  }, {
+    "id" : 878,
+    "name" : "Science Fiction"
+  } ],
+  "language" : "en",
+  "cast" : [ "Tom Holland", "Michael Keaton", "Robert Downey Jr.", "Marisa Tomei", "Jon Favreau", "Gwyneth Paltrow", "Zendaya", "Donald Glover", "Jacob Batalon", "Laura Harrier", "Tony Revolori", "Bokeem Woodbine", "Tyne Daly", "Abraham Attah", "Hannibal Buress", "Kenneth Choi", "Selenis Leyva", "Angourie Rice", "Martin Starr", "Garcelle Beauvais", "Michael Chernus", "Michael Mando", "Logan Marshall-Green", "Jennifer Connelly", "Gary Weeks", "Christopher Berry", "Jorge Lendeborg Jr.", "Tunde Adebimpe", "Tiffany Espensen", "Isabella Amara", "Michael Barbieri", "Josie Totah", "Hemky Madera", "Zach Cherry", "Kirk R. Thatcher", "Yu Lew", "Sondra James", "Bob Adrian", "Gary Richardson", "Stan Lee", "Joe Hang", "Wayne Péré", "Chris Evans", "Alexa Laraki", "Liza Fagin", "Kerry Condon", "John Penick", "Ethan Dizon", "Amy Hill", "Miles Mussenden", "Martha Kelly", "Kevin LaRosa Jr.", "Ren Colley", "Jennifer Kim", "Ari Groover", "Louis Gonzalez", "Stewart Steinberg", "Andy Powers", "Omar Capra", "Nitin Nohria", "Vince Foster", "Brian Schaeffer", "Chris Adams", "Maiya Boyd", "Rebeca Donovan", "Elli", "Nickolas Wolf", "Jaine Ye", "Gina Cordan", "Friday Chamberlain", "Dante Brattelli", "Melissa Kay Glaze", "Donald K. Overstreet", "Hallie Ricardo", "Doug Scroggins III", "Marmee Regine Cosico", "Harrison Osterfield", "Chris Silcox", "Clam Sepulveda", "Wesley Kuykendoll", "Cassidy Alexandra Kahler", "Josh Turner" ],
+  "runtime" : 133
+}, {
+  "id" : 557,
+  "title" : "Spider-Man",
+  "releaseYear" : 2002,
+  "averageRating" : 7.34,
+  "genres" : [ {
+    "id" : 28,
+    "name" : "Action"
+  }, {
+    "id" : 878,
+    "name" : "Science Fiction"
+  } ],
+  "language" : "en",
+  "cast" : [ "Tobey Maguire", "Willem Dafoe", "Kirsten Dunst", "James Franco", "Cliff Robertson", "Rosemary Harris", "J.K. Simmons", "Joe Manganiello", "Gerry Becker", "Bill Nunn", "Jack Betts", "Stanley Anderson", "Ron Perkins", "Michael Papajohn", "K.K. Dodds", "Ted Raimi", "Bruce Campbell", "Elizabeth Banks", "John Paxton", "Tim DeZarn", "Taylor Gilbert", "Randy Poffo", "Larry Joshua", "Timothy Patrick Quill", "Lisa Danielle", "Natalie T. Yeo", "Erica D. Porter", "Kristen Davidson", "Jason Padgett", "Shan Omar Huey", "Sally Levi", "Evan Arnold", "Jill Sayre", "Jim Ward", "David Holcomb", "Octavia Spencer", "Brad Grunberg", "Shane Habberstad", "Deborah Wakeham", "Rachael Bruce", "Mackenzie Bryce", "Julia Barrie", "Macy Gray", "Myk Watford", "Bill Calvert", "Sylva Kelegian", "Kristen Marie Holly", "Ajay Mehta", "Peter Appel", "Scott Spiegel", "Matt Smith", "Sara Ramirez", "Lucy Lawless", "Jayce Bartok", "Maribel González", "Amy Bouril", "Joseph D'Onofrio", "Jim Norton", "Corey Mendell Parker", "Ashley Edner", "William Joseph Firth", "Alex Black", "Laura Gray", "Joe Virzi", "Michael Edward Thomas", "Jeanie Fox", "Robert Kerman", "Stan Lee", "Una Damon", "Rick Avery", "Peter Aylward", "Jillian Clare", "Chris Coppola", "Jesse Heiman", "Leroy Patterson", "Benny Urquidez", "Scott L. Schwartz", "Jophery C. Brown", "Brian J. Williams", "Mark De Alessandro", "Tia Dionne Hodge", "Loren Janes", "Andray Johnson", "Martin Pfefferkorn", "Tammi Sutton", "Lindsay Thompson", "Sean Valla", "Pete Macnamara", "Al Goto", "Joni Avery", "Sam Raimi", "Craig 'Radio Man' Castaldo", "Lou Torres" ],
+  "runtime" : 121
+}, {
+  "id" : 980431,
+  "title" : "Avatar Aang: The Last Airbender",
+  "releaseYear" : 2026,
+  "averageRating" : 9.303,
+  "genres" : [ {
+    "id" : 16,
+    "name" : "Animation"
+  }, {
+    "id" : 28,
+    "name" : "Action"
+  }, {
+    "id" : 12,
+    "name" : "Adventure"
+  }, {
+    "id" : 14,
+    "name" : "Fantasy"
+  } ],
+  "language" : "en",
+  "cast" : [ "Eric Nam", "Dave Bautista", "Jessica Matten", "Román Zaragoza", "Steven Yeun", "Dionne Quan", "Dee Bradley Baker", "Freida Pinto", "Ke Huy Quan", "Taika Waititi", "Geraldine Viswanathan", "Peta Sergeant", "Jonathan Ohye", "Vic Chao", "François Chau", "Sander Argabrite", "Ronny Chieng", "Keone Young", "Tim Dang", "Ken Jeong", "Isis Celilo Rogers", "Talon Proc Alford", "Wacinyeya Iwasaka Yracheta", "Miller Tai", "Rita Rani Ahuja" ],
+  "runtime" : 99
+}, {
+  "id" : 1212763,
+  "title" : "Evil Dead Burn",
+  "releaseYear" : 2026,
+  "averageRating" : 7.906,
+  "genres" : [ {
+    "id" : 27,
+    "name" : "Horror"
+  }, {
+    "id" : 53,
+    "name" : "Thriller"
+  } ],
+  "language" : "en",
+  "cast" : [ "Souheila Yacoub", "Tandi Wright", "Hunter Doohan", "Luciane Buchanan", "Erroll Shand", "Maude Davey", "George Pullar", "Greta van den Brink", "Keanu Karim", "Victory Ndukwe", "Tapiwa Soropa", "Lara Macgregor", "Shyamal Singh", "Keagan Carr Fransch", "Justin Benn", "Coco White", "Zoë Brunton", "Michael Hurst", "Alain Chabat", "Alyssa Sutherland" ],
+  "runtime" : 110
+}, {
+  "id" : 1273221,
+  "title" : "Scary Movie",
+  "releaseYear" : 2026,
+  "averageRating" : 6.5,
+  "genres" : [ {
+    "id" : 35,
+    "name" : "Comedy"
+  } ],
+  "language" : "en",
+  "cast" : [ "Marlon Wayans", "Shawn Wayans", "Anna Faris", "Regina Hall", "Olivia Rose Keegan", "Savannah Lee Nassif", "Cameron Scott Roberts", "Sydney Park", "Gregg Wayans", "Benny Zielke", "Ruby Snowber", "Dave Sheridan", "Cheri Oteri", "Lochlyn Munro", "Kim Wayans", "Chris Elliott", "Heidi Gardner", "Jon Abrahams", "Paige Mobley", "Fedor Steer", "Chip Carriere", "Anthony Anderson", "Kenan Thompson", "Teyana Taylor", "Shaquille O'Neal", "Carmen Electra", "Charlene Amoia", "Glenn Vandagriff", "Ilia Christmas Wayans", "Kai Cenat", "Craig Wayans", "Maurice Mo Hill", "Axl July Ivory Wayans", "Keeanu Wayans", "Deon Cole", "D.C. Ervin", "Felissa Rose", "Leah Merritt", "Genesis Moore", "Damon Wayans Jr.", "Grace Junot", "Hattie M. Baker", "Bryson Dean Haney", "Eric Feltes", "Kelly Tiddes", "Brandi Marie King", "Jené Marie Moore", "Logan Tiddes", "Justin Miles", "Sydney Castillo", "Cara AnnMarie", "Robert Pralgo", "Diallo Riddle", "Marlon Fisher", "Mar Wayans", "Shawn Howell Wayans", "JJ Field", "Phil Biedron", "Ben VanderMey", "Marcus Lewis", "Scott Kasics", "Nedim Jahić", "Michael Leavy" ],
+  "runtime" : 96
+}, {
+  "id" : 1564614,
+  "title" : "Leviticus",
+  "releaseYear" : 2026,
+  "averageRating" : 6.533,
+  "genres" : [ {
+    "id" : 27,
+    "name" : "Horror"
+  }, {
+    "id" : 10749,
+    "name" : "Romance"
+  } ],
+  "language" : "en",
+  "cast" : [ "Joe Bird", "Stacy Clausen", "Mia Wasikowska", "Nicholas Hope", "Tyallah Bullock", "Ewen Leslie", "Jeremy Blewitt", "Davida McKenzie", "Shannon Berry", "Julia Grace", "Hyu Motoki", "Edwina Wren", "Anna Mtungwazi", "David Serafin", "Flynn Glazebrook", "James Margetts", "Samuel Ostik-Smith", "Jasdeep Saini", "Hasini Walpola", "Zahra Newman", "Basil Sikiotis", "Kamran Fulleylove", "Rose Flanagan", "Carisse Siaw", "Thomas Joseph Sparks", "Jessica David", "Danya Obotaire", "Ava Augustinus" ],
+  "runtime" : 88
+}, {
+  "id" : 1307118,
+  "title" : "Soulm8te",
+  "releaseYear" : 2026,
+  "averageRating" : 6.619,
+  "genres" : [ {
+    "id" : 27,
+    "name" : "Horror"
+  }, {
+    "id" : 878,
+    "name" : "Science Fiction"
+  }, {
+    "id" : 53,
+    "name" : "Thriller"
+  } ],
+  "language" : "en",
+  "cast" : [ "David Rysdahl", "Lily Sullivan", "Claudia Doumit", "Arty Froushan", "Elijah Isaiah Cook", "Mara Huf", "Emma Ramos", "Sydney Blackburn", "Isabelle Bonfrer", "Oliver Cooper", "Nicholas Lane", "Hannah Mamalis", "Gary Hetzler", "Jordanne Jones", "Sean Donegan", "Blu Hydrangea", "Jon Tarcy", "Ossian Perret", "Charlie Kranz", "Andrew Ascough", "Steve Chusak", "Cameron Anthony", "Erin McGathy", "Valerie Hanna", "Harleen Sahota", "Robert Ashe", "Noor Dillan-Night", "Hannah Brady", "Charlotte Moloney", "Declan Gill" ],
+  "runtime" : 99
+}, {
+  "id" : 1311031,
+  "title" : "Demon Slayer: Kimetsu no Yaiba Infinity Castle",
+  "releaseYear" : 2025,
+  "averageRating" : 8.65,
+  "genres" : [ {
+    "id" : 16,
+    "name" : "Animation"
+  }, {
+    "id" : 28,
+    "name" : "Action"
+  }, {
+    "id" : 14,
+    "name" : "Fantasy"
+  } ],
+  "language" : "ja",
+  "cast" : [ "Natsuki Hanae", "Takahiro Sakurai", "Akira Ishida", "Hiro Shimono", "Yoshimasa Hosoya", "Saori Hayami", "Mamoru Miyano", "Reina Ueda", "Yuichi Nakamura", "Lynn", "Toshihiko Seki", "Tomokazu Sugita", "Kengo Kawanishi", "Kana Hanazawa", "Kenichi Suzumura", "Nobuhiko Okamoto", "Katsuyuki Konishi", "Akari Kito", "Hochu Otsuka", "Yoshitsugu Matsuoka", "Daiki Yamashita", "Ryotaro Okiayu", "Toshiyuki Morikawa", "Shin-ichiro Miki", "Shigeru Chiba", "Ai Kayano", "Tomokazu Seki", "Aoi Yuuki", "Shiori Izawa", "Marika Kouno", "Rikiya Koyama", "You Taichi", "Konomi Kohara", "Kaede Hondo", "Maaya Sakamoto", "Kouki Miyata", "Shoya Chiba", "Shoya Ishige", "Yohei Azakami", "Marina Inoue", "Nobuo Tobita", "Kenji Hamada", "Kaori Nazuka", "Takumi Yamazaki", "Bin Shimada", "Kazuhiro Yamaji", "Yoku Shioya", "Nobutoshi Canna" ],
+  "runtime" : 156
+}, {
+  "id" : 1632181,
+  "title" : "Accidental Partners",
+  "releaseYear" : 2026,
+  "averageRating" : 8.919,
+  "genres" : [ {
+    "id" : 35,
+    "name" : "Comedy"
+  }, {
+    "id" : 10749,
+    "name" : "Romance"
+  } ],
+  "language" : "es",
+  "cast" : [ "Angelique Boyer", "Bárbara de Regil", "Diego Klein", "Lucía Uribe", "Isabella Camil", "Gabriela Platas", "Laura Flores", "Elena Pérez", "César Rodríguez", "Rolando Breme", "Cecilia de los Santos Vargas", "Tomihuatzi Xelhuantzi", "Rubén Carpinteiro", "Margarita Chavarría", "Valentina Bouchot", "Patricia Milik Peristeri", "Anna Cepinska", "Daria Alicia" ],
+  "runtime" : 110
+}, {
+  "id" : 1007757,
+  "title" : "Swapped",
+  "releaseYear" : 2026,
+  "averageRating" : 8.889,
+  "genres" : [ {
+    "id" : 12,
+    "name" : "Adventure"
+  }, {
+    "id" : 16,
+    "name" : "Animation"
+  }, {
+    "id" : 10751,
+    "name" : "Family"
+  }, {
+    "id" : 14,
+    "name" : "Fantasy"
+  } ],
+  "language" : "en",
+  "cast" : [ "Michael B. Jordan", "Juno Temple", "Tracy Morgan", "Cedric the Entertainer", "Justina Machado", "Nate Torrence", "Camden Brooks", "Táta Vega", "Ambika Mod", "Lolly Adefope", "John Ratzenberger", "Kari Wahlgren", "Fred Tatasciore", "Zemo Tatasciore", "David Lodge", "Johnny Williams", "Maven Morgan", "Nathan Greno", "Tim Mertens" ],
+  "runtime" : 102
+}, {
+  "id" : 278,
+  "title" : "The Shawshank Redemption",
+  "releaseYear" : 1994,
+  "averageRating" : 8.727,
+  "genres" : [ {
+    "id" : 18,
+    "name" : "Drama"
+  }, {
+    "id" : 80,
+    "name" : "Crime"
+  } ],
+  "language" : "en",
+  "cast" : [ "Tim Robbins", "Morgan Freeman", "Bob Gunton", "William Sadler", "Clancy Brown", "Gil Bellows", "James Whitmore", "Mark Rolston", "Jeffrey DeMunn", "Larry Brandenburg", "Neil Giuntoli", "Brian Libby", "David Proval", "Joseph Ragno", "Jude Ciccolella", "Paul McCrane", "Renee Blaine", "Scott Mann", "John Horton", "Gordon Greene", "Alfonso Freeman", "Vincent Foster", "John E. Summers", "Frank Medrano", "Mack Miles", "Alan R. Kessler", "Morgan Lund", "Cornell Wallace", "Gary Lee Davis", "Neil Summers", "Ned Bellamy", "Joe Pecoraro", "Harold E. Cope Jr.", "Brian Delate", "Don McManus", "Donald Zinn", "Dorothy Silver", "Robert Haley", "Dana Snyder", "John D. Craig", "Ken Magee", "Eugene C. DePasquale", "Bill Bolender", "Ron Newell", "John R. Woodward", "Chuck Brauchler", "Dion Anderson", "Claire Slemmer", "James Kisicki", "Rohn Thomas", "Charlie Kearns", "Rob Reider", "Brian Brophy", "Paul Kennedy", "James Babson", "Dennis Baker", "Fred Culbertson", "Alonzo F. Jones", "Sergio Kato" ],
+  "runtime" : 142
+}, {
+  "id" : 936075,
+  "title" : "Michael",
+  "releaseYear" : 2026,
+  "averageRating" : 8.7,
+  "genres" : [ {
+    "id" : 10402,
+    "name" : "Music"
+  }, {
+    "id" : 18,
+    "name" : "Drama"
+  } ],
+  "language" : "en",
+  "cast" : [ "Jaafar Jackson", "Colman Domingo", "Nia Long", "Juliano Krue Valdi", "KeiLyn Durrel Jones", "Miles Teller", "Larenz Tate", "Laura Harrier", "Mike Myers", "Kendrick Sampson", "Trey Horton", "Rhyan Hill", "Joseph David-Jones", "Jessica Sula", "Deon Cole", "Judah Edwards", "Jayden Harville", "Jaylen Hunter", "Nathaniel Logan McIntyre", "Liv Symone", "Jamal Henderson", "Michael Andrew Baker", "Zach Kenney", "Tiago Martinez", "Amaya Mendoza", "Angela Elayne Gibbs", "Albie Selznick", "Paul Hipp", "Anna Carini", "Misha Suvorov", "John Rabe", "Sophia Villegas", "Kale Hills", "Christine Fekete", "Lincoln Bodin", "Jasper Irvin", "August Dantus", "Jack McSherry", "Michael Berry Jr.", "Mark Bloom", "Kameron Brummer", "Anika Brooks", "Mikal Berry", "Alan Leal", "Jon Boogz", "DeRon Cash", "Brandon Turner", "Kalan.FrFr", "Brandon McKinnie", "Brandon Brown", "L.J. Pricetag", "Jerrel O'Neal", "Suga Pop", "Asia Fuqua", "Tony von Halle", "Jono Petrie", "Monique Lindsey", "Zylan Brooks", "Rob Brownstein", "Ryan Everett Hailey", "Emily Zapotocny", "Cedric Stephens", "Dennis Boyd", "Darrell 'Silver' Hughes", "Frescia Belmar", "Prince Jackson", "Daniel Korenfeld", "Bill Corso" ],
+  "runtime" : 128
+}, {
+  "id" : 238,
+  "title" : "The Godfather",
+  "releaseYear" : 1972,
+  "averageRating" : 8.686,
+  "genres" : [ {
+    "id" : 18,
+    "name" : "Drama"
+  }, {
+    "id" : 80,
+    "name" : "Crime"
+  } ],
+  "language" : "en",
+  "cast" : [ "Marlon Brando", "Al Pacino", "James Caan", "Robert Duvall", "Richard S. Castellano", "Diane Keaton", "Talia Shire", "Gianni Russo", "Sterling Hayden", "John Marley", "Richard Conte", "Al Lettieri", "Abe Vigoda", "John Cazale", "Rudy Bond", "Al Martino", "Morgana King", "Lenny Montana", "John Martino", "Salvatore Corsitto", "Richard Bright", "Alex Rocco", "Tony Giorgio", "Vito Scotti", "Tere Livrano", "Victor Rendina", "Jeannie Linero", "Julie Gregg", "Ardell Sheridan", "Simonetta Stefanelli", "Angelo Infanti", "Corrado Gaipa", "Franco Citti", "Saro Urzì", "Roman Coppola", "Sofia Coppola", "Don Costello", "Italia Coppola", "Gray Frederickson", "Ron Gilbert", "Sonny Grosso", "Louis Guss", "Randy Jurgensen", "Tony King", "Tony Lip", "Joe Lo Grippo", "Lou Martini Jr.", "Raymond Martino", "Joseph Medaglia", "Carol Morley", "Rick Petrucelli", "Sal Richards", "Tom Rosqui", "Frank Sivero", "Filomena Spagnuolo", "Joe Spinell", "Gabriele Torrei", "Nick Vallelonga", "Conrad Yama", "Frank Albanese", "Chris Anastasio", "John Blower", "Max Brandt", "Tybee Brascia", "Garrett Cassell", "Carmine Coppola", "Gian-Carlo Coppola", "Robert Dahdah", "Richard Fass", "Bobra Harris", "Mickey Humm", "Merril E. Joels", "Paul Lambert", "Dave Moskin", "Joe Petrullo", "Burt Richards", "Giacomo Rossi Stuart", "Nino Ruggeri", "Palombizio Anthony V.", "Ron Veto", "Matthew Vlahakis" ],
+  "runtime" : 175
+}, {
+  "id" : 687163,
+  "title" : "Project Hail Mary",
+  "releaseYear" : 2026,
+  "averageRating" : 8.661,
+  "genres" : [ {
+    "id" : 878,
+    "name" : "Science Fiction"
+  }, {
+    "id" : 12,
+    "name" : "Adventure"
+  } ],
+  "language" : "en",
+  "cast" : [ "Ryan Gosling", "Sandra Hüller", "James Ortiz", "Lionel Boyce", "Milana Vayntrub", "Ken Leung", "Priya Kansara", "Mia Soteriou", "Annelle Olaleye", "Maya Eva Hosein", "Bastian Antonio Fuentes", "Alice Brittain", "Michael Akinsulire", "Travis Jay", "Geoffrey Lumb", "Paul Lambert", "Orion Lee", "Aaron Neil", "Michelle Greenidge", "Bernhard Schütz", "Amira Ghazalla", "Malachi Kirby", "Liz Kingsman", "Piotr Baumann", "Eunice Huthart", "Damien de Froberville", "Ray Porter", "Meryl Streep" ],
+  "runtime" : 157
+}, {
+  "id" : 424,
+  "title" : "Schindler's List",
+  "releaseYear" : 1993,
+  "averageRating" : 8.569,
+  "genres" : [ {
+    "id" : 18,
+    "name" : "Drama"
+  }, {
+    "id" : 36,
+    "name" : "History"
+  }, {
+    "id" : 10752,
+    "name" : "War"
+  } ],
+  "language" : "en",
+  "cast" : [ "Liam Neeson", "Ben Kingsley", "Ralph Fiennes", "Caroline Goodall", "Jonathan Sagall", "Embeth Davidtz", "Małgorzata Gebel", "Shmuel Levy", "Mark Ivanir", "Béatrice Macola", "Andrzej Seweryn", "Friedrich von Thun", "Krzysztof Luft", "Harry Nehring", "Norbert Weisser", "Adi Nitzan", "Michael Schneider", "Miri Fabian", "Anna Mucha", "Albert Misak", "Michael Gordon", "Aldona Grochal", "Jacek Wójcicki", "Beata Paluch", "Piotr Polk", "Ezra Dagan", "Beata Deskur", "Rami Heuberger", "Leopold Kozłowski", "Jerzy Nowak", "Uri Avrahami", "Adam Siemion", "Magdalena Dandourian", "Paweł Deląg", "Shabtai Konorti", "Oliwia Dabrowska", "Henryk Bista", "Tadeusz Bradecki", "Wojciech Klata", "Elina Löwensohn", "Ewa Kolasińska-Szramel", "Bettina Kupfer", "Grzegorz Kwas", "Vili Matula", "Stanislaw Koczanowicz", "Hans-Jörg Assmann", "Geno Lechner", "August Schmölzer", "Ludger Pistor", "Beata Rybotycka", "Branko Lustig", "Artus-Maria Matthiessen", "Hans-Michael Rehberg", "Eugeniusz Priwieziencew", "Michael Z. Hoffmann", "Erwin Leder", "Jochen Nickel", "Andrzej Welminski", "Daniel Del-Ponte", "Marian Glinka", "Grzegorz Damięcki", "Stanisław Brejdygant", "Olaf Lubaszenko", "Haymon Maria Buttinger", "Peter Appiano", "Jacek Pulanecki", "Tomasz Dedek", "Sławomir Holland", "Martin Semmelrogge", "Tadeusz Huk", "Alexander Held", "Piotr Cyrwus", "Joachim Paul Assböck", "Osman Ragheb", "Maciej Orłoś", "Marek Wrona", "Zbigniew Kozłowski", "Marcin Grzymowicz", "Dieter Witting", "Magdalena Komornicka", "Agnieszka Krukówna", "Anemona Knut", "Jeremy Flynn", "Agnieszka Wagner", "Jan Jurewicz", "Wiesław Komasa", "Maciej Kozłowski", "Martin Bergmann", "Wilhelm Manske", "Peter Flechtner", "Sigurd Bemme", "Etl Szyc", "Lucyna Zabawa", "Ruth Farhi", "Jerzy Sagan", "Dariusz Szymaniak", "Dirk Bender", "Maciej Winkler", "Radosław Krzyżowski", "Jacek Link-Lenczowski", "Hanna Kossowska", "Maja Ostaszewska", "Sebastian Skalski", "Ryszard Radwański", "Piotr Kadlcik", "Lech Niebielski", "Thomas Morris", "Sebastian Konrad", "Lidia Wyrobiec-Bank", "Ravit Ferera", "Agnieszka Korzeniowska", "Dominika Bednarczyk", "Alicja Kubaszewska", "Danny Marcu", "Hans Rosner", "Edward Linde-Lubaszenko", "Alexander Strobele", "Georges Kern", "Alexander Buczolich", "Michael Schiller", "Götz Otto", "Wolfgang Seidenberg", "Hubert Kramar", "Razia Israeli", "Dorit Seadia", "Esti Yerushalmi", "Marta Bizoń", "Maciej Kowalewski", "Zuzanna Lipiec", "Maria Peszek", "Leopold Pfefferberg", "Leopold Rosner", "Emilie Schindler", "Katarzyna Śmiechowicz" ],
+  "runtime" : 195
+}, {
+  "id" : 240,
+  "title" : "The Godfather Part II",
+  "releaseYear" : 1974,
+  "averageRating" : 8.6,
+  "genres" : [ {
+    "id" : 18,
+    "name" : "Drama"
+  }, {
+    "id" : 80,
+    "name" : "Crime"
+  } ],
+  "language" : "en",
+  "cast" : [ "Al Pacino", "Robert Duvall", "Diane Keaton", "Robert De Niro", "John Cazale", "Talia Shire", "Lee Strasberg", "Michael V. Gazzo", "G.D. Spradlin", "Richard Bright", "Gastone Moschin", "Tom Rosqui", "Bruno Kirby", "Frank Sivero", "Francesca De Sapio", "Morgana King", "Marianna Hill", "Leopoldo Trieste", "Dominic Chianese", "Amerigo Tot", "Troy Donahue", "John Aprea", "Joe Spinell", "Abe Vigoda", "Tere Livrano", "Gianni Russo", "Maria Carta", "Oreste Baldini", "Giuseppe Sillato", "Mario Cotone", "James Gounaris", "Fay Spain", "Harry Dean Stanton", "David Baker", "Carmine Caridi", "Danny Aiello", "Carmine Foresta", "Nick Discenza", "Joseph Medaglia", "William Bowers", "Joseph Della Sorte", "Carmen Argenziano", "Joe Lo Grippo", "Ezio Flagello", "Livio Giorgi", "Kathleen Beller", "Saveria Mazzola", "Tito Alba", "Johnny Naranjo", "Elda Maida", "Salvatore Po", "Ignazio Pappalardo", "Andrea Maugeri", "Peter LaCorte", "Vincent Coppola", "Peter Donat", "Tom Dahlgren", "Paul B. Brown", "Phil Feldman", "Roger Corman", "Ivonne Coll", "Joe De Nicola", "Edward Van Sickle", "Gabriella Belloni", "Richard Watson", "Venancia Grangerard", "Erica Yohn", "Teresa Tirelli", "James Caan", "Italia Coppola", "Roman Coppola", "Sofia Coppola", "Victor Pujols Faneyte", "Julie Gregg", "Larry Guardino", "Buck Houghton", "Sho Kosugi", "Gary Kurtz", "Richard Matheson", "John Megna", "Jay Rasumny", "Filomena Spagnuolo", "Julian Voloshin", "Laura Lyons", "Harrison Ressler", "Tony Sirico", "Margaret Bacon", "Al Beaudine", "Jack Berle", "John Blower", "Larry Carr", "Dick Cherney", "Jack R. Clinton", "Len Felber", "Raven Grey Eagle", "George Holmes", "Shep Houghton", "Kathryn Janssen", "Ken Koc", "Tommy Lasorda", "Louis Marino", "Alan Marston", "Joe Pine", "Felipe Polanco", "Al Roberts", "Rhea Ruggiero", "George Simmons", "Nico Stevens", "Arthur Tovey", "Palombizio Anthony V.", "Wally West", "Judith Woodbury" ],
+  "runtime" : 202
+}, {
+  "id" : 389,
+  "title" : "12 Angry Men",
+  "releaseYear" : 1957,
+  "averageRating" : 8.566,
+  "genres" : [ {
+    "id" : 18,
+    "name" : "Drama"
+  } ],
+  "language" : "en",
+  "cast" : [ "Martin Balsam", "John Fiedler", "Lee J. Cobb", "E.G. Marshall", "Jack Klugman", "Edward Binns", "Jack Warden", "Henry Fonda", "Joseph Sweeney", "Ed Begley", "George Voskovec", "Robert Webber", "Rudy Bond", "Tom Gorman", "James Kelly", "Billy Nelson", "Walter Stocker", "John Savoca" ],
+  "runtime" : 97
+}, {
+  "id" : 155,
+  "title" : "The Dark Knight",
+  "releaseYear" : 2008,
+  "averageRating" : 8.534,
+  "genres" : [ {
+    "id" : 28,
+    "name" : "Action"
+  }, {
+    "id" : 80,
+    "name" : "Crime"
+  }, {
+    "id" : 53,
+    "name" : "Thriller"
+  } ],
+  "language" : "en",
+  "cast" : [ "Christian Bale", "Heath Ledger", "Aaron Eckhart", "Michael Caine", "Maggie Gyllenhaal", "Gary Oldman", "Morgan Freeman", "Monique Gabriela Curnen", "Ron Dean", "Cillian Murphy", "Chin Han", "Nestor Carbonell", "Eric Roberts", "Ritchie Coster", "Anthony Michael Hall", "Keith Szarabajka", "Colin McFarlane", "Joshua Harto", "Melinda McGraw", "Nathan Gamble", "Michael Vieau", "Michael Stoyanov", "William Smillie", "Danny Goldring", "Michael Jai White", "Matthew O'Neill", "William Fichtner", "Olumiji Olawumi", "Greg Beam", "Erik Hellman", "Beatrice Rosen", "Vincenzo Nicoli", "Edison Chen", "Nydia Rodriguez Terracina", "Andy Luther", "James Farruggio", "Tom McElroy", "Will Zahrn", "James Fierro", "Patrick Leahy", "Sam Derence", "Jennifer Knox", "Patrick Clear", "Sarah Jayne Dunn", "Charles Venn", "Winston Ellis", "David Dastmalchian", "Sophia Hinshelwood", "Keith Kupferer", "Joseph Luis Caballero", "Richard Dillane", "Daryl Satcher", "Chris Petschler", "Aidan Feore", "Philip Bulcock", "Paul Birchard", "Walter Lewis", "Vincent Riotta", "Nancy Crane", "K. Todd Freeman", "Matt Shallenberger", "Michael Andrew Gorman", "Lanny Lutz", "Peter DeFaria", "Matt Rippy", "Andrew Bicknell", "Ariyon Bakare", "Doug Ballard", "Helene Maksoud", "Tommy Campbell", "Craig Heaney", "Sutara Gayle", "Lisa McAllister", "Peter Brooke", "Joshua Rollins", "Dale Rivera", "Matthew Leitch", "Tommy Lister Jr.", "Thomas Gaitsch", "William Armstrong", "Adam Kalesperis", "Tristan Tait", "Bronson Webb", "David Ajala", "Gertrude Kyles", "Jonathan Ryland", "James Scales", "Nigel Carrington", "Ian Pirie", "Lateef Lovejoy", "Grahame Edwards", "Roger Monk", "Ronan Summers", "Wai Wong", "Michael Corey Foster", "Hannah Gunn", "Brandon Lambdin", "Matt Skiba", "Jon Lee Brody", "Debbi Burns", "Maritza Cabrera", "Shirin Caiola", "Laura Chernicky", "Henry Milton Chu", "Kelli Clevenger", "Richard Divizio", "Tony Domino", "David Fultz", "Natalie Hallam", "Jordon Hodges", "Erron Jay", "Nicky Katt", "Thomas Kosik", "Don Kress", "Tim Krueger", "Dan Latham", "Tom McComas", "James Mellor", "Joseph Oliveira", "Buster Reeves", "Peter Rnic", "Amit Shah", "Michelle Shields", "Sofiya Smirnova", "Bruce Spielbauer", "Robert Patrick Stern", "Robert Stone", "Richard Strobel", "Tom Townsend", "John Turk", "John Warman", "Chris Wilson", "Kevin Zaideman", "Rob Clark", "Craig Braginsky", "Mike Whyte", "Rick Avery", "John Snowden" ],
+  "runtime" : 152
+}, {
+  "id" : 129,
+  "title" : "Spirited Away",
+  "releaseYear" : 2001,
+  "averageRating" : 8.534,
+  "genres" : [ {
+    "id" : 16,
+    "name" : "Animation"
+  }, {
+    "id" : 10751,
+    "name" : "Family"
+  }, {
+    "id" : 14,
+    "name" : "Fantasy"
+  } ],
+  "language" : "ja",
+  "cast" : [ "Rumi Hiiragi", "Miyu Irino", "Mari Natsuki", "Takashi Naito", "Yasuko Sawaguchi", "Tatsuya Gashuin", "Ryunosuke Kamiki", "Yumi Tamai", "Yo Oizumi", "Koba Hayashi", "Tsunehiko Kamijô", "Takehiko Ono", "Bunta Sugawara", "Shigeru Wakita", "Shirou Saitou", "Michiko Yamamoto", "Keiko Tsukamoto", "Akio Nakamura", "Shinji Tokumaru", "Kaori Yamagata", "Tsuzuki Kayako", "Masahiro Asano", "Kazutaka Hayashida", "Ikuko Yamamoto", "Mina Meguro", "Tetsurô Ishibashi", "Katsutomo Shîbara", "Shinobu Katabuchi", "Noriko Kitou", "Naoto Kaji", "Yoshitaka Sukegawa", "Aki Tachikawa", "Noriko Yamaya", "Katsuhisa Matsuo", "Masayuki Kizu", "Yôko Ôno", "Sachie Azuma", "Ken Yasuda", "Shigeyuki Totsugi", "Mayumi Saco", "Sonoko Soeda", "Akiko Tomihira", "Minako Masuda", "Orika Ono", "Rina Yamada", "Miwa Takachi", "Hiromi Takeuchi", "Makiko Oku" ],
+  "runtime" : 125
+}, {
+  "id" : 19404,
+  "title" : "Dilwale Dulhania Le Jayenge",
+  "releaseYear" : 1995,
+  "averageRating" : 8.506,
+  "genres" : [ {
+    "id" : 35,
+    "name" : "Comedy"
+  }, {
+    "id" : 18,
+    "name" : "Drama"
+  }, {
+    "id" : 10749,
+    "name" : "Romance"
+  } ],
+  "language" : "hi",
+  "cast" : [ "Kajol", "Shah Rukh Khan", "Amrish Puri", "Farida Jalal", "Anupam Kher", "Pooja Ruparel", "Parmeet Sethi", "Satish Shah", "Mandira Bedi", "Achala Sachdev", "Himani Shivpuri", "Karan Johar", "Arjun Sablok", "Anaita Shroff Adajania", "Uday Chopra", "Hemlata Deepak", "Lalit Tiwari", "Baby Raashi", "Baby Nupur", "Shanker Iyer", "Rajesh Bhatija", "Govind Khatri", "Mansoor Merchant", "Mohit Kumar", "Damyanti Puri", "Surendra Rahi" ],
+  "runtime" : 190
+}, {
+  "id" : 497,
+  "title" : "The Green Mile",
+  "releaseYear" : 1999,
+  "averageRating" : 8.506,
+  "genres" : [ {
+    "id" : 14,
+    "name" : "Fantasy"
+  }, {
+    "id" : 18,
+    "name" : "Drama"
+  }, {
+    "id" : 80,
+    "name" : "Crime"
+  } ],
+  "language" : "en",
+  "cast" : [ "Tom Hanks", "David Morse", "Bonnie Hunt", "Michael Clarke Duncan", "James Cromwell", "Michael Jeter", "Graham Greene", "Doug Hutchison", "Sam Rockwell", "Barry Pepper", "Jeffrey DeMunn", "Patricia Clarkson", "Harry Dean Stanton", "Dabbs Greer", "Eve Brent", "William Sadler", "Mack Miles", "Rai Tasco", "Edrie Warner", "Paula Malcomson", "Christopher Joel Ives", "Evanne Drucker", "Bailey Drucker", "Brian Libby", "Brent Briscoe", "Bill McKinney", "Gary Sinise", "Rachel Singer", "Scotty Leavenworth", "Katelyn Leavenworth", "Bill Gratton", "Dee Croxton", "Rebecca Klingler", "Gary Imhoff", "Van Epperson", "David E. Browning", "Tommy Barnes", "Wes Hall", "Phil Hawn", "Judy Herrera", "Gower Mills", "Garth Shaw", "Jared Stovall", "Todd Thompson" ],
+  "runtime" : 189
+}, {
+  "id" : 1218925,
+  "title" : "Chainsaw Man - The Movie: Reze Arc",
+  "releaseYear" : 2025,
+  "averageRating" : 8.5,
+  "genres" : [ {
+    "id" : 16,
+    "name" : "Animation"
+  }, {
+    "id" : 28,
+    "name" : "Action"
+  }, {
+    "id" : 10749,
+    "name" : "Romance"
+  }, {
+    "id" : 14,
+    "name" : "Fantasy"
+  } ],
+  "language" : "ja",
+  "cast" : [ "Kikunosuke Toya", "Tomori Kusunoki", "Reina Ueda", "Shogo Sakata", "Karin Takahashi", "Fairouz Ai", "Natsuki Hanae", "Maaya Uchida", "Yuuya Uchida", "Shiori Izawa", "Hidenori Takahashi", "Kenjiro Tsuda", "Marina Inoue", "Kenji Akabane", "Kenji Nomura", "Kenichi Ono", "Yuhko Kaida", "Eri Kitamura", "Kento Shiraishi", "Taro Kiuchi", "Akihiro Mine", "Misano Sakai", "Takeo Motoi", "Hikari Aomi", "Hayato Kimura", "Ryo Nishitani", "Takahiro Sumi", "Chihiro Ikki" ],
+  "runtime" : 100
+}, {
+  "id" : 122,
+  "title" : "The Lord of the Rings: The Return of the King",
+  "releaseYear" : 2003,
+  "averageRating" : 8.503,
+  "genres" : [ {
+    "id" : 12,
+    "name" : "Adventure"
+  }, {
+    "id" : 14,
+    "name" : "Fantasy"
+  }, {
+    "id" : 28,
+    "name" : "Action"
+  } ],
+  "language" : "en",
+  "cast" : [ "Elijah Wood", "Ian McKellen", "Viggo Mortensen", "Sean Astin", "Andy Serkis", "Dominic Monaghan", "Billy Boyd", "John Noble", "David Wenham", "Miranda Otto", "Bernard Hill", "John Rhys-Davies", "Orlando Bloom", "Hugo Weaving", "Liv Tyler", "Cate Blanchett", "Karl Urban", "Ian Holm", "Sean Bean", "Lawrence Makoare", "Marton Csokas", "Paul Norell", "Noel Appleby", "Sarah McLeod", "Ali Astin", "Maisy McLeod-Riera", "David Aston", "John Bach", "Sadwyn Brophy", "Alistair Browning", "Richard Edge", "Jason Fitch", "Bruce Hopkins", "Ian Hughes", "Bret McKenzie", "Bruce Phillips", "Shane Rangi", "Todd Rippon", "Thomas Robins", "Harry Sinclair", "Peter Tait", "Joel Tobeck", "Stephen Ure", "Sala Baker", "Robert Pollock", "Ross Duncan", "Pete Smith", "Jed Brophy", "Lee Hartley", "Billy Jackson", "Katie Jackson", "Alan Howard", "Jane Abbott", "Gino Acevedo", "Aidan Bell", "Jarl Benzon", "Jørn Benzon", "Emma Deakin", "Michael Elsworth", "Clint Elvy", "Zo Hartley", "Peter Jackson", "Sandro Kopp", "Andrew Lesnie", "Henry Mortensen", "Craig Parker", "Rick Porras", "Christian Rivers", "Michael Semanick", "Howard Shore", "John Stephenson", "Richard Taylor", "Royd Tolkien", "Sam Kelly" ],
+  "runtime" : 201
+}, {
+  "id" : 496243,
+  "title" : "Parasite",
+  "releaseYear" : 2019,
+  "averageRating" : 8.489,
+  "genres" : [ {
+    "id" : 35,
+    "name" : "Comedy"
+  }, {
+    "id" : 53,
+    "name" : "Thriller"
+  }, {
+    "id" : 18,
+    "name" : "Drama"
+  } ],
+  "language" : "ko",
+  "cast" : [ "Song Kang-ho", "Lee Sun-kyun", "Cho Yeo-jeong", "Choi Woo-shik", "Park So-dam", "Lee Jung-eun", "Jang Hye-jin", "Park Myung-hoon", "Jung Zi-so", "Jung Hyeon-jun", "Park Keun-rok", "Jung Yi-seo", "Cho Jae-myung", "Jeong Ik-han", "Kim Kyu-baek", "Lee Dong-yong", "Ahn Seong-bong", "Yoon Young-woo", "Park Jae-wook", "Jeon Eun-mi", "Kim Geon", "Lee Joo-hyung", "Kim Yeong-jo", "Kim Jung-woo", "Baek Seung-hwan", "Je Seung-hyun", "Park Hye-sook", "Choi Ji-won", "Lee Sang-kyung", "Kim Ha-eon", "Lee Ji-hye", "Kim Bo-ryeong", "Riccardo Ferraresso", "Ko Kwan-jae", "Lee Si-hoon", "Seo Bok-hyeon", "Shim Soo-mi", "Yoon Hye-ree", "Andreas Fronk", "Anna Elisabeth Rihlmann", "Rosie Peralta", "Shin Seung-min", "Park Seo-jun", "Kwak Sin-ae", "Choi Jeong-hyun", "Lee Eun-hee", "Park Jae-wan", "Hwang In-gyeong", "Lee Si-hoo", "Ahn Jin-sang", "Jeong Il-Hwa", "Seo Han-gyeol", "Kim Se-in" ],
+  "runtime" : 133
+}, {
+  "id" : 157336,
+  "title" : "Interstellar",
+  "releaseYear" : 2014,
+  "averageRating" : 8.484,
+  "genres" : [ {
+    "id" : 12,
+    "name" : "Adventure"
+  }, {
+    "id" : 18,
+    "name" : "Drama"
+  }, {
+    "id" : 878,
+    "name" : "Science Fiction"
+  } ],
+  "language" : "en",
+  "cast" : [ "Matthew McConaughey", "Anne Hathaway", "Michael Caine", "Jessica Chastain", "Casey Affleck", "Wes Bentley", "Topher Grace", "Mackenzie Foy", "Ellen Burstyn", "John Lithgow", "Bill Irwin", "David Gyasi", "Timothée Chalamet", "Matt Damon", "Josh Stewart", "Leah Cairns", "Liam Dickinson", "Francis X. McCarthy", "William Devane", "Andrew Borba", "Elyes Gabel", "David Oyelowo", "Collette Wolfe", "Jeff Hephner", "Russ Fega", "Lena Georgas", "Brooke Smith", "Flora Nolan", "Griffen Fraser", "Kristian Van der Heyden", "William Patrick Brown", "Benjamin Hardy", "Joseph Oliveira", "Alexander Michael Helisek", "Rory Nolan" ],
+  "runtime" : 169
+}, {
+  "id" : 372058,
+  "title" : "Your Name.",
+  "releaseYear" : 2016,
+  "averageRating" : 8.483,
+  "genres" : [ {
+    "id" : 16,
+    "name" : "Animation"
+  }, {
+    "id" : 10749,
+    "name" : "Romance"
+  }, {
+    "id" : 18,
+    "name" : "Drama"
+  } ],
+  "language" : "ja",
+  "cast" : [ "Ryunosuke Kamiki", "Mone Kamishiraishi", "Ryo Narita", "Aoi Yuuki", "Nobunaga Shimazaki", "Kaito Ishikawa", "Kanon Tani", "Masaki Terasoma", "Sayaka Ohara", "Kazuhiko Inoue", "Chafurin", "Yuka Kato", "Kana Hanazawa", "Masami Nagasawa", "Etsuko Ichihara", "Yuka Terasaki", "Takashi Onozuka", "Yohei Namekawa", "Miyuu Tsuji", "Shinya Hamazoe", "Kanami Satou", "Shinjirou Gouda", "Yasuhiro Kikuchi", "Tamari Hinata", "Nozomi Yamane", "Yuuki Shin", "Tatsuya Murakami", "Nodoka Hasegawa", "Baron Yamazaki", "Mimi Tamaki", "Suguru Inoue", "Ryoko Usami", "Miho Morisaki", "Tomohiro Yamaguchi", "Tsuyoshi Minamijima", "Aika Oomae", "Takayuki Nakatsukasa", "Hiroki Matsukawa", "Shouko Negoro", "Yuki Ominami", "Manami Hanawa", "Miho Tabata", "Aiko Matsuzaka", "Eriko Tomioka", "Eiji Yamamoto", "Tomoki Lavernhe", "Yuine Ikeda", "Dan Kanemitsu", "C. Elliott Wong", "Simona Stanzani Pini", "Chris McKenna", "Akira Kuwahara", "Yusuke Takeda" ],
+  "runtime" : 106
+}, {
+  "id" : 680,
+  "title" : "Pulp Fiction",
+  "releaseYear" : 1994,
+  "averageRating" : 8.481,
+  "genres" : [ {
+    "id" : 53,
+    "name" : "Thriller"
+  }, {
+    "id" : 80,
+    "name" : "Crime"
+  }, {
+    "id" : 35,
+    "name" : "Comedy"
+  } ],
+  "language" : "en",
+  "cast" : [ "John Travolta", "Samuel L. Jackson", "Uma Thurman", "Bruce Willis", "Ving Rhames", "Harvey Keitel", "Eric Stoltz", "Tim Roth", "Amanda Plummer", "Maria de Medeiros", "Quentin Tarantino", "Christopher Walken", "Rosanna Arquette", "Peter Greene", "Duane Whitaker", "Angela Jones", "Phil LaMarr", "Steve Buscemi", "Bronagh Gallagher", "Laura Lovelace", "Frank Whaley", "Burr Steers", "Paul Calderon", "Jerome Patrick Hoban", "Michael Gilden", "Gary Shorelle", "Susan Griffiths", "Eric Clark", "Joseph Pilato", "Brad Blumenthal", "Lorelei Leslie", "Emil Sitka", "Brenda Hillhouse", "Chandler Lindauer", "Sy Sher", "Robert Ruth", "Rich Turner", "Don Blakely", "Carl Allen", "Karen Maruyama", "Kathy Griffin", "Venessia Valentino", "Linda Kaye", "Stephen Hibbert", "Alexis Arquette", "Julia Sweeney", "Lawrence Bender", "Cie Allman", "Rene Beard", "Glendon Rich", "Ani Sava", "Richard Rossi" ],
+  "runtime" : 154
+}, {
+  "id" : 1383731,
+  "title" : "Protector",
+  "releaseYear" : 2026,
+  "averageRating" : 8.478,
+  "genres" : [ {
+    "id" : 28,
+    "name" : "Action"
+  }, {
+    "id" : 53,
+    "name" : "Thriller"
+  } ],
+  "language" : "en",
+  "cast" : [ "Milla Jovovich", "Matthew Modine", "Isabel Myers", "D. B. Sweeney", "Don Harvey", "Michael Stahl-David", "Lydia Hull", "Chase Kim", "Brooklyn Sudano", "Gabriel Sloyer", "Manny Montana", "Texas Battle", "Yoko Hamamura", "Arica Himmel", "Shane Williams", "John D. Hickman", "Anthony Xzavier Estrada" ],
+  "runtime" : 90
+}, {
+  "id" : 1330021,
+  "title" : "Remarkably Bright Creatures",
+  "releaseYear" : 2026,
+  "averageRating" : 8.478,
+  "genres" : [ {
+    "id" : 18,
+    "name" : "Drama"
+  }, {
+    "id" : 9648,
+    "name" : "Mystery"
+  } ],
+  "language" : "en",
+  "cast" : [ "Sally Field", "Lewis Pullman", "Colm Meaney", "Alfred Molina", "Joan Chen", "Kathy Baker", "Beth Grant", "Sofia Black-D'Elia", "Brandon McEwan", "Donald Sales", "Mapuana Makia", "Laura Harris", "Anthony Harrison", "Dan Payne", "Shauna Johannesen", "Chris William Martin", "David Parent", "Michael Delleva", "Duncan Fraser", "Noah Craig", "Kareem Malcolm", "Emily Giannozio", "Andres Joseph", "Katie Findlay", "Arielle Tuliao", "Ezra Wilson", "Ronald Dario", "Sasha Williams", "Michael Karl Richards", "Miles Marthaller", "Kingston Goodjohn", "Meghan Heffern", "Michael Adamthwaite", "Tim Howe" ],
+  "runtime" : 114
+}, {
+  "id" : 429,
+  "title" : "The Good, the Bad and the Ugly",
+  "releaseYear" : 1966,
+  "averageRating" : 8.464,
+  "genres" : [ {
+    "id" : 37,
+    "name" : "Western"
+  } ],
+  "language" : "it",
+  "cast" : [ "Clint Eastwood", "Eli Wallach", "Lee Van Cleef", "Aldo Giuffrè", "Luigi Pistilli", "Rada Rassimov", "Enzo Petito", "Claudio Scarchilli", "Antonio Casale", "Livio Lorenzon", "Sandro Scarchilli", "Benito Stefanelli", "Angelo Novi", "Antonio Casas", "Aldo Sambrell", "Al Mulock", "Sergio Mendizábal", "Antonio Molino Rojo", "Lorenzo Robledo", "Mario Brega", "Chelo Alonso", "Fortunato Arena", "Román Ariznavarreta", "Silvana Bacci", "Joseph Bradley", "Frank Braña", "Amerigo Castrighella", "Saturno Cerra", "William Conroy", "Axel Darna", "Tony Di Mitri", "Gianni Di Segni", "Alberigo Donadeo", "Attilio Dottesio", "Luis Fernández de Eribe", "Veriano Ginesi", "Jesús Guzmán", "Víctor Israel", "Nazzareno Natale", "Ricardo Palacios", "Antonio Palombi", "Romano Puppo", "Antoñito Ruiz", "Aysanoa Runachagua", "Enrique Santiago", "José Terrón", "Franco Tocci", "Antonio Montoya" ],
+  "runtime" : 161
+}, {
+  "id" : 13,
+  "title" : "Forrest Gump",
+  "releaseYear" : 1994,
+  "averageRating" : 8.464,
+  "genres" : [ {
+    "id" : 35,
+    "name" : "Comedy"
+  }, {
+    "id" : 18,
+    "name" : "Drama"
+  }, {
+    "id" : 10749,
+    "name" : "Romance"
+  } ],
+  "language" : "en",
+  "cast" : [ "Tom Hanks", "Robin Wright", "Gary Sinise", "Sally Field", "Mykelti Williamson", "Michael Conner Humphreys", "Hanna Hall", "Haley Joel Osment", "Siobhan Fallon Hogan", "Rebecca Williams", "Bob Penny", "Harold G. Herthum", "George Kelly", "John Randall", "Sam Anderson", "Margo Moorer", "Ione M. Telech", "Christine Seabrook", "John Worsham", "Peter Dobson", "Alexander Zemeckis", "Logan Livingston Gomez", "Ben Waddel", "Elizabeth Hanks", "Tyler Long", "Christopher Jones", "Grady Bowman", "Kevin Mangan", "Fay Genens", "Frank Geyer", "Rob Landry", "Jason McGuire", "Pete Auster", "Sonny Shroyer", "Brett Rice", "Ed Davis", "Daniel C. Striepeke", "Bruce Lucvia", "David Brisbin", "Kirk Ward", "Angela Lomas", "Timothy Record", "Deborah McTeer", "Mark Matheisen", "Al Harrington", "Jed Gillin", "Bob Harks", "Don Fischer", "Kenneth Bevington", "Michael Flannery", "Gary Robinson", "Marlena Smalls", "Kitty K. Green", "Afemo Omilami", "Matt Wallace", "Danté McCarthy", "Paulie DiCocco", "Mike Jolly", "Michael Kemmerling", "John Voldstad", "Jeffrey Winner", "Russ Wilson", "Daniel J. Gillooly", "Calvin Gadsden", "Aaron Izbicki", "Michael Burgess", "Steven Griffith", "Bill Roberson", "Michael McFall", "Eric Underwood", "Steve DeRelian", "Byron Minns", "Stephen Bridgewater", "Bonnie Ann Burgess", "Scott Oliver", "John William Galt", "Hilary Chaplain", "Isabel Rose", "Jay Ross", "Richard D'Alessandro", "Dick Stilwell", "Kevin Davis", "Michael Jace", "Geoffrey Blake", "Tim Perry", "Vanessa Roth", "Emily Carey", "Paul Raczkowski", "Valentine", "Dick Cavett", "Joe Stefanelli", "Tiffany Salerno", "Marla Sucharetza", "Aloysius Gigl", "Jack Bowden", "Joe Alaskey", "Lazarus Jackson", "W. Benson Terry", "Matt Rebenkoff", "Peter Bannon", "Joe Washington", "Nora Dunfee", "Natalie Hendrix Tate", "Hallie D'Amore", "Jim Hanks", "Chiffonye Cobb", "Juan Singleton", "Bobby Richardson", "Michael Mattison", "Lenny Herb", "Charles Boswell", "Timothy McNeil", "Lonnie Hamilton", "Teresa Denton", "Kurt Russell", "Mary Ellen Trainor", "Robb Skyler", "Michael J. Oliver", "Bryan Hanna", "Greg Brown", "Brendan Shanahan", "Troy Christian", "Jacqueline Lovell", "Zach Hanner", "Aaron Michael Lacey", "William Shipman", "Eric Alan Wendell", "John Simmit", "Neal MacMillan", "Beau Lotterman", "Teddy Lane Jr.", "Jim Keller", "Michael Garvey", "James Ent", "Jim Damron", "Darren W. Conrad", "Daniel Chamblin", "Clint Calvert", "Grand L. Bush", "Jim Boeke", "Marcus Batton", "Beth Aylward", "Rob Adams", "Joe Abby", "Elvis Presley" ],
+  "runtime" : 142
+}, {
+  "id" : 1181678,
+  "title" : "¿Quieres ser mi hijo?",
+  "releaseYear" : 2023,
+  "averageRating" : 8.457,
+  "genres" : [ {
+    "id" : 35,
+    "name" : "Comedy"
+  }, {
+    "id" : 10749,
+    "name" : "Romance"
+  } ],
+  "language" : "en",
+  "cast" : [ "Ludwika Paleta", "Juanpa Zurita", "Hernán Mendoza", "Harold Azuara", "Agustín Arana", "Yuriria del Valle", "Karla Rico", "Jorge Gidi", "Isabel Gonzalez", "Macarena Oz", "Natalia Payan" ],
+  "runtime" : 100
+}, {
+  "id" : 769,
+  "title" : "GoodFellas",
+  "releaseYear" : 1990,
+  "averageRating" : 8.451,
+  "genres" : [ {
+    "id" : 18,
+    "name" : "Drama"
+  }, {
+    "id" : 80,
+    "name" : "Crime"
+  } ],
+  "language" : "en",
+  "cast" : [ "Robert De Niro", "Ray Liotta", "Joe Pesci", "Lorraine Bracco", "Paul Sorvino", "Frank Sivero", "Tony Darrow", "Mike Starr", "Frank Vincent", "Chuck Low", "Frank DiLeo", "Henny Youngman", "Gina Mastrogiacomo", "Catherine Scorsese", "Charles Scorsese", "Suzanne Shepherd", "Debi Mazar", "Margo Winkler", "Welker White", "Jerry Vale", "Julie Garfield", "Christopher Serrone", "Elaine Kagan", "Beau Starr", "Kevin Corrigan", "Michael Imperioli", "Robbie Vinton", "Johnny Williams", "Daniel P. Conte", "Tony Conforti", "Frank Pellegrino", "Ronald Maccone", "Tony Sirico", "Joseph D'Onofrio", "Steve Forleo", "Richard Dioguardi", "Frank Adonis", "John Manca", "Joseph Bono", "Katherine Wallach", "Mark Jacobs", "Angela Pietropinto", "Marianne Leone Cooper", "Marie Michaels", "LoNardo", "Melissa Prophet", "Illeana Douglas", "Susan Varon", "Elizabeth Whitcraft", "Clem Caserta", "Samuel L. Jackson", "Fran McGee", "Paul Herman", "Edward McDonald", "Edward Hayes", "Daniela Barbosa", "Gina Mattia", "Joel Calendrillo", "Anthony Valentin", "Edward D. Murphy", "Michael Citriniti", "Peter Hock", "Erasmus C. Alfano", "John Di Benedetto", "Manny Alfaro", "Thomas Lowry", "Margaret Smith", "Richard Mullally", "Frank Albanese", "Paul McIsaac", "Bob Golub", "Louis Eppolito", "Tony Lip", "Mikey Black", "Peter Cicale", "Anthony Powers", "Vincent Pastore", "Anthony Alessandro", "Victor Colicchio", "Mike Contessa", "Philip Suriano", "Paul Mougey", "Norman Barbera", "Anthony Polemeni", "James Quattrochi", "Lawrence Sacco", "Dino Laudicina", "Thomas E. Camuti", "Andrew Scudiero", "Irving Welzer", "Jesse Kirtzman", "Russell Halley", "Spencer Bradley", "Bob Altman", "Joanna Bennett", "Gayle Lewis", "Gaetano Lisi", "Luke Walter", "Ed Deacy", "Larry Silvestri", "John 'Cha Cha' Ciarcia", "Vito Picone", "Janis Corsair", "Lisa D’Apolito", "Frank Aquilino", "Michael Calandrino", "Vito Antuofermo", "Vito Balsamo", "Peter Fain", "Vincent Gallo", "Gaetano LoGiudice", "Garry Pastore", "Nicole Burdette", "Stella Keitel", "Dominique DeVito", "Michaelangelo Graziano", "Paula Kcira", "Nadine Kay", "Tony Ellis", "Peter Onorati", "Jamie deRoy", "Joel Blake", "H. Clay Dear", "Thomas Hewson", "Gene Canfield", "Margaux Guerard", "Violet Gaynor", "Tobin Bell", "Berlinda Tolbert", "Nancy Cassaro", "Adam Wandt", "Joe Gioco", "Isiah Whitlock Jr.", "Alyson Jones", "Ruby Gaynor", "Bo Dietl", "Frank Cassini", "Anthony Caso", "Lisa Bostnar", "Billy L. Sullivan", "Jeffrey Rollins", "John Moraitis" ],
+  "runtime" : 145
+}, {
+  "id" : 329505,
+  "title" : "Lola's Secret",
+  "releaseYear" : 1984,
+  "averageRating" : 7.049,
+  "genres" : [ {
+    "id" : 18,
+    "name" : "Drama"
+  }, {
+    "id" : 35,
+    "name" : "Comedy"
+  }, {
+    "id" : 27,
+    "name" : "Horror"
+  } ],
+  "language" : "it",
+  "cast" : [ "Donatella Damiani", "Scott Coffey", "Gabriele Tinti", "Peter Boom", "Jacques Stany", "Maurice Poli", "Sandra Mantegna" ],
+  "runtime" : 88
+}, {
+  "id" : 98894,
+  "title" : "Jessica",
+  "releaseYear" : 1962,
+  "averageRating" : 4.294,
+  "genres" : [ {
+    "id" : 35,
+    "name" : "Comedy"
+  }, {
+    "id" : 18,
+    "name" : "Drama"
+  }, {
+    "id" : 10749,
+    "name" : "Romance"
+  } ],
+  "language" : "en",
+  "cast" : [ "Maurice Chevalier", "Angie Dickinson", "Noël-Noël", "Gabriele Ferzetti", "Sylva Koscina", "Agnes Moorehead", "Marcel Dalio", "Antonio Cifariello", "Marina Berti", "Georgette Anys", "Kerima", "Carlo Croccolo", "Rossana Rory", "Manuela Rinaldi", "Angelo Galassi", "Alberto Rabagliati", "Gianni Musy", "Joe Pollini", "Danielle De Metz" ],
+  "runtime" : 112
+}, {
+  "id" : 233604,
+  "title" : "Women Hell Song",
+  "releaseYear" : 1970,
+  "averageRating" : 4.9,
+  "genres" : [ {
+    "id" : 80,
+    "name" : "Crime"
+  }, {
+    "id" : 18,
+    "name" : "Drama"
+  } ],
+  "language" : "ja",
+  "cast" : [ "Tamaki Katori", "Jiro Kokubu", "Noriko Tatsumi", "Rima Aoyama", "Shinji Hino", "Jun Yoshida", "Masayoshi Nogami", "Shûsaku Mutô" ],
+  "runtime" : 70
+}, {
+  "id" : 218,
+  "title" : "The Terminator",
+  "releaseYear" : 1984,
+  "averageRating" : 7.686,
+  "genres" : [ {
+    "id" : 28,
+    "name" : "Action"
+  }, {
+    "id" : 53,
+    "name" : "Thriller"
+  }, {
+    "id" : 878,
+    "name" : "Science Fiction"
+  } ],
+  "language" : "en",
+  "cast" : [ "Arnold Schwarzenegger", "Michael Biehn", "Linda Hamilton", "Paul Winfield", "Lance Henriksen", "Rick Rossovich", "Bess Motta", "Earl Boen", "Dick Miller", "Shawn Schepps", "Bruce M. Kerner", "Franco Columbu", "Bill Paxton", "Brad Rearden", "Brian Thompson", "William Wisher", "Ken Fritz", "Tom Oberhaus", "Ed Dogans", "Joe Farago", "Hettie Lynne Hurtes", "Tony Mirelez", "Philip Gordon", "Anthony Trujillo", "Stan Yale", "Al Kahn", "Leslie Morris", "Hugh Farrington", "Harriet Medin", "Loree Frazier", "James Ralston", "Norman Friedman", "Barbara Powers", "Wayne Stone", "David Michels", "John E. Bristol", "Webster Williams", "Patrick Pinney", "Bill W. Richmond", "Chino 'Fats' Williams", "Greg Robbins", "Marianne Muellerleile", "John Durban", "Marian Green", "J. Randolph Harrison", "David Kristin", "Darrell Mapson", "John Stuart West" ],
+  "runtime" : 108
+}, {
+  "id" : 5721,
+  "title" : "Vixen!",
+  "releaseYear" : 1968,
+  "averageRating" : 5.533,
+  "genres" : [ {
+    "id" : 18,
+    "name" : "Drama"
+  } ],
+  "language" : "en",
+  "cast" : [ "Erica Gavin", "Garth Pillsbury", "Harrison Page", "Jon Evans", "Vincene Wallace", "Robert Aiken", "Michael Donovan O'Donnell", "Peter Carpenter", "John Furlong", "Jackie Illman", "Russ Meyer", "Vic Perrin" ],
+  "runtime" : 72
+}, {
+  "id" : 11,
+  "title" : "Star Wars",
+  "releaseYear" : 1977,
+  "averageRating" : 8.206,
+  "genres" : [ {
+    "id" : 12,
+    "name" : "Adventure"
+  }, {
+    "id" : 28,
+    "name" : "Action"
+  }, {
+    "id" : 878,
+    "name" : "Science Fiction"
+  } ],
+  "language" : "en",
+  "cast" : [ "Mark Hamill", "Harrison Ford", "Carrie Fisher", "Peter Cushing", "Alec Guinness", "Anthony Daniels", "Kenny Baker", "Peter Mayhew", "David Prowse", "James Earl Jones", "Phil Brown", "Shelagh Fraser", "Jack Purvis", "Alex McCrindle", "Eddie Byrne", "Drewe Henley", "Denis Lawson", "Garrick Hagon", "Jack Klaff", "William Hootkins", "Angus MacInnes", "Jeremy Sinden", "Graham Ashley", "Don Henderson", "Richard LeParmentier", "Leslie Schofield", "Michael Leader", "David Ankrum", "Scott Beach", "Lightning Bear", "Jon Berg", "Doug Beswick", "Paul Blake", "Janice Burchette", "Ted Burnett", "John Chapman", "Gilda Cohen", "Tim Condren", "Barry Copping", "Alfie Curtis", "Robert Davies", "Maria De Aragon", "Robert A. Denham", "Frazer Diamond", "Peter Diamond", "Warwick Diamond", "Sadie Eden", "Kim Falkinburg", "Harry Fielder", "Ted Gagliano", "Salo Gardner", "Steve Gawley", "Barry Gnome", "Rusty Goffe", "Isaac Grand", "Reg Harding", "Alan Harris", "Frank Henson", "Arthur Howell", "Tommy Ilsley", "Joe Johnston", "Linda Jones", "Joe Kaye", "Colin Michael Kitchens", "Melissa Kurtz", "Tiffany Hillkurtz", "Al Lampert", "Anthony Lang", "Derek Lyons", "Mahjoub", "Alf Mangan", "Grant McCune", "Geoffrey Moon", "Mandy Morton", "Lorne Peterson", "Marcus Powell", "Shane Rimmer", "Pam Rose", "George Roubicek", "Erica Simmons", "Angela Staines", "George Stock", "Roy Straite", "Peter Sturgeon", "Peter Sumner", "John Sylla", "Tom Sylla", "Malcolm Tierney", "Phil Tippett", "Burnell Tucker", "Morgan Upton", "Jerry Walter", "Hal Wamsley", "Diana Sadley Way", "Bill Weston", "Fred Wood", "Colin Higgins", "Ron Tarr", "Anthony Forrest", "John Cannon", "Larry Ward", "Eddie Eddon", "Rick McCallum", "Steve Williams", "Ian Selby" ],
+  "runtime" : 121
+}, {
+  "id" : 151024,
+  "title" : "The Soldier with Great Maneuvers",
+  "releaseYear" : 1978,
+  "averageRating" : 4.904,
+  "genres" : [ {
+    "id" : 35,
+    "name" : "Comedy"
+  } ],
+  "language" : "it",
+  "cast" : [ "Edwige Fenech", "Renzo Montagnani", "Alvaro Vitali", "Michele Gammino", "Lucio Montanaro", "Enzo Monteduro", "Nino Terzo", "Antonino Faà di Bruno", "Renzo Ozzano", "Rita Di Lernia", "Jacques Stany", "Lino Banfi", "Gianfranco D'Angelo", "Tiberio Murgia", "Grazia Di Marzà", "Marcello Martana", "Jimmy il Fenomeno", "Alessandra Vazzoler", "Renato Malavasi", "Alfredo Adami", "Salvatore Baccaro", "Valentino Simeoni", "Sofia Lusy", "Maria De Sisti", "Ferruccio Amendola", "Franco Caracciolo", "Giuseppe Marrocco", "Max Turilli", "Luciano Zanussi", "Milly Corinaldi", "Enrico Abate", "Vittorio Zarfati", "Enzo Maggio" ],
+  "runtime" : 96
+}, {
+  "id" : 105,
+  "title" : "Back to the Future",
+  "releaseYear" : 1985,
+  "averageRating" : 8.328,
+  "genres" : [ {
+    "id" : 12,
+    "name" : "Adventure"
+  }, {
+    "id" : 35,
+    "name" : "Comedy"
+  }, {
+    "id" : 878,
+    "name" : "Science Fiction"
+  } ],
+  "language" : "en",
+  "cast" : [ "Michael J. Fox", "Christopher Lloyd", "Crispin Glover", "Lea Thompson", "Claudia Wells", "Thomas F. Wilson", "Marc McClure", "Wendie Jo Sperber", "George DiCenzo", "Frances Lee McCain", "James Tolkan", "J.J. Cohen", "Casey Siemaszko", "Billy Zane", "Harry Waters, Jr.", "Donald Fullilove", "Lisa Freeman", "Cristen Kauffman", "Elsa Raven", "Will Hare", "Ivy Bethune", "Jason Marin", "Katherine Britton", "Jason Hervey", "Maia Brewton", "Courtney Gains", "Richard L. Duran", "Jeff O'Haco", "Johnny Green", "Jamie Abbott", "Norman Alden", "Read Morgan", "Sachi Parker", "Robert Krantz", "Gary Riley", "Karen Petrasek", "George Buck Flower", "Tommy Thomas", "Granville 'Danny' Young", "David Harold Brown", "Lloyd L. Tolbert", "Paul Hanson", "Lee Brownfield", "Robert DeLapp", "Tony Pope", "Charles L. Campbell", "Huey Lewis", "Hal Gausman", "Deborah Harmon", "Arthur Tovey", "Tom Tangen", "Tom Willett", "Eric Stoltz" ],
+  "runtime" : 116
+}, {
+  "id" : 687259,
+  "title" : "Ghost Stories",
+  "releaseYear" : 1982,
+  "averageRating" : 6.2,
+  "genres" : [ {
+    "id" : 27,
+    "name" : "Horror"
+  } ],
+  "language" : "zh",
+  "cast" : [ "Jiang Ling-Ling", "Ai Ting", "Chu Hui-Te", "Kao Wen-Song", "Chia-bao Lan" ],
+  "runtime" : 80
+}, {
+  "id" : 226674,
+  "title" : "The Adolescent",
+  "releaseYear" : 1979,
+  "averageRating" : 4.7,
+  "genres" : [ {
+    "id" : 18,
+    "name" : "Drama"
+  } ],
+  "language" : "fr",
+  "cast" : [ "Simone Signoret", "Francis Huster", "Laetitia Chauveau", "Edith Clever", "Jacques Weber", "Jean-François Balmer", "Hugues Quester", "Roger Blin", "Frank Muth", "Maurice Baquet", "Nadine Basile", "Françoise Bette", "Michel Blanc", "Bérangère Bonvoisin", "Juliette Brac", "Janine Darcey", "Pierre Forget", "Suzel Goffre", "Michel Lesnoff", "Elisabeth Margoni", "Charles Millot", "Jacques Rispal", "Isabelle Sadoyan", "Hélène Vallier", "Anne Bernier", "Eric Revel", "Eric-André Vigroux", "Marjorie Routaboul", "Aure Atika", "Jeanne Moreau" ],
+  "runtime" : 90
+}, {
+  "id" : 694,
+  "title" : "The Shining",
+  "releaseYear" : 1980,
+  "averageRating" : 8.201,
+  "genres" : [ {
+    "id" : 27,
+    "name" : "Horror"
+  }, {
+    "id" : 53,
+    "name" : "Thriller"
+  } ],
+  "language" : "en",
+  "cast" : [ "Jack Nicholson", "Shelley Duvall", "Danny Lloyd", "Scatman Crothers", "Barry Nelson", "Philip Stone", "Joe Turkel", "Anne Jackson", "Tony Burton", "Lia Beldam", "Billie Gibson", "Barry Dennen", "David Baxt", "Manning Redwood", "Lisa Burns", "Louise Burns", "Robin Pappas", "Alison Coleridge", "Burnell Tucker", "Jana Shelden", "Kate Phelps", "Norman Gay", "Paul Desbois", "Vivian Kubrick", "Derek Lyons", "Alan Harris", "Peter McNamara", "Guy Standeven", "Reg Thomason", "Skeleton" ],
+  "runtime" : 144
+}, {
+  "id" : 200066,
+  "title" : "The Sparrow's Fluttering",
+  "releaseYear" : 1988,
+  "averageRating" : 4.2,
+  "genres" : [ {
+    "id" : 18,
+    "name" : "Drama"
+  }, {
+    "id" : 10749,
+    "name" : "Romance"
+  } ],
+  "language" : "it",
+  "cast" : [ "Philippe Noiret", "Ornella Muti", "Nicola Farron", "Chiara Argelli", "Sabrina Ferilli", "Claudine Auger", "Beppe Chierici", "Claudio Del Falco", "Miriam Axa", "Giuseppe Mauro Cruciano", "Claudio Rosini", "Roberto Giannini", "Bruno Rosa", "Rosa Di Brigida" ],
+  "runtime" : 95
+}, {
+  "id" : 744,
+  "title" : "Top Gun",
+  "releaseYear" : 1986,
+  "averageRating" : 7.071,
+  "genres" : [ {
+    "id" : 28,
+    "name" : "Action"
+  }, {
+    "id" : 18,
+    "name" : "Drama"
+  }, {
+    "id" : 10749,
+    "name" : "Romance"
+  } ],
+  "language" : "en",
+  "cast" : [ "Tom Cruise", "Kelly McGillis", "Val Kilmer", "Anthony Edwards", "Tom Skerritt", "Michael Ironside", "John Stockwell", "Barry Tubb", "Rick Rossovich", "Tim Robbins", "Clarence Gilyard Jr.", "Whip Hubley", "James Tolkan", "Meg Ryan", "Adrian Pasdar", "Randall Brady", "Duke Stroud", "Brian Sheehan", "Ron Clark", "Frank Pesce", "Pete Pettigrew", "Troy Hunter", "Linda Rae Jurgens", "T.J. Cassidy" ],
+  "runtime" : 110
+}, {
+  "id" : 207,
+  "title" : "Dead Poets Society",
+  "releaseYear" : 1989,
+  "averageRating" : 8.298,
+  "genres" : [ {
+    "id" : 18,
+    "name" : "Drama"
+  } ],
+  "language" : "en",
+  "cast" : [ "Robin Williams", "Robert Sean Leonard", "Ethan Hawke", "Josh Charles", "Gale Hansen", "Dylan Kussman", "Allelon Ruggiero", "James Waterston", "Norman Lloyd", "Kurtwood Smith", "Carla Belver", "Leon Pownall", "George Martin", "Joe Aufiery", "Matt Carey", "Kevin Cooney", "Jane Moore", "Lara Flynn Boyle", "Colin Irving", "Alexandra Powers", "Melora Walters", "Welker White", "Steve Mathios", "Alan Pottinger", "Pamela Burrell", "Allison Hedges", "Christine D'Ercole", "John Cunningham", "Debra Mooney", "John Martin Bradley", "Charles Lord", "Kurt Leitner", "Richard Stites", "James J. Christy", "Catherine Soles", "Hoover Sutton", "James Donnell Quinn", "Simon Mein", "Ashton W. Richards", "Robert Gleason", "Bill Rowe", "Robert J. Zigler III", "Keith Snyder", "Nicholas K. Gilhool", "Jonas Stiklorius", "Craig Johnson", "Chris Hull", "Jason Woody", "Sam Stegeman", "Andrew Hill", "Kate Kearney-Patch" ],
+  "runtime" : 129
+}, {
+  "id" : 78,
+  "title" : "Blade Runner",
+  "releaseYear" : 1982,
+  "averageRating" : 7.934,
+  "genres" : [ {
+    "id" : 878,
+    "name" : "Science Fiction"
+  }, {
+    "id" : 18,
+    "name" : "Drama"
+  }, {
+    "id" : 53,
+    "name" : "Thriller"
+  } ],
+  "language" : "en",
+  "cast" : [ "Harrison Ford", "Rutger Hauer", "Sean Young", "Edward James Olmos", "M. Emmet Walsh", "Daryl Hannah", "William Sanderson", "Brion James", "Joe Turkel", "Joanna Cassidy", "James Hong", "Morgan Paull", "Kevin Thompson", "John Edward Allen", "Hy Pyke", "Kimiko Hiroshige", "Bob Okazaki", "Carolyn DeMirjian", "Ben Astar", "Dawna Lee Heising", "Alexis Rhee", "Judith Burnett", "Leo Gorcey Jr.", "Sharon Hesky", "Kelly Hine", "Tom Hutchinson", "Charles Knapp", "Rose Mascari", "Jiro Okazaki", "Steve Pope", "Robert Reiter", "Doug Benson" ],
+  "runtime" : 118
+}, {
+  "id" : 578,
+  "title" : "Jaws",
+  "releaseYear" : 1975,
+  "averageRating" : 7.682,
+  "genres" : [ {
+    "id" : 27,
+    "name" : "Horror"
+  }, {
+    "id" : 53,
+    "name" : "Thriller"
+  }, {
+    "id" : 12,
+    "name" : "Adventure"
+  } ],
+  "language" : "en",
+  "cast" : [ "Roy Scheider", "Robert Shaw", "Richard Dreyfuss", "Lorraine Gary", "Murray Hamilton", "Carl Gottlieb", "Jeffrey Kramer", "Susan Backlinie", "Jonathan Filley", "Ted Grossman", "Chris Rebello", "Jay Mello", "Lee Fierro", "Jeffrey Voorhees", "Craig Kingsbury", "Phil Murray", "Robert Nevin", "Peter Benchley", "Fritzi Jane Courtney", "David Engelbach", "Dorothy Fielding", "Joe La Creta", "Belle McDonald", "Joseph Oliveira", "Beverly Powers", "Ayn Ruymen", "Christopher Sands", "Steven Spielberg", "Rex Trailer", "Chris Anastasio", "Henry Carreiro", "Robert Carroll", "Edward Chalmers Jr.", "David Daniel", "Cyprian R. Dube", "Wally Hooper Jr.", "Duncan Inches", "John Moffet", "John Searle", "Hershel West", "Dick Young" ],
+  "runtime" : 124
+}, {
+  "id" : 348,
+  "title" : "Alien",
+  "releaseYear" : 1979,
+  "averageRating" : 8.172,
+  "genres" : [ {
+    "id" : 27,
+    "name" : "Horror"
+  }, {
+    "id" : 878,
+    "name" : "Science Fiction"
+  } ],
+  "language" : "en",
+  "cast" : [ "Tom Skerritt", "Sigourney Weaver", "Veronica Cartwright", "Harry Dean Stanton", "John Hurt", "Ian Holm", "Yaphet Kotto", "Bolaji Badejo", "Helen Horton" ],
+  "runtime" : 117
+}, {
+  "id" : 562,
+  "title" : "Die Hard",
+  "releaseYear" : 1988,
+  "averageRating" : 7.814,
+  "genres" : [ {
+    "id" : 28,
+    "name" : "Action"
+  }, {
+    "id" : 53,
+    "name" : "Thriller"
+  } ],
+  "language" : "en",
+  "cast" : [ "Bruce Willis", "Alan Rickman", "Alexander Godunov", "Bonnie Bedelia", "Reginald VelJohnson", "Paul Gleason", "De'voreaux White", "William Atherton", "Hart Bochner", "James Shigeta", "Bruno Doyon", "Andreas Wisniewski", "Clarence Gilyard Jr.", "Joey Plewa", "Lorenzo Caccialanza", "Dennis Hayden", "Al Leong", "Gary Roberts", "Hans Buhringer", "Wilhelm von Homburg", "Robert Davi", "Grand L. Bush", "Bill Marcus", "Rick Ducommun", "Matt Landers", "Carmine Zozzora", "Dustyn Taylor", "George Christy", "Anthony Peck", "Cheryl Baker", "Richard Parker", "David Ursin", "Mary Ellen Trainor", "Harri James", "Shelley Pogoda", "Selma Archerd", "Scot Bennett", "Rebecca Broussard", "Kate Finlayson", "Shanna Higgins", "Kym Malin", "Taylor Fry", "Noah Land", "Betty Carvalho", "Kip Waldo", "Mark Goldstein", "Tracy Reiner", "Rick Cicetti", "Fred Lerner", "Bill Margolin", "Bob Jennings", "Bruce P. Schultz", "David Katz", "Robert Lesser", "Stella Hall", "Terri Lynn Doss", "Jon E. Greene", "P. Randall Bowers", "Michele Laybourn", "Charlie Picerni", "Conrad Hurtt", "Terry Ray", "Eric Kay", "Gérard Bonn", "Mark Winn" ],
+  "runtime" : 132
+}, {
+  "id" : 393392,
+  "title" : "Modori River",
+  "releaseYear" : 1983,
+  "averageRating" : 5.7,
+  "genres" : [ {
+    "id" : 80,
+    "name" : "Crime"
+  }, {
+    "id" : 18,
+    "name" : "Drama"
+  }, {
+    "id" : 10749,
+    "name" : "Romance"
+  } ],
+  "language" : "ja",
+  "cast" : [ "Mariko Fuji", "Kenichi Hagiwara", "Mieko Harada", "Kanako Higuchi", "Mariko Kaga", "Shino Ikenami", "Yuki Ninagawa", "Toshio Shiba", "Masaya Takahashi", "Masakane Yonekura", "Okano Ginjiro" ],
+  "runtime" : 137
+}, {
+  "id" : 679,
+  "title" : "Aliens",
+  "releaseYear" : 1986,
+  "averageRating" : 7.966,
+  "genres" : [ {
+    "id" : 28,
+    "name" : "Action"
+  }, {
+    "id" : 53,
+    "name" : "Thriller"
+  }, {
+    "id" : 878,
+    "name" : "Science Fiction"
+  } ],
+  "language" : "en",
+  "cast" : [ "Sigourney Weaver", "Carrie Henn", "Michael Biehn", "Paul Reiser", "Lance Henriksen", "Bill Paxton", "William Hope", "Jenette Goldstein", "Al Matthews", "Mark Rolston", "Ricco Ross", "Colette Hiller", "Daniel Kash", "Cynthia Dale Scott", "Tip Tipping", "Trevor Steedman", "Paul Maxwell", "Valerie Colgan", "Alan Polonsky", "Alibe Parsons", "Blain Fairman", "Barbara Coles", "Carl Toop", "John Lees", "Eddie Powell", "Chris Webb", "Alec Gillis" ],
+  "runtime" : 137
+}, {
+  "id" : 39688,
+  "title" : "Like a Brother",
+  "releaseYear" : 2005,
+  "averageRating" : 4.3,
+  "genres" : [ {
+    "id" : 18,
+    "name" : "Drama"
+  }, {
+    "id" : 10749,
+    "name" : "Romance"
+  } ],
+  "language" : "fr",
+  "cast" : [ "Benoit Deliere", "Johnny Amaro", "Thibault Boucaux", "Adeline Ishiomin", "Amandine Maugy", "Michel Derville", "Gaëtan Borg", "Patrick Esilva", "Jean-Christophe Bouvet", "Christian Guidicelli" ],
+  "runtime" : 54
+}, {
+  "id" : 77338,
+  "title" : "The Intouchables",
+  "releaseYear" : 2011,
+  "averageRating" : 8.272,
+  "genres" : [ {
+    "id" : 18,
+    "name" : "Drama"
+  }, {
+    "id" : 35,
+    "name" : "Comedy"
+  } ],
+  "language" : "fr",
+  "cast" : [ "François Cluzet", "Omar Sy", "Anne Le Ny", "Audrey Fleurot", "Joséphine de Meaux", "Clotilde Mollet", "Alba Gaïa Bellugi", "Cyril Mendy", "Salimata Kamate", "Absa Diatou Toure", "Grégoire Oestermann", "Dominique Daguier", "François Caron", "Christian Ameri", "Thomas Solivérès", "Dorothée Brière", "Marie-Laure Descoureaux", "Émilie Caen", "Sylvain Lazard", "Jean-François Cayrey", "Ian Fenelon", "Renaud Barse", "François Bureloup", "Nicky Marbot", "Benjamin Baroche", "Jérôme Pauwels", "Antoine Laurent", "Fabrice Mantegna", "Hedi Bouchenafa", "Caroline Bourg", "Michel Winogradoff", "Kévin Wamo", "Elliot Latil", "Alain Anthony", "Dominique Henry", "Philippe Le Fevre", "Yun-Ping He", "Pierre-Laurent Barneron" ],
+  "runtime" : 113
+}, {
+  "id" : 18,
+  "title" : "The Fifth Element",
+  "releaseYear" : 1997,
+  "averageRating" : 7.587,
+  "genres" : [ {
+    "id" : 878,
+    "name" : "Science Fiction"
+  }, {
+    "id" : 28,
+    "name" : "Action"
+  }, {
+    "id" : 12,
+    "name" : "Adventure"
+  } ],
+  "language" : "fr",
+  "cast" : [ "Bruce Willis", "Milla Jovovich", "Gary Oldman", "Ian Holm", "Chris Tucker", "Luke Perry", "Brion James", "Tommy Lister Jr.", "Lee Evans", "Charlie Creed-Miles", "Tricky", "John Neville", "John Bluthal", "Mathieu Kassovitz", "Christopher Fairbank", "Kim Chan", "Richard Leaf", "Julie T. Wallace", "Al Matthews", "Maïwenn", "John Bennett", "Ivan Heng", "Sonita Henry", "Tim McMullan", "Hon Ping Tang", "George Khan", "John Hughes", "Roberto Bryce", "Said Talidi", "Justin Lee Burrows", "Richard Ashton", "Jerome St. John Blake", "Kevin Molloy", "Bill Reimbold", "Colin Brooks", "Anthony Chinn", "Sam Douglas", "Derek Ezenagu", "David Kennedy", "David Barrass", "Roger Monk", "Mac McDonald", "Mark Seaton", "Jean-Luc Caron", "Riz Meedin", "Jerry Ezekiel", "Indra Ové", "Nicole Merry", "Stacey McKenzie", "Rachel Willis", "Genevieve Maylam", "Josie Perez", "Natasha Brice", "Sophia Goth", "Martin McDougall", "Peter Dunwell", "Paul Priestley", "Jason Salkey", "Stewart Harvey-Wilson", "David Fishley", "Carlton Chance", "Gin Clarke", "Vladimir McCrary", "Clifton Lloyd Bryan", "Aron Paramor", "Alan Ruscoe", "Christopher Adamson", "Ève Salvail", "Kaleem Janjua", "Tyrone Tyrell", "Kevin Brewerton", "Vincenzo Pellegrino", "Ian Beckett", "Sonny Caldinez", "Zeta Graff", "Eddie Ellwood", "Yui", "Laura De Palma", "Michael Culkin", "Lenny McLean", "Robert Oates", "John Sharian", "Fred Williams", "Sibyl Buck", "Sarah Carrington", "Grant James", "Ali Yassine", "Sean Buckley", "Dane Messam", "Nathan Hamlett", "Cecil Cheng", "Scott Woods", "Leon Dekker", "David Garvey", "Stanley Kowalski", "Omar Hibbert Williams", "Robert Clapperton", "Robert Alexander", "Mia Frye", "Leo Williams", "C. Keith Martin", "J.D. Dawodu", "Patrick Nicholls", "Shaun Davis", "Roy Garcia Singh", "Alex Georgijev", "Marie Guillard", "Renee Montemayor", "Stina Richardson", "Gillian M. Berrow", "François Guillaume", "Kristen Fick", "Anita Koh", "Kamay Lau", "Inva Mula", "Gito Santana", "Frank Senger", "Joss Skottowe", "Fred Wood", "Roger Wright" ],
+  "runtime" : 126
+}, {
+  "id" : 101,
+  "title" : "Léon: The Professional",
+  "releaseYear" : 1994,
+  "averageRating" : 8.293,
+  "genres" : [ {
+    "id" : 80,
+    "name" : "Crime"
+  }, {
+    "id" : 18,
+    "name" : "Drama"
+  }, {
+    "id" : 28,
+    "name" : "Action"
+  } ],
+  "language" : "fr",
+  "cast" : [ "Jean Reno", "Natalie Portman", "Gary Oldman", "Danny Aiello", "Peter Appel", "Michael Badalucco", "Ellen Greene", "Frank Senger", "Elizabeth Regen", "Carl J. Matusovich", "Eric Challier", "Willi One Blood", "Don Creech", "Keith A. Glascoe", "Jernard Burks", "Matt De Matt", "Stuart Rudin", "Lucius Wyatt Cherokee", "Maïwenn", "Luc Bernard", "Joseph Malerba", "Adam Busch", "Jessie Keosian", "George Martin", "Alex Dezen", "Michael Mundra", "Kent Broadhurst", "Tommy Hollis", "Peter Linari", "Betty Miller", "Arsène Jiroyan", "Geoffrey Bateman", "Peter Vizard", "David W. Butler", "Robert LaSardo", "Steve Gonnelo", "William James Stiggers Jr.", "Sonny Zito", "Randy Pearlstein", "Jeff McBride", "Fred Fischer", "Crystal Blake", "Cary Wong", "Mario Todisco", "Samy Naceri", "Christophe Gautier", "Junior Almeida", "David Gregg", "Michel Montanary", "Hervé Husson", "Didier Legros", "Marc Andréoni", "Gilles Kleber", "Jean-Hugues Anglade", "Michael Wehrhahn" ],
+  "runtime" : 111
+}, {
+  "id" : 641284,
+  "title" : "Carnal Excitation",
+  "releaseYear" : 1978,
+  "averageRating" : 4.0,
+  "genres" : [ ],
+  "language" : "fr",
+  "cast" : [ "Danièle Troeger", "Morgane", "Thierry de Brem", "Olivier Mathot" ],
+  "runtime" : 87
+}, {
+  "id" : 81774,
+  "title" : "Exploits of a Young Don Juan",
+  "releaseYear" : 1986,
+  "averageRating" : 6.128,
+  "genres" : [ {
+    "id" : 35,
+    "name" : "Comedy"
+  }, {
+    "id" : 18,
+    "name" : "Drama"
+  } ],
+  "language" : "fr",
+  "cast" : [ "Serena Grandi", "Claudine Auger", "Marina Vlady", "Fabrice Josso", "François Perrot", "Aurélien Recoing", "Rosette", "Laurent Spielvogel", "Alexandra Vandernoot", "Marion Peterson", "Yves Lambrecht", "Virginie Ledoyen", "Rufus", "Bérangère Bonvoisin", "Daniel Langlet", "Jean-Claude Frissung", "Josy Rosier", "Patrick Houpert", "Eric Kailey", "Caroline Finnaert" ],
+  "runtime" : 100
+}, {
+  "id" : 1246049,
+  "title" : "Dracula",
+  "releaseYear" : 2025,
+  "averageRating" : 7.24,
+  "genres" : [ {
+    "id" : 27,
+    "name" : "Horror"
+  }, {
+    "id" : 14,
+    "name" : "Fantasy"
+  }, {
+    "id" : 10749,
+    "name" : "Romance"
+  } ],
+  "language" : "fr",
+  "cast" : [ "Caleb Landry Jones", "Zoë Bleu Sidel", "Christoph Waltz", "Matilda De Angelis", "Ewens Abid", "Guillaume de Tonquédec", "David Shields", "Bertrand-Xavier Corbi", "Raphael Luce", "Liviu Bora", "Anne Kessler", "Romain Levi", "Jassem Mougari", "Thalia Besson", "Haymon Maria Buttinger", "Ivan Franěk", "Karim Rakrouki", "Arben Bajraktaraj", "Nicola Puleo", "Aaron Guillemette", "Alex Andréa", "Affif Ben Badra", "Nicolas de Lavergne", "Jade Pedri", "Iman Perez", "Joséphine Berry", "Dominique Macaire", "Danielle Guerre-Berthelot", "Sergio Cavero Egusquiza", "Isamil Vasseur Woolfenden", "Sateen Besson", "Noham Edje", "Renée Silla", "Maxime Gomis", "Fayet Nsomoto", "Egor Morozov", "Salomon Passariello", "Joonas Makkonen", "Nikita Makkojev", "Jaakko Hutchings", "Janne Mattila", "Turre Åhl", "Stavroula Karatheodorou", "Jari Viljamaa" ],
+  "runtime" : 130
+}, {
+  "id" : 1196470,
+  "title" : "Survive",
+  "releaseYear" : 2024,
+  "averageRating" : 5.886,
+  "genres" : [ {
+    "id" : 878,
+    "name" : "Science Fiction"
+  }, {
+    "id" : 53,
+    "name" : "Thriller"
+  }, {
+    "id" : 12,
+    "name" : "Adventure"
+  }, {
+    "id" : 28,
+    "name" : "Action"
+  } ],
+  "language" : "fr",
+  "cast" : [ "Émilie Dequenne", "Andreas Pietschmann", "Lisa Delamar", "Lucas Ebel", "Arben Bajraktaraj", "Olivier Ho Hio Hen", "Stéphanie Guerin", "Rida Ait Oufqir", "Youssef El Hiaboui", "Simon Rérolle", "Ranger" ],
+  "runtime" : 90
+}, {
+  "id" : 299710,
+  "title" : "Being 14",
+  "releaseYear" : 2015,
+  "averageRating" : 4.1,
+  "genres" : [ {
+    "id" : 18,
+    "name" : "Drama"
+  } ],
+  "language" : "fr",
+  "cast" : [ "Athalia Routier", "Galatea Bellugi", "Najaa Bensaid", "Kevin Château", "Louis Jacq", "Yassine Douighi", "Azzedine Bouabba", "Sam Greep", "Oliver Cywie" ],
+  "runtime" : 90
+}, {
+  "id" : 194,
+  "title" : "Amélie",
+  "releaseYear" : 2001,
+  "averageRating" : 7.921,
+  "genres" : [ {
+    "id" : 35,
+    "name" : "Comedy"
+  }, {
+    "id" : 10749,
+    "name" : "Romance"
+  } ],
+  "language" : "fr",
+  "cast" : [ "Audrey Tautou", "Mathieu Kassovitz", "Rufus", "Serge Merlin", "Jamel Debbouze", "Clotilde Mollet", "Claire Maurier", "Isabelle Nanty", "Dominique Pinon", "Artus de Penguern", "Yolande Moreau", "Urbain Cancelier", "Lorella Cravotta", "Maurice Bénichou", "Michel Robin", "Andrée Damant", "Claude Perron", "Armelle", "Ticky Holgado", "André Dussollier", "Eugène Berthier", "Charles-Roger Bour", "Kevin Dias", "Flora Guiet", "Amaury Babault", "Marion Pressburger", "Luc Palun", "Fabienne Chaudat", "Dominique Bettenfeld", "Jacques Viala", "Fabien Béhar", "Jonathan Joss", "Jean-Pierre Becker", "Jean Darie", "Thierry Gibault", "François Bercovici", "Franck Monier", "Guillaume Viry", "Valérie Zarrouk", "Marie-Laure Descoureaux", "Sophie Tellier", "Gérald Weingand", "François Viaur", "Paule Daré", "Marc Amyot", "Myriam Labbé", "Jean Rupert", "Frankie Pain", "Julianna Kovacs", "Philippe Paimblanc", "Mady Malroux", "Monette Malroux", "Robert Gendreu", "Valériane de Villeneuve", "Isis Peyrade", "Raymonde Heudeline", "Christiane Bopp", "Thierry Arfeuillères", "Jerry Lucas", "Patrick Paroux", "François Aubineau", "Philippe Beautier", "Karine Asure", "Régis Iacono", "Franck-Olivier Bonnet", "Alain Floret", "Jean-Pol Brissart", "Frédéric Mitterrand", "Laurent Delpit", "Manoush", "Jacques Thébault", "Dean Baykan", "Clément Chebli", "Eloïse Labro" ],
+  "runtime" : 122
+}, {
+  "id" : 1525963,
+  "title" : "Debtor’s Wife",
+  "releaseYear" : 2024,
+  "averageRating" : 0.0,
+  "genres" : [ ],
+  "language" : "ko",
+  "cast" : [ "Yoon Yool", "Min Do-yoon", "So Ra" ],
+  "runtime" : 0
+}, {
+  "id" : 1307247,
+  "title" : "OK! Madam: Bon Voyage",
+  "releaseYear" : 2026,
+  "averageRating" : 0.0,
+  "genres" : [ {
+    "id" : 28,
+    "name" : "Action"
+  }, {
+    "id" : 35,
+    "name" : "Comedy"
+  } ],
+  "language" : "ko",
+  "cast" : [ "Uhm Jung-hwa", "Park Sung-woong", "Lee Sang-yun", "Bae Jung-nam", "Ryeoun", "Park Jin-joo", "Sooyoung Choi" ],
+  "runtime" : 109
+}, {
+  "id" : 599335,
+  "title" : "OK! Madam",
+  "releaseYear" : 2020,
+  "averageRating" : 7.1,
+  "genres" : [ {
+    "id" : 35,
+    "name" : "Comedy"
+  }, {
+    "id" : 28,
+    "name" : "Action"
+  } ],
+  "language" : "ko",
+  "cast" : [ "Uhm Jung-hwa", "Park Sung-woong", "Lee Sang-yun", "Bae Jung-nam", "Lee Sun-bin", "Jeong Su-been", "Yu Ha-jun", "Park Ji-il", "Choi Jin-ho", "Kim Beop-rae", "Ju Seok-tae", "Kim Byeong-ok", "Kim Hye-eun", "Lim Hyun-sung", "Jeon Soo-kyeong", "Park So-ri", "Lee Si-won", "Song Chi-hoon", "Lee Jung-hyun", "Ryu Hye-rin", "Uh Sung-wook", "Kim Nam-gil", "Jeong Man-sik", "Kim Jong-soo", "Kim Kyu-baek", "Yoon Byung-hee", "Kim Mi-hwa", "Lee Ga-kyung", "Kim Tae-eung", "Kim Mi-ra", "Hwang Jae-feel", "Ryu Dae-sik", "No Seung-yoon", "Yeon Bora", "Kim Ju-an", "Kim Han-jong" ],
+  "runtime" : 100
+}, {
+  "id" : 952079,
+  "title" : "Invited Delivery Man 2",
+  "releaseYear" : 2022,
+  "averageRating" : 7.0,
+  "genres" : [ {
+    "id" : 10749,
+    "name" : "Romance"
+  } ],
+  "language" : "ko",
+  "cast" : [ "Yeon Joo", "Yoo Ji-hyun", "Im Tae-mok" ],
+  "runtime" : 83
+}, {
+  "id" : 1396749,
+  "title" : "Wild Sing",
+  "releaseYear" : 2026,
+  "averageRating" : 5.941,
+  "genres" : [ {
+    "id" : 35,
+    "name" : "Comedy"
+  }, {
+    "id" : 10402,
+    "name" : "Music"
+  } ],
+  "language" : "ko",
+  "cast" : [ "Gang Dong-won", "Um Tae-goo", "Park Ji-hyun", "Oh Jung-se", "Shin Ha-kyun", "Kang Ki-young", "Park Jung-won", "Kwon Hyeong-seok", "Ahn Hyun-ho", "Choi Dong-gu", "Park Sung-hyun", "Park Hae-mi", "RALRAL", "Han Kyung-rock", "Gong Myoung", "Jung Soon-won", "Kim Ki-cheon", "Heo Joon-seok", "Yang Hyun-min", "Kim Seon-jin", "Yoon Si-a", "Byeon Dong-wook", "Lee Na-hyun", "Kwak Byeong-jun", "Kim Dong-yong" ],
+  "runtime" : 108
+}, {
+  "id" : 269955,
+  "title" : "Obsessed",
+  "releaseYear" : 2014,
+  "averageRating" : 6.6,
+  "genres" : [ {
+    "id" : 18,
+    "name" : "Drama"
+  }, {
+    "id" : 10749,
+    "name" : "Romance"
+  } ],
+  "language" : "ko",
+  "cast" : [ "Song Seung-heon", "Im Ji-yeon", "Cho Yeo-jeong", "On Ju-wan", "Yoo Hai-jin", "Park Hyuk-kwon", "Jeon Hye-jin", "Um Tae-goo", "Ye Su-jeong", "Son Ji-na", "Jung Sang-cheol", "Kim Hye-na", "Jang Yun-sil", "Han Ha-yoo", "Lee Seung-joon", "Bae Sung-woo", "Yeon Je-wook", "Oh Soon-tae", "Jung Won-joong", "Kim Du-bong" ],
+  "runtime" : 132
+}, {
+  "id" : 532794,
+  "title" : "Sex Plate 17",
+  "releaseYear" : 2017,
+  "averageRating" : 5.786,
+  "genres" : [ {
+    "id" : 35,
+    "name" : "Comedy"
+  }, {
+    "id" : 18,
+    "name" : "Drama"
+  }, {
+    "id" : 10749,
+    "name" : "Romance"
+  } ],
+  "language" : "ko",
+  "cast" : [ "Choi Jae-hwan", "Park Kyoung-hee", "Kim Nam-soo", "Park Ha-on", "Jo Ah-rang", "Han Sang-gyoo" ],
+  "runtime" : 121
+}, {
+  "id" : 396535,
+  "title" : "Train to Busan",
+  "releaseYear" : 2016,
+  "averageRating" : 7.8,
+  "genres" : [ {
+    "id" : 28,
+    "name" : "Action"
+  }, {
+    "id" : 27,
+    "name" : "Horror"
+  }, {
+    "id" : 53,
+    "name" : "Thriller"
+  } ],
+  "language" : "ko",
+  "cast" : [ "Gong Yoo", "Kim Su-an", "Jung Yu-mi", "Don Lee", "Choi Woo-shik", "An So-hee", "Kim Eui-sung", "Ye Su-jeong", "Park Myung-shin", "Choi Gwi-hwa", "Jeong Seok-yong", "Kim Chang-hwan", "Jang Hyuk-jin", "Shim Eun-kyung", "Lee Joo-sil", "Kim Jae-rok", "Cha Chung-hwa", "Kim Won-jin", "Han Ji-eun", "Han Sung-soo", "Lee Jung-ok", "Kim Ju-hun", "Kim Keum-soon", "Chyu Kwang-hyun", "Jung Young-ki", "Ok Joo-ri", "Woo Do-im", "Song Ji-hyuk", "Kim Woon", "Jeon Ye-eun", "Baek Seung-hwan", "Yeon Sang-ho", "Choi Woo-sung", "Lee Tae-yoon", "Kim Tae-yun", "Baek In-kwon", "Moon Da-in", "Kim Gwan-soo", "Kwak Hye-jin", "Kim Jin-yong", "Kim Kye-hyung", "Kim Jeong-hwi", "Yoon Ji-hee", "Kim Dan-bi", "Choi Hyun-joon" ],
+  "runtime" : 118
+}, {
+  "id" : 1058424,
+  "title" : "Hope",
+  "releaseYear" : 2026,
+  "averageRating" : 8.1,
+  "genres" : [ {
+    "id" : 878,
+    "name" : "Science Fiction"
+  }, {
+    "id" : 9648,
+    "name" : "Mystery"
+  }, {
+    "id" : 28,
+    "name" : "Action"
+  } ],
+  "language" : "ko",
+  "cast" : [ "Hwang Jung-min", "Zo In-sung", "Hoyeon", "Alicia Vikander", "Michael Fassbender", "Taylor Russell", "Cameron Britton", "Lee Sang-hee", "Um Mun-suk", "Im Hyun-sik", "Hwang Seok-jeong", "Han Woo-yeol", "Chyu Kwang-hyun", "Oh Doo-won", "Yoo Jun-hong", "Seo Beom-sik", "Baek Seung-chul", "Cho Ji-hoon", "Kwon Joong", "Kim Ki-cheon", "Lee Yong-nyeo", "Min Kyung-jin", "Yoo Soon-woong", "Jung Jae-won", "Kim Han-jong", "Jeong Ji-sun", "Lee Sang-jin", "Kim Kyu-baek" ],
+  "runtime" : 157
+}, {
+  "id" : 290098,
+  "title" : "The Handmaiden",
+  "releaseYear" : 2016,
+  "averageRating" : 8.179,
+  "genres" : [ {
+    "id" : 53,
+    "name" : "Thriller"
+  }, {
+    "id" : 18,
+    "name" : "Drama"
+  }, {
+    "id" : 10749,
+    "name" : "Romance"
+  } ],
+  "language" : "ko",
+  "cast" : [ "Kim Min-hee", "Kim Tae-ri", "Ha Jung-woo", "Cho Jin-woong", "Kim Hae-sook", "Moon So-ri", "Lee Yong-nyeo", "Kwak Eun-jin", "Lee Dong-hwi", "Jo Eun-hyung", "Rina Takagi", "Han Ha-na", "Lee Kyu-jung", "Kim See-eun", "Ha Si-yeon", "Kim Eun-yeong", "Jeong Ha-dam", "Yoo Min-chae", "Won Geun-hee", "Kim Jong-dae", "Jang Han-sun", "Kim Lee-woo", "Shinsuke Fujimoto", "Katsuhiro Nagano", "Lee Ji-ha", "Tomomitsu Adachi", "Takashi Kakizawa", "Hwang Seo-yoon", "Park Do-young", "Lee Ji-hye", "Heo So-yeon", "Lee Yoon-jae", "Choi Jong-ryul", "Kim Joon-woo", "Bae Il-hyuck", "Kim Soo-woong", "Jo Yong-hyun", "Park Kee-ryung", "Choi Byung-mo", "Han Chang-hyun", "Kim In-woo", "Kwon Hyuk", "Im Hyeong-tae", "Oh Man-seok", "Kim Byung Gi", "Kim In-su", "Alexander Scarborough", "Jin-Chul Kim", "Do-Hyung Kim", "Eun-ji Hong", "Song Da-eun", "Jeong In-kyeom", "Nam Gyeong-min", "Ahn Seong-bong", "Seon Uk-hyeon", "Lee In-chul" ],
+  "runtime" : 145
+}, {
+  "id" : 1522126,
+  "title" : "1000 Men and Me: The Bonnie Blue Story",
+  "releaseYear" : 2025,
+  "averageRating" : 5.093,
+  "genres" : [ {
+    "id" : 99,
+    "name" : "Documentary"
+  }, {
+    "id" : 10770,
+    "name" : "TV Movie"
+  } ],
+  "language" : "en",
+  "cast" : [ "Bonnie Blue", "Victoria Silver", "Josh Lee Spooner", "Ermes de Cristofaro", "Ollie Davidson", "Andy Lee", "Sarah Billinger" ],
+  "runtime" : 60
+}, {
+  "id" : 1403886,
+  "title" : "Fishbowl",
+  "releaseYear" : 2018,
+  "averageRating" : 0.0,
+  "genres" : [ {
+    "id" : 99,
+    "name" : "Documentary"
+  } ],
+  "language" : "nl",
+  "cast" : [ "Jip Koster", "Lara Lustemberg" ],
+  "runtime" : 15
+}, {
+  "id" : 1732097,
+  "title" : "Euphoria: A Look Back",
+  "releaseYear" : 2026,
+  "averageRating" : 3.214,
+  "genres" : [ {
+    "id" : 99,
+    "name" : "Documentary"
+  } ],
+  "language" : "en",
+  "cast" : [ "Sam Levinson", "Hunter Schafer", "Jacob Elordi", "Alexa Demie", "Maude Apatow", "Eric Dane", "Sydney Sweeney", "Marcell Rév", "Rosalía", "Casey Bloys", "Mary Vernieu", "Jennifer Venditti", "Hunter Harris", "Ashley Levinson", "Doniella Davy", "Natasha Newman-Thomas", "Kimberly Kimble", "Julio Perez IV", "Eric Deggans", "Dr. Judith Joseph", "Barry Levinson", "Colman Domingo", "Sharon Stone", "Zendaya", "Labrinth", "Heidi Bivens", "Angus Cloud", "Sophia Rose Wilson", "Storm Reid", "Javon Walton", "Barbie Ferreira", "Jimmy Kimmel", "Jennifer Aniston", "Sandra Oh", "Laura Linney", "Leonardo DiCaprio", "Quentin Tarantino", "Margot Robbie", "Lauren Weedman", "Adewale Akinnuoye-Agbaje" ],
+  "runtime" : 60
+}, {
+  "id" : 890825,
+  "title" : "14 Peaks: Nothing Is Impossible",
+  "releaseYear" : 2021,
+  "averageRating" : 7.344,
+  "genres" : [ {
+    "id" : 99,
+    "name" : "Documentary"
+  } ],
+  "language" : "en",
+  "cast" : [ "Nirmal Purja", "Jimmy Chin", "Reinhold Messner", "Klára Kolouchová", "Conrad Anker" ],
+  "runtime" : 101
+}, {
+  "id" : 1183166,
+  "title" : "Vjeran Tomic: The Spider-Man of Paris",
+  "releaseYear" : 2023,
+  "averageRating" : 7.015,
+  "genres" : [ {
+    "id" : 99,
+    "name" : "Documentary"
+  }, {
+    "id" : 80,
+    "name" : "Crime"
+  } ],
+  "language" : "fr",
+  "cast" : [ "Vjeran Tomic" ],
+  "runtime" : 86
+}, {
+  "id" : 1226863,
+  "title" : "The Super Mario Galaxy Movie",
+  "releaseYear" : 2026,
+  "averageRating" : 8.3,
+  "genres" : [ {
+    "id" : 10751,
+    "name" : "Family"
+  }, {
+    "id" : 35,
+    "name" : "Comedy"
+  }, {
+    "id" : 12,
+    "name" : "Adventure"
+  }, {
+    "id" : 14,
+    "name" : "Fantasy"
+  }, {
+    "id" : 16,
+    "name" : "Animation"
+  } ],
+  "language" : "en",
+  "cast" : [ "Chris Pratt", "Charlie Day", "Anya Taylor-Joy", "Jack Black", "Keegan-Michael Key", "Donald Glover", "Benny Safdie", "Brie Larson", "Glen Powell", "Luis Guzmán", "Issa Rae", "Kevin Michael Richardson", "Juliet Jelenic", "Ed Skudder", "Roxana Ortega", "Virginia Dare Jelenic", "Eric Bauza", "Carlos Alazraqui", "Hope Levy", "Monia Ayachi", "Ashley London", "Ryan Bartley", "Eric Lopez", "Rachel Butera", "Scott Menville", "Jessica DiCicco", "Laraine Newman", "Johnny Gidcomb", "Matt Nolan", "Danielle Hartnett", "Eric E. Osmond", "Elijah Hoffman", "Isaac Robinson-Smith", "Skai Hoffman", "Sean Rohani", "Michael Jelenic", "Rino Romano", "Forrest Forte", "Pepper Jelenic", "Fred Tatasciore", "JP Karliak", "Kiff VandenHeuvel", "Susan Leslie", "Scott Whyte", "Matthew Wolf" ],
+  "runtime" : 98
+}, {
+  "id" : 1084242,
+  "title" : "Zootopia 2",
+  "releaseYear" : 2025,
+  "averageRating" : 7.681,
+  "genres" : [ {
+    "id" : 16,
+    "name" : "Animation"
+  }, {
+    "id" : 12,
+    "name" : "Adventure"
+  }, {
+    "id" : 35,
+    "name" : "Comedy"
+  }, {
+    "id" : 9648,
+    "name" : "Mystery"
+  }, {
+    "id" : 10751,
+    "name" : "Family"
+  } ],
+  "language" : "en",
+  "cast" : [ "Ginnifer Goodwin", "Jason Bateman", "Ke Huy Quan", "Fortune Feimster", "Andy Samberg", "David Strathairn", "Idris Elba", "Shakira", "Patrick Warburton", "Quinta Brunson", "Danny Trejo", "Nate Torrence", "Bonnie Hunt", "Don Lake", "Michelle Gomez", "David Fane", "Joe Anoa'i", "Phil Brooks", "Stephanie Beatriz", "Wilmer Valderrama", "Jean Reno", "Alan Tudyk", "Macaulay Culkin", "Brenda Song", "John Leguizamo", "Tommy Lister Jr.", "Maurice LaMarche", "Leah Latham", "Raymond S. Persi", "Jenny Slate", "Josh Dallas", "Tommy Chong", "Auliʻi Cravalho", "Hewitt Bush", "Blake Slatkin", "Nick DiGiovanni", "Tig Notaro", "Sasha Piqué Mebarak", "Milan Piqué Mebarak", "Jake Robards", "Bob Iger", "Daniel V. Graulau", "Amanda Gorman", "Ed Sheeran", "Yvette Nicole Brown", "Tiffany Lonsdale", "George Pennacchio", "Byron Howard", "Jared Bush", "June Squibb", "Rachel House", "Melissa Goodwin Shepherd", "Cecily Strong", "Allegra Leguizamo", "Mario López", "Michael J. Fox", "Mark Rhino Smith", "Josh Gad", "Peter Mansbridge", "Robert Irwin", "David VanTuyle", "Anika Noni Rose", "Taylen Biggs", "Mae Martin", "Dwayne Johnson", "Natalia Adame Mendoza", "Emmitt Bush", "Merrick Bush", "Carrie Liao", "Jeremy Milton", "Fabienne Rawley" ],
+  "runtime" : 108
+}, {
+  "id" : 324857,
+  "title" : "Spider-Man: Into the Spider-Verse",
+  "releaseYear" : 2018,
+  "averageRating" : 8.393,
+  "genres" : [ {
+    "id" : 16,
+    "name" : "Animation"
+  }, {
+    "id" : 28,
+    "name" : "Action"
+  }, {
+    "id" : 12,
+    "name" : "Adventure"
+  }, {
+    "id" : 878,
+    "name" : "Science Fiction"
+  } ],
+  "language" : "en",
+  "cast" : [ "Shameik Moore", "Jake Johnson", "Hailee Steinfeld", "Mahershala Ali", "Brian Tyree Henry", "Lily Tomlin", "Luna Lauren Vélez", "Zoë Kravitz", "John Mulaney", "Kimiko Glenn", "Nicolas Cage", "Kathryn Hahn", "Liev Schreiber", "Chris Pine", "Natalie Morales", "Edwin H. Bravo", "Oscar Isaac", "Greta Lee", "Stan Lee", "Jorma Taccone", "Joaquín Cosío", "Marvin Jones III", "Kim Yarbrough", "Lake Bell", "Jessica Mikayla Adams", "Gredel Berrios Calladine", "Sarah D. Cole", "Kelby Joseph", "Mimi Davila", "Claudia Choi", "Melanie Haynes", "Joseph Izzo", "Nick Jaine", "Muneeb Rehman", "Carlos Zaragoza", "Post Malone", "David Applebee", "Juan Carlos Arvelo", "Adam Brown", "Jon Bruno", "Darcy Rose Byrnes", "Oscar Camacho", "June Christopher", "Alycia Cooper", "Michelle Jubilee Gonzalez", "Terrence Hardy Jr.", "Bridget Hoffman", "Rif Hutton", "Miguel Jiron", "Harrison Knight", "Lex Lang", "Donna Lynn Leavy", "Andrew Leviton", "Caitlin McKenna", "Scott Menville", "Christopher Miller", "Arthur Ortiz", "Juan Pacheco", "Devika Parikh", "Shakira Ja'nai Paye", "Courtney Peldon", "Chrystee Pharris", "Jacqueline Pinol", "Juan Pope", "Al Rodrigo", "Joseph Sanfelippo", "Justin Shenkarow", "Dennis Singletary", "Warren Sroka", "Melissa Sturm", "Holly Walker", "Jason Linere-White", "Ruth Zalduondo" ],
+  "runtime" : 117
+}, {
+  "id" : 569094,
+  "title" : "Spider-Man: Across the Spider-Verse",
+  "releaseYear" : 2023,
+  "averageRating" : 8.34,
+  "genres" : [ {
+    "id" : 16,
+    "name" : "Animation"
+  }, {
+    "id" : 28,
+    "name" : "Action"
+  }, {
+    "id" : 12,
+    "name" : "Adventure"
+  }, {
+    "id" : 878,
+    "name" : "Science Fiction"
+  } ],
+  "language" : "en",
+  "cast" : [ "Shameik Moore", "Hailee Steinfeld", "Brian Tyree Henry", "Luna Lauren Vélez", "Jake Johnson", "Oscar Isaac", "Jason Schwartzman", "Issa Rae", "Daniel Kaluuya", "Karan Soni", "Shea Whigham", "Greta Lee", "Mahershala Ali", "Amandla Stenberg", "Jharrel Jerome", "Andy Samberg", "Jack Quaid", "Rachel Dratch", "Ziggy Marley", "Jorma Taccone", "J.K. Simmons", "Donald Glover", "Elizabeth Perkins", "Kathryn Hahn", "Ayo Edebiri", "Nicole Delaney", "Antonina Lentini", "Atsuko Okatsuka", "Peter Sohn", "Melissa Sturm", "Lorraine Velez", "Nic Novicki", "Taran Killam", "Metro Boomin", "Josh Keaton", "Sofia Barclay", "Danielle Perez", "Yuri Lowenthal", "Rita Rani Ahuja", "Ismail Bashey", "Oscar Camacho", "Freddy Ferrari", "Kerry Gutierrez", "Kamal Khan", "Angelo Sekou Kouyate", "Andrew Leviton", "David Michie", "Sumit Naig", "Juan Pacheco", "Chrystee Pharris", "Ben Pronsky", "Al Rodrigo", "Stan Sellers", "Warren Sroka", "Jasper Johannes Andrews", "Gredel Berrios Calladine", "Natalia Castellanos", "Russell Tyre Francis", "Deepti Gupta", "Sohm Kapila", "Pradnya Kuwadekar", "Ashley London", "Christopher Miller", "Andrea Navedo", "Lakshmi Patel", "Jacqueline Pinol", "Eliyas Qureshi", "Lashana Rodriguez", "Jaswant Dev Shrestha", "Libby Thomas Dickey", "Jason Linere-White", "Sitara Attaie", "Mayuri Bhandari", "June Christopher", "Michelle Jubilee Gonzalez", "Marabina Jaimes", "Rez Kempton", "Lex Lang", "Phil Lord", "Richard Miro", "Doug Nicholas", "Shakira Ja'nai Paye", "James Pirri", "Marley Ralph", "Michelle Ruff", "Dennis Singletary", "Amanda Troop", "Ruth Zalduondo", "Kimberly Bailey", "Sanjay Chandani", "Melanie Duke", "Jorge R. Gutierrez", "Miguel Jiron", "Deepti Kingra-Mickelsen", "Luisa Leschin", "Caitlin McKenna", "Andrew Morgado", "Arthur Ortiz", "Eliana A. Perez", "Juan Pope", "Mike Rianda", "Erika Scopelli", "Narender Sood", "Cedric L. Williams", "Kimiko Glenn", "Peggy Lu", "Cliff Robertson", "Tobey Maguire", "Denis Leary", "Andrew Garfield" ],
+  "runtime" : 140
+}, {
+  "id" : 1327819,
+  "title" : "Hoppers",
+  "releaseYear" : 2026,
+  "averageRating" : 8.185,
+  "genres" : [ {
+    "id" : 12,
+    "name" : "Adventure"
+  }, {
+    "id" : 16,
+    "name" : "Animation"
+  }, {
+    "id" : 35,
+    "name" : "Comedy"
+  }, {
+    "id" : 10751,
+    "name" : "Family"
+  }, {
+    "id" : 878,
+    "name" : "Science Fiction"
+  } ],
+  "language" : "en",
+  "cast" : [ "Piper Curda", "Bobby Moynihan", "Jon Hamm", "Kathy Najimy", "Dave Franco", "Eduardo Franco", "Aparna Nancherla", "Tom Law", "Sam Richardson", "Melissa Villaseñor", "Isiah Whitlock Jr.", "Steve Purcell", "Ego Nwodim", "Nichole Sakura", "Meryl Streep", "Karen Huie", "Lila Liu", "Eman Abdul-Razzak", "Vanessa Bayer", "Joe Spano", "Matthew Yang King", "Bob Peterson", "Lori Alan", "Grey DeLisle", "Laraine Newman", "Carlos Alazraqui", "Rick Zieff", "Alex Désert", "Jeff Pidgeon", "Bill Barretta", "Daniel Chong" ],
+  "runtime" : 104
+} ]

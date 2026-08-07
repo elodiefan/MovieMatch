@@ -44,11 +44,11 @@ public class TmdbSearchMediaDataAccess
     }
 
     /**
-     * Searches TMDB for movies and TV shows matching a keyword.
+     * Searches TMDB for movies.json and TV shows matching a keyword.
      * Externally connected to search interactor, checking input/output and handling exceptions.
      *
      * @param keyword keyword entered by the user
-     * @return matching movies and TV shows
+     * @return matching movies.json and TV shows
      */
     @Override
     public List<Media> search(String keyword) {

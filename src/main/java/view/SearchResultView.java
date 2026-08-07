@@ -37,9 +37,8 @@ import use_case.filter.FilterCriteria;
 public class SearchResultView extends JPanel
         implements PropertyChangeListener {
     private static final int TITLE_FILTER_SPACING = 5;
-    private static final int FILTER_PANEL_HEIGHT = 300;
-
     private static final int FILTER_FIELD_WIDTH = 6;
+    private static final int SCROLL_UNIT_INCREMENT = 16;
     private static final int RESULT_PANEL_WIDTH = 500;
     private static final int RESULT_PANEL_HEIGHT = 45;
 
@@ -132,42 +131,33 @@ public class SearchResultView extends JPanel
                 new BoxLayout(resultsPanel, BoxLayout.Y_AXIS)
         );
 
-        final JScrollPane resultsScrollPane =
-                new JScrollPane(resultsPanel);
+        // Holds both the filters and results so the whole page scrolls
+        // as one continuous area.
+        final JPanel pageContentPanel = new JPanel();
+        pageContentPanel.setLayout(
+                new BoxLayout(pageContentPanel, BoxLayout.Y_AXIS)
+        );
+        pageContentPanel.add(title);
+        pageContentPanel.add(
+                Box.createVerticalStrut(TITLE_FILTER_SPACING)
+        );
+        pageContentPanel.add(createFilterPanel());
+        pageContentPanel.add(resultsPanel);
 
-        resultsScrollPane.setVerticalScrollBarPolicy(
+        final JScrollPane pageScrollPane =
+                new JScrollPane(pageContentPanel);
+        pageScrollPane.setVerticalScrollBarPolicy(
                 JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED
         );
-        resultsScrollPane.setHorizontalScrollBarPolicy(
+        pageScrollPane.setHorizontalScrollBarPolicy(
                 JScrollPane.HORIZONTAL_SCROLLBAR_NEVER
         );
-
-        // Adds 5 pixels of vertical spacing between the title and filter panel.
-        final JPanel topPanel = new JPanel();
-        topPanel.setLayout(
-                new BoxLayout(topPanel, BoxLayout.Y_AXIS)
+        pageScrollPane.getVerticalScrollBar().setUnitIncrement(
+                SCROLL_UNIT_INCREMENT
         );
-        topPanel.add(title);
-        topPanel.add(Box.createVerticalStrut(TITLE_FILTER_SPACING));
-
-        final JScrollPane filterScrollPane =
-                new JScrollPane(createFilterPanel());
-
-        filterScrollPane.setPreferredSize(
-                new Dimension(0, FILTER_PANEL_HEIGHT)
-        );
-        filterScrollPane.setVerticalScrollBarPolicy(
-                JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED
-        );
-        filterScrollPane.setHorizontalScrollBarPolicy(
-                JScrollPane.HORIZONTAL_SCROLLBAR_NEVER
-        );
-
-        topPanel.add(filterScrollPane);
 
         this.setLayout(new BorderLayout());
-        this.add(topPanel, BorderLayout.NORTH);
-        this.add(resultsScrollPane, BorderLayout.CENTER);
+        this.add(pageScrollPane, BorderLayout.CENTER);
         this.add(backButton, BorderLayout.SOUTH);
     }
 
