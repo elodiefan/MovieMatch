@@ -174,8 +174,11 @@ public final class UiTheme {
         }
 
         // With nothing that stretches, the surplus needs somewhere to go, or
-        // BoxLayout hands it back to the rows we just pinned.
+        // BoxLayout hands it back to the rows we just pinned. Splitting it above
+        // and below centres a short form instead of stranding it against the top
+        // edge with a void underneath.
         if (!hasStretchingChild) {
+            view.add(Box.createVerticalGlue(), 0);
             view.add(Box.createVerticalGlue());
         }
     }
