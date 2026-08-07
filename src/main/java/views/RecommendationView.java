@@ -18,10 +18,10 @@ import javax.swing.SwingConstants;
 import javax.swing.SwingWorker;
 
 import interface_adapter.recommendation.RecommendationController;
+import interface_adapter.recommendation.RecommendationRow;
+import interface_adapter.recommendation.RecommendationSection;
 import interface_adapter.recommendation.RecommendationState;
 import interface_adapter.recommendation.RecommendationViewModel;
-import use_case.recommendation.GenreSection;
-import use_case.recommendation.RecommendedMedia;
 
 /** The full recommendation screen, grouped into genre sections. */
 public class RecommendationView extends JPanel implements PropertyChangeListener {
@@ -44,6 +44,7 @@ public class RecommendationView extends JPanel implements PropertyChangeListener
     private final JButton refreshButton;
 
     private String username = "";
+    private Runnable backHandler;
 
     public RecommendationView(RecommendationViewModel recommendationViewModel) {
         this.recommendationViewModel = recommendationViewModel;
@@ -78,8 +79,11 @@ public class RecommendationView extends JPanel implements PropertyChangeListener
         refreshButton.addActionListener(event -> reload());
 
         final JButton backButton = new JButton(RecommendationViewModel.BACK_BUTTON_LABEL);
-        backButton.addActionListener(
-                event -> recommendationController.switchToHomePageView());
+        backButton.addActionListener(event -> {
+            if (backHandler != null) {
+                backHandler.run();
+            }
+        });
 
         final JPanel actions = new JPanel();
         actions.add(refreshButton);
@@ -174,7 +178,7 @@ public class RecommendationView extends JPanel implements PropertyChangeListener
         this.repaint();
     }
 
-    private void addSection(GenreSection section) {
+    private void addSection(RecommendationSection section) {
         final JLabel heading = new JLabel(section.getHeading());
         heading.setFont(UiTheme.baseFont(Font.BOLD, HEADING_SIZE));
         heading.setAlignmentX(Component.LEFT_ALIGNMENT);
@@ -184,7 +188,7 @@ public class RecommendationView extends JPanel implements PropertyChangeListener
         section.getRecommendations().forEach(this::addResult);
     }
 
-    private void addResult(RecommendedMedia media) {
+    private void addResult(RecommendationRow media) {
         final JPanel row = new JPanel();
         row.setLayout(new BoxLayout(row, BoxLayout.Y_AXIS));
         row.setAlignmentX(Component.LEFT_ALIGNMENT);
@@ -209,5 +213,9 @@ public class RecommendationView extends JPanel implements PropertyChangeListener
 
     public void setRecommendationController(RecommendationController recommendationController) {
         this.recommendationController = recommendationController;
+    }
+
+    public void setBackHandler(Runnable backHandler) {
+        this.backHandler = backHandler;
     }
 }

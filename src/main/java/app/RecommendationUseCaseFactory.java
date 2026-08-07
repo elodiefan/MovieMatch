@@ -49,13 +49,16 @@ public final class RecommendationUseCaseFactory {
 
         homeRecommendationsPanel.setRecommendationController(new RecommendationController(
                 buildInteractor(userDataAccess, catalogue, adjuster,
-                        new RecommendationPresenter(homeStripViewModel), currentYear),
-                viewManagerModel, HomePageViewModel.VIEW_NAME));
+                        new RecommendationPresenter(homeStripViewModel), currentYear)));
 
         recommendationView.setRecommendationController(new RecommendationController(
                 buildInteractor(userDataAccess, catalogue, adjuster,
-                        new RecommendationPresenter(detailedViewModel), currentYear),
-                viewManagerModel, HomePageViewModel.VIEW_NAME));
+                        new RecommendationPresenter(detailedViewModel), currentYear)));
+
+        homeRecommendationsPanel.setOpenFullListHandler(
+                () -> viewManagerModel.switchView(RecommendationViewModel.VIEW_NAME));
+        recommendationView.setBackHandler(
+                () -> viewManagerModel.switchView(HomePageViewModel.VIEW_NAME));
     }
 
     private static RecommendationInputBoundary buildInteractor(

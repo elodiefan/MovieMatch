@@ -34,6 +34,82 @@ public class RecommendationOutputData {
         return this.sections;
     }
 
+    public int getRecommendationCount() {
+        return recommendations.size();
+    }
+
+    public int getRecommendationMediaId(final int index) {
+        return recommendations.get(index).getMediaId();
+    }
+
+    public String getRecommendationTitle(final int index) {
+        return recommendations.get(index).getTitle();
+    }
+
+    public int getRecommendationReleaseYear(final int index) {
+        return recommendations.get(index).getReleaseYear();
+    }
+
+    public double getRecommendationScore(final int index) {
+        return recommendations.get(index).getScore();
+    }
+
+    public String getRecommendationPrimaryGenre(final int index) {
+        return recommendations.get(index).getPrimaryGenre();
+    }
+
+    public String getRecommendationExplanation(final int index) {
+        return recommendations.get(index).getExplanation();
+    }
+
+    public int getSectionCount() {
+        return sections.size();
+    }
+
+    public String getSectionHeading(final int sectionIndex) {
+        return sections.get(sectionIndex).getHeading();
+    }
+
+    public int getSectionRecommendationCount(final int sectionIndex) {
+        return sections.get(sectionIndex).getRecommendations().size();
+    }
+
+    public int getSectionRecommendationMediaId(final int sectionIndex,
+                                               final int recommendationIndex) {
+        return sections.get(sectionIndex).getRecommendations()
+                .get(recommendationIndex).getMediaId();
+    }
+
+    public String getSectionRecommendationTitle(final int sectionIndex,
+                                                final int recommendationIndex) {
+        return sections.get(sectionIndex).getRecommendations()
+                .get(recommendationIndex).getTitle();
+    }
+
+    public int getSectionRecommendationReleaseYear(final int sectionIndex,
+                                                   final int recommendationIndex) {
+        return sections.get(sectionIndex).getRecommendations()
+                .get(recommendationIndex).getReleaseYear();
+    }
+
+    public double getSectionRecommendationScore(final int sectionIndex,
+                                                final int recommendationIndex) {
+        return sections.get(sectionIndex).getRecommendations()
+                .get(recommendationIndex).getScore();
+    }
+
+    public String getSectionRecommendationPrimaryGenre(final int sectionIndex,
+                                                       final int recommendationIndex) {
+        return sections.get(sectionIndex).getRecommendations()
+                .get(recommendationIndex).getPrimaryGenre();
+    }
+
+    public String getSectionRecommendationExplanation(final int sectionIndex,
+                                                      final int recommendationIndex) {
+        return sections.get(sectionIndex).getRecommendations()
+                .get(recommendationIndex).getExplanation();
+    }
+
     /** Reports whether anything could be suggested. */
     public boolean isEmpty() {
         return this.recommendations.isEmpty();

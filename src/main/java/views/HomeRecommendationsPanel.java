@@ -18,9 +18,9 @@ import javax.swing.SwingConstants;
 import javax.swing.SwingWorker;
 
 import interface_adapter.recommendation.RecommendationController;
+import interface_adapter.recommendation.RecommendationRow;
 import interface_adapter.recommendation.RecommendationState;
 import interface_adapter.recommendation.RecommendationViewModel;
-import use_case.recommendation.RecommendedMedia;
 
 /** The short recommendation strip on the home page. */
 public class HomeRecommendationsPanel extends JPanel implements PropertyChangeListener {
@@ -47,6 +47,9 @@ public class HomeRecommendationsPanel extends JPanel implements PropertyChangeLi
 
     /** Told about a request for the full list, since that screen loads separately. */
     private Consumer<String> seeAllHandler;
+
+    /** Handles the screen switch to the full recommendation view. */
+    private Runnable openFullListHandler;
 
     public HomeRecommendationsPanel(RecommendationViewModel recommendationViewModel) {
         this.recommendationViewModel = recommendationViewModel;
@@ -146,7 +149,7 @@ public class HomeRecommendationsPanel extends JPanel implements PropertyChangeLi
         this.repaint();
     }
 
-    private void addRow(RecommendedMedia media) {
+    private void addRow(RecommendationRow media) {
         final JPanel row = new JPanel();
         row.setLayout(new BoxLayout(row, BoxLayout.Y_AXIS));
         row.setAlignmentX(Component.LEFT_ALIGNMENT);
@@ -174,7 +177,9 @@ public class HomeRecommendationsPanel extends JPanel implements PropertyChangeLi
         if (seeAllHandler != null) {
             seeAllHandler.accept(username);
         }
-        recommendationController.switchToRecommendationView();
+        if (openFullListHandler != null) {
+            openFullListHandler.run();
+        }
     }
 
     public void setRecommendationController(RecommendationController recommendationController) {
@@ -184,5 +189,9 @@ public class HomeRecommendationsPanel extends JPanel implements PropertyChangeLi
     /** Called with the username when the user asks for the full list. */
     public void setSeeAllHandler(Consumer<String> seeAllHandler) {
         this.seeAllHandler = seeAllHandler;
+    }
+
+    public void setOpenFullListHandler(Runnable openFullListHandler) {
+        this.openFullListHandler = openFullListHandler;
     }
 }

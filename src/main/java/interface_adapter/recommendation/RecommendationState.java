@@ -3,33 +3,30 @@ package interface_adapter.recommendation;
 import java.util.ArrayList;
 import java.util.List;
 
-import use_case.recommendation.GenreSection;
-import use_case.recommendation.RecommendedMedia;
-
 /** What the recommendation screens draw. */
 public class RecommendationState {
 
-    private List<RecommendedMedia> recommendations = new ArrayList<>();
-    private List<GenreSection> sections = new ArrayList<>();
+    private List<RecommendationRow> recommendations = new ArrayList<>();
+    private List<RecommendationSection> sections = new ArrayList<>();
     private String recommendationError;
     private String username = "";
 
     /** Distinguishes "nothing to suggest" from "not asked yet". */
     private boolean loaded;
 
-    public List<RecommendedMedia> getRecommendations() {
+    public List<RecommendationRow> getRecommendations() {
         return recommendations;
     }
 
-    public void setRecommendations(List<RecommendedMedia> recommendations) {
+    public void setRecommendations(List<RecommendationRow> recommendations) {
         this.recommendations = recommendations;
     }
 
-    public List<GenreSection> getSections() {
+    public List<RecommendationSection> getSections() {
         return sections;
     }
 
-    public void setSections(List<GenreSection> sections) {
+    public void setSections(List<RecommendationSection> sections) {
         this.sections = sections;
     }
 
