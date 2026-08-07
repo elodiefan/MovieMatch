@@ -7,6 +7,7 @@ import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Insets;
 import java.util.ArrayList;
+import java.util.Enumeration;
 import java.util.List;
 
 import javax.swing.BorderFactory;
@@ -26,7 +27,9 @@ import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
+import javax.swing.JSlider;
 import javax.swing.border.TitledBorder;
+import javax.swing.plaf.FontUIResource;
 
 /**
  * The application's look and feel.
@@ -145,6 +148,11 @@ public final class UiTheme {
 
         SwingUtilities.updateComponentTreeUI(root);
 
+        // updateComponentTreeUI only resizes fonts the look and feel installed
+        // itself, so anything a screen set by hand keeps its old size. This
+        // reaches the rest.
+        applyFontSize(root, textSize);
+
         // Rebuilding the delegates drops the explicit colours and borders set
         // when the screens were first registered, so they go back on here.
         applyTo(root, darkMode);
@@ -194,9 +202,60 @@ public final class UiTheme {
     }
 
     private static void putFontSize(int textSize) {
-        final Font base = baseFont(Font.PLAIN, textSize);
+        // These have to be FontUIResource, not Font. Swing only replaces a
+        // component's font when the existing one is a UIResource; a plain Font
+        // reads as "the application chose this", so the second size change
+        // would silently do nothing.
+        final Font base = new FontUIResource(baseFont(Font.PLAIN, textSize));
         for (String key : FONT_KEYS) {
             UIManager.put(key, base);
+        }
+        // Nimbus builds its own fonts from this one key and largely ignores the
+        // per-component keys above.
+        UIManager.put("defaultFont", base);
+    }
+
+    /**
+     * Sets the font size on a component and everything inside it.
+     * <p>
+     * The look and feel only reaches components it created the font for, which
+     * leaves anything built by hand at its original size. Walking the tree is
+     * what makes a size change reach every screen rather than just some of them.
+     */
+    private static void applyFontSize(Component root, int textSize) {
+        final Font current = root.getFont();
+        if (current != null) {
+            // deriveFont keeps bold and italic, so emphasis survives a resize.
+            root.setFont(new FontUIResource(current.deriveFont((float) textSize)));
+        }
+
+        if (root instanceof JSlider) {
+            // The tick labels live in a table rather than the component tree.
+            final JSlider slider = (JSlider) root;
+            if (slider.getLabelTable() != null) {
+                final Enumeration<?> labels = slider.getLabelTable().elements();
+                while (labels.hasMoreElements()) {
+                    final Object value = labels.nextElement();
+                    if (value instanceof Component) {
+                        final Component label = (Component) value;
+                        label.setFont(new FontUIResource(
+                                label.getFont().deriveFont((float) textSize)));
+                    }
+                }
+            }
+        }
+
+        if (root instanceof JComponent && ((JComponent) root).getBorder() instanceof TitledBorder) {
+            final TitledBorder titled = (TitledBorder) ((JComponent) root).getBorder();
+            if (titled.getTitleFont() != null) {
+                titled.setTitleFont(titled.getTitleFont().deriveFont((float) textSize));
+            }
+        }
+
+        if (root instanceof Container) {
+            for (Component child : ((Container) root).getComponents()) {
+                applyFontSize(child, textSize);
+            }
         }
     }
 
