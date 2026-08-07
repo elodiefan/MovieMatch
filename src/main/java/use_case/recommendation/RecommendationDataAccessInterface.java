@@ -4,7 +4,7 @@ import java.util.List;
 
 /**
  * What the recommendation use case needs to know about people.
- * <p>
+ *
  * Declared here, in the use case layer, and implemented further out — so the
  * interactor never depends on where ratings actually live. Today that is an
  * in-memory stand-in; once the review feature lands it will be MongoDB, and
@@ -22,7 +22,7 @@ public interface RecommendationDataAccessInterface {
 
     /**
      * Returns the usernames of the given user's friends.
-     * <p>
+     *
      * The app has no concept of friends yet, so implementations may return an
      * empty list. The algorithm defines that case: the friends factor scores
      * zero and the remaining factors decide the ranking.

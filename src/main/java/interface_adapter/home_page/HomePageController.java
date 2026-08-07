@@ -32,7 +32,7 @@ public class HomePageController {
 
     /**
      * Switches view to the Search User View.
-     * <p>
+     *
      * Opening a view is not a use case, it changes no data and has no business
      * rules, so this goes straight to the view manager rather than through an
      * interactor. Same as PersonalAccountController does.

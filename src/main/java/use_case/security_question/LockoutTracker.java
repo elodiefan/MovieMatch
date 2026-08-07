@@ -4,7 +4,7 @@ import entity.AccountLockout;
 
 /**
  * Keeps track of each account's lock-out record.
- * <p>
+ *
  * The interactor asks this for an account's record rather than storing the
  * records itself, so where they are kept is a detail of the outer layer. The
  * shipped implementation holds them in memory, which means lock-outs reset when

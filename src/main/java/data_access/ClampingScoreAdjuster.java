@@ -7,13 +7,13 @@ import use_case.recommendation.ScoreAdjuster;
 
 /**
  * Wraps another adjuster and refuses to let it move a score very far.
- * <p>
+ *
  * The algorithm document requires the adjustment to be clamped in two places,
  * "once by the interactor and again defensively inside the implementation". This
  * is the second of those: whatever an adjuster returns — a misread reply, a
  * misbehaving model, a bug — cannot escape the permitted range before it reaches
  * the use case.
- * <p>
+ *
  * Wrapping rather than editing each adjuster means the guarantee holds for every
  * implementation, including ones written later.
  */

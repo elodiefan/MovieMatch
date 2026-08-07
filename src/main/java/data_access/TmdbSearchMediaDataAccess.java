@@ -55,7 +55,7 @@ public class TmdbSearchMediaDataAccess
 
     /**
      * Fetches one page of TMDB results and reports how many pages exist.
-     * <p>
+     *
      * Only the page asked for is fetched. Requesting every page TMDB reports
      * meant up to 500 page requests plus a details request per result, which
      * for a common word is over ten thousand calls.

@@ -22,14 +22,14 @@ import interface_adapter.security_question.SecurityQuestionViewModel;
 
 /**
  * The View for recovering an account by answering a security question.
- * <p>
+ *
  * Layout, top to bottom:
- * <ol>
- *     <li>a username field + a "Show question" button;</li>
- *     <li>a label that displays the loaded security question;</li>
- *     <li>an answer field + a "Verify" button;</li>
- *     <li>a message label (green success / red-ish error and attempts left).</li>
- * </ol>
+ *
+ *     a username field + a "Show question" button;
+ *     a label that displays the loaded security question;
+ *     an answer field + a "Verify" button;
+ *     a message label (green success / red-ish error and attempts left).
+ *
  * The view is "dumb": it only reads/writes SecurityQuestionState and
  * calls the SecurityQuestionController. All decisions (right/wrong,
  * attempts, lock-out) happen in the interactor.

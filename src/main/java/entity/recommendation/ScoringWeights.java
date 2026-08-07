@@ -2,13 +2,13 @@ package entity.recommendation;
 
 /**
  * How much each factor counts toward a candidate's final score.
- * <p>
+ *
  * The algorithm document describes these as configurable constants rather than
  * derived values, "best tuned after testing against real user data — for
  * instance, lowering the genre weight if recommendations start to feel
  * repetitive". They are therefore held in their own object and injected, so the
  * weighting can be changed without touching any scoring code.
- * <p>
+ *
  * The five weights must sum to 1.0, which keeps every final score inside the
  * range [0, 1]. {@link #ScoringWeights} rejects any set that does not.
  */

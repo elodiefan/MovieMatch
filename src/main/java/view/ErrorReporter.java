@@ -7,7 +7,7 @@ import javax.swing.SwingUtilities;
 
 /**
  * Turns a thrown exception into something a user can read.
- * <p>
+ *
  * Swing swallows exceptions thrown inside an event handler: it prints a stack
  * trace to the console and the window simply does nothing. To anyone using the
  * app a failed database call is indistinguishable from a dead button, so this

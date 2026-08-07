@@ -14,7 +14,6 @@ import entity.UserLists;
 /**
  * In-memory implementation of UserDataAccessObject.
  *
- * <p>
  * Stores users in a plain map, so the app and its tests can run with no network
  * and no database. Because it implements the same interface as
  * MongoUserDataAccessObject, switching between them is a one-line change

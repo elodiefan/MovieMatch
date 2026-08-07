@@ -25,15 +25,15 @@ import entity.UserLists;
 
 /**
  * MongoDB Atlas implementation of UserDataAccessObject.
- * <p>
+ *
  * This is the only class in the project that imports com.mongodb: all
  * the driver code lives here, so the rest of the app never knows which database
  * is behind the interface.
- * <p>
+ *
  * Build one instance in AppBuilder and share it with every interactor —
  * the underlying MongoClient is expensive to create and is safe to reuse
  * across the whole app.
- * <p>
+ *
  * Connection settings are read from a properties file (default
  * DEFAULT_PROPERTIES) holding uri, database and
  * collection. That file is git-ignored because it contains a password.
@@ -212,7 +212,7 @@ public class MongoUserDataAccessObject implements UserDataAccessObject {
 
     /**
      * Returns the ids of everything on the user's watchlist or watch history.
-     * <p>
+     *
      * Recommendations need these both to avoid suggesting something already
      * chosen or seen, and as a read on what the person likes.
      */
@@ -298,7 +298,7 @@ public class MongoUserDataAccessObject implements UserDataAccessObject {
     /**
      * Finds accounts whose username or display name contains the keyword,
      * ignoring case.
-     * <p>
+     *
      * The keyword is wrapped in Pattern#quote before it reaches Mongo.
      * Without that, whatever the user types is treated as a regular expression:
      * typing .* would match every account in the database, and typing an
@@ -368,7 +368,7 @@ public class MongoUserDataAccessObject implements UserDataAccessObject {
 
     /**
      * Reads one field off the logged-in user's document.
-     * <p>
+     *
      * These three getters take no username: they all mean "for whoever is logged
      * in right now", which is #currentUsername.
      */
@@ -385,7 +385,6 @@ public class MongoUserDataAccessObject implements UserDataAccessObject {
 
     /**
      * Reads one field off the specified user's document.
-     * <p>
      */
     private String userField(String username, String field) {
         String value = null;

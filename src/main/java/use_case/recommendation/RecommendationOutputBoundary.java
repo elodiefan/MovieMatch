@@ -2,7 +2,7 @@ package use_case.recommendation;
 
 /**
  * How the recommendation use case reports back.
- * <p>
+ *
  * Two presenters implement this over the same interactor class: one fills the
  * home page strip, the other the detailed grouped view. Which one is in play is
  * decided when the interactor is constructed, so the use case itself never knows

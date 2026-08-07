@@ -2,7 +2,7 @@ package use_case.search_user;
 
 /**
  * The little bit of a user that search results are allowed to show.
- * <p>
+ *
  * A entity.User also carries the password, the security question and its
  * answer. Search results are handed to a presenter and then drawn on screen, so
  * passing whole users outward would put credentials in the view layer for no

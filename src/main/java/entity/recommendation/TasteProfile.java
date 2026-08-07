@@ -8,11 +8,11 @@ import entity.Genre;
 /**
  * What a user tends to enjoy, expressed as the genres and cast members that
  * appear across the media they rated highly.
- * <p>
+ *
  * This is the result of section 2 of the recommendation algorithm: the union of
  * genres and the union of cast across every title the user gave at least four
  * stars. Candidates are later scored by how much they overlap with it.
- * <p>
+ *
  * Instances are immutable; build one with {@link TasteProfileBuilder}.
  */
 public class TasteProfile {
@@ -51,7 +51,7 @@ public class TasteProfile {
 
     /**
      * Reports whether this profile contains nothing to compare against.
-     * <p>
+     *
      * A brand-new user who has not rated anything highly has an empty profile,
      * which means genre and cast overlap can only ever score zero. Callers use
      * this to fall back on popularity and recency instead.

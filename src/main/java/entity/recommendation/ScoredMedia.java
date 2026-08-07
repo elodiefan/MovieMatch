@@ -4,11 +4,11 @@ import entity.Media;
 
 /**
  * A candidate together with the score it earned.
- * <p>
+ *
  * Carries the {@link SubScoreBreakdown} as well as the total, so the reason for
  * a suggestion travels with it and nothing downstream has to score anything
  * again.
- * <p>
+ *
  * Ordering is by score descending, so sorting a list of these puts the best
  * suggestions first.
  */
@@ -48,7 +48,7 @@ public class ScoredMedia implements Comparable<ScoredMedia> {
 
     /**
      * Returns a copy of this result with its score shifted and an explanation added.
-     * <p>
+     *
      * Used when an adjuster nudges the deterministic ranking. Returning a new
      * object rather than mutating keeps the original score auditable.
      *

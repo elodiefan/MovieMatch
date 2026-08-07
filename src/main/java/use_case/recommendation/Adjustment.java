@@ -2,7 +2,7 @@ package use_case.recommendation;
 
 /**
  * A small nudge to one candidate's score, with a sentence explaining it.
- * <p>
+ *
  * The recommendation score is deterministic. An adjuster may shift it slightly
  * to capture nuance the fixed formula cannot see from genre and cast alone —
  * tone, theme, how a film actually feels — but only slightly, and only for

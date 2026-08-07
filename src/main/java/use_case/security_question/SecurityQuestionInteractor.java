@@ -5,15 +5,14 @@ import entity.User;
 
 /**
  * Interactor (business logic) for changing a password via a security question.
- * <p>
+ *
  * Responsibilities, matching the feature spec:
- * <ul>
- *     <li>show the user's security question;</li>
- *     <li>verify the typed answer;</li>
- *     <li>let the user keep trying while wrong;</li>
- *     <li>lock the account once too many attempts fail.</li>
- * </ul>
- * <p>
+ *
+ *     show the user's security question;
+ *     verify the typed answer;
+ *     let the user keep trying while wrong;
+ *     lock the account once too many attempts fail.
+ *
  * The counting and timing rules live in AccountLockout, and the records
  * themselves are kept by a LockoutTracker. This class holds no state of
  * its own: it only decides which rule to apply and what to report back.

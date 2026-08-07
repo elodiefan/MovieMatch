@@ -2,7 +2,7 @@ package use_case.settings;
 
 /**
  * The Change Settings Interactor.
- * <p>
+ *
  * The rule this use case owns is the range of text sizes the application
  * supports. A slider happens to enforce it today, but the range belongs to the
  * application rather than to any one widget, so a value arriving from anywhere

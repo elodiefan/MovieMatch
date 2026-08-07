@@ -19,7 +19,7 @@ import entity.recommendation.TasteProfile;
 
 /**
  * Drives the interactor end to end over the seed catalogue.
- * <p>
+ *
  * Uses the real collaborators rather than mocks, so these also check that the
  * pieces fit together — a taste profile built from ratings actually reaches the
  * scorers, and the ranking that comes out is the one the presenter is handed.

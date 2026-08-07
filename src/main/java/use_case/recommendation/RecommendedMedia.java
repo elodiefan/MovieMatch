@@ -2,7 +2,7 @@ package use_case.recommendation;
 
 /**
  * One suggestion, ready for a screen to display.
- * <p>
+ *
  * Everything here is already formatted or resolved, so presenters and views do
  * no arithmetic and no lookups — they read fields and put them on screen. That
  * is what lets the same result feed both the home page list and the detailed

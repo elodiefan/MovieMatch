@@ -5,7 +5,7 @@ import java.util.List;
 
 /**
  * The result of a recommendation request.
- * <p>
+ *
  * Holds both shapes at once: the flat ranking, which the home page uses, and the
  * genre sections, which the detailed view uses. Sections are empty when the
  * request did not ask for grouping, so neither presenter has to check what kind

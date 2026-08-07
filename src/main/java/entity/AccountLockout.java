@@ -2,7 +2,7 @@ package entity;
 
 /**
  * The lock-out rules for one account.
- * <p>
+ *
  * After #MAX_ATTEMPTS wrong security answers the account is locked for
  * #LOCKOUT_MINUTES minutes, and answers are refused until the lock
  * expires. Keeping these rules here rather than in an interactor means the

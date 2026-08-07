@@ -5,11 +5,11 @@ import entity.User;
 
 /**
  * Runnable check that the MongoDB connection and the change-password code work.
- * <p>
- * <strong>How to run:</strong> right-click this file in IntelliJ and choose
+ *
+ * How to run: right-click this file in IntelliJ and choose
  * "Run MongoConnectionCheck.main()". You need a mongo.properties file in
  * the project root first — see the MongoDB guide for what goes in it.
- * <p>
+ *
  * It uses its own throwaway account (TEST_USERNAME) so it never
  * touches real user data, and deletes nothing: run it as often as you like.
  */

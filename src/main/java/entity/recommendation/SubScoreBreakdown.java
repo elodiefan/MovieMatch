@@ -6,13 +6,13 @@ import java.util.Map;
 
 /**
  * The individual factor values behind one candidate's final score.
- * <p>
+ *
  * Kept alongside the total for two reasons. It lets the app explain a suggestion
  * in the user's own terms — "because you like Sci-Fi" — without recomputing
  * anything. And when a scoring test fails it shows which factor was wrong rather
  * than only that the total missed, which is the difference between a one-minute
  * fix and an afternoon.
- * <p>
+ *
  * Insertion order is preserved so breakdowns always read in the same order.
  */
 public class SubScoreBreakdown {
@@ -52,7 +52,7 @@ public class SubScoreBreakdown {
 
     /**
      * Returns the name of the factor that contributed most to the total.
-     * <p>
+     *
      * This is what makes a suggestion explainable: the strongest contributor is
      * the honest answer to "why am I being shown this?".
      *

@@ -18,18 +18,18 @@ import use_case.signup.SignupUserDataAccessInterface;
 
 /**
  * The storage contract for the whole app.
- * <p>
+ *
  * It gathers every use case's data-access interface into a single interface, so
  * a data store only has to implement this one thing to satisfy all of them.
  * Swapping databases means writing a new class that implements this interface
  * and changing one line in AppBuilder — no use case, interactor,
  * presenter, or view changes.
- * <p>
+ *
  * Implemented by MongoUserDataAccessObject (the real MongoDB Atlas
  * database) and InMemoryUserDataAccessObject (plain maps, for running
  * and testing without a network).
- * <p>
- * <strong>When you add a use case:</strong> write its own
+ *
+ * When you add a use case: write its own
  * ...UserDataAccessInterface in your use_case package, add it to
  * the extends list below, then implement the new methods in both
  * classes. Nothing else needs to change.

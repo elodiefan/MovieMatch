@@ -6,11 +6,11 @@ import entity.Media;
 
 /**
  * Scores a candidate on what the user's friends made of it.
- * <p>
+ *
  * The social half of the algorithm: a title several friends rated five stars is
  * worth surfacing even when its genres are an imperfect match. Computed as the
  * friends' mean rating normalised from the 1-5 star scale.
- * <p>
+ *
  * When no friend has rated the candidate the score is 0, exactly as the
  * algorithm specifies for the empty case. That is also the situation today,
  * since the app has no concept of friends yet — so this factor contributes

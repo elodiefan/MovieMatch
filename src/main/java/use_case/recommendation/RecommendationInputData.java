@@ -2,7 +2,7 @@ package use_case.recommendation;
 
 /**
  * A request for recommendations.
- * <p>
+ *
  * Carries what differs between the two screens that ask for them: the home page
  * wants a handful, ungrouped; the dedicated view wants more, arranged into
  * genre sections. Both go through the same use case.

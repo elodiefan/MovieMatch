@@ -5,13 +5,13 @@ import java.util.List;
 
 /**
  * Everything a sub-score needs to judge one candidate, beyond the candidate itself.
- * <p>
+ *
  * Each {@link SubScore} needs different surrounding information — genre overlap
  * needs the user's taste profile, the friends' score needs their ratings, recency
  * needs the current year. Bundling them here keeps the {@code SubScore} interface
  * to a single shape, so new factors can be added without changing every existing
  * scorer's signature.
- * <p>
+ *
  * A context describes one candidate, because friends' ratings differ per title.
  */
 public class ScoringContext {

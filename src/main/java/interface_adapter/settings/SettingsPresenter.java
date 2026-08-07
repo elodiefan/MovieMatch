@@ -5,7 +5,7 @@ import use_case.settings.SettingsOutputData;
 
 /**
  * The Presenter for the Change Settings Use Case.
- * <p>
+ *
  * Changing a setting never leaves the settings screen, so this only writes
  * state. Repainting the application is left to whoever listens to the view
  * model, which keeps Swing out of the interface adapter layer.

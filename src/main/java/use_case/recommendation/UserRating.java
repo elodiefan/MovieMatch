@@ -2,7 +2,7 @@ package use_case.recommendation;
 
 /**
  * One rating a user gave one title.
- * <p>
+ *
  * Deliberately a small type of its own rather than {@code entity.Review}. The
  * review feature is being built separately, so depending on it here would tie
  * this use case to another branch's progress. All the recommendation algorithm

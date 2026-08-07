@@ -6,7 +6,7 @@ import java.util.List;
 
 /**
  * Puts scored candidates in order and keeps the best few.
- * <p>
+ *
  * Steps 6 and 7 of the algorithm. Separated from the scoring itself because how
  * many results to show is a presentation decision that differs per screen — the
  * home page wants a handful, the dedicated view wants more — while the scores

@@ -19,7 +19,7 @@ import use_case.settings.SettingsInteractor;
 
 /**
  * The View for changing display settings.
- * <p>
+ *
  * The controls only report what the user asked for. The interactor decides what
  * is allowed and the presenter writes it into the state; this view then restyles
  * the application from that state, so a setting is never applied straight from a

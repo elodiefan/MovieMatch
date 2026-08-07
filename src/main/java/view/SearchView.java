@@ -80,7 +80,7 @@ public class SearchView extends JPanel implements PropertyChangeListener {
 
     /**
      * Searches on a background thread.
-     * <p>
+     *
      * Talking to TMDB takes long enough that doing it on the UI thread stops the
      * window repainting, which looks exactly like the application has hung. A
      * SwingWorker keeps the window alive and lets the button report progress.

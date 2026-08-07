@@ -7,7 +7,7 @@ import java.util.Map;
 
 /**
  * Arranges suggestions into "Because you like ..." sections.
- * <p>
+ *
  * What makes the detailed view more useful than a flat ranking: the same
  * results, clustered so the user can see the reasoning. Sections are ordered by
  * their strongest suggestion, so the most compelling cluster appears first, and

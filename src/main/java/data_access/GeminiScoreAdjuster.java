@@ -21,12 +21,12 @@ import use_case.recommendation.ScoreAdjustmentException;
 
 /**
  * Asks Gemini to nudge one candidate's score and explain it in a sentence.
- * <p>
+ *
  * This is Section 7 of the algorithm document. The deterministic score decides
  * the ranking; this only refines a shortlist that already scored well, and only
  * by a small amount, to catch nuance like tone or theme that genre and cast
  * overlap cannot see.
- * <p>
+ *
  * Nothing here can take over the recommendation. It never sees candidates that
  * scored poorly, it returns one number rather than an ordering, and that number
  * is clamped twice — by ScoreAdjustmentApplier and again by
@@ -42,8 +42,14 @@ public class GeminiScoreAdjuster implements ScoreAdjuster {
     /** Overridable so the model can be changed without a rebuild. */
     public static final String MODEL_VARIABLE = "Gemini_Model";
 
-    /** Used when the model variable is not set. */
-    public static final String DEFAULT_MODEL = "gemini-2.0-flash";
+    /**
+     * Used when the model variable is not set.
+     *
+     * An alias rather than a pinned version, so it keeps working as models are
+     * retired. The lite tier is deliberate: this asks for one number and one
+     * sentence, and it has free quota where the full flash models do not.
+     */
+    public static final String DEFAULT_MODEL = "gemini-flash-lite-latest";
 
     private static final String ENDPOINT =
             "https://generativelanguage.googleapis.com/v1beta/models/%s:generateContent";
@@ -166,7 +172,7 @@ public class GeminiScoreAdjuster implements ScoreAdjuster {
 
     /**
      * Reads the number and sentence out of the reply.
-     * <p>
+     *
      * Models often wrap JSON in a code fence, so the object is located rather
      * than assumed to be the whole string.
      */

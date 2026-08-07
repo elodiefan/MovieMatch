@@ -8,7 +8,7 @@ import entity.Media;
 
 /**
  * Where candidate titles come from.
- * <p>
+ *
  * Kept separate from {@link RecommendationDataAccessInterface} because the two
  * are backed by different things: people live in the app's own database, whereas
  * the catalogue comes from TMDB or a local copy of it. Splitting them means the
@@ -18,7 +18,7 @@ public interface MediaCatalogueDataAccessInterface {
 
     /**
      * Returns titles worth considering for a user.
-     * <p>
+     *
      * Narrowing by genre keeps the search space manageable, as the algorithm
      * document suggests. An empty genre set means the user has no taste profile
      * yet, in which case implementations should return a general pool rather

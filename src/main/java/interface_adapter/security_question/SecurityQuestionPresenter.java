@@ -9,17 +9,16 @@ import use_case.security_question.SecurityQuestionOutputData;
 
 /**
  * Presenter for the Security Question use case.
- * <p>
+ *
  * Translates use-case results into view-model state changes:
- * <ul>
- *     <li>#presentSecurityQuestion — put the question on screen;</li>
- *     <li>#prepareSuccessView — identity confirmed, so seed the
+ *
+ *     #presentSecurityQuestion — put the question on screen;
+ *     #prepareSuccessView — identity confirmed, so seed the
  *     reset-password screen with the verified username and switch to it via the
- *     ViewManagerModel;</li>
- *     <li>#prepareFailView — show a wrong-answer / locked-out / no-account
- *     message and (when locked) disable the inputs.</li>
- * </ul>
- * <p>
+ *     ViewManagerModel;
+ *     #prepareFailView — show a wrong-answer / locked-out / no-account
+ *     message and (when locked) disable the inputs.
+ *
  * It also implements PasswordResetCompletedHandler: once the password
  * has actually been changed, this screen is where the user is returned to, with
  * a confirmation message. Doing it here means the reset-password package never

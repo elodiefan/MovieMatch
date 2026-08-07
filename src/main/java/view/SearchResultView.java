@@ -36,9 +36,9 @@ import use_case.filter.FilterCriteria;
 
 /**
  * View for displaying and filtering search results.
- * genre id and name: <a href="https://developer.themoviedb.org/reference/genre-tv-list?utm_source=chatgpt.com">...</a>
- * and <a href="https://api.themoviedb.org/3/genre/tv/list">...</a>.
- * Language: <a href="https://api.themoviedb.org/3/configuration/languages">...</a>
+ * genre id and name: ...
+ * and ....
+ * Language: ...
  */
 public class SearchResultView extends JPanel
         implements PropertyChangeListener {
@@ -544,7 +544,7 @@ public class SearchResultView extends JPanel
 
     /**
      * Describes how much of the result set is on screen.
-     * <p>
+     *
      * Results arrive a few pages at a time, so the count has to distinguish
      * what has been loaded from what exists. Filters only ever narrow what is
      * already loaded, so when one is active the total is not the useful number

@@ -5,7 +5,7 @@ import java.util.List;
 
 /**
  * A run of suggestions shown under one heading, such as "Because you like Sci-Fi".
- * <p>
+ *
  * Grouping is what separates the detailed view from the home page list: the same
  * scored results, but organised so the user can see why each cluster was chosen
  * rather than reading one flat ranking.

@@ -15,12 +15,12 @@ import use_case.recommendation.MediaCatalogueDataAccessInterface;
 /**
  * A small fixed catalogue, so the recommendation feature can run before the real
  * one exists.
- * <p>
+ *
  * The project's media data is meant to come from TMDB, but the generator that
  * produces it has not been written yet and the local JSON files are empty. This
  * stands in until then: a handful of titles spanning several genres, decades and
  * shared cast members, chosen so a ranking can be checked by hand.
- * <p>
+ *
  * Replacing it means writing another {@link MediaCatalogueDataAccessInterface}
  * and changing one line in {@code AppBuilder}. Nothing in the use case layer
  * knows the difference.
@@ -82,7 +82,7 @@ public class SeedMediaCatalogue implements MediaCatalogueDataAccessInterface {
 
     /**
      * Reports whether a title is worth offering for the given genres.
-     * <p>
+     *
      * An empty genre set means the user has rated nothing yet, so everything is
      * a candidate — otherwise a new user would be shown an empty screen.
      *

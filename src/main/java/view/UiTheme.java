@@ -33,11 +33,11 @@ import javax.swing.plaf.FontUIResource;
 
 /**
  * The application's look and feel.
- * <p>
+ *
  * Swing bakes colours and fonts into a component when it is constructed, so
  * everything here has to be set before the first view exists. #install()
  * is therefore called at the very top of Main, ahead of the AppBuilder.
- * <p>
+ *
  * The base is Nimbus, which ships with the JDK and looks considerably less dated
  * than the default Metal theme. The palette below then retints it.
  */
@@ -81,7 +81,7 @@ public final class UiTheme {
 
     /**
      * How wide the content column is allowed to get.
-     * <p>
+     *
      * Rows stretched to the full window look lost on a maximised screen, where
      * a few controls end up marooned in the middle of a very wide page. Holding
      * them to a column keeps a screen looking the same whatever the window does.
@@ -135,7 +135,7 @@ public final class UiTheme {
     /**
      * Switches the whole application between the light and dark palettes and
      * changes its text size.
-     * <p>
+     *
      * Nimbus paints components through its own delegates rather than from the
      * background colour of each component, so setting colours by hand only
      * reaches plain panels and labels. Replacing the palette keys and then
@@ -217,7 +217,7 @@ public final class UiTheme {
 
     /**
      * Sets the font size on a component and everything inside it.
-     * <p>
+     *
      * The look and feel only reaches components it created the font for, which
      * leaves anything built by hand at its original size. Walking the tree is
      * what makes a size change reach every screen rather than just some of them.
@@ -311,7 +311,7 @@ public final class UiTheme {
 
     /**
      * Gives a screen breathing room and a consistent background.
-     * <p>
+     *
      * Applied to each registered view rather than inside the views themselves,
      * so no individual screen has to know about it.
      */
@@ -323,13 +323,13 @@ public final class UiTheme {
 
     /**
      * Stops a vertical screen from spreading its content into the whole window.
-     * <p>
+     *
      * A BoxLayout on the Y axis shares surplus height between its
      * children, and a JPanel's maximum height is unbounded by default,
      * so on a large window every row drifts apart into bands of empty space.
      * Pinning each row to its preferred height and absorbing the remainder in a
      * single glue at the bottom keeps the screen together as the window grows.
-     * <p>
+     *
      * Scroll panes are deliberately left unbounded: those are the parts that
      * should take the extra room.
      */
@@ -385,7 +385,7 @@ public final class UiTheme {
 
     /**
      * Styles the first label on a screen as its heading.
-     * <p>
+     *
      * Every screen here opens with a title label, but they were all left at the
      * default body size, so nothing read as a heading.
      */
@@ -419,7 +419,7 @@ public final class UiTheme {
 
     /**
      * Applies the palette to a component and everything inside it.
-     * <p>
+     *
      * Views built before #install() took effect, or built by hand with
      * explicit colours, would otherwise keep the old defaults.
      */

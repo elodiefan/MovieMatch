@@ -20,12 +20,12 @@ import use_case.recommendation.MediaCatalogueDataAccessInterface;
 
 /**
  * Supplies recommendation candidates from TMDB.
- * <p>
+ *
  * Implements an interface declared in the use case layer, so the interactor
  * depends on the idea of a catalogue rather than on TMDB. Swapping this for a
  * local copy, or for the seed catalogue used in tests, changes nothing inward
  * of here.
- * <p>
+ *
  * When the user has no taste profile yet — nothing watched, nothing rated — the
  * genre set arrives empty and this falls back to what is popular right now,
  * which is what the interface asks implementations to do rather than returning
@@ -122,7 +122,7 @@ public class TmdbMediaCatalogue implements MediaCatalogueDataAccessInterface {
 
     /**
      * Builds a Movie from a listing entry.
-     * <p>
+     *
      * Listings carry no cast, and fetching it would mean an extra request per
      * candidate. The cast factor simply scores zero in that case, exactly as the
      * algorithm already handles a user with no friends, and the remaining

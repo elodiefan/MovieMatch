@@ -10,12 +10,12 @@ import entity.recommendation.TasteProfile;
 
 /**
  * Works out which titles are worth scoring for a user.
- * <p>
+ *
  * Step 3 of the algorithm. Two things decide it: the pool is narrowed to genres
  * the user already likes so the search stays manageable, and anything they have
  * already rated is removed, because a recommendation the user has seen is not a
  * recommendation.
- * <p>
+ *
  * Kept apart from the interactor because "what counts as a candidate" is a rule
  * likely to grow — excluding blocked users' favourites, or titles already on a
  * watchlist — and that growth should not make the interactor bigger.

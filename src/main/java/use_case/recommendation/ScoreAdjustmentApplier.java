@@ -8,7 +8,7 @@ import entity.recommendation.TasteProfile;
 
 /**
  * Lets an adjuster refine the ranking, within strict limits.
- * <p>
+ *
  * Enforces the three rules that keep an outside intelligence from taking over
  * the recommendation. Only the shortlist is offered to it, so anything that
  * scored poorly stays invisible. Whatever comes back is clamped to a small

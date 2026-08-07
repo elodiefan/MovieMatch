@@ -2,7 +2,7 @@ package use_case.security_question;
 
 /**
  * Output data for the Security Question use case.
- * <p>
+ *
  * One immutable object describes every outcome the presenter/view might need
  * to render: the question to show, whether the step failed, how many tries are
  * left, and — if the account is locked — how long until it unlocks.

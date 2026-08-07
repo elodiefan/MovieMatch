@@ -10,7 +10,7 @@ import entity.Media;
 
 /**
  * Combines the individual factors into one score for a candidate.
- * <p>
+ *
  * Holds the list of {@link SubScore}s and applies the {@link ScoringWeights} to
  * them. Because the factors arrive as a list, this class never needs to change
  * when one is added, removed, or reweighted — which is the point of splitting

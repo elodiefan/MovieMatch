@@ -4,12 +4,12 @@ import entity.Media;
 
 /**
  * Scores a candidate on how well it is regarded generally.
- * <p>
+ *
  * Acts as a tie-breaker between titles that match the user's taste equally well,
  * and as a safety net for a brand-new user whose taste profile is still empty:
  * with nothing to overlap against, popularity and recency are all that separate
  * the candidates.
- * <p>
+ *
  * TMDB rates on a 0-10 scale, so the value is divided by ten to normalise it.
  */
 public class PopularitySubScore implements SubScore {

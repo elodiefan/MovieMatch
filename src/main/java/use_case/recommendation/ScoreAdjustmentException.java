@@ -2,7 +2,7 @@ package use_case.recommendation;
 
 /**
  * Signals that an adjuster could not produce a usable adjustment.
- * <p>
+ *
  * Adjusters that call an outside service throw this when the key is missing,
  * the call fails, or the reply cannot be parsed. It exists so callers can catch
  * exactly this and fall back to no adjustment, rather than catching every

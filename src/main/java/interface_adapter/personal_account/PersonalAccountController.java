@@ -43,7 +43,7 @@ public class PersonalAccountController {
 
     /**
      * Switches to the logout confirmation view.
-     * <p>
+     *
      * The confirm view needs to know who is logging out, so the username is
      * carried across in the logout state before the view is shown.
      */

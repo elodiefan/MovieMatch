@@ -8,7 +8,7 @@ import entity.Media;
 
 /**
  * Collects a user's highly-rated media into a {@link TasteProfile}.
- * <p>
+ *
  * Implements section 2 of the recommendation algorithm. Media is offered one at
  * a time along with the rating the user gave it; anything below the four-star
  * threshold is ignored, so only titles the user genuinely liked shape the

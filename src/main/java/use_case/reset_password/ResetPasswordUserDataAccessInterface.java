@@ -2,7 +2,7 @@ package use_case.reset_password;
 
 /**
  * Data-access interface for the Reset Password use case. Unlike the
- * security-question step (read-only), this one needs to <em>write</em> the new
+ * security-question step (read-only), this one needs to write the new
  * password back to storage (the in-memory map in tests, or MongoDB in the app).
  */
 public interface ResetPasswordUserDataAccessInterface {

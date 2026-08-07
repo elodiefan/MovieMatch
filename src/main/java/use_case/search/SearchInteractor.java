@@ -7,7 +7,7 @@ import entity.Media;
 
 /**
  * The Search Interactor.
- * <p>
+ *
  * How much of a result set to fetch at once is a decision about what a user is
  * willing to wait for, so it lives here rather than in the data access. TMDB
  * reports up to 500 pages for a common word and every result costs a further

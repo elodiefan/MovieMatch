@@ -4,7 +4,7 @@ import entity.Media;
 
 /**
  * Scores a candidate on how many of its genres the user already enjoys.
- * <p>
+ *
  * The heaviest factor in the algorithm: someone who rates science fiction highly
  * should mostly be shown science fiction. Computed as the share of the
  * candidate's own genres that appear in the user's taste profile, so a candidate

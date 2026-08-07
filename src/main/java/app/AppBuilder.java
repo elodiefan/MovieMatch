@@ -161,7 +161,7 @@ import view.ViewManager;
 /**
  * The AppBuilder class is responsible for putting together the pieces of
  * our CA architecture; piece by piece.
- * <p/>
+ *
  * This is done by adding each View and then adding related Use Cases.
  */
 public class AppBuilder {
@@ -305,7 +305,7 @@ public class AppBuilder {
 
     /**
      * Adds the Other Account Use Case to the application.
-     * <p>
+     *
      * Without this the view is registered but its controller is never set, so
      * every button on another user's profile throws instead of doing anything.
      * Messaging is passed as null because that use case is still being built;
@@ -476,7 +476,7 @@ public class AppBuilder {
 
     /**
      * Adds the Search User Use Case to the application.
-     * <p>
+     *
      * The assembly lives in SearchUserUseCaseFactory, following the
      * convention Yidan set with SearchUseCaseFactory.
      */
@@ -540,7 +540,7 @@ public class AppBuilder {
 
     /**
      * Adds the Logout Use Case to the application.
-     * <p>
+     *
      * Every piece of this use case already existed but was never assembled, so the
      * Log Out button on the personal account page did nothing.
      */
@@ -599,7 +599,7 @@ public class AppBuilder {
 
     /**
      * Adds the Reset Password Use Case to the application.
-     * <p>
+     *
      * A PasswordResetCompletedHandler is just "what happens once the new password
      * is saved" — the presenter calls it so it does not need to know which screen
      * comes next. Here that means sending the user back to the login screen so
@@ -621,7 +621,7 @@ public class AppBuilder {
 
     /**
      * Adds the Security Question Use Case to the application.
-     * <p>
+     *
      * A LockoutTracker records failed answers per account and locks it after too
      * many wrong tries; InMemoryLockoutTracker keeps that in memory, so it
      * resets when the app restarts.

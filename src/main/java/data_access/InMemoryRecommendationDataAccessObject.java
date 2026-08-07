@@ -10,12 +10,12 @@ import use_case.recommendation.UserRating;
 
 /**
  * Holds ratings in memory, standing in for the review feature until it lands.
- * <p>
+ *
  * Ratings and friends both belong to work being done elsewhere: reviews are
  * being built on another branch, and the app has no concept of friends at all.
  * Rather than wait, this keeps them in maps so the recommendation feature can be
  * built and demonstrated now.
- * <p>
+ *
  * Swapping in the real thing means writing another
  * {@link RecommendationDataAccessInterface} and changing one line in
  * {@code AppBuilder}.

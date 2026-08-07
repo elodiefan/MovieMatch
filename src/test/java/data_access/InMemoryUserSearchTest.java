@@ -14,7 +14,7 @@ import entity.User;
 
 /**
  * Tests for searching users in the in-memory store.
- * <p>
+ *
  * The Mongo implementation answers the same questions against Atlas; these run
  * with no network, so they can check the matching rules on every build.
  */

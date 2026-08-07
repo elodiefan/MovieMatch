@@ -10,12 +10,12 @@ import entity.recommendation.TasteProfile;
 
 /**
  * Turns scored entities into the shape a screen can display.
- * <p>
+ *
  * The boundary between the two worlds: {@link ScoredMedia} carries entities and
  * a factor breakdown, while {@link RecommendedMedia} carries plain strings and
  * numbers. Doing the conversion in one place means presenters never reach into
  * entities, which is what keeps the layers apart.
- * <p>
+ *
  * Follows the same mapper convention as {@code ReviewSummaryMapper} elsewhere in
  * the project.
  */
@@ -66,7 +66,7 @@ public class RecommendedMediaMapper {
 
     /**
      * Chooses which of a title's genres to file it under.
-     * <p>
+     *
      * Prefers one the user already likes, so a science-fiction thriller lands
      * under "Because you like Sci-Fi" for a science-fiction fan and under
      * "Because you like Thriller" for someone else. Falls back to the title's

@@ -16,12 +16,12 @@ import entity.recommendation.WeightedScoreCalculator;
 
 /**
  * Produces recommendations by running the seven steps of the algorithm.
- * <p>
+ *
  * Holds no arithmetic of its own. Its job is to fetch what is needed and hand it
  * to the objects that each know one part of the work — build the taste profile,
  * pick candidates, score them, let an adjuster refine the shortlist, rank, map,
  * group — then pass the result to the presenter.
- * <p>
+ *
  * Two instances of this class are built, one per screen, each wired to its own
  * presenter. Sharing a single instance would force it to decide which screen it
  * was answering, which is a presentation concern and does not belong here.

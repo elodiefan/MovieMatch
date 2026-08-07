@@ -7,7 +7,7 @@ public interface SearchUserOutputBoundary {
 
     /**
      * Prepares the success view after searching.
-     * <p>
+     *
      * Finding nobody is still a success: the search ran and the answer was zero
      * users. Only a keyword we refused to search for counts as a failure.
      */
