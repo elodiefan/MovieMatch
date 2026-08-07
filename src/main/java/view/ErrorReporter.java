@@ -17,6 +17,7 @@ public final class ErrorReporter {
 
     private static final String CONNECTION_TITLE = "Cannot reach the server";
     private static final String GENERAL_TITLE = "Something went wrong";
+    private static final String TMDB_TITLE = "Movie search is not set up";
 
     private ErrorReporter() {
     }
@@ -34,17 +35,47 @@ public final class ErrorReporter {
      * Shows a readable message for a failure.
      */
     public static void show(Component parent, Throwable throwable) {
-        final boolean connection = isConnectionProblem(throwable);
         final String title;
-        if (connection) {
+        final String message;
+
+        if (isTmdbProblem(throwable)) {
+            title = TMDB_TITLE;
+            message = "Movie and TV search needs a TMDB access token, which is not set on\n"
+                    + "this computer.\n\n"
+                    + "Set the environment variable Tmdb_Read_Access to your TMDB read access\n"
+                    + "token, then restart MovieMatch. The name is case sensitive on macOS\n"
+                    + "and Linux.\n\n"
+                    + "Everything else, including finding users, works without it.";
+        }
+        else if (isConnectionProblem(throwable)) {
             title = CONNECTION_TITLE;
+            message = messageFor(throwable, true);
         }
         else {
             title = GENERAL_TITLE;
+            message = messageFor(throwable, false);
         }
 
-        JOptionPane.showMessageDialog(parent, messageFor(throwable, connection),
-                title, JOptionPane.ERROR_MESSAGE);
+        JOptionPane.showMessageDialog(parent, message, title, JOptionPane.ERROR_MESSAGE);
+    }
+
+    /**
+     * Decides whether a failure is the missing TMDB token rather than a fault.
+     */
+    private static boolean isTmdbProblem(Throwable throwable) {
+        boolean result = false;
+        Throwable current = throwable;
+        while (current != null && !result) {
+            final String message = current.getMessage();
+            if (message != null) {
+                final String lower = message.toLowerCase();
+                if (lower.contains("tmdb") || lower.contains("tmdb_read_access")) {
+                    result = true;
+                }
+            }
+            current = current.getCause();
+        }
+        return result;
     }
 
     /**

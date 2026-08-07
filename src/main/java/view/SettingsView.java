@@ -10,6 +10,7 @@ import javax.swing.JCheckBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JSlider;
+import javax.swing.SwingUtilities;
 
 import interface_adapter.settings.SettingsController;
 import interface_adapter.settings.SettingsState;
@@ -96,7 +97,15 @@ public class SettingsView extends JPanel implements PropertyChangeListener {
         textSizeValue.setText(String.valueOf(state.getTextSize()));
 
         if (appearanceRoot != null) {
-            UiTheme.applyAppearance(appearanceRoot, state.isDarkMode(), state.getTextSize());
+            // Restyling rebuilds every component's UI delegate, including the
+            // slider and checkbox that started this. Doing that inside their own
+            // event handler pulls the delegate out from under them and the
+            // handler then fails on a null reference, so it waits for the
+            // current event to finish first.
+            final boolean darkMode = state.isDarkMode();
+            final int textSize = state.getTextSize();
+            SwingUtilities.invokeLater(
+                    () -> UiTheme.applyAppearance(appearanceRoot, darkMode, textSize));
         }
     }
 
