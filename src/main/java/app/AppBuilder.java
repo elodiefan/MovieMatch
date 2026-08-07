@@ -346,7 +346,9 @@ public class AppBuilder {
      */
     public AppBuilder addResetPasswordView() {
         resetPasswordViewModel = new ResetPasswordViewModel();
-        resetPasswordView = new ResetPasswordView(resetPasswordViewModel, viewManagerModel);
+        resetPasswordView = new ResetPasswordView(resetPasswordViewModel);
+        resetPasswordView.setBackHandler(
+                () -> viewManagerModel.switchView(LoginViewModel.VIEW_NAME));
         cardPanel.add(resetPasswordView, resetPasswordView.getViewName());
         return this;
     }
@@ -656,8 +658,9 @@ public class AppBuilder {
      * Adds the Signup Use Case to the application.
      */
     public AppBuilder addSignupUseCase() {
-        final SignupOutputBoundary signupOutputBoundary = new SignupPresenter(viewManagerModel,
-                signupViewModel);
+        final SignupOutputBoundary signupOutputBoundary =
+                new SignupPresenter(signupViewModel,
+                        () -> viewManagerModel.switchView(LoginViewModel.VIEW_NAME));
         final SignupInputBoundary userSignupInteractor = new SignupInteractor(
                 userDataAccessObject, signupOutputBoundary, userFactory);
 

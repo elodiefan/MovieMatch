@@ -12,8 +12,6 @@ import javax.swing.JPasswordField;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 
-import interface_adapter.ViewManagerModel;
-import interface_adapter.login.LoginViewModel;
 import interface_adapter.reset_password.ResetPasswordController;
 import interface_adapter.reset_password.ResetPasswordState;
 import interface_adapter.reset_password.ResetPasswordViewModel;
@@ -33,15 +31,11 @@ public class ResetPasswordView extends JPanel implements PropertyChangeListener 
     private final JButton back;
 
     private ResetPasswordController resetPasswordController;
+    private Runnable backHandler;
 
-    /** Used for the "back to login" jump, which carries no data of its own. */
-    private final ViewManagerModel viewManagerModel;
-
-    public ResetPasswordView(ResetPasswordViewModel resetPasswordViewModel,
-                             ViewManagerModel viewManagerModel) {
+    public ResetPasswordView(ResetPasswordViewModel resetPasswordViewModel) {
         this.resetPasswordViewModel = resetPasswordViewModel;
         this.resetPasswordViewModel.addPropertyChangeListener(this);
-        this.viewManagerModel = viewManagerModel;
 
         final JLabel title = new JLabel("Set a New Password");
         title.setAlignmentX(Component.CENTER_ALIGNMENT);
@@ -71,8 +65,9 @@ public class ResetPasswordView extends JPanel implements PropertyChangeListener 
         back.addActionListener(evt -> {
             resetPasswordViewModel.setState(new ResetPasswordState());
             resetPasswordViewModel.firePropertyChanged();
-            viewManagerModel.setState(LoginViewModel.VIEW_NAME);
-            viewManagerModel.firePropertyChanged();
+            if (backHandler != null) {
+                backHandler.run();
+            }
         });
 
         // Keep state in sync with the "new password" field.
@@ -157,5 +152,9 @@ public class ResetPasswordView extends JPanel implements PropertyChangeListener 
 
     public void setResetPasswordController(ResetPasswordController resetPasswordController) {
         this.resetPasswordController = resetPasswordController;
+    }
+
+    public void setBackHandler(Runnable backHandler) {
+        this.backHandler = backHandler;
     }
 }

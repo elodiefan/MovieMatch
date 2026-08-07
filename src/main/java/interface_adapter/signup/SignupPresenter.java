@@ -1,6 +1,5 @@
 package interface_adapter.signup;
 
-import interface_adapter.ViewManagerModel;
 import use_case.signup.SignupOutputBoundary;
 import use_case.signup.SignupOutputData;
 
@@ -8,24 +7,24 @@ import use_case.signup.SignupOutputData;
  * Presenter for the Signup Use Case.
  */
 public class SignupPresenter implements SignupOutputBoundary {
-    private static final String LOGIN_VIEW_NAME = "log in";
 
-    private final ViewManagerModel viewManagerModel;
     private final SignupViewModel signupViewModel;
+    private final Runnable loginViewHandler;
 
     /**
      * Creates a signup presenter.
      */
     public SignupPresenter(SignupViewModel signupViewModel) {
-        this(null, signupViewModel);
+        this(signupViewModel, null);
     }
 
     /**
      * Creates a signup presenter that can update app navigation.
      */
-    public SignupPresenter(ViewManagerModel viewManagerModel, SignupViewModel signupViewModel) {
-        this.viewManagerModel = viewManagerModel;
+    public SignupPresenter(SignupViewModel signupViewModel,
+                           Runnable loginViewHandler) {
         this.signupViewModel = signupViewModel;
+        this.loginViewHandler = loginViewHandler;
     }
 
     /**
@@ -61,9 +60,8 @@ public class SignupPresenter implements SignupOutputBoundary {
      */
     @Override
     public void switchToLoginView() {
-        if (viewManagerModel != null) {
-            viewManagerModel.setState(LOGIN_VIEW_NAME);
-            viewManagerModel.firePropertyChanged();
+        if (loginViewHandler != null) {
+            loginViewHandler.run();
         }
     }
 }
