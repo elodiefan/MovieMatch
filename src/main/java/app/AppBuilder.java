@@ -1,10 +1,17 @@
 package app;
 
+import java.awt.BorderLayout;
 import java.awt.CardLayout;
+import java.awt.Component;
+import java.awt.Container;
+import java.awt.Dimension;
 
+import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.WindowConstants;
+
+import view.UiTheme;
 
 import data_access.*;
 
@@ -36,6 +43,9 @@ import interface_adapter.media_detail.MediaDetailViewModel;
 import interface_adapter.media_reviews.MediaReviewsController;
 import interface_adapter.media_reviews.MediaReviewsPresenter;
 import interface_adapter.media_reviews.MediaReviewsViewModel;
+import interface_adapter.account.ReviewsViewModel;
+import interface_adapter.other_account.OtherAccountController;
+import interface_adapter.other_account.OtherAccountPresenter;
 import interface_adapter.other_account.OtherAccountViewModel;
 import interface_adapter.personal_account.PersonalAccountController;
 import interface_adapter.personal_account.PersonalAccountPresenter;
@@ -50,6 +60,7 @@ import use_case.change_username.ChangeUsernameInputBoundary;
 import use_case.change_username.ChangeUsernameInteractor;
 import use_case.change_username.ChangeUsernameOutputBoundary;
 import view.*;
+import view.SearchUserView;
 import interface_adapter.search_user.SearchUserViewModel;
 import interface_adapter.search.SearchViewModel;
 import interface_adapter.search_result.SearchResultViewModel;
@@ -80,6 +91,8 @@ import use_case.comment.get_user_comments.GetUserCommentsInputBoundary;
 import use_case.comment.get_user_comments.GetUserCommentsInteractor;
 import use_case.comment.like_comment.LikeCommentInteractor;
 import use_case.comment.unlike_comment.UnlikeCommentInteractor;
+import use_case.block_user.BlockUserInputBoundary;
+import use_case.block_user.BlockUserInteractor;
 import use_case.filter.FilterInputBoundary;
 import use_case.filter.FilterInteractor;
 import use_case.filter.FilterOutputBoundary;
@@ -143,6 +156,17 @@ import use_case.signup.SignupOutputBoundary;
  * This is done by adding each View and then adding related Use Cases.
  */
 public class AppBuilder {
+
+    private static final String WINDOW_TITLE = "MovieMatch";
+
+    /** Comfortable size on a laptop screen; the window is still resizable. */
+    private static final int DEFAULT_WIDTH = 900;
+    private static final int DEFAULT_HEIGHT = 640;
+
+    /** Below this the denser screens start clipping. */
+    private static final int MIN_WIDTH = 640;
+    private static final int MIN_HEIGHT = 480;
+
     private final JPanel cardPanel = new JPanel();
     private final CardLayout cardLayout = new CardLayout();
     private final UserFactory userFactory = new StandardUserFactory();
@@ -303,6 +327,29 @@ public class AppBuilder {
     }
 
     /**
+     * Adds the Other Account Use Case to the application.
+     * <p>
+     * Without this the view is registered but its controller is never set, so
+     * every button on another user's profile throws instead of doing anything.
+     * Messaging is passed as null because that use case is still being built;
+     * the controller and view both check before using it.
+     * @return this builder
+     */
+    public AppBuilder addOtherAccountUseCase() {
+        // The presenter accepts a reviews view model but currently discards it,
+        // so this is inert until that part of the presenter is finished.
+        final OtherAccountPresenter otherAccountPresenter = new OtherAccountPresenter(viewManagerModel,
+                otherAccountViewModel, new ReviewsViewModel());
+        final BlockUserInputBoundary blockUserInteractor = new BlockUserInteractor(userDataAccessObject,
+                otherAccountPresenter);
+
+        final OtherAccountController otherAccountController = new OtherAccountController(viewManagerModel,
+                blockUserInteractor, createGetListsController(), null);
+        otherAccountView.setOtherAccountController(otherAccountController);
+        return this;
+    }
+
+    /**
      * Adds the Personal Account View to the application.
      * @return this builder
      */
@@ -331,6 +378,10 @@ public class AppBuilder {
     public AppBuilder addUserReviewsView() {
         userReviewsViewModel = new UserReviewsViewModel();
         userReviewsView = new MyReviewsView(userReviewsViewModel);
+        // The view builds a back button and exposes it, but nothing was listening,
+        // so this screen had no way out.
+        userReviewsView.getBackButton().addActionListener(
+                event -> viewManagerModel.switchView(PersonalAccountViewModel.VIEW_NAME));
         cardPanel.add(userReviewsView, userReviewsView.getViewName());
         return this;
     }
@@ -478,17 +529,6 @@ public class AppBuilder {
                 );
         homePageView.setHomePageController(homePageController);
         return this;
-//        final HomePageOutputBoundary homePageOutputBoundary = new HomePagePresenter(viewManagerModel,
-//               homePageViewModel, searchViewModel, accountViewModel);
-//        final HomePageOutputBoundary homePageOutputBoundary = new HomePagePresenter(viewManagerModel,
-//                homePageViewModel, accountViewModel);
-//        final HomePageInputBoundary homePageInteractor = new HomePageInteractor(
-//                userDataAccessObject, homePageOutputBoundary, userFactory);
-//
-//        final HomePageController homePageController = new HomePageController(homePageInteractor);
-//        homePageView.setHomePageController(homePageController);
-//        return this;
-    }
 
     /**
      * Adds the Search User Use Case to the application.
@@ -538,7 +578,6 @@ public class AppBuilder {
         final GetProfileInputBoundary getProfileInteractor = new GetProfileInteractor(userDataAccessObject,
                 (HomePagePresenter) getProfileOutputBoundary);
 
-//        final ChangeDisplayNameController changeDisplayNameController = createChangeDisplayNameController();
 
         final GetListsController getListsController = createGetListsController();
         final GetSecurityQuestionOutputBoundary getSecurityQuestionOutputBoundary = new PersonalAccountPresenter(viewManagerModel,
@@ -578,24 +617,6 @@ public class AppBuilder {
         logoutView.setLogoutController(logoutController);
         return this;
     }
-
-//
-//    /**
-//     * Adds the Other Account Use Case to the application.
-//     * @return this builder
-//     */
-//    public AppBuilder addGetProfileUseCase() {
-//        final GetProfileOutputBoundary getProfileOutputBoundary = new HomePagePresenter();
-//        final GetProfileInputBoundary getProfileInteractor = new GetProfileInteractor(userDataAccessObject,
-//                getProfileOutputBoundary);
-//        // viewManagerModel, accountViewModel, resetPasswordViewModel, deleteAccountViewModel);
-////        final AccountInputBoundary accountInteractor = new AccountInteractor(
-////                userDataAccessObject, accountOutputBoundary);
-//
-//        final AccountController accountController = new AccountController(accountInteractor);
-//        accountView.setAccountController(accountController);
-//        return this;
-//    }
 
     /**
      * Adds the User Reviews Use Case to the application.
@@ -819,10 +840,31 @@ public class AppBuilder {
      * @return the application
      */
     public JFrame build() {
-        final JFrame application = new JFrame("MovieMatch");
+        final JFrame application = new JFrame(WINDOW_TITLE);
         application.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 
-        application.add(cardPanel);
+        // Padding and palette are applied here, once, rather than inside each
+        // screen, so no view has to know about the theme.
+        for (Component card : cardPanel.getComponents()) {
+            if (card instanceof JComponent) {
+                UiTheme.padScreen((JComponent) card);
+            }
+            UiTheme.applyTo(card);
+            UiTheme.styleFirstLabelAsTitle((Container) card);
+            if (card instanceof JPanel) {
+                UiTheme.tidyVerticalScreen((JPanel) card);
+            }
+        }
+        cardPanel.setBackground(UiTheme.BACKGROUND);
+
+        // CardLayout stretches the active screen to fill, so putting the card
+        // panel in the centre is what makes the app respond to a resize.
+        application.setLayout(new BorderLayout());
+        application.add(cardPanel, BorderLayout.CENTER);
+
+        application.setPreferredSize(new Dimension(DEFAULT_WIDTH, DEFAULT_HEIGHT));
+        application.setMinimumSize(new Dimension(MIN_WIDTH, MIN_HEIGHT));
+        application.setLocationRelativeTo(null);
 
         viewManagerModel.setState(signupView.getViewName());
         viewManagerModel.firePropertyChanged();

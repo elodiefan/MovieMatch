@@ -3,6 +3,7 @@ package app;
 import javax.swing.JFrame;
 
 import view.ErrorReporter;
+import view.UiTheme;
 
 /**
  * The Main class of our application.
@@ -16,6 +17,10 @@ public class Main {
         // Without this a failed database call just prints to the console and the
         // window silently does nothing, which looks identical to a dead button.
         ErrorReporter.install();
+
+        // Swing bakes fonts and colours in at construction time, so the theme
+        // has to be installed before the first view is created.
+        UiTheme.install();
 
         final AppBuilder appBuilder = new AppBuilder();
         final JFrame application = appBuilder
@@ -41,6 +46,7 @@ public class Main {
 //                .addHomePageUseCase()
                 .addLoginUseCase()
                 .addLogoutUseCase()
+                .addOtherAccountUseCase()
                 .addPersonalAccountUseCase()
                 .addResetPasswordUseCase()
 //                .addReviewsUseCase()
