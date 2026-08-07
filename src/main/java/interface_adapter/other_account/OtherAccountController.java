@@ -12,7 +12,9 @@ import use_case.block_user.BlockUserInputData;
 //import use_case.get_reviews.GetReviews.InputBoundary;
 //import use_case.send_message.SendMessageInputBoundary;
 
-/** The controller for the Account Use Case. */
+/**
+ * The controller for the Account Use Case.
+ */
 public class OtherAccountController {
 
     private final BlockUserInputBoundary blockUserInteractor;
@@ -34,19 +36,25 @@ public class OtherAccountController {
         this.accessMessageChatInteractor = accessMessageChatInteractor;
     }
 
-    /** Executes block user use case. */
+    /**
+     * Executes block user use case.
+     */
     public void executeBlockUser(String otherUsername) {
         final BlockUserInputData blockUserInputData = new BlockUserInputData(otherUsername);
         blockUserInteractor.execute(blockUserInputData);
     }
 
-    /** Executes the get watchlist view use case. */
+    /**
+     * Executes the get watchlist view use case.
+     */
     public void switchToWatchlistView(String username, String displayName) {
         viewManagerModel.switchView(getListsViewName);
         getListsController.executeWatchlistUseCase(username, displayName);
     }
 
-    /** Executes the get watch history view use case. */
+    /**
+     * Executes the get watch history view use case.
+     */
     public void switchToWatchHistoryView(String username, String displayName) {
         viewManagerModel.switchView(getListsViewName);
         getListsController.executeWatchHistoryUseCase(username, displayName);
@@ -54,7 +62,9 @@ public class OtherAccountController {
 
     // TODO: get user reviews use case
 
-    /** Opens the chat with this user, if messaging has been wired up yet. */
+    /**
+     * Opens the chat with this user, if messaging has been wired up yet.
+     */
     public void goToMessages(String otherUsername) {
         // Messaging is still being built, so this may not be connected yet.
         // Without the guard the button throws instead of doing nothing.
@@ -65,12 +75,16 @@ public class OtherAccountController {
         }
     }
 
-    /** Returns to the screen this profile was opened from. */
+    /**
+     * Returns to the screen this profile was opened from.
+     */
     public void switchToSearchView() {
         viewManagerModel.switchView(SearchUserViewModel.VIEW_NAME);
     }
 
-    /** Says whether the message button can do anything yet. */
+    /**
+     * Says whether the message button can do anything yet.
+     */
     public boolean isMessagingAvailable() {
         return accessMessageChatInteractor != null;
     }

@@ -17,7 +17,9 @@ import use_case.review.like_review.LikeReviewOutputData;
 import use_case.review.unlike_review.UnlikeReviewOutputBoundary;
 import use_case.review.unlike_review.UnlikeReviewOutputData;
 
-/** Presenter for the media reviews panel. */
+/**
+ * Presenter for the media reviews panel.
+ */
 public final class MediaReviewsPresenter
         implements GetMediaReviewsOutputBoundary, CreateReviewOutputBoundary,
         EditReviewOutputBoundary, DeleteReviewOutputBoundary,
@@ -25,12 +27,16 @@ public final class MediaReviewsPresenter
     /** The media reviews view model. */
     private final MediaReviewsViewModel mediaReviewsViewModel;
 
-    /** Creates a presenter used only for row conversion. */
+    /**
+     * Creates a presenter used only for row conversion.
+     */
     public MediaReviewsPresenter() {
         this(null);
     }
 
-    /** Creates a presenter for the media reviews view model. */
+    /**
+     * Creates a presenter for the media reviews view model.
+     */
     public MediaReviewsPresenter(
             final MediaReviewsViewModel inputMediaReviewsViewModel) {
         this.mediaReviewsViewModel = inputMediaReviewsViewModel;
@@ -70,7 +76,10 @@ public final class MediaReviewsPresenter
         clearError();
     }
 
-    /** Converts review entities into rows that can be displayed by the media reviews panel. */
+    /**
+     * Converts review entities into rows that can be displayed by the media
+     * reviews panel.
+     */
     public List<MediaReviewRow> prepareReviews(final List<Review> reviews) {
         final List<MediaReviewRow> reviewRows = new ArrayList<>();
         if (reviews != null) {
@@ -83,7 +92,9 @@ public final class MediaReviewsPresenter
         return reviewRows;
     }
 
-    /** Converts an error message into display-safe text. */
+    /**
+     * Converts an error message into display-safe text.
+     */
     public String prepareFailView(final String errorMessage) {
         final String displayError;
         if (isBlank(errorMessage)) {
@@ -109,7 +120,9 @@ public final class MediaReviewsPresenter
         }
     }
 
-    /** Converts one review entity into one displayed row. */
+    /**
+     * Converts one review entity into one displayed row.
+     */
     private MediaReviewRow createReviewRow(final Review review) {
         return new MediaReviewRow(review.getReviewId(),
                 review.getAuthorUsername(), review.getAuthorDisplayName(),
@@ -118,7 +131,9 @@ public final class MediaReviewsPresenter
                 review.getLikeCount(), review.getSource());
     }
 
-    /** Checks whether a text value is empty or only whitespace. */
+    /**
+     * Checks whether a text value is empty or only whitespace.
+     */
     private boolean isBlank(final String value) {
         return value == null || value.trim().isEmpty();
     }

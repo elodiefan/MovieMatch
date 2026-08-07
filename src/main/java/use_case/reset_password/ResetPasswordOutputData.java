@@ -1,6 +1,8 @@
 package use_case.reset_password;
 
-/** Output data for the Reset Password use case. */
+/**
+ * Output data for the Reset Password use case.
+ */
 public class ResetPasswordOutputData {
 
     private final String username;

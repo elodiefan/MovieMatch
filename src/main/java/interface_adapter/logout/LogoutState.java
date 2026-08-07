@@ -1,6 +1,8 @@
 package interface_adapter.logout;
 
-/** The state for the Logout View. */
+/**
+ * The state for the Logout View.
+ */
 public class LogoutState {
 
     private String username;

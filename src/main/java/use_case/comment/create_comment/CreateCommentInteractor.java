@@ -6,7 +6,9 @@ import java.util.UUID;
 import entity.Comment;
 import entity.UserContent;
 
-/** Interactor for creating a comment. */
+/**
+ * Interactor for creating a comment.
+ */
 public final class CreateCommentInteractor
         implements CreateCommentInputBoundary {
     /** The comment data access object. */
@@ -14,19 +16,25 @@ public final class CreateCommentInteractor
     /** The presenter. */
     private final CreateCommentOutputBoundary presenter;
 
-    /** Creates a comment interactor without persistence. */
+    /**
+     * Creates a comment interactor without persistence.
+     */
     public CreateCommentInteractor() {
         this(null, null);
     }
 
-    /** Creates a comment interactor with persistence. */
+    /**
+     * Creates a comment interactor with persistence.
+     */
     public CreateCommentInteractor(
             final CreateCommentDataAccessInterface
                     inputCommentDataAccessObject) {
         this(inputCommentDataAccessObject, null);
     }
 
-    /** Handles this review or comment operation. */
+    /**
+     * Handles this review or comment operation.
+     */
     public CreateCommentInteractor(
             final CreateCommentDataAccessInterface inputCommentDataAccessObject,
             final CreateCommentOutputBoundary inputPresenter) {
@@ -51,7 +59,9 @@ public final class CreateCommentInteractor
         }
     }
 
-    /** Creates a new comment on a review. */
+    /**
+     * Creates a new comment on a review.
+     */
     private Comment createComment(final String reviewId,
                                  final String parentCommentId,
                                  final String authorUsername,
@@ -76,7 +86,9 @@ public final class CreateCommentInteractor
         return comment;
     }
 
-    /** Validates submitted comment data. */
+    /**
+     * Validates submitted comment data.
+     */
     private void validateCommentData(final String reviewId,
                                      final String authorUsername,
                                      final String authorDisplayName,
@@ -104,12 +116,16 @@ public final class CreateCommentInteractor
         }
     }
 
-    /** Checks whether a text value is empty or only whitespace. */
+    /**
+     * Checks whether a text value is empty or only whitespace.
+     */
     private boolean isBlank(final String value) {
         return value == null || value.trim().isEmpty();
     }
 
-    /** Trims a text value, or returns an empty string if it is null. */
+    /**
+     * Trims a text value, or returns an empty string if it is null.
+     */
     private String trimToEmpty(final String value) {
         final String trimmedValue;
         if (value == null) {
@@ -120,7 +136,9 @@ public final class CreateCommentInteractor
         return trimmedValue;
     }
 
-    /** Trims a text value, or returns null if it is blank. */
+    /**
+     * Trims a text value, or returns null if it is blank.
+     */
     private String trimToNull(final String value) {
         final String trimmedValue;
         if (isBlank(value)) {

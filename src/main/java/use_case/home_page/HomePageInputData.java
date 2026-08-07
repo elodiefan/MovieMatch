@@ -1,6 +1,8 @@
 package use_case.home_page;
 
-/** The Input Data for the Home Page Use Case. */
+/**
+ * The Input Data for the Home Page Use Case.
+ */
 public class HomePageInputData {
 
     private final String username;

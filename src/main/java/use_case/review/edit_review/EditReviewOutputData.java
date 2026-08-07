@@ -2,17 +2,23 @@ package use_case.review.edit_review;
 
 import entity.Review;
 
-/** Output data for editing a review. */
+/**
+ * Output data for editing a review.
+ */
 public final class EditReviewOutputData {
     /** The review. */
     private final Review review;
 
-    /** Handles this review or comment operation. */
+    /**
+     * Handles this review or comment operation.
+     */
     public EditReviewOutputData(final Review inputReview) {
         this.review = inputReview;
     }
 
-    /** Handles this review or comment operation. */
+    /**
+     * Handles this review or comment operation.
+     */
     public Review getReview() {
         return review;
     }

@@ -4,7 +4,9 @@ import entity.Media;
 import use_case.media_detail.MediaDetailInputBoundary;
 import use_case.media_detail.MediaDetailInputData;
 
-/** Controller for the Media Detail Use Case. */
+/**
+ * Controller for the Media Detail Use Case.
+ */
 public class MediaDetailController {
 
     private final MediaDetailInputBoundary mediaDetailUseCaseInteractor;
@@ -14,7 +16,9 @@ public class MediaDetailController {
         this.mediaDetailUseCaseInteractor = mediaDetailUseCaseInteractor;
     }
 
-    /** Displays details for the selected media. */
+    /**
+     * Displays details for the selected media.
+     */
     public void execute(Media media) {
         final MediaDetailInputData inputData =
                 new MediaDetailInputData(media);
@@ -22,7 +26,9 @@ public class MediaDetailController {
         mediaDetailUseCaseInteractor.execute(inputData);
     }
 
-    /** Switches back to the search result view. */
+    /**
+     * Switches back to the search result view.
+     */
     public void backToSearchResultView() {
         mediaDetailUseCaseInteractor.backToSearchResultView();
     }

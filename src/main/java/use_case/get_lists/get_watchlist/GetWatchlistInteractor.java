@@ -3,7 +3,9 @@ package use_case.get_lists.get_watchlist;
 import use_case.get_lists.GetListsInputData;
 import use_case.get_lists.GetListsUserDataAccessInterface;
 
-/** The Watchlist View Interactor. */
+/**
+ * The Watchlist View Interactor.
+ */
 
 public class GetWatchlistInteractor implements GetWatchlistInputBoundary {
 
@@ -26,7 +28,9 @@ public class GetWatchlistInteractor implements GetWatchlistInputBoundary {
         getListsPresenter.prepareSuccessView(getWatchlistOutputData);
     }
 
-    /** Switches from list view to account view. */
+    /**
+     * Switches from list view to account view.
+     */
     @Override
     public void switchToAccountView(GetListsInputData getListsInputData) {
         if (userDataAccessObject.getCurrentUsername().equals(getListsInputData.getUsername())) {

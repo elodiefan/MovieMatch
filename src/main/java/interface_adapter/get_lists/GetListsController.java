@@ -5,7 +5,9 @@ import use_case.get_lists.get_blocked_users.GetBlockedUsersInputBoundary;
 import use_case.get_lists.get_watch_history.GetWatchHistoryInputBoundary;
 import use_case.get_lists.get_watchlist.GetWatchlistInputBoundary;
 
-/** The controller for the lists view. */
+/**
+ * The controller for the lists view.
+ */
 public class GetListsController {
 
     private GetWatchlistInputBoundary getWatchlistUseCaseInteractor;
@@ -32,7 +34,9 @@ public class GetListsController {
         this.getBlockedUsersInteractor = getBlockedUsersInteractor;
     }
 
-    /** Executes the Get Watchlist Use Case. */
+    /**
+     * Executes the Get Watchlist Use Case.
+     */
     public void executeWatchlistUseCase(String username, String displayName) {
         final GetListsInputData getListsInputData = new GetListsInputData(
                 username, displayName);
@@ -40,7 +44,9 @@ public class GetListsController {
         getWatchlistUseCaseInteractor.execute(getListsInputData);
     }
 
-    /** Executes the Get Watch History Use Case. */
+    /**
+     * Executes the Get Watch History Use Case.
+     */
     public void executeWatchHistoryUseCase(String username, String displayName) {
         final GetListsInputData getListsInputData = new GetListsInputData(
                 username, displayName);
@@ -48,7 +54,9 @@ public class GetListsController {
         getWatchHistoryInteractor.execute(getListsInputData);
     }
 
-    /** Executes the Get Block Users Use Case. */
+    /**
+     * Executes the Get Block Users Use Case.
+     */
     public void executeBlockUsersUseCase(String username, String displayName) {
         final GetListsInputData getListsInputData = new GetListsInputData(
                 username, displayName);
@@ -56,7 +64,9 @@ public class GetListsController {
         getBlockedUsersInteractor.execute(getListsInputData);
     }
 
-    /** Executes the return to account view use case. */
+    /**
+     * Executes the return to account view use case.
+     */
     public void switchToAccountView(String username, String displayName) {
         final GetListsInputData getListsInputData = new GetListsInputData(
                 username, displayName);

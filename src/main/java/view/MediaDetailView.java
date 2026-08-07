@@ -20,7 +20,9 @@ import interface_adapter.media_detail.MediaDetailViewModel;
 import interface_adapter.media_reviews.MediaReviewsController;
 import interface_adapter.media_reviews.MediaReviewsViewModel;
 
-/** The View for displaying media details. */
+/**
+ * The View for displaying media details.
+ */
 public class MediaDetailView extends JPanel implements PropertyChangeListener {
 
     private final String viewName = MediaDetailViewModel.VIEW_NAME;
@@ -129,19 +131,25 @@ public class MediaDetailView extends JPanel implements PropertyChangeListener {
         this.mediaDetailController = mediaDetailController;
     }
 
-    /** Sets the controller used to log media to user lists. */
+    /**
+     * Sets the controller used to log media to user lists.
+     */
     public void setLogMediaController(
             LogMediaController inputLogMediaController) {
         this.logMediaController = inputLogMediaController;
     }
 
-    /** Sets the controller used by the embedded media reviews panel. */
+    /**
+     * Sets the controller used by the embedded media reviews panel.
+     */
     public void setMediaReviewsController(
             MediaReviewsController mediaReviewsController) {
         mediaReviewsPanel.setMediaReviewsController(mediaReviewsController);
     }
 
-    /** Sets the controller used by the embedded comments panel. */
+    /**
+     * Sets the controller used by the embedded comments panel.
+     */
     public void setCommentsController(CommentsController commentsController) {
         mediaReviewsPanel.setCommentsController(commentsController);
     }

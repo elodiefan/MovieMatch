@@ -1,6 +1,8 @@
 package use_case.get_security_question;
 
-/** Output Data for the get security question use case. */
+/**
+ * Output Data for the get security question use case.
+ */
 public class GetSecurityQuestionOutputData {
 
     private final String username;

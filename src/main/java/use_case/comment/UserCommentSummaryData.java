@@ -2,7 +2,9 @@ package use_case.comment;
 
 import java.time.ZonedDateTime;
 
-/** Summary data for one comment written by a user. */
+/**
+ * Summary data for one comment written by a user.
+ */
 public final class UserCommentSummaryData {
     /** The comment id. */
     private final String commentId;
@@ -19,7 +21,9 @@ public final class UserCommentSummaryData {
     /** The like count. */
     private final int likeCount;
 
-    /** Creates summary data for one user comment. */
+    /**
+     * Creates summary data for one user comment.
+     */
     public UserCommentSummaryData(final String inputCommentId,
                                   final String inputReviewId,
                                   final String inputMediaTitle,
@@ -36,37 +40,51 @@ public final class UserCommentSummaryData {
         this.likeCount = inputLikeCount;
     }
 
-    /** Returns the comment id. */
+    /**
+     * Returns the comment id.
+     */
     public String getCommentId() {
         return commentId;
     }
 
-    /** Returns the review id. */
+    /**
+     * Returns the review id.
+     */
     public String getReviewId() {
         return reviewId;
     }
 
-    /** Returns the media title. */
+    /**
+     * Returns the media title.
+     */
     public String getMediaTitle() {
         return mediaTitle;
     }
 
-    /** Returns the review text. */
+    /**
+     * Returns the review text.
+     */
     public String getReviewText() {
         return reviewText;
     }
 
-    /** Returns the comment text. */
+    /**
+     * Returns the comment text.
+     */
     public String getCommentText() {
         return commentText;
     }
 
-    /** Returns the comment creation time. */
+    /**
+     * Returns the comment creation time.
+     */
     public ZonedDateTime getCreatedAt() {
         return createdAt;
     }
 
-    /** Returns the comment like count. */
+    /**
+     * Returns the comment like count.
+     */
     public int getLikeCount() {
         return likeCount;
     }

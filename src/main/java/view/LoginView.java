@@ -21,7 +21,9 @@ import interface_adapter.login.LoginState;
 import interface_adapter.login.LoginViewModel;
 import interface_adapter.security_question.SecurityQuestionViewModel;
 
-/** The View for when the user is logging into the program. */
+/**
+ * The View for when the user is logging into the program.
+ */
 public class LoginView extends JPanel implements ActionListener, PropertyChangeListener {
 
     private final String viewName = "log in";
@@ -167,7 +169,9 @@ public class LoginView extends JPanel implements ActionListener, PropertyChangeL
         this.add(buttons);
     }
 
-    /** React to a button click that results in evt. */
+    /**
+     * React to a button click that results in evt.
+     */
     public void actionPerformed(ActionEvent evt) {
         System.out.println("Click " + evt.getActionCommand());
     }

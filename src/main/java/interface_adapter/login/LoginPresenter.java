@@ -7,7 +7,9 @@ import interface_adapter.signup.SignupViewModel;
 import use_case.login.LoginOutputBoundary;
 import use_case.login.LoginOutputData;
 
-/** The Presenter for the Login Use Case. */
+/**
+ * The Presenter for the Login Use Case.
+ */
 public class LoginPresenter implements LoginOutputBoundary {
 
     private final LoginViewModel loginViewModel;

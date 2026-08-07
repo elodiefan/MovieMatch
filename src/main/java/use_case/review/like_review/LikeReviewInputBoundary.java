@@ -1,7 +1,11 @@
 package use_case.review.like_review;
 
-/** Input boundary for liking a review. */
+/**
+ * Input boundary for liking a review.
+ */
 public interface LikeReviewInputBoundary {
-    /** Executes the use case. */
+    /**
+     * Executes the use case.
+     */
     void execute(LikeReviewInputData inputData);
 }

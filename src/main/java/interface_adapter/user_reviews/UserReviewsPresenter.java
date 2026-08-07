@@ -18,7 +18,9 @@ import use_case.review.like_review.LikeReviewOutputData;
 import use_case.review.unlike_review.UnlikeReviewOutputBoundary;
 import use_case.review.unlike_review.UnlikeReviewOutputData;
 
-/** Presenter for the user reviews view. */
+/**
+ * Presenter for the user reviews view.
+ */
 public final class UserReviewsPresenter implements GetUserReviewsOutputBoundary,
         GetUserCommentsOutputBoundary, EditReviewOutputBoundary,
         DeleteReviewOutputBoundary, LikeReviewOutputBoundary,
@@ -26,13 +28,17 @@ public final class UserReviewsPresenter implements GetUserReviewsOutputBoundary,
     /** The user reviews view model. */
     private final UserReviewsViewModel userReviewsViewModel;
 
-    /** Creates a presenter for the user reviews view. */
+    /**
+     * Creates a presenter for the user reviews view.
+     */
     public UserReviewsPresenter(
             final UserReviewsViewModel inputUserReviewsViewModel) {
         this.userReviewsViewModel = inputUserReviewsViewModel;
     }
 
-    /** Prepares loaded reviews for display. */
+    /**
+     * Prepares loaded reviews for display.
+     */
     @Override
     public void prepareSuccessView(final GetUserReviewsOutputData outputData) {
         final UserReviewsState state = userReviewsViewModel.getState();
@@ -42,7 +48,9 @@ public final class UserReviewsPresenter implements GetUserReviewsOutputBoundary,
         userReviewsViewModel.firePropertyChanged();
     }
 
-    /** Prepares loaded comments for display. */
+    /**
+     * Prepares loaded comments for display.
+     */
     @Override
     public void prepareSuccessView(
             final GetUserCommentsOutputData outputData) {
@@ -73,7 +81,10 @@ public final class UserReviewsPresenter implements GetUserReviewsOutputBoundary,
         clearError();
     }
 
-    /** Converts review entities into rows that can be displayed by the user reviews view. */
+    /**
+     * Converts review entities into rows that can be displayed by the user
+     * reviews view.
+     */
     private List<UserReviewRow> prepareReviews(final List<Review> reviews) {
         final List<UserReviewRow> reviewRows = new ArrayList<>();
         if (reviews != null) {
@@ -86,7 +97,9 @@ public final class UserReviewsPresenter implements GetUserReviewsOutputBoundary,
         return reviewRows;
     }
 
-    /** Converts comment summaries into rows for the user's comments tab. */
+    /**
+     * Converts comment summaries into rows for the user's comments tab.
+     */
     private List<UserCommentRow> prepareComments(
             final List<UserCommentSummaryData> comments) {
         final List<UserCommentRow> commentRows = new ArrayList<>();
@@ -100,7 +113,9 @@ public final class UserReviewsPresenter implements GetUserReviewsOutputBoundary,
         return commentRows;
     }
 
-    /** Converts an error message into display-safe text. */
+    /**
+     * Converts an error message into display-safe text.
+     */
     public String prepareFailView(final String errorMessage) {
         final String displayError;
         if (isBlank(errorMessage)) {
@@ -122,7 +137,9 @@ public final class UserReviewsPresenter implements GetUserReviewsOutputBoundary,
         userReviewsViewModel.firePropertyChanged();
     }
 
-    /** Converts one review entity into one displayed row. */
+    /**
+     * Converts one review entity into one displayed row.
+     */
     private UserReviewRow createReviewRow(final Review review) {
         return new UserReviewRow(review.getReviewId(), review.getMediaId(),
                 review.getMediaType(), review.getMediaTitle(),
@@ -131,7 +148,9 @@ public final class UserReviewsPresenter implements GetUserReviewsOutputBoundary,
                 review.getLikeCount());
     }
 
-    /** Converts one comment summary into one displayed comment row. */
+    /**
+     * Converts one comment summary into one displayed comment row.
+     */
     private UserCommentRow createCommentRow(
             final UserCommentSummaryData comment) {
         return new UserCommentRow(comment.getCommentId(),
@@ -140,7 +159,9 @@ public final class UserReviewsPresenter implements GetUserReviewsOutputBoundary,
                 comment.getCreatedAt(), comment.getLikeCount());
     }
 
-    /** Checks whether a text value is empty or only whitespace. */
+    /**
+     * Checks whether a text value is empty or only whitespace.
+     */
     private boolean isBlank(final String value) {
         return value == null || value.trim().isEmpty();
     }

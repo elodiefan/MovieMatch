@@ -1,6 +1,8 @@
 package use_case.access_message_chat;
 
-/** The input data for the access message chat use case. */
+/**
+ * The input data for the access message chat use case.
+ */
 
 public class AccessMessageChatInputData {
 

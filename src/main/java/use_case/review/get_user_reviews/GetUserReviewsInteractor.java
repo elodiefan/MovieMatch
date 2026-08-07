@@ -5,7 +5,9 @@ import java.util.List;
 
 import entity.Review;
 
-/** Interactor for loading reviews written by one user. */
+/**
+ * Interactor for loading reviews written by one user.
+ */
 public final class GetUserReviewsInteractor
         implements GetUserReviewsInputBoundary {
     /** The review data access object. */
@@ -13,19 +15,25 @@ public final class GetUserReviewsInteractor
     /** The user reviews presenter. */
     private final GetUserReviewsOutputBoundary userReviewsPresenter;
 
-    /** Creates a user reviews interactor without persistence. */
+    /**
+     * Creates a user reviews interactor without persistence.
+     */
     public GetUserReviewsInteractor() {
         this(null, null);
     }
 
-    /** Creates a user reviews interactor with persistence. */
+    /**
+     * Creates a user reviews interactor with persistence.
+     */
     public GetUserReviewsInteractor(
             final GetUserReviewsDataAccessInterface
                     inputReviewDataAccessObject) {
         this(inputReviewDataAccessObject, null);
     }
 
-    /** Creates a user reviews interactor with persistence and presentation. */
+    /**
+     * Creates a user reviews interactor with persistence and presentation.
+     */
     public GetUserReviewsInteractor(
             final GetUserReviewsDataAccessInterface inputReviewDataAccessObject,
             final GetUserReviewsOutputBoundary inputUserReviewsPresenter) {
@@ -33,7 +41,9 @@ public final class GetUserReviewsInteractor
         this.userReviewsPresenter = inputUserReviewsPresenter;
     }
 
-    /** Executes the use case and sends output through the output boundary. */
+    /**
+     * Executes the use case and sends output through the output boundary.
+     */
     @Override
     public void execute(final GetUserReviewsInputData inputData) {
         try {
@@ -49,7 +59,9 @@ public final class GetUserReviewsInteractor
         }
     }
 
-    /** Returns persisted reviews written by one user, ordered newest to oldest. */
+    /**
+     * Returns persisted reviews written by one user, ordered newest to oldest.
+     */
     private List<Review> getUserReviews(final String username) {
         final String trimmedUsername = trimToEmpty(username);
         validateUsername(trimmedUsername);
@@ -61,7 +73,9 @@ public final class GetUserReviewsInteractor
         return matchingReviews;
     }
 
-    /** Validates the username needed to load persisted reviews. */
+    /**
+     * Validates the username needed to load persisted reviews.
+     */
     private void validateUsername(final String username) {
         if (isBlank(username)) {
             throw new IllegalArgumentException("Username cannot be empty.");
@@ -71,7 +85,9 @@ public final class GetUserReviewsInteractor
         }
     }
 
-    /** Validates that the output boundary has been configured. */
+    /**
+     * Validates that the output boundary has been configured.
+     */
     private void validateOutputBoundary() {
         if (userReviewsPresenter == null) {
             throw new IllegalStateException(
@@ -79,12 +95,16 @@ public final class GetUserReviewsInteractor
         }
     }
 
-    /** Checks whether a text value is empty or only whitespace. */
+    /**
+     * Checks whether a text value is empty or only whitespace.
+     */
     private boolean isBlank(final String value) {
         return value == null || value.trim().isEmpty();
     }
 
-    /** Trims a text value, or returns an empty string if it is null. */
+    /**
+     * Trims a text value, or returns an empty string if it is null.
+     */
     private String trimToEmpty(final String value) {
         final String trimmedValue;
         if (value == null) {

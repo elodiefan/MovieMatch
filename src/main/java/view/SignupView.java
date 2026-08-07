@@ -21,7 +21,9 @@ import interface_adapter.signup.SignupController;
 import interface_adapter.signup.SignupState;
 import interface_adapter.signup.SignupViewModel;
 
-/** Swing view for the Signup Use Case. */
+/**
+ * Swing view for the Signup Use Case.
+ */
 public class SignupView extends JPanel implements ActionListener, PropertyChangeListener {
     private static final int FIELD_COLUMNS = 20;
     private static final int BORDER_GAP = 12;
@@ -45,7 +47,9 @@ public class SignupView extends JPanel implements ActionListener, PropertyChange
     private final JButton toLoginButton = new JButton(SignupViewModel.TO_LOGIN_BUTTON_LABEL);
     private SignupController signupController;
 
-    /** Creates the signup view. */
+    /**
+     * Creates the signup view.
+     */
     public SignupView(SignupViewModel signupViewModel) {
         this.signupViewModel = signupViewModel;
         this.signupViewModel.addPropertyChangeListener(this);
@@ -56,7 +60,9 @@ public class SignupView extends JPanel implements ActionListener, PropertyChange
         add(createButtonPanel(), BorderLayout.SOUTH);
     }
 
-    /** Responds to signup view button clicks. */
+    /**
+     * Responds to signup view button clicks.
+     */
     @Override
     public void actionPerformed(ActionEvent event) {
         final Object eventSource = event.getSource();
@@ -71,7 +77,9 @@ public class SignupView extends JPanel implements ActionListener, PropertyChange
         }
     }
 
-    /** Responds to changes in the signup view model. */
+    /**
+     * Responds to changes in the signup view model.
+     */
     @Override
     public void propertyChange(PropertyChangeEvent event) {
         final SignupState state = (SignupState) event.getNewValue();
@@ -81,17 +89,23 @@ public class SignupView extends JPanel implements ActionListener, PropertyChange
         }
     }
 
-    /** Returns the name used to identify this view. */
+    /**
+     * Returns the name used to identify this view.
+     */
     public String getViewName() {
         return signupViewModel.getViewName();
     }
 
-    /** Sets the controller used by this signup view. */
+    /**
+     * Sets the controller used by this signup view.
+     */
     public void setSignupController(SignupController signupController) {
         this.signupController = signupController;
     }
 
-    /** Creates the signup form panel. */
+    /**
+     * Creates the signup form panel.
+     */
     private JPanel createFormPanel() {
         final JPanel formPanel = new JPanel(new GridBagLayout());
         addFormRow(formPanel, SignupViewModel.USERNAME_LABEL, usernameInputField, USERNAME_ROW);
@@ -106,7 +120,9 @@ public class SignupView extends JPanel implements ActionListener, PropertyChange
         return formPanel;
     }
 
-    /** Creates the signup button panel. */
+    /**
+     * Creates the signup button panel.
+     */
     private JPanel createButtonPanel() {
         final JPanel buttonPanel = new JPanel();
         signUpButton.addActionListener(this);
@@ -118,7 +134,9 @@ public class SignupView extends JPanel implements ActionListener, PropertyChange
         return buttonPanel;
     }
 
-    /** Adds a labeled input row to the form panel. */
+    /**
+     * Adds a labeled input row to the form panel.
+     */
     private void addFormRow(JPanel formPanel, String labelText, java.awt.Component inputComponent, int row) {
         final GridBagConstraints labelConstraints = createLabelConstraints(row);
         final GridBagConstraints inputConstraints = createInputConstraints(row);
@@ -126,7 +144,9 @@ public class SignupView extends JPanel implements ActionListener, PropertyChange
         formPanel.add(inputComponent, inputConstraints);
     }
 
-    /** Creates constraints for a form label. */
+    /**
+     * Creates constraints for a form label.
+     */
     private GridBagConstraints createLabelConstraints(int row) {
         final GridBagConstraints constraints = new GridBagConstraints();
         constraints.gridx = 0;
@@ -136,7 +156,9 @@ public class SignupView extends JPanel implements ActionListener, PropertyChange
         return constraints;
     }
 
-    /** Creates constraints for a form input. */
+    /**
+     * Creates constraints for a form input.
+     */
     private GridBagConstraints createInputConstraints(int row) {
         final GridBagConstraints constraints = new GridBagConstraints();
         constraints.gridx = 1;
@@ -147,7 +169,9 @@ public class SignupView extends JPanel implements ActionListener, PropertyChange
         return constraints;
     }
 
-    /** Submits the current signup form values to the controller. */
+    /**
+     * Submits the current signup form values to the controller.
+     */
     private void submitSignup() {
         updateStateFromFields();
         if (signupController != null) {
@@ -157,7 +181,9 @@ public class SignupView extends JPanel implements ActionListener, PropertyChange
         }
     }
 
-    /** Copies the current form field values into the signup state. */
+    /**
+     * Copies the current form field values into the signup state.
+     */
     private void updateStateFromFields() {
         final SignupState state = signupViewModel.getState();
         state.setUsername(usernameInputField.getText());
@@ -170,7 +196,9 @@ public class SignupView extends JPanel implements ActionListener, PropertyChange
         signupViewModel.setState(state);
     }
 
-    /** Returns the selected security question. */
+    /**
+     * Returns the selected security question.
+     */
     private String getSelectedSecurityQuestion() {
         final Object selectedQuestion = securityQuestionComboBox.getSelectedItem();
         final String question;
@@ -183,7 +211,9 @@ public class SignupView extends JPanel implements ActionListener, PropertyChange
         return question;
     }
 
-    /** Updates the visible signup fields from the current signup state. */
+    /**
+     * Updates the visible signup fields from the current signup state.
+     */
     private void setFields(SignupState state) {
         usernameInputField.setText(state.getUsername());
         displayNameInputField.setText(state.getDisplayName());
@@ -193,7 +223,9 @@ public class SignupView extends JPanel implements ActionListener, PropertyChange
         securityAnswerInputField.setText(state.getSecurityAnswer());
     }
 
-    /** Clears all editable signup fields. */
+    /**
+     * Clears all editable signup fields.
+     */
     private void clearForm() {
         usernameInputField.setText("");
         displayNameInputField.setText("");

@@ -1,6 +1,8 @@
 package use_case.home_page;
 
-/** Output Data for the Home Page Use Case. */
+/**
+ * Output Data for the Home Page Use Case.
+ */
 
 public class HomePageOutputData {
 

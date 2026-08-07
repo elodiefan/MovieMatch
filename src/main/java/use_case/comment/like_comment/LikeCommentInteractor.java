@@ -1,24 +1,32 @@
 package use_case.comment.like_comment;
 
-/** Interactor for liking a comment. */
+/**
+ * Interactor for liking a comment.
+ */
 public final class LikeCommentInteractor implements LikeCommentInputBoundary {
     /** The comment data access object. */
     private final LikeCommentDataAccessInterface commentDataAccessObject;
     /** The presenter. */
     private final LikeCommentOutputBoundary presenter;
 
-    /** Creates a like comment interactor without persistence. */
+    /**
+     * Creates a like comment interactor without persistence.
+     */
     public LikeCommentInteractor() {
         this(null, null);
     }
 
-    /** Creates a like comment interactor with persistence. */
+    /**
+     * Creates a like comment interactor with persistence.
+     */
     public LikeCommentInteractor(
             final LikeCommentDataAccessInterface inputCommentDataAccessObject) {
         this(inputCommentDataAccessObject, null);
     }
 
-    /** Handles this review or comment operation. */
+    /**
+     * Handles this review or comment operation.
+     */
     public LikeCommentInteractor(
             final LikeCommentDataAccessInterface inputCommentDataAccessObject,
             final LikeCommentOutputBoundary inputPresenter) {
@@ -40,7 +48,9 @@ public final class LikeCommentInteractor implements LikeCommentInputBoundary {
         }
     }
 
-    /** Adds a user's like to a persisted comment. */
+    /**
+     * Adds a user's like to a persisted comment.
+     */
     private boolean likeComment(final String commentId, final String username) {
         final String trimmedCommentId = trimToEmpty(commentId);
         final String trimmedUsername = trimToEmpty(username);
@@ -49,7 +59,9 @@ public final class LikeCommentInteractor implements LikeCommentInputBoundary {
                 trimmedUsername);
     }
 
-    /** Validates the data needed to like a persisted comment. */
+    /**
+     * Validates the data needed to like a persisted comment.
+     */
     private void validateLikeCommentData(final String commentId,
                                          final String username) {
         if (isBlank(commentId)) {
@@ -69,12 +81,16 @@ public final class LikeCommentInteractor implements LikeCommentInputBoundary {
         }
     }
 
-    /** Checks whether a text value is empty or only whitespace. */
+    /**
+     * Checks whether a text value is empty or only whitespace.
+     */
     private boolean isBlank(final String value) {
         return value == null || value.trim().isEmpty();
     }
 
-    /** Trims a text value, or returns an empty string if it is null. */
+    /**
+     * Trims a text value, or returns an empty string if it is null.
+     */
     private String trimToEmpty(final String value) {
         final String trimmedValue;
         if (value == null) {

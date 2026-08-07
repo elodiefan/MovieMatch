@@ -30,7 +30,9 @@ import use_case.review.like_review.LikeReviewDataAccessInterface;
 import use_case.review.ReviewDataAccessInterface;
 import use_case.review.unlike_review.UnlikeReviewDataAccessInterface;
 
-/** MongoDB data access object for review data. */
+/**
+ * MongoDB data access object for review data.
+ */
 public class MongoReviewDataAccessObject implements ReviewDataAccessObject {
 
     private static final String DEFAULT_PROPERTIES = "mongo.properties";
@@ -52,12 +54,16 @@ public class MongoReviewDataAccessObject implements ReviewDataAccessObject {
     private final MongoClient mongoClient;
     private final MongoCollection<Document> reviews;
 
-    /** Connects using the default properties file. */
+    /**
+     * Connects using the default properties file.
+     */
     public MongoReviewDataAccessObject() {
         this(DEFAULT_PROPERTIES);
     }
 
-    /** Connects using the given properties file. */
+    /**
+     * Connects using the given properties file.
+     */
     public MongoReviewDataAccessObject(String propertiesPath) {
         final Properties properties = loadProperties(propertiesPath);
         mongoClient = MongoClients.create(properties.getProperty("uri"));
@@ -68,24 +74,32 @@ public class MongoReviewDataAccessObject implements ReviewDataAccessObject {
                 "reviewsCollection", DEFAULT_COLLECTION));
     }
 
-    /** Saves a review. */
+    /**
+     * Saves a review.
+     */
     public void saveReview(Review review) {
         reviews.replaceOne(Filters.eq(REVIEW_ID, review.getReviewId()),
                 toDocument(review), new ReplaceOptions().upsert(true));
     }
 
-    /** Returns whether a review exists. */
+    /**
+     * Returns whether a review exists.
+     */
     public boolean existsByReviewId(String reviewId) {
         return reviews.find(Filters.eq(REVIEW_ID, reviewId)).first() != null;
     }
 
-    /** Returns a review by id. */
+    /**
+     * Returns a review by id.
+     */
     public Optional<Review> getReviewById(String reviewId) {
         final Document document = reviews.find(Filters.eq(REVIEW_ID, reviewId)).first();
         return Optional.ofNullable(toReview(document));
     }
 
-    /** Returns all reviews written by a user. */
+    /**
+     * Returns all reviews written by a user.
+     */
     public List<Review> getReviewsByUsername(String username) {
         final List<Review> matchingReviews = new ArrayList<>();
 
@@ -96,7 +110,9 @@ public class MongoReviewDataAccessObject implements ReviewDataAccessObject {
         return matchingReviews;
     }
 
-    /** Returns all reviews for one media item. */
+    /**
+     * Returns all reviews for one media item.
+     */
     public List<Review> getReviewsByMedia(int mediaId, String mediaType) {
         final List<Review> matchingReviews = new ArrayList<>();
 
@@ -109,7 +125,9 @@ public class MongoReviewDataAccessObject implements ReviewDataAccessObject {
         return matchingReviews;
     }
 
-    /** Updates an existing review. */
+    /**
+     * Updates an existing review.
+     */
     public boolean editReview(String reviewId, double newRating, String newReviewText,
                               ZonedDateTime newUpdatedAt) {
         reviews.updateOne(Filters.eq(REVIEW_ID, reviewId),
@@ -120,27 +138,35 @@ public class MongoReviewDataAccessObject implements ReviewDataAccessObject {
         return existsByReviewId(reviewId);
     }
 
-    /** Deletes a review. */
+    /**
+     * Deletes a review.
+     */
     public boolean deleteReview(String reviewId) {
         return reviews.deleteOne(Filters.eq(REVIEW_ID, reviewId))
                 .getDeletedCount() > 0;
     }
 
-    /** Adds a user's like to a review. */
+    /**
+     * Adds a user's like to a review.
+     */
     public boolean likeReview(String reviewId, String username) {
         reviews.updateOne(Filters.eq(REVIEW_ID, reviewId),
                 Updates.addToSet(LIKED_BY_USERNAMES, username));
         return existsByReviewId(reviewId);
     }
 
-    /** Removes a user's like from a review. */
+    /**
+     * Removes a user's like from a review.
+     */
     public boolean unlikeReview(String reviewId, String username) {
         reviews.updateOne(Filters.eq(REVIEW_ID, reviewId),
                 Updates.pull(LIKED_BY_USERNAMES, username));
         return existsByReviewId(reviewId);
     }
 
-    /** Returns all saved reviews. */
+    /**
+     * Returns all saved reviews.
+     */
     public List<Review> getAllReviews() {
         final List<Review> allReviews = new ArrayList<>();
 
@@ -151,7 +177,9 @@ public class MongoReviewDataAccessObject implements ReviewDataAccessObject {
         return allReviews;
     }
 
-    /** Closes the MongoDB connection. */
+    /**
+     * Closes the MongoDB connection.
+     */
     public void close() {
         mongoClient.close();
     }

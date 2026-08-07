@@ -1,9 +1,13 @@
 package use_case.access_message_chat;
 
-/** Data access interface for the access message chat use case. */
+/**
+ * Data access interface for the access message chat use case.
+ */
 
 public interface AccessMessageChatUserDataAccessInterface {
 
-    /** Checks whether other username has current username blocked or vice versa. */
+    /**
+     *  Checks whether other username has current username blocked or vice versa.
+     */
     boolean canMessage(String otherUsername);
 }

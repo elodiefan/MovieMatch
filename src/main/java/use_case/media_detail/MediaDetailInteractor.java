@@ -3,7 +3,9 @@ package use_case.media_detail;
 import entity.Media;
 import entity.Movie;
 
-/** The Media Detail Interactor. */
+/**
+ * The Media Detail Interactor.
+ */
 public class MediaDetailInteractor implements MediaDetailInputBoundary {
 
     private final MediaDetailOutputBoundary mediaDetailPresenter;

@@ -1,11 +1,17 @@
 package use_case.signup;
 
-/** Input Boundary for actions which are related to signing up. */
+/**
+ * Input Boundary for actions which are related to signing up.
+ */
 public interface SignupInputBoundary {
 
-    /** Executes the signup use case. */
+    /**
+     * Executes the signup use case.
+     */
     void execute(SignupInputData signupInputData);
 
-    /** Executes the switch to login view use case. */
+    /**
+     * Executes the switch to login view use case.
+     */
     void switchToLoginView();
 }

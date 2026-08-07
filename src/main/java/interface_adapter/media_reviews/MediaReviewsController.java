@@ -13,7 +13,9 @@ import use_case.review.like_review.LikeReviewInputData;
 import use_case.review.unlike_review.UnlikeReviewInputBoundary;
 import use_case.review.unlike_review.UnlikeReviewInputData;
 
-/** Controller for the media reviews panel. */
+/**
+ * Controller for the media reviews panel.
+ */
 public final class MediaReviewsController {
     /** The get media reviews interactor. */
     private final GetMediaReviewsInputBoundary getMediaReviewsInteractor;
@@ -28,7 +30,9 @@ public final class MediaReviewsController {
     /** The unlike review interactor. */
     private final UnlikeReviewInputBoundary unlikeReviewInteractor;
 
-    /** Creates a controller for media review actions. */
+    /**
+     * Creates a controller for media review actions.
+     */
     public MediaReviewsController(
             final GetMediaReviewsInputBoundary inputGetMediaReviewsInteractor,
             final CreateReviewInputBoundary inputCreateReviewInteractor,
@@ -44,13 +48,17 @@ public final class MediaReviewsController {
         this.unlikeReviewInteractor = inputUnlikeReviewInteractor;
     }
 
-    /** Loads persisted reviews for one media item. */
+    /**
+     * Loads persisted reviews for one media item.
+     */
     public void loadMediaReviews(final int mediaId, final String mediaType) {
         getMediaReviewsInteractor.execute(new GetMediaReviewsInputData(mediaId,
                 mediaType));
     }
 
-    /** Creates a review for one media item. */
+    /**
+     * Creates a review for one media item.
+     */
     public void createReview(final int mediaId, final String mediaType,
                              final String mediaTitle,
                              final String authorUsername,
@@ -62,7 +70,9 @@ public final class MediaReviewsController {
                 rating, reviewText));
     }
 
-    /** Edits a persisted review written by the given user. */
+    /**
+     * Edits a persisted review written by the given user.
+     */
     public void editReview(final String reviewId, final String username,
                            final double newRating,
                            final String newReviewText) {
@@ -70,19 +80,25 @@ public final class MediaReviewsController {
                 username, newRating, newReviewText));
     }
 
-    /** Deletes one persisted review written by the given user. */
+    /**
+     * Deletes one persisted review written by the given user.
+     */
     public void deleteReview(final String reviewId, final String username) {
         deleteReviewInteractor.execute(new DeleteReviewInputData(reviewId,
                 username));
     }
 
-    /** Likes one persisted review. */
+    /**
+     * Likes one persisted review.
+     */
     public void likeReview(final String reviewId, final String username) {
         likeReviewInteractor.execute(new LikeReviewInputData(reviewId,
                 username));
     }
 
-    /** Unlikes one persisted review. */
+    /**
+     * Unlikes one persisted review.
+     */
     public void unlikeReview(final String reviewId, final String username) {
         unlikeReviewInteractor.execute(new UnlikeReviewInputData(reviewId,
                 username));

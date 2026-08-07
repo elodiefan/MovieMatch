@@ -18,7 +18,9 @@ import interface_adapter.get_lists.GetListsController;
 import interface_adapter.get_lists.GetListsState;
 import interface_adapter.get_lists.GetListsViewModel;
 
-/** The View for a user's personal account lists. */
+/**
+ * The View for a user's personal account lists.
+ */
 
 public class GetListsView extends JPanel implements PropertyChangeListener {
 

@@ -1,6 +1,8 @@
 package use_case.get_lists.get_blocked_users;
 
-/** Output Data for the Blocked Users View Use Case. */
+/**
+ * Output Data for the Blocked Users View Use Case.
+ */
 public class GetBlockedUsersOutputData {
     
     private final String username;

@@ -3,7 +3,9 @@ package use_case.signup;
 import entity.User;
 import entity.UserFactory;
 
-/** Interactor for the Signup Use Case. */
+/**
+ * Interactor for the Signup Use Case.
+ */
 public class SignupInteractor implements SignupInputBoundary {
     private static final int MIN_USERNAME_LENGTH = 3;
     private static final int MAX_USERNAME_LENGTH = 20;
@@ -17,7 +19,9 @@ public class SignupInteractor implements SignupInputBoundary {
     private final SignupOutputBoundary userPresenter;
     private final UserFactory userFactory;
 
-    /** Creates a signup interactor. */
+    /**
+     * Creates a signup interactor.
+     */
     public SignupInteractor(SignupUserDataAccessInterface signupDataAccessInterface,
                             SignupOutputBoundary signupOutputBoundary,
                             UserFactory userFactory) {
@@ -26,7 +30,9 @@ public class SignupInteractor implements SignupInputBoundary {
         this.userFactory = userFactory;
     }
 
-    /** Executes the signup use case. */
+    /**
+     * Executes the signup use case.
+     */
     @Override
     public void execute(SignupInputData signupInputData) {
         final String username = trimToEmpty(signupInputData.getUsername());
@@ -56,18 +62,24 @@ public class SignupInteractor implements SignupInputBoundary {
         }
     }
 
-    /** Switches from the signup view to the login view. */
+    /**
+     * Switches from the signup view to the login view.
+     */
     @Override
     public void switchToLoginView() {
         userPresenter.switchToLoginView();
     }
 
-    /** Checks whether a submitted text field is empty or only whitespace. */
+    /**
+     * Checks whether a submitted text field is empty or only whitespace.
+     */
     private boolean isBlank(String value) {
         return value == null || value.trim().isEmpty();
     }
 
-    /** Validates all submitted signup fields. */
+    /**
+     * Validates all submitted signup fields.
+     */
     private String validateSignupData(String username, String displayName, String password,
                                       String repeatPassword, String securityQuestion,
                                       String securityAnswer) {
@@ -87,12 +99,16 @@ public class SignupInteractor implements SignupInputBoundary {
         return errorMessage;
     }
 
-    /** Validates a submitted username. */
+    /**
+     * Validates a submitted username.
+     */
     private String validateUsername(String username) {
         return validateUsernameFormat(username);
     }
 
-    /** Validates a submitted username's content and length. */
+    /**
+     * Validates a submitted username's content and length.
+     */
     private String validateUsernameFormat(String username) {
         final String errorMessage;
         if (isBlank(username)) {
@@ -104,7 +120,9 @@ public class SignupInteractor implements SignupInputBoundary {
         return errorMessage;
     }
 
-    /** Validates a submitted username after confirming it is not blank. */
+    /**
+     * Validates a submitted username after confirming it is not blank.
+     */
     private String validateNonBlankUsername(String username) {
         final String errorMessage;
         if (!isValidUsername(username)) {
@@ -117,7 +135,9 @@ public class SignupInteractor implements SignupInputBoundary {
         return errorMessage;
     }
 
-    /** Validates a submitted display name. */
+    /**
+     * Validates a submitted display name.
+     */
     private String validateDisplayName(String displayName) {
         final String errorMessage;
         if (isBlank(displayName)) {
@@ -132,7 +152,9 @@ public class SignupInteractor implements SignupInputBoundary {
         return errorMessage;
     }
 
-    /** Validates submitted password fields. */
+    /**
+     * Validates submitted password fields.
+     */
     private String validatePassword(String password, String repeatPassword) {
         final String errorMessage;
         if (isBlank(password)) {
@@ -147,7 +169,9 @@ public class SignupInteractor implements SignupInputBoundary {
         return errorMessage;
     }
 
-    /** Validates submitted password strength and confirmation. */
+    /**
+     * Validates submitted password strength and confirmation.
+     */
     private String validatePasswordStrength(String password, String repeatPassword) {
         final String errorMessage;
         if (!isValidPassword(password)) {
@@ -168,7 +192,9 @@ public class SignupInteractor implements SignupInputBoundary {
         return errorMessage;
     }
 
-    /** Validates submitted security question information. */
+    /**
+     * Validates submitted security question information.
+     */
     private String validateSecurityInformation(String securityQuestion, String securityAnswer) {
         final String errorMessage;
         if (isBlank(securityQuestion)) {
@@ -186,14 +212,18 @@ public class SignupInteractor implements SignupInputBoundary {
         return errorMessage;
     }
 
-    /** Checks whether a username follows the signup rules. */
+    /**
+     * Checks whether a username follows the signup rules.
+     */
     private boolean isValidUsername(String username) {
         return username.length() >= MIN_USERNAME_LENGTH
                 && username.length() <= MAX_USERNAME_LENGTH
                 && username.matches(USERNAME_PATTERN);
     }
 
-    /** Checks whether a password follows the signup rules. */
+    /**
+     * Checks whether a password follows the signup rules.
+     */
     private boolean isValidPassword(String password) {
         return password.length() >= MIN_PASSWORD_LENGTH
                 && password.length() <= MAX_PASSWORD_LENGTH
@@ -201,7 +231,9 @@ public class SignupInteractor implements SignupInputBoundary {
                 && containsNumber(password);
     }
 
-    /** Checks whether a password contains at least one letter. */
+    /**
+     * Checks whether a password contains at least one letter.
+     */
     private boolean containsLetter(String password) {
         boolean foundLetter = false;
         for (int i = 0; i < password.length(); i++) {
@@ -212,7 +244,9 @@ public class SignupInteractor implements SignupInputBoundary {
         return foundLetter;
     }
 
-    /** Checks whether a password contains at least one number. */
+    /**
+     * Checks whether a password contains at least one number.
+     */
     private boolean containsNumber(String password) {
         boolean foundNumber = false;
         for (int i = 0; i < password.length(); i++) {
@@ -223,12 +257,16 @@ public class SignupInteractor implements SignupInputBoundary {
         return foundNumber;
     }
 
-    /** Checks whether text starts or ends with whitespace. */
+    /**
+     * Checks whether text starts or ends with whitespace.
+     */
     private boolean hasLeadingOrTrailingWhitespace(String value) {
         return value != null && !value.equals(value.trim());
     }
 
-    /** Removes leading and trailing whitespace from submitted text. */
+    /**
+     * Removes leading and trailing whitespace from submitted text.
+     */
     private String trimToEmpty(String value) {
         final String trimmedValue;
         if (value == null) {

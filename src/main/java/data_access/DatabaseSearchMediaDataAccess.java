@@ -41,7 +41,9 @@ public class DatabaseSearchMediaDataAccess
         return result;
     }
 
-    /** The local databases are not paged, so everything is one page. */
+    /**
+     * The local databases are not paged, so everything is one page.
+     */
     @Override
     public MediaPage searchPage(String keyword, int page) {
         final List<Media> results;

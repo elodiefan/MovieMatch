@@ -1,6 +1,8 @@
 package interface_adapter.logged_in;
 
-/** The State information representing the logged-in user. */
+/**
+ * The State information representing the logged-in user.
+ */
 public class LoggedInState {
     private String username = "";
 
@@ -40,7 +42,9 @@ public class LoggedInState {
         return password;
     }
 
-    /** Records why deleting the account failed, so the logged-in view can show it. */
+    /**
+     * Records why deleting the account failed, so the logged-in view can show it.
+     */
     public void deleteAccountError(String deleteAccountError) {
         this.deleteAccountError = deleteAccountError;
     }

@@ -2,7 +2,9 @@ package use_case.filter;
 
 import java.util.List;
 
-/** Contains the criteria used to filter media search results. */
+/**
+ * Contains the criteria used to filter media search results.
+ */
 public class FilterCriteria {
 
     private final List<String> languages;
@@ -24,27 +26,37 @@ public class FilterCriteria {
         this.latestYear = latestYear;
     }
 
-    /** Returns the selected languages. */
+    /**
+     * Returns the selected languages.
+     */
     public List<String> getLanguages() {
         return languages;
     }
 
-    /** Returns the minimum acceptable rating. */
+    /**
+     * Returns the minimum acceptable rating.
+     */
     public Double getMinimumRating() {
         return minimumRating;
     }
 
-    /** Returns the selected genre IDs. */
+    /**
+     * Returns the selected genre IDs.
+     */
     public List<Integer> getGenreIds() {
         return genreIds;
     }
 
-    /** Returns the earliest acceptable release year. */
+    /**
+     * Returns the earliest acceptable release year.
+     */
     public Integer getEarliestYear() {
         return earliestYear;
     }
 
-    /** Returns the latest acceptable release year. */
+    /**
+     * Returns the latest acceptable release year.
+     */
     public Integer getLatestYear() {
         return latestYear;
     }

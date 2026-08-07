@@ -1,6 +1,8 @@
 package use_case.log_media;
 
-/** Input data for logging a media item to a user list. */
+/**
+ * Input data for logging a media item to a user list.
+ */
 public class LogMediaInputData {
     /** The media id. */
     private final int mediaId;
@@ -9,7 +11,9 @@ public class LogMediaInputData {
     /** The media title. */
     private final String mediaTitle;
 
-    /** Creates input data for one media item. */
+    /**
+     * Creates input data for one media item.
+     */
     public LogMediaInputData(final int inputMediaId,
                              final String inputMediaType,
                              final String inputMediaTitle) {
@@ -18,17 +22,23 @@ public class LogMediaInputData {
         this.mediaTitle = inputMediaTitle;
     }
 
-    /** Returns the media id. */
+    /**
+     * Returns the media id.
+     */
     public int getMediaId() {
         return mediaId;
     }
 
-    /** Returns the media type. */
+    /**
+     * Returns the media type.
+     */
     public String getMediaType() {
         return mediaType;
     }
 
-    /** Returns the media title. */
+    /**
+     * Returns the media title.
+     */
     public String getMediaTitle() {
         return mediaTitle;
     }

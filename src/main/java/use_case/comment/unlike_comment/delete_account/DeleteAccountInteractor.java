@@ -6,7 +6,9 @@ import java.util.TimerTask;
 import entity.User;
 import entity.UserFactory;
 
-/** Interactor for Delete Account Use Case. */
+/**
+ * Interactor for Delete Account Use Case.
+ */
 
 public class DeleteAccountInteractor implements DeleteAccountInputBoundary {
     private static final int INCORRECT_LIMIT = 3;
@@ -27,7 +29,9 @@ public class DeleteAccountInteractor implements DeleteAccountInputBoundary {
         this.userFactory = userFactory;
     }
 
-    /** Executes the Delete Account Use Case. */
+    /**
+     * Executes the Delete Account Use Case.
+     */
     @Override
     public void execute(DeleteAccountInputData deleteAccountInputData) {
         final String username = deleteAccountInputData.getUsername();
@@ -75,7 +79,9 @@ public class DeleteAccountInteractor implements DeleteAccountInputBoundary {
         timer.schedule(task, lockOutTime);
     }
 
-    /** Switches from delete account view to account view. */
+    /**
+     * Switches from delete account view to account view.
+     */
     @Override
     public void switchToPersonalAccountView() {
         userPresenter.switchToPersonalAccountView();

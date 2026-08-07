@@ -5,7 +5,14 @@ import java.util.List;
 
 import entity.Media;
 
-/** The Search Interactor. */
+/**
+ * The Search Interactor.
+ *
+ * How much of a result set to fetch at once is a decision about what a user is
+ * willing to wait for, so it lives here rather than in the data access. TMDB
+ * reports up to 500 pages for a common word and every result costs a further
+ * request for its details, so asking for everything is not an option.
+ */
 public class SearchInteractor implements SearchInputBoundary {
 
     /** How many pages one request fetches. */
@@ -32,7 +39,9 @@ public class SearchInteractor implements SearchInputBoundary {
         search(inputData, true);
     }
 
-    /** Fetches one block of pages and reports it. */
+    /**
+     * Fetches one block of pages and reports it.
+     */
     private void search(SearchInputData inputData, boolean appending) {
         final String keyword = inputData.getKeyword();
 

@@ -7,7 +7,9 @@ import interface_adapter.search_result.SearchResultViewModel;
 import use_case.media_detail.MediaDetailOutputBoundary;
 import use_case.media_detail.MediaDetailOutputData;
 
-/** Presenter for the Media Detail Use Case. */
+/**
+ * Presenter for the Media Detail Use Case.
+ */
 public class MediaDetailPresenter implements MediaDetailOutputBoundary {
 
     private final ViewManagerModel viewManagerModel;

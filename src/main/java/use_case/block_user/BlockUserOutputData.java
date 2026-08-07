@@ -1,6 +1,8 @@
 package use_case.block_user;
 
-/** Output Data for the Block User Use Case. */
+/**
+ * Output Data for the Block User Use Case.
+ */
 public class BlockUserOutputData {
 
     private boolean isOnBlockList;

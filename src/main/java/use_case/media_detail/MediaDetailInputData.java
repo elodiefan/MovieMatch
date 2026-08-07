@@ -2,7 +2,9 @@ package use_case.media_detail;
 
 import entity.Media;
 
-/** Input data for the Media Detail Use Case. */
+/**
+ * Input data for the Media Detail Use Case.
+ */
 public class MediaDetailInputData {
 
     private final Media media;
@@ -11,7 +13,9 @@ public class MediaDetailInputData {
         this.media = media;
     }
 
-    /** Returns the selected media. */
+    /**
+     * Returns the selected media.
+     */
     public Media getMedia() {
         return media;
     }

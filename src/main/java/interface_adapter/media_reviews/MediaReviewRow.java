@@ -2,7 +2,9 @@ package interface_adapter.media_reviews;
 
 import java.time.ZonedDateTime;
 
-/** Display data for one community review on a media page. */
+/**
+ * Display data for one community review on a media page.
+ */
 public final class MediaReviewRow {
     /** The review id. */
     private final String reviewId;
@@ -23,7 +25,9 @@ public final class MediaReviewRow {
     /** The review source. */
     private final String source;
 
-    /** Creates display data for one media review row. */
+    /**
+     * Creates display data for one media review row.
+     */
     public MediaReviewRow(final String inputReviewId,
                           final String inputAuthorUsername,
                           final String inputAuthorDisplayName,

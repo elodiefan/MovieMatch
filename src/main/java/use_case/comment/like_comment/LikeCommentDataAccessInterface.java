@@ -1,8 +1,12 @@
 package use_case.comment.like_comment;
 
-/** Data access interface for liking comments. */
+/**
+ * Data access interface for liking comments.
+ */
 public interface LikeCommentDataAccessInterface {
 
-    /** Adds a user's like to one comment. */
+    /**
+     * Adds a user's like to one comment.
+     */
     boolean likeComment(String commentId, String username);
 }

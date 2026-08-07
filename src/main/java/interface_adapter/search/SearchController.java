@@ -3,7 +3,9 @@ package interface_adapter.search;
 import use_case.search.SearchInputBoundary;
 import use_case.search.SearchInputData;
 
-/** The controller for the Search Use Case. */
+/**
+ * The controller for the Search Use Case.
+ */
 public class SearchController {
 
     private final SearchInputBoundary searchUseCaseInteractor;
@@ -12,7 +14,9 @@ public class SearchController {
         this.searchUseCaseInteractor = searchUseCaseInteractor;
     }
 
-    /** Executes the Search Use Case. */
+    /**
+     * Executes the Search Use Case.
+     */
     public void execute(String keyword) {
         final SearchInputData searchInputData =
                 new SearchInputData(keyword);
@@ -20,7 +24,9 @@ public class SearchController {
         searchUseCaseInteractor.execute(searchInputData);
     }
 
-    /** Fetches the next block of pages for a search already on screen. */
+    /**
+     * Fetches the next block of pages for a search already on screen.
+     */
     public void loadMore(String keyword, int nextPage) {
         searchUseCaseInteractor.loadMore(new SearchInputData(keyword, nextPage));
     }

@@ -1,6 +1,8 @@
 package interface_adapter.delete_account;
 
-/** The state for the Delete Account View Model. */
+/**
+ * The state for the Delete Account View Model.
+ */
 
 public class DeleteAccountState {
     private String username = "";

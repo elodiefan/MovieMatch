@@ -1,24 +1,32 @@
 package use_case.review.unlike_review;
 
-/** Interactor for unliking a review. */
+/**
+ * Interactor for unliking a review.
+ */
 public final class UnlikeReviewInteractor implements UnlikeReviewInputBoundary {
     /** The review data access object. */
     private final UnlikeReviewDataAccessInterface reviewDataAccessObject;
     /** The presenter. */
     private final UnlikeReviewOutputBoundary presenter;
 
-    /** Creates an unlike review interactor without persistence. */
+    /**
+     * Creates an unlike review interactor without persistence.
+     */
     public UnlikeReviewInteractor() {
         this(null, null);
     }
 
-    /** Creates an unlike review interactor with persistence. */
+    /**
+     * Creates an unlike review interactor with persistence.
+     */
     public UnlikeReviewInteractor(
             final UnlikeReviewDataAccessInterface inputReviewDataAccessObject) {
         this(inputReviewDataAccessObject, null);
     }
 
-    /** Handles this review or comment operation. */
+    /**
+     * Handles this review or comment operation.
+     */
     public UnlikeReviewInteractor(
             final UnlikeReviewDataAccessInterface inputReviewDataAccessObject,
             final UnlikeReviewOutputBoundary inputPresenter) {
@@ -40,7 +48,9 @@ public final class UnlikeReviewInteractor implements UnlikeReviewInputBoundary {
         }
     }
 
-    /** Removes a user's like from a persisted review. */
+    /**
+     * Removes a user's like from a persisted review.
+     */
     private boolean unlikeReview(final String reviewId,
                                 final String username) {
         final String trimmedReviewId = trimToEmpty(reviewId);
@@ -50,7 +60,9 @@ public final class UnlikeReviewInteractor implements UnlikeReviewInputBoundary {
                 trimmedUsername);
     }
 
-    /** Validates the data needed to unlike a persisted review. */
+    /**
+     * Validates the data needed to unlike a persisted review.
+     */
     private void validateUnlikeReviewData(final String reviewId,
                                           final String username) {
         if (isBlank(reviewId)) {
@@ -70,12 +82,16 @@ public final class UnlikeReviewInteractor implements UnlikeReviewInputBoundary {
         }
     }
 
-    /** Checks whether a text value is empty or only whitespace. */
+    /**
+     * Checks whether a text value is empty or only whitespace.
+     */
     private boolean isBlank(final String value) {
         return value == null || value.trim().isEmpty();
     }
 
-    /** Trims a text value, or returns an empty string if it is null. */
+    /**
+     * Trims a text value, or returns an empty string if it is null.
+     */
     private String trimToEmpty(final String value) {
         final String trimmedValue;
         if (value == null) {

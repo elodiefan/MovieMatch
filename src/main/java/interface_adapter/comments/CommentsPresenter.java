@@ -15,19 +15,25 @@ import use_case.comment.like_comment.LikeCommentOutputData;
 import use_case.comment.unlike_comment.UnlikeCommentOutputBoundary;
 import use_case.comment.unlike_comment.UnlikeCommentOutputData;
 
-/** Presenter for review comments. */
+/**
+ * Presenter for review comments.
+ */
 public final class CommentsPresenter implements GetReviewCommentsOutputBoundary,
         CreateCommentOutputBoundary, DeleteCommentOutputBoundary,
         LikeCommentOutputBoundary, UnlikeCommentOutputBoundary {
     /** The comments view model. */
     private final CommentsViewModel commentsViewModel;
 
-    /** Creates a presenter used only for row conversion. */
+    /**
+     * Creates a presenter used only for row conversion.
+     */
     public CommentsPresenter() {
         this(null);
     }
 
-    /** Creates a presenter for the comments view model. */
+    /**
+     * Creates a presenter for the comments view model.
+     */
     public CommentsPresenter(final CommentsViewModel inputCommentsViewModel) {
         this.commentsViewModel = inputCommentsViewModel;
     }
@@ -66,7 +72,10 @@ public final class CommentsPresenter implements GetReviewCommentsOutputBoundary,
         clearError();
     }
 
-    /** Converts comment entities into rows that can be displayed by the comments view. */
+    /**
+     * Converts comment entities into rows that can be displayed by the comments
+     * view.
+     */
     private List<CommentRow> prepareComments(final List<Comment> comments) {
         final List<CommentRow> commentRows = new ArrayList<>();
         if (comments != null) {
@@ -79,7 +88,9 @@ public final class CommentsPresenter implements GetReviewCommentsOutputBoundary,
         return commentRows;
     }
 
-    /** Converts an error message into display-safe text. */
+    /**
+     * Converts an error message into display-safe text.
+     */
     public String prepareFailView(final String errorMessage) {
         final String displayError;
         if (isBlank(errorMessage)) {
@@ -105,7 +116,9 @@ public final class CommentsPresenter implements GetReviewCommentsOutputBoundary,
         }
     }
 
-    /** Converts one comment entity into one displayed row. */
+    /**
+     * Converts one comment entity into one displayed row.
+     */
     private CommentRow createCommentRow(final Comment comment) {
         return new CommentRow(comment.getCommentId(), comment.getReviewId(),
                 comment.getParentCommentId(), comment.getAuthorUsername(),
@@ -113,7 +126,9 @@ public final class CommentsPresenter implements GetReviewCommentsOutputBoundary,
                 comment.getCreatedAt(), comment.getLikeCount());
     }
 
-    /** Checks whether a text value is empty or only whitespace. */
+    /**
+     * Checks whether a text value is empty or only whitespace.
+     */
     private boolean isBlank(final String value) {
         return value == null || value.trim().isEmpty();
     }

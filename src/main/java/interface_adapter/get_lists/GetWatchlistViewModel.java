@@ -2,7 +2,9 @@ package interface_adapter.get_lists;
 
 import interface_adapter.ViewModel;
 
-/** The View Model for the Watchlist View. */
+/**
+ * The View Model for the Watchlist View.
+ */
 public class GetWatchlistViewModel extends ViewModel<GetListsState> {
 
     public static final String VIEW_NAME = "watchlist";

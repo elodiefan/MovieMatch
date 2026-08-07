@@ -7,7 +7,9 @@ import interface_adapter.signup.SignupViewModel;
 import use_case.comment.unlike_comment.delete_account.DeleteAccountOutputBoundary;
 import use_case.comment.unlike_comment.delete_account.DeleteAccountOutputData;
 
-/** The Presenter for the Delete Account Use Case. */
+/**
+ * The Presenter for the Delete Account Use Case.
+ */
 
 public class DeleteAccountPresenter implements DeleteAccountOutputBoundary {
 

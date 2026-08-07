@@ -24,7 +24,9 @@ import interface_adapter.user_reviews.UserReviewsController;
 import interface_adapter.user_reviews.UserReviewsState;
 import interface_adapter.user_reviews.UserReviewsViewModel;
 
-/** Swing view for a user's reviews. */
+/**
+ * Swing view for a user's reviews.
+ */
 public final class MyReviewsView extends JPanel
         implements PropertyChangeListener {
     /** The card gap. */
@@ -52,7 +54,9 @@ public final class MyReviewsView extends JPanel
     /** The loading content. */
     private boolean loadingContent;
 
-    /** Handles this review or comment operation. */
+    /**
+     * Handles this review or comment operation.
+     */
     public MyReviewsView(final UserReviewsViewModel inputUserReviewsViewModel) {
         this.userReviewsViewModel = inputUserReviewsViewModel;
         this.userReviewsViewModel.addPropertyChangeListener(this);
@@ -78,7 +82,9 @@ public final class MyReviewsView extends JPanel
         updateView(inputUserReviewsViewModel.getState());
     }
 
-    /** Updates the view when the user reviews state changes. */
+    /**
+     * Updates the view when the user reviews state changes.
+     */
     @Override
     public void propertyChange(final PropertyChangeEvent event) {
         if ("state".equals(event.getPropertyName())) {
@@ -86,23 +92,31 @@ public final class MyReviewsView extends JPanel
         }
     }
 
-    /** Returns this view's name. */
+    /**
+     * Returns this view's name.
+     */
     public String getViewName() {
         return viewName;
     }
 
-    /** Returns the back button so app wiring can attach navigation. */
+    /**
+     * Returns the back button so app wiring can attach navigation.
+     */
     public JButton getBackButton() {
         return backButton;
     }
 
-    /** Sets the controller for user review actions. */
+    /**
+     * Sets the controller for user review actions.
+     */
     public void setUserReviewsController(
             final UserReviewsController inputUserReviewsController) {
         this.userReviewsController = inputUserReviewsController;
     }
 
-    /** Refreshes all visible content from state. */
+    /**
+     * Refreshes all visible content from state.
+     */
     private void updateView(final UserReviewsState state) {
         if (state != null) {
             errorLabel.setText(state.getUserReviewsError());
@@ -112,7 +126,9 @@ public final class MyReviewsView extends JPanel
         }
     }
 
-    /** Loads persisted user reviews and comments into state. */
+    /**
+     * Loads persisted user reviews and comments into state.
+     */
     private void loadContent(final UserReviewsState state) {
         if (!loadingContent && userReviewsController != null
                 && !isBlank(state.getUsername())) {
@@ -123,7 +139,9 @@ public final class MyReviewsView extends JPanel
         }
     }
 
-    /** Displays the given review rows. */
+    /**
+     * Displays the given review rows.
+     */
     private void setReviews(final List<UserReviewRow> reviews) {
         reviewsPanel.removeAll();
 
@@ -141,7 +159,9 @@ public final class MyReviewsView extends JPanel
         reviewsPanel.repaint();
     }
 
-    /** Displays the given comment rows. */
+    /**
+     * Displays the given comment rows.
+     */
     private void setComments(final List<UserCommentRow> comments) {
         commentsPanel.removeAll();
 
@@ -159,7 +179,9 @@ public final class MyReviewsView extends JPanel
         commentsPanel.repaint();
     }
 
-    /** Creates the display card for one review. */
+    /**
+     * Creates the display card for one review.
+     */
     private Component createReviewCard(final UserReviewRow review) {
         final JPanel card = new JPanel();
         card.setLayout(new BoxLayout(card, BoxLayout.Y_AXIS));
@@ -175,7 +197,9 @@ public final class MyReviewsView extends JPanel
         return card;
     }
 
-    /** Creates the display card for one comment. */
+    /**
+     * Creates the display card for one comment.
+     */
     private Component createCommentCard(final UserCommentRow comment) {
         final JPanel card = new JPanel();
         card.setLayout(new BoxLayout(card, BoxLayout.Y_AXIS));
@@ -189,7 +213,9 @@ public final class MyReviewsView extends JPanel
         return card;
     }
 
-    /** Creates the action buttons for one review row. */
+    /**
+     * Creates the action buttons for one review row.
+     */
     private Component createButtonPanel(final UserReviewRow review) {
         final JPanel buttonPanel = new JPanel();
         final JButton editButton =
@@ -207,7 +233,9 @@ public final class MyReviewsView extends JPanel
         return buttonPanel;
     }
 
-    /** Formats a date and time for display. */
+    /**
+     * Formats a date and time for display.
+     */
     private String formatTime(final ZonedDateTime dateTime) {
         final String formattedTime;
         if (dateTime == null) {
@@ -218,12 +246,16 @@ public final class MyReviewsView extends JPanel
         return formattedTime;
     }
 
-    /** Checks whether a value is null, empty, or only whitespace. */
+    /**
+     * Checks whether a value is null, empty, or only whitespace.
+     */
     private boolean isBlank(final String value) {
         return value == null || value.trim().isEmpty();
     }
 
-    /** Selects a review in the view model state. */
+    /**
+     * Selects a review in the view model state.
+     */
     private final class SelectReviewListener implements ActionListener {
         /** The review id. */
         private final String reviewId;

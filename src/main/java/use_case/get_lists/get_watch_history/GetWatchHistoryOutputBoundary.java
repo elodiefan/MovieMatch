@@ -4,14 +4,20 @@ import use_case.get_lists.GetListsOutputBoundary;
 
 public interface GetWatchHistoryOutputBoundary extends GetListsOutputBoundary {
 
-    /** Prepares the success view when calling the watch history use case. */
+    /**
+     * Prepares the success view when calling the watch history use case.
+     */
     void prepareSuccessView(GetWatchHistoryOutputData response);
 
-    /** Switches to the Personal Account View. */
+    /**
+     * Switches to the Personal Account View.
+     */
     @Override
     void switchToPersonalAccountView();
 
-    /** Switches to the Other Account View. */
+    /**
+     * Switches to the Other Account View.
+     */
     @Override
     void switchToOtherAccountView();
 }

@@ -1,6 +1,8 @@
 package interface_adapter.home_page;
 
-/** The state for the Home Page View Model. */
+/**
+ * The state for the Home Page View Model.
+ */
 
 public class HomePageState {
     private String username = "";

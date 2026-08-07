@@ -10,7 +10,9 @@ import entity.Review;
 import use_case.comment.GetUserCommentsReviewDataAccessInterface;
 import use_case.comment.UserCommentSummaryData;
 
-/** Interactor for loading comments written by one user. */
+/**
+ * Interactor for loading comments written by one user.
+ */
 public final class GetUserCommentsInteractor
         implements GetUserCommentsInputBoundary {
     /** The comment data access object. */
@@ -21,7 +23,9 @@ public final class GetUserCommentsInteractor
     /** The user comments presenter. */
     private final GetUserCommentsOutputBoundary userCommentsPresenter;
 
-    /** Creates a user comments interactor. */
+    /**
+     * Creates a user comments interactor.
+     */
     public GetUserCommentsInteractor(
             final GetUserCommentsDataAccessInterface
                     inputCommentDataAccessObject,
@@ -30,7 +34,9 @@ public final class GetUserCommentsInteractor
         this(inputCommentDataAccessObject, inputReviewDataAccessObject, null);
     }
 
-    /** Creates a user comments interactor. */
+    /**
+     * Creates a user comments interactor.
+     */
     public GetUserCommentsInteractor(
             final GetUserCommentsDataAccessInterface
                     inputCommentDataAccessObject,
@@ -42,7 +48,9 @@ public final class GetUserCommentsInteractor
         this.userCommentsPresenter = inputUserCommentsPresenter;
     }
 
-    /** Executes the use case and sends output through the output boundary. */
+    /**
+     * Executes the use case and sends output through the output boundary.
+     */
     @Override
     public void execute(final GetUserCommentsInputData inputData) {
         try {
@@ -58,7 +66,9 @@ public final class GetUserCommentsInteractor
         }
     }
 
-    /** Returns comments written by one user, ordered newest to oldest. */
+    /**
+     * Returns comments written by one user, ordered newest to oldest.
+     */
     private List<UserCommentSummaryData> getUserComments(
             final String username) {
         final String trimmedUsername = trimToEmpty(username);
@@ -76,7 +86,9 @@ public final class GetUserCommentsInteractor
         return commentSummaries;
     }
 
-    /** Creates summary data for one comment. */
+    /**
+     * Creates summary data for one comment.
+     */
     private UserCommentSummaryData createCommentSummary(final Comment comment) {
         final Optional<Review> review = reviewDataAccessObject.getReviewById(
                 comment.getReviewId());
@@ -96,14 +108,18 @@ public final class GetUserCommentsInteractor
                 comment.getLikeCount());
     }
 
-    /** Validates the username needed to load user comments. */
+    /**
+     * Validates the username needed to load user comments.
+     */
     private void validateUsername(final String username) {
         if (isBlank(username)) {
             throw new IllegalArgumentException("Username cannot be empty.");
         }
     }
 
-    /** Validates that the output boundary has been configured. */
+    /**
+     * Validates that the output boundary has been configured.
+     */
     private void validateOutputBoundary() {
         if (userCommentsPresenter == null) {
             throw new IllegalStateException(
@@ -111,12 +127,16 @@ public final class GetUserCommentsInteractor
         }
     }
 
-    /** Checks whether a text value is empty or only whitespace. */
+    /**
+     * Checks whether a text value is empty or only whitespace.
+     */
     private boolean isBlank(final String value) {
         return value == null || value.trim().isEmpty();
     }
 
-    /** Trims a text value, or returns an empty string if it is null. */
+    /**
+     * Trims a text value, or returns an empty string if it is null.
+     */
     private String trimToEmpty(final String value) {
         final String trimmedValue;
         if (value == null) {

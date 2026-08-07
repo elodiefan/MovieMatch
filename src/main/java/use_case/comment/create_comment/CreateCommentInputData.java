@@ -1,6 +1,8 @@
 package use_case.comment.create_comment;
 
-/** Input data for creating a comment. */
+/**
+ * Input data for creating a comment.
+ */
 public final class CreateCommentInputData {
     /** The review id. */
     private final String reviewId;
@@ -13,7 +15,9 @@ public final class CreateCommentInputData {
     /** The comment text. */
     private final String commentText;
 
-    /** Handles this review or comment operation. */
+    /**
+     * Handles this review or comment operation.
+     */
     public CreateCommentInputData(final String inputReviewId,
                                   final String inputParentCommentId,
                                   final String inputAuthorUsername,
@@ -26,23 +30,33 @@ public final class CreateCommentInputData {
         this.commentText = inputCommentText;
     }
 
-    /** Handles this review or comment operation. */
+    /**
+     * Handles this review or comment operation.
+     */
     public String getReviewId() {
         return reviewId;
     }
-    /** Handles this review or comment operation. */
+    /**
+     * Handles this review or comment operation.
+     */
     public String getParentCommentId() {
         return parentCommentId;
     }
-    /** Handles this review or comment operation. */
+    /**
+     * Handles this review or comment operation.
+     */
     public String getAuthorUsername() {
         return authorUsername;
     }
-    /** Handles this review or comment operation. */
+    /**
+     * Handles this review or comment operation.
+     */
     public String getAuthorDisplayName() {
         return authorDisplayName;
     }
-    /** Handles this review or comment operation. */
+    /**
+     * Handles this review or comment operation.
+     */
     public String getCommentText() {
         return commentText;
     }

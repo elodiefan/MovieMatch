@@ -1,6 +1,8 @@
 package data_access;
 
-/** Tests for the in-memory review data access object. */
+/**
+ * Tests for the in-memory review data access object.
+ */
 public class InMemoryReviewDataAccessObjectTest {
 
 }

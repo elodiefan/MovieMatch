@@ -9,7 +9,9 @@ import use_case.filter.FilterCriteria;
 import use_case.filter.FilterInputBoundary;
 import use_case.filter.FilterInputData;
 
-/** Controller for the Filter Use Case. */
+/**
+ * Controller for the Filter Use Case.
+ */
 public class FilterController {
 
     private final FilterInputBoundary filterUseCaseInteractor;
@@ -22,7 +24,9 @@ public class FilterController {
         this.searchResultViewModel = searchResultViewModel;
     }
 
-    /** Executes the Filter Use Case. */
+    /**
+     * Executes the Filter Use Case.
+     */
     public void execute(FilterCriteria criteria) {
         final SearchResultState state =
                 searchResultViewModel.getState();

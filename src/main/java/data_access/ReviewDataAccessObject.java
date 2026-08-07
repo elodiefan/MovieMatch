@@ -21,7 +21,11 @@ public interface ReviewDataAccessObject extends
         LikeReviewDataAccessInterface,
         UnlikeReviewDataAccessInterface {
 
-    /** Releases any resources held by this data store, such as an open database connection. */
+    /**
+     * Releases any resources held by this data store, such as an open database
+     * connection. Call once when the app shuts down. Implementations with
+     * nothing to release may do nothing.
+     */
     void close();
 }
 

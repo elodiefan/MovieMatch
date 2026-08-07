@@ -4,7 +4,9 @@ import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
-/** The state for the reviews view opened from a user's account. */
+/**
+ * The state for the reviews view opened from a user's account.
+ */
 public class ReviewsState {
     private String username = "";
     private List<ReviewRow> reviews = new ArrayList<>();
@@ -34,7 +36,9 @@ public class ReviewsState {
         this.comments = new ArrayList<>(comments);
     }
 
-    /** Display data for one review in the user's review history. */
+    /**
+     * Display data for one review in the user's review history.
+     */
     public static class ReviewRow {
         private final String mediaTitle;
         private final double rating;
@@ -66,7 +70,9 @@ public class ReviewsState {
         }
     }
 
-    /** Display data for one comment in the user's comment history. */
+    /**
+     * Display data for one comment in the user's comment history.
+     */
     public static class CommentRow {
         private final String mediaTitle;
         private final String reviewText;

@@ -1,6 +1,8 @@
 package interface_adapter.search;
 
-/** The state for Search View. */
+/**
+ * The state for Search View.
+ */
 public class SearchState {
 
     private String searchError;

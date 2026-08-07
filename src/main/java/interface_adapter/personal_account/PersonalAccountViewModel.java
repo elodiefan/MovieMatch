@@ -2,7 +2,9 @@ package interface_adapter.personal_account;
 
 import interface_adapter.ViewModel;
 
-/** The View Model for the Account View. */
+/**
+ * The View Model for the Account View.
+ */
 public class PersonalAccountViewModel extends ViewModel<PersonalAccountState> {
 
     public static final String VIEW_NAME = "personal account";

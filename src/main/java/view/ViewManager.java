@@ -8,7 +8,10 @@ import javax.swing.JPanel;
 
 import interface_adapter.ViewManagerModel;
 
-/** The View Manager for the program. */
+/**
+ * The View Manager for the program. It listens for property change events
+ * in the ViewManagerModel and updates which View should be visible.
+ */
 public class ViewManager implements PropertyChangeListener {
     private final CardLayout cardLayout;
     private final JPanel views;

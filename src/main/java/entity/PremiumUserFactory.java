@@ -1,6 +1,8 @@
 package entity;
 
-/** Factory for creating VIPUser objects. */
+/**
+ * Factory for creating VIPUser objects.
+ */
 
 public class PremiumUserFactory implements UserFactory {
 

@@ -2,7 +2,9 @@ package interface_adapter.signup;
 
 import interface_adapter.ViewModel;
 
-/** View model for the Signup View. */
+/**
+ * View model for the Signup View.
+ */
 public class SignupViewModel extends ViewModel<SignupState> {
 
     public static final String VIEW_NAME = "sign up";
@@ -24,13 +26,17 @@ public class SignupViewModel extends ViewModel<SignupState> {
         "What is your favourite TV show?",
     };
 
-    /** Creates a signup view model. */
+    /**
+     * Creates a signup view model.
+     */
     public SignupViewModel() {
         super(VIEW_NAME);
         setState(new SignupState());
     }
 
-    /** Returns the available security question options. */
+    /**
+     * Returns the available security question options.
+     */
     public String[] getSecurityQuestionOptions() {
         return SECURITY_QUESTION_OPTIONS.clone();
     }

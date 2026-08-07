@@ -2,7 +2,9 @@ package use_case.home_page;
 
 import entity.UserFactory;
 
-/** The Home Page Interactor. */
+/**
+ * The Home Page Interactor.
+ */
 public class HomePageInteractor implements HomePageInputBoundary {
     private final HomePageUserDataAccessInterface userDataAccessObject;
     private final HomePageOutputBoundary userPresenter;

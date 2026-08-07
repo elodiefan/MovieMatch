@@ -5,9 +5,13 @@ import javax.swing.JFrame;
 import view.ErrorReporter;
 import view.UiTheme;
 
-/** The Main class of our application. */
+/**
+ * The Main class of our application.
+ */
 public class Main {
-    /** Builds and runs the CA architecture of the application. */
+    /**
+     * Builds and runs the CA architecture of the application.
+     */
     public static void main(String[] args) {
         // Without this a failed database call just prints to the console and the
         // window silently does nothing, which looks identical to a dead button.

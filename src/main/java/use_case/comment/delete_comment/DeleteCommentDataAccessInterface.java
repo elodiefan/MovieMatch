@@ -4,12 +4,18 @@ import java.util.Optional;
 
 import entity.Comment;
 
-/** Data access interface for deleting comments. */
+/**
+ * Data access interface for deleting comments.
+ */
 public interface DeleteCommentDataAccessInterface {
 
-    /** Gets one comment by its id. */
+    /**
+     * Gets one comment by its id.
+     */
     Optional<Comment> getCommentById(String commentId);
 
-    /** Deletes one comment. */
+    /**
+     * Deletes one comment.
+     */
     boolean deleteComment(String commentId);
 }

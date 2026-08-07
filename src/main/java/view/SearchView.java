@@ -18,7 +18,9 @@ import interface_adapter.search.SearchController;
 import interface_adapter.search.SearchState;
 import interface_adapter.search.SearchViewModel;
 
-/** The View for searching movies. */
+/**
+ * The View for searching movies.
+ */
 public class SearchView extends JPanel implements PropertyChangeListener {
 
     private static final String CONFIRM_LABEL = "confirm";
@@ -76,7 +78,13 @@ public class SearchView extends JPanel implements PropertyChangeListener {
         this.add(buttonPanel);
     }
 
-    /** Searches on a background thread. */
+    /**
+     * Searches on a background thread.
+     *
+     * Talking to TMDB takes long enough that doing it on the UI thread stops the
+     * window repainting, which looks exactly like the application has hung. A
+     * SwingWorker keeps the window alive and lets the button report progress.
+     */
     private void runSearch() {
         final String keyword = searchInput.getText();
 

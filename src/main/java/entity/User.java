@@ -1,22 +1,34 @@
 package entity;
 
-/** Interface representing a user of the app. */
+/**
+ * Interface representing a user of the app.
+ */
 
 public interface User {
 
-    /** Returns the username of the user. */
+    /**
+     * Returns the username of the user.
+     */
     String getUsername();
 
-    /** Returns the display name of the user. */
+    /**
+     * Returns the display name of the user.
+     */
     String getDisplayName();
 
-    /** Returns the password of the user. */
+    /**
+     * Returns the password of the user.
+     */
     String getPassword();
 
-    /** Returns the chosen security question of the user. */
+    /**
+     * Returns the chosen security question of the user.
+     */
     String getSecurityQuestion();
 
-    /** Returns the answer to the user's chosen security question. */
+    /**
+     * Returns the answer to the user's chosen security question.
+     */
     String getAnswer();
 
     /**
@@ -24,15 +36,23 @@ public interface User {
      */
     UserLists getUserLists();
 
-    /** Returns the user's watchlist. */
+    /**
+     * Returns the user's watchlist.
+     */
     String getWatchlist();
 
-    /** Returns the user's watch history. */
+    /**
+     * Returns the user's watch history.
+     */
     String getWatchHistory();
 
-    /** Returns the user's list of blocked users. */
+    /**
+     * Returns the user's list of blocked users.
+     */
     String getBlockedUsers();
 
-    /** Sets the user's user lists. */
+    /**
+     * Sets the user's user lists.
+     */
     void setUserLists(UserLists userLists);
 }

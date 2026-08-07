@@ -2,7 +2,9 @@ package interface_adapter.media_reviews;
 
 import interface_adapter.ViewModel;
 
-/** View model for the media reviews panel. */
+/**
+ * View model for the media reviews panel.
+ */
 public final class MediaReviewsViewModel extends ViewModel<MediaReviewsState> {
 
     /** The view name. */
@@ -22,7 +24,9 @@ public final class MediaReviewsViewModel extends ViewModel<MediaReviewsState> {
     /** The unlike button label. */
     public static final String UNLIKE_BUTTON_LABEL = "Unlike";
 
-    /** Handles this review or comment operation. */
+    /**
+     * Handles this review or comment operation.
+     */
     public MediaReviewsViewModel() {
         super(VIEW_NAME);
         setState(new MediaReviewsState());
