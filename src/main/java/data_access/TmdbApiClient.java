@@ -71,6 +71,42 @@ public class TmdbApiClient {
     }
 
     /**
+     * Finds popular movies in the given genres.
+     * <p>
+     * Used to build recommendation candidates for someone whose taste profile
+     * points at particular genres.
+     */
+    public String discoverMovies(String genreIds, int page) throws IOException {
+        return sendGetRequest("/discover/movie?with_genres=" + genreIds
+                + "&sort_by=popularity.desc&page=" + page);
+    }
+
+    /**
+     * Finds popular TV shows in the given genres.
+     */
+    public String discoverTvShows(String genreIds, int page) throws IOException {
+        return sendGetRequest("/discover/tv?with_genres=" + genreIds
+                + "&sort_by=popularity.desc&page=" + page);
+    }
+
+    /**
+     * Returns what is popular right now, regardless of genre.
+     * <p>
+     * This is the fallback for a user with nothing in their lists yet, who has
+     * no taste profile to narrow the search with.
+     */
+    public String getPopularMovies(int page) throws IOException {
+        return sendGetRequest("/movie/popular?page=" + page);
+    }
+
+    /**
+     * Returns the TV shows that are popular right now.
+     */
+    public String getPopularTvShows(int page) throws IOException {
+        return sendGetRequest("/tv/popular?page=" + page);
+    }
+
+    /**
      * Gets the official movie genre list from TMDB.
      * <a href="https://developer.themoviedb.org/reference/genre-movie-list?utm_source=chatgpt.com">...</a>
      */

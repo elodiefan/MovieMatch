@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.LinkedHashSet;
+import java.util.Set;
 
 import entity.StandardUser;
 import entity.User;
@@ -21,6 +23,14 @@ import entity.UserLists;
 public class InMemoryUserDataAccessObject implements UserDataAccessObject {
 
     private final Map<String, User> users = new HashMap<>();
+
+    /** Watchlist and watch history ids, kept per user for the offline store. */
+    private final Map<String, Set<Integer>> engagedMediaIds = new HashMap<>();
+
+    @Override
+    public Set<Integer> findEngagedMediaIds(String username) {
+        return new LinkedHashSet<>(engagedMediaIds.getOrDefault(username, new LinkedHashSet<>()));
+    }
 
     private String currentUsername;
 
@@ -99,6 +109,7 @@ public class InMemoryUserDataAccessObject implements UserDataAccessObject {
                     mediaTitle, addedAt);
             user.setUserLists(new UserLists(username, watchlist,
                     user.getWatchHistory(), user.getBlockedUsers()));
+            recordEngaged(username, mediaId);
         }
     }
 
@@ -112,6 +123,7 @@ public class InMemoryUserDataAccessObject implements UserDataAccessObject {
                     mediaTitle, watchedAt);
             user.setUserLists(new UserLists(username, user.getWatchlist(),
                     watchHistory, user.getBlockedUsers()));
+            recordEngaged(username, mediaId);
         }
     }
 
@@ -199,5 +211,13 @@ public class InMemoryUserDataAccessObject implements UserDataAccessObject {
     private String appendMediaLog(String currentList, String mediaTitle,
                                   String loggedAt) {
         return currentList + mediaTitle + " -- " + loggedAt + "\n";
+    }
+
+    /**
+     * Remembers the id as well as the display line, since the lists themselves
+     * are kept as text and recommendations need something to match on.
+     */
+    private void recordEngaged(String username, int mediaId) {
+        engagedMediaIds.computeIfAbsent(username, key -> new LinkedHashSet<>()).add(mediaId);
     }
 }

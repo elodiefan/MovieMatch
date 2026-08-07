@@ -7,6 +7,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
 import java.util.regex.Pattern;
+import java.util.LinkedHashSet;
+import java.util.Set;
 
 import org.bson.Document;
 import org.bson.conversions.Bson;
@@ -206,6 +208,35 @@ public class MongoUserDataAccessObject implements UserDataAccessObject {
     private static List<String> getBlockedUsers(Document doc) {
         final List<String> blockedUsers = doc.get(BLOCKED_USERS, List.class);
         return blockedUsers;
+    }
+
+    /**
+     * Returns the ids of everything on the user's watchlist or watch history.
+     * <p>
+     * Recommendations need these both to avoid suggesting something already
+     * chosen or seen, and as a read on what the person likes.
+     */
+    @Override
+    public Set<Integer> findEngagedMediaIds(String username) {
+        final Set<Integer> mediaIds = new LinkedHashSet<>();
+        final Document doc = users.find(Filters.eq(USERNAME, username)).first();
+
+        if (doc != null) {
+            addMediaIds(getWatchlist(doc), mediaIds);
+            addMediaIds(getWatchHistory(doc), mediaIds);
+        }
+        return mediaIds;
+    }
+
+    private static void addMediaIds(List<Document> entries, Set<Integer> into) {
+        if (entries != null) {
+            for (Document entry : entries) {
+                final Integer mediaId = entry.getInteger(MEDIA_ID);
+                if (mediaId != null) {
+                    into.add(mediaId);
+                }
+            }
+        }
     }
 
     private static List<Document> getWatchHistory(Document doc) {
