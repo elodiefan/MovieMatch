@@ -51,6 +51,13 @@ public interface Media {
     String getLanguage();
 
     /**
+     * Gets the cast and crew of this media.
+     *
+     * @return the media cast
+     */
+    List<String> getCast();
+
+    /**
      * Updates the rating by the reviews of this media.
      *
      * @param rating updated rating value
