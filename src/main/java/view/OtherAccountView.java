@@ -103,7 +103,8 @@ public class OtherAccountView extends JPanel implements PropertyChangeListener {
         messageButton.addActionListener(
                 evt -> {
                     if (evt.getSource().equals(messageButton)) {
-                        final OtherAccountState currentState = otherAccountViewModel.getState();
+                        final OtherAccountState currentState = new OtherAccountState();
+
                         this.otherAccountController.goToMessages(currentState.getUsername());
                     }
                 }

@@ -64,7 +64,6 @@ public class OtherAccountController {
 
     /**
      * Opens the chat with this user, if messaging has been wired up yet.
-     * @param otherUsername username of the other user
      */
     public void goToMessages(String otherUsername) {
         // Messaging is still being built, so this may not be connected yet.

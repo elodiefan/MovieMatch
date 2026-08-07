@@ -12,8 +12,7 @@ public class DeleteAccountInputData {
     private final String securityQuestion;
     private final String securityAnswer;
 
-    public DeleteAccountInputData(String username, String displayName, String password, String securityQuestion,
-                                  String securityAnswer) {
+    public DeleteAccountInputData(String username, String displayName, String password, String securityQuestion, String securityAnswer) {
         this.username = username;
         this.displayName = displayName;
         this.password = password;

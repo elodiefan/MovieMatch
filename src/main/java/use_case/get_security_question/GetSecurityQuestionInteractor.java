@@ -20,8 +20,7 @@ public class GetSecurityQuestionInteractor implements GetSecurityQuestionInputBo
     public void switchToDeleteAccountView() {
         final String username = userDataAccessObject.getCurrentUsername();
         final String secuirtyQuestion = userDataAccessObject.getSecurityQuestion();
-        final GetSecurityQuestionOutputData getSecurityQuestionOutputData = new
-                GetSecurityQuestionOutputData(username, secuirtyQuestion);
+        final GetSecurityQuestionOutputData getSecurityQuestionOutputData = new GetSecurityQuestionOutputData(username, secuirtyQuestion);
         personalAccountPresenter.switchToDeleteAccountView(getSecurityQuestionOutputData);
     }
 

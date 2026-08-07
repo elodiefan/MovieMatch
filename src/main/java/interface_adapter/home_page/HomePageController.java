@@ -49,9 +49,7 @@ public class HomePageController {
     }
 
     /**
-     * Gets personal profile view.
-     * @param username the current username of profile to be viewed
-     * @param displayName the display name of profile to be viewed
+     * Gets personal profile view
      */
     public void switchToPersonalAccountView(String username, String displayName) {
         final GetProfileInputData getProfileInputData = new GetProfileInputData(username, displayName);
