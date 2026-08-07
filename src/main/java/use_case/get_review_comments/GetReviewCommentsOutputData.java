@@ -3,8 +3,6 @@ package use_case.get_review_comments;
 import java.util.ArrayList;
 import java.util.List;
 
-import use_case.get_review_comments.CommentSummaryData;
-
 /**
  * Output data for loading comments on a review.
  */

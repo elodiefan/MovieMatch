@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import entity.Review;
-import use_case.review.get_media_reviews.GetMediaReviewsDataAccessInterface;
+import use_case.get_media_reviews.GetMediaReviewsDataAccessInterface;
 
 /**
  * Combines external TMDB reviews with MovieMatch reviews.

@@ -4,7 +4,6 @@ import java.util.Comparator;
 import java.util.List;
 
 import entity.Comment;
-import use_case.get_review_comments.CommentSummaryMapper;
 
 /**
  * Interactor for loading comments on a review.

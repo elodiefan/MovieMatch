@@ -7,8 +7,6 @@ import java.util.Optional;
 
 import entity.Comment;
 import entity.Review;
-import use_case.get_user_comments.GetUserCommentsReviewDataAccessInterface;
-import use_case.get_user_comments.UserCommentSummaryData;
 
 /**
  * Interactor for loading comments written by one user.

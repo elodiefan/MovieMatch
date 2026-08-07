@@ -2,8 +2,6 @@ package use_case.get_user_comments;
 
 import java.util.List;
 
-import use_case.get_user_comments.UserCommentSummaryData;
-
 /**
  * Output boundary for loading comments written by one user.
  */

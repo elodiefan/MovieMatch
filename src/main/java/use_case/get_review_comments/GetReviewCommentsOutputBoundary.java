@@ -2,8 +2,6 @@ package use_case.get_review_comments;
 
 import java.util.List;
 
-import use_case.get_review_comments.CommentSummaryData;
-
 /**
  * Output boundary for loading comments on a review.
  */

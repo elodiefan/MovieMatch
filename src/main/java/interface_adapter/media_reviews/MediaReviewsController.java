@@ -1,11 +1,11 @@
 package interface_adapter.media_reviews;
 
-import use_case.review.create_review.CreateReviewInputBoundary;
-import use_case.review.delete_review.DeleteReviewInputBoundary;
-import use_case.review.edit_review.EditReviewInputBoundary;
-import use_case.review.get_media_reviews.GetMediaReviewsInputBoundary;
-import use_case.review.like_review.LikeReviewInputBoundary;
-import use_case.review.unlike_review.UnlikeReviewInputBoundary;
+import use_case.create_review.CreateReviewInputBoundary;
+import use_case.delete_review.DeleteReviewInputBoundary;
+import use_case.edit_review.EditReviewInputBoundary;
+import use_case.get_media_reviews.GetMediaReviewsInputBoundary;
+import use_case.like_review.LikeReviewInputBoundary;
+import use_case.unlike_review.UnlikeReviewInputBoundary;
 
 /**
  * Controller for the media reviews panel.

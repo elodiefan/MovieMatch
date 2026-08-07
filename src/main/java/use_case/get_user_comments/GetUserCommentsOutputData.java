@@ -1,7 +1,5 @@
 package use_case.get_user_comments;
 
-import use_case.get_user_comments.UserCommentSummaryData;
-
 import java.util.ArrayList;
 import java.util.List;
 

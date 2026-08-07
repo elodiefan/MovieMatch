@@ -18,9 +18,9 @@ import use_case.recommendation.RecommendationDataAccessInterface;
 import use_case.recommendation.RecommendationInputBoundary;
 import use_case.recommendation.RecommendationInteractor;
 import use_case.recommendation.RecommendationOutputBoundary;
+import use_case.recommendation.ReviewedMediaRatingDataAccessInterface;
 import use_case.recommendation.ScoreAdjuster;
 import use_case.recommendation.WatchedMediaDataAccessInterface;
-import use_case.review.ReviewDataAccessInterface;
 import views.HomeRecommendationsPanel;
 import views.RecommendationView;
 
@@ -37,7 +37,7 @@ public final class RecommendationUseCaseFactory {
                               HomeRecommendationsPanel homeRecommendationsPanel,
                               RecommendationView recommendationView,
                               WatchedMediaDataAccessInterface watchedMediaDataAccess,
-                              ReviewDataAccessInterface reviewDataAccess) {
+                              ReviewedMediaRatingDataAccessInterface reviewDataAccess) {
 
         final TmdbApiClient tmdbApiClient = new TmdbApiClient();
         final MediaCatalogueDataAccessInterface catalogue = new TmdbMediaCatalogue(tmdbApiClient);

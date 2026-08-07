@@ -8,13 +8,30 @@ import java.util.Map;
 import java.util.Optional;
 
 import entity.Review;
-import use_case.review.ReviewDataAccessInterface;
+import use_case.create_review.CreateReviewDataAccessInterface;
+import use_case.delete_review.DeleteReviewDataAccessInterface;
+import use_case.edit_review.EditReviewDataAccessInterface;
+import use_case.get_media_reviews.GetMediaReviewsDataAccessInterface;
+import use_case.get_user_comments.GetUserCommentsReviewDataAccessInterface;
+import use_case.get_user_reviews.GetUserReviewsDataAccessInterface;
+import use_case.like_review.LikeReviewDataAccessInterface;
 import use_case.recommendation.UserRating;
+import use_case.recommendation.ReviewedMediaRatingDataAccessInterface;
+import use_case.unlike_review.UnlikeReviewDataAccessInterface;
 
 /**
  * In-memory data access object for review data.
  */
-public class InMemoryReviewDataAccessObject implements ReviewDataAccessInterface {
+public class InMemoryReviewDataAccessObject implements
+        CreateReviewDataAccessInterface,
+        DeleteReviewDataAccessInterface,
+        EditReviewDataAccessInterface,
+        GetMediaReviewsDataAccessInterface,
+        GetUserCommentsReviewDataAccessInterface,
+        GetUserReviewsDataAccessInterface,
+        LikeReviewDataAccessInterface,
+        ReviewedMediaRatingDataAccessInterface,
+        UnlikeReviewDataAccessInterface {
     private final Map<String, Review> reviews = new LinkedHashMap<>();
     // creates the actual in memory database for reviews
     // LinkedHashMap instead of regular HashMap because LinkedHashMap remembers insertion order

@@ -3,13 +3,13 @@ package interface_adapter.media_reviews;
 import java.util.ArrayList;
 import java.util.List;
 
-import use_case.review.ReviewSummaryData;
-import use_case.review.create_review.CreateReviewOutputBoundary;
-import use_case.review.delete_review.DeleteReviewOutputBoundary;
-import use_case.review.edit_review.EditReviewOutputBoundary;
-import use_case.review.get_media_reviews.GetMediaReviewsOutputBoundary;
-import use_case.review.like_review.LikeReviewOutputBoundary;
-import use_case.review.unlike_review.UnlikeReviewOutputBoundary;
+import use_case.get_media_reviews.ReviewSummaryData;
+import use_case.create_review.CreateReviewOutputBoundary;
+import use_case.delete_review.DeleteReviewOutputBoundary;
+import use_case.edit_review.EditReviewOutputBoundary;
+import use_case.get_media_reviews.GetMediaReviewsOutputBoundary;
+import use_case.like_review.LikeReviewOutputBoundary;
+import use_case.unlike_review.UnlikeReviewOutputBoundary;
 
 /**
  * Presenter for the media reviews panel.

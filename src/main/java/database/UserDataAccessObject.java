@@ -3,9 +3,11 @@ package database;
 import use_case.access_message_chat.AccessMessageChatUserDataAccessInterface;
 import use_case.block_user.BlockUserUserDataAccessInterface;
 import use_case.delete_account.DeleteAccountUserDataAccessInterface;
-import use_case.get_lists.GetListsUserDataAccessInterface;
+import use_case.get_blocked_users.GetBlockedUsersUserDataAccessInterface;
 import use_case.get_profile.GetProfileUserDataAccessInterface;
 import use_case.get_security_question.GetSecurityQuestionUserDataAccessInterface;
+import use_case.get_watch_history.GetWatchHistoryUserDataAccessInterface;
+import use_case.get_watchlist.GetWatchlistUserDataAccessInterface;
 import use_case.home_page.HomePageUserDataAccessInterface;
 import use_case.login.LoginUserDataAccessInterface;
 import use_case.log_media.LogMediaDataAccessInterface;
@@ -21,7 +23,9 @@ public interface UserDataAccessObject extends
         AccessMessageChatUserDataAccessInterface,
         BlockUserUserDataAccessInterface,
         DeleteAccountUserDataAccessInterface,
-        GetListsUserDataAccessInterface,
+        GetBlockedUsersUserDataAccessInterface,
+        GetWatchHistoryUserDataAccessInterface,
+        GetWatchlistUserDataAccessInterface,
         GetProfileUserDataAccessInterface,
         GetSecurityQuestionUserDataAccessInterface,
         HomePageUserDataAccessInterface,
