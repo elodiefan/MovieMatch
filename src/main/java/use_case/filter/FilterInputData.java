@@ -21,8 +21,6 @@ public class FilterInputData {
 
     /**
      * Returns the original unfiltered search results.
-     *
-     * @return the original search results
      */
     public List<Media> getOriginalResults() {
         return originalResults;
@@ -30,8 +28,6 @@ public class FilterInputData {
 
     /**
      * Returns the selected filter criteria.
-     *
-     * @return the filter criteria
      */
     public FilterCriteria getCriteria() {
         return criteria;

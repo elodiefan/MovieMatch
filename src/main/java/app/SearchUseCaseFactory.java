@@ -2,6 +2,7 @@ package app;
 
 import data_access.TmdbApiClient;
 import data_access.TmdbSearchMediaDataAccess;
+import view.SearchResultView;
 import interface_adapter.ViewManagerModel;
 import interface_adapter.search.SearchController;
 import interface_adapter.search.SearchPresenter;
@@ -26,17 +27,13 @@ public final class SearchUseCaseFactory {
 
     /**
      * Creates and connects the Search Use Case.
-     *
-     * @param viewManagerModel manages switching between views
-     * @param searchViewModel stores the search-view state
-     * @param searchResultViewModel stores the search results
-     * @param searchView the view receiving the search controller
      */
     public static void create(
             ViewManagerModel viewManagerModel,
             SearchViewModel searchViewModel,
             SearchResultViewModel searchResultViewModel,
-            SearchView searchView) {
+            SearchView searchView,
+            SearchResultView searchResultView) {
 
         final TmdbApiClient tmdbApiClient =
                 new TmdbApiClient();
@@ -61,5 +58,7 @@ public final class SearchUseCaseFactory {
                 new SearchController(searchInteractor);
 
         searchView.setSearchController(searchController);
+        // The results screen needs it too, to ask for the next block of pages.
+        searchResultView.setSearchController(searchController);
     }
 }

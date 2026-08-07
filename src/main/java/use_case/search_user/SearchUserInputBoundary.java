@@ -7,7 +7,6 @@ public interface SearchUserInputBoundary {
 
     /**
      * Executes the search user use case.
-     * @param searchUserInputData the keyword to search for
      */
     void execute(SearchUserInputData searchUserInputData);
 }

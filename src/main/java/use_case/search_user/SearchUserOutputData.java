@@ -17,7 +17,6 @@ public class SearchUserOutputData {
 
     /**
      * Returns the users that matched.
-     * @return the matching users, empty if nobody matched
      */
     public List<UserSummary> getResults() {
         return results;
@@ -26,7 +25,6 @@ public class SearchUserOutputData {
     /**
      * Returns the keyword that was searched for, so the view can say what it
      * found nothing for.
-     * @return the keyword
      */
     public String getKeyword() {
         return keyword;

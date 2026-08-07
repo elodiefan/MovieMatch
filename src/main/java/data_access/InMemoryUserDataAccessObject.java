@@ -10,13 +10,13 @@ import entity.User;
 import entity.UserLists;
 
 /**
- * In-memory implementation of {@link UserDataAccessObject}.
+ * In-memory implementation of UserDataAccessObject.
  *
  * <p>
  * Stores users in a plain map, so the app and its tests can run with no network
  * and no database. Because it implements the same interface as
- * {@link MongoUserDataAccessObject}, switching between them is a one-line change
- * in {@code AppBuilder}. All data is lost when the program exits.
+ * MongoUserDataAccessObject, switching between them is a one-line change
+ * in AppBuilder. All data is lost when the program exits.
  */
 public class InMemoryUserDataAccessObject implements UserDataAccessObject {
 
@@ -32,11 +32,9 @@ public class InMemoryUserDataAccessObject implements UserDataAccessObject {
     }
 
     /**
-     * Same check as {@link #existsByName}, under the name the login use case
+     * Same check as #existsByName, under the name the login use case
      * uses. Signup calls it existsByName and login calls it existsByUsername,
      * so both are provided; there is only one implementation.
-     * @param username the account to look for
-     * @return true if the account exists
      */
     @Override
     public boolean existsByUsername(String username) {
@@ -147,8 +145,6 @@ public class InMemoryUserDataAccessObject implements UserDataAccessObject {
     /**
      * Finds accounts whose username or display name contains the keyword,
      * ignoring case. Same contract as the Mongo version, over a plain map.
-     * @param keyword what the user typed
-     * @return the matching accounts
      */
     @Override
     public List<User> search(String keyword) {

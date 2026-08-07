@@ -9,7 +9,6 @@ public final class DeleteReviewOutputData {
 
     /**
      * Handles this review or comment operation.
-     * @param inputDeleted the inputDeleted
      */
     public DeleteReviewOutputData(final boolean inputDeleted) {
         this.deleted = inputDeleted;
@@ -17,7 +16,6 @@ public final class DeleteReviewOutputData {
 
     /**
      * Handles this review or comment operation.
-     * @return the result
      */
     public boolean isDeleted() {
         return deleted;

@@ -9,7 +9,6 @@ public final class UnlikeReviewOutputData {
 
     /**
      * Handles this review or comment operation.
-     * @param inputUnliked the inputUnliked
      */
     public UnlikeReviewOutputData(final boolean inputUnliked) {
         this.unliked = inputUnliked;
@@ -17,7 +16,6 @@ public final class UnlikeReviewOutputData {
 
     /**
      * Handles this review or comment operation.
-     * @return the result
      */
     public boolean isUnliked() {
         return unliked;

@@ -57,7 +57,6 @@ public class MongoCommentDataAccessObject implements CommentDataAccessObject{
 
     /**
      * Connects using the given properties file.
-     * @param propertiesPath the path to the MongoDB properties file
      */
     public MongoCommentDataAccessObject(String propertiesPath) {
         final Properties properties = loadProperties(propertiesPath);
@@ -71,7 +70,6 @@ public class MongoCommentDataAccessObject implements CommentDataAccessObject{
 
     /**
      * Saves a comment.
-     * @param comment the comment to save
      */
     public void saveComment(Comment comment) {
         comments.replaceOne(Filters.eq(COMMENT_ID, comment.getCommentId()),
@@ -80,8 +78,6 @@ public class MongoCommentDataAccessObject implements CommentDataAccessObject{
 
     /**
      * Returns whether a comment exists.
-     * @param commentId the comment id to check
-     * @return true if a comment with this id exists
      */
     public boolean existsByCommentId(String commentId) {
         return comments.find(Filters.eq(COMMENT_ID, commentId)).first() != null;
@@ -89,8 +85,6 @@ public class MongoCommentDataAccessObject implements CommentDataAccessObject{
 
     /**
      * Returns a comment by id.
-     * @param commentId the comment id to search for
-     * @return the comment, if it exists
      */
     public Optional<Comment> getCommentById(String commentId) {
         final Document document = comments.find(Filters.eq(COMMENT_ID, commentId)).first();
@@ -99,8 +93,6 @@ public class MongoCommentDataAccessObject implements CommentDataAccessObject{
 
     /**
      * Returns all comments on a review.
-     * @param reviewId the review id
-     * @return the matching comments
      */
     public List<Comment> getCommentsByReviewId(String reviewId) {
         final List<Comment> matchingComments = new ArrayList<>();
@@ -114,8 +106,6 @@ public class MongoCommentDataAccessObject implements CommentDataAccessObject{
 
     /**
      * Returns all comments written by a user.
-     * @param username the author's username
-     * @return the matching comments
      */
     public List<Comment> getCommentsByUsername(String username) {
         final List<Comment> matchingComments = new ArrayList<>();
@@ -129,8 +119,6 @@ public class MongoCommentDataAccessObject implements CommentDataAccessObject{
 
     /**
      * Returns all replies to a parent comment.
-     * @param parentCommentId the parent comment id
-     * @return the matching replies
      */
     public List<Comment> getRepliesByParentCommentId(String parentCommentId) {
         final List<Comment> matchingReplies = new ArrayList<>();
@@ -144,9 +132,6 @@ public class MongoCommentDataAccessObject implements CommentDataAccessObject{
 
     /**
      * Updates an existing comment.
-     * @param commentId the comment id
-     * @param newCommentText the updated comment text
-     * @return true if the comment was updated
      */
     public boolean editComment(String commentId, String newCommentText) {
         comments.updateOne(Filters.eq(COMMENT_ID, commentId),
@@ -156,8 +141,6 @@ public class MongoCommentDataAccessObject implements CommentDataAccessObject{
 
     /**
      * Deletes a comment.
-     * @param commentId the comment id
-     * @return true if the comment was deleted
      */
     public boolean deleteComment(String commentId) {
         return comments.deleteOne(Filters.eq(COMMENT_ID, commentId))
@@ -166,9 +149,6 @@ public class MongoCommentDataAccessObject implements CommentDataAccessObject{
 
     /**
      * Adds a user's like to a comment.
-     * @param commentId the comment id
-     * @param username the username liking the comment
-     * @return true if the comment exists
      */
     public boolean likeComment(String commentId, String username) {
         comments.updateOne(Filters.eq(COMMENT_ID, commentId),
@@ -178,9 +158,6 @@ public class MongoCommentDataAccessObject implements CommentDataAccessObject{
 
     /**
      * Removes a user's like from a comment.
-     * @param commentId the comment id
-     * @param username the username unliking the comment
-     * @return true if the comment exists
      */
     public boolean unlikeComment(String commentId, String username) {
         comments.updateOne(Filters.eq(COMMENT_ID, commentId),
@@ -190,7 +167,6 @@ public class MongoCommentDataAccessObject implements CommentDataAccessObject{
 
     /**
      * Returns all saved comments.
-     * @return all comments
      */
     public List<Comment> getAllComments() {
         final List<Comment> allComments = new ArrayList<>();

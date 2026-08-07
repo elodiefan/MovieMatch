@@ -3,6 +3,7 @@ package interface_adapter.home_page;
 import interface_adapter.ViewManagerModel;
 import interface_adapter.search.SearchViewModel;
 import interface_adapter.search_user.SearchUserViewModel;
+import interface_adapter.settings.SettingsViewModel;
 import use_case.get_profile.GetProfileInputBoundary;
 import use_case.get_profile.GetProfileInputData;
 
@@ -34,7 +35,14 @@ public class HomePageController {
      * <p>
      * Opening a view is not a use case, it changes no data and has no business
      * rules, so this goes straight to the view manager rather than through an
-     * interactor. Same as {@code PersonalAccountController} does.
+     * interactor. Same as PersonalAccountController does.
+     */
+    public void switchToSettingsView() {
+        viewManagerModel.switchView(SettingsViewModel.VIEW_NAME);
+    }
+
+    /**
+     * Switches view to the Search User View.
      */
     public void switchToSearchUserView() {
         viewManagerModel.switchView(SearchUserViewModel.VIEW_NAME);
@@ -42,8 +50,6 @@ public class HomePageController {
 
     /**
      * Gets personal profile view
-     * @param username the current username of profile to be viewed
-     * @param displayName the display name of profile to be viewed
      */
     public void switchToPersonalAccountView(String username, String displayName) {
         final GetProfileInputData getProfileInputData = new GetProfileInputData(username, displayName);

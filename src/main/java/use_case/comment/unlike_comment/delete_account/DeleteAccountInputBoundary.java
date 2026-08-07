@@ -7,7 +7,6 @@ public interface DeleteAccountInputBoundary {
 
     /**
      * Executes the delete account use case.
-     * @param deleteAccountInputData the input data
      */
     void execute(DeleteAccountInputData deleteAccountInputData);
 

@@ -9,7 +9,6 @@ public interface CreateCommentDataAccessInterface {
 
     /**
      * Saves a newly created comment.
-     * @param comment the comment to save
      */
     void saveComment(Comment comment);
 }

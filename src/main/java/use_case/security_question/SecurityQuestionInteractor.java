@@ -14,8 +14,8 @@ import entity.User;
  *     <li>lock the account once too many attempts fail.</li>
  * </ul>
  * <p>
- * The counting and timing rules live in {@link AccountLockout}, and the records
- * themselves are kept by a {@link LockoutTracker}. This class holds no state of
+ * The counting and timing rules live in AccountLockout, and the records
+ * themselves are kept by a LockoutTracker. This class holds no state of
  * its own: it only decides which rule to apply and what to report back.
  */
 public class SecurityQuestionInteractor implements SecurityQuestionInputBoundary {
@@ -93,12 +93,12 @@ public class SecurityQuestionInteractor implements SecurityQuestionInputBoundary
         }
     }
 
-    /** @return true if the answers match, ignoring case and surrounding spaces. */
+    /** True if the answers match, ignoring case and surrounding spaces. */
     private boolean matches(String expected, String actual) {
         return expected != null && actual != null && expected.trim().equalsIgnoreCase(actual.trim());
     }
 
-    /** @return this account's lock-out record. */
+    /** This account's lock-out record. */
     private AccountLockout lockoutFor(String username) {
         return lockoutTracker.forUser(username);
     }

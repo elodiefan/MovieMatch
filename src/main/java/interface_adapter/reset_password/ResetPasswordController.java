@@ -17,9 +17,6 @@ public class ResetPasswordController {
 
     /**
      * Ask the use case to set a new password for the user.
-     * @param username        the account whose password is being changed
-     * @param newPassword     the new password
-     * @param confirmPassword the new password typed again for confirmation
      */
     public void changePassword(String username, String newPassword, String confirmPassword) {
         interactor.changePassword(new ResetPasswordInputData(username, newPassword, confirmPassword));

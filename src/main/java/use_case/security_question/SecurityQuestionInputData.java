@@ -5,7 +5,7 @@ package use_case.security_question;
  * <p>
  * A plain, immutable carrier of the two things the interactor needs: which
  * user is trying to recover their account, and what answer they typed. When
- * we are only loading the question (not verifying yet), {@code securityAnswer}
+ * we are only loading the question (not verifying yet), securityAnswer
  * can be an empty string.
  */
 public class SecurityQuestionInputData {

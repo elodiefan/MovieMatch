@@ -31,11 +31,6 @@ public class TmdbApiClient {
     /**
      * Searches for movies and TV shows from TMDB.
      * <a href="https://developer.themoviedb.org/reference/search-multi?utm_source=chatgpt.com">...</a>
-     *
-     * @param keyword the title entered by the user
-     * @param page the result page requested from TMDB
-     * @return the complete JSON response from TMDB
-     * @throws IOException if the request cannot be completed
      */
     public String searchMulti(String keyword, int page)
             throws IOException {
@@ -53,11 +48,31 @@ public class TmdbApiClient {
     }
 
     /**
+     * Searches for movies only.
+     * <p>
+     * Multi-search also returns people, who are dropped on the way through, so
+     * a page of it can yield nothing at all and its result count bears little
+     * relation to how many films and shows there are. These endpoints return
+     * only what the application can actually show.
+     */
+    public String searchMovies(String keyword, int page) throws IOException {
+        return sendGetRequest("/search/movie?query=" + encode(keyword) + "&page=" + page);
+    }
+
+    /**
+     * Searches for TV shows only.
+     */
+    public String searchTvShows(String keyword, int page) throws IOException {
+        return sendGetRequest("/search/tv?query=" + encode(keyword) + "&page=" + page);
+    }
+
+    private static String encode(String keyword) {
+        return URLEncoder.encode(keyword.trim(), StandardCharsets.UTF_8);
+    }
+
+    /**
      * Gets the official movie genre list from TMDB.
      * <a href="https://developer.themoviedb.org/reference/genre-movie-list?utm_source=chatgpt.com">...</a>
-     *
-     * @return the complete genre JSON response from TMDB
-     * @throws IOException if the request cannot be completed
      */
     public String getMovieGenres() throws IOException {
         return sendGetRequest(
@@ -68,9 +83,6 @@ public class TmdbApiClient {
     /**
      * Gets the official TV-show genre list from TMDB.
      * <a href="https://developer.themoviedb.org/reference/genre-tv-list?utm_source=chatgpt.com">...</a>
-     *
-     * @return the complete genre JSON response from TMDB
-     * @throws IOException if the request cannot be completed
      */
     public String getTvGenres() throws IOException {
         return sendGetRequest(
@@ -83,9 +95,6 @@ public class TmdbApiClient {
      * As mentioned in TMDB API Reference, when response = 200, it is a seuccessful
      * response for GET endpoint.
      *  <a href="https://developer.themoviedb.org/docs/authentication-application?utm_source=chatgpt.com">...</a>
-     * @param path API path and query parameters
-     * @return the response body supplied by TMDB
-     * @throws IOException if authentication or the request fails
      */
     private String sendGetRequest(String path) throws IOException {
         validateAccessToken();
@@ -128,8 +137,6 @@ public class TmdbApiClient {
 
     /**
      * Checks whether the TMDB token is available.
-     *
-     * @throws IOException if the token is missing
      */
     private void validateAccessToken() throws IOException {
         if (accessToken == null
@@ -143,10 +150,6 @@ public class TmdbApiClient {
     /**
      * Gets complete movie details and credits from TMDB.
      * <a href="https://developer.themoviedb.org/reference/movie-details?utm_source=chatgpt.com"></a>
-     *
-     * @param movieId the movie ID supplied by TMDB
-     * @return the complete movie details JSON response
-     * @throws IOException if the request cannot be completed
      */
     public String getMovieDetails(int movieId) throws IOException {
         final String path =
@@ -158,10 +161,6 @@ public class TmdbApiClient {
 
     /**
      * Gets reviews for one movie from TMDB.
-     *
-     * @param movieId the movie ID supplied by TMDB
-     * @return the complete movie reviews JSON response
-     * @throws IOException if the request cannot be completed
      */
     public String getMovieReviews(int movieId) throws IOException {
         return sendGetRequest("/movie/" + movieId + "/reviews");
@@ -169,10 +168,6 @@ public class TmdbApiClient {
 
     /**
      * Gets complete TV-show details and credits from TMDB.
-     *
-     * @param tvShowId the TV-show ID supplied by TMDB
-     * @return the complete TV-show details JSON response
-     * @throws IOException if the request cannot be completed
      */
     public String getTvShowDetails(int tvShowId) throws IOException {
         final String path =
@@ -184,10 +179,6 @@ public class TmdbApiClient {
 
     /**
      * Gets reviews for one TV show from TMDB.
-     *
-     * @param tvShowId the TV-show ID supplied by TMDB
-     * @return the complete TV-show reviews JSON response
-     * @throws IOException if the request cannot be completed
      */
     public String getTvShowReviews(int tvShowId) throws IOException {
         return sendGetRequest("/tv/" + tvShowId + "/reviews");

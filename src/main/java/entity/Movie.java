@@ -19,15 +19,6 @@ public class Movie implements Media {
 
     /**
      * Creates a new movie.
-     *
-     * @param id the id of the movie
-     * @param title the title of the movie
-     * @param releaseYear the release year of the movie
-     * @param averageRating the rating of the movie
-     * @param genres the genres of the movie
-     * @param language the language of the movie
-     * @param cast the cast of the movie
-     * @param runtime the runtime of the movie
      */
     public Movie(int id,
                  String title,

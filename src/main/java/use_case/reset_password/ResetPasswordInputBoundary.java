@@ -8,7 +8,6 @@ public interface ResetPasswordInputBoundary {
 
     /**
      * Sets a new password for the given user (after validating it).
-     * @param inputData the username plus the new password and its confirmation
      */
     void changePassword(ResetPasswordInputData inputData);
 }

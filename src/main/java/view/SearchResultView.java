@@ -23,7 +23,12 @@ import javax.swing.JTextField;
 
 import entity.Media;
 import interface_adapter.ViewManagerModel;
+import java.util.concurrent.ExecutionException;
+
+import javax.swing.SwingWorker;
+
 import interface_adapter.filter.FilterController;
+import interface_adapter.search.SearchController;
 import interface_adapter.media_detail.MediaDetailController;
 import interface_adapter.search_result.SearchResultState;
 import interface_adapter.search_result.SearchResultViewModel;
@@ -65,8 +70,13 @@ public class SearchResultView extends JPanel
     private MediaDetailController mediaDetailController;
     private FilterController filterController;
 
+    private static final String LOAD_MORE_LABEL = "Load more results";
+    private static final String LOADING_LABEL = "Loading...";
+
     private final JPanel resultsPanel;
     private final JButton backButton;
+    private JButton loadMoreButton;
+    private SearchController searchController;
 
     private final JCheckBox englishCheckBox =
             new JCheckBox("English");
@@ -176,7 +186,19 @@ public class SearchResultView extends JPanel
         this.setLayout(new BorderLayout());
         this.add(topPanel, BorderLayout.NORTH);
         this.add(resultsScrollPane, BorderLayout.CENTER);
-        this.add(backButton, BorderLayout.SOUTH);
+        // A search only fetches a few pages at a time, so this is how the user
+        // asks for the next block rather than waiting for thousands of results.
+        loadMoreButton = new JButton(LOAD_MORE_LABEL);
+        loadMoreButton.setVisible(false);
+        loadMoreButton.addActionListener(event -> loadMore());
+
+        final JPanel southPanel = new JPanel(new BorderLayout());
+        final JPanel loadMorePanel = new JPanel();
+        loadMorePanel.add(loadMoreButton);
+        southPanel.add(loadMorePanel, BorderLayout.NORTH);
+        southPanel.add(backButton, BorderLayout.SOUTH);
+
+        this.add(southPanel, BorderLayout.SOUTH);
     }
 
     private JPanel createFilterPanel() {
@@ -505,16 +527,84 @@ public class SearchResultView extends JPanel
             messageLabel.setText("No results found.");
         }
         else {
-            messageLabel.setText(
-                    state.getResults().size() + " result(s) found."
-            );
+            messageLabel.setText(countMessage(state));
             state.getResults().forEach(this::addMediaResult);
         }
+
+        // Only offer more when the source actually has more to give.
+        loadMoreButton.setVisible(state.isMoreAvailable());
+        loadMoreButton.setEnabled(true);
+        loadMoreButton.setText(LOAD_MORE_LABEL);
 
         resultsPanel.revalidate();
         resultsPanel.repaint();
         this.revalidate();
         this.repaint();
+    }
+
+    /**
+     * Describes how much of the result set is on screen.
+     * <p>
+     * Results arrive a few pages at a time, so the count has to distinguish
+     * what has been loaded from what exists. Filters only ever narrow what is
+     * already loaded, so when one is active the total is not the useful number
+     * to compare against.
+     */
+    private String countMessage(SearchResultState state) {
+        final int shown = state.getResults().size();
+        final int loaded = state.getOriginalResults().size();
+        final int total = state.getTotalResults();
+
+        final String message;
+        if (shown < loaded) {
+            message = shown + " of " + loaded + " loaded result(s) match your filters.";
+        }
+        else if (state.isMoreAvailable() && total > loaded) {
+            message = "Showing " + shown + " of " + total + " result(s).";
+        }
+        else {
+            message = shown + " result(s) found.";
+        }
+        return message;
+    }
+
+    /**
+     * Fetches the next block of results without blocking the window.
+     */
+    private void loadMore() {
+        final SearchResultState state = searchResultViewModel.getState();
+        final String keyword = state.getKeyword();
+        final int nextPage = state.getNextPage();
+
+        loadMoreButton.setEnabled(false);
+        loadMoreButton.setText(LOADING_LABEL);
+
+        new SwingWorker<Void, Void>() {
+            @Override
+            protected Void doInBackground() {
+                searchController.loadMore(keyword, nextPage);
+                return null;
+            }
+
+            @Override
+            protected void done() {
+                loadMoreButton.setEnabled(true);
+                loadMoreButton.setText(LOAD_MORE_LABEL);
+                try {
+                    get();
+                }
+                catch (InterruptedException exception) {
+                    Thread.currentThread().interrupt();
+                }
+                catch (ExecutionException exception) {
+                    ErrorReporter.show(SearchResultView.this, exception.getCause());
+                }
+            }
+        }.execute();
+    }
+
+    public void setSearchController(SearchController searchController) {
+        this.searchController = searchController;
     }
 
     private void addMediaResult(Media media) {

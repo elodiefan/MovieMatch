@@ -6,7 +6,6 @@ package use_case.review.get_user_reviews;
 public interface GetUserReviewsInputBoundary {
     /**
      * Executes the use case.
-     * @param inputData the input data
      */
     void execute(GetUserReviewsInputData inputData);
 }

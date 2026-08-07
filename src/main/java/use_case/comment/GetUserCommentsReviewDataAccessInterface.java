@@ -11,8 +11,6 @@ public interface GetUserCommentsReviewDataAccessInterface {
 
     /**
      * Gets one review by its id.
-     * @param reviewId the id of the review to get
-     * @return the review, if it exists
      */
     Optional<Review> getReviewById(String reviewId);
 }

@@ -25,14 +25,6 @@ public final class CommentRow {
 
     /**
      * Creates display data for one comment row.
-     * @param inputCommentId the comment id
-     * @param inputReviewId the review id
-     * @param inputParentCommentId the parent comment id
-     * @param inputAuthorUsername the author username
-     * @param inputAuthorDisplayName the author display name
-     * @param inputCommentText the comment text
-     * @param inputCreatedAt the creation time
-     * @param inputLikeCount the like count
      */
     public CommentRow(final String inputCommentId,
                       final String inputReviewId,

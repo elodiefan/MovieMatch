@@ -13,14 +13,6 @@ public class Comment extends UserContent {
 
     /**
      * Creates a comment or reply on a review.
-     * @param commentId the unique identifier for this comment
-     * @param reviewId the id of the review this comment belongs to
-     * @param parentCommentId the parent comment id, or null if this is a top-level comment
-     * @param authorUsername the username of the comment author
-     * @param authorDisplayName the display name of the comment author
-     * @param commentText the body of the comment
-     * @param createdAt the time the comment was created
-     * @param likedByUsernames the usernames of users who liked this comment
      */
     public Comment(String commentId, String reviewId, String parentCommentId,
                    String authorUsername, String authorDisplayName, String commentText,
@@ -33,7 +25,6 @@ public class Comment extends UserContent {
 
     /**
      * Returns the unique identifier for this comment.
-     * @return the comment id
      */
     public String getCommentId() {
         return getContentId();
@@ -41,7 +32,6 @@ public class Comment extends UserContent {
 
     /**
      * Returns the id of the review this comment belongs to.
-     * @return the review id
      */
     public String getReviewId() {
         return reviewId;
@@ -49,7 +39,6 @@ public class Comment extends UserContent {
 
     /**
      * Returns the parent comment id.
-     * @return the parent comment id, or null if this is a top-level comment
      */
     public String getParentCommentId() {
         return parentCommentId;
@@ -57,7 +46,6 @@ public class Comment extends UserContent {
 
     /**
      * Returns the body of the comment.
-     * @return the comment text
      */
     public String getCommentText() {
         return commentText;
@@ -65,7 +53,6 @@ public class Comment extends UserContent {
 
     /**
      * Updates the body of the comment.
-     * @param newCommentText the updated comment text
      */
     public void edit(String newCommentText) {
         this.commentText = newCommentText;

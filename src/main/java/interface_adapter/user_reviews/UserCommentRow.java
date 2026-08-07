@@ -23,13 +23,6 @@ public final class UserCommentRow {
 
     /**
      * Creates display data for one comment row.
-     * @param inputCommentId the comment id
-     * @param inputReviewId the review id
-     * @param inputMediaTitle the media title
-     * @param inputReviewText the review text
-     * @param inputCommentText the comment text
-     * @param inputCreatedAt the creation time
-     * @param inputLikeCount the like count
      */
     public UserCommentRow(final String inputCommentId,
                           final String inputReviewId,

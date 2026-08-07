@@ -2,6 +2,7 @@ package interface_adapter.other_account;
 
 import interface_adapter.ViewManagerModel;
 import interface_adapter.get_lists.GetListsController;
+import interface_adapter.search_user.SearchUserViewModel;
 import use_case.access_message_chat.AccessMessageChatInputBoundary;
 import use_case.access_message_chat.AccessMessageChatInputData;
 import use_case.block_user.BlockUserInputBoundary;
@@ -37,7 +38,6 @@ public class OtherAccountController {
 
     /**
      * Executes block user use case.
-     * @param otherUsername the username of the other user
      */
     public void executeBlockUser(String otherUsername) {
         final BlockUserInputData blockUserInputData = new BlockUserInputData(otherUsername);
@@ -46,8 +46,6 @@ public class OtherAccountController {
 
     /**
      * Executes the get watchlist view use case.
-     * @param username the username of the user.
-     * @param displayName the display name of the user.
      */
     public void switchToWatchlistView(String username, String displayName) {
         viewManagerModel.switchView(getListsViewName);
@@ -56,8 +54,6 @@ public class OtherAccountController {
 
     /**
      * Executes the get watch history view use case.
-     * @param username the username of the user.
-     * @param displayName the display name of the user.
      */
     public void switchToWatchHistoryView(String username, String displayName) {
         viewManagerModel.switchView(getListsViewName);
@@ -66,13 +62,30 @@ public class OtherAccountController {
 
     // TODO: get user reviews use case
 
+    /**
+     * Opens the chat with this user, if messaging has been wired up yet.
+     */
     public void goToMessages(String otherUsername) {
-        final AccessMessageChatInputData accessMessageChatInputData = new AccessMessageChatInputData(otherUsername);
-        accessMessageChatInteractor.execute(accessMessageChatInputData);
+        // Messaging is still being built, so this may not be connected yet.
+        // Without the guard the button throws instead of doing nothing.
+        if (accessMessageChatInteractor != null) {
+            final AccessMessageChatInputData accessMessageChatInputData =
+                    new AccessMessageChatInputData(otherUsername);
+            accessMessageChatInteractor.execute(accessMessageChatInputData);
+        }
     }
 
-    // TODO: switch to search view
+    /**
+     * Returns to the screen this profile was opened from.
+     */
     public void switchToSearchView() {
+        viewManagerModel.switchView(SearchUserViewModel.VIEW_NAME);
+    }
 
+    /**
+     * Says whether the message button can do anything yet.
+     */
+    public boolean isMessagingAvailable() {
+        return accessMessageChatInteractor != null;
     }
 }

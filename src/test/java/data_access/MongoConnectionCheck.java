@@ -7,10 +7,10 @@ import entity.User;
  * Runnable check that the MongoDB connection and the change-password code work.
  * <p>
  * <strong>How to run:</strong> right-click this file in IntelliJ and choose
- * "Run MongoConnectionCheck.main()". You need a {@code mongo.properties} file in
+ * "Run MongoConnectionCheck.main()". You need a mongo.properties file in
  * the project root first — see the MongoDB guide for what goes in it.
  * <p>
- * It uses its own throwaway account ({@value #TEST_USERNAME}) so it never
+ * It uses its own throwaway account (TEST_USERNAME) so it never
  * touches real user data, and deletes nothing: run it as often as you like.
  */
 public final class MongoConnectionCheck {
@@ -25,7 +25,6 @@ public final class MongoConnectionCheck {
 
     /**
      * Runs the check.
-     * @param args ignored
      */
     public static void main(String[] args) {
         System.out.println("Connecting to MongoDB Atlas...");

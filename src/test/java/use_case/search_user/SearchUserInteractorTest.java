@@ -112,9 +112,9 @@ class SearchUserInteractorTest {
     }
 
     /**
-     * The point of {@link UserSummary}: whatever the data store hands back, only
+     * The point of UserSummary: whatever the data store hands back, only
      * the username and display name are allowed past the output boundary. If
-     * someone later widens it to carry a whole {@code User}, this fails.
+     * someone later widens it to carry a whole User, this fails.
      */
     @Test
     void resultsCarryNoCredentials() {

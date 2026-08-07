@@ -46,7 +46,6 @@ public class PersonalAccountController {
      * <p>
      * The confirm view needs to know who is logging out, so the username is
      * carried across in the logout state before the view is shown.
-     * @param username the user who is logging out
      */
     public void switchToLogoutConfirmView(String username) {
         final LogoutState logoutState = logoutViewModel.getState();
@@ -93,8 +92,6 @@ public class PersonalAccountController {
 
     /**
      * Executes the get watchlist view use case.
-     * @param username the username of the user.
-     * @param displayName the display name of the user.
      */
     public void switchToWatchlistView(String username, String displayName) {
         viewManagerModel.switchView(getListsViewName);
@@ -103,8 +100,6 @@ public class PersonalAccountController {
 
     /**
      * Executes the get watch history view use case.
-     * @param username the username of the user.
-     * @param displayName the display name of the user.
      */
     public void switchToWatchHistoryView(String username, String displayName) {
         viewManagerModel.switchView(getListsViewName);
@@ -113,8 +108,6 @@ public class PersonalAccountController {
 
     /**
      * Executes the get watch history view use case.
-     * @param username the username of the user.
-     * @param displayName the display name of the user.
      */
     public void switchToBlockedUsersView(String username, String displayName) {
         viewManagerModel.switchView(getListsViewName);
