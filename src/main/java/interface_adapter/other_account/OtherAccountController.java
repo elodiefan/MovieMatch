@@ -2,6 +2,7 @@ package interface_adapter.other_account;
 
 import interface_adapter.ViewManagerModel;
 import interface_adapter.get_lists.GetListsController;
+import interface_adapter.search_user.SearchUserViewModel;
 import use_case.access_message_chat.AccessMessageChatInputBoundary;
 import use_case.access_message_chat.AccessMessageChatInputData;
 import use_case.block_user.BlockUserInputBoundary;
@@ -66,13 +67,32 @@ public class OtherAccountController {
 
     // TODO: get user reviews use case
 
+    /**
+     * Opens the chat with this user, if messaging has been wired up yet.
+     * @param otherUsername the user to message
+     */
     public void goToMessages(String otherUsername) {
-        final AccessMessageChatInputData accessMessageChatInputData = new AccessMessageChatInputData(otherUsername);
-        accessMessageChatInteractor.execute(accessMessageChatInputData);
+        // Messaging is still being built, so this may not be connected yet.
+        // Without the guard the button throws instead of doing nothing.
+        if (accessMessageChatInteractor != null) {
+            final AccessMessageChatInputData accessMessageChatInputData =
+                    new AccessMessageChatInputData(otherUsername);
+            accessMessageChatInteractor.execute(accessMessageChatInputData);
+        }
     }
 
-    // TODO: switch to search view
+    /**
+     * Returns to the screen this profile was opened from.
+     */
     public void switchToSearchView() {
+        viewManagerModel.switchView(SearchUserViewModel.VIEW_NAME);
+    }
 
+    /**
+     * Says whether the message button can do anything yet.
+     * @return true once messaging is wired up
+     */
+    public boolean isMessagingAvailable() {
+        return accessMessageChatInteractor != null;
     }
 }
