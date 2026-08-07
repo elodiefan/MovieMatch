@@ -529,6 +529,7 @@ public class AppBuilder {
                 );
         homePageView.setHomePageController(homePageController);
         return this;
+    }
 
     /**
      * Adds the Search User Use Case to the application.
