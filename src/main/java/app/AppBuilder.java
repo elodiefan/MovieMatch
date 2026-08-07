@@ -11,6 +11,9 @@ import data_access.*;
 import interface_adapter.change_display_name.ChangeDisplayNameController;
 import interface_adapter.change_display_name.ChangeDisplayNamePresenter;
 import interface_adapter.change_display_name.ChangeDisplayNameViewModel;
+import interface_adapter.change_username.ChangeUsernameController;
+import interface_adapter.change_username.ChangeUsernamePresenter;
+import interface_adapter.change_username.ChangeUsernameViewModel;
 import interface_adapter.comments.CommentsController;
 import interface_adapter.comments.CommentsPresenter;
 import interface_adapter.comments.CommentsViewModel;
@@ -43,6 +46,9 @@ import interface_adapter.reset_password.ResetPasswordViewModel;
 import use_case.change_display_name.ChangeDisplayNameInputBoundary;
 import use_case.change_display_name.ChangeDisplayNameInteractor;
 import use_case.change_display_name.ChangeDisplayNameOutputBoundary;
+import use_case.change_username.ChangeUsernameInputBoundary;
+import use_case.change_username.ChangeUsernameInteractor;
+import use_case.change_username.ChangeUsernameOutputBoundary;
 import view.*;
 import interface_adapter.search_user.SearchUserViewModel;
 import interface_adapter.search.SearchViewModel;
@@ -165,6 +171,8 @@ public class AppBuilder {
 
     private ChangeDisplayNameView changeDisplayNameView;
     private ChangeDisplayNameViewModel changeDisplayNameViewModel;
+    private ChangeUsernameView changeUsernameView;
+    private ChangeUsernameViewModel changeUsernameViewModel;
     private DeleteAccountView deleteAccountView;
     private DeleteAccountViewModel deleteAccountViewModel;
     private GetListsView getListsView;
@@ -204,7 +212,7 @@ public class AppBuilder {
     }
 
     /**
-     * Adds the Change Diplay Name View to the application.
+     * Adds the Change Display Name View to the application.
      * @return this builder
      */
     public AppBuilder addChangeDisplayNameView() {
@@ -212,6 +220,18 @@ public class AppBuilder {
         changeDisplayNameView = new ChangeDisplayNameView(changeDisplayNameViewModel,
                 personalAccountViewModel, viewManagerModel);
         cardPanel.add(changeDisplayNameView, changeDisplayNameView.getViewName());
+        return this;
+    }
+
+    /**
+     * Adds the Change Username View to the application.
+     * @return this builder
+     */
+    public AppBuilder addChangeUsernameView() {
+        changeUsernameViewModel = new ChangeUsernameViewModel();
+        changeUsernameView = new ChangeUsernameView(changeUsernameViewModel,
+                personalAccountViewModel, viewManagerModel);
+        cardPanel.add(changeUsernameView, changeUsernameView.getViewName());
         return this;
     }
 
@@ -360,6 +380,23 @@ public class AppBuilder {
         final ChangeDisplayNameController changeDisplayNameController = new ChangeDisplayNameController(
                 changeDisplayNameInteractor, viewManagerModel, personalAccountViewModel);
         changeDisplayNameView.setChangeDisplayNameController(changeDisplayNameController);
+        return this;
+    }
+
+    /**
+     * Adds the Change Username Use Case to the application.
+     * @return this builder
+     */
+    public AppBuilder addChangeUsernameUseCase() {
+
+        final ChangeUsernameOutputBoundary changeUsernameOutputBoundary = new ChangeUsernamePresenter(
+                viewManagerModel, changeUsernameViewModel);
+        final SignupOutputBoundary signupOutputBoundary = new SignupPresenter(signupViewModel);
+        final ChangeUsernameInputBoundary changeUsernameInteractor = new ChangeUsernameInteractor(
+                userDataAccessObject, changeUsernameOutputBoundary, new SignupInteractor(userDataAccessObject, signupOutputBoundary, userFactory));
+        final ChangeUsernameController changeUsernameController = new ChangeUsernameController(
+                changeUsernameInteractor, viewManagerModel, personalAccountViewModel);
+        changeUsernameView.setChangeUsernameController(changeUsernameController);
         return this;
     }
 
@@ -513,6 +550,7 @@ public class AppBuilder {
                 getSecurityQuestionInteractor,
                 getListsController,
                 changeDisplayNameViewModel,
+                changeUsernameViewModel,
                 logoutViewModel,
                 resetPasswordViewModel.getViewName(),
                 homePageViewModel.getViewName(),

@@ -28,6 +28,7 @@ public class PersonalAccountView extends JPanel implements PropertyChangeListene
     private final JLabel username;
     private final JLabel displayName;
     private final JButton changeDisplayNameButton;
+    private final JButton changeUsernameButton;
     private final JButton logoutButton;
     private final JButton resetPasswordButton;
     private final JButton deleteAccountButton;
@@ -64,11 +65,13 @@ public class PersonalAccountView extends JPanel implements PropertyChangeListene
         final JPanel accountOptionsPanel = new JPanel();
         backButton = new JButton(PersonalAccountViewModel.BACK_BUTTON);
         changeDisplayNameButton = new JButton(PersonalAccountViewModel.CHANGE_DISPLAY_NAME_BUTTON);
+        changeUsernameButton = new JButton(PersonalAccountViewModel.CHANGE_USERNAME_BUTTON);
         logoutButton = new JButton(PersonalAccountViewModel.LOGOUT_BUTTON);
         resetPasswordButton = new JButton(PersonalAccountViewModel.RESET_PASSWORD_BUTTON);
         deleteAccountButton = new JButton(PersonalAccountViewModel.DELETE_ACCOUNT_BUTTON);
         accountOptionsPanel.add(backButton);
         accountOptionsPanel.add(changeDisplayNameButton);
+        accountOptionsPanel.add(changeUsernameButton);
         accountOptionsPanel.add(logoutButton);
         accountOptionsPanel.add(resetPasswordButton);
         accountOptionsPanel.add(deleteAccountButton);
@@ -127,6 +130,16 @@ public class PersonalAccountView extends JPanel implements PropertyChangeListene
                     public void actionPerformed(ActionEvent e) {
                         final PersonalAccountState state = personalAccountViewModel.getState();
                         personalAccountController.switchToChangeDisplayNameView(state.getUsername());
+                    }
+                }
+        );
+
+        changeUsernameButton.addActionListener(
+                new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        final PersonalAccountState state = personalAccountViewModel.getState();
+                        personalAccountController.switchToChangeUsernameView(state.getUsername());
                     }
                 }
         );

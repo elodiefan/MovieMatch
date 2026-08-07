@@ -12,6 +12,7 @@ public class PersonalAccountViewModel extends ViewModel<PersonalAccountState> {
     public static final String USERNAME_LABEL = "username: ";
     public static final String DISPLAY_NAME_LABEL = "display name: ";
     public static final String CHANGE_DISPLAY_NAME_BUTTON = "Change Display Name";
+    public static final String CHANGE_USERNAME_BUTTON = "Change Username";
     public static final String LOGOUT_BUTTON = "Logout";
     public static final String RESET_PASSWORD_BUTTON = "Reset Password";
     public static final String DELETE_ACCOUNT_BUTTON = "Delete Account";

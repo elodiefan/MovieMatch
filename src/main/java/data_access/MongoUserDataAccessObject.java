@@ -175,6 +175,13 @@ public class MongoUserDataAccessObject implements UserDataAccessObject {
         users.updateOne(Filters.eq(USERNAME, username), Updates.set(DISPLAY_NAME, newDisplayName));
     }
 
+    // ---------- Change username ----------
+
+    @Override
+    public void changeUsername(String username, String newUsername) {
+        users.updateOne(Filters.eq(USERNAME, username), Updates.set(USERNAME, newUsername));
+    }
+
     // ---------- Get watchlist ----------
 
     @Override

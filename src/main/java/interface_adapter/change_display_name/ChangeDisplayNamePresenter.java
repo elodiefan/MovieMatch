@@ -5,7 +5,7 @@ import use_case.change_display_name.ChangeDisplayNameOutputBoundary;
 import use_case.change_display_name.ChangeDisplayNameOutputData;
 
 /**
- * Presenter for the change display name  use case.
+ * Presenter for the change display name use case.
  */
 public class ChangeDisplayNamePresenter implements ChangeDisplayNameOutputBoundary {
 
