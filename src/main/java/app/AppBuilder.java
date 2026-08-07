@@ -541,7 +541,7 @@ public class AppBuilder {
                 getSecurityQuestionInteractor,
                 getListsController,
                 logoutViewModel,
-                resetPasswordViewModel.getViewName(),
+                resetPasswordViewModel,
                 homePageViewModel.getViewName(),
                 getListsViewModel.getViewName(),
                 userReviewsViewModel.getViewName());
