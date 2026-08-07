@@ -28,6 +28,9 @@ import use_case.send_message.SendMessageMessageDataAccessInterface;
 public class MongoMessagesDataAccessObject implements AccessMessageChatMessageDataAccessInterface,
         FetchChatHistoryMessageDataAccessInterface, SendMessageMessageDataAccessInterface {
 
+    /** Default location of the connection settings. */
+    public static final String DEFAULT_PROPERTIES = "mongo.properties";
+
     private static final String COLLECTION = "messages";
 
     // Field names exactly as stored in MongoDB. Case matters.
@@ -41,6 +44,13 @@ public class MongoMessagesDataAccessObject implements AccessMessageChatMessageDa
 
     private final MongoClient mongoClient;
     private final MongoCollection<Document> messages;
+
+    /**
+     * Connects using the settings in {@value #DEFAULT_PROPERTIES}.
+     */
+    public MongoMessagesDataAccessObject() {
+        this(DEFAULT_PROPERTIES);
+    }
 
     /**
      * Connects using the same settings file the rest of the app uses.

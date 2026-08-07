@@ -30,6 +30,7 @@ import interface_adapter.media_detail.MediaDetailViewModel;
 import interface_adapter.media_reviews.MediaReviewsController;
 import interface_adapter.media_reviews.MediaReviewsPresenter;
 import interface_adapter.media_reviews.MediaReviewsViewModel;
+import interface_adapter.messaging.MessagingViewModel;
 import interface_adapter.other_account.OtherAccountViewModel;
 import interface_adapter.personal_account.PersonalAccountController;
 import interface_adapter.personal_account.PersonalAccountPresenter;
@@ -37,7 +38,7 @@ import interface_adapter.personal_account.PersonalAccountViewModel;
 import interface_adapter.reset_password.ResetPasswordController;
 import interface_adapter.reset_password.ResetPasswordPresenter;
 import interface_adapter.reset_password.ResetPasswordViewModel;
-import view.SearchUserView;
+import view.*;
 import interface_adapter.search_user.SearchUserViewModel;
 import interface_adapter.search.SearchViewModel;
 import interface_adapter.search_result.SearchResultViewModel;
@@ -123,21 +124,6 @@ import use_case.security_question.SecurityQuestionOutputBoundary;
 import use_case.signup.SignupInputBoundary;
 import use_case.signup.SignupInteractor;
 import use_case.signup.SignupOutputBoundary;
-import view.DeleteAccountView;
-import view.GetListsView;
-import view.HomePageView;
-import view.LoginView;
-import view.LogoutConfirmView;
-import view.MediaDetailView;
-import view.MyReviewsView;
-import view.OtherAccountView;
-import view.PersonalAccountView;
-import view.ResetPasswordView;
-import view.SearchResultView;
-import view.SearchView;
-import view.SecurityQuestionView;
-import view.SignupView;
-import view.ViewManager;
 
 /**
  * The AppBuilder class is responsible for putting together the pieces of
@@ -157,6 +143,7 @@ public class AppBuilder {
     private final UserDataAccessObject userDataAccessObject = new MongoUserDataAccessObject();
     private final ReviewDataAccessObject reviewDataAccessObject = new MongoReviewDataAccessObject();
     private final CommentDataAccessObject commentDataAccessObject = new MongoCommentDataAccessObject();
+    private final MongoMessagesDataAccessObject mongoMessagesDataAccessObject = new MongoMessagesDataAccessObject();
 
     // Counts failed security answers and holds lock-outs. One shared instance, so
     // every attempt on the same account is counted together.
@@ -205,6 +192,8 @@ public class AppBuilder {
     private MediaReviewsViewModel mediaReviewsViewModel;
     private CommentsViewModel commentsViewModel;
     private LogMediaViewModel logMediaViewModel;
+    private MessagingView messagingView;
+    private MessagingViewModel messagingViewModel;
 
     public AppBuilder() {
         cardPanel.setLayout(cardLayout);
@@ -632,6 +621,22 @@ public class AppBuilder {
         cardPanel.add(
                 searchView,
                 searchView.getViewName()
+        );
+
+        return this;
+    }
+
+    /**
+     * Adds the Messaging View to the app.
+     * @return this builder
+     */
+    public AppBuilder addMessagingView() {
+        messagingViewModel = new MessagingViewModel();
+        messagingView = new MessagingView(messagingViewModel, viewManagerModel);
+
+        cardPanel.add(
+                messagingView,
+                messagingView.getViewName()
         );
 
         return this;
