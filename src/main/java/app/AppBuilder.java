@@ -687,6 +687,11 @@ public class AppBuilder {
         recommendationView = new RecommendationView(detailedRecommendationViewModel);
 
         homePageView.setRecommendationsPanel(homeRecommendationsPanel);
+
+        // The two screens load separately, so asking for the full list has to
+        // start it fetching as well as switch to it.
+        homeRecommendationsPanel.setSeeAllHandler(recommendationView::loadFor);
+
         cardPanel.add(recommendationView, recommendationView.getViewName());
         return this;
     }

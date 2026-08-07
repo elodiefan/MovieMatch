@@ -6,6 +6,7 @@ import java.awt.Component;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.util.concurrent.ExecutionException;
+import java.util.function.Consumer;
 
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
@@ -41,6 +42,12 @@ public class HomeRecommendationsPanel extends JPanel implements PropertyChangeLi
     /** Stops a second load firing while the first is still running. */
     private boolean loading;
 
+    /** Who the strip is showing, so the full list can be opened for them too. */
+    private String username = "";
+
+    /** Told about a request for the full list, since that screen loads separately. */
+    private Consumer<String> seeAllHandler;
+
     public HomeRecommendationsPanel(RecommendationViewModel recommendationViewModel) {
         this.recommendationViewModel = recommendationViewModel;
         this.recommendationViewModel.addPropertyChangeListener(this);
@@ -61,8 +68,7 @@ public class HomeRecommendationsPanel extends JPanel implements PropertyChangeLi
         centre.add(scroll, RESULTS_CARD);
 
         seeAllButton = new JButton(SEE_ALL_LABEL);
-        seeAllButton.addActionListener(
-                event -> recommendationController.switchToRecommendationView());
+        seeAllButton.addActionListener(event -> openFullList());
         final JPanel actions = new JPanel();
         actions.add(seeAllButton);
 
@@ -84,6 +90,7 @@ public class HomeRecommendationsPanel extends JPanel implements PropertyChangeLi
                 || username == null || username.isBlank()) {
             return;
         }
+        this.username = username;
         loading = true;
         message.setText(" ");
         showCard(LOADING_CARD);
@@ -155,7 +162,24 @@ public class HomeRecommendationsPanel extends JPanel implements PropertyChangeLi
         rows.add(row);
     }
 
+    /**
+     * Opens the full list and starts it loading.
+     */
+    private void openFullList() {
+        // The full screen has its own view model, so switching to it is not
+        // enough; it has to be told to fetch, or it sits on its spinner.
+        if (seeAllHandler != null) {
+            seeAllHandler.accept(username);
+        }
+        recommendationController.switchToRecommendationView();
+    }
+
     public void setRecommendationController(RecommendationController recommendationController) {
         this.recommendationController = recommendationController;
+    }
+
+    /** Called with the username when the user asks for the full list. */
+    public void setSeeAllHandler(Consumer<String> seeAllHandler) {
+        this.seeAllHandler = seeAllHandler;
     }
 }

@@ -105,6 +105,9 @@ public class RecommendationView extends JPanel implements PropertyChangeListener
 
     private void reload() {
         if (recommendationController == null || username == null || username.isBlank()) {
+            // Nothing to fetch for, so say so instead of leaving a spinner up.
+            message.setText(RecommendationViewModel.EMPTY_LABEL);
+            showCard(RESULTS_CARD);
             return;
         }
         refreshButton.setEnabled(false);
