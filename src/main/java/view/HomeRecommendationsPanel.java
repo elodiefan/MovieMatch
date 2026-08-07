@@ -113,6 +113,9 @@ public class HomeRecommendationsPanel extends JPanel implements PropertyChangeLi
                 }
                 catch (ExecutionException exception) {
                     message.setText("Could not load recommendations.");
+                    // Without this the spinner keeps turning after a failure,
+                    // which reads as still working rather than given up.
+                    showCard(RESULTS_CARD);
                 }
             }
         }.execute();

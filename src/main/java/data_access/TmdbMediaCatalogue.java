@@ -52,9 +52,11 @@ public class TmdbMediaCatalogue implements MediaCatalogueDataAccessInterface {
                     collect(tmdbApiClient.getPopularTvShows(page), candidates, false);
                 }
                 else {
+                    // TMDB reads a bar between ids as "any of these", but a raw
+                    // bar is not legal in a URL, so it goes in already encoded.
                     final String ids = genres.stream()
                             .map(genre -> String.valueOf(genre.getId()))
-                            .collect(Collectors.joining("|"));
+                            .collect(Collectors.joining("%7C"));
                     collect(tmdbApiClient.discoverMovies(ids, page), candidates, true);
                     collect(tmdbApiClient.discoverTvShows(ids, page), candidates, false);
                 }

@@ -131,6 +131,8 @@ public class RecommendationView extends JPanel implements PropertyChangeListener
                     Thread.currentThread().interrupt();
                 }
                 catch (ExecutionException exception) {
+                    message.setText("Could not load recommendations.");
+                    showCard(RESULTS_CARD);
                     ErrorReporter.show(RecommendationView.this, exception.getCause());
                 }
             }
