@@ -1,8 +1,5 @@
 package interface_adapter.personal_account;
 
-//import use_case.get_reviews.GetReviewsInputBoundary;
-//import use_case.customize.CustomizeInputBoundary;
-
 import interface_adapter.ViewManagerModel;
 import interface_adapter.change_display_name.ChangeDisplayNameController;
 import interface_adapter.change_display_name.ChangeDisplayNameState;
@@ -128,7 +125,7 @@ public class PersonalAccountController {
         final ChangeDisplayNameState changeDisplayNameState = changeDisplayNameViewModel.getState();
         changeDisplayNameState.setUsername(username);
         changeDisplayNameViewModel.setState(changeDisplayNameState);
+        changeDisplayNameViewModel.firePropertyChanged();
         viewManagerModel.switchView(changeDisplayNameViewModel.getViewName());
-        viewManagerModel.firePropertyChanged();
     }
 }

@@ -36,6 +36,6 @@ public class ChangeDisplayNameInteractor implements ChangeDisplayNameInputBounda
             return;
         }
         userDataAccessObject.changeDisplayName(username, newDisplayName);
-        presenter.prepareSuccessView(new ChangeDisplayNameOutputData(username, false));
+        presenter.prepareSuccessView(new ChangeDisplayNameOutputData(username, newDisplayName));
     }
 }

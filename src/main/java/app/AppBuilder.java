@@ -354,19 +354,13 @@ public class AppBuilder {
      */
     public AppBuilder addChangeDisplayNameUseCase() {
         final ChangeDisplayNameOutputBoundary changeDisplayNameOutputBoundary = new ChangeDisplayNamePresenter(
-                viewManagerModel, changeDisplayNameViewModel,
-                username -> {
-                    viewManagerModel.setState(PersonalAccountViewModel.VIEW_NAME);
-                    viewManagerModel.firePropertyChanged();
-                });
+                viewManagerModel, changeDisplayNameViewModel);
         final ChangeDisplayNameInputBoundary changeDisplayNameInteractor = new ChangeDisplayNameInteractor(
                 userDataAccessObject, changeDisplayNameOutputBoundary);
         final ChangeDisplayNameController changeDisplayNameController = new ChangeDisplayNameController(
-                changeDisplayNameInteractor);
+                changeDisplayNameInteractor, viewManagerModel, personalAccountViewModel);
         changeDisplayNameView.setChangeDisplayNameController(changeDisplayNameController);
         return this;
-
-
     }
 
     /**

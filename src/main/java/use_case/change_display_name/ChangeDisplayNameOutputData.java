@@ -6,18 +6,18 @@ package use_case.change_display_name;
 public class ChangeDisplayNameOutputData {
 
     private final String username;
-    private final boolean useCaseFailed;
+    private final String newDisplayName;
 
-    public ChangeDisplayNameOutputData(String username, boolean useCaseFailed) {
+    public ChangeDisplayNameOutputData(String username, String newDisplayName) {
         this.username = username;
-        this.useCaseFailed = useCaseFailed;
+        this.newDisplayName = newDisplayName;
     }
 
     public String getUsername() {
         return username;
     }
 
-    public boolean isUseCaseFailed() {
-        return useCaseFailed;
+    public String getNewDisplayName() {
+        return newDisplayName;
     }
 }

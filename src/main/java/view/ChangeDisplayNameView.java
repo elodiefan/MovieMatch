@@ -23,17 +23,13 @@ public class ChangeDisplayNameView extends JPanel implements PropertyChangeListe
 
     private final String viewName = "change display name";
     private final ChangeDisplayNameViewModel changeDisplayNameViewModel;
-    private final PersonalAccountViewModel personalAccountViewModel;
-    private final ViewManagerModel viewManagerModel;
 
     private final JLabel forUserLabel;
-    private final JTextField newDisplayNameField = new JTextField(15);
-    private final JLabel messageLabel = new JLabel(" ");
-    private final JOptionPane message;
-
+    private final JTextField newDisplayNameField;
+    private final JLabel messageLabel;
 
     private final JButton confirmChangesButton;
-    private final JButton cancelButton;
+    private final JButton backButton;
 
     private ChangeDisplayNameController changeDisplayNameController;
 
@@ -42,11 +38,12 @@ public class ChangeDisplayNameView extends JPanel implements PropertyChangeListe
                              ViewManagerModel viewManagerModel) {
         this.changeDisplayNameViewModel = changeDisplayNameViewModel;
         this.changeDisplayNameViewModel.addPropertyChangeListener(this);
-        this.personalAccountViewModel = personalAccountViewModel;
-        this.viewManagerModel = viewManagerModel;
 
         forUserLabel = new JLabel(" ");
         forUserLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
+
+        newDisplayNameField = new JTextField(ChangeDisplayNameViewModel.COLUMN_SIZE);
+        messageLabel = new JLabel(" ");
 
         final LabelTextPanel newInfo = new LabelTextPanel(
                 new JLabel(ChangeDisplayNameViewModel.NEW_DISPLAY_NAME_LABEL), newDisplayNameField);
@@ -54,28 +51,32 @@ public class ChangeDisplayNameView extends JPanel implements PropertyChangeListe
         final JPanel buttons = new JPanel();
         confirmChangesButton = new JButton(ChangeDisplayNameViewModel.CONFIRM_BUTTON);
         buttons.add(confirmChangesButton);
-        cancelButton = new JButton(ChangeDisplayNameViewModel.CANCEL_BUTTON);
-        buttons.add(cancelButton);
+        backButton = new JButton(ChangeDisplayNameViewModel.BACK_BUTTON);
+        buttons.add(backButton);
 
-        confirmChangesButton.addActionListener(evt -> {
-            final ChangeDisplayNameState state = changeDisplayNameViewModel.getState();
-            changeDisplayNameController.changeDisplayName(
-                    state.getUsername(), newDisplayNameField.getText());
-            newDisplayNameField.setText("");
-
-        });
-        
-        cancelButton.addActionListener(
+        confirmChangesButton.addActionListener(
                 new ActionListener() {
                     @Override
                     public void actionPerformed(ActionEvent e) {
-                        changeDisplayNameViewModel.setState(new ChangeDisplayNameState());
+                        final ChangeDisplayNameState state = changeDisplayNameViewModel.getState();
+                        changeDisplayNameController.changeDisplayName(
+                                state.getUsername(), newDisplayNameField.getText());
                         newDisplayNameField.setText("");
-                        viewManagerModel.switchView(personalAccountViewModel.getViewName());
+                    }
+                });
+        
+        backButton.addActionListener(
+                new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        final ChangeDisplayNameState state = changeDisplayNameViewModel.getState();
+                        changeDisplayNameController.switchToPersonalAccountView(state.getUsername(),
+                                state.getNewDisplayName());
+                        newDisplayNameField.setText("");
                     }
                 });
 
-        // Keep state in sync with the "new display name" field.
+//         Keep state in sync with the "new display name" field.
         newDisplayNameField.getDocument().addDocumentListener(new DocumentListener() {
             private void update() {
                 final ChangeDisplayNameState state = changeDisplayNameViewModel.getState();
@@ -90,7 +91,7 @@ public class ChangeDisplayNameView extends JPanel implements PropertyChangeListe
 
             @Override
             public void removeUpdate(DocumentEvent e) {
-                update();
+               // update();
             }
 
             @Override

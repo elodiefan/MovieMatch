@@ -22,8 +22,8 @@ public class ChangeDisplayNameState {
         return newDisplayName;
     }
 
-    public void setNewDisplayName(String newPassword) {
-        this.newDisplayName = newPassword;
+    public void setNewDisplayName(String newDisplayName) {
+        this.newDisplayName = newDisplayName;
     }
 
     public String getMessage() {
