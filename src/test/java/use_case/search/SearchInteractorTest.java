@@ -45,7 +45,7 @@ class SearchInteractorTest {
                 media.add(new Movie(page * 100 + i, "page " + page + " item " + i,
                         2000, 7.5, new ArrayList<>(), "en", new ArrayList<>(), 120));
             }
-            return new MediaPage(media, totalPages);
+            return new MediaPage(media, totalPages, totalPages * perPage);
         }
     }
 
@@ -124,6 +124,17 @@ class SearchInteractorTest {
         assertEquals(7, presenter.success.getNextPage());
         assertTrue(presenter.success.isAppending(),
                 "loading more adds to the results rather than replacing them");
+    }
+
+    @Test
+    void theTotalIsWhatExistsNotWhatWasFetched() {
+        final RecordingPresenter presenter = new RecordingPresenter();
+        new SearchInteractor(new FakePagedDataAccess(500, 20), presenter)
+                .execute(new SearchInputData("hi"));
+
+        assertEquals(60, presenter.success.getResults().size(), "three pages were fetched");
+        assertEquals(10000, presenter.success.getTotalResults(),
+                "but the count shown to the user is the whole result set");
     }
 
     @Test

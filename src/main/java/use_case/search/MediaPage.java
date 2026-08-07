@@ -16,10 +16,12 @@ public class MediaPage {
 
     private final List<Media> media;
     private final int totalPages;
+    private final int totalResults;
 
-    public MediaPage(List<Media> media, int totalPages) {
+    public MediaPage(List<Media> media, int totalPages, int totalResults) {
         this.media = new ArrayList<>(media);
         this.totalPages = totalPages;
+        this.totalResults = totalResults;
     }
 
     public List<Media> getMedia() {
@@ -28,5 +30,13 @@ public class MediaPage {
 
     public int getTotalPages() {
         return totalPages;
+    }
+
+    /**
+     * Returns how many results the source says exist for this keyword, across
+     * every page, not just the ones fetched so far.
+     */
+    public int getTotalResults() {
+        return totalResults;
     }
 }

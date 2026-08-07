@@ -14,14 +14,23 @@ public class SearchOutputData {
     private final int nextPage;
     private final boolean moreAvailable;
     private final boolean appending;
+    private final int totalResults;
 
     public SearchOutputData(List<Media> results, String keyword, int nextPage,
-                            boolean moreAvailable, boolean appending) {
+                            boolean moreAvailable, boolean appending, int totalResults) {
         this.results = results;
         this.keyword = keyword;
         this.nextPage = nextPage;
         this.moreAvailable = moreAvailable;
         this.appending = appending;
+        this.totalResults = totalResults;
+    }
+
+    /**
+     * Returns how many results exist in total, not how many have been fetched.
+     */
+    public int getTotalResults() {
+        return totalResults;
     }
 
     /**

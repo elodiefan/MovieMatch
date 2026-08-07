@@ -53,7 +53,7 @@ public class DatabaseSearchMediaDataAccess
         else {
             results = search(keyword);
         }
-        return new MediaPage(results, 1);
+        return new MediaPage(results, 1, results.size());
     }
 
     private boolean matches(Media media, String[] words) {

@@ -66,6 +66,7 @@ public class SearchPresenter implements SearchOutputBoundary {
             state.setKeyword(outputData.getKeyword());
             state.setNextPage(outputData.getNextPage());
             state.setMoreAvailable(outputData.isMoreAvailable());
+            state.setTotalResults(outputData.getTotalResults());
 
             searchResultViewModel.setState(state);
             searchResultViewModel.firePropertyChanged();

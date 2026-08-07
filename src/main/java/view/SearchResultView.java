@@ -527,9 +527,7 @@ public class SearchResultView extends JPanel
             messageLabel.setText("No results found.");
         }
         else {
-            messageLabel.setText(
-                    state.getResults().size() + " result(s) found."
-            );
+            messageLabel.setText(countMessage(state));
             state.getResults().forEach(this::addMediaResult);
         }
 
@@ -542,6 +540,34 @@ public class SearchResultView extends JPanel
         resultsPanel.repaint();
         this.revalidate();
         this.repaint();
+    }
+
+    /**
+     * Describes how much of the result set is on screen.
+     * <p>
+     * Results arrive a few pages at a time, so the count has to distinguish
+     * what has been loaded from what exists. Filters only ever narrow what is
+     * already loaded, so when one is active the total is not the useful number
+     * to compare against.
+     */
+    private String countMessage(SearchResultState state) {
+        final int shown = state.getResults().size();
+        final int loaded = state.getOriginalResults().size();
+        final int total = state.getTotalResults();
+
+        final String message;
+        if (shown < loaded) {
+            message = shown + " of " + loaded + " loaded result(s) match your filters.";
+        }
+        else if (state.isMoreAvailable() && total > loaded) {
+            // TMDB counts people in its total as well as films and shows, and
+            // those are dropped, so the figure is close rather than exact.
+            message = "Showing " + shown + " of about " + total + " result(s).";
+        }
+        else {
+            message = shown + " result(s) found.";
+        }
+        return message;
     }
 
     /**

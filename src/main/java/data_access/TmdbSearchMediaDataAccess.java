@@ -62,6 +62,7 @@ public class TmdbSearchMediaDataAccess
     public MediaPage searchPage(String keyword, int page) {
         final List<Media> results = new ArrayList<>();
         int totalPages = 0;
+        int totalResults = 0;
 
         if (keyword != null && !keyword.trim().isEmpty()) {
             try {
@@ -69,6 +70,7 @@ public class TmdbSearchMediaDataAccess
                         objectMapper.readTree(tmdbApiClient.searchMulti(keyword, page));
                 addMediaFromPage(pageNode, results);
                 totalPages = pageNode.path("total_pages").asInt();
+                totalResults = pageNode.path("total_results").asInt();
             }
             catch (IOException exception) {
                 throw new IllegalStateException(
@@ -78,7 +80,7 @@ public class TmdbSearchMediaDataAccess
             }
         }
 
-        return new MediaPage(results, totalPages);
+        return new MediaPage(results, totalPages, totalResults);
     }
 
 

@@ -53,6 +53,7 @@ public class SearchInteractor implements SearchInputBoundary {
             final List<Media> results = new ArrayList<>();
 
             int totalPages = startPage;
+            int totalResults = 0;
             int page = startPage;
             final int lastWanted = startPage + PAGES_PER_REQUEST - 1;
 
@@ -60,11 +61,12 @@ public class SearchInteractor implements SearchInputBoundary {
                 final MediaPage mediaPage = searchDataAccess.searchPage(keyword, page);
                 results.addAll(mediaPage.getMedia());
                 totalPages = mediaPage.getTotalPages();
+                totalResults = mediaPage.getTotalResults();
                 page++;
             }
 
             searchPresenter.prepareSuccessView(new SearchOutputData(
-                    results, keyword, page, page <= totalPages, appending));
+                    results, keyword, page, page <= totalPages, appending, totalResults));
         }
     }
 }
