@@ -796,6 +796,12 @@ public class AppBuilder {
         mediaDetailView.setCommentsController(
                 createCommentsController()
         );
+        // Without this the reviews panel never learns who is signed in, and
+        // Write Review silently does nothing.
+        mediaDetailView.setCurrentUserSource(
+                userDataAccessObject::getCurrentUsername,
+                userDataAccessObject::getDisplayName);
+
         mediaDetailView.setLogMediaController(
                 createLogMediaController()
         );
