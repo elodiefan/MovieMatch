@@ -11,6 +11,8 @@ import java.util.List;
 
 import entity.Review;
 import org.junit.jupiter.api.Test;
+import use_case.comment.UserCommentSummaryData;
+import use_case.comment.get_user_comments.GetUserCommentsOutputData;
 import use_case.review.edit_review.EditReviewOutputData;
 import use_case.review.get_user_reviews.GetUserReviewsOutputData;
 
@@ -44,6 +46,30 @@ public class UserReviewsPresenterTest {
         assertEquals(TIME, rows.get(0).getCreatedAt());
         assertEquals(TIME.plusHours(1), rows.get(0).getUpdatedAt());
         assertEquals(1, rows.get(0).getLikeCount());
+        assertNull(viewModel.getState().getUserReviewsError());
+    }
+
+    @Test
+    void prepareSuccessViewConvertsCommentsIntoRows() {
+        final UserReviewsViewModel viewModel = new UserReviewsViewModel();
+        final UserReviewsPresenter presenter = new UserReviewsPresenter(
+                viewModel);
+        final UserCommentSummaryData comment = new UserCommentSummaryData(
+                "comment-1", "review-1", "Fight Club", "Great.",
+                "I agree.", TIME, 3);
+
+        presenter.prepareSuccessView(new GetUserCommentsOutputData(
+                Arrays.asList(comment)));
+
+        final List<UserCommentRow> rows = viewModel.getState().getComments();
+        assertEquals(1, rows.size());
+        assertEquals("comment-1", rows.get(0).getCommentId());
+        assertEquals("review-1", rows.get(0).getReviewId());
+        assertEquals("Fight Club", rows.get(0).getMediaTitle());
+        assertEquals("Great.", rows.get(0).getReviewText());
+        assertEquals("I agree.", rows.get(0).getCommentText());
+        assertEquals(TIME, rows.get(0).getCreatedAt());
+        assertEquals(3, rows.get(0).getLikeCount());
         assertNull(viewModel.getState().getUserReviewsError());
     }
 
