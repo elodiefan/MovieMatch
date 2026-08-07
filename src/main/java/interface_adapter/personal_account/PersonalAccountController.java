@@ -9,6 +9,8 @@ import interface_adapter.logout.LogoutState;
 import interface_adapter.logout.LogoutViewModel;
 import interface_adapter.reset_password.ResetPasswordState;
 import interface_adapter.reset_password.ResetPasswordViewModel;
+import interface_adapter.user_reviews.UserReviewsState;
+import interface_adapter.user_reviews.UserReviewsViewModel;
 import use_case.get_security_question.GetSecurityQuestionInputBoundary;
 
 /**
@@ -21,9 +23,9 @@ public class PersonalAccountController {
     private final ViewManagerModel viewManagerModel;
     private final LogoutViewModel logoutViewModel;
     private final ResetPasswordViewModel resetPasswordViewModel;
+    private final UserReviewsViewModel userReviewsViewModel;
     private final String homePageViewName;
     private final String getListsViewName;
-    private final String getReviewsViewName;
 
     public PersonalAccountController(ViewManagerModel viewManagerModel,
                                      GetSecurityQuestionInputBoundary getSecurityQuestionInteractor,
@@ -32,15 +34,15 @@ public class PersonalAccountController {
                                      ResetPasswordViewModel resetPasswordViewModel,
                                      String homePageViewName,
                                      String getListsViewName,
-                                     String getReviewsViewName) {
+                                     UserReviewsViewModel userReviewsViewModel) {
         this.viewManagerModel = viewManagerModel;
         this.getSecurityQuestionInteractor = getSecurityQuestionInteractor;
         this.getListsController = getListsController;
         this.logoutViewModel = logoutViewModel;
         this.resetPasswordViewModel = resetPasswordViewModel;
+        this.userReviewsViewModel = userReviewsViewModel;
         this.homePageViewName = homePageViewName;
         this.getListsViewName = getListsViewName;
-        this.getReviewsViewName = getReviewsViewName;
     }
 
     /**
@@ -60,8 +62,13 @@ public class PersonalAccountController {
     /**
      * Executes the reviews view use case.
      */
-    public void switchToReviewsView() {
-        viewManagerModel.switchView(getReviewsViewName);
+    public void switchToReviewsView(String username) {
+        final UserReviewsState userReviewsState = userReviewsViewModel.getState();
+        userReviewsState.setUsername(username);
+        userReviewsViewModel.setState(userReviewsState);
+        userReviewsViewModel.firePropertyChanged();
+
+        viewManagerModel.switchView(userReviewsViewModel.getViewName());
     }
 //
 //    /**

@@ -195,16 +195,12 @@ public class AppBuilder {
     // Counts failed security answers and holds lock-outs. One shared instance, so
     // every attempt on the same account is counted together.
     private final InMemoryLockoutTracker lockoutTracker = new InMemoryLockoutTracker();
-    private final MongoReviewDataAccessObject mongoReviewDataAccessObject =
-            new MongoReviewDataAccessObject();
-    private final MongoCommentDataAccessObject mongoCommentDataAccessObject =
-            new MongoCommentDataAccessObject();
     private final TmdbReviewDataAccessObject tmdbReviewDataAccessObject =
             new TmdbReviewDataAccessObject(new TmdbApiClient());
     private final CombinedMediaReviewDataAccessObject
             mediaReviewDataAccessObject =
             new CombinedMediaReviewDataAccessObject(tmdbReviewDataAccessObject,
-                    mongoReviewDataAccessObject);
+                    reviewDataAccessObject);
 
     private DeleteAccountView deleteAccountView;
     private DeleteAccountViewModel deleteAccountViewModel;
@@ -542,7 +538,7 @@ public class AppBuilder {
                 resetPasswordViewModel,
                 homePageViewModel.getViewName(),
                 getListsViewModel.getViewName(),
-                userReviewsViewModel.getViewName());
+                userReviewsViewModel);
 
         personalAccountView.setPersonalAccountController(personalAccountController);
         return this;
@@ -586,16 +582,21 @@ public class AppBuilder {
      * Adds the User Reviews Use Case to the application.
      */
     public AppBuilder addUserReviewsUseCase() {
-        final GetUserReviewsOutputBoundary userReviewsOutputBoundary = new UserReviewsPresenter(userReviewsViewModel);
+        final UserReviewsPresenter userReviewsPresenter = new UserReviewsPresenter(userReviewsViewModel);
+        final GetUserReviewsOutputBoundary userReviewsOutputBoundary = userReviewsPresenter;
         final GetUserReviewsInputBoundary userReviewsInteractor = new GetUserReviewsInteractor(reviewDataAccessObject,
                 userReviewsOutputBoundary);
 
-        final EditReviewInputBoundary editReviewsInteractor = new EditReviewInteractor();
-        final DeleteReviewInputBoundary deleteReviewsInteractor = new DeleteReviewInteractor();
-        final LikeReviewInputBoundary likeReviewsInteractor = new LikeReviewInteractor();
-        final UnlikeReviewInputBoundary unlikeReviewsInteractor = new UnlikeReviewInteractor();
+        final EditReviewInputBoundary editReviewsInteractor = new EditReviewInteractor(reviewDataAccessObject,
+                userReviewsPresenter);
+        final DeleteReviewInputBoundary deleteReviewsInteractor = new DeleteReviewInteractor(reviewDataAccessObject,
+                userReviewsPresenter);
+        final LikeReviewInputBoundary likeReviewsInteractor = new LikeReviewInteractor(reviewDataAccessObject,
+                userReviewsPresenter);
+        final UnlikeReviewInputBoundary unlikeReviewsInteractor = new UnlikeReviewInteractor(reviewDataAccessObject,
+                userReviewsPresenter);
         final GetUserCommentsInputBoundary userCommentsInteractor = new GetUserCommentsInteractor(commentDataAccessObject,
-                reviewDataAccessObject);
+                reviewDataAccessObject, userReviewsPresenter);
 
         final UserReviewsController userReviewsController = new UserReviewsController(userReviewsInteractor,
                 editReviewsInteractor,
@@ -915,19 +916,19 @@ public class AppBuilder {
                 new GetMediaReviewsInteractor(mediaReviewDataAccessObject,
                         mediaReviewsPresenter);
         final CreateReviewInteractor createReviewInteractor =
-                new CreateReviewInteractor(mongoReviewDataAccessObject,
+                new CreateReviewInteractor(reviewDataAccessObject,
                         mediaReviewsPresenter);
         final EditReviewInteractor editReviewInteractor =
-                new EditReviewInteractor(mongoReviewDataAccessObject,
+                new EditReviewInteractor(reviewDataAccessObject,
                         mediaReviewsPresenter);
         final DeleteReviewInteractor deleteReviewInteractor =
-                new DeleteReviewInteractor(mongoReviewDataAccessObject,
+                new DeleteReviewInteractor(reviewDataAccessObject,
                         mediaReviewsPresenter);
         final LikeReviewInteractor likeReviewInteractor =
-                new LikeReviewInteractor(mongoReviewDataAccessObject,
+                new LikeReviewInteractor(reviewDataAccessObject,
                         mediaReviewsPresenter);
         final UnlikeReviewInteractor unlikeReviewInteractor =
-                new UnlikeReviewInteractor(mongoReviewDataAccessObject,
+                new UnlikeReviewInteractor(reviewDataAccessObject,
                         mediaReviewsPresenter);
 
         return new MediaReviewsController(getMediaReviewsInteractor,
@@ -940,19 +941,19 @@ public class AppBuilder {
         final CommentsPresenter commentsPresenter =
                 new CommentsPresenter(commentsViewModel);
         final GetReviewCommentsInteractor getReviewCommentsInteractor =
-                new GetReviewCommentsInteractor(mongoCommentDataAccessObject,
+                new GetReviewCommentsInteractor(commentDataAccessObject,
                         commentsPresenter);
         final CreateCommentInteractor createCommentInteractor =
-                new CreateCommentInteractor(mongoCommentDataAccessObject,
+                new CreateCommentInteractor(commentDataAccessObject,
                         commentsPresenter);
         final DeleteCommentInteractor deleteCommentInteractor =
-                new DeleteCommentInteractor(mongoCommentDataAccessObject,
+                new DeleteCommentInteractor(commentDataAccessObject,
                         commentsPresenter);
         final LikeCommentInteractor likeCommentInteractor =
-                new LikeCommentInteractor(mongoCommentDataAccessObject,
+                new LikeCommentInteractor(commentDataAccessObject,
                         commentsPresenter);
         final UnlikeCommentInteractor unlikeCommentInteractor =
-                new UnlikeCommentInteractor(mongoCommentDataAccessObject,
+                new UnlikeCommentInteractor(commentDataAccessObject,
                         commentsPresenter);
 
         return new CommentsController(getReviewCommentsInteractor,

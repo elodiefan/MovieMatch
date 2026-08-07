@@ -97,7 +97,8 @@ public class PersonalAccountView extends JPanel implements PropertyChangeListene
                 new ActionListener() {
                     @Override
                     public void actionPerformed(ActionEvent e) {
-                        personalAccountController.switchToReviewsView();
+                        final PersonalAccountState state = personalAccountViewModel.getState();
+                        personalAccountController.switchToReviewsView(state.getUsername());
                     }
                 }
         );
