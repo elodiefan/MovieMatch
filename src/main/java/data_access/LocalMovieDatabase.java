@@ -129,6 +129,10 @@ public class LocalMovieDatabase {
                 parseCast(movieNode.path("cast"));
         final int runtime =
                 movieNode.path("runtime").asInt();
+        final String overview =
+                movieNode.path("overview").asText("");
+        final String posterPath =
+                movieNode.path("posterPath").asText("");
 
         return new Movie(
                 id,
@@ -138,7 +142,9 @@ public class LocalMovieDatabase {
                 genres,
                 language,
                 cast,
-                runtime
+                runtime,
+                overview,
+                posterPath
         );
     }
 

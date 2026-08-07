@@ -17,6 +17,8 @@ public class MediaDetailOutputData {
     private final double averageRating;
     private final List<Genre> genres;
     private final String language;
+    private final String overview;
+    private final String posterPath;
 
     public MediaDetailOutputData(int mediaId,
                                  String mediaType,
@@ -24,7 +26,9 @@ public class MediaDetailOutputData {
                                  int releaseYear,
                                  double averageRating,
                                  List<Genre> genres,
-                                 String language) {
+                                 String language,
+                                 String overview,
+                                 String posterPath) {
         this.mediaId = mediaId;
         this.mediaType = mediaType;
         this.title = title;
@@ -32,6 +36,8 @@ public class MediaDetailOutputData {
         this.averageRating = averageRating;
         this.genres = genres;
         this.language = language;
+        this.overview = overview;
+        this.posterPath = posterPath;
     }
 
     public String getTitle() {
@@ -52,6 +58,14 @@ public class MediaDetailOutputData {
 
     public String getLanguage() {
         return language;
+    }
+
+    public String getOverview() {
+        return overview;
+    }
+
+    public String getPosterPath() {
+        return posterPath;
     }
 
     public int getMediaId() {

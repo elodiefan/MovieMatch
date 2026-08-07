@@ -5,21 +5,27 @@ import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
+import java.awt.Image;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.net.MalformedURLException;
+import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
 
 import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
+import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
+import javax.swing.SwingWorker;
 
 import entity.Media;
 import interface_adapter.filter.FilterController;
@@ -39,8 +45,15 @@ public class SearchResultView extends JPanel
     private static final int TITLE_FILTER_SPACING = 5;
     private static final int FILTER_FIELD_WIDTH = 6;
     private static final int SCROLL_UNIT_INCREMENT = 16;
-    private static final int RESULT_PANEL_WIDTH = 500;
-    private static final int RESULT_PANEL_HEIGHT = 45;
+    private static final int RESULTS_PER_ROW = 4;
+    private static final int CARD_WIDTH = 150;
+    private static final int CARD_HEIGHT = 245;
+    private static final int CARD_PADDING = 8;
+    private static final int CARD_SPACING = 10;
+    private static final int POSTER_WIDTH = 120;
+    private static final int POSTER_HEIGHT = 180;
+    private static final String POSTER_BASE_URL =
+            "https://image.tmdb.org/t/p/w342";
 
     private static final int ACTION_GENRE_ID = 28;
     private static final int ADVENTURE_GENRE_ID = 12;
@@ -128,7 +141,20 @@ public class SearchResultView extends JPanel
 
         resultsPanel = new JPanel();
         resultsPanel.setLayout(
-                new BoxLayout(resultsPanel, BoxLayout.Y_AXIS)
+                new GridLayout(
+                        0,
+                        RESULTS_PER_ROW,
+                        CARD_SPACING,
+                        CARD_SPACING
+                )
+        );
+        resultsPanel.setBorder(
+                BorderFactory.createEmptyBorder(
+                        CARD_SPACING,
+                        CARD_SPACING,
+                        CARD_SPACING,
+                        CARD_SPACING
+                )
         );
 
         // Holds both the filters and results so the whole page scrolls
@@ -500,31 +526,104 @@ public class SearchResultView extends JPanel
     }
 
     private void addMediaResult(Media media) {
-        final JPanel mediaPanel =
-                new JPanel(new FlowLayout(FlowLayout.LEFT));
+        final JButton mediaCard = new JButton();
+        mediaCard.setLayout(new BorderLayout(0, CARD_PADDING));
 
-        mediaPanel.setMaximumSize(
-                new Dimension(
-                        RESULT_PANEL_WIDTH, RESULT_PANEL_HEIGHT
+        mediaCard.setPreferredSize(
+                new Dimension(CARD_WIDTH, CARD_HEIGHT)
+        );
+        mediaCard.setBorder(
+                BorderFactory.createCompoundBorder(
+                        BorderFactory.createEtchedBorder(),
+                        BorderFactory.createEmptyBorder(
+                                CARD_PADDING,
+                                CARD_PADDING,
+                                CARD_PADDING,
+                                CARD_PADDING
+                        )
                 )
         );
+        mediaCard.setToolTipText("View details for " + media.getTitle());
+        mediaCard.addActionListener(event -> showMediaDetail(media));
 
-        final JLabel mediaLabel =
-                new JLabel(
-                        media.getTitle()
-                                + " ("
-                                + media.getReleaseYear()
-                                + ")"
-                );
+        final JLabel posterLabel = new JLabel();
+        posterLabel.setPreferredSize(
+                new Dimension(POSTER_WIDTH, POSTER_HEIGHT)
+        );
+        posterLabel.setHorizontalAlignment(JLabel.CENTER);
+        posterLabel.setVerticalAlignment(JLabel.CENTER);
+        updatePoster(posterLabel, media.getPosterPath());
 
-        final JButton detailButton =
-                new JButton("Detail");
+        final JLabel titleLabel = new JLabel(
+                "<html><div style='text-align:center'>"
+                        + escapeHtml(media.getTitle())
+                        + " (" + media.getReleaseYear() + ")"
+                        + "</div></html>"
+        );
+        titleLabel.setHorizontalAlignment(JLabel.CENTER);
 
-        detailButton.addActionListener(event -> showMediaDetail(media));
+        mediaCard.add(posterLabel, BorderLayout.CENTER);
+        mediaCard.add(titleLabel, BorderLayout.SOUTH);
+        resultsPanel.add(mediaCard);
+    }
 
-        mediaPanel.add(mediaLabel);
-        mediaPanel.add(detailButton);
-        resultsPanel.add(mediaPanel);
+    private void updatePoster(JLabel posterLabel, String posterPath) {
+        if (posterPath == null || posterPath.isEmpty()) {
+            posterLabel.setText("Poster unavailable");
+            return;
+        }
+
+        posterLabel.setText("Loading...");
+
+        new SwingWorker<ImageIcon, Void>() {
+            @Override
+            protected ImageIcon doInBackground() {
+                try {
+                    final ImageIcon original = new ImageIcon(
+                            URI.create(POSTER_BASE_URL + posterPath).toURL()
+                    );
+                    if (original.getIconWidth() <= 0) {
+                        return null;
+                    }
+                    final Image scaled = original.getImage().getScaledInstance(
+                            POSTER_WIDTH,
+                            POSTER_HEIGHT,
+                            Image.SCALE_SMOOTH
+                    );
+                    return new ImageIcon(scaled);
+                }
+                catch (MalformedURLException | IllegalArgumentException
+                       exception) {
+                    return null;
+                }
+            }
+
+            @Override
+            protected void done() {
+                try {
+                    final ImageIcon poster = get();
+                    posterLabel.setIcon(poster);
+                    posterLabel.setText(
+                            poster == null ? "Poster unavailable" : ""
+                    );
+                }
+                catch (InterruptedException exception) {
+                    Thread.currentThread().interrupt();
+                    posterLabel.setText("Poster unavailable");
+                }
+                catch (ExecutionException exception) {
+                    posterLabel.setText("Poster unavailable");
+                }
+            }
+        }.execute();
+    }
+
+    private String escapeHtml(String text) {
+        return text.replace("&", "&amp;")
+                .replace("<", "&lt;")
+                .replace(">", "&gt;")
+                .replace("\"", "&quot;")
+                .replace("'", "&#39;");
     }
 
     private void showMediaDetail(Media media) {

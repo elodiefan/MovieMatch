@@ -14,6 +14,8 @@ public class MediaDetailState {
     private double averageRating;
     private List<Genre> genres;
     private String language;
+    private String overview;
+    private String posterPath;
     private int mediaId;
     private String mediaType;
     private String mediaDetailError = "";
@@ -56,6 +58,22 @@ public class MediaDetailState {
 
     public void setLanguage(String language) {
         this.language = language;
+    }
+
+    public String getOverview() {
+        return overview;
+    }
+
+    public void setOverview(String overview) {
+        this.overview = overview;
+    }
+
+    public String getPosterPath() {
+        return posterPath;
+    }
+
+    public void setPosterPath(String posterPath) {
+        this.posterPath = posterPath;
     }
 
     public int getMediaId() {

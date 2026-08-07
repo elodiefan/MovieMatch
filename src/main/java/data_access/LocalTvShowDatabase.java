@@ -131,6 +131,10 @@ public class LocalTvShowDatabase {
                 tvShowNode.path("numberOfSeasons").asInt();
         final int numberOfEpisodes =
                 tvShowNode.path("numberOfEpisodes").asInt();
+        final String overview =
+                tvShowNode.path("overview").asText("");
+        final String posterPath =
+                tvShowNode.path("posterPath").asText("");
 
         return new TVShow(
                 id,
@@ -141,7 +145,9 @@ public class LocalTvShowDatabase {
                 language,
                 cast,
                 numberOfSeasons,
-                numberOfEpisodes
+                numberOfEpisodes,
+                overview,
+                posterPath
         );
     }
 
