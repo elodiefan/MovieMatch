@@ -1,7 +1,5 @@
 package use_case.get_profile;
 
-import interface_adapter.home_page.HomePagePresenter;
-
 /**
  * Interactor for get user profile use case.
  */
@@ -11,9 +9,9 @@ public class GetProfileInteractor implements GetProfileInputBoundary {
     private final GetProfileOutputBoundary userPresenter;
 
     public GetProfileInteractor(GetProfileUserDataAccessInterface getProfileUserDataAccessInterface,
-                                HomePagePresenter homePagePresenter) {
+                                GetProfileOutputBoundary getProfileOutputBoundary) {
         this.userDataAccessObject = getProfileUserDataAccessInterface;
-        this.userPresenter = homePagePresenter;
+        this.userPresenter = getProfileOutputBoundary;
     }
 
     /**
