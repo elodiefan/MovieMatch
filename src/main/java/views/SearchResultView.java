@@ -28,6 +28,7 @@ import java.util.concurrent.ExecutionException;
 import javax.swing.SwingWorker;
 
 import interface_adapter.filter.FilterController;
+import interface_adapter.filter.FilterRequestModel;
 import interface_adapter.search.SearchController;
 import interface_adapter.media_detail.MediaDetailController;
 import interface_adapter.search_result.SearchResultState;
@@ -318,7 +319,9 @@ public class SearchResultView extends JPanel
                         );
 
                 messageLabel.setText(" ");
-                filterController.execute(criteria);
+                filterController.execute(new FilterRequestModel(
+                        searchResultViewModel.getState().getOriginalResults(),
+                        criteria));
             }
             catch (NumberFormatException exception) {
                 showInputError(
@@ -347,7 +350,9 @@ public class SearchResultView extends JPanel
                             null
                     );
 
-            filterController.execute(emptyCriteria);
+            filterController.execute(new FilterRequestModel(
+                    searchResultViewModel.getState().getOriginalResults(),
+                    emptyCriteria));
         }
     }
 

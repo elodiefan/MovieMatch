@@ -776,10 +776,7 @@ public class AppBuilder {
                 new FilterInteractor(filterPresenter);
 
         final FilterController filterController =
-                new FilterController(
-                        filterInteractor,
-                        searchResultViewModel
-                );
+                new FilterController(filterInteractor);
 
         searchResultView.setFilterController(filterController);
 
