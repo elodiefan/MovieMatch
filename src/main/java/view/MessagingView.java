@@ -6,6 +6,7 @@ import interface_adapter.login.LoginState;
 import interface_adapter.login.LoginViewModel;
 import interface_adapter.messaging.MessagingController;
 import interface_adapter.messaging.MessagingViewModel;
+import interface_adapter.other_account.OtherAccountController;
 import interface_adapter.security_question.SecurityQuestionViewModel;
 
 import java.awt.*;
@@ -65,7 +66,16 @@ public class MessagingView extends JPanel implements PropertyChangeListener {
         this.add(textInputField);
     }
 
+    @Override
+    public void propertyChange(PropertyChangeEvent evt) {
+        return;
+    }
+
     public String getViewName() {
         return viewName;
+    }
+
+    public void setMessagingController(MessagingController messagingController) {
+        this.messagingController = messagingController;
     }
 }

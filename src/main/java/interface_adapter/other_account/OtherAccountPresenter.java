@@ -21,7 +21,7 @@ public class OtherAccountPresenter implements BlockUserOutputBoundary, AccessMes
 
     public OtherAccountPresenter(ViewManagerModel viewManagerModel,
                                  OtherAccountViewModel otherAccountViewModel,
-                                 ReviewsViewModel reviewsViewModel,
+//                                 ReviewsViewModel reviewsViewModel,
                                  MessagingViewModel messagingViewModel) {
         this.viewManagerModel = viewManagerModel;
         this.otherAccountViewModel = otherAccountViewModel;
