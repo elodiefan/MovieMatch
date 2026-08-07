@@ -7,5 +7,6 @@ public interface EditReviewInputBoundary {
     /**
      * Executes the use case.
      */
-    void execute(EditReviewInputData inputData);
+    void execute(String reviewId, String username, double rating,
+                 String reviewText);
 }

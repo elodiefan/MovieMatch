@@ -1,8 +1,8 @@
 package app;
 
-import data_access.TmdbApiClient;
-import data_access.TmdbSearchMediaDataAccess;
-import view.SearchResultView;
+import database.TmdbApiClient;
+import database.TmdbSearchMediaDataAccess;
+import views.SearchResultView;
 import interface_adapter.ViewManagerModel;
 import interface_adapter.search.SearchController;
 import interface_adapter.search.SearchPresenter;
@@ -12,7 +12,7 @@ import use_case.search.SearchInputBoundary;
 import use_case.search.SearchInteractor;
 import use_case.search.SearchMediaDataAccess;
 import use_case.search.SearchOutputBoundary;
-import view.SearchView;
+import views.SearchView;
 
 /**
  * Factory for assembling the Search Use Case to avoid direct changing of appbuilder.

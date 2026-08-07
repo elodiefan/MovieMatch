@@ -7,5 +7,5 @@ public interface LikeReviewInputBoundary {
     /**
      * Executes the use case.
      */
-    void execute(LikeReviewInputData inputData);
+    void execute(String reviewId, String username);
 }

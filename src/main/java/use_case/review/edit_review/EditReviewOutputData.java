@@ -1,8 +1,6 @@
 package use_case.review.edit_review;
 
-import entity.Review;
 import use_case.review.ReviewSummaryData;
-import use_case.review.ReviewSummaryMapper;
 
 /**
  * Output data for editing a review.
@@ -14,8 +12,8 @@ public final class EditReviewOutputData {
     /**
      * Handles this review or comment operation.
      */
-    public EditReviewOutputData(final Review inputReview) {
-        this.review = ReviewSummaryMapper.toSummary(inputReview);
+    public EditReviewOutputData(final ReviewSummaryData inputReview) {
+        this.review = inputReview;
     }
 
     /**

@@ -7,5 +7,5 @@ public interface UnlikeReviewInputBoundary {
     /**
      * Executes the use case.
      */
-    void execute(UnlikeReviewInputData inputData);
+    void execute(String reviewId, String username);
 }

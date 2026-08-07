@@ -15,14 +15,16 @@ public class AccessMessageChatInteractor implements AccessMessageChatInputBounda
      * Executes the access message chat use case.
      */
     @Override
-    public void execute(AccessMessageChatInputData accessMessageChatInputData) {
+    public void execute(String inputOtherUsername) {
+        final AccessMessageChatInputData accessMessageChatInputData =
+                new AccessMessageChatInputData(inputOtherUsername);
         final String otherUsername = accessMessageChatInputData.getOtherUsername();
         if (userDataAccessObject.canMessage(otherUsername)) {
             userPresenter.prepareAccessMessageChatFailView("Cannot message this user.");
         }
         else {
             final AccessMessageChatOutputData accessMessageChatOutputData = new AccessMessageChatOutputData(true, false);
-            userPresenter.prepareAccessMessageChatSuccessView(accessMessageChatOutputData);
+            userPresenter.prepareAccessMessageChatSuccessView(accessMessageChatOutputData.canViewChat());
         }
     }
 }

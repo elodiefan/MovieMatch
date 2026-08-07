@@ -3,9 +3,7 @@ package use_case.review.get_user_reviews;
 import java.util.ArrayList;
 import java.util.List;
 
-import entity.Review;
 import use_case.review.ReviewSummaryData;
-import use_case.review.ReviewSummaryMapper;
 
 /**
  * Output data for loading reviews written by one user.
@@ -17,8 +15,9 @@ public final class GetUserReviewsOutputData {
     /**
      * Creates output data for loaded user reviews.
      */
-    public GetUserReviewsOutputData(final List<Review> inputReviews) {
-        this.reviews = ReviewSummaryMapper.toSummaries(inputReviews);
+    public GetUserReviewsOutputData(final List<ReviewSummaryData>
+                                            inputReviews) {
+        this.reviews = new ArrayList<>(inputReviews);
     }
 
     /**

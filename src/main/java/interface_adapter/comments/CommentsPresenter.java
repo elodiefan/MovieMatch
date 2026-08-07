@@ -3,17 +3,12 @@ package interface_adapter.comments;
 import java.util.ArrayList;
 import java.util.List;
 
-import use_case.comment.CommentSummaryData;
-import use_case.comment.create_comment.CreateCommentOutputBoundary;
-import use_case.comment.create_comment.CreateCommentOutputData;
-import use_case.comment.delete_comment.DeleteCommentOutputBoundary;
-import use_case.comment.delete_comment.DeleteCommentOutputData;
-import use_case.comment.get_review_comments.GetReviewCommentsOutputBoundary;
-import use_case.comment.get_review_comments.GetReviewCommentsOutputData;
-import use_case.comment.like_comment.LikeCommentOutputBoundary;
-import use_case.comment.like_comment.LikeCommentOutputData;
-import use_case.comment.unlike_comment.UnlikeCommentOutputBoundary;
-import use_case.comment.unlike_comment.UnlikeCommentOutputData;
+import use_case.get_review_comments.CommentSummaryData;
+import use_case.create_comment.CreateCommentOutputBoundary;
+import use_case.delete_comment.DeleteCommentOutputBoundary;
+import use_case.get_review_comments.GetReviewCommentsOutputBoundary;
+import use_case.like_comment.LikeCommentOutputBoundary;
+import use_case.unlike_comment.UnlikeCommentOutputBoundary;
 
 /**
  * Presenter for review comments.
@@ -39,13 +34,13 @@ public final class CommentsPresenter implements GetReviewCommentsOutputBoundary,
     }
 
     @Override
-    public void prepareSuccessView(
-            final GetReviewCommentsOutputData outputData) {
+    public void prepareSuccessView(final String reviewId,
+                                   final List<CommentSummaryData> comments) {
         final CommentsState state = commentsViewModel.getState();
         final List<CommentRow> commentRows = state.getComments();
         commentRows.removeIf(comment -> comment.getReviewId().equals(
-                outputData.getReviewId()));
-        commentRows.addAll(prepareComments(outputData.getComments()));
+                reviewId));
+        commentRows.addAll(prepareComments(comments));
         state.setComments(commentRows);
         state.setCommentsError(null);
         commentsViewModel.setState(state);
@@ -53,22 +48,7 @@ public final class CommentsPresenter implements GetReviewCommentsOutputBoundary,
     }
 
     @Override
-    public void prepareSuccessView(final CreateCommentOutputData outputData) {
-        clearError();
-    }
-
-    @Override
-    public void prepareSuccessView(final DeleteCommentOutputData outputData) {
-        clearError();
-    }
-
-    @Override
-    public void prepareSuccessView(final LikeCommentOutputData outputData) {
-        clearError();
-    }
-
-    @Override
-    public void prepareSuccessView(final UnlikeCommentOutputData outputData) {
+    public void prepareSuccessView(final boolean created) {
         clearError();
     }
 

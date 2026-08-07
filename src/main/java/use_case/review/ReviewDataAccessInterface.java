@@ -5,7 +5,7 @@ import java.util.List;
 import java.util.Optional;
 
 import entity.Review;
-import use_case.comment.GetUserCommentsReviewDataAccessInterface;
+import use_case.get_user_comments.GetUserCommentsReviewDataAccessInterface;
 import use_case.review.create_review.CreateReviewDataAccessInterface;
 import use_case.review.delete_review.DeleteReviewDataAccessInterface;
 import use_case.review.edit_review.EditReviewDataAccessInterface;

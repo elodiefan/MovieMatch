@@ -7,7 +7,7 @@ public interface DeleteReviewOutputBoundary {
     /**
      * Handles this review or comment operation.
      */
-    void prepareSuccessView(DeleteReviewOutputData outputData);
+    void prepareSuccessView(boolean deleted);
 
     /**
      * Handles this review or comment operation.

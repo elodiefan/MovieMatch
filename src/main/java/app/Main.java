@@ -2,8 +2,8 @@ package app;
 
 import javax.swing.JFrame;
 
-import view.ErrorReporter;
-import view.UiTheme;
+import views.ErrorReporter;
+import views.UiTheme;
 
 /**
  * The Main class of our application.

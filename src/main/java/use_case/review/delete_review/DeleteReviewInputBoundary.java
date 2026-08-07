@@ -7,5 +7,5 @@ public interface DeleteReviewInputBoundary {
     /**
      * Executes the use case.
      */
-    void execute(DeleteReviewInputData inputData);
+    void execute(String reviewId, String username);
 }

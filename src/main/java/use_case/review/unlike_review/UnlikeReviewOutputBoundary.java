@@ -7,7 +7,7 @@ public interface UnlikeReviewOutputBoundary {
     /**
      * Handles this review or comment operation.
      */
-    void prepareSuccessView(UnlikeReviewOutputData outputData);
+    void prepareSuccessView(boolean unliked);
 
     /**
      * Handles this review or comment operation.

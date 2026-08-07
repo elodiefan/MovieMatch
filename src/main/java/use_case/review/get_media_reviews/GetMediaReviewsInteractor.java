@@ -4,6 +4,7 @@ import java.util.Comparator;
 import java.util.List;
 
 import entity.Review;
+import use_case.review.ReviewSummaryMapper;
 
 /**
  * Interactor for loading reviews for one media item.
@@ -48,12 +49,14 @@ public final class GetMediaReviewsInteractor
     }
 
     @Override
-    public void execute(final GetMediaReviewsInputData inputData) {
+    public void execute(final int mediaId, final String mediaType) {
         try {
             validatePresenter();
+            final GetMediaReviewsInputData inputData =
+                    new GetMediaReviewsInputData(mediaId, mediaType);
             final List<Review> reviews = getMediaReviews(
                     inputData.getMediaId(), inputData.getMediaType());
-            presenter.prepareSuccessView(new GetMediaReviewsOutputData(
+            presenter.prepareSuccessView(ReviewSummaryMapper.toSummaries(
                     reviews));
         } catch (IllegalArgumentException | IllegalStateException error) {
             if (presenter != null) {

@@ -7,7 +7,7 @@ public interface LikeReviewOutputBoundary {
     /**
      * Handles this review or comment operation.
      */
-    void prepareSuccessView(LikeReviewOutputData outputData);
+    void prepareSuccessView(boolean liked);
 
     /**
      * Handles this review or comment operation.

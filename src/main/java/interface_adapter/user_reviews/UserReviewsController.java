@@ -1,16 +1,10 @@
 package interface_adapter.user_reviews;
-import use_case.comment.get_user_comments.GetUserCommentsInputBoundary;
-import use_case.comment.get_user_comments.GetUserCommentsInputData;
+import use_case.get_user_comments.GetUserCommentsInputBoundary;
 import use_case.review.delete_review.DeleteReviewInputBoundary;
-import use_case.review.delete_review.DeleteReviewInputData;
 import use_case.review.edit_review.EditReviewInputBoundary;
-import use_case.review.edit_review.EditReviewInputData;
 import use_case.review.get_user_reviews.GetUserReviewsInputBoundary;
-import use_case.review.get_user_reviews.GetUserReviewsInputData;
 import use_case.review.like_review.LikeReviewInputBoundary;
-import use_case.review.like_review.LikeReviewInputData;
 import use_case.review.unlike_review.UnlikeReviewInputBoundary;
-import use_case.review.unlike_review.UnlikeReviewInputData;
 
 /**
  * Controller for the user reviews view.
@@ -65,7 +59,7 @@ public final class UserReviewsController {
      * Loads persisted reviews written by one user.
      */
     public void loadUserReviews(final String username) {
-        getUserReviewsInteractor.execute(new GetUserReviewsInputData(username));
+        getUserReviewsInteractor.execute(username);
     }
 
     /**
@@ -73,8 +67,7 @@ public final class UserReviewsController {
      */
     public void loadUserComments(final String username) {
         if (getUserCommentsInteractor != null) {
-            getUserCommentsInteractor.execute(
-                    new GetUserCommentsInputData(username));
+            getUserCommentsInteractor.execute(username);
         }
     }
 
@@ -85,31 +78,28 @@ public final class UserReviewsController {
     public void editReview(final String reviewId, final String username,
                              final double newRating,
                              final String newReviewText) {
-        editReviewInteractor.execute(new EditReviewInputData(reviewId,
-                username, newRating, newReviewText));
+        editReviewInteractor.execute(reviewId, username, newRating,
+                newReviewText);
     }
 
     /**
      * Deletes a persisted user review.
      */
     public void deleteReview(final String reviewId, final String username) {
-        deleteReviewInteractor.execute(new DeleteReviewInputData(reviewId,
-                username));
+        deleteReviewInteractor.execute(reviewId, username);
     }
 
     /**
      * Likes one persisted review.
      */
     public void likeReview(final String reviewId, final String username) {
-        likeReviewInteractor.execute(new LikeReviewInputData(reviewId,
-                username));
+        likeReviewInteractor.execute(reviewId, username);
     }
 
     /**
      * Unlikes one persisted review.
      */
     public void unlikeReview(final String reviewId, final String username) {
-        unlikeReviewInteractor.execute(new UnlikeReviewInputData(reviewId,
-                username));
+        unlikeReviewInteractor.execute(reviewId, username);
     }
 }

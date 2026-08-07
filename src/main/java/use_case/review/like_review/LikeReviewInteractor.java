@@ -35,12 +35,14 @@ public final class LikeReviewInteractor implements LikeReviewInputBoundary {
     }
 
     @Override
-    public void execute(final LikeReviewInputData inputData) {
+    public void execute(final String reviewId, final String username) {
         try {
             validatePresenter();
+            final LikeReviewInputData inputData =
+                    new LikeReviewInputData(reviewId, username);
             final boolean liked = likeReview(inputData.getReviewId(),
                     inputData.getUsername());
-            presenter.prepareSuccessView(new LikeReviewOutputData(liked));
+            presenter.prepareSuccessView(liked);
         } catch (IllegalArgumentException | IllegalStateException error) {
             if (presenter != null) {
                 presenter.prepareFailView(error.getMessage());

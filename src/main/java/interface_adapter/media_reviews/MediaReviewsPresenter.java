@@ -5,17 +5,11 @@ import java.util.List;
 
 import use_case.review.ReviewSummaryData;
 import use_case.review.create_review.CreateReviewOutputBoundary;
-import use_case.review.create_review.CreateReviewOutputData;
 import use_case.review.delete_review.DeleteReviewOutputBoundary;
-import use_case.review.delete_review.DeleteReviewOutputData;
 import use_case.review.edit_review.EditReviewOutputBoundary;
-import use_case.review.edit_review.EditReviewOutputData;
 import use_case.review.get_media_reviews.GetMediaReviewsOutputBoundary;
-import use_case.review.get_media_reviews.GetMediaReviewsOutputData;
 import use_case.review.like_review.LikeReviewOutputBoundary;
-import use_case.review.like_review.LikeReviewOutputData;
 import use_case.review.unlike_review.UnlikeReviewOutputBoundary;
-import use_case.review.unlike_review.UnlikeReviewOutputData;
 
 /**
  * Presenter for the media reviews panel.
@@ -43,36 +37,21 @@ public final class MediaReviewsPresenter
     }
 
     @Override
-    public void prepareSuccessView(final GetMediaReviewsOutputData outputData) {
+    public void prepareSuccessView(final List<ReviewSummaryData> reviews) {
         final MediaReviewsState state = mediaReviewsViewModel.getState();
-        state.setReviews(prepareReviews(outputData.getReviews()));
+        state.setReviews(prepareReviews(reviews));
         state.setMediaReviewsError(null);
         mediaReviewsViewModel.setState(state);
         mediaReviewsViewModel.firePropertyChanged();
     }
 
     @Override
-    public void prepareSuccessView(final CreateReviewOutputData outputData) {
+    public void prepareSuccessView(final ReviewSummaryData review) {
         clearError();
     }
 
     @Override
-    public void prepareSuccessView(final EditReviewOutputData outputData) {
-        clearError();
-    }
-
-    @Override
-    public void prepareSuccessView(final DeleteReviewOutputData outputData) {
-        clearError();
-    }
-
-    @Override
-    public void prepareSuccessView(final LikeReviewOutputData outputData) {
-        clearError();
-    }
-
-    @Override
-    public void prepareSuccessView(final UnlikeReviewOutputData outputData) {
+    public void prepareSuccessView(final boolean deleted) {
         clearError();
     }
 

@@ -1,5 +1,9 @@
 package use_case.review.get_media_reviews;
 
+import java.util.List;
+
+import use_case.review.ReviewSummaryData;
+
 /**
  * Output boundary for loading reviews for one media item.
  */
@@ -7,7 +11,7 @@ public interface GetMediaReviewsOutputBoundary {
     /**
      * Handles this review or comment operation.
      */
-    void prepareSuccessView(GetMediaReviewsOutputData outputData);
+    void prepareSuccessView(List<ReviewSummaryData> reviews);
 
     /**
      * Handles this review or comment operation.

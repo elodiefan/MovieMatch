@@ -4,6 +4,7 @@ import java.util.Comparator;
 import java.util.List;
 
 import entity.Review;
+import use_case.review.ReviewSummaryMapper;
 
 /**
  * Interactor for loading reviews written by one user.
@@ -45,13 +46,15 @@ public final class GetUserReviewsInteractor
      * Executes the use case and sends output through the output boundary.
      */
     @Override
-    public void execute(final GetUserReviewsInputData inputData) {
+    public void execute(final String username) {
         try {
             validateOutputBoundary();
+            final GetUserReviewsInputData inputData =
+                    new GetUserReviewsInputData(username);
             final List<Review> matchingReviews =
                     getUserReviews(inputData.getUsername());
-            userReviewsPresenter.prepareSuccessView(
-                    new GetUserReviewsOutputData(matchingReviews));
+            userReviewsPresenter.prepareUserReviewsSuccessView(
+                    ReviewSummaryMapper.toSummaries(matchingReviews));
         } catch (IllegalArgumentException | IllegalStateException error) {
             if (userReviewsPresenter != null) {
                 userReviewsPresenter.prepareFailView(error.getMessage());

@@ -1,0 +1,11 @@
+package use_case.get_user_comments;
+
+/**
+ * Input boundary for loading comments written by one user.
+ */
+public interface GetUserCommentsInputBoundary {
+    /**
+     * Executes the use case.
+     */
+    void execute(String username);
+}

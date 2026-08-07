@@ -8,5 +8,5 @@ public interface BlockUserInputBoundary {
     /**
      * Executes the block user use case.
      */
-    void execute(BlockUserInputData blockUserInputData);
+    void execute(String otherUsername);
 }

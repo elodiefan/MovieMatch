@@ -11,9 +11,9 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.WindowConstants;
 
-import view.UiTheme;
+import views.UiTheme;
 
-import data_access.*;
+import database.*;
 
 import interface_adapter.comments.CommentsController;
 import interface_adapter.comments.CommentsPresenter;
@@ -46,20 +46,20 @@ import interface_adapter.personal_account.PersonalAccountViewModel;
 import interface_adapter.reset_password.ResetPasswordController;
 import interface_adapter.reset_password.ResetPasswordPresenter;
 import interface_adapter.reset_password.ResetPasswordViewModel;
-import view.SearchUserView;
+import views.SearchUserView;
 import interface_adapter.search_user.SearchUserViewModel;
 import interface_adapter.search.SearchViewModel;
 import interface_adapter.recommendation.RecommendationViewModel;
 import interface_adapter.search_result.SearchResultViewModel;
 import interface_adapter.settings.SettingsController;
-import view.HomeRecommendationsPanel;
-import view.RecommendationView;
+import views.HomeRecommendationsPanel;
+import views.RecommendationView;
 import interface_adapter.settings.SettingsPresenter;
 import interface_adapter.settings.SettingsViewModel;
 import use_case.settings.SettingsInputBoundary;
 import use_case.settings.SettingsInteractor;
 import use_case.settings.SettingsOutputBoundary;
-import view.SettingsView;
+import views.SettingsView;
 import interface_adapter.security_question.SecurityQuestionController;
 import interface_adapter.security_question.SecurityQuestionPresenter;
 import interface_adapter.security_question.SecurityQuestionViewModel;
@@ -80,14 +80,13 @@ import interface_adapter.signup.SignupViewModel;
 import interface_adapter.user_reviews.UserReviewsController;
 import interface_adapter.user_reviews.UserReviewsPresenter;
 import interface_adapter.user_reviews.UserReviewsViewModel;
-import use_case.comment.create_comment.CreateCommentInteractor;
-import use_case.comment.delete_comment.DeleteCommentInteractor;
-import use_case.comment.get_review_comments.GetReviewCommentsInteractor;
-import use_case.comment.get_user_comments.GetUserCommentsInputBoundary;
-import use_case.comment.get_user_comments.GetUserCommentsInteractor;
-import use_case.comment.like_comment.LikeCommentInteractor;
-import use_case.comment.unlike_comment.UnlikeCommentInteractor;
-import use_case.comment.CommentDataAccessInterface;
+import use_case.create_comment.CreateCommentInteractor;
+import use_case.delete_comment.DeleteCommentInteractor;
+import use_case.get_review_comments.GetReviewCommentsInteractor;
+import use_case.get_user_comments.GetUserCommentsInputBoundary;
+import use_case.get_user_comments.GetUserCommentsInteractor;
+import use_case.like_comment.LikeCommentInteractor;
+import use_case.unlike_comment.UnlikeCommentInteractor;
 import use_case.block_user.BlockUserInputBoundary;
 import use_case.block_user.BlockUserInteractor;
 import use_case.filter.FilterInputBoundary;
@@ -146,21 +145,21 @@ import use_case.security_question.SecurityQuestionOutputBoundary;
 import use_case.signup.SignupInputBoundary;
 import use_case.signup.SignupInteractor;
 import use_case.signup.SignupOutputBoundary;
-import view.DeleteAccountView;
-import view.GetListsView;
-import view.HomePageView;
-import view.LoginView;
-import view.LogoutConfirmView;
-import view.MediaDetailView;
-import view.MyReviewsView;
-import view.OtherAccountView;
-import view.PersonalAccountView;
-import view.ResetPasswordView;
-import view.SearchResultView;
-import view.SearchView;
-import view.SecurityQuestionView;
-import view.SignupView;
-import view.ViewManager;
+import views.DeleteAccountView;
+import views.GetListsView;
+import views.HomePageView;
+import views.LoginView;
+import views.LogoutConfirmView;
+import views.MediaDetailView;
+import views.MyReviewsView;
+import views.OtherAccountView;
+import views.PersonalAccountView;
+import views.ResetPasswordView;
+import views.SearchResultView;
+import views.SearchView;
+import views.SecurityQuestionView;
+import views.SignupView;
+import views.ViewManager;
 
 /**
  * The AppBuilder class is responsible for putting together the pieces of
@@ -190,7 +189,8 @@ public class AppBuilder {
     // Swap to InMemoryUserDataAccessObject to run without a network.
     private final UserDataAccessObject userDataAccessObject = new MongoUserDataAccessObject();
     private final ReviewDataAccessInterface reviewDataAccessObject = new MongoReviewDataAccessObject();
-    private final CommentDataAccessInterface commentDataAccessObject = new MongoCommentDataAccessObject();
+    private final MongoCommentDataAccessObject commentDataAccessObject =
+            new MongoCommentDataAccessObject();
 
     // Counts failed security answers and holds lock-outs. One shared instance, so
     // every attempt on the same account is counted together.

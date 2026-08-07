@@ -3,9 +3,7 @@ package use_case.review.get_media_reviews;
 import java.util.ArrayList;
 import java.util.List;
 
-import entity.Review;
 import use_case.review.ReviewSummaryData;
-import use_case.review.ReviewSummaryMapper;
 
 /**
  * Output data for loading reviews for one media item.
@@ -17,8 +15,9 @@ public final class GetMediaReviewsOutputData {
     /**
      * Handles this review or comment operation.
      */
-    public GetMediaReviewsOutputData(final List<Review> inputReviews) {
-        this.reviews = ReviewSummaryMapper.toSummaries(inputReviews);
+    public GetMediaReviewsOutputData(final List<ReviewSummaryData>
+                                             inputReviews) {
+        this.reviews = new ArrayList<>(inputReviews);
     }
 
     /**

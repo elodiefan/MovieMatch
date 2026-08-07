@@ -5,6 +5,7 @@ import java.util.UUID;
 
 import entity.Review;
 import entity.UserContent;
+import use_case.review.ReviewSummaryMapper;
 
 /**
  * Interactor for creating a review.
@@ -59,15 +60,23 @@ public final class CreateReviewInteractor implements CreateReviewInputBoundary {
      * Executes the use case.
      */
     @Override
-    public void execute(final CreateReviewInputData inputData) {
+    public void execute(final int mediaId, final String mediaType,
+                        final String mediaTitle, final String authorUsername,
+                        final String authorDisplayName, final double rating,
+                        final String reviewText) {
         try {
             validatePresenter();
+            final CreateReviewInputData inputData =
+                    new CreateReviewInputData(mediaId, mediaType, mediaTitle,
+                            authorUsername, authorDisplayName, rating,
+                            reviewText);
             final Review review = createReview(inputData.getMediaId(),
                     inputData.getMediaType(), inputData.getMediaTitle(),
                     inputData.getAuthorUsername(),
                     inputData.getAuthorDisplayName(), inputData.getRating(),
                     inputData.getReviewText());
-            presenter.prepareSuccessView(new CreateReviewOutputData(review));
+            presenter.prepareSuccessView(ReviewSummaryMapper.toSummary(
+                    review));
         } catch (IllegalArgumentException | IllegalStateException error) {
             if (presenter != null) {
                 presenter.prepareFailView(error.getMessage());

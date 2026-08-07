@@ -1,6 +1,6 @@
 package app;
 
-import data_access.UserDataAccessObject;
+import database.UserDataAccessObject;
 import interface_adapter.ViewManagerModel;
 import interface_adapter.search_user.SearchUserController;
 import interface_adapter.search_user.SearchUserPresenter;
@@ -9,7 +9,7 @@ import use_case.get_profile.GetProfileInputBoundary;
 import use_case.search_user.SearchUserInputBoundary;
 import use_case.search_user.SearchUserInteractor;
 import use_case.search_user.SearchUserOutputBoundary;
-import view.SearchUserView;
+import views.SearchUserView;
 
 /** Factory for assembling the Search User Use Case to avoid direct changing of appbuilder. */
 public final class SearchUserUseCaseFactory {

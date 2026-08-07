@@ -5,6 +5,7 @@ import java.util.Optional;
 
 import entity.Review;
 import entity.UserContent;
+import use_case.review.ReviewSummaryMapper;
 
 /**
  * Interactor for editing a review.
@@ -51,16 +52,21 @@ public final class EditReviewInteractor implements EditReviewInputBoundary {
     }
 
     @Override
-    public void execute(final EditReviewInputData inputData) {
+    public void execute(final String reviewId, final String username,
+                        final double rating, final String reviewText) {
         try {
             validatePresenter();
+            final EditReviewInputData inputData =
+                    new EditReviewInputData(reviewId, username, rating,
+                            reviewText);
             final Review review = editReview(inputData.getReviewId(),
                     inputData.getUsername(), inputData.getRating(),
                     inputData.getReviewText());
             if (review == null) {
                 presenter.prepareFailView("Review could not be edited.");
             } else {
-                presenter.prepareSuccessView(new EditReviewOutputData(review));
+                presenter.prepareSuccessView(ReviewSummaryMapper.toSummary(
+                        review));
             }
         } catch (IllegalArgumentException | IllegalStateException error) {
             if (presenter != null) {

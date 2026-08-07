@@ -10,10 +10,10 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import data_access.ClampingScoreAdjuster;
-import data_access.InMemoryRecommendationDataAccessObject;
-import data_access.NoOpScoreAdjuster;
-import data_access.SeedMediaCatalogue;
+import database.ClampingScoreAdjuster;
+import database.InMemoryRecommendationDataAccessObject;
+import database.NoOpScoreAdjuster;
+import database.SeedMediaCatalogue;
 import entity.Media;
 import entity.recommendation.TasteProfile;
 

@@ -3,20 +3,14 @@ package interface_adapter.user_reviews;
 import java.util.ArrayList;
 import java.util.List;
 
-import use_case.comment.get_user_comments.GetUserCommentsOutputBoundary;
-import use_case.comment.get_user_comments.GetUserCommentsOutputData;
-import use_case.comment.UserCommentSummaryData;
+import use_case.get_user_comments.GetUserCommentsOutputBoundary;
+import use_case.get_user_comments.UserCommentSummaryData;
 import use_case.review.ReviewSummaryData;
 import use_case.review.delete_review.DeleteReviewOutputBoundary;
-import use_case.review.delete_review.DeleteReviewOutputData;
 import use_case.review.edit_review.EditReviewOutputBoundary;
-import use_case.review.edit_review.EditReviewOutputData;
 import use_case.review.get_user_reviews.GetUserReviewsOutputBoundary;
-import use_case.review.get_user_reviews.GetUserReviewsOutputData;
 import use_case.review.like_review.LikeReviewOutputBoundary;
-import use_case.review.like_review.LikeReviewOutputData;
 import use_case.review.unlike_review.UnlikeReviewOutputBoundary;
-import use_case.review.unlike_review.UnlikeReviewOutputData;
 
 /**
  * Presenter for the user reviews view.
@@ -40,9 +34,10 @@ public final class UserReviewsPresenter implements GetUserReviewsOutputBoundary,
      * Prepares loaded reviews for display.
      */
     @Override
-    public void prepareSuccessView(final GetUserReviewsOutputData outputData) {
+    public void prepareUserReviewsSuccessView(
+            final List<ReviewSummaryData> reviews) {
         final UserReviewsState state = userReviewsViewModel.getState();
-        state.setReviews(prepareReviews(outputData.getReviews()));
+        state.setReviews(prepareReviews(reviews));
         state.setUserReviewsError(null);
         userReviewsViewModel.setState(state);
         userReviewsViewModel.firePropertyChanged();
@@ -52,32 +47,22 @@ public final class UserReviewsPresenter implements GetUserReviewsOutputBoundary,
      * Prepares loaded comments for display.
      */
     @Override
-    public void prepareSuccessView(
-            final GetUserCommentsOutputData outputData) {
+    public void prepareUserCommentsSuccessView(
+            final List<UserCommentSummaryData> comments) {
         final UserReviewsState state = userReviewsViewModel.getState();
-        state.setComments(prepareComments(outputData.getComments()));
+        state.setComments(prepareComments(comments));
         state.setUserReviewsError(null);
         userReviewsViewModel.setState(state);
         userReviewsViewModel.firePropertyChanged();
     }
 
     @Override
-    public void prepareSuccessView(final EditReviewOutputData outputData) {
+    public void prepareSuccessView(final ReviewSummaryData review) {
         clearError();
     }
 
     @Override
-    public void prepareSuccessView(final DeleteReviewOutputData outputData) {
-        clearError();
-    }
-
-    @Override
-    public void prepareSuccessView(final LikeReviewOutputData outputData) {
-        clearError();
-    }
-
-    @Override
-    public void prepareSuccessView(final UnlikeReviewOutputData outputData) {
+    public void prepareSuccessView(final boolean deleted) {
         clearError();
     }
 

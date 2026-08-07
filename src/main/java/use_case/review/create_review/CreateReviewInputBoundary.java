@@ -7,5 +7,7 @@ public interface CreateReviewInputBoundary {
     /**
      * Executes the use case.
      */
-    void execute(CreateReviewInputData inputData);
+    void execute(int mediaId, String mediaType, String mediaTitle,
+                 String authorUsername, String authorDisplayName,
+                 double rating, String reviewText);
 }

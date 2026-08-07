@@ -7,5 +7,5 @@ public interface GetMediaReviewsInputBoundary {
     /**
      * Executes the use case.
      */
-    void execute(GetMediaReviewsInputData inputData);
+    void execute(int mediaId, String mediaType);
 }

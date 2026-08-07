@@ -8,7 +8,7 @@ public interface AccessMessageChatOutputBoundary {
     /**
      * Prepares the success view for the access message chat use case.
      */
-    void prepareAccessMessageChatSuccessView(AccessMessageChatOutputData outputData);
+    void prepareAccessMessageChatSuccessView(boolean canViewChat);
 
     /**
      * Prepares the fail view for the access message chat use case.

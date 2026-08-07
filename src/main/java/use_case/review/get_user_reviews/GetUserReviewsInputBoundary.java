@@ -7,5 +7,5 @@ public interface GetUserReviewsInputBoundary {
     /**
      * Executes the use case.
      */
-    void execute(GetUserReviewsInputData inputData);
+    void execute(String username);
 }
