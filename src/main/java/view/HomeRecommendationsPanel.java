@@ -1,6 +1,7 @@
 package view;
 
 import java.awt.BorderLayout;
+import java.awt.CardLayout;
 import java.awt.Component;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
@@ -37,7 +38,12 @@ public class HomeRecommendationsPanel extends JPanel implements PropertyChangeLi
     private final RecommendationViewModel recommendationViewModel;
     private RecommendationController recommendationController;
 
+    private static final String LOADING_CARD = "loading";
+    private static final String RESULTS_CARD = "results";
+
     private final JPanel rows;
+    private final LoadingPanel loadingPanel;
+    private final JPanel centre;
     private final JLabel message;
     private final JButton seeAllButton;
 
@@ -51,10 +57,17 @@ public class HomeRecommendationsPanel extends JPanel implements PropertyChangeLi
         rows = new JPanel();
         rows.setLayout(new BoxLayout(rows, BoxLayout.Y_AXIS));
 
-        message = new JLabel(RecommendationViewModel.LOADING_LABEL, SwingConstants.CENTER);
+        message = new JLabel(" ", SwingConstants.CENTER);
 
         final JScrollPane scroll = new JScrollPane(rows);
         scroll.setBorder(BorderFactory.createTitledBorder(RecommendationViewModel.TITLE_LABEL));
+
+        loadingPanel = new LoadingPanel(RecommendationViewModel.LOADING_LABEL);
+        loadingPanel.setDetail("Looking at what you have watched and saved");
+
+        centre = new JPanel(new CardLayout());
+        centre.add(loadingPanel, LOADING_CARD);
+        centre.add(scroll, RESULTS_CARD);
 
         seeAllButton = new JButton(SEE_ALL_LABEL);
         seeAllButton.addActionListener(
@@ -64,8 +77,14 @@ public class HomeRecommendationsPanel extends JPanel implements PropertyChangeLi
 
         this.setLayout(new BorderLayout());
         this.add(message, BorderLayout.NORTH);
-        this.add(scroll, BorderLayout.CENTER);
+        this.add(centre, BorderLayout.CENTER);
         this.add(actions, BorderLayout.SOUTH);
+        showCard(LOADING_CARD);
+    }
+
+    private void showCard(String card) {
+        ((CardLayout) centre.getLayout()).show(centre, card);
+        loadingPanel.setAnimating(LOADING_CARD.equals(card));
     }
 
     /**
@@ -80,7 +99,8 @@ public class HomeRecommendationsPanel extends JPanel implements PropertyChangeLi
             return;
         }
         loading = true;
-        message.setText(RecommendationViewModel.LOADING_LABEL);
+        message.setText(" ");
+        showCard(LOADING_CARD);
 
         new SwingWorker<Void, Void>() {
             @Override
@@ -122,6 +142,7 @@ public class HomeRecommendationsPanel extends JPanel implements PropertyChangeLi
         }
 
         seeAllButton.setVisible(!state.getRecommendations().isEmpty());
+        showCard(RESULTS_CARD);
 
         rows.revalidate();
         rows.repaint();

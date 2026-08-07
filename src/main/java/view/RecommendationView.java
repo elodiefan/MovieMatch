@@ -1,6 +1,7 @@
 package view;
 
 import java.awt.BorderLayout;
+import java.awt.CardLayout;
 import java.awt.Component;
 import java.awt.Font;
 import java.beans.PropertyChangeEvent;
@@ -38,7 +39,13 @@ public class RecommendationView extends JPanel implements PropertyChangeListener
     private final RecommendationViewModel recommendationViewModel;
     private RecommendationController recommendationController;
 
+    private static final String LOADING_CARD = "loading";
+    private static final String RESULTS_CARD = "results";
+
     private final JPanel sectionsPanel;
+    private final JScrollPane resultsScroll;
+    private final LoadingPanel loadingPanel;
+    private final JPanel centre;
     private final JLabel message;
     private final JButton refreshButton;
 
@@ -50,7 +57,9 @@ public class RecommendationView extends JPanel implements PropertyChangeListener
 
         final JLabel title = new JLabel(RecommendationViewModel.TITLE_LABEL, SwingConstants.CENTER);
 
-        message = new JLabel(RecommendationViewModel.LOADING_LABEL, SwingConstants.CENTER);
+        // Blank while loading, since the loading panel says so already. This is
+        // for messages that outlive the spinner, like an error or an empty result.
+        message = new JLabel(" ", SwingConstants.CENTER);
 
         final JPanel header = new JPanel();
         header.setLayout(new BoxLayout(header, BoxLayout.Y_AXIS));
@@ -60,7 +69,16 @@ public class RecommendationView extends JPanel implements PropertyChangeListener
 
         sectionsPanel = new JPanel();
         sectionsPanel.setLayout(new BoxLayout(sectionsPanel, BoxLayout.Y_AXIS));
-        final JScrollPane scroll = new JScrollPane(sectionsPanel);
+        resultsScroll = new JScrollPane(sectionsPanel);
+
+        loadingPanel = new LoadingPanel(RecommendationViewModel.LOADING_LABEL);
+        loadingPanel.setDetail("Scoring titles against what you have watched");
+
+        // One slot swapped between the two, so the screen is never showing an
+        // empty list and a spinner at the same time.
+        centre = new JPanel(new CardLayout());
+        centre.add(loadingPanel, LOADING_CARD);
+        centre.add(resultsScroll, RESULTS_CARD);
 
         refreshButton = new JButton(RecommendationViewModel.REFRESH_BUTTON_LABEL);
         refreshButton.addActionListener(event -> reload());
@@ -75,8 +93,16 @@ public class RecommendationView extends JPanel implements PropertyChangeListener
 
         this.setLayout(new BorderLayout());
         this.add(header, BorderLayout.NORTH);
-        this.add(scroll, BorderLayout.CENTER);
+        this.add(centre, BorderLayout.CENTER);
         this.add(actions, BorderLayout.SOUTH);
+    }
+
+    /**
+     * Shows either the spinner or the results, never both.
+     */
+    private void showCard(String card) {
+        ((CardLayout) centre.getLayout()).show(centre, card);
+        loadingPanel.setAnimating(LOADING_CARD.equals(card));
     }
 
     /**
@@ -92,7 +118,8 @@ public class RecommendationView extends JPanel implements PropertyChangeListener
             return;
         }
         refreshButton.setEnabled(false);
-        message.setText(RecommendationViewModel.LOADING_LABEL);
+        message.setText(" ");
+        showCard(LOADING_CARD);
 
         new SwingWorker<Void, Void>() {
             @Override
@@ -143,6 +170,8 @@ public class RecommendationView extends JPanel implements PropertyChangeListener
                 state.getSections().forEach(this::addSection);
             }
         }
+
+        showCard(RESULTS_CARD);
 
         sectionsPanel.revalidate();
         sectionsPanel.repaint();
