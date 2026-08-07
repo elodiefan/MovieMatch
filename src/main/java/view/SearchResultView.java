@@ -560,9 +560,7 @@ public class SearchResultView extends JPanel
             message = shown + " of " + loaded + " loaded result(s) match your filters.";
         }
         else if (state.isMoreAvailable() && total > loaded) {
-            // TMDB counts people in its total as well as films and shows, and
-            // those are dropped, so the figure is close rather than exact.
-            message = "Showing " + shown + " of about " + total + " result(s).";
+            message = "Showing " + shown + " of " + total + " result(s).";
         }
         else {
             message = shown + " result(s) found.";

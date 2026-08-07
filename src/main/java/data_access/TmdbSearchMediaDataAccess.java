@@ -22,6 +22,8 @@ public class TmdbSearchMediaDataAccess
 
     private static final String ID_FIELD = "id";
     private static final String RESULTS_FIELD = "results";
+    private static final String TOTAL_PAGES_FIELD = "total_pages";
+    private static final String TOTAL_RESULTS_FIELD = "total_results";
     private static final String GENRES_FIELD = "genres";
     private static final String VOTE_AVERAGE_FIELD = "vote_average";
     private static final String ORIGINAL_LANGUAGE_FIELD =
@@ -66,11 +68,20 @@ public class TmdbSearchMediaDataAccess
 
         if (keyword != null && !keyword.trim().isEmpty()) {
             try {
-                final JsonNode pageNode =
-                        objectMapper.readTree(tmdbApiClient.searchMulti(keyword, page));
-                addMediaFromPage(pageNode, results);
-                totalPages = pageNode.path("total_pages").asInt();
-                totalResults = pageNode.path("total_results").asInt();
+                final JsonNode movies =
+                        objectMapper.readTree(tmdbApiClient.searchMovies(keyword, page));
+                final JsonNode shows =
+                        objectMapper.readTree(tmdbApiClient.searchTvShows(keyword, page));
+
+                addMediaFromPage(movies, results, true);
+                addMediaFromPage(shows, results, false);
+
+                // Movies and shows are paged separately, so keep going until
+                // both are exhausted, and report the two counts together.
+                totalPages = Math.max(movies.path(TOTAL_PAGES_FIELD).asInt(),
+                        shows.path(TOTAL_PAGES_FIELD).asInt());
+                totalResults = movies.path(TOTAL_RESULTS_FIELD).asInt()
+                        + shows.path(TOTAL_RESULTS_FIELD).asInt();
             }
             catch (IOException exception) {
                 throw new IllegalStateException(
@@ -85,22 +96,20 @@ public class TmdbSearchMediaDataAccess
 
 
     /**
-     * Converts the movie and TV results (id & media type) within one search page.
-     * Person results returned by multi-search are ignored since it's not included in if-else conditions.
+     * Converts one page of results, which are all of the same kind because the
+     * movie and TV endpoints are queried separately.
      */
     private void addMediaFromPage(
             JsonNode pageNode,
-            List<Media> results) throws IOException {
+            List<Media> results,
+            boolean movies) throws IOException {
         for (JsonNode item : pageNode.path(RESULTS_FIELD)) {
-            final String mediaType =
-                    item.path("media_type").asText();
-            final int id =
-                    item.path(ID_FIELD).asInt();
+            final int id = item.path(ID_FIELD).asInt();
 
-            if ("movie".equals(mediaType)) {
+            if (movies) {
                 results.add(getMovie(id));
             }
-            else if ("tv".equals(mediaType)) {
+            else {
                 results.add(getTvShow(id));
             }
         }

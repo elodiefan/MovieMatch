@@ -48,6 +48,29 @@ public class TmdbApiClient {
     }
 
     /**
+     * Searches for movies only.
+     * <p>
+     * Multi-search also returns people, who are dropped on the way through, so
+     * a page of it can yield nothing at all and its result count bears little
+     * relation to how many films and shows there are. These endpoints return
+     * only what the application can actually show.
+     */
+    public String searchMovies(String keyword, int page) throws IOException {
+        return sendGetRequest("/search/movie?query=" + encode(keyword) + "&page=" + page);
+    }
+
+    /**
+     * Searches for TV shows only.
+     */
+    public String searchTvShows(String keyword, int page) throws IOException {
+        return sendGetRequest("/search/tv?query=" + encode(keyword) + "&page=" + page);
+    }
+
+    private static String encode(String keyword) {
+        return URLEncoder.encode(keyword.trim(), StandardCharsets.UTF_8);
+    }
+
+    /**
      * Gets the official movie genre list from TMDB.
      * <a href="https://developer.themoviedb.org/reference/genre-movie-list?utm_source=chatgpt.com">...</a>
      */
