@@ -518,12 +518,12 @@ public class AppBuilder {
         final PersonalAccountController personalAccountController = new PersonalAccountController(viewManagerModel,
                 getSecurityQuestionInteractor,
                 getListsController,
+                changeDisplayNameViewModel,
                 logoutViewModel,
                 resetPasswordViewModel.getViewName(),
                 homePageViewModel.getViewName(),
                 getListsViewModel.getViewName(),
-                userReviewsViewModel.getViewName(),
-                changeDisplayNameViewModel.getViewName());
+                userReviewsViewModel.getViewName());
 
         personalAccountView.setPersonalAccountController(personalAccountController);
         return this;

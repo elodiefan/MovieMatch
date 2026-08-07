@@ -44,8 +44,7 @@ public class ChangeDisplayNamePresenter implements ChangeDisplayNameOutputBounda
     }
 
     /**
-     * The password has been changed, so clear this screen, confirm what
-     * happened, and bring the user back to it.
+     * The display name has been changed.
      * @param username the account whose password was changed
      */
     @Override

@@ -14,7 +14,6 @@ import interface_adapter.ViewManagerModel;
 import interface_adapter.change_display_name.ChangeDisplayNameController;
 import interface_adapter.change_display_name.ChangeDisplayNameState;
 import interface_adapter.change_display_name.ChangeDisplayNameViewModel;
-import interface_adapter.get_lists.GetListsState;
 import interface_adapter.personal_account.PersonalAccountViewModel;
 
 /**
@@ -27,11 +26,12 @@ public class ChangeDisplayNameView extends JPanel implements PropertyChangeListe
     private final PersonalAccountViewModel personalAccountViewModel;
     private final ViewManagerModel viewManagerModel;
 
-    private final JLabel forUserLabel = new JLabel(" ");
+    private final JLabel forUserLabel;
     private final JTextField newDisplayNameField = new JTextField(15);
     private final JLabel messageLabel = new JLabel(" ");
+    private final JOptionPane message;
 
-    private final JLabel title;
+
     private final JButton confirmChangesButton;
     private final JButton cancelButton;
 
@@ -45,8 +45,8 @@ public class ChangeDisplayNameView extends JPanel implements PropertyChangeListe
         this.personalAccountViewModel = personalAccountViewModel;
         this.viewManagerModel = viewManagerModel;
 
-        title = new JLabel(ChangeDisplayNameViewModel.TITLE_LABEL);
-        title.setAlignmentX(Component.CENTER_ALIGNMENT);
+        forUserLabel = new JLabel(" ");
+        forUserLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
 
         final LabelTextPanel newInfo = new LabelTextPanel(
                 new JLabel(ChangeDisplayNameViewModel.NEW_DISPLAY_NAME_LABEL), newDisplayNameField);
@@ -62,6 +62,7 @@ public class ChangeDisplayNameView extends JPanel implements PropertyChangeListe
             changeDisplayNameController.changeDisplayName(
                     state.getUsername(), newDisplayNameField.getText());
             newDisplayNameField.setText("");
+
         });
         
         cancelButton.addActionListener(
@@ -99,7 +100,6 @@ public class ChangeDisplayNameView extends JPanel implements PropertyChangeListe
         });
 
         this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
-        this.add(title);
         this.add(forUserLabel);
         this.add(newInfo);
         this.add(buttons);

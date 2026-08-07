@@ -5,6 +5,8 @@ package interface_adapter.personal_account;
 
 import interface_adapter.ViewManagerModel;
 import interface_adapter.change_display_name.ChangeDisplayNameController;
+import interface_adapter.change_display_name.ChangeDisplayNameState;
+import interface_adapter.change_display_name.ChangeDisplayNameViewModel;
 import interface_adapter.get_lists.GetListsController;
 import interface_adapter.logout.LogoutState;
 import interface_adapter.logout.LogoutViewModel;
@@ -18,31 +20,31 @@ public class PersonalAccountController {
     private final GetSecurityQuestionInputBoundary getSecurityQuestionInteractor;
     private final GetListsController getListsController;
     private final ViewManagerModel viewManagerModel;
+    private final ChangeDisplayNameViewModel changeDisplayNameViewModel;
     private final LogoutViewModel logoutViewModel;
     private final String resetPasswordViewName;
     private final String homePageViewName;
     private final String getListsViewName;
     private final String getReviewsViewName;
-    private final String changeDisplayNameViewName;
 
     public PersonalAccountController(ViewManagerModel viewManagerModel,
                                      GetSecurityQuestionInputBoundary getSecurityQuestionInteractor,
                                      GetListsController getListsController,
+                                     ChangeDisplayNameViewModel changeDisplayNameViewModel,
                                      LogoutViewModel logoutViewModel,
                                      String resetPasswordViewName,
                                      String homePageViewName,
                                      String getListsViewName,
-                                     String getReviewsViewName,
-                                     String changeDisplayNameViewName) {
+                                     String getReviewsViewName) {
         this.viewManagerModel = viewManagerModel;
         this.getSecurityQuestionInteractor = getSecurityQuestionInteractor;
         this.getListsController = getListsController;
         this.logoutViewModel = logoutViewModel;
+        this.changeDisplayNameViewModel = changeDisplayNameViewModel;
         this.resetPasswordViewName = resetPasswordViewName;
         this.homePageViewName = homePageViewName;
         this.getListsViewName = getListsViewName;
         this.getReviewsViewName = getReviewsViewName;
-        this.changeDisplayNameViewName = changeDisplayNameViewName;
     }
 
     /**
@@ -120,10 +122,13 @@ public class PersonalAccountController {
 
     /**
      * Executes the switch to change display name view.
+     * @param username
      */
-    public void switchToChangeDisplayNameView() {
-        viewManagerModel.switchView(changeDisplayNameViewName);
+    public void switchToChangeDisplayNameView(String username) {
+        final ChangeDisplayNameState changeDisplayNameState = changeDisplayNameViewModel.getState();
+        changeDisplayNameState.setUsername(username);
+        changeDisplayNameViewModel.setState(changeDisplayNameState);
+        viewManagerModel.switchView(changeDisplayNameViewModel.getViewName());
         viewManagerModel.firePropertyChanged();
-        // changeDisplayNameController.changeDisplayName(username, displayName);
     }
 }
