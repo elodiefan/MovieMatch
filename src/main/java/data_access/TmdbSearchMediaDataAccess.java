@@ -10,6 +10,7 @@ import entity.Genre;
 import entity.Media;
 import entity.Movie;
 import entity.TVShow;
+import use_case.search.MediaPage;
 import use_case.search.SearchMediaDataAccess;
 
 /**
@@ -47,11 +48,27 @@ public class TmdbSearchMediaDataAccess
      */
     @Override
     public List<Media> search(String keyword) {
+        return searchPage(keyword, 1).getMedia();
+    }
+
+    /**
+     * Fetches one page of TMDB results and reports how many pages exist.
+     * <p>
+     * Only the page asked for is fetched. Requesting every page TMDB reports
+     * meant up to 500 page requests plus a details request per result, which
+     * for a common word is over ten thousand calls.
+     */
+    @Override
+    public MediaPage searchPage(String keyword, int page) {
         final List<Media> results = new ArrayList<>();
+        int totalPages = 0;
 
         if (keyword != null && !keyword.trim().isEmpty()) {
             try {
-                addSearchPages(keyword, results);
+                final JsonNode pageNode =
+                        objectMapper.readTree(tmdbApiClient.searchMulti(keyword, page));
+                addMediaFromPage(pageNode, results);
+                totalPages = pageNode.path("total_pages").asInt();
             }
             catch (IOException exception) {
                 throw new IllegalStateException(
@@ -61,35 +78,9 @@ public class TmdbSearchMediaDataAccess
             }
         }
 
-        return results;
+        return new MediaPage(results, totalPages);
     }
 
-    /**
-     * Requests all search-result pages reported by TMDB.
-     * Internal helper,fill in the preset list <Media> in batches and make the JSON string readable.
-     */
-    private void addSearchPages(
-            String keyword,
-            List<Media> results) throws IOException {
-        final String firstPageJson =
-                tmdbApiClient.searchMulti(keyword, 1);
-        final JsonNode firstPage =
-                objectMapper.readTree(firstPageJson);
-
-        addMediaFromPage(firstPage, results);
-
-        final int totalPages =
-                firstPage.path("total_pages").asInt();
-
-        for (int page = 2; page <= totalPages; page++) {
-            final String pageJson =
-                    tmdbApiClient.searchMulti(keyword, page);
-            final JsonNode pageNode =
-                    objectMapper.readTree(pageJson);
-
-            addMediaFromPage(pageNode, results);
-        }
-    }
 
     /**
      * Converts the movie and TV results (id & media type) within one search page.

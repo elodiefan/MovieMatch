@@ -6,9 +6,15 @@ package use_case.search;
 public class SearchInputData {
 
     private final String keyword;
+    private final int startPage;
 
     public SearchInputData(String keyword) {
+        this(keyword, 1);
+    }
+
+    public SearchInputData(String keyword, int startPage) {
         this.keyword = keyword;
+        this.startPage = startPage;
     }
 
     /**
@@ -16,5 +22,12 @@ public class SearchInputData {
      */
     public String getKeyword() {
         return keyword;
+    }
+
+    /**
+     * Returns the first page this request should fetch.
+     */
+    public int getStartPage() {
+        return startPage;
     }
 }

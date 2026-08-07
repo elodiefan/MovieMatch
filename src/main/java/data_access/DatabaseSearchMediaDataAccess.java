@@ -8,6 +8,7 @@ import java.util.Locale;
 import entity.Media;
 import entity.Movie;
 import entity.TVShow;
+import use_case.search.MediaPage;
 import use_case.search.SearchMediaDataAccess;
 
 public class DatabaseSearchMediaDataAccess
@@ -38,6 +39,21 @@ public class DatabaseSearchMediaDataAccess
         }
 
         return result;
+    }
+
+    /**
+     * The local databases are not paged, so everything is one page.
+     */
+    @Override
+    public MediaPage searchPage(String keyword, int page) {
+        final List<Media> results;
+        if (page > 1) {
+            results = new ArrayList<>();
+        }
+        else {
+            results = search(keyword);
+        }
+        return new MediaPage(results, 1);
     }
 
     private boolean matches(Media media, String[] words) {

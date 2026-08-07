@@ -711,7 +711,8 @@ public class AppBuilder {
                 viewManagerModel,
                 searchViewModel,
                 searchResultViewModel,
-                searchView
+                searchView,
+                searchResultView
         );
         return this;
     }

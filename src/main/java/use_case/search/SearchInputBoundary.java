@@ -1,12 +1,18 @@
 package use_case.search;
 
 /**
- * Input boundary for searching media.
+ * The Input Boundary for the Search Use Case.
  */
 public interface SearchInputBoundary {
 
     /**
-     * Searches media using the given keyword.
+     * Runs a fresh search, replacing anything already on screen.
      */
-    void execute(SearchInputData inputData);
+    void execute(SearchInputData searchInputData);
+
+    /**
+     * Fetches the next block of pages for a search already run, to be added to
+     * the results the user is looking at.
+     */
+    void loadMore(SearchInputData searchInputData);
 }

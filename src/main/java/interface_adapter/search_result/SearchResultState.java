@@ -14,6 +14,35 @@ public class SearchResultState {
     private List<Media> results = new ArrayList<>();
     private String filterError;
 
+    /** Kept so more pages of the same search can be requested. */
+    private String keyword = "";
+    private int nextPage = 1;
+    private boolean moreAvailable;
+
+    public String getKeyword() {
+        return keyword;
+    }
+
+    public void setKeyword(String keyword) {
+        this.keyword = keyword;
+    }
+
+    public int getNextPage() {
+        return nextPage;
+    }
+
+    public void setNextPage(int nextPage) {
+        this.nextPage = nextPage;
+    }
+
+    public boolean isMoreAvailable() {
+        return moreAvailable;
+    }
+
+    public void setMoreAvailable(boolean moreAvailable) {
+        this.moreAvailable = moreAvailable;
+    }
+
     /**
      * Returns the original unfiltered search results.
      */

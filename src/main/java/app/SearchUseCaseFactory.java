@@ -2,6 +2,7 @@ package app;
 
 import data_access.TmdbApiClient;
 import data_access.TmdbSearchMediaDataAccess;
+import view.SearchResultView;
 import interface_adapter.ViewManagerModel;
 import interface_adapter.search.SearchController;
 import interface_adapter.search.SearchPresenter;
@@ -31,7 +32,8 @@ public final class SearchUseCaseFactory {
             ViewManagerModel viewManagerModel,
             SearchViewModel searchViewModel,
             SearchResultViewModel searchResultViewModel,
-            SearchView searchView) {
+            SearchView searchView,
+            SearchResultView searchResultView) {
 
         final TmdbApiClient tmdbApiClient =
                 new TmdbApiClient();
@@ -56,5 +58,7 @@ public final class SearchUseCaseFactory {
                 new SearchController(searchInteractor);
 
         searchView.setSearchController(searchController);
+        // The results screen needs it too, to ask for the next block of pages.
+        searchResultView.setSearchController(searchController);
     }
 }

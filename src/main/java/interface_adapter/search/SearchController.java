@@ -23,4 +23,11 @@ public class SearchController {
 
         searchUseCaseInteractor.execute(searchInputData);
     }
+
+    /**
+     * Fetches the next block of pages for a search already on screen.
+     */
+    public void loadMore(String keyword, int nextPage) {
+        searchUseCaseInteractor.loadMore(new SearchInputData(keyword, nextPage));
+    }
 }
