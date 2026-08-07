@@ -14,7 +14,6 @@ public final class GetUserCommentsOutputData {
 
     /**
      * Creates output data for loaded user comments.
-     * @param inputComments the loaded comment summaries
      */
     public GetUserCommentsOutputData(
             final List<UserCommentSummaryData> inputComments) {
@@ -23,7 +22,6 @@ public final class GetUserCommentsOutputData {
 
     /**
      * Returns loaded user comment summaries.
-     * @return a copy of the comment summaries
      */
     public List<UserCommentSummaryData> getComments() {
         return new ArrayList<>(comments);

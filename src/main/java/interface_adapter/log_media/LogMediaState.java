@@ -11,7 +11,6 @@ public class LogMediaState {
 
     /**
      * Returns the success message.
-     * @return the success message
      */
     public String getMessage() {
         return message;
@@ -19,7 +18,6 @@ public class LogMediaState {
 
     /**
      * Sets the success message.
-     * @param inputMessage the success message
      */
     public void setMessage(final String inputMessage) {
         this.message = inputMessage;
@@ -27,7 +25,6 @@ public class LogMediaState {
 
     /**
      * Returns the error message.
-     * @return the error message
      */
     public String getError() {
         return error;
@@ -35,7 +32,6 @@ public class LogMediaState {
 
     /**
      * Sets the error message.
-     * @param inputError the error message
      */
     public void setError(final String inputError) {
         this.error = inputError;

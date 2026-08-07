@@ -36,8 +36,6 @@ public class GetListsController {
 
     /**
      * Executes the Get Watchlist Use Case.
-     * @param username the username of the user logging in
-     * @param displayName the password of the user logging in
      */
     public void executeWatchlistUseCase(String username, String displayName) {
         final GetListsInputData getListsInputData = new GetListsInputData(
@@ -48,8 +46,6 @@ public class GetListsController {
 
     /**
      * Executes the Get Watch History Use Case.
-     * @param username the username of the user logging in
-     * @param displayName the password of the user logging in
      */
     public void executeWatchHistoryUseCase(String username, String displayName) {
         final GetListsInputData getListsInputData = new GetListsInputData(
@@ -60,8 +56,6 @@ public class GetListsController {
 
     /**
      * Executes the Get Block Users Use Case.
-     * @param username the username of the user logging in
-     * @param displayName the password of the user logging in
      */
     public void executeBlockUsersUseCase(String username, String displayName) {
         final GetListsInputData getListsInputData = new GetListsInputData(
@@ -72,8 +66,6 @@ public class GetListsController {
 
     /**
      * Executes the return to account view use case.
-     * @param username the username of the user whose list view is displayed.
-     * @param displayName the display name of the user whose list view is displayed.
      */
     public void switchToAccountView(String username, String displayName) {
         final GetListsInputData getListsInputData = new GetListsInputData(

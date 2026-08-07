@@ -10,6 +10,7 @@ import entity.Genre;
 import entity.Media;
 import entity.Movie;
 import entity.TVShow;
+import use_case.search.MediaPage;
 import use_case.search.SearchMediaDataAccess;
 
 /**
@@ -21,6 +22,8 @@ public class TmdbSearchMediaDataAccess
 
     private static final String ID_FIELD = "id";
     private static final String RESULTS_FIELD = "results";
+    private static final String TOTAL_PAGES_FIELD = "total_pages";
+    private static final String TOTAL_RESULTS_FIELD = "total_results";
     private static final String GENRES_FIELD = "genres";
     private static final String VOTE_AVERAGE_FIELD = "vote_average";
     private static final String ORIGINAL_LANGUAGE_FIELD =
@@ -34,8 +37,6 @@ public class TmdbSearchMediaDataAccess
     /**
      * Creates a data access object that searches TMDB through client
      * Data are translated by object mapper.
-     *
-     * @param tmdbApiClient client used to send requests to TMDB
      */
     public TmdbSearchMediaDataAccess(
             TmdbApiClient tmdbApiClient) {
@@ -46,17 +47,41 @@ public class TmdbSearchMediaDataAccess
     /**
      * Searches TMDB for movies and TV shows matching a keyword.
      * Externally connected to search interactor, checking input/output and handling exceptions.
-     *
-     * @param keyword keyword entered by the user
-     * @return matching movies and TV shows
      */
     @Override
     public List<Media> search(String keyword) {
+        return searchPage(keyword, 1).getMedia();
+    }
+
+    /**
+     * Fetches one page of TMDB results and reports how many pages exist.
+     *
+     * Only the page asked for is fetched. Requesting every page TMDB reports
+     * meant up to 500 page requests plus a details request per result, which
+     * for a common word is over ten thousand calls.
+     */
+    @Override
+    public MediaPage searchPage(String keyword, int page) {
         final List<Media> results = new ArrayList<>();
+        int totalPages = 0;
+        int totalResults = 0;
 
         if (keyword != null && !keyword.trim().isEmpty()) {
             try {
-                addSearchPages(keyword, results);
+                final JsonNode movies =
+                        objectMapper.readTree(tmdbApiClient.searchMovies(keyword, page));
+                final JsonNode shows =
+                        objectMapper.readTree(tmdbApiClient.searchTvShows(keyword, page));
+
+                addMediaFromPage(movies, results, true);
+                addMediaFromPage(shows, results, false);
+
+                // Movies and shows are paged separately, so keep going until
+                // both are exhausted, and report the two counts together.
+                totalPages = Math.max(movies.path(TOTAL_PAGES_FIELD).asInt(),
+                        shows.path(TOTAL_PAGES_FIELD).asInt());
+                totalResults = movies.path(TOTAL_RESULTS_FIELD).asInt()
+                        + shows.path(TOTAL_RESULTS_FIELD).asInt();
             }
             catch (IOException exception) {
                 throw new IllegalStateException(
@@ -66,61 +91,25 @@ public class TmdbSearchMediaDataAccess
             }
         }
 
-        return results;
+        return new MediaPage(results, totalPages, totalResults);
     }
 
-    /**
-     * Requests all search-result pages reported by TMDB.
-     * Internal helper,fill in the preset list <Media> in batches and make the JSON string readable.
-     *
-     * @param keyword title entered by the user
-     * @param results destination for the converted media
-     * @throws IOException if a request or JSON conversion fails
-     */
-    private void addSearchPages(
-            String keyword,
-            List<Media> results) throws IOException {
-        final String firstPageJson =
-                tmdbApiClient.searchMulti(keyword, 1);
-        final JsonNode firstPage =
-                objectMapper.readTree(firstPageJson);
-
-        addMediaFromPage(firstPage, results);
-
-        final int totalPages =
-                firstPage.path("total_pages").asInt();
-
-        for (int page = 2; page <= totalPages; page++) {
-            final String pageJson =
-                    tmdbApiClient.searchMulti(keyword, page);
-            final JsonNode pageNode =
-                    objectMapper.readTree(pageJson);
-
-            addMediaFromPage(pageNode, results);
-        }
-    }
 
     /**
-     * Converts the movie and TV results (id & media type) within one search page.
-     * Person results returned by multi-search are ignored since it's not included in if-else conditions.
-     *
-     * @param pageNode one TMDB search-response page
-     * @param results destination for the converted media
-     * @throws IOException if a details request cannot be completed
+     * Converts one page of results, which are all of the same kind because the
+     * movie and TV endpoints are queried separately.
      */
     private void addMediaFromPage(
             JsonNode pageNode,
-            List<Media> results) throws IOException {
+            List<Media> results,
+            boolean movies) throws IOException {
         for (JsonNode item : pageNode.path(RESULTS_FIELD)) {
-            final String mediaType =
-                    item.path("media_type").asText();
-            final int id =
-                    item.path(ID_FIELD).asInt();
+            final int id = item.path(ID_FIELD).asInt();
 
-            if ("movie".equals(mediaType)) {
+            if (movies) {
                 results.add(getMovie(id));
             }
-            else if ("tv".equals(mediaType)) {
+            else {
                 results.add(getTvShow(id));
             }
         }
@@ -128,10 +117,6 @@ public class TmdbSearchMediaDataAccess
 
     /**
      * Gets detailed movie information and converts it into a Movie.
-     *
-     * @param movieId the movie ID supplied by TMDB
-     * @return the converted movie
-     * @throws IOException if the details cannot be requested or parsed
      */
     private Movie getMovie(int movieId) throws IOException {
         final String detailsJson =
@@ -173,10 +158,6 @@ public class TmdbSearchMediaDataAccess
 
     /**
      * Gets complete TV-show information and converts it into a TVShow.
-     *
-     * @param tvShowId the TV-show ID supplied by TMDB
-     * @return the converted TV show
-     * @throws IOException if the details cannot be requested or parsed
      */
     private TVShow getTvShow(int tvShowId) throws IOException {
         final String detailsJson =
@@ -221,9 +202,6 @@ public class TmdbSearchMediaDataAccess
 
     /**
      * Converts a TMDB genre array into Genre list containing both id and name of genre.
-     *
-     * @param genreNodes genre array from a TMDB details response
-     * @return converted genres
      */
     private List<Genre> parseGenres(JsonNode genreNodes) {
         final List<Genre> genres = new ArrayList<>();
@@ -242,9 +220,6 @@ public class TmdbSearchMediaDataAccess
 
     /**
      * Extracts only cast-member names from TMDB credits.
-     *
-     * @param castNodes cast array from a TMDB details response
-     * @return cast-member names
      */
     private List<String> parseCast(JsonNode castNodes) {
         final List<String> cast = new ArrayList<>();
@@ -262,9 +237,6 @@ public class TmdbSearchMediaDataAccess
      * Extracts the year from a date using the YYYY-MM-DD format.
      * Lost release year is shown as 0.
      * 4 is the amount of character that represents a year.
-     *
-     * @param date date returned by TMDB
-     * @return the extracted year, or zero if it cannot be parsed
      */
     private int parseYear(String date) {
         int year = 0;

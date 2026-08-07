@@ -17,7 +17,6 @@ public class BlockUserInteractor implements BlockUserInputBoundary {
 
     /**
      * Executes the Block User Use Case.
-     * @param blockUserInputData the user's input info
      */
     @Override
     public void execute(BlockUserInputData blockUserInputData) {

@@ -22,7 +22,6 @@ public final class DeleteReviewInteractor implements DeleteReviewInputBoundary {
 
     /**
      * Creates a delete review interactor with persistence.
-     * @param inputReviewDataAccessObject the DAO used to delete reviews
      */
     public DeleteReviewInteractor(
             final DeleteReviewDataAccessInterface inputReviewDataAccessObject) {
@@ -31,8 +30,6 @@ public final class DeleteReviewInteractor implements DeleteReviewInputBoundary {
 
     /**
      * Handles this review or comment operation.
-     * @param inputReviewDataAccessObject the inputReviewDataAccessObject
-     * @param inputPresenter the inputPresenter
      */
     public DeleteReviewInteractor(
             final DeleteReviewDataAccessInterface inputReviewDataAccessObject,
@@ -62,9 +59,6 @@ public final class DeleteReviewInteractor implements DeleteReviewInputBoundary {
 
     /**
      * Deletes one persisted review written by the given user.
-     * @param reviewId the id of the review to delete
-     * @param username the username of the user deleting the review
-     * @return true if the review was deleted
      */
     private boolean deleteReview(final String reviewId,
                                 final String username) {
@@ -87,8 +81,6 @@ public final class DeleteReviewInteractor implements DeleteReviewInputBoundary {
 
     /**
      * Validates data needed to delete a persisted review.
-     * @param reviewId the review id to validate
-     * @param username the username to validate
      */
     private void validateDeleteReviewData(final String reviewId,
                                           final String username) {
@@ -111,10 +103,6 @@ public final class DeleteReviewInteractor implements DeleteReviewInputBoundary {
 
     /**
      * Checks whether the review can be deleted by the user.
-     * @param review the review to check
-     * @param reviewId the id of the review to delete
-     * @param username the username of the user deleting the review
-     * @return true if the review matches the id and author
      */
     private boolean canDeleteReview(final Review review, final String reviewId,
                                     final String username) {
@@ -130,8 +118,6 @@ public final class DeleteReviewInteractor implements DeleteReviewInputBoundary {
 
     /**
      * Checks whether a text value is empty or only whitespace.
-     * @param value the value to check
-     * @return true if the value is blank
      */
     private boolean isBlank(final String value) {
         return value == null || value.trim().isEmpty();
@@ -139,8 +125,6 @@ public final class DeleteReviewInteractor implements DeleteReviewInputBoundary {
 
     /**
      * Trims a text value, or returns an empty string if it is null.
-     * @param value the value to trim
-     * @return the trimmed value
      */
     private String trimToEmpty(final String value) {
         final String trimmedValue;

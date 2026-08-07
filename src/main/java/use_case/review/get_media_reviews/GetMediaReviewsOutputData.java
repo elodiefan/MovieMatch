@@ -14,7 +14,6 @@ public final class GetMediaReviewsOutputData {
 
     /**
      * Handles this review or comment operation.
-     * @param inputReviews the inputReviews
      */
     public GetMediaReviewsOutputData(final List<Review> inputReviews) {
         this.reviews = new ArrayList<>(inputReviews);
@@ -22,7 +21,6 @@ public final class GetMediaReviewsOutputData {
 
     /**
      * Handles this review or comment operation.
-     * @return the result
      */
     public List<Review> getReviews() {
         return new ArrayList<>(reviews);

@@ -14,10 +14,48 @@ public class SearchResultState {
     private List<Media> results = new ArrayList<>();
     private String filterError;
 
+    /** Kept so more pages of the same search can be requested. */
+    private String keyword = "";
+    private int nextPage = 1;
+    private boolean moreAvailable;
+
+    /** How many results exist in total, not how many are loaded. */
+    private int totalResults;
+
+    public int getTotalResults() {
+        return totalResults;
+    }
+
+    public void setTotalResults(int totalResults) {
+        this.totalResults = totalResults;
+    }
+
+    public String getKeyword() {
+        return keyword;
+    }
+
+    public void setKeyword(String keyword) {
+        this.keyword = keyword;
+    }
+
+    public int getNextPage() {
+        return nextPage;
+    }
+
+    public void setNextPage(int nextPage) {
+        this.nextPage = nextPage;
+    }
+
+    public boolean isMoreAvailable() {
+        return moreAvailable;
+    }
+
+    public void setMoreAvailable(boolean moreAvailable) {
+        this.moreAvailable = moreAvailable;
+    }
+
     /**
      * Returns the original unfiltered search results.
-     *
-     * @return the original search results
      */
     public List<Media> getOriginalResults() {
         return originalResults;
@@ -25,8 +63,6 @@ public class SearchResultState {
 
     /**
      * Sets the original unfiltered search results.
-     *
-     * @param originalResults the original search results
      */
     public void setOriginalResults(List<Media> originalResults) {
         this.originalResults = originalResults;
@@ -34,8 +70,6 @@ public class SearchResultState {
 
     /**
      * Returns current search results.
-     *
-     * @return list of media results
      */
     public List<Media> getResults() {
         return results;
@@ -43,8 +77,6 @@ public class SearchResultState {
 
     /**
      * Sets the search results.
-     *
-     * @param results the media results
      */
     public void setResults(List<Media> results) {
         this.results = results;
@@ -52,8 +84,6 @@ public class SearchResultState {
 
     /**
      * Returns the current filter error (not no result).
-     *
-     * @return the filter error, or null when there is no error
      */
     public String getFilterError() {
         return filterError;
@@ -61,8 +91,6 @@ public class SearchResultState {
 
     /**
      * Sets the current filter error (not no result).
-     *
-     * @param filterError the filter error
      */
     public void setFilterError(String filterError) {
         this.filterError = filterError;

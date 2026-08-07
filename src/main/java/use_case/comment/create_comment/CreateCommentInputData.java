@@ -17,11 +17,6 @@ public final class CreateCommentInputData {
 
     /**
      * Handles this review or comment operation.
-     * @param inputReviewId the inputReviewId
-     * @param inputParentCommentId the inputParentCommentId
-     * @param inputAuthorUsername the inputAuthorUsername
-     * @param inputAuthorDisplayName the inputAuthorDisplayName
-     * @param inputCommentText the inputCommentText
      */
     public CreateCommentInputData(final String inputReviewId,
                                   final String inputParentCommentId,
@@ -37,35 +32,30 @@ public final class CreateCommentInputData {
 
     /**
      * Handles this review or comment operation.
-     * @return the result
      */
     public String getReviewId() {
         return reviewId;
     }
     /**
      * Handles this review or comment operation.
-     * @return the result
      */
     public String getParentCommentId() {
         return parentCommentId;
     }
     /**
      * Handles this review or comment operation.
-     * @return the result
      */
     public String getAuthorUsername() {
         return authorUsername;
     }
     /**
      * Handles this review or comment operation.
-     * @return the result
      */
     public String getAuthorDisplayName() {
         return authorDisplayName;
     }
     /**
      * Handles this review or comment operation.
-     * @return the result
      */
     public String getCommentText() {
         return commentText;

@@ -30,7 +30,6 @@ public final class UserReviewsPresenter implements GetUserReviewsOutputBoundary,
 
     /**
      * Creates a presenter for the user reviews view.
-     * @param inputUserReviewsViewModel the view model to update
      */
     public UserReviewsPresenter(
             final UserReviewsViewModel inputUserReviewsViewModel) {
@@ -39,7 +38,6 @@ public final class UserReviewsPresenter implements GetUserReviewsOutputBoundary,
 
     /**
      * Prepares loaded reviews for display.
-     * @param outputData the output data
      */
     @Override
     public void prepareSuccessView(final GetUserReviewsOutputData outputData) {
@@ -52,7 +50,6 @@ public final class UserReviewsPresenter implements GetUserReviewsOutputBoundary,
 
     /**
      * Prepares loaded comments for display.
-     * @param outputData the output data
      */
     @Override
     public void prepareSuccessView(
@@ -87,8 +84,6 @@ public final class UserReviewsPresenter implements GetUserReviewsOutputBoundary,
     /**
      * Converts review entities into rows that can be displayed by the user
      * reviews view.
-     * @param reviews the reviews to present
-     * @return display-safe review rows
      */
     private List<UserReviewRow> prepareReviews(final List<Review> reviews) {
         final List<UserReviewRow> reviewRows = new ArrayList<>();
@@ -104,8 +99,6 @@ public final class UserReviewsPresenter implements GetUserReviewsOutputBoundary,
 
     /**
      * Converts comment summaries into rows for the user's comments tab.
-     * @param comments the comment summaries to present
-     * @return display-safe comment rows
      */
     private List<UserCommentRow> prepareComments(
             final List<UserCommentSummaryData> comments) {
@@ -122,8 +115,6 @@ public final class UserReviewsPresenter implements GetUserReviewsOutputBoundary,
 
     /**
      * Converts an error message into display-safe text.
-     * @param errorMessage the error message to present
-     * @return the display-safe error message
      */
     public String prepareFailView(final String errorMessage) {
         final String displayError;
@@ -148,8 +139,6 @@ public final class UserReviewsPresenter implements GetUserReviewsOutputBoundary,
 
     /**
      * Converts one review entity into one displayed row.
-     * @param review the review to convert
-     * @return the displayed review row
      */
     private UserReviewRow createReviewRow(final Review review) {
         return new UserReviewRow(review.getReviewId(), review.getMediaId(),
@@ -161,8 +150,6 @@ public final class UserReviewsPresenter implements GetUserReviewsOutputBoundary,
 
     /**
      * Converts one comment summary into one displayed comment row.
-     * @param comment the comment summary to convert
-     * @return the displayed comment row
      */
     private UserCommentRow createCommentRow(
             final UserCommentSummaryData comment) {
@@ -174,8 +161,6 @@ public final class UserReviewsPresenter implements GetUserReviewsOutputBoundary,
 
     /**
      * Checks whether a text value is empty or only whitespace.
-     * @param value the value to check
-     * @return true if the value is blank
      */
     private boolean isBlank(final String value) {
         return value == null || value.trim().isEmpty();

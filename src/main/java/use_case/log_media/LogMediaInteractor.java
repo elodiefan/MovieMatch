@@ -26,8 +26,6 @@ public class LogMediaInteractor implements LogMediaInputBoundary {
 
     /**
      * Creates an interactor for logging media.
-     * @param inputDataAccessObject the data access object
-     * @param inputPresenter the output boundary
      */
     public LogMediaInteractor(
             final LogMediaDataAccessInterface inputDataAccessObject,
@@ -70,8 +68,6 @@ public class LogMediaInteractor implements LogMediaInputBoundary {
 
     /**
      * Validates the media item and current user.
-     * @param inputData the input data
-     * @return an error message, or null when valid
      */
     private String validateInput(final LogMediaInputData inputData) {
         final String error;
@@ -87,8 +83,6 @@ public class LogMediaInteractor implements LogMediaInputBoundary {
 
     /**
      * Validates the selected media item.
-     * @param inputData the input data
-     * @return an error message, or null when valid
      */
     private String validateMedia(final LogMediaInputData inputData) {
         final String error;
@@ -106,7 +100,6 @@ public class LogMediaInteractor implements LogMediaInputBoundary {
 
     /**
      * Returns the current Toronto timestamp.
-     * @return the current timestamp with Toronto offset
      */
     private String getCurrentTorontoTimestamp() {
         return ZonedDateTime.now(TORONTO_ZONE).toOffsetDateTime().toString();
@@ -114,8 +107,6 @@ public class LogMediaInteractor implements LogMediaInputBoundary {
 
     /**
      * Checks whether a string is blank.
-     * @param value the value to check
-     * @return true if the value is blank
      */
     private boolean isBlank(final String value) {
         return value == null || value.trim().isEmpty();
@@ -123,8 +114,6 @@ public class LogMediaInteractor implements LogMediaInputBoundary {
 
     /**
      * Trims a value or returns an empty string.
-     * @param value the value to trim
-     * @return the trimmed value
      */
     private String trimToEmpty(final String value) {
         final String trimmedValue;

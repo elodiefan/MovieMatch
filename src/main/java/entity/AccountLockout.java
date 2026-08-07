@@ -1,13 +1,6 @@
 package entity;
 
-/**
- * The lock-out rules for one account.
- * <p>
- * After {@link #MAX_ATTEMPTS} wrong security answers the account is locked for
- * {@link #LOCKOUT_MINUTES} minutes, and answers are refused until the lock
- * expires. Keeping these rules here rather than in an interactor means the
- * policy lives with the other business rules and can be unit-tested on its own.
- */
+/** The lock-out rules for one account. */
 public class AccountLockout {
 
     /** Number of wrong answers allowed before the account locks. */
@@ -24,10 +17,7 @@ public class AccountLockout {
     /** Epoch-millis until which the account is locked; 0 means not locked. */
     private long lockedUntil;
 
-    /**
-     * Records one wrong answer, locking the account if that was the last
-     * allowed attempt.
-     */
+    /** Records one wrong answer, locking the account if that was the last allowed attempt. */
     public void recordFailedAttempt() {
         failedAttempts++;
         if (failedAttempts >= MAX_ATTEMPTS) {
@@ -37,18 +27,12 @@ public class AccountLockout {
         }
     }
 
-    /**
-     * Clears everything after a correct answer.
-     */
+    /** Clears everything after a correct answer. */
     public void reset() {
         failedAttempts = 0;
         lockedUntil = 0L;
     }
 
-    /**
-     * @return true if the account is locked right now. An expired lock is
-     *     cleared here, so the next attempt is allowed.
-     */
     public boolean isLockedOut() {
         if (lockedUntil == 0L) {
             return false;
@@ -60,16 +44,10 @@ public class AccountLockout {
         return true;
     }
 
-    /**
-     * @return how many attempts remain before the account locks
-     */
     public int remainingAttempts() {
         return MAX_ATTEMPTS - failedAttempts;
     }
 
-    /**
-     * @return seconds left on the current lock-out, or 0 if not locked
-     */
     public long remainingLockSeconds() {
         if (lockedUntil == 0L) {
             return 0L;

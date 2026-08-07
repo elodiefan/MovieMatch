@@ -18,7 +18,6 @@ public final class LikeReviewInteractor implements LikeReviewInputBoundary {
 
     /**
      * Creates a like review interactor with persistence.
-     * @param inputReviewDataAccessObject the DAO used to like reviews
      */
     public LikeReviewInteractor(
             final LikeReviewDataAccessInterface inputReviewDataAccessObject) {
@@ -27,8 +26,6 @@ public final class LikeReviewInteractor implements LikeReviewInputBoundary {
 
     /**
      * Handles this review or comment operation.
-     * @param inputReviewDataAccessObject the inputReviewDataAccessObject
-     * @param inputPresenter the inputPresenter
      */
     public LikeReviewInteractor(
             final LikeReviewDataAccessInterface inputReviewDataAccessObject,
@@ -53,9 +50,6 @@ public final class LikeReviewInteractor implements LikeReviewInputBoundary {
 
     /**
      * Adds a user's like to a persisted review.
-     * @param reviewId the id of the review to like
-     * @param username the username of the user liking the review
-     * @return true if the review was found and liked
      */
     private boolean likeReview(final String reviewId, final String username) {
         final String trimmedReviewId = trimToEmpty(reviewId);
@@ -67,8 +61,6 @@ public final class LikeReviewInteractor implements LikeReviewInputBoundary {
 
     /**
      * Validates the data needed to like a persisted review.
-     * @param reviewId the review id to validate
-     * @param username the username to validate
      */
     private void validateLikeReviewData(final String reviewId,
                                         final String username) {
@@ -91,8 +83,6 @@ public final class LikeReviewInteractor implements LikeReviewInputBoundary {
 
     /**
      * Checks whether a text value is empty or only whitespace.
-     * @param value the value to check
-     * @return true if the value is blank
      */
     private boolean isBlank(final String value) {
         return value == null || value.trim().isEmpty();
@@ -100,8 +90,6 @@ public final class LikeReviewInteractor implements LikeReviewInputBoundary {
 
     /**
      * Trims a text value, or returns an empty string if it is null.
-     * @param value the value to trim
-     * @return the trimmed value
      */
     private String trimToEmpty(final String value) {
         final String trimmedValue;

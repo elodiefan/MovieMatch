@@ -6,7 +6,6 @@ package use_case.comment.unlike_comment;
 public interface UnlikeCommentInputBoundary {
     /**
      * Executes the use case.
-     * @param inputData the input data
      */
     void execute(UnlikeCommentInputData inputData);
 }

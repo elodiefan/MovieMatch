@@ -18,7 +18,6 @@ public final class LikeCommentInteractor implements LikeCommentInputBoundary {
 
     /**
      * Creates a like comment interactor with persistence.
-     * @param inputCommentDataAccessObject the DAO used to like comments
      */
     public LikeCommentInteractor(
             final LikeCommentDataAccessInterface inputCommentDataAccessObject) {
@@ -27,8 +26,6 @@ public final class LikeCommentInteractor implements LikeCommentInputBoundary {
 
     /**
      * Handles this review or comment operation.
-     * @param inputCommentDataAccessObject the inputCommentDataAccessObject
-     * @param inputPresenter the inputPresenter
      */
     public LikeCommentInteractor(
             final LikeCommentDataAccessInterface inputCommentDataAccessObject,
@@ -53,9 +50,6 @@ public final class LikeCommentInteractor implements LikeCommentInputBoundary {
 
     /**
      * Adds a user's like to a persisted comment.
-     * @param commentId the id of the comment to like
-     * @param username the username of the user liking the comment
-     * @return true if the comment was found and liked
      */
     private boolean likeComment(final String commentId, final String username) {
         final String trimmedCommentId = trimToEmpty(commentId);
@@ -67,8 +61,6 @@ public final class LikeCommentInteractor implements LikeCommentInputBoundary {
 
     /**
      * Validates the data needed to like a persisted comment.
-     * @param commentId the comment id to validate
-     * @param username the username to validate
      */
     private void validateLikeCommentData(final String commentId,
                                          final String username) {
@@ -91,8 +83,6 @@ public final class LikeCommentInteractor implements LikeCommentInputBoundary {
 
     /**
      * Checks whether a text value is empty or only whitespace.
-     * @param value the value to check
-     * @return true if the value is blank
      */
     private boolean isBlank(final String value) {
         return value == null || value.trim().isEmpty();
@@ -100,8 +90,6 @@ public final class LikeCommentInteractor implements LikeCommentInputBoundary {
 
     /**
      * Trims a text value, or returns an empty string if it is null.
-     * @param value the value to trim
-     * @return the trimmed value
      */
     private String trimToEmpty(final String value) {
         final String trimmedValue;

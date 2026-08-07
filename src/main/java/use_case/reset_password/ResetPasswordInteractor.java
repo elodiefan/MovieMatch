@@ -1,17 +1,6 @@
 package use_case.reset_password;
 
-/**
- * Interactor for the Reset Password use case.
- * <p>
- * Validates the new password, then writes it through the DAO. Rules:
- * <ul>
- *     <li>the new password must not be blank;</li>
- *     <li>it must be at least {@link #MIN_LENGTH} characters;</li>
- *     <li>the "new" and "confirm" entries must match.</li>
- * </ul>
- * On success it reports back through the presenter; on any rule violation it
- * reports a fail with an explanation and does not touch storage.
- */
+/** Interactor for the Reset Password use case. */
 public class ResetPasswordInteractor implements ResetPasswordInputBoundary {
 
     /** Minimum allowed password length. */

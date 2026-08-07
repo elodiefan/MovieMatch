@@ -6,7 +6,6 @@ package use_case.review.unlike_review;
 public interface UnlikeReviewInputBoundary {
     /**
      * Executes the use case.
-     * @param inputData the input data
      */
     void execute(UnlikeReviewInputData inputData);
 }

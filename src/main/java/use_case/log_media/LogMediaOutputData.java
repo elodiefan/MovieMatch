@@ -11,8 +11,6 @@ public class LogMediaOutputData {
 
     /**
      * Creates output data for a logged media item.
-     * @param inputMediaTitle the logged media title
-     * @param inputMessage the success message
      */
     public LogMediaOutputData(final String inputMediaTitle,
                               final String inputMessage) {
@@ -22,7 +20,6 @@ public class LogMediaOutputData {
 
     /**
      * Returns the media title.
-     * @return the media title
      */
     public String getMediaTitle() {
         return mediaTitle;
@@ -30,7 +27,6 @@ public class LogMediaOutputData {
 
     /**
      * Returns the success message.
-     * @return the success message
      */
     public String getMessage() {
         return message;

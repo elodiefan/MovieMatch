@@ -21,13 +21,6 @@ public final class CreateReviewInputData {
 
     /**
      * Creates input data for creating a review.
-     * @param inputMediaId the reviewed media id
-     * @param inputMediaType the reviewed media type
-     * @param inputMediaTitle the reviewed media title
-     * @param inputAuthorUsername the author's username
-     * @param inputAuthorDisplayName the author's display name
-     * @param inputRating the rating percentage
-     * @param inputReviewText the review text
      */
     public CreateReviewInputData(final int inputMediaId,
                                  final String inputMediaType,
@@ -47,49 +40,42 @@ public final class CreateReviewInputData {
 
     /**
      * Handles this review or comment operation.
-     * @return the result
      */
     public int getMediaId() {
         return mediaId;
     }
     /**
      * Handles this review or comment operation.
-     * @return the result
      */
     public String getMediaType() {
         return mediaType;
     }
     /**
      * Handles this review or comment operation.
-     * @return the result
      */
     public String getMediaTitle() {
         return mediaTitle;
     }
     /**
      * Handles this review or comment operation.
-     * @return the result
      */
     public String getAuthorUsername() {
         return authorUsername;
     }
     /**
      * Handles this review or comment operation.
-     * @return the result
      */
     public String getAuthorDisplayName() {
         return authorDisplayName;
     }
     /**
      * Handles this review or comment operation.
-     * @return the result
      */
     public double getRating() {
         return rating;
     }
     /**
      * Handles this review or comment operation.
-     * @return the result
      */
     public String getReviewText() {
         return reviewText;

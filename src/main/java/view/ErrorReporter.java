@@ -5,56 +5,67 @@ import java.awt.Component;
 import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 
-/**
- * Turns a thrown exception into something a user can read.
- * <p>
- * Swing swallows exceptions thrown inside an event handler: it prints a stack
- * trace to the console and the window simply does nothing. To anyone using the
- * app a failed database call is indistinguishable from a dead button, so this
- * installs a handler that reports the failure on screen instead.
- */
+/** Turns a thrown exception into something a user can read. */
 public final class ErrorReporter {
 
     private static final String CONNECTION_TITLE = "Cannot reach the server";
     private static final String GENERAL_TITLE = "Something went wrong";
+    private static final String TMDB_TITLE = "Movie search is not set up";
 
     private ErrorReporter() {
     }
 
-    /**
-     * Makes uncaught errors on the Swing thread show a dialog.
-     */
+    /** Makes uncaught errors on the Swing thread show a dialog. */
     public static void install() {
         Thread.setDefaultUncaughtExceptionHandler(
                 (thread, throwable) -> SwingUtilities.invokeLater(
                         () -> show(null, throwable)));
     }
 
-    /**
-     * Shows a readable message for a failure.
-     * @param parent the component to centre the dialog on, may be null
-     * @param throwable what went wrong
-     */
+    /** Shows a readable message for a failure. */
     public static void show(Component parent, Throwable throwable) {
-        final boolean connection = isConnectionProblem(throwable);
         final String title;
-        if (connection) {
+        final String message;
+
+        if (isTmdbProblem(throwable)) {
+            title = TMDB_TITLE;
+            message = "Movie and TV search needs a TMDB access token, which is not set on\n"
+                    + "this computer.\n\n"
+                    + "Set the environment variable Tmdb_Read_Access to your TMDB read access\n"
+                    + "token, then restart MovieMatch. The name is case sensitive on macOS\n"
+                    + "and Linux.\n\n"
+                    + "Everything else, including finding users, works without it.";
+        }
+        else if (isConnectionProblem(throwable)) {
             title = CONNECTION_TITLE;
+            message = messageFor(throwable, true);
         }
         else {
             title = GENERAL_TITLE;
+            message = messageFor(throwable, false);
         }
 
-        JOptionPane.showMessageDialog(parent, messageFor(throwable, connection),
-                title, JOptionPane.ERROR_MESSAGE);
+        JOptionPane.showMessageDialog(parent, message, title, JOptionPane.ERROR_MESSAGE);
     }
 
-    /**
-     * Builds the wording shown to the user.
-     * @param throwable what went wrong
-     * @param connection whether this looks like a connectivity failure
-     * @return the message to display
-     */
+    /** Decides whether a failure is the missing TMDB token rather than a fault. */
+    private static boolean isTmdbProblem(Throwable throwable) {
+        boolean result = false;
+        Throwable current = throwable;
+        while (current != null && !result) {
+            final String message = current.getMessage();
+            if (message != null) {
+                final String lower = message.toLowerCase();
+                if (lower.contains("tmdb") || lower.contains("tmdb_read_access")) {
+                    result = true;
+                }
+            }
+            current = current.getCause();
+        }
+        return result;
+    }
+
+    /** Builds the wording shown to the user. */
     private static String messageFor(Throwable throwable, boolean connection) {
         final String result;
         if (connection) {
@@ -70,11 +81,7 @@ public final class ErrorReporter {
         return result;
     }
 
-    /**
-     * Decides whether a failure is about reaching the network.
-     * @param throwable what went wrong
-     * @return true if it looks like a connection problem
-     */
+    /** Decides whether a failure is about reaching the network. */
     private static boolean isConnectionProblem(Throwable throwable) {
         boolean result = false;
         Throwable current = throwable;
@@ -89,11 +96,7 @@ public final class ErrorReporter {
         return result;
     }
 
-    /**
-     * Trims an exception message to something that fits in a dialog.
-     * @param throwable what went wrong
-     * @return a short description
-     */
+    /** Trims an exception message to something that fits in a dialog. */
     private static String shortMessage(Throwable throwable) {
         String message = throwable.getMessage();
         if (message == null || message.isEmpty()) {

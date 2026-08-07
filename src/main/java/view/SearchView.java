@@ -9,6 +9,9 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+import javax.swing.SwingWorker;
+
+import java.util.concurrent.ExecutionException;
 
 import interface_adapter.ViewManagerModel;
 import interface_adapter.search.SearchController;
@@ -19,6 +22,9 @@ import interface_adapter.search.SearchViewModel;
  * The View for searching movies.
  */
 public class SearchView extends JPanel implements PropertyChangeListener {
+
+    private static final String CONFIRM_LABEL = "confirm";
+    private static final String SEARCHING_LABEL = "searching...";
 
     private SearchController searchController;
 
@@ -42,16 +48,13 @@ public class SearchView extends JPanel implements PropertyChangeListener {
         title.setAlignmentX(Component.CENTER_ALIGNMENT);
 
         searchInput = new JTextField(20);
-        searchConfirmButton = new JButton("confirm");
+        searchConfirmButton = new JButton(CONFIRM_LABEL);
         backButton = new JButton("Back");
         errorMessage = new JLabel(" ");
 
-        searchConfirmButton.addActionListener(
-                event -> {
-                    final String keyword = searchInput.getText();
-                    searchController.execute(keyword);
-                }
-        );
+        searchConfirmButton.addActionListener(event -> runSearch());
+        // Pressing Enter in the field is what most people try first.
+        searchInput.addActionListener(event -> runSearch());
 
         // Without this the search screen is a dead end; there is no other way out.
         backButton.addActionListener(
@@ -73,6 +76,46 @@ public class SearchView extends JPanel implements PropertyChangeListener {
         this.add(searchPanel);
         this.add(errorMessage);
         this.add(buttonPanel);
+    }
+
+    /**
+     * Searches on a background thread.
+     *
+     * Talking to TMDB takes long enough that doing it on the UI thread stops the
+     * window repainting, which looks exactly like the application has hung. A
+     * SwingWorker keeps the window alive and lets the button report progress.
+     */
+    private void runSearch() {
+        final String keyword = searchInput.getText();
+
+        searchConfirmButton.setEnabled(false);
+        searchConfirmButton.setText(SEARCHING_LABEL);
+        errorMessage.setText(" ");
+
+        new SwingWorker<Void, Void>() {
+            @Override
+            protected Void doInBackground() {
+                searchController.execute(keyword);
+                return null;
+            }
+
+            @Override
+            protected void done() {
+                searchConfirmButton.setEnabled(true);
+                searchConfirmButton.setText(CONFIRM_LABEL);
+                try {
+                    get();
+                }
+                catch (InterruptedException exception) {
+                    Thread.currentThread().interrupt();
+                }
+                catch (ExecutionException exception) {
+                    // Surfacing it here keeps the failure on screen instead of
+                    // vanishing into the worker thread.
+                    ErrorReporter.show(SearchView.this, exception.getCause());
+                }
+            }
+        }.execute();
     }
 
     public void setSearchController(SearchController searchController) {

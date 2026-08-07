@@ -11,31 +11,14 @@ import use_case.search_user.SearchUserInteractor;
 import use_case.search_user.SearchUserOutputBoundary;
 import view.SearchUserView;
 
-/**
- * Factory for assembling the Search User Use Case to avoid direct changing of appbuilder.
- * <p>
- * Follows the same convention as {@code SearchUseCaseFactory}: everything this
- * use case needs is built here, so adding it costs {@code AppBuilder} one call
- * instead of twenty lines. That matters on a file several people edit at once.
- */
+/** Factory for assembling the Search User Use Case to avoid direct changing of appbuilder. */
 public final class SearchUserUseCaseFactory {
 
-    /**
-     * Prevents this utility class from being instantiated.
-     */
+    /** Prevents this utility class from being instantiated. */
     private SearchUserUseCaseFactory() {
     }
 
-    /**
-     * Creates and connects the Search User Use Case.
-     *
-     * @param viewManagerModel manages switching between views
-     * @param searchUserViewModel stores the search state and its results
-     * @param searchUserView the view receiving the controller
-     * @param userDataAccessObject the store to search
-     * @param getProfileInteractor reused so a result can open that user's account page
-     * @param homePageViewName where the Back button goes
-     */
+    /** Creates and connects the Search User Use Case. */
     public static void create(
             ViewManagerModel viewManagerModel,
             SearchUserViewModel searchUserViewModel,

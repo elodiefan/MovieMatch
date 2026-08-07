@@ -17,8 +17,6 @@ public class FilterOutputData {
 
     /**
      * Returns the filtered media results.
-     *
-     * @return the filtered media results
      */
     public List<Media> getFilteredResults() {
         return filteredResults;

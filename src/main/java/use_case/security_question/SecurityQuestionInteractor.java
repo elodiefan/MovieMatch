@@ -3,21 +3,7 @@ package use_case.security_question;
 import entity.AccountLockout;
 import entity.User;
 
-/**
- * Interactor (business logic) for changing a password via a security question.
- * <p>
- * Responsibilities, matching the feature spec:
- * <ul>
- *     <li>show the user's security question;</li>
- *     <li>verify the typed answer;</li>
- *     <li>let the user keep trying while wrong;</li>
- *     <li>lock the account once too many attempts fail.</li>
- * </ul>
- * <p>
- * The counting and timing rules live in {@link AccountLockout}, and the records
- * themselves are kept by a {@link LockoutTracker}. This class holds no state of
- * its own: it only decides which rule to apply and what to report back.
- */
+/** Interactor (business logic) for changing a password via a security question. */
 public class SecurityQuestionInteractor implements SecurityQuestionInputBoundary {
 
     private final SecurityQuestionUserDataAccessInterface userDataAccessObject;
@@ -93,12 +79,12 @@ public class SecurityQuestionInteractor implements SecurityQuestionInputBoundary
         }
     }
 
-    /** @return true if the answers match, ignoring case and surrounding spaces. */
+    /** True if the answers match, ignoring case and surrounding spaces. */
     private boolean matches(String expected, String actual) {
         return expected != null && actual != null && expected.trim().equalsIgnoreCase(actual.trim());
     }
 
-    /** @return this account's lock-out record. */
+    /** This account's lock-out record. */
     private AccountLockout lockoutFor(String username) {
         return lockoutTracker.forUser(username);
     }
