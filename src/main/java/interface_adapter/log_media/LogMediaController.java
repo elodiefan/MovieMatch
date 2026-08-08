@@ -29,8 +29,21 @@ public class LogMediaController {
      */
     public void addToWatchlist(final int mediaId, final String mediaType,
                                final String mediaTitle) {
+        addToWatchlist(mediaId, mediaType, mediaTitle, "");
+    }
+
+    /**
+     * Adds the selected media item to the current user's watchlist.
+     * @param mediaId the media id
+     * @param mediaType the media type
+     * @param mediaTitle the media title
+     * @param posterPath the poster path
+     */
+    public void addToWatchlist(final int mediaId, final String mediaType,
+                               final String mediaTitle,
+                               final String posterPath) {
         logMediaInteractor.addToWatchlist(new LogMediaInputData(mediaId,
-                mediaType, mediaTitle));
+                mediaType, mediaTitle, posterPath));
     }
 
     /**
@@ -41,7 +54,20 @@ public class LogMediaController {
      */
     public void addToWatchHistory(final int mediaId, final String mediaType,
                                   final String mediaTitle) {
+        addToWatchHistory(mediaId, mediaType, mediaTitle, "");
+    }
+
+    /**
+     * Adds the selected media item to the current user's watch history.
+     * @param mediaId the media id
+     * @param mediaType the media type
+     * @param mediaTitle the media title
+     * @param posterPath the poster path
+     */
+    public void addToWatchHistory(final int mediaId, final String mediaType,
+                                  final String mediaTitle,
+                                  final String posterPath) {
         logMediaInteractor.addToWatchHistory(new LogMediaInputData(mediaId,
-                mediaType, mediaTitle));
+                mediaType, mediaTitle, posterPath));
     }
 }
