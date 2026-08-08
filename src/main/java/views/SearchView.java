@@ -19,7 +19,7 @@ import interface_adapter.search.SearchState;
 import interface_adapter.search.SearchViewModel;
 
 /**
- * The View for searching movies.
+ * The View for searching movies.json.
  */
 public class SearchView extends JPanel implements PropertyChangeListener {
 

@@ -30,11 +30,12 @@ public class TmdbApiClient {
 
     /**
      * Searches for movies and TV shows from TMDB.
+     * <a href="https://developer.themoviedb.org/reference/search-multi?utm_source=chatgpt.com">...</a>
      *
-     * @param keyword the keyword
-     * @param page the result page to request
-     * @return the TMDB multi-search response body
-     * @throws IOException if the request fails
+     * @param keyword the title entered by the user
+     * @param page the result page requested from TMDB
+     * @return the complete JSON response from TMDB
+     * @throws IOException if the request cannot be completed
      */
     public String searchMulti(String keyword, int page)
             throws IOException {
@@ -277,5 +278,27 @@ public class TmdbApiClient {
      */
     public String getTvShowReviews(int tvShowId) throws IOException {
         return sendGetRequest("/tv/" + tvShowId + "/reviews");
+    }
+
+    /**
+     * Gets one page of movies from a TMDB endpoint.
+     *
+     * @param categoryPath path and query parameters after /movie or /discover
+     * @return the movie-list JSON response
+     * @throws IOException if the request cannot be completed
+     */
+    public String getMovies(String categoryPath) throws IOException {
+        return sendGetRequest(categoryPath);
+    }
+
+    /**
+     * Gets one page of TV shows from a TMDB endpoint.
+     *
+     * @param categoryPath path and query parameters after /tv or /discover
+     * @return the TV-show-list JSON response
+     * @throws IOException if the request cannot be completed
+     */
+    public String getTvShows(String categoryPath) throws IOException {
+        return sendGetRequest(categoryPath);
     }
 }
