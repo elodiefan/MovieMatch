@@ -939,6 +939,8 @@ public class AppBuilder {
                 mediaDetailController
         );
 
+        getListsView.setMediaDetailController(mediaDetailController);
+
         mediaDetailView.setMediaDetailController(
                 mediaDetailController
         );
