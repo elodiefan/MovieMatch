@@ -11,7 +11,7 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.WindowConstants;
 
-import views.UiTheme;
+import views.*;
 
 import database.*;
 
@@ -52,7 +52,6 @@ import interface_adapter.personal_account.PersonalAccountViewModel;
 import interface_adapter.reset_password.ResetPasswordController;
 import interface_adapter.reset_password.ResetPasswordPresenter;
 import interface_adapter.reset_password.ResetPasswordViewModel;
-import views.SearchUserView;
 import use_case.change_display_name.ChangeDisplayNameInputBoundary;
 import use_case.change_display_name.ChangeDisplayNameInteractor;
 import use_case.change_display_name.ChangeDisplayNameOutputBoundary;
@@ -64,14 +63,11 @@ import interface_adapter.search.SearchViewModel;
 import interface_adapter.recommendation.RecommendationViewModel;
 import interface_adapter.search_result.SearchResultViewModel;
 import interface_adapter.settings.SettingsController;
-import views.HomeRecommendationsPanel;
-import views.RecommendationView;
 import interface_adapter.settings.SettingsPresenter;
 import interface_adapter.settings.SettingsViewModel;
 import use_case.settings.SettingsInputBoundary;
 import use_case.settings.SettingsInteractor;
 import use_case.settings.SettingsOutputBoundary;
-import views.SettingsView;
 import interface_adapter.security_question.SecurityQuestionController;
 import interface_adapter.security_question.SecurityQuestionPresenter;
 import interface_adapter.security_question.SecurityQuestionViewModel;
@@ -156,21 +152,6 @@ import use_case.security_question.SecurityQuestionOutputBoundary;
 import use_case.signup.SignupInputBoundary;
 import use_case.signup.SignupInteractor;
 import use_case.signup.SignupOutputBoundary;
-import views.DeleteAccountView;
-import views.GetListsView;
-import views.HomePageView;
-import views.LoginView;
-import views.LogoutConfirmView;
-import views.MediaDetailView;
-import views.MyReviewsView;
-import views.OtherAccountView;
-import views.PersonalAccountView;
-import views.ResetPasswordView;
-import views.SearchResultView;
-import views.SearchView;
-import views.SecurityQuestionView;
-import views.SignupView;
-import views.ViewManager;
 
 /**
  * The AppBuilder class is responsible for putting together the pieces of
@@ -639,9 +620,6 @@ public class AppBuilder {
     public AppBuilder addPersonalAccountUseCase() {
         final GetProfileOutputBoundary getProfileOutputBoundary = new HomePagePresenter(viewManagerModel,
                 personalAccountViewModel, otherAccountViewModel);
-        final GetProfileInputBoundary getProfileInteractor = new GetProfileInteractor(userDataAccessObject,
-                getProfileOutputBoundary);
-
 
         final GetListsController getListsController = createGetListsController();
         final GetSecurityQuestionOutputBoundary getSecurityQuestionOutputBoundary = new PersonalAccountPresenter(viewManagerModel,

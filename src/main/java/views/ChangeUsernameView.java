@@ -1,4 +1,4 @@
-package view;
+package views;
 
 import interface_adapter.ViewManagerModel;
 import interface_adapter.change_username.ChangeUsernameController;

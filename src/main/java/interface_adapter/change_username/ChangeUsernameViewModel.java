@@ -1,11 +1,11 @@
 package interface_adapter.change_username;
 
-import interface_adapter.ViewModel;
+import interface_adapter.StateModel;
 
 /**
  * View model for the change username view.
  */
-public class ChangeUsernameViewModel extends ViewModel<ChangeUsernameState> {
+public class ChangeUsernameViewModel extends StateModel<ChangeUsernameState> {
 
     public static final String VIEW_NAME = "change username";
     public static final String TITLE_LABEL = "Change username";

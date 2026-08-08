@@ -49,6 +49,7 @@ public class PersonalAccountController {
         this.changeUsernameViewModel = changeUsernameViewModel;
         this.resetPasswordViewModel = resetPasswordViewModel;
         this.userReviewsViewModel = userReviewsViewModel;
+        this.homePageViewName = homePageViewName;
         this.getListsViewName = getListsViewName;
     }
 

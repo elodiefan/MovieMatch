@@ -1,4 +1,4 @@
-package view;
+package views;
 
 import java.awt.Component;
 import java.awt.event.ActionEvent;
@@ -113,7 +113,7 @@ public class ChangeDisplayNameView extends JPanel implements PropertyChangeListe
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
         final ChangeDisplayNameState state = (ChangeDisplayNameState) evt.getNewValue();
-        forUserLabel.setText("Changing display name for: " + state.getUsername());
+        forUserLabel.setText("Changing display name for: " + state.getOldDisplayName());
         newDisplayNameField.setText(state.getNewDisplayName());
 
         // Show error if present, otherwise the success message.

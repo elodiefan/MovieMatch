@@ -1,11 +1,11 @@
 package interface_adapter.change_display_name;
 
-import interface_adapter.ViewModel;
+import interface_adapter.StateModel;
 
 /**
  * View model for the change display name view.
  */
-public class ChangeDisplayNameViewModel extends ViewModel<ChangeDisplayNameState> {
+public class ChangeDisplayNameViewModel extends StateModel<ChangeDisplayNameState> {
 
     public static final String VIEW_NAME = "change display name";
     public static final String TITLE_LABEL = "Change display name";
