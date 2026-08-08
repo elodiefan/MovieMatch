@@ -19,6 +19,7 @@ public class SettingsPresenter implements SettingsOutputBoundary {
         final SettingsState state = settingsViewModel.getState();
         state.setDarkMode(settingsOutputData.isDarkMode());
         state.setTextSize(settingsOutputData.getTextSize());
+        state.setAllowAdultContent(settingsOutputData.isAllowAdultContent());
 
         settingsViewModel.setState(state);
         settingsViewModel.firePropertyChanged();

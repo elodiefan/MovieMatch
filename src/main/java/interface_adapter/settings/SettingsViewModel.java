@@ -1,6 +1,7 @@
 package interface_adapter.settings;
 
 import interface_adapter.StateModel;
+import use_case.settings.SettingsInteractor;
 
 /**
  * The View Model for the Settings View.
@@ -12,10 +13,16 @@ public class SettingsViewModel extends StateModel<SettingsState> {
     public static final String TITLE_LABEL = "Settings";
     public static final String DARK_MODE_LABEL = "Dark mode";
     public static final String TEXT_SIZE_LABEL = "Text size";
+    public static final String ADULT_CONTENT_LABEL = "Show adult recommendations";
+    public static final String ADULT_CONTENT_HINT =
+            "Off by default. Leave it off and adult titles are never requested.";
     public static final String BACK_BUTTON_LABEL = "Back";
-    public static final int MIN_TEXT_SIZE = 10;
-    public static final int MAX_TEXT_SIZE = 26;
-    public static final int DEFAULT_TEXT_SIZE = 14;
+
+    // Taken from the use case rather than repeated, so the slider can never
+    // offer a size the interactor would only clamp away again.
+    public static final int MIN_TEXT_SIZE = SettingsInteractor.MIN_TEXT_SIZE;
+    public static final int MAX_TEXT_SIZE = SettingsInteractor.MAX_TEXT_SIZE;
+    public static final int DEFAULT_TEXT_SIZE = SettingsInteractor.DEFAULT_TEXT_SIZE;
 
     public SettingsViewModel() {
         super(VIEW_NAME);

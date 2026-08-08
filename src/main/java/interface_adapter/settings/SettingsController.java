@@ -19,8 +19,10 @@ public class SettingsController {
      *
      * @param darkMode the dark mode
      * @param textSize the text size
+     * @param allowAdultContent whether adult titles may be recommended
      */
-    public void execute(boolean darkMode, int textSize) {
-        settingsInteractor.execute(new SettingsInputData(darkMode, textSize));
+    public void execute(boolean darkMode, int textSize, boolean allowAdultContent) {
+        settingsInteractor.execute(
+                new SettingsInputData(darkMode, textSize, allowAdultContent));
     }
 }

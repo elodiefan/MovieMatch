@@ -3,7 +3,6 @@ package views;
 import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.Dimension;
-import java.awt.Font;
 
 import javax.swing.BorderFactory;
 import javax.swing.Box;
@@ -21,7 +20,6 @@ public class LoadingPanel extends JPanel {
     private static final int BAR_WIDTH = 260;
     private static final int BAR_HEIGHT = 8;
     private static final int GAP = 14;
-    private static final int MESSAGE_SIZE = 15;
 
     private final JLabel message;
     private final JLabel detail;
@@ -29,7 +27,7 @@ public class LoadingPanel extends JPanel {
 
     public LoadingPanel(String initialMessage) {
         message = new JLabel(initialMessage, SwingConstants.CENTER);
-        message.setFont(UiTheme.baseFont(Font.BOLD, MESSAGE_SIZE));
+        message.setFont(UiTheme.sectionFont());
         message.setAlignmentX(Component.CENTER_ALIGNMENT);
 
         detail = new JLabel(" ", SwingConstants.CENTER);

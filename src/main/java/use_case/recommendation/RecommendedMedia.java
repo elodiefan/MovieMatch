@@ -11,6 +11,7 @@ public class RecommendedMedia {
     private final double score;
     private final String primaryGenre;
     private final String explanation;
+    private final String posterPath;
 
     /**
      * Creates a suggestion.
@@ -21,16 +22,18 @@ public class RecommendedMedia {
      * @param score the score
      * @param primaryGenre the primary genre
      * @param explanation the explanation
+     * @param posterPath the poster path
      */
     public RecommendedMedia(final int mediaId, final String title, final int releaseYear,
                             final double score, final String primaryGenre,
-                            final String explanation) {
+                            final String explanation, final String posterPath) {
         this.mediaId = mediaId;
         this.title = title;
         this.releaseYear = releaseYear;
         this.score = score;
         this.primaryGenre = primaryGenre;
         this.explanation = explanation;
+        this.posterPath = posterPath;
     }
 
     /**
@@ -85,5 +88,14 @@ public class RecommendedMedia {
      */
     public String getExplanation() {
         return this.explanation;
+    }
+
+    /**
+     * Returns the path to this title's poster image, or blank if it has none.
+     *
+     * @return the poster path
+     */
+    public String getPosterPath() {
+        return posterPath;
     }
 }

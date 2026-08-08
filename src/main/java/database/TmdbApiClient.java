@@ -17,6 +17,17 @@ public class TmdbApiClient {
     private static final String BASE_URL =
             "https://api.themoviedb.org/3";
 
+    /**
+     * TMDB keyword ids for pornographic material: hentai, ecchi, softcore,
+     * erotic, animated porn and pornography.
+     *
+     * Joined with an encoded bar, which TMDB reads as "any of these". They were
+     * chosen narrowly: films that are merely explicit keep their own keywords
+     * and are not caught by these.
+     */
+    private static final String ADULT_KEYWORD_IDS =
+            "198385%7C195669%7C155477%7C256466%7C378816%7C445";
+
     private final RequestSender requestSender;
     private final String accessToken;
 
@@ -139,8 +150,27 @@ public class TmdbApiClient {
      * @throws IOException if the operation fails
      */
     public String discoverMovies(String genreIds, int page) throws IOException {
-        return sendGetRequest("/discover/movie?with_genres=" + genreIds
-                + "&sort_by=popularity.desc&page=" + page);
+        return sendGetRequest(discoverMoviePath(genreIds, page));
+    }
+
+    /**
+     * Finds popular movies in the given genres, optionally leaving adult ones out.
+     *
+     * @param genreIds the genre ids
+     * @param page the page
+     * @param allowAdultContent whether adult titles may be returned
+     * @return the discover movies
+     * @throws IOException if the operation fails
+     */
+    public String discoverMovies(String genreIds, int page, boolean allowAdultContent)
+            throws IOException {
+        return sendGetRequest(discoverMoviePath(genreIds, page)
+                + adultFilter(allowAdultContent));
+    }
+
+    private static String discoverMoviePath(String genreIds, int page) {
+        return "/discover/movie?with_genres=" + genreIds
+                + "&sort_by=popularity.desc&page=" + page;
     }
 
     /**
@@ -152,8 +182,26 @@ public class TmdbApiClient {
      * @throws IOException if the operation fails
      */
     public String discoverTvShows(String genreIds, int page) throws IOException {
-        return sendGetRequest("/discover/tv?with_genres=" + genreIds
-                + "&sort_by=popularity.desc&page=" + page);
+        return sendGetRequest(discoverTvPath(genreIds, page));
+    }
+
+    /**
+     * Finds popular TV shows in the given genres, optionally leaving adult ones out.
+     *
+     * @param genreIds the genre ids
+     * @param page the page
+     * @param allowAdultContent whether adult titles may be returned
+     * @return the discover tv shows
+     * @throws IOException if the operation fails
+     */
+    public String discoverTvShows(String genreIds, int page, boolean allowAdultContent)
+            throws IOException {
+        return sendGetRequest(discoverTvPath(genreIds, page) + adultFilter(allowAdultContent));
+    }
+
+    private static String discoverTvPath(String genreIds, int page) {
+        return "/discover/tv?with_genres=" + genreIds
+                + "&sort_by=popularity.desc&page=" + page;
     }
 
     /**
@@ -179,6 +227,56 @@ public class TmdbApiClient {
      */
     public String getPopularTvShows(int page) throws IOException {
         return sendGetRequest("/tv/popular?page=" + page);
+    }
+
+    /**
+     * Returns popular movies, optionally leaving adult ones out.
+     *
+     * The plain popular endpoints take no filters at all, so this asks discover
+     * for the same thing ordered by popularity, which does. What comes back is
+     * the popular list minus whatever was filtered.
+     *
+     * @param page the page
+     * @param allowAdultContent whether adult titles may be returned
+     * @return the popular movies
+     * @throws IOException if the operation fails
+     */
+    public String discoverPopularMovies(int page, boolean allowAdultContent) throws IOException {
+        return sendGetRequest("/discover/movie?sort_by=popularity.desc&page=" + page
+                + adultFilter(allowAdultContent));
+    }
+
+    /**
+     * Returns popular TV shows, optionally leaving adult ones out.
+     *
+     * @param page the page
+     * @param allowAdultContent whether adult titles may be returned
+     * @return the popular tv shows
+     * @throws IOException if the operation fails
+     */
+    public String discoverPopularTvShows(int page, boolean allowAdultContent) throws IOException {
+        return sendGetRequest("/discover/tv?sort_by=popularity.desc&page=" + page
+                + adultFilter(allowAdultContent));
+    }
+
+    /**
+     * Builds the query parameters that keep adult titles out of a discover request.
+     *
+     * The adult flag on its own is not enough. TMDB only sets it for material
+     * catalogued as pornography, and leaves it false on plenty of titles that
+     * are plainly not for a general audience, so filtering on it alone changes
+     * nothing. What it does keep accurate is its keywords, and excluding those
+     * removes the titles the flag misses.
+     *
+     * @param allowAdultContent whether adult titles may be returned
+     * @return the query parameters to append, empty when nothing is filtered
+     */
+    private static String adultFilter(boolean allowAdultContent) {
+        String filter = "";
+        if (!allowAdultContent) {
+            filter = "&include_adult=false&without_keywords=" + ADULT_KEYWORD_IDS;
+        }
+        return filter;
     }
 
     /**

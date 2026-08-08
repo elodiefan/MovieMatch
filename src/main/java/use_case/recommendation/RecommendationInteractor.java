@@ -36,11 +36,12 @@ public class RecommendationInteractor implements RecommendationInputBoundary {
     private final RecommendedMediaMapper mapper;
     private final GenreGrouper grouper;
     private final RecommendationOutputBoundary presenter;
+    private final AdultContentPreferenceDataAccessInterface contentPreferences;
     private final ScoringWeights weights;
     private final int currentYear;
 
     /**
-     * Creates an interactor.
+     * Creates an interactor that never offers adult titles.
      *
      * @param userDataAccess the user data access
      * @param catalogue the catalogue
@@ -53,6 +54,27 @@ public class RecommendationInteractor implements RecommendationInputBoundary {
                                     final ScoreAdjuster adjuster,
                                     final RecommendationOutputBoundary presenter,
                                     final int currentYear) {
+        this(userDataAccess, catalogue, adjuster, presenter, currentYear, () -> false);
+    }
+
+    /**
+     * Creates an interactor.
+     *
+     * @param userDataAccess the user data access
+     * @param catalogue the catalogue
+     * @param adjuster the adjuster
+     * @param presenter the presenter
+     * @param currentYear the current year
+     * @param contentPreferences what kind of titles the user wants offered
+     */
+    public RecommendationInteractor(final RecommendationDataAccessInterface userDataAccess,
+                                    final MediaCatalogueDataAccessInterface catalogue,
+                                    final ScoreAdjuster adjuster,
+                                    final RecommendationOutputBoundary presenter,
+                                    final int currentYear,
+                                    final AdultContentPreferenceDataAccessInterface
+                                            contentPreferences) {
+        this.contentPreferences = contentPreferences;
         this.userDataAccess = userDataAccess;
         this.catalogue = catalogue;
         this.candidateSelector = new CandidateSelector(catalogue);
@@ -75,7 +97,8 @@ public class RecommendationInteractor implements RecommendationInputBoundary {
         final TasteProfile profile = this.buildProfile(ratings);
 
         // Step 3: candidates are unwatched titles sharing the user's genres.
-        final List<Media> candidates = this.candidateSelector.selectFor(profile, ratings);
+        final List<Media> candidates = this.candidateSelector.selectFor(
+                profile, ratings, this.contentPreferences.isAdultContentAllowed());
 
         if (candidates.isEmpty()) {
             this.presenter.prepareFailView(NO_CANDIDATES);

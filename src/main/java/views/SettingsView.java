@@ -4,6 +4,7 @@ import java.awt.Component;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
+import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
@@ -21,7 +22,8 @@ import interface_adapter.settings.SettingsViewModel;
  */
 public class SettingsView extends JPanel implements PropertyChangeListener {
 
-    private static final int SLIDER_TICK_SPACING = 4;
+    private static final int SLIDER_TICK_SPACING = 5;
+    private static final int HINT_INDENT = 26;
 
     private final String viewName = SettingsViewModel.VIEW_NAME;
     private final SettingsViewModel settingsViewModel;
@@ -30,6 +32,7 @@ public class SettingsView extends JPanel implements PropertyChangeListener {
     private final JCheckBox darkModeToggle;
     private final JSlider textSizeSlider;
     private final JLabel textSizeValue;
+    private final JCheckBox adultContentToggle;
 
     /**
      * The panel holding every screen, so a change reaches all of them.
@@ -52,6 +55,7 @@ public class SettingsView extends JPanel implements PropertyChangeListener {
                 SettingsViewModel.MAX_TEXT_SIZE,
                 SettingsViewModel.DEFAULT_TEXT_SIZE);
         textSizeSlider.setMajorTickSpacing(SLIDER_TICK_SPACING);
+        textSizeSlider.setMinorTickSpacing(1);
         textSizeSlider.setPaintTicks(true);
         textSizeSlider.setPaintLabels(true);
         textSizeValue = new JLabel(String.valueOf(SettingsViewModel.DEFAULT_TEXT_SIZE));
@@ -61,11 +65,29 @@ public class SettingsView extends JPanel implements PropertyChangeListener {
         textSizePanel.add(textSizeSlider);
         textSizePanel.add(textSizeValue);
 
+        // Unchecked to begin with, so nothing adult is asked for until it is
+        // deliberately turned on.
+        adultContentToggle = new JCheckBox(SettingsViewModel.ADULT_CONTENT_LABEL);
+        adultContentToggle.setSelected(false);
+
+        final JLabel adultContentHint = new JLabel(SettingsViewModel.ADULT_CONTENT_HINT);
+        adultContentHint.setForeground(UiTheme.MUTED_TEXT);
+        adultContentHint.setBorder(
+                BorderFactory.createEmptyBorder(0, HINT_INDENT, 0, 0));
+
+        final JPanel adultContentPanel = new JPanel();
+        adultContentPanel.setLayout(new BoxLayout(adultContentPanel, BoxLayout.Y_AXIS));
+        adultContentToggle.setAlignmentX(Component.LEFT_ALIGNMENT);
+        adultContentHint.setAlignmentX(Component.LEFT_ALIGNMENT);
+        adultContentPanel.add(adultContentToggle);
+        adultContentPanel.add(adultContentHint);
+
         final JButton backButton = new JButton(SettingsViewModel.BACK_BUTTON_LABEL);
         final JPanel backPanel = new JPanel();
         backPanel.add(backButton);
 
         darkModeToggle.addActionListener(event -> applyChoices());
+        adultContentToggle.addActionListener(event -> applyChoices());
         // Only act once the drag finishes, since restyling every screen on each
         // intermediate value makes the slider crawl.
         textSizeSlider.addChangeListener(event -> {
@@ -84,11 +106,13 @@ public class SettingsView extends JPanel implements PropertyChangeListener {
         this.add(title);
         this.add(darkModePanel);
         this.add(textSizePanel);
+        this.add(adultContentPanel);
         this.add(backPanel);
     }
 
     private void applyChoices() {
-        settingsController.execute(darkModeToggle.isSelected(), textSizeSlider.getValue());
+        settingsController.execute(darkModeToggle.isSelected(), textSizeSlider.getValue(),
+                adultContentToggle.isSelected());
     }
 
     @Override
@@ -96,6 +120,7 @@ public class SettingsView extends JPanel implements PropertyChangeListener {
         final SettingsState state = (SettingsState) evt.getNewValue();
 
         textSizeValue.setText(String.valueOf(state.getTextSize()));
+        adultContentToggle.setSelected(state.isAllowAdultContent());
 
         if (appearanceRoot != null) {
             // Restyling rebuilds every component's UI delegate, including the

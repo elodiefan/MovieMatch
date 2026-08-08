@@ -7,10 +7,12 @@ public class SettingsInputData {
 
     private final boolean darkMode;
     private final int textSize;
+    private final boolean allowAdultContent;
 
-    public SettingsInputData(boolean darkMode, int textSize) {
+    public SettingsInputData(boolean darkMode, int textSize, boolean allowAdultContent) {
         this.darkMode = darkMode;
         this.textSize = textSize;
+        this.allowAdultContent = allowAdultContent;
     }
 
     boolean isDarkMode() {
@@ -19,5 +21,9 @@ public class SettingsInputData {
 
     int getTextSize() {
         return textSize;
+    }
+
+    boolean isAllowAdultContent() {
+        return allowAdultContent;
     }
 }
