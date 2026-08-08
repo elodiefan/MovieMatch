@@ -861,10 +861,6 @@ public class AppBuilder {
         return this;
     }
 
-    /**
-     * Adds the block user use case to the app.
-     * @return this builder
-     */
     public AppBuilder addBlockUserUseCase() {
         final BlockUserOutputBoundary userPresenter = new OtherAccountPresenter(viewManagerModel,
                 otherAccountViewModel, messagingViewModel);
