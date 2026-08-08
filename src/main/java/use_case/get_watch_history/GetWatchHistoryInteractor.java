@@ -29,7 +29,7 @@ public class GetWatchHistoryInteractor implements GetWatchHistoryInputBoundary {
         final UserLists userLists = userDataAccessObject.getLists(username);
         final String watchHistory = userLists.getWatchHistory();
         final GetWatchHistoryOutputData getWatchHistoryOutputData = new GetWatchHistoryOutputData(username,
-                displayName, watchHistory, toWatchHistoryItemData(userLists.getWatchHistory()));
+                displayName, watchHistory, toWatchHistoryItemData(userLists.getWatchHistoryItems()));
         getListsPresenter.prepareSuccessView(getWatchHistoryOutputData);
     }
 

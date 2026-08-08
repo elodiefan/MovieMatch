@@ -27,7 +27,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.SwingConstants;
-import javax.swing.SwingConstants;
+import javax.swing.SwingWorker;
 
 import interface_adapter.get_lists.GetListsController;
 import interface_adapter.get_lists.GetListRow;
@@ -71,6 +71,7 @@ public class GetListsView extends JPanel implements PropertyChangeListener {
         labelPanel.setBorder(BorderFactory.createEmptyBorder(0, 0, TEXT_PADDING, 0));
 
         userList = new JTextArea();
+        // This is a read-out of the user's list, not somewhere to type.
         userList.setEditable(false);
         userList.setLineWrap(true);
         userList.setWrapStyleWord(true);
@@ -80,7 +81,7 @@ public class GetListsView extends JPanel implements PropertyChangeListener {
         listPanel.setLayout(new BoxLayout(listPanel, BoxLayout.Y_AXIS));
         listPanel.setBorder(BorderFactory.createEmptyBorder(
                 TEXT_PADDING, TEXT_PADDING, TEXT_PADDING, TEXT_PADDING));
-        final JScrollPane scrollPane = new JScrollPane(userList);
+        final JScrollPane scrollPane = new JScrollPane(listPanel);
 
         final JPanel returnPanel = new JPanel();
         final JButton returnButton = new JButton(GetListsViewModel.RETURN_BUTTON);
@@ -96,6 +97,8 @@ public class GetListsView extends JPanel implements PropertyChangeListener {
                 }
         );
 
+        // BorderLayout so the list itself takes all the spare room when the
+        // window is resized, rather than the heading and button drifting apart.
         this.setLayout(new BorderLayout());
         this.add(labelPanel, BorderLayout.NORTH);
         this.add(scrollPane, BorderLayout.CENTER);
@@ -235,6 +238,11 @@ public class GetListsView extends JPanel implements PropertyChangeListener {
 
     public void setGetListsController(GetListsController getListsController) {
         this.getListsController = getListsController;
+    }
+
+    public void setMediaDetailController(
+            MediaDetailController inputMediaDetailController) {
+        this.mediaDetailController = inputMediaDetailController;
     }
 
     public String getViewName() {
