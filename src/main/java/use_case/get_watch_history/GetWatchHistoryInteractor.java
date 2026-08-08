@@ -37,7 +37,8 @@ public class GetWatchHistoryInteractor implements GetWatchHistoryInputBoundary {
             List<MediaListItem> mediaListItems) {
         final List<WatchHistoryItemData> itemData = new ArrayList<>();
         for (MediaListItem item : mediaListItems) {
-            itemData.add(new WatchHistoryItemData(item.getMediaTitle(),
+            itemData.add(new WatchHistoryItemData(item.getMediaId(),
+                    item.getMediaType(), item.getMediaTitle(),
                     item.getLoggedAt(), item.getPosterPath()));
         }
         return itemData;

@@ -105,7 +105,8 @@ public class GetListsPresenter implements GetWatchlistOutputBoundary, GetWatchHi
             List<WatchlistItemData> watchlistItems) {
         final List<GetListRow> rows = new ArrayList<>();
         for (WatchlistItemData item : watchlistItems) {
-            rows.add(new GetListRow(item.getMediaTitle(), item.getLoggedAt(),
+            rows.add(new GetListRow(item.getMediaId(), item.getMediaType(),
+                    item.getMediaTitle(), item.getLoggedAt(),
                     item.getPosterPath()));
         }
         return rows;
@@ -115,7 +116,8 @@ public class GetListsPresenter implements GetWatchlistOutputBoundary, GetWatchHi
             List<WatchHistoryItemData> watchHistoryItems) {
         final List<GetListRow> rows = new ArrayList<>();
         for (WatchHistoryItemData item : watchHistoryItems) {
-            rows.add(new GetListRow(item.getMediaTitle(), item.getLoggedAt(),
+            rows.add(new GetListRow(item.getMediaId(), item.getMediaType(),
+                    item.getMediaTitle(), item.getLoggedAt(),
                     item.getPosterPath()));
         }
         return rows;

@@ -4,12 +4,16 @@ import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Image;
+import java.awt.Cursor;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.net.MalformedURLException;
 import java.net.URI;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 
@@ -29,6 +33,10 @@ import interface_adapter.get_lists.GetListsController;
 import interface_adapter.get_lists.GetListRow;
 import interface_adapter.get_lists.GetListsState;
 import interface_adapter.get_lists.GetListsViewModel;
+import interface_adapter.media_detail.MediaDetailController;
+import entity.Media;
+import entity.Movie;
+import entity.TVShow;
 
 /**
  * The View for a user's personal account lists.
@@ -46,6 +54,7 @@ public class GetListsView extends JPanel implements PropertyChangeListener {
     private final String viewName = "view lists";
     private GetListsViewModel getListsViewModel;
     private GetListsController getListsController;
+    private MediaDetailController mediaDetailController;
 
     private final JLabel viewMessage;
     private final JTextArea userList;
@@ -127,11 +136,14 @@ public class GetListsView extends JPanel implements PropertyChangeListener {
         card.setBorder(BorderFactory.createEmptyBorder(
                 CARD_GAP, CARD_GAP, CARD_GAP, CARD_GAP));
         card.setAlignmentX(Component.LEFT_ALIGNMENT);
-        card.add(createPosterLabel(row.getPosterPath()), BorderLayout.WEST);
+        final JLabel posterLabel = createPosterLabel(row.getPosterPath());
+        addMediaClickListener(posterLabel, row);
+        card.add(posterLabel, BorderLayout.WEST);
 
         final JPanel textPanel = new JPanel();
         textPanel.setLayout(new BoxLayout(textPanel, BoxLayout.Y_AXIS));
         final JLabel titleLabel = new JLabel(row.getMediaTitle());
+        addMediaClickListener(titleLabel, row);
         final JLabel dateLabel = new JLabel(formatLoggedAt(row.getLoggedAt()));
         textPanel.add(titleLabel);
         textPanel.add(dateLabel);
@@ -194,8 +206,43 @@ public class GetListsView extends JPanel implements PropertyChangeListener {
         return formattedDate;
     }
 
+    private void addMediaClickListener(Component component, GetListRow row) {
+        component.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+        component.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent event) {
+                openMediaDetail(row);
+            }
+        });
+    }
+
+    private void openMediaDetail(GetListRow row) {
+        if (mediaDetailController != null) {
+            mediaDetailController.execute(createMedia(row));
+        }
+    }
+
+    private Media createMedia(GetListRow row) {
+        final Media media;
+        if ("tv".equals(row.getMediaType())) {
+            media = new TVShow(row.getMediaId(), row.getMediaTitle(), 0, 0,
+                    new ArrayList<>(), "", new ArrayList<>(), 0, 0, "",
+                    row.getPosterPath());
+        } else {
+            media = new Movie(row.getMediaId(), row.getMediaTitle(), 0, 0,
+                    new ArrayList<>(), "", new ArrayList<>(), 0, "",
+                    row.getPosterPath());
+        }
+        return media;
+    }
+
     public void setGetListsController(GetListsController getListsController) {
         this.getListsController = getListsController;
+    }
+
+    public void setMediaDetailController(
+            MediaDetailController inputMediaDetailController) {
+        this.mediaDetailController = inputMediaDetailController;
     }
 
     public String getViewName() {

@@ -37,7 +37,8 @@ public class GetWatchlistInteractor implements GetWatchlistInputBoundary {
             List<MediaListItem> mediaListItems) {
         final List<WatchlistItemData> itemData = new ArrayList<>();
         for (MediaListItem item : mediaListItems) {
-            itemData.add(new WatchlistItemData(item.getMediaTitle(),
+            itemData.add(new WatchlistItemData(item.getMediaId(),
+                    item.getMediaType(), item.getMediaTitle(),
                     item.getLoggedAt(), item.getPosterPath()));
         }
         return itemData;
