@@ -319,20 +319,24 @@ public final class MediaReviewsPanel extends JPanel
                 new JButton(MediaReviewsViewModel.DELETE_BUTTON_LABEL);
         final JToggleButton heartButton = createHeartButton(
                 MediaReviewsViewModel.LIKE_BUTTON_LABEL);
+        final boolean ownedByCurrentUser = isWrittenByCurrentUser(
+                review.getAuthorUsername());
         heartButton.setSelected(review.isLikedBy(currentUsername));
         updateHeartButton(heartButton,
                 MediaReviewsViewModel.UNLIKE_BUTTON_LABEL,
                 MediaReviewsViewModel.LIKE_BUTTON_LABEL);
 
-        editButton.addActionListener(new SelectReviewListener(
-                review.getReviewId()));
-        deleteButton.addActionListener(new SelectReviewListener(
-                review.getReviewId()));
+        if (ownedByCurrentUser) {
+            editButton.addActionListener(new SelectReviewListener(
+                    review.getReviewId()));
+            deleteButton.addActionListener(new SelectReviewListener(
+                    review.getReviewId()));
+            buttonPanel.add(editButton);
+            buttonPanel.add(deleteButton);
+        }
         heartButton.addActionListener(new HeartReviewListener(
                 review.getReviewId()));
 
-        buttonPanel.add(editButton);
-        buttonPanel.add(deleteButton);
         buttonPanel.add(heartButton);
         return buttonPanel;
     }
@@ -441,19 +445,25 @@ public final class MediaReviewsPanel extends JPanel
                 new JButton(CommentsViewModel.DELETE_BUTTON_LABEL);
         final JToggleButton heartButton = createHeartButton(
                 CommentsViewModel.LIKE_BUTTON_LABEL);
+        final boolean ownedByCurrentUser = isWrittenByCurrentUser(
+                comment.getAuthorUsername());
         heartButton.setSelected(comment.isLikedBy(currentUsername));
         updateHeartButton(heartButton, CommentsViewModel.UNLIKE_BUTTON_LABEL,
                 CommentsViewModel.LIKE_BUTTON_LABEL);
 
         replyButton.addActionListener(new SelectCommentListener(
                 comment.getCommentId(), comment.getReviewId(), true));
-        deleteButton.addActionListener(new SelectCommentListener(
-                comment.getCommentId(), comment.getReviewId(), false));
+        if (ownedByCurrentUser) {
+            deleteButton.addActionListener(new SelectCommentListener(
+                    comment.getCommentId(), comment.getReviewId(), false));
+        }
         heartButton.addActionListener(new HeartCommentListener(
                 comment.getCommentId()));
 
         buttonPanel.add(replyButton);
-        buttonPanel.add(deleteButton);
+        if (ownedByCurrentUser) {
+            buttonPanel.add(deleteButton);
+        }
         buttonPanel.add(heartButton);
         return buttonPanel;
     }
@@ -535,6 +545,16 @@ public final class MediaReviewsPanel extends JPanel
      */
     private boolean hasCurrentUser() {
         return !isBlank(currentUsername) && !isBlank(currentDisplayName);
+    }
+
+    /**
+     * Checks whether the signed-in user wrote the content.
+     * @param authorUsername the content author's username
+     * @return true if the signed-in user is the author
+     */
+    private boolean isWrittenByCurrentUser(final String authorUsername) {
+        return !isBlank(currentUsername)
+                && currentUsername.equals(authorUsername);
     }
 
     /**

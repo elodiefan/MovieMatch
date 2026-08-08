@@ -253,18 +253,24 @@ public final class CommentsPanel extends JPanel
         final JButton deleteButton =
                 new JButton(CommentsViewModel.DELETE_BUTTON_LABEL);
         final JToggleButton heartButton = createHeartButton();
+        final boolean ownedByCurrentUser = isWrittenByCurrentUser(
+                comment.getAuthorUsername());
         heartButton.setSelected(comment.isLikedBy(currentUsername));
         updateHeartButton(heartButton);
 
         replyButton.addActionListener(new SelectCommentListener(
                 comment.getCommentId(), true));
-        deleteButton.addActionListener(new SelectCommentListener(
-                comment.getCommentId(), false));
+        if (ownedByCurrentUser) {
+            deleteButton.addActionListener(new SelectCommentListener(
+                    comment.getCommentId(), false));
+        }
         heartButton.addActionListener(new HeartCommentListener(
                 comment.getCommentId()));
 
         buttonPanel.add(replyButton);
-        buttonPanel.add(deleteButton);
+        if (ownedByCurrentUser) {
+            buttonPanel.add(deleteButton);
+        }
         buttonPanel.add(heartButton);
         return buttonPanel;
     }
@@ -344,6 +350,16 @@ public final class CommentsPanel extends JPanel
      */
     private boolean hasCurrentUser() {
         return !isBlank(currentUsername) && !isBlank(currentDisplayName);
+    }
+
+    /**
+     * Checks whether the signed-in user wrote the comment.
+     * @param authorUsername the comment author's username
+     * @return true if the signed-in user is the author
+     */
+    private boolean isWrittenByCurrentUser(final String authorUsername) {
+        return !isBlank(currentUsername)
+                && currentUsername.equals(authorUsername);
     }
 
     /**
