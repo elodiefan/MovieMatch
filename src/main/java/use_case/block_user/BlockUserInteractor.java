@@ -17,22 +17,20 @@ public class BlockUserInteractor implements BlockUserInputBoundary {
 
     /**
      * Executes the Block User Use Case.
-     * @param inputOtherUsername the other user's username
+     * @param blockUserInputData the user's input info
      */
     @Override
-    public void execute(String inputOtherUsername) {
-        final BlockUserInputData blockUserInputData =
-                new BlockUserInputData(inputOtherUsername);
+    public void execute(BlockUserInputData blockUserInputData) {
         final String otherUsername = blockUserInputData.getOtherUsername();
         if (!userDataAccessObject.alreadyBlocked(otherUsername)) {
             userDataAccessObject.addToBlockList(otherUsername);
             final BlockUserOutputData blockUserOutputData = new BlockUserOutputData(true, false);
-            userPresenter.prepareBlockSuccessView(blockUserOutputData.isOnBlockList());
+            userPresenter.prepareBlockSuccessView(blockUserOutputData);
         }
         else {
             userDataAccessObject.removeFromBlockList(otherUsername);
             final BlockUserOutputData blockUserOutputData = new BlockUserOutputData(false, false);
-            userPresenter.prepareBlockSuccessView(blockUserOutputData.isOnBlockList());
+            userPresenter.prepareBlockSuccessView(blockUserOutputData);
         }
     }
 }
