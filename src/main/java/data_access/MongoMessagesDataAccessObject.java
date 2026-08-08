@@ -4,12 +4,13 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Properties;
 
-import com.mongodb.DBObject;
-import com.mongodb.client.model.Updates;
 import entity.Message;
 import org.bson.Document;
 
@@ -18,6 +19,7 @@ import com.mongodb.client.MongoClients;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
 import com.mongodb.client.model.Filters;
+import com.mongodb.client.model.Sorts;
 import use_case.access_message_chat.AccessMessageChatMessageDataAccessInterface;
 import use_case.fetch_chat_history.FetchChatHistoryMessageDataAccessInterface;
 import use_case.send_message.SendMessageMessageDataAccessInterface;
@@ -35,7 +37,6 @@ public class MongoMessagesDataAccessObject implements AccessMessageChatMessageDa
 
     // Field names exactly as stored in MongoDB. Case matters.
     private static final String CHAT_ID = "chat_id";
-    private static final String HISTORY = "history";
     private static final String SENDER = "sender";
     private static final String BODY = "body";
     private static final String TIMESTAMP = "timestamp";
@@ -93,10 +94,11 @@ public class MongoMessagesDataAccessObject implements AccessMessageChatMessageDa
      */
     public String getNewMessages(String username, String otherUsername) {
         if (chatExists(username, otherUsername)) {
-            final Document chatHistory = messages.find(Filters.or(
-                    Filters.eq(CHAT_ID, username + WHITE_SPACE + otherUsername), Filters.eq(
-                            CHAT_ID, otherUsername + WHITE_SPACE + username))).first();
-            final List<Document> chats = chatHistory.getList(HISTORY, Document.class);
+            final List<Document> chats = new ArrayList<>();
+            messages.find(Filters.or(
+                    Filters.eq(CHAT_ID, username + WHITE_SPACE + otherUsername), Filters.eq(CHAT_ID,
+                            otherUsername + WHITE_SPACE + username))).sort(ascending(TIMESTAMP))
+                            .forEach(doc -> chats.add(doc));
             return MongoDataCleaning.formatChat(chats);
         }
         return EMPTY_STRING;
@@ -112,24 +114,17 @@ public class MongoMessagesDataAccessObject implements AccessMessageChatMessageDa
     public String getNewMessages(String username, String otherUsername, LocalDateTime lastFetchTime) {
         if (chatExists(username, otherUsername)) {
             final List<Document> chats = new ArrayList<>();
+            final ZonedDateTime zonedDateTime = lastFetchTime.atZone(ZoneId.of("Canada/Eastern"));
+            final Date date = Date.from(zonedDateTime.toInstant());
             messages.find(
                     Filters.and(
-                            Filters.or(Filters.eq(CHAT_ID, username + WHITE_SPACE + otherUsername), Filters.eq(CHAT_ID,
-                                    otherUsername + WHITE_SPACE + username)),
-                            Filters.gte(TIMESTAMP, lastFetchTime))).forEach(doc -> chats.add(doc));
+                            Filters.or(Filters.eq(CHAT_ID, username + WHITE_SPACE + otherUsername), Filters.eq(
+                                    CHAT_ID, otherUsername + WHITE_SPACE + username)),
+                            Filters.gte(TIMESTAMP, date)))
+                    .sort(Sorts.ascending(TIMESTAMP)).forEach(doc -> chats.add(doc));
             return MongoDataCleaning.formatChat(chats);
         }
         return EMPTY_STRING;
-    }
-
-    /**
-     * Creates a new chatroom to add message logs.
-     * @param username username of current user
-     * @param otherUsername username of other user
-     */
-    public void createChat(String username, String otherUsername) {
-        messages.insertOne(new Document(CHAT_ID, username + WHITE_SPACE + otherUsername)
-                        .append(HISTORY, new ArrayList<DBObject>()));
     }
 
     /**
@@ -139,13 +134,11 @@ public class MongoMessagesDataAccessObject implements AccessMessageChatMessageDa
     public void addMessage(Message message) {
         final String sender = message.getSender();
         final String recipient = message.getRecipient();
-        messages.updateOne(Filters.or(
-                Filters.eq(CHAT_ID, sender + WHITE_SPACE + recipient),
-                        Filters.eq(CHAT_ID, recipient + WHITE_SPACE + sender)),
-                Updates.combine(
-                    Updates.addToSet(HISTORY, new Document(SENDER, sender)
-                      .append(BODY, message.getBody())
-                      .append(TIMESTAMP, message.getDate()))));
+        messages.insertOne(
+                new Document(CHAT_ID, sender + WHITE_SPACE + recipient)
+                        .append(SENDER, sender)
+                        .append(BODY, message.getBody())
+                        .append(TIMESTAMP, message.getDate().toString()));
     }
 
     /**

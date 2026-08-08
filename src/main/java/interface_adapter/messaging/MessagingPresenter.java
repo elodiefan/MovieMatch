@@ -25,6 +25,11 @@ public class MessagingPresenter implements SendMessageOutputBoundary, FetchChatH
 
     @Override
     public void switchToOtherAccountView() {
+        final MessagingState messagingState = messagingViewModel.getState();
+        messagingState.setDisplayText("");
+        messagingViewModel.setState(messagingState);
+        messagingViewModel.firePropertyChanged();
+
         viewManagerModel.setState(otherAccountViewModel.getViewName());
         viewManagerModel.firePropertyChanged();
     }

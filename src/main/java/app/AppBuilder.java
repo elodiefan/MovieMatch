@@ -696,7 +696,7 @@ public class AppBuilder {
         final FetchChatHistoryInputBoundary fetchChatHistoryInteractor = new FetchChatHistoryInteractor(
                 mongoMessagesDataAccessObject, userPresenter);
         final SendMessageInputBoundary sendMessageInteractor = new SendMessageInteractor(mongoMessagesDataAccessObject,
-                (SendMessageOutputBoundary)  userPresenter);
+                (SendMessageOutputBoundary) userPresenter);
         final MessagingController messagingController = new MessagingController(viewManagerModel, sendMessageInteractor,
                 fetchChatHistoryInteractor, otherAccountView.getViewName());
         messagingView.setMessagingController(messagingController);

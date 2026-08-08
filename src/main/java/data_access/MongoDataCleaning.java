@@ -89,20 +89,26 @@ public class MongoDataCleaning {
             date = "";
         }
         else {
-            date = rawDateData.substring(start, INDEX_OF_DATE);
+            date = rawDateData.substring(start, end);
         }
         return date;
     }
 
+    /**
+     * Formats raw MongoDB chat data as a String for output.
+     * @param chatHistory list of chat history
+     * @return the data as a String
+     */
     public static String formatChat(List<Document> chatHistory) {
         final StringBuilder formattedChat = new StringBuilder();
         for (Document message: chatHistory) {
-            final String date = formatDate(message.get(ADDED_AT, String.class), 0, INDEX_OF_DATE);
-            final String time = formatDate(message.get(ADDED_AT, String.class), INDEX_OF_START_TIME, INDEX_OF_END_TIME);
+            final String timestamp = message.get(TIMESTAMP, String.class);
+            final String date = formatDate(timestamp, 0, INDEX_OF_DATE);
+            final String time = formatDate(timestamp, INDEX_OF_START_TIME, INDEX_OF_END_TIME);
             formattedChat.append(message.get(SENDER, String.class));
             formattedChat.append(" - ");
             formattedChat.append(message.get(BODY, String.class));
-            formattedChat.append("(" + date + ", " + time + ")");
+            formattedChat.append(" (" + date + ", " + time + ")");
             formattedChat.append(NEW_LINE);
         }
         return formattedChat.toString();

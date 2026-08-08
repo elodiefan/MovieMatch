@@ -26,6 +26,7 @@ public class AccessMessageChatInteractor implements AccessMessageChatInputBounda
         }
         else {
             final String currentUsername = userDataAccessObject.getCurrentUsername();
+
             final String displayText =
                     messageDataAccessObject.getNewMessages(currentUsername, otherUsername);
 

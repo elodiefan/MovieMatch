@@ -19,6 +19,9 @@ public class MessagingController {
     private final FetchChatHistoryInputBoundary fetchChatHistoryInteractor;
     private final String otherAccountViewName;
 
+    private final int commaStart = 10;
+    private final int commaEnd = 12;
+
     public MessagingController(ViewManagerModel viewManagerModel, SendMessageInputBoundary sendMessageInteractor,
                                FetchChatHistoryInputBoundary fetchChatHistoryInteractor, String otherAccountViewName) {
         this.viewManagerModel = viewManagerModel;
@@ -41,30 +44,29 @@ public class MessagingController {
     }
 
     /**
-     * Executes the Fetch Chat History Use Case, fetches entire chat history.
-     * @param username username of the current user
-     * @param otherUsername username of the other user
-     */
-    public void executeFetchAllChatHistory(String username, String otherUsername) {
-        final StringBuilder prevMessages = new StringBuilder();
-        final FetchChatHistoryInputData fetchChatHistoryInputData = new
-                FetchChatHistoryInputData(username, otherUsername, prevMessages, null);
-        fetchChatHistoryInteractor.execute(fetchChatHistoryInputData);
-    }
-
-    /**
      * Executes the Fetch Chat History Use Case, fetches updated chat history.
      * @param username username of the current user
      * @param otherUsername username of the other user
      * @param currentChat the part of chat currently displayed
-     * @param lastTimeSent timestamp of last message currently shown
      */
-    public void executeFetchUpdateChatHistory(String username, String otherUsername, String currentChat,
-                                              LocalDateTime lastTimeSent) {
+    public void executeFetchUpdateChatHistory(String username, String otherUsername, String currentChat) {
         final StringBuilder prevMessages = new StringBuilder(currentChat);
-        final FetchChatHistoryInputData fetchChatHistoryInputData = new
-                FetchChatHistoryInputData(username, otherUsername, prevMessages, lastTimeSent);
-        fetchChatHistoryInteractor.execute(fetchChatHistoryInputData);
+        if (prevMessages.length() == 0) {
+            final LocalDateTime date = null;
+            final FetchChatHistoryInputData fetchChatHistoryInputData = new
+                    FetchChatHistoryInputData(username, otherUsername, prevMessages, date);
+            fetchChatHistoryInteractor.execute(fetchChatHistoryInputData);
+        }
+        else {
+            final int size = currentChat.trim().length();
+            final StringBuilder lastDate = new StringBuilder(currentChat.trim().substring(size - 21, size - 1));
+            lastDate.replace(commaStart, commaEnd, "T");
+            final LocalDateTime date = LocalDateTime.parse(lastDate);
+
+            final FetchChatHistoryInputData fetchChatHistoryInputData = new
+                    FetchChatHistoryInputData(username, otherUsername, prevMessages, date);
+            fetchChatHistoryInteractor.execute(fetchChatHistoryInputData);
+        }
     }
 
     /**

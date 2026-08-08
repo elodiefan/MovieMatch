@@ -29,4 +29,12 @@ public class MessagingState {
     public void setDisplayText(String displayText) {
         this.displayText = displayText;
     }
+
+    /**
+     * Appends new text to old text displayed.
+     * @param newText new text to append
+     */
+    public void appendDisplayText(String newText) {
+        this.displayText += displayText;
+    }
 }

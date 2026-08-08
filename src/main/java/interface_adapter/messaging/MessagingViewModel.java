@@ -9,6 +9,7 @@ public class MessagingViewModel extends ViewModel<MessagingState> {
 
     public static final String BACK_BUTTON_LABEL = "Back";
     public static final String REFRESH = "Refresh";
+    public static final String SEND_BUTTON_LABEL = "Send";
 
     public MessagingViewModel() {
         super("chat");

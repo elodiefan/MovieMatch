@@ -5,7 +5,6 @@ package use_case.access_message_chat;
  */
 
 public interface AccessMessageChatMessageDataAccessInterface {
-
     /**
      * Gets the entire chat history between the two users.
      * @param username the username of the current user

@@ -1,19 +1,16 @@
 package view;
 
 import interface_adapter.ViewManagerModel;
-import interface_adapter.login.LoginController;
-import interface_adapter.login.LoginState;
-import interface_adapter.login.LoginViewModel;
 import interface_adapter.messaging.MessagingController;
+import interface_adapter.messaging.MessagingState;
 import interface_adapter.messaging.MessagingViewModel;
-import interface_adapter.other_account.OtherAccountController;
-import interface_adapter.security_question.SecurityQuestionViewModel;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.time.LocalDateTime;
 
 import javax.swing.*;
 import javax.swing.event.DocumentEvent;
@@ -30,14 +27,15 @@ public class MessagingView extends JPanel implements PropertyChangeListener {
     /** Used for the "Forgot Password" jump, which carries no data of its own. */
     private final ViewManagerModel viewManagerModel;
 
-    private final JTextField textInputField = new JTextField(30);
+    private final JTextField textInputField = new JTextField(15);
 
     private final JLabel title;
 
-    private final JTextArea chatTextArea;
+    private final JTextArea chatTextArea = new JTextArea(5, 20);
 
     private final JButton back;
     private final JButton refresh;
+    private final JButton send;
 
     public MessagingView(MessagingViewModel messagingViewModel, ViewManagerModel viewManagerModel) {
         this.messagingViewModel = messagingViewModel;
@@ -53,22 +51,104 @@ public class MessagingView extends JPanel implements PropertyChangeListener {
         topOfScreen.add(title);
         topOfScreen.add(refresh);
 
-        final JPanel chatFrame = new JPanel();
-        chatTextArea = new JTextArea();
+        final JPanel chatPanel = new JPanel();
+        chatTextArea.setEditable(false);
         final JScrollPane chatScrollPane = new JScrollPane(chatTextArea);
         add(chatScrollPane, BorderLayout.CENTER);
-        chatFrame.add(chatScrollPane);
+        chatPanel.add(chatScrollPane);
+
+        final JPanel textPanel = new JPanel();
+        textPanel.add(textInputField);
+        send = new JButton(messagingViewModel.SEND_BUTTON_LABEL);
+        textPanel.add(send);
+
+        back.addActionListener(
+                new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        messagingController.switchToOtherAccountView();
+                    }
+                }
+        );
+
+        refresh.addActionListener(
+                // This creates an anonymous subclass of ActionListener and instantiates it.
+                evt -> {
+                    if (evt.getSource().equals(refresh)) {
+                        final MessagingState state = messagingViewModel.getState();
+
+                        this.messagingController.executeFetchUpdateChatHistory(
+                                state.getUsername(),
+                                state.getOtherUsername(),
+                                state.getDisplayText()
+                        );
+                    }
+                }
+        );
+
+        send.addActionListener(
+                new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent evt) {
+                        if (evt.getSource().equals(send)) {
+                            final MessagingState state = messagingViewModel.getState();
+
+                            messagingController.executeSendMessage(state.getUsername(), state.getOtherUsername(),
+                                    textInputField.getText(), LocalDateTime.now());
+                        }
+                    }
+                }
+        );
+
+        addTextInputFieldListener();
 
         this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 
         this.add(topOfScreen);
-        this.add(chatFrame);
-        this.add(textInputField);
+        this.add(chatPanel);
+        this.add(textPanel);
+    }
+
+    private void addTextInputFieldListener() {
+        textInputField.getDocument().addDocumentListener(new DocumentListener() {
+
+            private void documentListenerHelper() {
+                final MessagingState state = messagingViewModel.getState();
+                state.appendDisplayText(new String(textInputField.getText()));
+                messagingViewModel.setState(state);
+            }
+
+            @Override
+            public void insertUpdate(DocumentEvent e) {
+                documentListenerHelper();
+            }
+
+            @Override
+            public void removeUpdate(DocumentEvent e) {
+                documentListenerHelper();
+            }
+
+            @Override
+            public void changedUpdate(DocumentEvent e) {
+                documentListenerHelper();
+            }
+        });
     }
 
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
-        return;
+        if (evt.getPropertyName().equals("state")) {
+            final MessagingState state = (MessagingState) evt.getNewValue();
+            title.setText("Chat with " + state.getOtherUsername());
+            chatTextArea.setText(state.getDisplayText());
+        }
+        else if (evt.getPropertyName().equals("sent message")) {
+            textInputField.setText("");
+        }
+        else if (evt.getPropertyName().equals("fetched chat history")) {
+            final MessagingState state = messagingViewModel.getState();
+            chatTextArea.setText(state.getDisplayText());
+        }
     }
 
     public String getViewName() {

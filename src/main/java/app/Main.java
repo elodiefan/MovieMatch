@@ -42,6 +42,7 @@ public class Main {
 //                .addHomePageUseCase()
                 .addLoginUseCase()
                 .addLogoutUseCase()
+                .addMessagingUseCases()
                 .addPersonalAccountUseCase()
                 .addResetPasswordUseCase()
 //                .addReviewsUseCase()
