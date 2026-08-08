@@ -285,7 +285,7 @@ public final class MediaReviewsPanel extends JPanel
             reviewsPanel.add(new JLabel(
                     MediaReviewsViewModel.EMPTY_REVIEWS_MESSAGE));
         } else {
-            for (MediaReviewRow review : reviews) {
+        for (MediaReviewRow review : reviews) {
                 reviewsPanel.add(createReviewCard(review));
                 reviewsPanel.add(Box.createVerticalStrut(CARD_GAP));
             }
@@ -304,6 +304,7 @@ public final class MediaReviewsPanel extends JPanel
         final JPanel card = new JPanel();
         card.setLayout(new BoxLayout(card, BoxLayout.Y_AXIS));
         card.setAlignmentX(Component.LEFT_ALIGNMENT);
+        highlightSelectedReview(card, review);
 
         card.add(new JLabel(review.getAuthorDisplayName()
                 + " (@" + review.getAuthorUsername() + ")"));
@@ -321,6 +322,24 @@ public final class MediaReviewsPanel extends JPanel
         card.add(createCommentsSection(review.getReviewId()));
 
         return card;
+    }
+
+    /**
+     * Highlights and scrolls to the selected review when there is one.
+     * @param card the review card
+     * @param review the review row
+     */
+    private void highlightSelectedReview(final JPanel card,
+                                         final MediaReviewRow review) {
+        final String selectedReviewId = mediaReviewsViewModel.getState()
+                .getSelectedReviewId();
+        if (review.getReviewId().equals(selectedReviewId)) {
+            card.setOpaque(true);
+            card.setBackground(new Color(255, 249, 196));
+            card.setBorder(BorderFactory.createLineBorder(Color.RED));
+            SwingUtilities.invokeLater(() -> card.scrollRectToVisible(
+                    card.getBounds()));
+        }
     }
 
     /**
@@ -438,6 +457,7 @@ public final class MediaReviewsPanel extends JPanel
         card.setBorder(BorderFactory.createEmptyBorder(0,
                 getCommentIndent(comment), 0, 0));
         card.setAlignmentX(Component.LEFT_ALIGNMENT);
+        highlightSelectedComment(card, comment);
 
         card.add(new JLabel(comment.getAuthorDisplayName()
                 + " (@" + comment.getAuthorUsername() + ")"));
@@ -447,6 +467,26 @@ public final class MediaReviewsPanel extends JPanel
         card.add(createCommentButtonPanel(comment));
 
         return card;
+    }
+
+    /**
+     * Highlights and scrolls to the selected comment when there is one.
+     * @param card the comment card
+     * @param comment the comment row
+     */
+    private void highlightSelectedComment(final JPanel card,
+                                          final CommentRow comment) {
+        if (commentsViewModel != null && comment.getCommentId().equals(
+                commentsViewModel.getState().getSelectedCommentId())) {
+            card.setOpaque(true);
+            card.setBackground(new Color(255, 249, 196));
+            card.setBorder(BorderFactory.createCompoundBorder(
+                    BorderFactory.createLineBorder(Color.RED),
+                    BorderFactory.createEmptyBorder(0,
+                            getCommentIndent(comment), 0, 0)));
+            SwingUtilities.invokeLater(() -> card.scrollRectToVisible(
+                    card.getBounds()));
+        }
     }
 
     /**

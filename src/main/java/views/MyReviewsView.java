@@ -3,11 +3,14 @@ package views;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
+import java.awt.Cursor;
 import java.awt.Dimension;
 import java.awt.Dialog;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.net.MalformedURLException;
@@ -38,6 +41,11 @@ import interface_adapter.user_reviews.UserReviewRow;
 import interface_adapter.user_reviews.UserReviewsController;
 import interface_adapter.user_reviews.UserReviewsState;
 import interface_adapter.user_reviews.UserReviewsViewModel;
+import interface_adapter.comments.CommentsState;
+import interface_adapter.comments.CommentsViewModel;
+import interface_adapter.media_detail.MediaDetailController;
+import interface_adapter.media_reviews.MediaReviewsState;
+import interface_adapter.media_reviews.MediaReviewsViewModel;
 
 /**
  * Swing view for a user's reviews.
@@ -111,6 +119,18 @@ public final class MyReviewsView extends JPanel
      */
     private UserReviewsController userReviewsController;
     /**
+     * The media detail controller.
+     */
+    private MediaDetailController mediaDetailController;
+    /**
+     * The media reviews view model.
+     */
+    private MediaReviewsViewModel mediaReviewsViewModel;
+    /**
+     * The comments view model.
+     */
+    private CommentsViewModel commentsViewModel;
+    /**
      * The loading content.
      */
     private boolean loadingContent;
@@ -181,6 +201,27 @@ public final class MyReviewsView extends JPanel
     public void setUserReviewsController(
             final UserReviewsController inputUserReviewsController) {
         this.userReviewsController = inputUserReviewsController;
+    }
+
+    /**
+     * Sets the controller for opening media detail pages.
+     * @param inputMediaDetailController the media detail controller
+     */
+    public void setMediaDetailController(
+            final MediaDetailController inputMediaDetailController) {
+        this.mediaDetailController = inputMediaDetailController;
+    }
+
+    /**
+     * Sets destination view models used to select review/comment targets.
+     * @param inputMediaReviewsViewModel the media reviews view model
+     * @param inputCommentsViewModel the comments view model
+     */
+    public void setMediaReviewTargets(
+            final MediaReviewsViewModel inputMediaReviewsViewModel,
+            final CommentsViewModel inputCommentsViewModel) {
+        this.mediaReviewsViewModel = inputMediaReviewsViewModel;
+        this.commentsViewModel = inputCommentsViewModel;
     }
 
     /**
@@ -276,8 +317,10 @@ public final class MyReviewsView extends JPanel
         final JPanel detailPanel = new JPanel();
         detailPanel.setLayout(new BoxLayout(detailPanel, BoxLayout.Y_AXIS));
         detailPanel.setAlignmentX(Component.LEFT_ALIGNMENT);
-        detailPanel.add(createMediaTitleLabel(review.getMediaTitle(),
-                review.getReleaseYear()));
+        final JLabel titleLabel = createMediaTitleLabel(review.getMediaTitle(),
+                review.getReleaseYear());
+        addReviewNavigation(titleLabel, review);
+        detailPanel.add(titleLabel);
         detailPanel.add(new JLabel("Rating: " + review.getRating() + "%"));
         detailPanel.add(new JLabel("Created: "
                 + formatTime(review.getCreatedAt())));
@@ -287,7 +330,9 @@ public final class MyReviewsView extends JPanel
         detailPanel.add(new JLabel(review.getReviewText()));
         detailPanel.add(createButtonPanel(review));
 
-        card.add(createPosterLabel(review.getPosterPath()), BorderLayout.WEST);
+        final JLabel posterLabel = createPosterLabel(review.getPosterPath());
+        addReviewNavigation(posterLabel, review);
+        card.add(posterLabel, BorderLayout.WEST);
         card.add(detailPanel, BorderLayout.CENTER);
 
         return card;
@@ -307,15 +352,19 @@ public final class MyReviewsView extends JPanel
         final JPanel detailPanel = new JPanel();
         detailPanel.setLayout(new BoxLayout(detailPanel, BoxLayout.Y_AXIS));
         detailPanel.setAlignmentX(Component.LEFT_ALIGNMENT);
-        detailPanel.add(createMediaTitleLabel(comment.getMediaTitle(),
-                comment.getReleaseYear()));
+        final JLabel titleLabel = createMediaTitleLabel(comment.getMediaTitle(),
+                comment.getReleaseYear());
+        addCommentNavigation(titleLabel, comment);
+        detailPanel.add(titleLabel);
         detailPanel.add(new JLabel("On review: " + comment.getReviewText()));
         detailPanel.add(new JLabel("Created: "
                 + formatTime(comment.getCreatedAt())));
         detailPanel.add(new JLabel("Likes: " + comment.getLikeCount()));
         detailPanel.add(new JLabel(comment.getCommentText()));
 
-        card.add(createPosterLabel(comment.getPosterPath()), BorderLayout.WEST);
+        final JLabel posterLabel = createPosterLabel(comment.getPosterPath());
+        addCommentNavigation(posterLabel, comment);
+        card.add(posterLabel, BorderLayout.WEST);
         card.add(detailPanel, BorderLayout.CENTER);
 
         return card;
@@ -378,6 +427,84 @@ public final class MyReviewsView extends JPanel
         posterLabel.setAlignmentX(Component.LEFT_ALIGNMENT);
         updatePoster(posterLabel, posterPath);
         return posterLabel;
+    }
+
+    /**
+     * Adds click navigation to a review media label or poster.
+     * @param component the clickable component
+     * @param review the review row
+     */
+    private void addReviewNavigation(final Component component,
+                                     final UserReviewRow review) {
+        component.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+        component.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(final MouseEvent event) {
+                openMediaDetail(review);
+            }
+        });
+    }
+
+    /**
+     * Adds click navigation to a comment media label or poster.
+     * @param component the clickable component
+     * @param comment the comment row
+     */
+    private void addCommentNavigation(final Component component,
+                                      final UserCommentRow comment) {
+        component.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+        component.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(final MouseEvent event) {
+                openMediaDetail(comment);
+            }
+        });
+    }
+
+    /**
+     * Opens the media detail page focused on the selected review.
+     * @param review the review row
+     */
+    private void openMediaDetail(final UserReviewRow review) {
+        selectTarget(review.getReviewId(), "");
+        if (mediaDetailController != null) {
+            mediaDetailController.execute(review.getMediaId(),
+                    review.getMediaType(), review.getMediaTitle(),
+                    review.getReleaseYear(), review.getPosterPath());
+        }
+    }
+
+    /**
+     * Opens the media detail page focused on the selected comment.
+     * @param comment the comment row
+     */
+    private void openMediaDetail(final UserCommentRow comment) {
+        selectTarget(comment.getReviewId(), comment.getCommentId());
+        if (mediaDetailController != null) {
+            mediaDetailController.execute(comment.getMediaId(),
+                    comment.getMediaType(), comment.getMediaTitle(),
+                    comment.getReleaseYear(), comment.getPosterPath());
+        }
+    }
+
+    /**
+     * Stores the review/comment that should be highlighted after navigation.
+     * @param reviewId the selected review id
+     * @param commentId the selected comment id
+     */
+    private void selectTarget(final String reviewId, final String commentId) {
+        if (mediaReviewsViewModel != null) {
+            final MediaReviewsState reviewsState =
+                    mediaReviewsViewModel.getState();
+            reviewsState.setSelectedReviewId(reviewId);
+            mediaReviewsViewModel.setState(reviewsState);
+        }
+        if (commentsViewModel != null) {
+            final CommentsState commentsState = commentsViewModel.getState();
+            commentsState.setReviewId(reviewId);
+            commentsState.setSelectedCommentId(commentId);
+            commentsViewModel.setState(commentsState);
+        }
     }
 
     /**
