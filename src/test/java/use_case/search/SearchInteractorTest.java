@@ -2,6 +2,7 @@ package use_case.search;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.ArrayList;
@@ -155,5 +156,30 @@ class SearchInteractorTest {
 
         assertTrue(presenter.failure != null, "a blank keyword should fail");
         assertTrue(dataAccess.pagesRequested.isEmpty(), "a blank keyword should not hit the source");
+    }
+
+    @Test
+    void nullKeywordFailsWithoutProducingSuccess() {
+        final FakePagedDataAccess dataAccess = new FakePagedDataAccess(2, 10);
+        final RecordingPresenter presenter = new RecordingPresenter();
+
+        new SearchInteractor(dataAccess, presenter).execute(
+                new SearchInputData(null));
+
+        assertEquals("You have to enter at least one word", presenter.failure);
+        assertNull(presenter.success);
+        assertTrue(dataAccess.pagesRequested.isEmpty());
+    }
+
+    @Test
+    void pageBelowOneIsNormalizedToFirstPage() {
+        final FakePagedDataAccess dataAccess = new FakePagedDataAccess(2, 1);
+        final RecordingPresenter presenter = new RecordingPresenter();
+
+        new SearchInteractor(dataAccess, presenter).loadMore(
+                new SearchInputData("arrival", -4));
+
+        assertEquals(List.of(1, 2), dataAccess.pagesRequested);
+        assertTrue(presenter.success.isAppending());
     }
 }
