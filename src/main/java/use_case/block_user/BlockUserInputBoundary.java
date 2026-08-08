@@ -7,7 +7,7 @@ public interface BlockUserInputBoundary {
 
     /**
      * Executes the block user use case.
-     * @param blockUserInputData the input data
+     * @param otherUsername the other user's username
      */
-    void execute(BlockUserInputData blockUserInputData);
+    void execute(String otherUsername);
 }

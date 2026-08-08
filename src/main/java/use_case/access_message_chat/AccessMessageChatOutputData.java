@@ -6,40 +6,25 @@ package use_case.access_message_chat;
 public class AccessMessageChatOutputData {
 
     private boolean canViewChat;
-    private String username;
-    private String otherUsername;
-    private String displayText;
     private boolean useCaseFailed;
 
-    public AccessMessageChatOutputData(boolean canViewChat, String username, String otherUsername,
-                                       String displayText, boolean useCaseFailed) {
+    /**
+     * Creates output data for accessing a message chat.
+     * @param canViewChat whether the chat can be viewed
+     * @param useCaseFailed whether the use case failed
+     */
+    public AccessMessageChatOutputData(boolean canViewChat, boolean useCaseFailed) {
         this.canViewChat = canViewChat;
-        this.username = username;
-        this.otherUsername = otherUsername;
-        this.displayText = displayText;
         this.useCaseFailed = useCaseFailed;
     }
 
     /**
-     * Returns whether current user can chat with other user.
-     * @return whether can chat
+     * Returns whether the chat can be viewed.
+     * @return true if the chat can be viewed
      */
     public boolean canViewChat() {
         return canViewChat;
     }
-
-    public String getUsername() {
-        return username;
-    }
-
-    public String getOtherUsername() {
-        return otherUsername;
-    }
-
-    public String getDisplayText() {
-        return displayText;
-    }
-
     public boolean isUseCaseFailed() {
         return useCaseFailed;
     }
