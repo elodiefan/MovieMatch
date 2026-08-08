@@ -67,6 +67,7 @@ public class MessagingView extends JPanel implements PropertyChangeListener {
                     @Override
                     public void actionPerformed(ActionEvent e) {
                         messagingController.switchToOtherAccountView();
+                        textInputField.setText("");
                     }
                 }
         );
@@ -80,13 +81,8 @@ public class MessagingView extends JPanel implements PropertyChangeListener {
                         this.messagingController.executeFetchUpdateChatHistory(
                                 state.getUsername(),
                                 state.getOtherUsername(),
-                                state.getDisplayText()
+                                chatTextArea.getText()
                         );
-//                        this.messagingController.executeFetchUpdateChatHistory(
-//                                state.getUsername(),
-//                                state.getOtherUsername(),
-//                                ""
-//                        );
                     }
                 }
         );
