@@ -382,9 +382,11 @@ public class AppBuilder {
                 otherAccountViewModel, messagingViewModel);
         final BlockUserInputBoundary blockUserInteractor = new BlockUserInteractor(userDataAccessObject,
                 otherAccountPresenter);
+        final AccessMessageChatInputBoundary accessMessageChatInteractor = new AccessMessageChatInteractor(
+                userDataAccessObject, mongoMessagesDataAccessObject,otherAccountPresenter);
 
         final OtherAccountController otherAccountController = new OtherAccountController(viewManagerModel,
-                blockUserInteractor, createGetListsController(), null);
+                blockUserInteractor, createGetListsController(), accessMessageChatInteractor);
         otherAccountView.setOtherAccountController(otherAccountController);
         return this;
     }
