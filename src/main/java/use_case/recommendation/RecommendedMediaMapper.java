@@ -37,7 +37,8 @@ public class RecommendedMediaMapper {
                 media.getReleaseYear(),
                 scored.getScore(),
                 this.pickPrimaryGenre(media, profile),
-                scored.getExplanation());
+                scored.getExplanation(),
+                media.getPosterPath());
     }
 
     /**

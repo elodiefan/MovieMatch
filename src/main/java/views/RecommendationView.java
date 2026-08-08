@@ -199,22 +199,7 @@ public class RecommendationView extends JPanel implements PropertyChangeListener
     }
 
     private void addResult(RecommendationRow media) {
-        final JPanel row = new JPanel();
-        row.setLayout(new BoxLayout(row, BoxLayout.Y_AXIS));
-        row.setAlignmentX(Component.LEFT_ALIGNMENT);
-
-        row.add(new JLabel(media.getTitle() + " (" + media.getReleaseYear() + ")"
-                + "  -  " + media.getPrimaryGenre()));
-
-        // Blank whenever the deterministic ranking stood on its own, which is
-        // what happens with no Gemini key.
-        if (media.getExplanation() != null && !media.getExplanation().isBlank()) {
-            final JLabel why = new JLabel(media.getExplanation());
-            why.setForeground(UiTheme.MUTED_TEXT);
-            row.add(why);
-        }
-
-        sectionsPanel.add(row);
+        sectionsPanel.add(new RecommendationRowPanel(media));
     }
 
     public String getViewName() {
