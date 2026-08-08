@@ -16,6 +16,7 @@ import use_case.log_media.LogMediaDataAccessInterface;
 import use_case.logout.LogoutUserDataAccessInterface;
 import use_case.reset_password.ResetPasswordUserDataAccessInterface;
 import use_case.recommendation.WatchedMediaDataAccessInterface;
+import use_case.review.create_review.CreateReviewUserDataAccessInterface;
 import use_case.search_user.SearchUserDataAccess;
 import use_case.security_question.SecurityQuestionUserDataAccessInterface;
 import use_case.signup.SignupUserDataAccessInterface;
@@ -28,6 +29,7 @@ public interface UserDataAccessObject extends
         BlockUserUserDataAccessInterface,
         ChangeDisplayNameUserDataAccessInterface,
         ChangeUsernameUserDataAccessInterface,
+        CreateReviewUserDataAccessInterface,
         DeleteAccountUserDataAccessInterface,
         GetBlockedUsersUserDataAccessInterface,
         GetWatchHistoryUserDataAccessInterface,

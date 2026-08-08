@@ -13,7 +13,6 @@ import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.net.MalformedURLException;
 import java.net.URI;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 
@@ -34,9 +33,6 @@ import interface_adapter.get_lists.GetListRow;
 import interface_adapter.get_lists.GetListsState;
 import interface_adapter.get_lists.GetListsViewModel;
 import interface_adapter.media_detail.MediaDetailController;
-import entity.Media;
-import entity.Movie;
-import entity.TVShow;
 
 /**
  * The View for a user's personal account lists.
@@ -218,22 +214,10 @@ public class GetListsView extends JPanel implements PropertyChangeListener {
 
     private void openMediaDetail(GetListRow row) {
         if (mediaDetailController != null) {
-            mediaDetailController.execute(createMedia(row));
-        }
-    }
-
-    private Media createMedia(GetListRow row) {
-        final Media media;
-        if ("tv".equals(row.getMediaType())) {
-            media = new TVShow(row.getMediaId(), row.getMediaTitle(), 0, 0,
-                    new ArrayList<>(), "", new ArrayList<>(), 0, 0, "",
-                    row.getPosterPath());
-        } else {
-            media = new Movie(row.getMediaId(), row.getMediaTitle(), 0, 0,
-                    new ArrayList<>(), "", new ArrayList<>(), 0, "",
+            mediaDetailController.execute(row.getMediaId(),
+                    row.getMediaType(), row.getMediaTitle(), 0,
                     row.getPosterPath());
         }
-        return media;
     }
 
     public void setGetListsController(GetListsController getListsController) {

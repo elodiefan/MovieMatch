@@ -17,7 +17,7 @@ public class LogMediaInputData {
      */
     private final String mediaTitle;
     /**
-     * The media poster path.
+     * The poster path.
      */
     private final String posterPath;
 
@@ -75,7 +75,7 @@ public class LogMediaInputData {
     }
 
     /**
-     * Returns the media poster path.
+     * Returns the poster path.
      * @return the poster path
      */
     public String getPosterPath() {

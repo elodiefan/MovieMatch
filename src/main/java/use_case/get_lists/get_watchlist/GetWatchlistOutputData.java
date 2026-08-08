@@ -13,19 +13,17 @@ public class GetWatchlistOutputData {
     private final String watchlist;
     private final List<WatchlistItemData> watchlistItems;
 
-    public GetWatchlistOutputData(String username, String displayName, String watchlist,
+    public GetWatchlistOutputData(String username, String displayName, String watchlist) {
+        this(username, displayName, watchlist, new ArrayList<>());
+    }
+
+    public GetWatchlistOutputData(String username, String displayName,
+                                  String watchlist,
                                   List<WatchlistItemData> watchlistItems) {
         this.username = username;
         this.displayName = displayName;
         this.watchlist = watchlist;
-        this.watchlistItems = watchlistItems;
-    }
-
-    public GetWatchlistOutputData(String username, String displayName, String watchlist) {
-        this.username = username;
-        this.displayName = displayName;
-        this.watchlist = watchlist;
-        this.watchlistItems = new ArrayList<>();
+        this.watchlistItems = new ArrayList<>(watchlistItems);
     }
 
     public String getUsername() {
@@ -41,6 +39,6 @@ public class GetWatchlistOutputData {
     }
 
     public List<WatchlistItemData> getWatchlistItems() {
-        return watchlistItems;
+        return new ArrayList<>(watchlistItems);
     }
 }

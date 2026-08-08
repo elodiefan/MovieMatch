@@ -16,24 +16,22 @@ public class UserLists {
     private final List<MediaListItem> watchlistItems;
     private final List<MediaListItem> watchHistoryItems;
 
-    public UserLists(String username, String watchlist, String watchHistory, String blockedUsers,
-                     List<MediaListItem> watchlistItems, List<MediaListItem> watchHistoryItems) {
-        this.username = username;
-        this.watchlist = watchlist;
-        this.watchHistory = watchHistory;
-        this.blockedUsers = blockedUsers;
-        this.watchlistItems = watchlistItems;
-        this.watchHistoryItems = watchHistoryItems;
+    public UserLists(String username, String watchlist,
+                     String watchHistory, String blockedUsers) {
+        this(username, watchlist, watchHistory, blockedUsers,
+                new ArrayList<>(), new ArrayList<>());
     }
 
     public UserLists(String username, String watchlist,
-                     String watchHistory, String blockedUsers) {
+                     String watchHistory, String blockedUsers,
+                     List<MediaListItem> watchlistItems,
+                     List<MediaListItem> watchHistoryItems) {
         this.username = username;
         this.watchlist = watchlist;
         this.watchHistory = watchHistory;
         this.blockedUsers = blockedUsers;
-        this.watchlistItems = new ArrayList<>();
-        this.watchHistoryItems = new ArrayList<>();
+        this.watchlistItems = new ArrayList<>(watchlistItems);
+        this.watchHistoryItems = new ArrayList<>(watchHistoryItems);
     }
 
     public String getUsername() {

@@ -11,22 +11,19 @@ public class GetWatchHistoryOutputData {
     private final String username;
     private final String displayName;
     private final String watchHistory;
-
     private final List<WatchHistoryItemData> watchHistoryItems;
 
-    public GetWatchHistoryOutputData(String username, String displayName,
-                                     String watchHistory, List<WatchHistoryItemData> watchHistoryItems) {
-        this.username = username;
-        this.displayName = displayName;
-        this.watchHistory = watchHistory;
-        this.watchHistoryItems = watchHistoryItems;
+    public GetWatchHistoryOutputData(String username, String displayName, String watchHistory) {
+        this(username, displayName, watchHistory, new ArrayList<>());
     }
 
-    public GetWatchHistoryOutputData(String username, String displayName, String watchHistory) {
+    public GetWatchHistoryOutputData(String username, String displayName,
+                                     String watchHistory,
+                                     List<WatchHistoryItemData> watchHistoryItems) {
         this.username = username;
         this.displayName = displayName;
         this.watchHistory = watchHistory;
-        this.watchHistoryItems = new ArrayList<>();
+        this.watchHistoryItems = new ArrayList<>(watchHistoryItems);
     }
 
     public String getUsername() {
@@ -42,7 +39,6 @@ public class GetWatchHistoryOutputData {
     }
 
     public List<WatchHistoryItemData> getWatchHistoryItems() {
-        return watchHistoryItems;
+        return new ArrayList<>(watchHistoryItems);
     }
 }
-

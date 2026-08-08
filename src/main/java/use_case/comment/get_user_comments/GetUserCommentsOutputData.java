@@ -34,6 +34,8 @@ public final class GetUserCommentsOutputData {
     public static final class UserCommentData {
         private final String commentId;
         private final String reviewId;
+        private final int mediaId;
+        private final String mediaType;
         private final String mediaTitle;
         private final int releaseYear;
         private final String posterPath;
@@ -46,6 +48,8 @@ public final class GetUserCommentsOutputData {
          * Creates one user comment row.
          * @param commentId the comment id
          * @param reviewId the review id
+         * @param mediaId the media id
+         * @param mediaType the media type
          * @param mediaTitle the media title
          * @param releaseYear the release year
          * @param posterPath the poster path
@@ -55,6 +59,7 @@ public final class GetUserCommentsOutputData {
          * @param likeCount the number of likes
          */
         public UserCommentData(final String commentId, final String reviewId,
+                               final int mediaId, final String mediaType,
                                final String mediaTitle,
                                final int releaseYear,
                                final String posterPath,
@@ -64,6 +69,8 @@ public final class GetUserCommentsOutputData {
                                final int likeCount) {
             this.commentId = commentId;
             this.reviewId = reviewId;
+            this.mediaId = mediaId;
+            this.mediaType = mediaType;
             this.mediaTitle = mediaTitle;
             this.releaseYear = releaseYear;
             this.posterPath = posterPath;
@@ -79,6 +86,14 @@ public final class GetUserCommentsOutputData {
 
         public String getReviewId() {
             return reviewId;
+        }
+
+        public int getMediaId() {
+            return mediaId;
+        }
+
+        public String getMediaType() {
+            return mediaType;
         }
 
         public String getMediaTitle() {

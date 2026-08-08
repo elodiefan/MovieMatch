@@ -1,6 +1,7 @@
 package views;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
@@ -45,6 +46,8 @@ public class MediaDetailView extends JPanel implements PropertyChangeListener {
     private static final int POSTER_WIDTH = 140;
     private static final int POSTER_HEIGHT = 210;
     private static final int DETAIL_GAP = 12;
+    private static final int LOG_MESSAGE_WIDTH = 360;
+    private static final int LOG_MESSAGE_HEIGHT = 80;
 
     private final String viewName = MediaDetailViewModel.VIEW_NAME;
 
@@ -119,6 +122,11 @@ public class MediaDetailView extends JPanel implements PropertyChangeListener {
 
         errorLabel = new JLabel();
         logMediaLabel = new JLabel();
+        logMediaLabel.setAlignmentX(Component.LEFT_ALIGNMENT);
+        logMediaLabel.setPreferredSize(new Dimension(LOG_MESSAGE_WIDTH,
+                LOG_MESSAGE_HEIGHT));
+        logMediaLabel.setMinimumSize(new Dimension(LOG_MESSAGE_WIDTH,
+                LOG_MESSAGE_HEIGHT));
 
         backButton =
                 new JButton(MediaDetailViewModel.BACK_BUTTON_LABEL);
@@ -373,11 +381,47 @@ public class MediaDetailView extends JPanel implements PropertyChangeListener {
         final String statusText;
         if (state.getError() == null || state.getError().isEmpty()) {
             statusText = state.getMessage();
+            logMediaLabel.setForeground(Color.BLACK);
         }
         else {
             statusText = state.getError();
+            logMediaLabel.setForeground(Color.RED);
         }
-        logMediaLabel.setText(statusText);
+        logMediaLabel.setText(formatWrappedLabelText(statusText));
+    }
+
+    /**
+     * Formats status text so Swing can wrap it across multiple lines.
+     *
+     * @param text the status text
+     * @return the wrapped label text
+     */
+    private String formatWrappedLabelText(String text) {
+        final String labelText;
+        if (text == null || text.isEmpty()) {
+            labelText = "";
+        }
+        else {
+            final String wrappedText = escapeHtml(text)
+                    .replace("history. Remove", "history.<br>Remove")
+                    .replace("before adding", "before<br>adding");
+            labelText = "<html><body style='width: "
+                    + LOG_MESSAGE_WIDTH + "px'>"
+                    + wrappedText + "</body></html>";
+        }
+        return labelText;
+    }
+
+    /**
+     * Escapes characters that have special meaning in HTML.
+     *
+     * @param text the text to escape
+     * @return the escaped text
+     */
+    private String escapeHtml(String text) {
+        return text.replace("&", "&amp;")
+                .replace("<", "&lt;")
+                .replace(">", "&gt;");
     }
 
     private void addCurrentMediaToWatchlist() {

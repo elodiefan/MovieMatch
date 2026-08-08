@@ -207,7 +207,7 @@ public class InMemoryUserDataAccessObject implements UserDataAccessObject {
 
     // ---------- Get security question ----------
     @Override
-    public String getSecurityQuestion() {
+        public String getSecurityQuestion() {
         return users.get(currentUsername).getSecurityQuestion();
     }
 
