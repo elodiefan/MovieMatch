@@ -47,8 +47,20 @@ public class SeedMediaCatalogue implements MediaCatalogueDataAccessInterface {
         return Collections.unmodifiableList(this.catalogue);
     }
 
+    /**
+     * Returns the seed titles matching the given genres.
+     *
+     * The seed catalogue is a fixed, hand-written list with nothing adult in
+     * it, so the preference makes no difference to what comes back.
+     *
+     * @param genres the genres
+     * @param excludeMediaIds the exclude media ids
+     * @param allowAdultContent whether adult titles may be returned
+     * @return the find candidates
+     */
     @Override
-    public List<Media> findCandidates(final Set<Genre> genres, final Set<Integer> excludeMediaIds) {
+    public List<Media> findCandidates(final Set<Genre> genres, final Set<Integer> excludeMediaIds,
+                                      final boolean allowAdultContent) {
         final List<Media> matches = new ArrayList<>();
         for (final Media media : this.catalogue) {
             if (!excludeMediaIds.contains(media.getID()) && sharesGenre(media, genres)) {

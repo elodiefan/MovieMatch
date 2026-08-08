@@ -30,7 +30,6 @@ public class OtherAccountView extends JPanel implements PropertyChangeListener {
     private final JButton watchlistButton;
     private final JButton watchHistoryButton;
     private final JButton reviewsButton;
-    private final JButton blockButton;
     private final JButton messageButton;
     private final JButton backButton;
 
@@ -57,10 +56,8 @@ public class OtherAccountView extends JPanel implements PropertyChangeListener {
         final JPanel accountOptionsPanel = new JPanel();
         backButton = new JButton(OtherAccountViewModel.BACK_BUTTON);
         messageButton = new JButton(OtherAccountViewModel.MESSAGE_BUTTON);
-        blockButton = new JButton();
         listOptionsPanel.add(backButton);
         listOptionsPanel.add(messageButton);
-        listOptionsPanel.add(blockButton);
 
         watchlistButton.addActionListener(
                 new ActionListener() {
@@ -110,17 +107,11 @@ public class OtherAccountView extends JPanel implements PropertyChangeListener {
                 }
         );
 
-        blockButton.addActionListener(
-                evt -> {
-                    if (evt.getSource().equals(blockButton)) {
-                        final OtherAccountState currentState = otherAccountViewModel.getState();
-
-                        this.otherAccountController.executeBlockUser(
-                                currentState.getUsername()
-                        );
-                    }
-                }
-        );
+        // A block button used to sit here, but it was built with no label at
+        // all and nothing ever gave it one, so it drew as a blank box next to
+        // Message. Blocking still exists on the controller and can go back on
+        // this screen once it has a label and something showing whether the
+        // account is already blocked.
 
         this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 

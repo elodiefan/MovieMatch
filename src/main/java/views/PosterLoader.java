@@ -25,9 +25,9 @@ public final class PosterLoader {
     /** Width to request. Small enough to stay quick, large enough to read. */
     public static final String THUMBNAIL_SIZE = "w154";
 
-    /** How tall a poster slot is, so rows line up before the image lands. */
-    public static final int POSTER_WIDTH = 77;
-    public static final int POSTER_HEIGHT = 115;
+    /** How large a poster slot is, so rows line up before the image lands. */
+    public static final int POSTER_WIDTH = 92;
+    public static final int POSTER_HEIGHT = 138;
 
     private static final String IMAGE_BASE = "https://image.tmdb.org/t/p/";
 
@@ -62,8 +62,7 @@ public final class PosterLoader {
             protected ImageIcon doInBackground() throws Exception {
                 final Image image = ImageIO.read(
                         URI.create(IMAGE_BASE + THUMBNAIL_SIZE + posterPath).toURL());
-                return new ImageIcon(image.getScaledInstance(
-                        POSTER_WIDTH, POSTER_HEIGHT, Image.SCALE_SMOOTH));
+                return new ImageIcon(fitToSlot(image));
             }
 
             @Override
@@ -83,5 +82,33 @@ public final class PosterLoader {
                 }
             }
         }.execute();
+    }
+
+    /**
+     * Scales a poster to sit inside the slot without distorting it.
+     *
+     * Posters are usually two by three but not always, so forcing every one to
+     * the same rectangle stretches the odd ones. Scaling by whichever side runs
+     * out of room first keeps the artwork's own shape and leaves the slack as
+     * empty space instead.
+     *
+     * @param image the downloaded poster
+     * @return the poster scaled to fit
+     */
+    private static Image fitToSlot(Image image) {
+        final int sourceWidth = image.getWidth(null);
+        final int sourceHeight = image.getHeight(null);
+
+        Image result = image;
+        if (sourceWidth > 0 && sourceHeight > 0) {
+            final double scale = Math.min(
+                    (double) POSTER_WIDTH / sourceWidth,
+                    (double) POSTER_HEIGHT / sourceHeight);
+            result = image.getScaledInstance(
+                    Math.max(1, (int) Math.round(sourceWidth * scale)),
+                    Math.max(1, (int) Math.round(sourceHeight * scale)),
+                    Image.SCALE_SMOOTH);
+        }
+        return result;
     }
 }

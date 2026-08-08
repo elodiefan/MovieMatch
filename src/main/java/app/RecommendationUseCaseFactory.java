@@ -13,6 +13,7 @@ import interface_adapter.home_page.HomePageViewModel;
 import interface_adapter.recommendation.RecommendationController;
 import interface_adapter.recommendation.RecommendationPresenter;
 import interface_adapter.recommendation.RecommendationViewModel;
+import use_case.recommendation.AdultContentPreferenceDataAccessInterface;
 import use_case.recommendation.MediaCatalogueDataAccessInterface;
 import use_case.recommendation.RecommendationDataAccessInterface;
 import use_case.recommendation.RecommendationInputBoundary;
@@ -45,6 +46,7 @@ public final class RecommendationUseCaseFactory {
      * @param recommendationView the recommendation view
      * @param watchedMediaDataAccess the watched media data access
      * @param reviewDataAccess the review data access
+     * @param contentPreferences what kind of titles the user wants offered
      */
     public static void create(ViewManagerModel viewManagerModel,
                               RecommendationViewModel homeStripViewModel,
@@ -52,7 +54,8 @@ public final class RecommendationUseCaseFactory {
                               HomeRecommendationsPanel homeRecommendationsPanel,
                               RecommendationView recommendationView,
                               WatchedMediaDataAccessInterface watchedMediaDataAccess,
-                              ReviewedMediaRatingDataAccessInterface reviewDataAccess) {
+                              ReviewedMediaRatingDataAccessInterface reviewDataAccess,
+                              AdultContentPreferenceDataAccessInterface contentPreferences) {
 
         // Swing lives in the view layer, so the presenter only sees an Executor.
         final Executor uiExecutor = new SwingUiExecutor();
@@ -66,11 +69,13 @@ public final class RecommendationUseCaseFactory {
 
         homeRecommendationsPanel.setRecommendationController(new RecommendationController(
                 buildInteractor(userDataAccess, catalogue, adjuster,
-                        new RecommendationPresenter(homeStripViewModel, uiExecutor), currentYear)));
+                        new RecommendationPresenter(homeStripViewModel, uiExecutor), currentYear,
+                        contentPreferences)));
 
         recommendationView.setRecommendationController(new RecommendationController(
                 buildInteractor(userDataAccess, catalogue, adjuster,
-                        new RecommendationPresenter(detailedViewModel, uiExecutor), currentYear)));
+                        new RecommendationPresenter(detailedViewModel, uiExecutor), currentYear,
+                        contentPreferences)));
 
         homeRecommendationsPanel.setOpenFullListHandler(
                 () -> viewManagerModel.switchView(RecommendationViewModel.VIEW_NAME));
@@ -83,9 +88,10 @@ public final class RecommendationUseCaseFactory {
             MediaCatalogueDataAccessInterface catalogue,
             ScoreAdjuster adjuster,
             RecommendationOutputBoundary presenter,
-            int currentYear) {
+            int currentYear,
+            AdultContentPreferenceDataAccessInterface contentPreferences) {
         return new RecommendationInteractor(userDataAccess, catalogue, adjuster,
-                presenter, currentYear);
+                presenter, currentYear, contentPreferences);
     }
 
     /**

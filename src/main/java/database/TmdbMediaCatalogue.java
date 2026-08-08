@@ -47,15 +47,18 @@ public class TmdbMediaCatalogue implements MediaCatalogueDataAccessInterface {
     }
 
     @Override
-    public List<Media> findCandidates(Set<Genre> genres, Set<Integer> excludeMediaIds) {
+    public List<Media> findCandidates(Set<Genre> genres, Set<Integer> excludeMediaIds,
+                                      boolean allowAdultContent) {
         final List<Media> candidates = new ArrayList<>();
 
         try {
             for (int page = 1; page <= CANDIDATE_PAGES; page++) {
                 if (genres == null || genres.isEmpty()) {
                     // No taste profile to narrow with, so show what is popular.
-                    collect(tmdbApiClient.getPopularMovies(page), candidates, true);
-                    collect(tmdbApiClient.getPopularTvShows(page), candidates, false);
+                    collect(tmdbApiClient.discoverPopularMovies(page, allowAdultContent),
+                            candidates, true);
+                    collect(tmdbApiClient.discoverPopularTvShows(page, allowAdultContent),
+                            candidates, false);
                 }
                 else {
                     // TMDB reads a bar between ids as "any of these", but a raw
@@ -63,8 +66,10 @@ public class TmdbMediaCatalogue implements MediaCatalogueDataAccessInterface {
                     final String ids = genres.stream()
                             .map(genre -> String.valueOf(genre.getId()))
                             .collect(Collectors.joining("%7C"));
-                    collect(tmdbApiClient.discoverMovies(ids, page), candidates, true);
-                    collect(tmdbApiClient.discoverTvShows(ids, page), candidates, false);
+                    collect(tmdbApiClient.discoverMovies(ids, page, allowAdultContent),
+                            candidates, true);
+                    collect(tmdbApiClient.discoverTvShows(ids, page, allowAdultContent),
+                            candidates, false);
                 }
             }
         }

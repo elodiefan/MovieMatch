@@ -237,6 +237,12 @@ public class AppBuilder {
     private HomeRecommendationsPanel homeRecommendationsPanel;
 
     /**
+     * Shared by the settings and recommendation use cases: one writes the
+     * content preference, the other reads it.
+     */
+    private final InMemoryContentPreferences contentPreferences = new InMemoryContentPreferences();
+
+    /**
      * One per screen, because the strip and the full list show different amounts.
      */
     private RecommendationViewModel homeStripRecommendationViewModel;
@@ -808,7 +814,8 @@ public class AppBuilder {
                 homeRecommendationsPanel,
                 recommendationView,
                 userDataAccessObject,
-                reviewDataAccessObject);
+                reviewDataAccessObject,
+                contentPreferences);
         return this;
     }
 
@@ -832,7 +839,10 @@ public class AppBuilder {
      */
     public AppBuilder addSettingsUseCase() {
         final SettingsOutputBoundary settingsOutputBoundary = new SettingsPresenter(settingsViewModel);
-        final SettingsInputBoundary settingsInteractor = new SettingsInteractor(settingsOutputBoundary);
+        // The same object the recommendation use case reads from, so turning
+        // the checkbox off is what the next set of suggestions is built on.
+        final SettingsInputBoundary settingsInteractor =
+                new SettingsInteractor(settingsOutputBoundary, contentPreferences);
 
         final SettingsController settingsController = new SettingsController(settingsInteractor);
         settingsView.setSettingsController(settingsController);
@@ -977,6 +987,8 @@ public class AppBuilder {
                 UiTheme.padScreen((JComponent) card);
             }
             UiTheme.applyTo(card);
+            // Before the heading is styled, so the heading keeps its own size.
+            UiTheme.applyDefaultTextSize(card);
             UiTheme.styleFirstLabelAsTitle((Container) card);
             if (card instanceof JPanel) {
                 UiTheme.tidyVerticalScreen((JPanel) card);

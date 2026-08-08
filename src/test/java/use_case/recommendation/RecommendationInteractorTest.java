@@ -81,9 +81,74 @@ class RecommendationInteractorTest {
         this.presenter = new CapturingPresenter();
     }
 
+    /**
+     * Records what the catalogue was asked for, standing in for the real one.
+     */
+    private static final class RecordingCatalogue implements MediaCatalogueDataAccessInterface {
+        private final SeedMediaCatalogue delegate = new SeedMediaCatalogue();
+        private Boolean askedForAdultContent;
+
+        @Override
+        public List<Media> findCandidates(final java.util.Set<entity.Genre> genres,
+                                          final java.util.Set<Integer> excludeMediaIds,
+                                          final boolean allowAdultContent) {
+            this.askedForAdultContent = allowAdultContent;
+            return this.delegate.findCandidates(genres, excludeMediaIds, allowAdultContent);
+        }
+
+        @Override
+        public Media findById(final int mediaId) {
+            return this.delegate.findById(mediaId);
+        }
+    }
+
     private RecommendationInteractor interactorWith(final ScoreAdjuster adjuster) {
         return new RecommendationInteractor(this.userData, this.catalogue, adjuster,
                 this.presenter, CURRENT_YEAR);
+    }
+
+    @Test
+    @DisplayName("adult titles are not asked for unless the setting says so")
+    void adultContentIsNotRequestedByDefault() {
+        final RecordingCatalogue recording = new RecordingCatalogue();
+
+        new RecommendationInteractor(this.userData, recording, new NoOpScoreAdjuster(),
+                this.presenter, CURRENT_YEAR)
+                .recommend(new RecommendationInputData(USER, 5, false));
+
+        assertFalse(recording.askedForAdultContent,
+                "the source must be told to leave adult titles out, not handed them to drop");
+    }
+
+    @Test
+    @DisplayName("turning the setting on is what lets adult titles be asked for")
+    void adultContentIsRequestedOnceAllowed() {
+        final RecordingCatalogue recording = new RecordingCatalogue();
+
+        new RecommendationInteractor(this.userData, recording, new NoOpScoreAdjuster(),
+                this.presenter, CURRENT_YEAR, () -> true)
+                .recommend(new RecommendationInputData(USER, 5, false));
+
+        assertTrue(recording.askedForAdultContent);
+    }
+
+    @Test
+    @DisplayName("the preference is read afresh each time, not fixed when wired up")
+    void preferenceIsReadPerRequest() {
+        final RecordingCatalogue recording = new RecordingCatalogue();
+        final boolean[] allowed = {false};
+
+        final RecommendationInteractor interactor = new RecommendationInteractor(
+                this.userData, recording, new NoOpScoreAdjuster(), this.presenter,
+                CURRENT_YEAR, () -> allowed[0]);
+
+        interactor.recommend(new RecommendationInputData(USER, 5, false));
+        assertFalse(recording.askedForAdultContent);
+
+        // The user ticks the box, then asks again without restarting anything.
+        allowed[0] = true;
+        interactor.recommend(new RecommendationInputData(USER, 5, false));
+        assertTrue(recording.askedForAdultContent);
     }
 
     private void givenUserLovesSciFi() {

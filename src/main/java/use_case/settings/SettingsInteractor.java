@@ -13,24 +13,33 @@ public class SettingsInteractor implements SettingsInputBoundary {
     /**
      * Largest size the layouts still hold together at.
      */
-    public static final int MAX_TEXT_SIZE = 26;
+    public static final int MAX_TEXT_SIZE = 36;
 
     /**
      * The size the application starts at.
      */
-    public static final int DEFAULT_TEXT_SIZE = 14;
+    public static final int DEFAULT_TEXT_SIZE = 22;
 
     private final SettingsOutputBoundary settingsPresenter;
+    private final ContentPreferenceDataAccessInterface contentPreferences;
 
-    public SettingsInteractor(SettingsOutputBoundary settingsPresenter) {
+    public SettingsInteractor(SettingsOutputBoundary settingsPresenter,
+                              ContentPreferenceDataAccessInterface contentPreferences) {
         this.settingsPresenter = settingsPresenter;
+        this.contentPreferences = contentPreferences;
     }
 
     @Override
     public void execute(SettingsInputData settingsInputData) {
         final int textSize = clamp(settingsInputData.getTextSize());
-        settingsPresenter.prepareSuccessView(
-                new SettingsOutputData(settingsInputData.isDarkMode(), textSize));
+        final boolean allowAdultContent = settingsInputData.isAllowAdultContent();
+
+        // Recorded before the screen is told, so that anything asking for
+        // recommendations straight afterwards already sees the new choice.
+        contentPreferences.setAdultContentAllowed(allowAdultContent);
+
+        settingsPresenter.prepareSuccessView(new SettingsOutputData(
+                settingsInputData.isDarkMode(), textSize, allowAdultContent));
     }
 
     /**

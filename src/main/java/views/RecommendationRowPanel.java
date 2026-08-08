@@ -22,6 +22,15 @@ public class RecommendationRowPanel extends JPanel {
 
     private static final int GAP = 10;
 
+    /**
+     * Roughly how many characters of explanation belong on a line.
+     *
+     * A wrapped label needs a width in pixels, so it is worked out from the
+     * text size rather than fixed, or the line length changes every time the
+     * slider does.
+     */
+    private static final int EXPLANATION_CHARACTERS = 26;
+
     public RecommendationRowPanel(RecommendationRow media) {
         final JLabel poster = new JLabel("", SwingConstants.CENTER);
         // Reserved up front so rows do not jump about as artwork arrives.
@@ -29,6 +38,11 @@ public class RecommendationRowPanel extends JPanel {
                 PosterLoader.POSTER_WIDTH, PosterLoader.POSTER_HEIGHT));
         poster.setBorder(BorderFactory.createLineBorder(UiTheme.BORDER));
         PosterLoader.loadInto(poster, media.getPosterPath());
+
+        // Held at the top, so a row whose text runs longer than the poster
+        // leaves the gap underneath rather than floating the artwork.
+        final JPanel posterHolder = new JPanel(new BorderLayout());
+        posterHolder.add(poster, BorderLayout.NORTH);
 
         final JPanel text = new JPanel();
         text.setLayout(new BoxLayout(text, BoxLayout.Y_AXIS));
@@ -47,7 +61,8 @@ public class RecommendationRowPanel extends JPanel {
         // Only present once Gemini has had a look; the deterministic ranking
         // alone leaves it blank, which is a valid result rather than a fault.
         if (media.getExplanation() != null && !media.getExplanation().isBlank()) {
-            final JLabel why = new JLabel("<html><body style='width:320px'>"
+            final int wrapWidth = UiTheme.baseFontSize() * EXPLANATION_CHARACTERS;
+            final JLabel why = new JLabel("<html><body style='width:" + wrapWidth + "px'>"
                     + media.getExplanation() + "</body></html>");
             why.setForeground(UiTheme.MUTED_TEXT);
             why.setAlignmentX(Component.LEFT_ALIGNMENT);
@@ -57,7 +72,22 @@ public class RecommendationRowPanel extends JPanel {
         this.setLayout(new BorderLayout());
         this.setBorder(BorderFactory.createEmptyBorder(GAP / 2, 0, GAP / 2, 0));
         this.setAlignmentX(Component.LEFT_ALIGNMENT);
-        this.add(poster, BorderLayout.WEST);
+        this.add(posterHolder, BorderLayout.WEST);
         this.add(text, BorderLayout.CENTER);
+    }
+
+    /**
+     * Keeps the row the height it actually needs.
+     *
+     * The lists these sit in hand any spare height to whichever rows will
+     * accept it. Left alone that stretches every suggestion down a tall window
+     * and strands the poster in an over-sized box. Width still fills, so the
+     * explanation has the room it needs.
+     *
+     * @return the maximum size
+     */
+    @Override
+    public Dimension getMaximumSize() {
+        return new Dimension(Integer.MAX_VALUE, this.getPreferredSize().height);
     }
 }

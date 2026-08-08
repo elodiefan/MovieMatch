@@ -31,6 +31,8 @@ import javax.swing.JSlider;
 import javax.swing.border.TitledBorder;
 import javax.swing.plaf.FontUIResource;
 
+import interface_adapter.settings.SettingsViewModel;
+
 /**
  * The application's look and feel.
  */
@@ -112,8 +114,27 @@ public final class UiTheme {
     private static final String PINNED = "UiTheme.pinnedRow";
 
     private static final String PREFERRED_FONT = "Segoe UI";
-    private static final int BASE_FONT_SIZE = 15;
-    private static final int TITLE_FONT_SIZE = 28;
+
+    /**
+     * The size the application starts at.
+     *
+     * Taken from the settings screen's default so there is one number to change
+     * rather than two that can quietly disagree.
+     */
+    private static final int BASE_FONT_SIZE = SettingsViewModel.DEFAULT_TEXT_SIZE;
+
+    /**
+     * How much larger a screen heading is than its body text.
+     *
+     * A multiple rather than a fixed size, so the heading keeps standing out at
+     * every point on the slider instead of converging on the body text.
+     */
+    private static final double TITLE_SCALE = 1.3;
+
+    /**
+     * How much larger a section heading is than its body text.
+     */
+    private static final double SECTION_SCALE = 1.1;
 
     /**
      * Kept so a text size change can rescale the heading with everything else.
@@ -232,6 +253,21 @@ public final class UiTheme {
     }
 
     /**
+     * Puts the starting text size on a screen and everything inside it.
+     *
+     * Registering the size with the look and feel is not enough on its own.
+     * Nimbus works buttons out from its own copy of the defaults and never
+     * looks at the one set here, so a button would sit at the platform's size
+     * while every label around it followed the setting. Walking the screen
+     * settles it for every component the same way a settings change does.
+     *
+     * @param root the root
+     */
+    public static void applyDefaultTextSize(Component root) {
+        applyFontSize(root, BASE_FONT_SIZE);
+    }
+
+    /**
      * Sets the font size on a component and everything inside it.
      *
      * @param root the root
@@ -306,6 +342,24 @@ public final class UiTheme {
     }
 
     /**
+     * Returns the text size the application starts at.
+     *
+     * @return the base font size
+     */
+    public static int baseFontSize() {
+        return BASE_FONT_SIZE;
+    }
+
+    /**
+     * Builds the font for a heading inside a screen, sized against the body text so it stays a heading whatever the text size is set to.
+     *
+     * @return the section font
+     */
+    public static Font sectionFont() {
+        return baseFont(Font.BOLD, (int) Math.round(BASE_FONT_SIZE * SECTION_SCALE));
+    }
+
+    /**
      * Styles a label as a screen heading.
      *
      * @param label the label
@@ -323,8 +377,7 @@ public final class UiTheme {
      * @return the as title
      */
     public static JLabel asTitle(JLabel label, int textSize) {
-        final int headingSize = TITLE_FONT_SIZE + (textSize - BASE_FONT_SIZE);
-        label.setFont(baseFont(Font.BOLD, headingSize));
+        label.setFont(baseFont(Font.BOLD, (int) Math.round(textSize * TITLE_SCALE)));
         label.setForeground(darkModeActive() ? DARK_TEXT : TEXT);
         return label;
     }

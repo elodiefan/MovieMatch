@@ -3,7 +3,6 @@ package views;
 import java.awt.BorderLayout;
 import java.awt.CardLayout;
 import java.awt.Component;
-import java.awt.Font;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.util.concurrent.ExecutionException;
@@ -29,7 +28,6 @@ import interface_adapter.recommendation.RecommendationViewModel;
 public class RecommendationView extends JPanel implements PropertyChangeListener {
 
     private static final int SECTION_GAP = 14;
-    private static final int HEADING_SIZE = 17;
 
     private final String viewName = RecommendationViewModel.VIEW_NAME;
     private final RecommendationViewModel recommendationViewModel;
@@ -190,7 +188,7 @@ public class RecommendationView extends JPanel implements PropertyChangeListener
 
     private void addSection(RecommendationSection section) {
         final JLabel heading = new JLabel(section.getHeading());
-        heading.setFont(UiTheme.baseFont(Font.BOLD, HEADING_SIZE));
+        heading.setFont(UiTheme.sectionFont());
         heading.setAlignmentX(Component.LEFT_ALIGNMENT);
         heading.setBorder(BorderFactory.createEmptyBorder(SECTION_GAP, 0, 4, 0));
         sectionsPanel.add(heading);
