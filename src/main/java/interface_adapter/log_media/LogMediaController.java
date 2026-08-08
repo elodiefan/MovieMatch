@@ -26,11 +26,13 @@ public class LogMediaController {
      * @param mediaId the media id
      * @param mediaType the media type
      * @param mediaTitle the media title
+     * @param posterPath the poster path
      */
     public void addToWatchlist(final int mediaId, final String mediaType,
-                               final String mediaTitle) {
+                               final String mediaTitle,
+                               final String posterPath) {
         logMediaInteractor.addToWatchlist(new LogMediaInputData(mediaId,
-                mediaType, mediaTitle));
+                mediaType, mediaTitle, posterPath));
     }
 
     /**
@@ -38,10 +40,12 @@ public class LogMediaController {
      * @param mediaId the media id
      * @param mediaType the media type
      * @param mediaTitle the media title
+     * @param posterPath the poster path
      */
     public void addToWatchHistory(final int mediaId, final String mediaType,
-                                  final String mediaTitle) {
+                                  final String mediaTitle,
+                                  final String posterPath) {
         logMediaInteractor.addToWatchHistory(new LogMediaInputData(mediaId,
-                mediaType, mediaTitle));
+                mediaType, mediaTitle, posterPath));
     }
 }

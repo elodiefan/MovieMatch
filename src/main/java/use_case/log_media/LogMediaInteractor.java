@@ -56,6 +56,7 @@ public class LogMediaInteractor implements LogMediaInputBoundary {
             dataAccessObject.addToWatchlist(username, inputData.getMediaId(),
                     trimToEmpty(inputData.getMediaType()),
                     trimToEmpty(inputData.getMediaTitle()),
+                    trimToEmpty(inputData.getPosterPath()),
                     getCurrentTorontoTimestamp());
             presenter.prepareSuccessView(new LogMediaOutputData(
                     inputData.getMediaTitle(), WATCHLIST_MESSAGE));
@@ -72,6 +73,7 @@ public class LogMediaInteractor implements LogMediaInputBoundary {
             dataAccessObject.addToWatchHistory(username, inputData.getMediaId(),
                     trimToEmpty(inputData.getMediaType()),
                     trimToEmpty(inputData.getMediaTitle()),
+                    trimToEmpty(inputData.getPosterPath()),
                     getCurrentTorontoTimestamp());
             presenter.prepareSuccessView(new LogMediaOutputData(
                     inputData.getMediaTitle(), WATCH_HISTORY_MESSAGE));

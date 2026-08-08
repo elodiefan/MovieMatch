@@ -7,6 +7,7 @@ import java.util.Map;
 import java.util.LinkedHashSet;
 import java.util.Set;
 
+import entity.MediaListItem;
 import entity.StandardUser;
 import entity.User;
 import entity.UserLists;
@@ -136,13 +137,19 @@ public class InMemoryUserDataAccessObject implements UserDataAccessObject {
     @Override
     public void addToWatchlist(String username, int mediaId,
                                String mediaType, String mediaTitle,
-                               String addedAt) {
+                               String posterPath, String addedAt) {
         final User user = users.get(username);
         if (user != null) {
             final String watchlist = appendMediaLog(user.getWatchlist(),
                     mediaTitle, addedAt);
+            final List<MediaListItem> watchlistItems =
+                    user.getUserLists().getWatchlistItems();
+            watchlistItems.add(new MediaListItem(mediaId, mediaType,
+                    mediaTitle, addedAt, posterPath));
             user.setUserLists(new UserLists(username, watchlist,
-                    user.getWatchHistory(), user.getBlockedUsers()));
+                    user.getWatchHistory(), user.getBlockedUsers(),
+                    watchlistItems,
+                    user.getUserLists().getWatchHistoryItems()));
             recordEngaged(username, mediaId);
         }
     }
@@ -150,13 +157,19 @@ public class InMemoryUserDataAccessObject implements UserDataAccessObject {
     @Override
     public void addToWatchHistory(String username, int mediaId,
                                   String mediaType, String mediaTitle,
-                                  String watchedAt) {
+                                  String posterPath, String watchedAt) {
         final User user = users.get(username);
         if (user != null) {
             final String watchHistory = appendMediaLog(user.getWatchHistory(),
                     mediaTitle, watchedAt);
+            final List<MediaListItem> watchHistoryItems =
+                    user.getUserLists().getWatchHistoryItems();
+            watchHistoryItems.add(new MediaListItem(mediaId, mediaType,
+                    mediaTitle, watchedAt, posterPath));
             user.setUserLists(new UserLists(username, user.getWatchlist(),
-                    watchHistory, user.getBlockedUsers()));
+                    watchHistory, user.getBlockedUsers(),
+                    user.getUserLists().getWatchlistItems(),
+                    watchHistoryItems));
             recordEngaged(username, mediaId);
             recordWatched(username, mediaId, mediaType);
         }

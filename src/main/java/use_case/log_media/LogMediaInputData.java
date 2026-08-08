@@ -16,6 +16,10 @@ public class LogMediaInputData {
      * The media title.
      */
     private final String mediaTitle;
+    /**
+     * The poster path.
+     */
+    private final String posterPath;
 
     /**
      * Creates input data for one media item.
@@ -26,9 +30,24 @@ public class LogMediaInputData {
     public LogMediaInputData(final int inputMediaId,
                              final String inputMediaType,
                              final String inputMediaTitle) {
+        this(inputMediaId, inputMediaType, inputMediaTitle, "");
+    }
+
+    /**
+     * Creates input data for one media item.
+     * @param inputMediaId the media id
+     * @param inputMediaType the media type
+     * @param inputMediaTitle the media title
+     * @param inputPosterPath the poster path
+     */
+    public LogMediaInputData(final int inputMediaId,
+                             final String inputMediaType,
+                             final String inputMediaTitle,
+                             final String inputPosterPath) {
         this.mediaId = inputMediaId;
         this.mediaType = inputMediaType;
         this.mediaTitle = inputMediaTitle;
+        this.posterPath = inputPosterPath;
     }
 
     /**
@@ -53,5 +72,13 @@ public class LogMediaInputData {
      */
     public String getMediaTitle() {
         return mediaTitle;
+    }
+
+    /**
+     * Returns the poster path.
+     * @return the poster path
+     */
+    public String getPosterPath() {
+        return posterPath;
     }
 }
