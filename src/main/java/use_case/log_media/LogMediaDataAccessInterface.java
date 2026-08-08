@@ -17,10 +17,11 @@ public interface LogMediaDataAccessInterface {
      * @param mediaId the media id
      * @param mediaType the media type
      * @param mediaTitle the media title
+     * @param posterPath the poster path
      * @param addedAt the Toronto timestamp when the item was added
      */
     void addToWatchlist(String username, int mediaId, String mediaType,
-                        String mediaTitle, String addedAt);
+                        String mediaTitle, String posterPath, String addedAt);
 
     /**
      * Adds a media item to a user's watch history.
@@ -28,8 +29,18 @@ public interface LogMediaDataAccessInterface {
      * @param mediaId the media id
      * @param mediaType the media type
      * @param mediaTitle the media title
+     * @param posterPath the poster path
      * @param watchedAt the Toronto timestamp when the item was watched
      */
     void addToWatchHistory(String username, int mediaId, String mediaType,
-                           String mediaTitle, String watchedAt);
+                           String mediaTitle, String posterPath, String watchedAt);
+
+    /**
+     * Returns whether the user has already watched the media item.
+     * @param username the username
+     * @param mediaId the media id
+     * @param mediaType the media type
+     * @return true when the media is already in watch history
+     */
+    boolean hasWatchedMedia(String username, int mediaId, String mediaType);
 }

@@ -7,6 +7,7 @@ import java.util.Map;
 import java.util.LinkedHashSet;
 import java.util.Set;
 
+import entity.MediaListItem;
 import entity.StandardUser;
 import entity.User;
 import entity.UserLists;
@@ -22,6 +23,11 @@ public class InMemoryUserDataAccessObject implements UserDataAccessObject {
      * Watchlist and watch history ids, kept per user for the offline store.
      */
     private final Map<String, Set<Integer>> engagedMediaIds = new HashMap<>();
+
+    /**
+     * Watch history media keys, kept per user for review permissions.
+     */
+    private final Map<String, Set<String>> watchedMediaKeys = new HashMap<>();
 
     @Override
     public Set<Integer> findEngagedMediaIds(String username) {
@@ -131,13 +137,19 @@ public class InMemoryUserDataAccessObject implements UserDataAccessObject {
     @Override
     public void addToWatchlist(String username, int mediaId,
                                String mediaType, String mediaTitle,
-                               String addedAt) {
+                               String posterPath, String addedAt) {
         final User user = users.get(username);
         if (user != null) {
             final String watchlist = appendMediaLog(user.getWatchlist(),
                     mediaTitle, addedAt);
+            final List<MediaListItem> watchlistItems =
+                    user.getUserLists().getWatchlistItems();
+            watchlistItems.add(new MediaListItem(mediaId, mediaType,
+                    mediaTitle, addedAt, posterPath));
             user.setUserLists(new UserLists(username, watchlist,
-                    user.getWatchHistory(), user.getBlockedUsers()));
+                    user.getWatchHistory(), user.getBlockedUsers(),
+                    watchlistItems,
+                    user.getUserLists().getWatchHistoryItems()));
             recordEngaged(username, mediaId);
         }
     }
@@ -145,15 +157,33 @@ public class InMemoryUserDataAccessObject implements UserDataAccessObject {
     @Override
     public void addToWatchHistory(String username, int mediaId,
                                   String mediaType, String mediaTitle,
-                                  String watchedAt) {
+                                  String posterPath, String watchedAt) {
         final User user = users.get(username);
         if (user != null) {
             final String watchHistory = appendMediaLog(user.getWatchHistory(),
                     mediaTitle, watchedAt);
-            user.setUserLists(new UserLists(username, user.getWatchlist(),
-                    watchHistory, user.getBlockedUsers()));
+            final List<MediaListItem> watchHistoryItems =
+                    user.getUserLists().getWatchHistoryItems();
+            watchHistoryItems.add(new MediaListItem(mediaId, mediaType,
+                    mediaTitle, watchedAt, posterPath));
+            final List<MediaListItem> watchlistItems =
+                    removeFromWatchlist(user.getUserLists()
+                            .getWatchlistItems(), mediaId, mediaType);
+            user.setUserLists(new UserLists(username,
+                    toMediaLog(watchlistItems),
+                    watchHistory, user.getBlockedUsers(),
+                    watchlistItems, watchHistoryItems));
             recordEngaged(username, mediaId);
+            recordWatched(username, mediaId, mediaType);
         }
+    }
+
+    @Override
+    public boolean hasWatchedMedia(String username, int mediaId,
+                                   String mediaType) {
+        final Set<String> mediaKeys =
+                watchedMediaKeys.getOrDefault(username, new LinkedHashSet<>());
+        return mediaKeys.contains(toMediaKey(mediaId, mediaType));
     }
 
     // ---------- Delete account (after the security question is answered) ----------
@@ -177,7 +207,7 @@ public class InMemoryUserDataAccessObject implements UserDataAccessObject {
 
     // ---------- Get security question ----------
     @Override
-        public String getSecurityQuestion() {
+    public String getSecurityQuestion() {
         return users.get(currentUsername).getSecurityQuestion();
     }
 
@@ -249,6 +279,35 @@ public class InMemoryUserDataAccessObject implements UserDataAccessObject {
         return currentList + mediaTitle + " -- " + loggedAt + "\n";
     }
 
+    private List<MediaListItem> removeFromWatchlist(
+            List<MediaListItem> watchlistItems, int mediaId,
+            String mediaType) {
+        final List<MediaListItem> remainingItems = new ArrayList<>();
+        for (MediaListItem item : watchlistItems) {
+            if (!isSameMedia(item, mediaId, mediaType)) {
+                remainingItems.add(item);
+            }
+        }
+        return remainingItems;
+    }
+
+    private boolean isSameMedia(MediaListItem item, int mediaId,
+                                String mediaType) {
+        return item.getMediaId() == mediaId
+                && item.getMediaType().equals(mediaType);
+    }
+
+    private String toMediaLog(List<MediaListItem> mediaListItems) {
+        final StringBuilder mediaLog = new StringBuilder();
+        for (MediaListItem item : mediaListItems) {
+            mediaLog.append(item.getMediaTitle());
+            mediaLog.append(" -- ");
+            mediaLog.append(item.getLoggedAt());
+            mediaLog.append("\n");
+        }
+        return mediaLog.toString();
+    }
+
     /**
      * Remembers the id as well as the display line, since the lists themselves are kept as text and recommendations need something to match on.
      *
@@ -257,5 +316,14 @@ public class InMemoryUserDataAccessObject implements UserDataAccessObject {
      */
     private void recordEngaged(String username, int mediaId) {
         engagedMediaIds.computeIfAbsent(username, key -> new LinkedHashSet<>()).add(mediaId);
+    }
+
+    private void recordWatched(String username, int mediaId, String mediaType) {
+        watchedMediaKeys.computeIfAbsent(username, key -> new LinkedHashSet<>())
+                .add(toMediaKey(mediaId, mediaType));
+    }
+
+    private String toMediaKey(int mediaId, String mediaType) {
+        return mediaId + ":" + mediaType;
     }
 }
