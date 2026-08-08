@@ -110,18 +110,25 @@ public final class GetUserCommentsInteractor
         final Optional<Review> review = reviewDataAccessObject.getReviewById(
                 comment.getReviewId());
         final String mediaTitle;
+        final int releaseYear;
+        final String posterPath;
         final String reviewText;
         if (review.isPresent()) {
             mediaTitle = review.get().getMediaTitle();
+            releaseYear = review.get().getReleaseYear();
+            posterPath = review.get().getPosterPath();
             reviewText = review.get().getReviewText();
         } else {
             mediaTitle = "";
+            releaseYear = 0;
+            posterPath = "";
             reviewText = "";
         }
 
         return new GetUserCommentsOutputData.UserCommentData(
                 comment.getCommentId(),
-                comment.getReviewId(), mediaTitle, reviewText,
+                comment.getReviewId(), mediaTitle, releaseYear, posterPath,
+                reviewText,
                 comment.getCommentText(), comment.getCreatedAt(),
                 comment.getLikeCount());
     }

@@ -597,6 +597,7 @@ public final class MediaReviewsPanel extends JPanel
                 if (!isBlank(ratingText)) {
                     mediaReviewsController.createReview(state.getMediaId(),
                             state.getMediaType(), state.getMediaTitle(),
+                            state.getReleaseYear(), state.getPosterPath(),
                             currentUsername, currentDisplayName,
                             Double.parseDouble(ratingText), reviewText);
                     mediaReviewsController.loadMediaReviews(state.getMediaId(),

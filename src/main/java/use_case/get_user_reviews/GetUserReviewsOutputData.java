@@ -36,6 +36,8 @@ public final class GetUserReviewsOutputData {
         private final int mediaId;
         private final String mediaType;
         private final String mediaTitle;
+        private final int releaseYear;
+        private final String posterPath;
         private final double rating;
         private final String reviewText;
         private final ZonedDateTime createdAt;
@@ -48,6 +50,8 @@ public final class GetUserReviewsOutputData {
          * @param mediaId the media id
          * @param mediaType the media type
          * @param mediaTitle the media title
+         * @param releaseYear the release year
+         * @param posterPath the poster path
          * @param rating the review rating
          * @param reviewText the review text
          * @param createdAt when the review was created
@@ -56,7 +60,8 @@ public final class GetUserReviewsOutputData {
          */
         public UserReviewData(final String reviewId, final int mediaId,
                               final String mediaType,
-                              final String mediaTitle, final double rating,
+                              final String mediaTitle, final int releaseYear,
+                              final String posterPath, final double rating,
                               final String reviewText,
                               final ZonedDateTime createdAt,
                               final ZonedDateTime updatedAt,
@@ -65,6 +70,8 @@ public final class GetUserReviewsOutputData {
             this.mediaId = mediaId;
             this.mediaType = mediaType;
             this.mediaTitle = mediaTitle;
+            this.releaseYear = releaseYear;
+            this.posterPath = posterPath;
             this.rating = rating;
             this.reviewText = reviewText;
             this.createdAt = createdAt;
@@ -86,6 +93,14 @@ public final class GetUserReviewsOutputData {
 
         public String getMediaTitle() {
             return mediaTitle;
+        }
+
+        public int getReleaseYear() {
+            return releaseYear;
+        }
+
+        public String getPosterPath() {
+            return posterPath;
         }
 
         public double getRating() {

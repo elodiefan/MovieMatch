@@ -51,6 +51,8 @@ public class MediaDetailPresenter implements MediaDetailOutputBoundary {
         reviewsState.setMediaId(outputData.getMediaId());
         reviewsState.setMediaType(outputData.getMediaType());
         reviewsState.setMediaTitle(outputData.getTitle());
+        reviewsState.setReleaseYear(outputData.getReleaseYear());
+        reviewsState.setPosterPath(outputData.getPosterPath());
         reviewsState.setMediaReviewsError(null);
 
         mediaReviewsViewModel.setState(reviewsState);

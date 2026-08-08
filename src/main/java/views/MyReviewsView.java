@@ -1,22 +1,30 @@
 package views;
 
+import java.awt.BorderLayout;
 import java.awt.Component;
+import java.awt.Dimension;
+import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.net.MalformedURLException;
+import java.net.URI;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
 
 import javax.swing.Box;
 import javax.swing.BoxLayout;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
+import javax.swing.SwingWorker;
 
 import interface_adapter.user_reviews.UserCommentRow;
 import interface_adapter.user_reviews.UserReviewRow;
@@ -33,6 +41,19 @@ public final class MyReviewsView extends JPanel
      * The card gap.
      */
     private static final int CARD_GAP = 10;
+    /**
+     * The poster width.
+     */
+    private static final int POSTER_WIDTH = 92;
+    /**
+     * The poster height.
+     */
+    private static final int POSTER_HEIGHT = 138;
+    /**
+     * TMDB poster base URL.
+     */
+    private static final String POSTER_BASE_URL =
+            "https://image.tmdb.org/t/p/w185";
 
     /**
      * The time_formatter.
@@ -87,12 +108,15 @@ public final class MyReviewsView extends JPanel
 
         reviewsPanel.setLayout(new BoxLayout(reviewsPanel, BoxLayout.Y_AXIS));
         commentsPanel.setLayout(new BoxLayout(commentsPanel, BoxLayout.Y_AXIS));
+        reviewsPanel.setAlignmentX(Component.LEFT_ALIGNMENT);
+        commentsPanel.setAlignmentX(Component.LEFT_ALIGNMENT);
 
         final JTabbedPane tabbedPane = new JTabbedPane();
         tabbedPane.addTab(UserReviewsViewModel.REVIEWS_TAB_LABEL,
                 new JScrollPane(reviewsPanel));
         tabbedPane.addTab(UserReviewsViewModel.COMMENTS_TAB_LABEL,
                 new JScrollPane(commentsPanel));
+        tabbedPane.setAlignmentX(Component.LEFT_ALIGNMENT);
 
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
         add(title);
@@ -225,15 +249,26 @@ public final class MyReviewsView extends JPanel
      */
     private Component createReviewCard(final UserReviewRow review) {
         final JPanel card = new JPanel();
-        card.setLayout(new BoxLayout(card, BoxLayout.Y_AXIS));
+        card.setLayout(new BorderLayout());
+        card.setAlignmentX(Component.LEFT_ALIGNMENT);
+        card.setMaximumSize(new Dimension(Integer.MAX_VALUE, POSTER_HEIGHT));
 
-        card.add(new JLabel(review.getMediaTitle()));
-        card.add(new JLabel("Rating: " + review.getRating() + "%"));
-        card.add(new JLabel("Created: " + formatTime(review.getCreatedAt())));
-        card.add(new JLabel("Updated: " + formatTime(review.getUpdatedAt())));
-        card.add(new JLabel("Likes: " + review.getLikeCount()));
-        card.add(new JLabel(review.getReviewText()));
-        card.add(createButtonPanel(review));
+        final JPanel detailPanel = new JPanel();
+        detailPanel.setLayout(new BoxLayout(detailPanel, BoxLayout.Y_AXIS));
+        detailPanel.setAlignmentX(Component.LEFT_ALIGNMENT);
+        detailPanel.add(createMediaTitleLabel(review.getMediaTitle(),
+                review.getReleaseYear()));
+        detailPanel.add(new JLabel("Rating: " + review.getRating() + "%"));
+        detailPanel.add(new JLabel("Created: "
+                + formatTime(review.getCreatedAt())));
+        detailPanel.add(new JLabel("Updated: "
+                + formatTime(review.getUpdatedAt())));
+        detailPanel.add(new JLabel("Likes: " + review.getLikeCount()));
+        detailPanel.add(new JLabel(review.getReviewText()));
+        detailPanel.add(createButtonPanel(review));
+
+        card.add(createPosterLabel(review.getPosterPath()), BorderLayout.WEST);
+        card.add(detailPanel, BorderLayout.CENTER);
 
         return card;
     }
@@ -245,13 +280,23 @@ public final class MyReviewsView extends JPanel
      */
     private Component createCommentCard(final UserCommentRow comment) {
         final JPanel card = new JPanel();
-        card.setLayout(new BoxLayout(card, BoxLayout.Y_AXIS));
+        card.setLayout(new BorderLayout());
+        card.setAlignmentX(Component.LEFT_ALIGNMENT);
+        card.setMaximumSize(new Dimension(Integer.MAX_VALUE, POSTER_HEIGHT));
 
-        card.add(new JLabel(comment.getMediaTitle()));
-        card.add(new JLabel("On review: " + comment.getReviewText()));
-        card.add(new JLabel("Created: " + formatTime(comment.getCreatedAt())));
-        card.add(new JLabel("Likes: " + comment.getLikeCount()));
-        card.add(new JLabel(comment.getCommentText()));
+        final JPanel detailPanel = new JPanel();
+        detailPanel.setLayout(new BoxLayout(detailPanel, BoxLayout.Y_AXIS));
+        detailPanel.setAlignmentX(Component.LEFT_ALIGNMENT);
+        detailPanel.add(createMediaTitleLabel(comment.getMediaTitle(),
+                comment.getReleaseYear()));
+        detailPanel.add(new JLabel("On review: " + comment.getReviewText()));
+        detailPanel.add(new JLabel("Created: "
+                + formatTime(comment.getCreatedAt())));
+        detailPanel.add(new JLabel("Likes: " + comment.getLikeCount()));
+        detailPanel.add(new JLabel(comment.getCommentText()));
+
+        card.add(createPosterLabel(comment.getPosterPath()), BorderLayout.WEST);
+        card.add(detailPanel, BorderLayout.CENTER);
 
         return card;
     }
@@ -263,6 +308,8 @@ public final class MyReviewsView extends JPanel
      */
     private Component createButtonPanel(final UserReviewRow review) {
         final JPanel buttonPanel = new JPanel();
+        buttonPanel.setLayout(new BoxLayout(buttonPanel, BoxLayout.X_AXIS));
+        buttonPanel.setAlignmentX(Component.LEFT_ALIGNMENT);
         final JButton editButton =
                 new JButton(UserReviewsViewModel.EDIT_BUTTON_LABEL);
         final JButton deleteButton =
@@ -276,6 +323,101 @@ public final class MyReviewsView extends JPanel
         buttonPanel.add(editButton);
         buttonPanel.add(deleteButton);
         return buttonPanel;
+    }
+
+    /**
+     * Creates a title label with release year.
+     * @param mediaTitle the media title
+     * @param releaseYear the release year
+     * @return the title label
+     */
+    private JLabel createMediaTitleLabel(final String mediaTitle,
+                                         final int releaseYear) {
+        final String yearText;
+        if (releaseYear > 0) {
+            yearText = " (" + releaseYear + ")";
+        } else {
+            yearText = "";
+        }
+        final JLabel titleLabel = new JLabel(mediaTitle + yearText);
+        titleLabel.setAlignmentX(Component.LEFT_ALIGNMENT);
+        return titleLabel;
+    }
+
+    /**
+     * Creates a poster label and starts loading its image.
+     * @param posterPath the poster path
+     * @return the poster label
+     */
+    private JLabel createPosterLabel(final String posterPath) {
+        final JLabel posterLabel = new JLabel();
+        posterLabel.setPreferredSize(new Dimension(POSTER_WIDTH,
+                POSTER_HEIGHT));
+        posterLabel.setHorizontalAlignment(JLabel.CENTER);
+        posterLabel.setVerticalAlignment(JLabel.CENTER);
+        posterLabel.setAlignmentX(Component.LEFT_ALIGNMENT);
+        updatePoster(posterLabel, posterPath);
+        return posterLabel;
+    }
+
+    /**
+     * Updates a poster label.
+     * @param posterLabel the poster label
+     * @param posterPath the poster path
+     */
+    private void updatePoster(final JLabel posterLabel,
+                              final String posterPath) {
+        if (posterPath == null || posterPath.isEmpty()) {
+            posterLabel.setText("Poster unavailable");
+        } else {
+            posterLabel.setText("Loading...");
+            loadPosterInBackground(posterLabel, posterPath);
+        }
+    }
+
+    private void loadPosterInBackground(final JLabel posterLabel,
+                                        final String posterPath) {
+        new SwingWorker<ImageIcon, Void>() {
+            @Override
+            protected ImageIcon doInBackground() {
+                return loadPoster(posterPath);
+            }
+
+            @Override
+            protected void done() {
+                setLoadedPoster(posterLabel, this);
+            }
+        }.execute();
+    }
+
+    private ImageIcon loadPoster(final String posterPath) {
+        ImageIcon poster = null;
+        try {
+            final ImageIcon original = new ImageIcon(URI.create(
+                    POSTER_BASE_URL + posterPath).toURL());
+            if (original.getIconWidth() > 0) {
+                final Image scaled = original.getImage().getScaledInstance(
+                        POSTER_WIDTH, POSTER_HEIGHT, Image.SCALE_SMOOTH);
+                poster = new ImageIcon(scaled);
+            }
+        } catch (MalformedURLException | IllegalArgumentException exception) {
+            poster = null;
+        }
+        return poster;
+    }
+
+    private void setLoadedPoster(final JLabel posterLabel,
+                                 final SwingWorker<ImageIcon, Void> worker) {
+        try {
+            final ImageIcon poster = worker.get();
+            posterLabel.setIcon(poster);
+            posterLabel.setText(poster == null ? "Poster unavailable" : "");
+        } catch (InterruptedException exception) {
+            Thread.currentThread().interrupt();
+            posterLabel.setText("Poster unavailable");
+        } catch (ExecutionException exception) {
+            posterLabel.setText("Poster unavailable");
+        }
     }
 
     /**

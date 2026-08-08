@@ -143,6 +143,7 @@ public final class GetUserReviewsInteractor
             outputReviews.add(new GetUserReviewsOutputData.UserReviewData(
                     review.getReviewId(), review.getMediaId(),
                     review.getMediaType(), review.getMediaTitle(),
+                    review.getReleaseYear(), review.getPosterPath(),
                     review.getRating(), review.getReviewText(),
                     review.getCreatedAt(), review.getUpdatedAt(),
                     review.getLikeCount()));

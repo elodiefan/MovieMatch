@@ -67,6 +67,8 @@ public final class CreateReviewInteractor implements CreateReviewInputBoundary {
      * @param mediaId the media id
      * @param mediaType the media type
      * @param mediaTitle the media title
+     * @param releaseYear the release year
+     * @param posterPath the poster path
      * @param authorUsername the author's username
      * @param authorDisplayName the author's display name
      * @param rating the review rating
@@ -74,17 +76,19 @@ public final class CreateReviewInteractor implements CreateReviewInputBoundary {
      */
     @Override
     public void execute(final int mediaId, final String mediaType,
-                        final String mediaTitle, final String authorUsername,
+                        final String mediaTitle, final int releaseYear,
+                        final String posterPath, final String authorUsername,
                         final String authorDisplayName, final double rating,
                         final String reviewText) {
         try {
             validatePresenter();
             final CreateReviewInputData inputData =
                     new CreateReviewInputData(mediaId, mediaType, mediaTitle,
-                            authorUsername, authorDisplayName, rating,
-                            reviewText);
+                            releaseYear, posterPath, authorUsername,
+                            authorDisplayName, rating, reviewText);
             final Review review = createReview(inputData.getMediaId(),
                     inputData.getMediaType(), inputData.getMediaTitle(),
+                    inputData.getReleaseYear(), inputData.getPosterPath(),
                     inputData.getAuthorUsername(),
                     inputData.getAuthorDisplayName(), inputData.getRating(),
                     inputData.getReviewText());
@@ -101,6 +105,8 @@ public final class CreateReviewInteractor implements CreateReviewInputBoundary {
      * @param mediaId the reviewed media's identifier
      * @param mediaType the reviewed media's type
      * @param mediaTitle the reviewed media's title
+     * @param releaseYear the reviewed media's release year
+     * @param posterPath the reviewed media's poster path
      * @param authorUsername the review author's username
      * @param authorDisplayName the review author's display name
      * @param rating the rating percentage
@@ -109,12 +115,15 @@ public final class CreateReviewInteractor implements CreateReviewInputBoundary {
      */
     private Review createReview(final int mediaId, final String mediaType,
                                final String mediaTitle,
+                               final int releaseYear,
+                               final String posterPath,
                                final String authorUsername,
                                final String authorDisplayName,
                                final double rating,
                                final String reviewText) {
         final String trimmedMediaType = trimToEmpty(mediaType);
         final String trimmedMediaTitle = trimToEmpty(mediaTitle);
+        final String trimmedPosterPath = trimToEmpty(posterPath);
         final String trimmedAuthorUsername = trimToEmpty(authorUsername);
         final String trimmedAuthorDisplayName = trimToEmpty(authorDisplayName);
         final String trimmedReviewText = trimToEmpty(reviewText);
@@ -123,7 +132,8 @@ public final class CreateReviewInteractor implements CreateReviewInputBoundary {
 
         final String reviewId = UUID.randomUUID().toString();
         final Review review = new Review(reviewId, mediaId, trimmedMediaType,
-                trimmedMediaTitle, trimmedAuthorUsername,
+                trimmedMediaTitle, releaseYear, trimmedPosterPath,
+                trimmedAuthorUsername,
                 trimmedAuthorDisplayName, rating, trimmedReviewText,
                 UserContent.getCurrentTorontoTime(),
                 UserContent.getCurrentTorontoTime(), MOVIEMATCH_SOURCE,

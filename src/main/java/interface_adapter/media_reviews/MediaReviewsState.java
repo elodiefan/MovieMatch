@@ -20,6 +20,14 @@ public final class MediaReviewsState {
      */
     private String mediaTitle = "";
     /**
+     * The release year.
+     */
+    private int releaseYear;
+    /**
+     * The poster path.
+     */
+    private String posterPath = "";
+    /**
      * The reviews.
      */
     private List<MediaReviewRow> reviews = new ArrayList<>();
@@ -78,6 +86,38 @@ public final class MediaReviewsState {
      */
     public void setMediaTitle(final String inputMediaTitle) {
         this.mediaTitle = inputMediaTitle;
+    }
+
+    /**
+     * Returns the release year.
+     * @return the release year
+     */
+    public int getReleaseYear() {
+        return releaseYear;
+    }
+
+    /**
+     * Sets the release year.
+     * @param inputReleaseYear the release year
+     */
+    public void setReleaseYear(final int inputReleaseYear) {
+        this.releaseYear = inputReleaseYear;
+    }
+
+    /**
+     * Returns the poster path.
+     * @return the poster path
+     */
+    public String getPosterPath() {
+        return posterPath;
+    }
+
+    /**
+     * Sets the poster path.
+     * @param inputPosterPath the poster path
+     */
+    public void setPosterPath(final String inputPosterPath) {
+        this.posterPath = inputPosterPath;
     }
 
     /**

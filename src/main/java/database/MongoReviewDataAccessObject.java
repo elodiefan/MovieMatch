@@ -13,6 +13,8 @@ import java.util.Set;
 
 import org.bson.Document;
 
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.mongodb.client.MongoClient;
 import com.mongodb.client.MongoClients;
 import com.mongodb.client.MongoCollection;
@@ -49,11 +51,15 @@ public class MongoReviewDataAccessObject implements
     private static final String DEFAULT_PROPERTIES = "mongo.properties";
     private static final String DEFAULT_COLLECTION = "reviews";
     private static final String DEFAULT_LIKES_COLLECTION = "reviewLikes";
+    private static final String MOVIE_TYPE = "movie";
+    private static final String TV_TYPE = "tv";
 
     private static final String REVIEW_ID = "reviewId";
     private static final String MEDIA_ID = "mediaId";
     private static final String MEDIA_TYPE = "mediaType";
     private static final String MEDIA_TITLE = "mediaTitle";
+    private static final String RELEASE_YEAR = "releaseYear";
+    private static final String POSTER_PATH = "posterPath";
     private static final String AUTHOR_USERNAME = "authorUsername";
     private static final String AUTHOR_DISPLAY_NAME = "authorDisplayName";
     private static final String RATING = "rating";
@@ -66,6 +72,8 @@ public class MongoReviewDataAccessObject implements
     private final MongoClient mongoClient;
     private final MongoCollection<Document> reviews;
     private final MongoCollection<Document> reviewLikes;
+    private final TmdbApiClient tmdbApiClient = new TmdbApiClient();
+    private final ObjectMapper objectMapper = new ObjectMapper();
 
     /**
      * Connects using the default properties file.
@@ -281,6 +289,8 @@ public class MongoReviewDataAccessObject implements
                 .append(MEDIA_ID, review.getMediaId())
                 .append(MEDIA_TYPE, review.getMediaType())
                 .append(MEDIA_TITLE, review.getMediaTitle())
+                .append(RELEASE_YEAR, review.getReleaseYear())
+                .append(POSTER_PATH, review.getPosterPath())
                 .append(AUTHOR_USERNAME, review.getAuthorUsername())
                 .append(AUTHOR_DISPLAY_NAME, review.getAuthorDisplayName())
                 .append(RATING, review.getRating())
@@ -298,12 +308,15 @@ public class MongoReviewDataAccessObject implements
             review = null;
         }
         else {
+            final MediaMetadata mediaMetadata = getMediaMetadata(document);
             final List<String> likedByUsernames = document.getList(
                     LIKED_BY_USERNAMES, String.class, new ArrayList<>());
             review = new Review(document.getString(REVIEW_ID),
                     document.getInteger(MEDIA_ID),
                     document.getString(MEDIA_TYPE),
                     document.getString(MEDIA_TITLE),
+                    mediaMetadata.getReleaseYear(),
+                    mediaMetadata.getPosterPath(),
                     document.getString(AUTHOR_USERNAME),
                     document.getString(AUTHOR_DISPLAY_NAME),
                     document.getDouble(RATING),
@@ -314,5 +327,109 @@ public class MongoReviewDataAccessObject implements
                     new HashSet<>(likedByUsernames));
         }
         return review;
+    }
+
+    private MediaMetadata getMediaMetadata(final Document document) {
+        MediaMetadata mediaMetadata = new MediaMetadata(
+                document.getInteger(RELEASE_YEAR, 0),
+                document.getString(POSTER_PATH));
+        if (mediaMetadata.isMissingPosterOrYear()) {
+            mediaMetadata = loadMediaMetadata(
+                    document.getInteger(MEDIA_ID),
+                    document.getString(MEDIA_TYPE),
+                    mediaMetadata);
+            cacheMediaMetadata(document.getString(REVIEW_ID), mediaMetadata);
+        }
+        return mediaMetadata;
+    }
+
+    private MediaMetadata loadMediaMetadata(final int mediaId,
+                                            final String mediaType,
+                                            final MediaMetadata fallback) {
+        MediaMetadata mediaMetadata = fallback;
+        try {
+            final String detailsJson;
+            if (MOVIE_TYPE.equals(mediaType)) {
+                detailsJson = tmdbApiClient.getMovieDetails(mediaId);
+                mediaMetadata = parseMovieMetadata(detailsJson);
+            } else if (TV_TYPE.equals(mediaType)) {
+                detailsJson = tmdbApiClient.getTvShowDetails(mediaId);
+                mediaMetadata = parseTvMetadata(detailsJson);
+            }
+        } catch (IOException | IllegalStateException exception) {
+            mediaMetadata = fallback;
+        }
+        return mediaMetadata;
+    }
+
+    private MediaMetadata parseMovieMetadata(final String detailsJson)
+            throws IOException {
+        final JsonNode details = objectMapper.readTree(detailsJson);
+        return new MediaMetadata(parseYear(details.path("release_date")
+                .asText()), details.path("poster_path").asText(""));
+    }
+
+    private MediaMetadata parseTvMetadata(final String detailsJson)
+            throws IOException {
+        final JsonNode details = objectMapper.readTree(detailsJson);
+        return new MediaMetadata(parseYear(details.path("first_air_date")
+                .asText()), details.path("poster_path").asText(""));
+    }
+
+    private int parseYear(final String date) {
+        int year = 0;
+        if (date != null && date.length() >= 4) {
+            try {
+                year = Integer.parseInt(date.substring(0, 4));
+            } catch (NumberFormatException exception) {
+                year = 0;
+            }
+        }
+        return year;
+    }
+
+    private void cacheMediaMetadata(final String reviewId,
+                                    final MediaMetadata mediaMetadata) {
+        if (reviewId != null && !mediaMetadata.isMissingPosterOrYear()) {
+            reviews.updateOne(Filters.eq(REVIEW_ID, reviewId),
+                    Updates.combine(
+                            Updates.set(RELEASE_YEAR,
+                                    mediaMetadata.getReleaseYear()),
+                            Updates.set(POSTER_PATH,
+                                    mediaMetadata.getPosterPath())));
+        }
+    }
+
+    /**
+     * Media display metadata for a review.
+     */
+    private static final class MediaMetadata {
+        /**
+         * The release year.
+         */
+        private final int releaseYear;
+        /**
+         * The poster path.
+         */
+        private final String posterPath;
+
+        private MediaMetadata(final int inputReleaseYear,
+                              final String inputPosterPath) {
+            this.releaseYear = inputReleaseYear;
+            this.posterPath = inputPosterPath;
+        }
+
+        private int getReleaseYear() {
+            return releaseYear;
+        }
+
+        private String getPosterPath() {
+            return posterPath;
+        }
+
+        private boolean isMissingPosterOrYear() {
+            return releaseYear == 0 || posterPath == null
+                    || posterPath.isEmpty();
+        }
     }
 }
