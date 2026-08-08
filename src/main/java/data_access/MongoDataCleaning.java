@@ -110,7 +110,6 @@ public class MongoDataCleaning {
                     .toLocalDateTime();
             localDateTime = localDateTime.plusHours(TIME_SHIFT);
             final String timestamp = localDateTime.toString();
-            System.out.println(timestamp);
             final String date = formatDate(timestamp, 0, INDEX_OF_DATE);
             final String time = formatDate(timestamp, INDEX_OF_START_TIME, INDEX_OF_END_TIME);
             formattedChat.append(message.get(SENDER, String.class));

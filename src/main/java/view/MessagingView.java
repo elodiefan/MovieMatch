@@ -77,16 +77,16 @@ public class MessagingView extends JPanel implements PropertyChangeListener {
                     if (evt.getSource().equals(refresh)) {
                         final MessagingState state = messagingViewModel.getState();
 
-//                        this.messagingController.executeFetchUpdateChatHistory(
-//                                state.getUsername(),
-//                                state.getOtherUsername(),
-//                                state.getDisplayText()
-//                        );
                         this.messagingController.executeFetchUpdateChatHistory(
                                 state.getUsername(),
                                 state.getOtherUsername(),
-                                ""
+                                state.getDisplayText()
                         );
+//                        this.messagingController.executeFetchUpdateChatHistory(
+//                                state.getUsername(),
+//                                state.getOtherUsername(),
+//                                ""
+//                        );
                     }
                 }
         );

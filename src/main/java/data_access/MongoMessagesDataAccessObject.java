@@ -115,12 +115,12 @@ public class MongoMessagesDataAccessObject implements AccessMessageChatMessageDa
         if (chatExists(username, otherUsername)) {
             final List<Document> chats = new ArrayList<>();
             final ZonedDateTime zonedDateTime = lastFetchTime.atZone(ZoneId.of("Canada/Eastern"));
-            final Date date = Date.from(zonedDateTime.toInstant());
+            final LocalDateTime date = zonedDateTime.toLocalDateTime();
             messages.find(
                     Filters.and(
                             Filters.or(Filters.eq(CHAT_ID, username + WHITE_SPACE + otherUsername), Filters.eq(
                                     CHAT_ID, otherUsername + WHITE_SPACE + username)),
-                            Filters.gte(TIMESTAMP, date)))
+                            Filters.gt(TIMESTAMP, date)))
                     .sort(Sorts.ascending(TIMESTAMP)).forEach(doc -> chats.add(doc));
             return MongoDataCleaning.formatChat(chats);
         }
