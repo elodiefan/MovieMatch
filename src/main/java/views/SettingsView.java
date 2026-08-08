@@ -15,7 +15,6 @@ import javax.swing.SwingUtilities;
 import interface_adapter.settings.SettingsController;
 import interface_adapter.settings.SettingsState;
 import interface_adapter.settings.SettingsViewModel;
-import use_case.settings.SettingsInteractor;
 
 /** The View for changing display settings. */
 public class SettingsView extends JPanel implements PropertyChangeListener {
@@ -32,6 +31,7 @@ public class SettingsView extends JPanel implements PropertyChangeListener {
 
     /** The panel holding every screen, so a change reaches all of them. */
     private Component appearanceRoot;
+    private Runnable backHandler;
 
     public SettingsView(SettingsViewModel settingsViewModel) {
         this.settingsViewModel = settingsViewModel;
@@ -44,13 +44,13 @@ public class SettingsView extends JPanel implements PropertyChangeListener {
         final JPanel darkModePanel = new JPanel();
         darkModePanel.add(darkModeToggle);
 
-        textSizeSlider = new JSlider(SettingsInteractor.MIN_TEXT_SIZE,
-                SettingsInteractor.MAX_TEXT_SIZE,
-                SettingsInteractor.DEFAULT_TEXT_SIZE);
+        textSizeSlider = new JSlider(SettingsViewModel.MIN_TEXT_SIZE,
+                SettingsViewModel.MAX_TEXT_SIZE,
+                SettingsViewModel.DEFAULT_TEXT_SIZE);
         textSizeSlider.setMajorTickSpacing(SLIDER_TICK_SPACING);
         textSizeSlider.setPaintTicks(true);
         textSizeSlider.setPaintLabels(true);
-        textSizeValue = new JLabel(String.valueOf(SettingsInteractor.DEFAULT_TEXT_SIZE));
+        textSizeValue = new JLabel(String.valueOf(SettingsViewModel.DEFAULT_TEXT_SIZE));
 
         final JPanel textSizePanel = new JPanel();
         textSizePanel.add(new JLabel(SettingsViewModel.TEXT_SIZE_LABEL));
@@ -70,7 +70,11 @@ public class SettingsView extends JPanel implements PropertyChangeListener {
             }
             textSizeValue.setText(String.valueOf(textSizeSlider.getValue()));
         });
-        backButton.addActionListener(event -> settingsController.switchToHomePageView());
+        backButton.addActionListener(event -> {
+            if (backHandler != null) {
+                backHandler.run();
+            }
+        });
 
         this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
         this.add(title);
@@ -108,6 +112,10 @@ public class SettingsView extends JPanel implements PropertyChangeListener {
 
     public void setSettingsController(SettingsController settingsController) {
         this.settingsController = settingsController;
+    }
+
+    public void setBackHandler(Runnable backHandler) {
+        this.backHandler = backHandler;
     }
 
     /**

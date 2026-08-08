@@ -14,8 +14,6 @@ import javax.swing.JTextField;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 
-import interface_adapter.ViewManagerModel;
-import interface_adapter.login.LoginViewModel;
 import interface_adapter.security_question.SecurityQuestionController;
 import interface_adapter.security_question.SecurityQuestionState;
 import interface_adapter.security_question.SecurityQuestionViewModel;
@@ -36,15 +34,11 @@ public class SecurityQuestionView extends JPanel implements PropertyChangeListen
     private final JButton back;
 
     private SecurityQuestionController securityQuestionController;
+    private Runnable backHandler;
 
-    /** Used for the "back to login" jump, which carries no data of its own. */
-    private final ViewManagerModel viewManagerModel;
-
-    public SecurityQuestionView(SecurityQuestionViewModel securityQuestionViewModel,
-                                ViewManagerModel viewManagerModel) {
+    public SecurityQuestionView(SecurityQuestionViewModel securityQuestionViewModel) {
         this.securityQuestionViewModel = securityQuestionViewModel;
         this.securityQuestionViewModel.addPropertyChangeListener(this);
-        this.viewManagerModel = viewManagerModel;
 
         final JLabel title = new JLabel("Recover Password");
         title.setAlignmentX(Component.CENTER_ALIGNMENT);
@@ -79,8 +73,9 @@ public class SecurityQuestionView extends JPanel implements PropertyChangeListen
         back.addActionListener(evt -> {
             securityQuestionViewModel.setState(new SecurityQuestionState());
             securityQuestionViewModel.firePropertyChanged();
-            viewManagerModel.setState(LoginViewModel.VIEW_NAME);
-            viewManagerModel.firePropertyChanged();
+            if (backHandler != null) {
+                backHandler.run();
+            }
         });
 
         // Keep the state's username in sync with the text field.
@@ -174,5 +169,9 @@ public class SecurityQuestionView extends JPanel implements PropertyChangeListen
 
     public void setSecurityQuestionController(SecurityQuestionController securityQuestionController) {
         this.securityQuestionController = securityQuestionController;
+    }
+
+    public void setBackHandler(Runnable backHandler) {
+        this.backHandler = backHandler;
     }
 }

@@ -372,7 +372,9 @@ public class AppBuilder {
      */
     public AppBuilder addSecurityQuestionView() {
         securityQuestionViewModel = new SecurityQuestionViewModel();
-        securityQuestionView = new SecurityQuestionView(securityQuestionViewModel, viewManagerModel);
+        securityQuestionView = new SecurityQuestionView(securityQuestionViewModel);
+        securityQuestionView.setBackHandler(
+                () -> viewManagerModel.switchView(LoginViewModel.VIEW_NAME));
         cardPanel.add(securityQuestionView, securityQuestionView.getViewName());
         return this;
     }
@@ -645,7 +647,9 @@ public class AppBuilder {
     public AppBuilder addSecurityQuestionUseCase() {
         final SecurityQuestionOutputBoundary securityQuestionOutputBoundary = new SecurityQuestionPresenter(
                 securityQuestionViewModel,
-                resetPasswordViewModel, viewManagerModel);
+                resetPasswordViewModel,
+                () -> viewManagerModel.switchView(ResetPasswordViewModel.VIEW_NAME),
+                () -> viewManagerModel.switchView(SecurityQuestionViewModel.VIEW_NAME));
         final SecurityQuestionInputBoundary securityQuestionInteractor = new SecurityQuestionInteractor(
                 userDataAccessObject, securityQuestionOutputBoundary, lockoutTracker);
         final SecurityQuestionController securityQuestionController = new SecurityQuestionController(
@@ -740,9 +744,10 @@ public class AppBuilder {
         final SettingsOutputBoundary settingsOutputBoundary = new SettingsPresenter(settingsViewModel);
         final SettingsInputBoundary settingsInteractor = new SettingsInteractor(settingsOutputBoundary);
 
-        final SettingsController settingsController = new SettingsController(settingsInteractor,
-                viewManagerModel, HomePageViewModel.VIEW_NAME);
+        final SettingsController settingsController = new SettingsController(settingsInteractor);
         settingsView.setSettingsController(settingsController);
+        settingsView.setBackHandler(
+                () -> viewManagerModel.switchView(HomePageViewModel.VIEW_NAME));
         return this;
     }
 
