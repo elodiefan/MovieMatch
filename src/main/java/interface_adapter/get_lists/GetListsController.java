@@ -1,11 +1,11 @@
 package interface_adapter.get_lists;
 
-import use_case.get_blocked_users.GetBlockedUsersInputBoundary;
-import use_case.get_blocked_users.GetBlockedUsersInputData;
-import use_case.get_watch_history.GetWatchHistoryInputBoundary;
-import use_case.get_watch_history.GetWatchHistoryInputData;
-import use_case.get_watchlist.GetWatchlistInputBoundary;
-import use_case.get_watchlist.GetWatchlistInputData;
+import use_case.get_lists.get_blocked_users.GetBlockedUsersInputBoundary;
+import use_case.get_lists.get_blocked_users.GetBlockedUsersInputData;
+import use_case.get_lists.get_watch_history.GetWatchHistoryInputBoundary;
+import use_case.get_lists.get_watch_history.GetWatchHistoryInputData;
+import use_case.get_lists.get_watchlist.GetWatchlistInputBoundary;
+import use_case.get_lists.get_watchlist.GetWatchlistInputData;
 
 /**
  * The controller for the lists view.

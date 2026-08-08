@@ -3,12 +3,12 @@ package interface_adapter.comments;
 import java.util.ArrayList;
 import java.util.List;
 
-import use_case.create_comment.CreateCommentOutputBoundary;
-import use_case.delete_comment.DeleteCommentOutputBoundary;
-import use_case.get_review_comments.GetReviewCommentsOutputBoundary;
-import use_case.get_review_comments.GetReviewCommentsOutputData;
-import use_case.like_comment.LikeCommentOutputBoundary;
-import use_case.unlike_comment.UnlikeCommentOutputBoundary;
+import use_case.comment.create_comment.CreateCommentOutputBoundary;
+import use_case.comment.delete_comment.DeleteCommentOutputBoundary;
+import use_case.comment.get_review_comments.GetReviewCommentsOutputBoundary;
+import use_case.comment.get_review_comments.GetReviewCommentsOutputData;
+import use_case.comment.like_comment.LikeCommentOutputBoundary;
+import use_case.comment.unlike_comment.UnlikeCommentOutputBoundary;
 
 /**
  * Presenter for review comments.
