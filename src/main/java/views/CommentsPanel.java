@@ -162,22 +162,32 @@ public final class CommentsPanel extends JPanel
     private void updateView(final CommentsState state) {
         if (state != null) {
             errorLabel.setText(state.getCommentsError());
-            refreshComments(state.getReviewId());
-            setComments(state.getReviewId(), state.getComments());
+            if (!refreshComments(state.getReviewId())) {
+                setComments(state.getReviewId(), state.getComments());
+            }
         }
     }
 
     /**
      * Loads persisted comments for one review into the view model state.
      * @param reviewId the review id to load comments for
+     * @return true if fresh comments were requested
      */
-    private void refreshComments(final String reviewId) {
+    private boolean refreshComments(final String reviewId) {
+        final boolean commentsRequested;
         if (!loadingComments && commentsController != null
                 && !isBlank(reviewId)) {
             loadingComments = true;
-            commentsController.loadReviewComments(reviewId);
-            loadingComments = false;
+            try {
+                commentsController.loadReviewComments(reviewId);
+            } finally {
+                loadingComments = false;
+            }
+            commentsRequested = true;
+        } else {
+            commentsRequested = false;
         }
+        return commentsRequested;
     }
 
     /**

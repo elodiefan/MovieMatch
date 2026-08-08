@@ -213,24 +213,34 @@ public final class MediaReviewsPanel extends JPanel
         if (state != null) {
             mediaTitleLabel.setText(state.getMediaTitle());
             errorLabel.setText(state.getMediaReviewsError());
-            loadContent(state);
-            setReviews(state.getReviews());
+            if (!loadContent(state)) {
+                setReviews(state.getReviews());
+            }
         }
     }
 
     /**
      * Loads persisted reviews and comments for the current media item.
      * @param state the media reviews state
+     * @return true if fresh content was requested
      */
-    private void loadContent(final MediaReviewsState state) {
+    private boolean loadContent(final MediaReviewsState state) {
+        final boolean contentRequested;
         if (!loadingContent && mediaReviewsController != null
                 && !isBlank(state.getMediaType())) {
             loadingContent = true;
-            mediaReviewsController.loadMediaReviews(state.getMediaId(),
-                    state.getMediaType());
-            refreshCommentsForReviews(state);
-            loadingContent = false;
+            try {
+                mediaReviewsController.loadMediaReviews(state.getMediaId(),
+                        state.getMediaType());
+                refreshCommentsForReviews(state);
+            } finally {
+                loadingContent = false;
+            }
+            contentRequested = true;
+        } else {
+            contentRequested = false;
         }
+        return contentRequested;
     }
 
     /**
