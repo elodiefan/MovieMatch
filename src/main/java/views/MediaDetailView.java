@@ -384,7 +384,8 @@ public class MediaDetailView extends JPanel implements PropertyChangeListener {
         final MediaDetailState state = mediaDetailViewModel.getState();
         if (logMediaController != null) {
             logMediaController.addToWatchlist(state.getMediaId(),
-                    state.getMediaType(), state.getTitle());
+                    state.getMediaType(), state.getTitle(),
+                    state.getPosterPath());
         }
     }
 
@@ -392,7 +393,8 @@ public class MediaDetailView extends JPanel implements PropertyChangeListener {
         final MediaDetailState state = mediaDetailViewModel.getState();
         if (logMediaController != null) {
             logMediaController.addToWatchHistory(state.getMediaId(),
-                    state.getMediaType(), state.getTitle());
+                    state.getMediaType(), state.getTitle(),
+                    state.getPosterPath());
         }
     }
 }
