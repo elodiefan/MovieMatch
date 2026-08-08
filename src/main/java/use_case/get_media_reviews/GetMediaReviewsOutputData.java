@@ -2,6 +2,8 @@ package use_case.get_media_reviews;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 import java.time.ZonedDateTime;
 
 /**
@@ -40,6 +42,7 @@ public final class GetMediaReviewsOutputData {
         private final ZonedDateTime createdAt;
         private final ZonedDateTime updatedAt;
         private final int likeCount;
+        private final Set<String> likedByUsernames;
         private final String source;
 
         /**
@@ -52,6 +55,7 @@ public final class GetMediaReviewsOutputData {
          * @param createdAt when the review was created
          * @param updatedAt when the review was last updated
          * @param likeCount the number of likes
+         * @param likedByUsernames usernames that liked the review
          * @param source the review source
          */
         public MediaReviewData(final String reviewId,
@@ -62,6 +66,7 @@ public final class GetMediaReviewsOutputData {
                                final ZonedDateTime createdAt,
                                final ZonedDateTime updatedAt,
                                final int likeCount,
+                               final Set<String> likedByUsernames,
                                final String source) {
             this.reviewId = reviewId;
             this.authorUsername = authorUsername;
@@ -71,6 +76,7 @@ public final class GetMediaReviewsOutputData {
             this.createdAt = createdAt;
             this.updatedAt = updatedAt;
             this.likeCount = likeCount;
+            this.likedByUsernames = new HashSet<>(likedByUsernames);
             this.source = source;
         }
 
@@ -104,6 +110,10 @@ public final class GetMediaReviewsOutputData {
 
         public int getLikeCount() {
             return likeCount;
+        }
+
+        public Set<String> getLikedByUsernames() {
+            return new HashSet<>(likedByUsernames);
         }
 
         public String getSource() {

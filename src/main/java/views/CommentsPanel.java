@@ -250,6 +250,8 @@ public final class CommentsPanel extends JPanel
         final JButton deleteButton =
                 new JButton(CommentsViewModel.DELETE_BUTTON_LABEL);
         final JToggleButton heartButton = createHeartButton();
+        heartButton.setSelected(comment.isLikedBy(currentUsername));
+        updateHeartButton(heartButton);
 
         replyButton.addActionListener(new SelectCommentListener(
                 comment.getCommentId(), true));

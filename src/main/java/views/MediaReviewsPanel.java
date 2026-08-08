@@ -315,6 +315,10 @@ public final class MediaReviewsPanel extends JPanel
                 new JButton(MediaReviewsViewModel.DELETE_BUTTON_LABEL);
         final JToggleButton heartButton = createHeartButton(
                 MediaReviewsViewModel.LIKE_BUTTON_LABEL);
+        heartButton.setSelected(review.isLikedBy(currentUsername));
+        updateHeartButton(heartButton,
+                MediaReviewsViewModel.UNLIKE_BUTTON_LABEL,
+                MediaReviewsViewModel.LIKE_BUTTON_LABEL);
 
         editButton.addActionListener(new SelectReviewListener(
                 review.getReviewId()));
@@ -392,6 +396,9 @@ public final class MediaReviewsPanel extends JPanel
         final JButton deleteButton =
                 new JButton(CommentsViewModel.DELETE_BUTTON_LABEL);
         final JToggleButton heartButton = createHeartButton(
+                CommentsViewModel.LIKE_BUTTON_LABEL);
+        heartButton.setSelected(comment.isLikedBy(currentUsername));
+        updateHeartButton(heartButton, CommentsViewModel.UNLIKE_BUTTON_LABEL,
                 CommentsViewModel.LIKE_BUTTON_LABEL);
 
         replyButton.addActionListener(new SelectCommentListener(
