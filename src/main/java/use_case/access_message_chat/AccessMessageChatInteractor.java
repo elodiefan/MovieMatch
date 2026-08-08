@@ -13,6 +13,7 @@ public class AccessMessageChatInteractor implements AccessMessageChatInputBounda
 
     /**
      * Executes the access message chat use case.
+     * @param inputOtherUsername the other user's username
      */
     @Override
     public void execute(String inputOtherUsername) {

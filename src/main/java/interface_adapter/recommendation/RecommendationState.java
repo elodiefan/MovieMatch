@@ -3,7 +3,9 @@ package interface_adapter.recommendation;
 import java.util.ArrayList;
 import java.util.List;
 
-/** What the recommendation screens draw. */
+/**
+ * What the recommendation screens draw.
+ */
 public class RecommendationState {
 
     private List<RecommendationRow> recommendations = new ArrayList<>();
@@ -11,7 +13,9 @@ public class RecommendationState {
     private String recommendationError;
     private String username = "";
 
-    /** Distinguishes "nothing to suggest" from "not asked yet". */
+    /**
+     * Distinguishes "nothing to suggest" from "not asked yet".
+     */
     private boolean loaded;
 
     public List<RecommendationRow> getRecommendations() {

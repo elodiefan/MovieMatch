@@ -11,11 +11,15 @@ import use_case.recommendation.ReviewedMediaRatingDataAccessInterface;
 import use_case.recommendation.UserRating;
 import use_case.recommendation.WatchedMediaDataAccessInterface;
 
-/** Turns a user's activity into ratings the algorithm can score with. */
+/**
+ * Turns a user's activity into ratings the algorithm can score with.
+ */
 public class UserActivityRecommendationDataAccess
         implements RecommendationDataAccessInterface {
 
-    /** The score given to something watched or saved but never reviewed. */
+    /**
+     * The score given to something watched or saved but never reviewed.
+     */
     public static final double IMPLIED_RATING = 6.5;
 
     private final WatchedMediaDataAccessInterface watchedMediaDataAccess;
@@ -50,7 +54,12 @@ public class UserActivityRecommendationDataAccess
         return userRatings;
     }
 
-    /** MovieMatch has no friends feature, so this is empty by design. */
+    /**
+     * MovieMatch has no friends feature, so this is empty by design.
+     *
+     * @param username the username
+     * @return the find friend usernames
+     */
     @Override
     public List<String> findFriendUsernames(String username) {
         return new ArrayList<>();
@@ -61,7 +70,12 @@ public class UserActivityRecommendationDataAccess
         return new ArrayList<>();
     }
 
-    /** Titles the user already saved or watched, so they are not suggested again. */
+    /**
+     * Titles the user already saved or watched, so they are not suggested again.
+     *
+     * @param username the username
+     * @return the engaged media ids
+     */
     public Set<Integer> engagedMediaIds(String username) {
         return watchedMediaDataAccess.findEngagedMediaIds(username);
     }

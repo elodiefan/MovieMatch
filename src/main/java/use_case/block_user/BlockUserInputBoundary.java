@@ -7,6 +7,7 @@ public interface BlockUserInputBoundary {
 
     /**
      * Executes the block user use case.
+     * @param otherUsername the other user's username
      */
     void execute(String otherUsername);
 }

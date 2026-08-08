@@ -5,12 +5,15 @@ package use_case.edit_review;
  */
 public interface EditReviewOutputBoundary {
     /**
-     * Handles this review or comment operation.
+     * Prepares the success view after editing a review.
+     * @param review the edited review output data
      */
     void prepareSuccessView(EditReviewOutputData review);
 
     /**
      * Handles this review or comment operation.
+     * @param errorMessage the errorMessage
+     * @return the result
      */
     String prepareFailView(String errorMessage);
 }

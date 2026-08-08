@@ -12,7 +12,12 @@ import org.junit.jupiter.api.Test;
 import entity.StandardUser;
 import entity.User;
 
-/** Tests for searching users in the in-memory store. */
+/**
+ * Tests for searching users in the in-memory store.
+ * <p>
+ * The Mongo implementation answers the same questions against Atlas; these run
+ * with no network, so they can check the matching rules on every build.
+ */
 class InMemoryUserSearchTest {
 
     private InMemoryUserDataAccessObject dataAccess;
@@ -68,7 +73,11 @@ class InMemoryUserSearchTest {
         assertTrue(dataAccess.search("zzzz").isEmpty());
     }
 
-    /** Regex metacharacters must be treated as ordinary text. */
+    /**
+     * Regex metacharacters must be treated as ordinary text. The Mongo
+     * implementation gets this from {@code Pattern.quote}; if that were ever
+     * dropped, {@code .*} would quietly return every account in the database.
+     */
     @Test
     void regexCharactersAreLiteralNotWildcards() {
         assertTrue(dataAccess.search(".*").isEmpty(), "'.*' should match nobody, not everybody");

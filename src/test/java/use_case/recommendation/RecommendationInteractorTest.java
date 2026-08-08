@@ -17,7 +17,9 @@ import database.SeedMediaCatalogue;
 import entity.Media;
 import entity.recommendation.TasteProfile;
 
-/** Drives the interactor end to end over the seed catalogue. */
+/**
+ * Drives the interactor end to end over the seed catalogue.
+ */
 class RecommendationInteractorTest {
 
     private static final int CURRENT_YEAR = 2026;
@@ -34,7 +36,9 @@ class RecommendationInteractorTest {
     private SeedMediaCatalogue catalogue;
     private CapturingPresenter presenter;
 
-    /** Captures whatever the interactor reports, so tests can assert on it. */
+    /**
+     * Captures whatever the interactor reports, so tests can assert on it.
+     */
     private static final class CapturingPresenter implements RecommendationOutputBoundary {
         private RecommendationOutputData output;
         private String error;
@@ -50,7 +54,9 @@ class RecommendationInteractorTest {
         }
     }
 
-    /** An adjuster that always asks for a wildly out-of-range shift. */
+    /**
+     * An adjuster that always asks for a wildly out-of-range shift.
+     */
     private static final class RunawayAdjuster implements ScoreAdjuster {
         @Override
         public Adjustment adjust(final Media candidate, final TasteProfile tasteProfile) {
@@ -58,7 +64,9 @@ class RecommendationInteractorTest {
         }
     }
 
-    /** An adjuster that always fails, standing in for a missing API key. */
+    /**
+     * An adjuster that always fails, standing in for a missing API key.
+     */
     private static final class FailingAdjuster implements ScoreAdjuster {
         @Override
         public Adjustment adjust(final Media candidate, final TasteProfile tasteProfile) {

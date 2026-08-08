@@ -14,7 +14,9 @@ public final class GetReviewCommentsOutputData {
     private final List<ReviewCommentData> comments;
 
     /**
-     * Handles this review or comment operation.
+     * Creates output data for loaded review comments.
+     * @param inputReviewId the review id
+     * @param inputComments the loaded comments
      */
     public GetReviewCommentsOutputData(final String inputReviewId,
                                        final List<ReviewCommentData>
@@ -24,14 +26,16 @@ public final class GetReviewCommentsOutputData {
     }
 
     /**
-     * Handles this review or comment operation.
+     * Returns the review id.
+     * @return the review id
      */
     public String getReviewId() {
         return reviewId;
     }
 
     /**
-     * Handles this review or comment operation.
+     * Returns the loaded review comments.
+     * @return the loaded review comments
      */
     public List<ReviewCommentData> getComments() {
         return new ArrayList<>(comments);
@@ -52,6 +56,14 @@ public final class GetReviewCommentsOutputData {
 
         /**
          * Creates one review comment row.
+         * @param commentId the comment id
+         * @param reviewId the review id
+         * @param parentCommentId the parent comment id
+         * @param authorUsername the author's username
+         * @param authorDisplayName the author's display name
+         * @param commentText the comment text
+         * @param createdAt when the comment was created
+         * @param likeCount the number of likes
          */
         public ReviewCommentData(final String commentId,
                                  final String reviewId,

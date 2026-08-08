@@ -8,7 +8,9 @@ import javax.swing.SwingUtilities;
 import use_case.recommendation.RecommendationOutputBoundary;
 import use_case.recommendation.RecommendationOutputData;
 
-/** Presents recommendations onto one view model. */
+/**
+ * Presents recommendations onto one view model.
+ */
 public class RecommendationPresenter implements RecommendationOutputBoundary {
 
     private final RecommendationViewModel recommendationViewModel;

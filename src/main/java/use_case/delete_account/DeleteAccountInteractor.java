@@ -31,6 +31,7 @@ public class DeleteAccountInteractor implements DeleteAccountInputBoundary {
 
     /**
      * Executes the Delete Account Use Case.
+     * @param deleteAccountInputData the user's input info
      */
     @Override
     public void execute(DeleteAccountInputData deleteAccountInputData) {

@@ -17,6 +17,7 @@ public class BlockUserInteractor implements BlockUserInputBoundary {
 
     /**
      * Executes the Block User Use Case.
+     * @param inputOtherUsername the other user's username
      */
     @Override
     public void execute(String inputOtherUsername) {

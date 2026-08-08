@@ -11,9 +11,13 @@ import entity.UserContent;
  */
 public final class CreateCommentInteractor
         implements CreateCommentInputBoundary {
-    /** The comment data access object. */
+    /**
+     * The comment data access object.
+     */
     private final CreateCommentDataAccessInterface commentDataAccessObject;
-    /** The presenter. */
+    /**
+     * The presenter.
+     */
     private final CreateCommentOutputBoundary presenter;
 
     /**
@@ -25,6 +29,7 @@ public final class CreateCommentInteractor
 
     /**
      * Creates a comment interactor with persistence.
+     * @param inputCommentDataAccessObject the DAO used to save comments
      */
     public CreateCommentInteractor(
             final CreateCommentDataAccessInterface
@@ -34,6 +39,8 @@ public final class CreateCommentInteractor
 
     /**
      * Handles this review or comment operation.
+     * @param inputCommentDataAccessObject the inputCommentDataAccessObject
+     * @param inputPresenter the inputPresenter
      */
     public CreateCommentInteractor(
             final CreateCommentDataAccessInterface inputCommentDataAccessObject,
@@ -67,6 +74,13 @@ public final class CreateCommentInteractor
 
     /**
      * Creates a new comment on a review.
+     * @param reviewId the id of the review being commented on
+     * @param parentCommentId the parent comment id, or null for a top-level
+     * comment
+     * @param authorUsername the comment author's username
+     * @param authorDisplayName the comment author's display name
+     * @param commentText the comment text
+     * @return the created comment
      */
     private Comment createComment(final String reviewId,
                                  final String parentCommentId,
@@ -94,6 +108,12 @@ public final class CreateCommentInteractor
 
     /**
      * Validates submitted comment data.
+     * @param reviewId the review id to validate
+     * @param authorUsername the author's username to validate
+     * @param authorDisplayName the author's display name to validate
+     * @param commentText the comment text to validate
+     * @throws IllegalArgumentException if any comment data is invalid
+     * @throws IllegalStateException if the comment DAO is not configured
      */
     private void validateCommentData(final String reviewId,
                                      final String authorUsername,
@@ -124,6 +144,8 @@ public final class CreateCommentInteractor
 
     /**
      * Checks whether a text value is empty or only whitespace.
+     * @param value the value to check
+     * @return true if the value is blank
      */
     private boolean isBlank(final String value) {
         return value == null || value.trim().isEmpty();
@@ -131,6 +153,8 @@ public final class CreateCommentInteractor
 
     /**
      * Trims a text value, or returns an empty string if it is null.
+     * @param value the value to trim
+     * @return the trimmed value
      */
     private String trimToEmpty(final String value) {
         final String trimmedValue;
@@ -144,6 +168,8 @@ public final class CreateCommentInteractor
 
     /**
      * Trims a text value, or returns null if it is blank.
+     * @param value the value to trim
+     * @return the trimmed value, or null
      */
     private String trimToNull(final String value) {
         final String trimmedValue;

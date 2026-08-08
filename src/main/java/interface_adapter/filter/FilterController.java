@@ -17,6 +17,8 @@ public class FilterController {
 
     /**
      * Executes the Filter Use Case.
+     *
+     * @param requestModel the filter request model
      */
     public void execute(FilterRequestModel requestModel) {
         final FilterInputData inputData =

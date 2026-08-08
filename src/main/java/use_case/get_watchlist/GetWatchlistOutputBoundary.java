@@ -7,6 +7,7 @@ public interface GetWatchlistOutputBoundary {
 
     /**
      * Prepares the success view when calling the watchlist use case.
+     * @param response the output boundary for the success view.
      */
     void prepareSuccessView(GetWatchlistOutputData response);
 

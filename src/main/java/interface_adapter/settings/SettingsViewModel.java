@@ -2,7 +2,9 @@ package interface_adapter.settings;
 
 import interface_adapter.StateModel;
 
-/** The View Model for the Settings View. */
+/**
+ * The View Model for the Settings View.
+ */
 public class SettingsViewModel extends StateModel<SettingsState> {
 
     public static final String VIEW_NAME = "settings";

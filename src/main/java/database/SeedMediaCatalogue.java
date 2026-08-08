@@ -12,7 +12,9 @@ import entity.Movie;
 import entity.TVShow;
 import use_case.recommendation.MediaCatalogueDataAccessInterface;
 
-/** A small fixed catalogue, so the recommendation feature can run before the real one exists. */
+/**
+ * A small fixed catalogue, so the recommendation feature can run before the real one exists.
+ */
 public class SeedMediaCatalogue implements MediaCatalogueDataAccessInterface {
 
     private static final Genre ACTION = new Genre(28, "Action");
@@ -29,12 +31,18 @@ public class SeedMediaCatalogue implements MediaCatalogueDataAccessInterface {
 
     private final List<Media> catalogue;
 
-    /** Builds the seed catalogue. */
+    /**
+     * Builds the seed catalogue.
+     */
     public SeedMediaCatalogue() {
         this.catalogue = createSeedData();
     }
 
-    /** Returns every title in the catalogue. */
+    /**
+     * Returns every title in the catalogue.
+     *
+     * @return the get all
+     */
     public List<Media> getAll() {
         return Collections.unmodifiableList(this.catalogue);
     }
@@ -62,12 +70,22 @@ public class SeedMediaCatalogue implements MediaCatalogueDataAccessInterface {
         return found;
     }
 
-    /** Reports whether a title is worth offering for the given genres. */
+    /**
+     * Reports whether a title is worth offering for the given genres.
+     *
+     * @param media the media
+     * @param genres the genres
+     * @return the shares genre
+     */
     private static boolean sharesGenre(final Media media, final Set<Genre> genres) {
         return genres.isEmpty() || !Collections.disjoint(media.getGenres(), genres);
     }
 
-    /** Creates the fixed set of titles. */
+    /**
+     * Creates the fixed set of titles.
+     *
+     * @return the create seed data
+     */
     private static List<Media> createSeedData() {
         final List<Media> seed = new ArrayList<>();
 

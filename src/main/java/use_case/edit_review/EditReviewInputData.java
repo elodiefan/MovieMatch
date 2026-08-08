@@ -4,17 +4,29 @@ package use_case.edit_review;
  * Input data for editing a review.
  */
 public final class EditReviewInputData {
-    /** The review id. */
+    /**
+     * The review id.
+     */
     private final String reviewId;
-    /** The username. */
+    /**
+     * The username.
+     */
     private final String username;
-    /** The rating. */
+    /**
+     * The rating.
+     */
     private final double rating;
-    /** The review text. */
+    /**
+     * The review text.
+     */
     private final String reviewText;
 
     /**
      * Handles this review or comment operation.
+     * @param inputReviewId the inputReviewId
+     * @param inputUsername the inputUsername
+     * @param inputRating the inputRating
+     * @param inputReviewText the inputReviewText
      */
     public EditReviewInputData(final String inputReviewId,
                                final String inputUsername,
@@ -28,24 +40,28 @@ public final class EditReviewInputData {
 
     /**
      * Handles this review or comment operation.
+     * @return the result
      */
     public String getReviewId() {
         return reviewId;
     }
     /**
      * Handles this review or comment operation.
+     * @return the result
      */
     public String getUsername() {
         return username;
     }
     /**
      * Handles this review or comment operation.
+     * @return the result
      */
     public double getRating() {
         return rating;
     }
     /**
      * Handles this review or comment operation.
+     * @return the result
      */
     public String getReviewText() {
         return reviewText;

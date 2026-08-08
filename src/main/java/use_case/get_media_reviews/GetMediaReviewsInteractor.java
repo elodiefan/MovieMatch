@@ -16,9 +16,13 @@ public final class GetMediaReviewsInteractor
      */
     private static final int MIN_MEDIA_ID = 0;
 
-    /** The review data access object. */
+    /**
+     * The review data access object.
+     */
     private final GetMediaReviewsDataAccessInterface reviewDataAccessObject;
-    /** The presenter. */
+    /**
+     * The presenter.
+     */
     private final GetMediaReviewsOutputBoundary presenter;
 
     /**
@@ -30,6 +34,7 @@ public final class GetMediaReviewsInteractor
 
     /**
      * Creates a media reviews interactor with persistence.
+     * @param inputReviewDataAccessObject the DAO used to load reviews
      */
     public GetMediaReviewsInteractor(
             final GetMediaReviewsDataAccessInterface
@@ -39,6 +44,8 @@ public final class GetMediaReviewsInteractor
 
     /**
      * Handles this review or comment operation.
+     * @param inputReviewDataAccessObject the inputReviewDataAccessObject
+     * @param inputPresenter the inputPresenter
      */
     public GetMediaReviewsInteractor(
             final GetMediaReviewsDataAccessInterface
@@ -66,6 +73,9 @@ public final class GetMediaReviewsInteractor
 
     /**
      * Returns persisted reviews for one media item, ordered newest to oldest.
+     * @param mediaId the reviewed media's identifier
+     * @param mediaType the reviewed media's type
+     * @return the matching media reviews
      */
     private List<Review> getMediaReviews(final int mediaId,
                                         final String mediaType) {
@@ -82,6 +92,10 @@ public final class GetMediaReviewsInteractor
 
     /**
      * Validates data needed to load persisted media reviews.
+     * @param mediaId the media id to validate
+     * @param mediaType the media type to validate
+     * @throws IllegalArgumentException if the media id or type is invalid
+     * @throws IllegalStateException if the review DAO is not configured
      */
     private void validateGetMediaReviewsData(final int mediaId,
                                              final String mediaType) {
@@ -104,6 +118,8 @@ public final class GetMediaReviewsInteractor
 
     /**
      * Checks whether a text value is empty or only whitespace.
+     * @param value the value to check
+     * @return true if the value is blank
      */
     private boolean isBlank(final String value) {
         return value == null || value.trim().isEmpty();
@@ -111,6 +127,8 @@ public final class GetMediaReviewsInteractor
 
     /**
      * Trims a text value, or returns an empty string if it is null.
+     * @param value the value to trim
+     * @return the trimmed value
      */
     private String trimToEmpty(final String value) {
         final String trimmedValue;

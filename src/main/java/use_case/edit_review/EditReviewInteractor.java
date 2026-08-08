@@ -20,9 +20,13 @@ public final class EditReviewInteractor implements EditReviewInputBoundary {
      */
     private static final double MAX_RATING = 100.0;
 
-    /** The review data access object. */
+    /**
+     * The review data access object.
+     */
     private final EditReviewDataAccessInterface reviewDataAccessObject;
-    /** The presenter. */
+    /**
+     * The presenter.
+     */
     private final EditReviewOutputBoundary presenter;
 
     /**
@@ -34,6 +38,7 @@ public final class EditReviewInteractor implements EditReviewInputBoundary {
 
     /**
      * Creates an edit review interactor with persistence.
+     * @param inputReviewDataAccessObject the DAO used to edit reviews
      */
     public EditReviewInteractor(
             final EditReviewDataAccessInterface inputReviewDataAccessObject) {
@@ -42,6 +47,8 @@ public final class EditReviewInteractor implements EditReviewInputBoundary {
 
     /**
      * Handles this review or comment operation.
+     * @param inputReviewDataAccessObject the inputReviewDataAccessObject
+     * @param inputPresenter the inputPresenter
      */
     public EditReviewInteractor(
             final EditReviewDataAccessInterface inputReviewDataAccessObject,
@@ -75,6 +82,11 @@ public final class EditReviewInteractor implements EditReviewInputBoundary {
 
     /**
      * Edits one persisted review written by the given user.
+     * @param reviewId the id of the review to edit
+     * @param username the username of the user editing the review
+     * @param newRating the updated rating percentage
+     * @param newReviewText the updated review text
+     * @return the edited review, or null if it was not edited
      */
     private Review editReview(final String reviewId, final String username,
                              final double newRating,
@@ -99,6 +111,10 @@ public final class EditReviewInteractor implements EditReviewInputBoundary {
 
     /**
      * Edits an existing review.
+     * @param review the review to edit
+     * @param newRating the updated rating percentage
+     * @param newReviewText the updated review text
+     * @return the edited review
      */
     private Review editReview(final Review review, final double newRating,
                              final String newReviewText) {
@@ -111,6 +127,9 @@ public final class EditReviewInteractor implements EditReviewInputBoundary {
 
     /**
      * Validates the data needed to edit a review.
+     * @param review the review to validate
+     * @param rating the rating to validate
+     * @throws IllegalArgumentException if the review or rating is invalid
      */
     private void validateEditReviewData(final Review review,
                                         final double rating) {
@@ -124,6 +143,11 @@ public final class EditReviewInteractor implements EditReviewInputBoundary {
 
     /**
      * Validates the data needed to edit a persisted review.
+     * @param reviewId the review id to validate
+     * @param username the username to validate
+     * @param rating the rating to validate
+     * @throws IllegalArgumentException if the input data is invalid
+     * @throws IllegalStateException if the review DAO is not configured
      */
     private void validateEditReviewData(final String reviewId,
                                         final String username,
@@ -150,6 +174,10 @@ public final class EditReviewInteractor implements EditReviewInputBoundary {
 
     /**
      * Saves an edited review through the DAO and updates the entity copy.
+     * @param review the review to edit
+     * @param newRating the updated rating percentage
+     * @param newReviewText the updated review text
+     * @return the edited review
      */
     private Review editPersistedReview(final Review review,
                                        final double newRating,
@@ -163,6 +191,8 @@ public final class EditReviewInteractor implements EditReviewInputBoundary {
 
     /**
      * Checks whether a text value is empty or only whitespace.
+     * @param value the value to check
+     * @return true if the value is blank
      */
     private boolean isBlank(final String value) {
         return value == null || value.trim().isEmpty();
@@ -170,6 +200,8 @@ public final class EditReviewInteractor implements EditReviewInputBoundary {
 
     /**
      * Trims a text value, or returns an empty string if it is null.
+     * @param value the value to trim
+     * @return the trimmed value
      */
     private String trimToEmpty(final String value) {
         final String trimmedValue;

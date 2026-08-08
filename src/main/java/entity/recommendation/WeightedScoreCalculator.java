@@ -8,17 +8,27 @@ import java.util.Map;
 
 import entity.Media;
 
-/** Combines the individual factors into one score for a candidate. */
+/**
+ * Combines the individual factors into one score for a candidate.
+ */
 public class WeightedScoreCalculator {
 
     private final List<SubScore> subScores;
 
-    /** Creates a calculator over the given factors. */
+    /**
+     * Creates a calculator over the given factors.
+     *
+     * @param subScores the sub scores
+     */
     public WeightedScoreCalculator(final List<SubScore> subScores) {
         this.subScores = new ArrayList<>(subScores);
     }
 
-    /** Creates a calculator over the five factors described in the algorithm document. */
+    /**
+     * Creates a calculator over the five factors described in the algorithm document.
+     *
+     * @return the create default
+     */
     public static WeightedScoreCalculator createDefault() {
         return new WeightedScoreCalculator(Arrays.asList(
                 new GenreOverlapSubScore(),
@@ -28,7 +38,13 @@ public class WeightedScoreCalculator {
                 new RecencySubScore()));
     }
 
-    /** Scores one candidate. */
+    /**
+     * Scores one candidate.
+     *
+     * @param candidate the candidate
+     * @param context the context
+     * @return the score
+     */
     public ScoredMedia score(final Media candidate, final ScoringContext context) {
         final Map<String, Double> raw = new LinkedHashMap<>();
         final Map<String, Double> weighted = new LinkedHashMap<>();

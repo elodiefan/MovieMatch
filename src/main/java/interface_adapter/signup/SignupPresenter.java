@@ -13,6 +13,8 @@ public class SignupPresenter implements SignupOutputBoundary {
 
     /**
      * Creates a signup presenter.
+     *
+     * @param signupViewModel the view model for the signup view
      */
     public SignupPresenter(SignupViewModel signupViewModel) {
         this(signupViewModel, null);
@@ -20,6 +22,9 @@ public class SignupPresenter implements SignupOutputBoundary {
 
     /**
      * Creates a signup presenter that can update app navigation.
+     *
+     * @param signupViewModel the view model for the signup view
+     * @param loginViewHandler the handler for navigating to login
      */
     public SignupPresenter(SignupViewModel signupViewModel,
                            Runnable loginViewHandler) {
@@ -29,6 +34,8 @@ public class SignupPresenter implements SignupOutputBoundary {
 
     /**
      * Prepares the signup view after a successful signup.
+     *
+     * @param outputData the successful signup output data
      */
     @Override
     public void prepareSuccessView(SignupOutputData outputData) {
@@ -46,6 +53,8 @@ public class SignupPresenter implements SignupOutputBoundary {
 
     /**
      * Prepares the signup view after a failed signup.
+     *
+     * @param errorMessage the explanation of the signup failure
      */
     @Override
     public void prepareFailView(String errorMessage) {

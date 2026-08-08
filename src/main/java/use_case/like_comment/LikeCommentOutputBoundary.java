@@ -5,12 +5,15 @@ package use_case.like_comment;
  */
 public interface LikeCommentOutputBoundary {
     /**
-     * Handles this review or comment operation.
+     * Prepares the success view after liking a comment.
+     * @param liked whether the comment was liked
      */
     void prepareSuccessView(boolean liked);
 
     /**
      * Handles this review or comment operation.
+     * @param errorMessage the errorMessage
+     * @return the result
      */
     String prepareFailView(String errorMessage);
 }

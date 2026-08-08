@@ -4,16 +4,22 @@ import java.util.List;
 
 import entity.Media;
 
-/** Scores a candidate on what the user's friends made of it. */
+/**
+ * Scores a candidate on what the user's friends made of it.
+ */
 public class FriendRatingSubScore implements SubScore {
 
-    /** Friends rate on a 1-5 star scale. */
+    /**
+     * Friends rate on a 1-5 star scale.
+     */
     private static final double MAX_STAR_RATING = 5.0;
 
     private static final String NAME = "friends";
     private static final double NO_FRIEND_RATINGS = 0.0;
 
-    /** Creates the friends' rating factor. */
+    /**
+     * Creates the friends' rating factor.
+     */
     public FriendRatingSubScore() {
         // Stateless: everything needed arrives through scoreFor.
     }

@@ -15,6 +15,8 @@ public class SignupState {
 
     /**
      * Returns the username currently entered in the signup form.
+     *
+     * @return the entered username
      */
     public String getUsername() {
         return username;
@@ -22,6 +24,8 @@ public class SignupState {
 
     /**
      * Updates the username currently entered in the signup form.
+     *
+     * @param username the entered username
      */
     public void setUsername(String username) {
         this.username = username;
@@ -29,6 +33,8 @@ public class SignupState {
 
     /**
      * Returns the display name currently entered in the signup form.
+     *
+     * @return the entered display name
      */
     public String getDisplayName() {
         return displayName;
@@ -36,6 +42,8 @@ public class SignupState {
 
     /**
      * Updates the display name currently entered in the signup form.
+     *
+     * @param displayName the entered display name
      */
     public void setDisplayName(String displayName) {
         this.displayName = displayName;
@@ -43,6 +51,8 @@ public class SignupState {
 
     /**
      * Returns the password currently entered in the signup form.
+     *
+     * @return the entered password
      */
     public String getPassword() {
         return password;
@@ -50,6 +60,8 @@ public class SignupState {
 
     /**
      * Updates the password currently entered in the signup form.
+     *
+     * @param password the entered password
      */
     public void setPassword(String password) {
         this.password = password;
@@ -57,6 +69,8 @@ public class SignupState {
 
     /**
      * Returns the repeated password currently entered in the signup form.
+     *
+     * @return the entered repeated password
      */
     public String getRepeatPassword() {
         return repeatPassword;
@@ -64,6 +78,8 @@ public class SignupState {
 
     /**
      * Updates the repeated password currently entered in the signup form.
+     *
+     * @param repeatPassword the entered repeated password
      */
     public void setRepeatPassword(String repeatPassword) {
         this.repeatPassword = repeatPassword;
@@ -71,6 +87,8 @@ public class SignupState {
 
     /**
      * Returns the selected security question in the signup form.
+     *
+     * @return the selected security question
      */
     public String getSecurityQuestion() {
         return securityQuestion;
@@ -78,6 +96,8 @@ public class SignupState {
 
     /**
      * Updates the selected security question in the signup form.
+     *
+     * @param securityQuestion the selected security question
      */
     public void setSecurityQuestion(String securityQuestion) {
         this.securityQuestion = securityQuestion;
@@ -85,6 +105,8 @@ public class SignupState {
 
     /**
      * Returns the security answer currently entered in the signup form.
+     *
+     * @return the entered security answer
      */
     public String getSecurityAnswer() {
         return securityAnswer;
@@ -92,6 +114,8 @@ public class SignupState {
 
     /**
      * Updates the security answer currently entered in the signup form.
+     *
+     * @param securityAnswer the entered security answer
      */
     public void setSecurityAnswer(String securityAnswer) {
         this.securityAnswer = securityAnswer;
@@ -99,6 +123,8 @@ public class SignupState {
 
     /**
      * Returns the current signup error message.
+     *
+     * @return the signup error message, or null if there is no error
      */
     public String getSignupError() {
         return signupError;
@@ -106,6 +132,8 @@ public class SignupState {
 
     /**
      * Updates the current signup error message.
+     *
+     * @param signupError the signup error message
      */
     public void setSignupError(String signupError) {
         this.signupError = signupError;

@@ -13,16 +13,24 @@ import entity.Review;
  */
 public final class GetUserCommentsInteractor
         implements GetUserCommentsInputBoundary {
-    /** The comment data access object. */
+    /**
+     * The comment data access object.
+     */
     private final GetUserCommentsDataAccessInterface commentDataAccessObject;
-    /** The review data access object. */
+    /**
+     * The review data access object.
+     */
     private final GetUserCommentsReviewDataAccessInterface
             reviewDataAccessObject;
-    /** The user comments presenter. */
+    /**
+     * The user comments presenter.
+     */
     private final GetUserCommentsOutputBoundary userCommentsPresenter;
 
     /**
      * Creates a user comments interactor.
+     * @param inputCommentDataAccessObject the DAO used to load comments
+     * @param inputReviewDataAccessObject the DAO used to load related reviews
      */
     public GetUserCommentsInteractor(
             final GetUserCommentsDataAccessInterface
@@ -34,6 +42,9 @@ public final class GetUserCommentsInteractor
 
     /**
      * Creates a user comments interactor.
+     * @param inputCommentDataAccessObject the DAO used to load comments
+     * @param inputReviewDataAccessObject the DAO used to load related reviews
+     * @param inputUserCommentsPresenter the output boundary
      */
     public GetUserCommentsInteractor(
             final GetUserCommentsDataAccessInterface
@@ -48,6 +59,7 @@ public final class GetUserCommentsInteractor
 
     /**
      * Executes the use case and sends output through the output boundary.
+     * @param username the username whose comments are loaded
      */
     @Override
     public void execute(final String username) {
@@ -68,6 +80,8 @@ public final class GetUserCommentsInteractor
 
     /**
      * Returns comments written by one user, ordered newest to oldest.
+     * @param username the username of the comment author
+     * @return the user's matching comments
      */
     private List<GetUserCommentsOutputData.UserCommentData> getUserComments(
             final String username) {
@@ -88,6 +102,8 @@ public final class GetUserCommentsInteractor
 
     /**
      * Creates summary data for one comment.
+     * @param comment the comment to summarize
+     * @return the comment summary
      */
     private GetUserCommentsOutputData.UserCommentData createCommentSummary(
             final Comment comment) {
@@ -112,6 +128,8 @@ public final class GetUserCommentsInteractor
 
     /**
      * Validates the username needed to load user comments.
+     * @param username the username to validate
+     * @throws IllegalArgumentException if the username is blank
      */
     private void validateUsername(final String username) {
         if (isBlank(username)) {
@@ -121,6 +139,7 @@ public final class GetUserCommentsInteractor
 
     /**
      * Validates that the output boundary has been configured.
+     * @throws IllegalStateException if the presenter is not configured
      */
     private void validateOutputBoundary() {
         if (userCommentsPresenter == null) {
@@ -131,6 +150,8 @@ public final class GetUserCommentsInteractor
 
     /**
      * Checks whether a text value is empty or only whitespace.
+     * @param value the value to check
+     * @return true if the value is blank
      */
     private boolean isBlank(final String value) {
         return value == null || value.trim().isEmpty();
@@ -138,6 +159,8 @@ public final class GetUserCommentsInteractor
 
     /**
      * Trims a text value, or returns an empty string if it is null.
+     * @param value the value to trim
+     * @return the trimmed value
      */
     private String trimToEmpty(final String value) {
         final String trimmedValue;

@@ -1,6 +1,12 @@
 package use_case.security_question;
 
-/** Output data for the Security Question use case. */
+/**
+ * Output data for the Security Question use case.
+ * <p>
+ * One immutable object describes every outcome the presenter/view might need
+ * to render: the question to show, whether the step failed, how many tries are
+ * left, and â€” if the account is locked â€” how long until it unlocks.
+ */
 public class SecurityQuestionOutputData {
 
     private final String username;
@@ -24,27 +30,42 @@ public class SecurityQuestionOutputData {
         return username;
     }
 
-    /** The user's security question, or blank when there is no such account. */
+    /**
+     * Returns the user's security question.
+     * @return the user's security question, or "" when unknown (e.g. no such account).
+     */
     public String getSecurityQuestion() {
         return securityQuestion;
     }
 
-    /** True if this step did not succeed (wrong answer, locked out, or no account). */
+    /**
+     * Returns whether this step failed.
+     * @return true if this step did not succeed (wrong answer, locked out, or no account).
+     */
     public boolean isUseCaseFailed() {
         return useCaseFailed;
     }
 
-    /** How many attempts remain before lock-out. */
+    /**
+     * Returns how many attempts remain before lock-out.
+     * @return how many attempts remain before lock-out.
+     */
     public int getRemainingAttempts() {
         return remainingAttempts;
     }
 
-    /** True if the account is currently locked. */
+    /**
+     * Returns whether the account is currently locked.
+     * @return true if the account is currently locked.
+     */
     public boolean isLockedOut() {
         return lockedOut;
     }
 
-    /** Seconds left on the current lock-out (0 if not locked). */
+    /**
+     * Returns seconds left on the current lock-out.
+     * @return seconds left on the current lock-out (0 if not locked).
+     */
     public long getLockRemainingSeconds() {
         return lockRemainingSeconds;
     }

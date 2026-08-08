@@ -13,6 +13,7 @@ public class ViewManagerModel extends StateModel<String> {
 
     /**
      * Switches view.
+     * @param viewName the target view name.
      */
     public void switchView(String viewName) {
         setState(viewName);

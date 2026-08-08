@@ -5,12 +5,15 @@ package use_case.unlike_review;
  */
 public interface UnlikeReviewOutputBoundary {
     /**
-     * Handles this review or comment operation.
+     * Prepares the success view after unliking a review.
+     * @param unliked whether the review was unliked
      */
     void prepareSuccessView(boolean unliked);
 
     /**
      * Handles this review or comment operation.
+     * @param errorMessage the errorMessage
+     * @return the result
      */
     String prepareFailView(String errorMessage);
 }

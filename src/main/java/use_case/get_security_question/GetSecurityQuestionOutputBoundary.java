@@ -7,6 +7,7 @@ package use_case.get_security_question;
 public interface GetSecurityQuestionOutputBoundary {
     /**
      * Switches to Delete Account View.
+     * @param getSecurityQuestionOutputData output data for account use case
      */
     void switchToDeleteAccountView(GetSecurityQuestionOutputData getSecurityQuestionOutputData);
 }

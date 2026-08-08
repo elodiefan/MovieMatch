@@ -36,6 +36,8 @@ public class SignupViewModel extends StateModel<SignupState> {
 
     /**
      * Returns the available security question options.
+     *
+     * @return a copy of the security question options
      */
     public String[] getSecurityQuestionOptions() {
         return SECURITY_QUESTION_OPTIONS.clone();

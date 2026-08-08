@@ -6,6 +6,7 @@ package use_case.get_user_comments;
 public interface GetUserCommentsInputBoundary {
     /**
      * Executes the use case.
+     * @param username the username whose comments are loaded
      */
     void execute(String username);
 }

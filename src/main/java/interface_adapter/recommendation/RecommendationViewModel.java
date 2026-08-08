@@ -2,7 +2,9 @@ package interface_adapter.recommendation;
 
 import interface_adapter.StateModel;
 
-/** The View Model for the detailed recommendation screen. */
+/**
+ * The View Model for the detailed recommendation screen.
+ */
 public class RecommendationViewModel extends StateModel<RecommendationState> {
 
     public static final String VIEW_NAME = "recommendations";

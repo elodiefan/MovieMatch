@@ -23,16 +23,24 @@ import entity.StandardUser;
 import entity.User;
 import entity.UserLists;
 
-/** MongoDB Atlas implementation of UserDataAccessObject. */
+/**
+ * MongoDB Atlas implementation of UserDataAccessObject.
+ */
 public class MongoUserDataAccessObject implements UserDataAccessObject {
 
-    /** Default location of the connection settings. */
+    /**
+     * Default location of the connection settings.
+     */
     public static final String DEFAULT_PROPERTIES = "mongo.properties";
 
-    /** Most accounts one search will return, so a one-letter keyword stays cheap to draw. */
+    /**
+     * Most accounts one search will return, so a one-letter keyword stays cheap to draw.
+     */
     public static final int SEARCH_LIMIT = 50;
 
-    /** Mongo's regex option for ignoring case. */
+    /**
+     * Mongo's regex option for ignoring case.
+     */
     private static final String CASE_INSENSITIVE = "i";
 
     // Field names exactly as stored in MongoDB. Case matters.
@@ -55,15 +63,24 @@ public class MongoUserDataAccessObject implements UserDataAccessObject {
     private final MongoClient mongoClient;
     private final MongoCollection<Document> users;
 
-    /** Who is logged in right now. */
+    /**
+     * Who is logged in right now.
+     */
     private String currentUsername;
 
-    /** Connects using the settings in DEFAULT_PROPERTIES. */
+    /**
+     * Connects using the settings in DEFAULT_PROPERTIES.
+     */
     public MongoUserDataAccessObject() {
         this(DEFAULT_PROPERTIES);
     }
 
-    /** Connects using the settings in the given properties file. */
+    /**
+     * Connects using the settings in the given properties file.
+     *
+     * @param propertiesPath the properties path
+     * @throws RuntimeException if the properties file cannot be read
+     */
     public MongoUserDataAccessObject(String propertiesPath) {
         final Properties props = new Properties();
         try (InputStream in = new FileInputStream(propertiesPath)) {
@@ -85,7 +102,12 @@ public class MongoUserDataAccessObject implements UserDataAccessObject {
         return users.find(Filters.eq(USERNAME, username)).first() != null;
     }
 
-    /** Same check as #existsByName, under the name the login use case uses. */
+    /**
+     * Same check as #existsByName, under the name the login use case uses.
+     *
+     * @param username the username
+     * @return the exists by username
+     */
     @Override
     public boolean existsByUsername(String username) {
         return existsByName(username);
@@ -214,7 +236,12 @@ public class MongoUserDataAccessObject implements UserDataAccessObject {
         return blockedUsers;
     }
 
-    /** Returns the ids of everything on the user's watchlist or watch history. */
+    /**
+     * Returns the ids of everything on the user's watchlist or watch history.
+     *
+     * @param username the username
+     * @return the find engaged media ids
+     */
     @Override
     public Set<Integer> findEngagedMediaIds(String username) {
         final Set<Integer> mediaIds = new LinkedHashSet<>();
@@ -294,7 +321,12 @@ public class MongoUserDataAccessObject implements UserDataAccessObject {
 
     // ---------- Search for users ----------
 
-    /** Finds accounts whose username or display name contains the keyword, ignoring case. */
+    /**
+     * Finds accounts whose username or display name contains the keyword, ignoring case.
+     *
+     * @param keyword the keyword
+     * @return the search
+     */
     @Override
     public List<User> search(String keyword) {
         final String literal = Pattern.quote(keyword);
@@ -357,7 +389,12 @@ public class MongoUserDataAccessObject implements UserDataAccessObject {
 
     // ---------- Helpers ----------
 
-    /** Reads one field off the logged-in user's document. */
+    /**
+     * Reads one field off the logged-in user's document.
+     *
+     * @param field the field
+     * @return the current user field
+     */
     private String currentUserField(String field) {
         String value = null;
         if (currentUsername != null) {
@@ -369,7 +406,13 @@ public class MongoUserDataAccessObject implements UserDataAccessObject {
         return value;
     }
 
-    /** Reads one field off the specified user's document. */
+    /**
+     * Reads one field off the specified user's document.
+     *
+     * @param username the username
+     * @param field the field
+     * @return the user field
+     */
     private String userField(String username, String field) {
         String value = null;
         if (username != null) {
@@ -381,7 +424,12 @@ public class MongoUserDataAccessObject implements UserDataAccessObject {
         return value;
     }
 
-    /** Turns a MongoDB document into a User entity. */
+    /**
+     * Turns a MongoDB document into a User entity.
+     *
+     * @param doc the doc
+     * @return the to user
+     */
     private User toUser(Document doc) {
         return new StandardUser(
                 doc.getString(USERNAME),

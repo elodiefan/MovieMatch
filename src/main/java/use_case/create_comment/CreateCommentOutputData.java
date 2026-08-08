@@ -8,14 +8,16 @@ public final class CreateCommentOutputData {
     private final boolean created;
 
     /**
-     * Handles this review or comment operation.
+     * Creates output data for the create comment result.
+     * @param inputCreated whether the comment was created
      */
     public CreateCommentOutputData(final boolean inputCreated) {
         this.created = inputCreated;
     }
 
     /**
-     * Handles this review or comment operation.
+     * Returns whether the comment was created.
+     * @return true when the comment was created
      */
     public boolean isCreated() {
         return created;

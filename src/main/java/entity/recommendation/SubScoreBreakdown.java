@@ -4,30 +4,49 @@ import java.util.Collections;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-/** The individual factor values behind one candidate's final score. */
+/**
+ * The individual factor values behind one candidate's final score.
+ */
 public class SubScoreBreakdown {
 
     private final Map<String, Double> rawScores;
     private final Map<String, Double> weightedScores;
 
-    /** Creates a breakdown. */
+    /**
+     * Creates a breakdown.
+     *
+     * @param rawScores the raw scores
+     * @param weightedScores the weighted scores
+     */
     public SubScoreBreakdown(final Map<String, Double> rawScores,
                              final Map<String, Double> weightedScores) {
         this.rawScores = Collections.unmodifiableMap(new LinkedHashMap<>(rawScores));
         this.weightedScores = Collections.unmodifiableMap(new LinkedHashMap<>(weightedScores));
     }
 
-    /** Returns each factor's unweighted value. */
+    /**
+     * Returns each factor's unweighted value.
+     *
+     * @return the get raw scores
+     */
     public Map<String, Double> getRawScores() {
         return this.rawScores;
     }
 
-    /** Returns each factor's contribution to the total. */
+    /**
+     * Returns each factor's contribution to the total.
+     *
+     * @return the get weighted scores
+     */
     public Map<String, Double> getWeightedScores() {
         return this.weightedScores;
     }
 
-    /** Returns the name of the factor that contributed most to the total. */
+    /**
+     * Returns the name of the factor that contributed most to the total.
+     *
+     * @return the get strongest factor
+     */
     public String getStrongestFactor() {
         return this.weightedScores.entrySet().stream()
                 .max(Map.Entry.comparingByValue())

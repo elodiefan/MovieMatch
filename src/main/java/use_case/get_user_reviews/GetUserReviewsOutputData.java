@@ -13,6 +13,7 @@ public final class GetUserReviewsOutputData {
 
     /**
      * Creates output data for loaded user reviews.
+     * @param inputReviews the loaded user reviews
      */
     public GetUserReviewsOutputData(final List<UserReviewData>
                                             inputReviews) {
@@ -21,6 +22,7 @@ public final class GetUserReviewsOutputData {
 
     /**
      * Returns loaded user reviews.
+     * @return the loaded user reviews
      */
     public List<UserReviewData> getReviews() {
         return new ArrayList<>(reviews);
@@ -42,6 +44,15 @@ public final class GetUserReviewsOutputData {
 
         /**
          * Creates one user review row.
+         * @param reviewId the review id
+         * @param mediaId the media id
+         * @param mediaType the media type
+         * @param mediaTitle the media title
+         * @param rating the review rating
+         * @param reviewText the review text
+         * @param createdAt when the review was created
+         * @param updatedAt when the review was last updated
+         * @param likeCount the number of likes
          */
         public UserReviewData(final String reviewId, final int mediaId,
                               final String mediaType,

@@ -1,6 +1,8 @@
 package use_case.search_user;
 
-/** The Input Data for the Search User Use Case. */
+/**
+ * The Input Data for the Search User Use Case.
+ */
 public class SearchUserInputData {
 
     private final String keyword;

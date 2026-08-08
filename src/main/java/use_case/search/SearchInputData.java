@@ -19,6 +19,8 @@ public class SearchInputData {
 
     /**
      * Returns the search keyword.
+     *
+     * @return the get keyword
      */
     public String getKeyword() {
         return keyword;
@@ -26,6 +28,8 @@ public class SearchInputData {
 
     /**
      * Returns the first page this request should fetch.
+     *
+     * @return the get start page
      */
     public int getStartPage() {
         return startPage;

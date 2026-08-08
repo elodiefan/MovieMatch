@@ -24,13 +24,25 @@ import use_case.recommendation.WatchedMediaDataAccessInterface;
 import views.HomeRecommendationsPanel;
 import views.RecommendationView;
 
-/** Assembles the recommendation use case. */
+/**
+ * Assembles the recommendation use case.
+ */
 public final class RecommendationUseCaseFactory {
 
     private RecommendationUseCaseFactory() {
     }
 
-    /** Builds both recommendation screens over one interactor class. */
+    /**
+     * Builds both recommendation screens over one interactor class.
+     *
+     * @param viewManagerModel the view manager model
+     * @param homeStripViewModel the home strip view model
+     * @param detailedViewModel the detailed view model
+     * @param homeRecommendationsPanel the home recommendations panel
+     * @param recommendationView the recommendation view
+     * @param watchedMediaDataAccess the watched media data access
+     * @param reviewDataAccess the review data access
+     */
     public static void create(ViewManagerModel viewManagerModel,
                               RecommendationViewModel homeStripViewModel,
                               RecommendationViewModel detailedViewModel,
@@ -71,7 +83,11 @@ public final class RecommendationUseCaseFactory {
                 presenter, currentYear);
     }
 
-    /** Uses Gemini when a key is configured, and nothing at all when it is not. */
+    /**
+     * Uses Gemini when a key is configured, and nothing at all when it is not.
+     *
+     * @return the choose adjuster
+     */
     private static ScoreAdjuster chooseAdjuster() {
         final GeminiScoreAdjuster gemini = new GeminiScoreAdjuster();
         final ScoreAdjuster chosen;

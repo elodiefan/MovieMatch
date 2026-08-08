@@ -7,6 +7,7 @@ public interface AccessMessageChatInputBoundary {
 
     /**
      * Executes the access message chat use case.
+     * @param otherUsername the other user's username
      */
     void execute(String otherUsername);
 }

@@ -14,6 +14,8 @@ public final class FilterRequestModel {
 
     /**
      * Creates a request model for filtering search results.
+     * @param originalResults the unfiltered search results
+     * @param criteria the selected filter criteria
      */
     public FilterRequestModel(final List<Media> originalResults,
                               final FilterCriteria criteria) {
@@ -23,6 +25,7 @@ public final class FilterRequestModel {
 
     /**
      * Returns the unfiltered search results.
+     * @return the unfiltered search results
      */
     public List<Media> getOriginalResults() {
         return originalResults;
@@ -30,6 +33,7 @@ public final class FilterRequestModel {
 
     /**
      * Returns the selected filter criteria.
+     * @return the selected filter criteria
      */
     public FilterCriteria getCriteria() {
         return criteria;

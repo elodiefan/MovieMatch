@@ -18,6 +18,15 @@ public final class CreateReviewOutputData {
 
     /**
      * Creates output data for a created review.
+     * @param reviewId the review id
+     * @param authorUsername the author's username
+     * @param authorDisplayName the author's display name
+     * @param rating the review rating
+     * @param reviewText the review text
+     * @param createdAt when the review was created
+     * @param updatedAt when the review was last updated
+     * @param likeCount the number of likes
+     * @param source the review source
      */
     public CreateReviewOutputData(final String reviewId,
                                   final String authorUsername,

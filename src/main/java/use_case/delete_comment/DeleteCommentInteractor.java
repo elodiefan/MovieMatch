@@ -9,9 +9,13 @@ import entity.Comment;
  */
 public final class DeleteCommentInteractor
         implements DeleteCommentInputBoundary {
-    /** The comment data access object. */
+    /**
+     * The comment data access object.
+     */
     private final DeleteCommentDataAccessInterface commentDataAccessObject;
-    /** The presenter. */
+    /**
+     * The presenter.
+     */
     private final DeleteCommentOutputBoundary presenter;
 
     /**
@@ -23,6 +27,7 @@ public final class DeleteCommentInteractor
 
     /**
      * Creates a delete comment interactor with persistence.
+     * @param inputCommentDataAccessObject the DAO used to delete comments
      */
     public DeleteCommentInteractor(
             final DeleteCommentDataAccessInterface
@@ -32,6 +37,8 @@ public final class DeleteCommentInteractor
 
     /**
      * Handles this review or comment operation.
+     * @param inputCommentDataAccessObject the inputCommentDataAccessObject
+     * @param inputPresenter the inputPresenter
      */
     public DeleteCommentInteractor(
             final DeleteCommentDataAccessInterface inputCommentDataAccessObject,
@@ -62,6 +69,9 @@ public final class DeleteCommentInteractor
 
     /**
      * Deletes one persisted comment written by the given user.
+     * @param commentId the id of the comment to delete
+     * @param username the username of the user deleting the comment
+     * @return true if the comment was deleted
      */
     private boolean deleteComment(final String commentId,
                                  final String username) {
@@ -84,6 +94,10 @@ public final class DeleteCommentInteractor
 
     /**
      * Validates data needed to delete a persisted comment.
+     * @param commentId the comment id to validate
+     * @param username the username to validate
+     * @throws IllegalArgumentException if the comment id or username is blank
+     * @throws IllegalStateException if the comment DAO is not configured
      */
     private void validateDeleteCommentData(final String commentId,
                                            final String username) {
@@ -106,6 +120,10 @@ public final class DeleteCommentInteractor
 
     /**
      * Checks whether the comment can be deleted by the user.
+     * @param comment the comment to check
+     * @param commentId the id of the comment to delete
+     * @param username the username of the user deleting the comment
+     * @return true if the comment matches the id and author
      */
     private boolean canDeleteComment(final Comment comment,
                                      final String commentId,
@@ -122,6 +140,8 @@ public final class DeleteCommentInteractor
 
     /**
      * Checks whether a text value is empty or only whitespace.
+     * @param value the value to check
+     * @return true if the value is blank
      */
     private boolean isBlank(final String value) {
         return value == null || value.trim().isEmpty();
@@ -129,6 +149,8 @@ public final class DeleteCommentInteractor
 
     /**
      * Trims a text value, or returns an empty string if it is null.
+     * @param value the value to trim
+     * @return the trimmed value
      */
     private String trimToEmpty(final String value) {
         final String trimmedValue;

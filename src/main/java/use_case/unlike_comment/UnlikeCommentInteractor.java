@@ -5,9 +5,13 @@ package use_case.unlike_comment;
  */
 public final class UnlikeCommentInteractor
         implements UnlikeCommentInputBoundary {
-    /** The comment data access object. */
+    /**
+     * The comment data access object.
+     */
     private final UnlikeCommentDataAccessInterface commentDataAccessObject;
-    /** The presenter. */
+    /**
+     * The presenter.
+     */
     private final UnlikeCommentOutputBoundary presenter;
 
     /**
@@ -19,6 +23,7 @@ public final class UnlikeCommentInteractor
 
     /**
      * Creates an unlike comment interactor with persistence.
+     * @param inputCommentDataAccessObject the DAO used to unlike comments
      */
     public UnlikeCommentInteractor(
             final UnlikeCommentDataAccessInterface
@@ -28,6 +33,8 @@ public final class UnlikeCommentInteractor
 
     /**
      * Handles this review or comment operation.
+     * @param inputCommentDataAccessObject the inputCommentDataAccessObject
+     * @param inputPresenter the inputPresenter
      */
     public UnlikeCommentInteractor(
             final UnlikeCommentDataAccessInterface inputCommentDataAccessObject,
@@ -54,6 +61,9 @@ public final class UnlikeCommentInteractor
 
     /**
      * Removes a user's like from a persisted comment.
+     * @param commentId the id of the comment to unlike
+     * @param username the username of the user unliking the comment
+     * @return true if the comment was found and unliked
      */
     private boolean unlikeComment(final String commentId,
                                  final String username) {
@@ -66,6 +76,10 @@ public final class UnlikeCommentInteractor
 
     /**
      * Validates the data needed to unlike a persisted comment.
+     * @param commentId the comment id to validate
+     * @param username the username to validate
+     * @throws IllegalArgumentException if the comment id or username is blank
+     * @throws IllegalStateException if the comment DAO is not configured
      */
     private void validateUnlikeCommentData(final String commentId,
                                            final String username) {
@@ -88,6 +102,8 @@ public final class UnlikeCommentInteractor
 
     /**
      * Checks whether a text value is empty or only whitespace.
+     * @param value the value to check
+     * @return true if the value is blank
      */
     private boolean isBlank(final String value) {
         return value == null || value.trim().isEmpty();
@@ -95,6 +111,8 @@ public final class UnlikeCommentInteractor
 
     /**
      * Trims a text value, or returns an empty string if it is null.
+     * @param value the value to trim
+     * @return the trimmed value
      */
     private String trimToEmpty(final String value) {
         final String trimmedValue;

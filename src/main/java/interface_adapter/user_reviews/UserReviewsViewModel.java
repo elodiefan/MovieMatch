@@ -7,27 +7,49 @@ import interface_adapter.StateModel;
  */
 public final class UserReviewsViewModel extends StateModel<UserReviewsState> {
 
-    /** The view name. */
+    /**
+     * The view name.
+     */
     public static final String VIEW_NAME = "my reviews";
-    /** The title label. */
+    /**
+     * The title label.
+     */
     public static final String TITLE_LABEL = "My Reviews";
-    /** The reviews tab label. */
+    /**
+     * The reviews tab label.
+     */
     public static final String REVIEWS_TAB_LABEL = "Reviews";
-    /** The comments tab label. */
+    /**
+     * The comments tab label.
+     */
     public static final String COMMENTS_TAB_LABEL = "Comments";
-    /** The empty reviews message. */
+    /**
+     * The empty reviews message.
+     */
     public static final String EMPTY_REVIEWS_MESSAGE = "No reviews yet.";
-    /** The empty comments message. */
+    /**
+     * The empty comments message.
+     */
     public static final String EMPTY_COMMENTS_MESSAGE = "No comments yet.";
-    /** The edit button label. */
+    /**
+     * The edit button label.
+     */
     public static final String EDIT_BUTTON_LABEL = "Edit";
-    /** The delete button label. */
+    /**
+     * The delete button label.
+     */
     public static final String DELETE_BUTTON_LABEL = "Delete";
-    /** The like button label. */
+    /**
+     * The like button label.
+     */
     public static final String LIKE_BUTTON_LABEL = "Like";
-    /** The unlike button label. */
+    /**
+     * The unlike button label.
+     */
     public static final String UNLIKE_BUTTON_LABEL = "Unlike";
-    /** The back button label. */
+    /**
+     * The back button label.
+     */
     public static final String BACK_BUTTON_LABEL = "Back";
 
     /**

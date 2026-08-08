@@ -8,7 +8,9 @@ import interface_adapter.StateModel;
 public class LogMediaViewModel extends StateModel<LogMediaState> {
     /** Button label for watchlist logging. */
     public static final String WATCHLIST_BUTTON_LABEL = "Want to watch";
-    /** Button label for watch history logging. */
+    /**
+     * Button label for watch history logging.
+     */
     public static final String WATCH_HISTORY_BUTTON_LABEL =
             "Mark as watched";
 

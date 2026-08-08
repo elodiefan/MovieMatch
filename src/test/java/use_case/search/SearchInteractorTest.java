@@ -12,10 +12,14 @@ import org.junit.jupiter.api.Test;
 import entity.Media;
 import entity.Movie;
 
-/** Tests for the Search Interactor, and in particular for how much it fetches. */
+/**
+ * Tests for the Search Interactor, and in particular for how much it fetches.
+ */
 class SearchInteractorTest {
 
-    /** Records which pages were asked for and hands back fabricated results. */
+    /**
+     * Records which pages were asked for and hands back fabricated results.
+     */
     private static class FakePagedDataAccess implements SearchMediaDataAccess {
         private final int totalPages;
         private final int perPage;
@@ -43,7 +47,9 @@ class SearchInteractorTest {
         }
     }
 
-    /** Captures whatever the interactor reports. */
+    /**
+     * Captures whatever the interactor reports.
+     */
     private static class RecordingPresenter implements SearchOutputBoundary {
         private SearchOutputData success;
         private String failure;

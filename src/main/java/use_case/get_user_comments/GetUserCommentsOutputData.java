@@ -13,6 +13,7 @@ public final class GetUserCommentsOutputData {
 
     /**
      * Creates output data for loaded user comments.
+     * @param inputComments the loaded user comments
      */
     public GetUserCommentsOutputData(
             final List<UserCommentData> inputComments) {
@@ -21,6 +22,7 @@ public final class GetUserCommentsOutputData {
 
     /**
      * Returns loaded user comment summaries.
+     * @return the loaded user comment summaries
      */
     public List<UserCommentData> getComments() {
         return new ArrayList<>(comments);
@@ -40,6 +42,13 @@ public final class GetUserCommentsOutputData {
 
         /**
          * Creates one user comment row.
+         * @param commentId the comment id
+         * @param reviewId the review id
+         * @param mediaTitle the media title
+         * @param reviewText the review text
+         * @param commentText the comment text
+         * @param createdAt when the comment was created
+         * @param likeCount the number of likes
          */
         public UserCommentData(final String commentId, final String reviewId,
                                final String mediaTitle,

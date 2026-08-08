@@ -2,14 +2,18 @@ package entity.recommendation;
 
 import entity.Media;
 
-/** Scores a candidate on how recently it came out. */
+/**
+ * Scores a candidate on how recently it came out.
+ */
 public class RecencySubScore implements SubScore {
 
     private static final String NAME = "recency";
     private static final double OLDEST = 0.0;
     private static final double NEWEST = 1.0;
 
-    /** Creates the recency factor. */
+    /**
+     * Creates the recency factor.
+     */
     public RecencySubScore() {
         // Stateless: everything needed arrives through scoreFor.
     }

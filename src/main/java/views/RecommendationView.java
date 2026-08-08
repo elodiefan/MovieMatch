@@ -23,7 +23,9 @@ import interface_adapter.recommendation.RecommendationSection;
 import interface_adapter.recommendation.RecommendationState;
 import interface_adapter.recommendation.RecommendationViewModel;
 
-/** The full recommendation screen, grouped into genre sections. */
+/**
+ * The full recommendation screen, grouped into genre sections.
+ */
 public class RecommendationView extends JPanel implements PropertyChangeListener {
 
     private static final int SECTION_GAP = 14;
@@ -95,13 +97,21 @@ public class RecommendationView extends JPanel implements PropertyChangeListener
         this.add(actions, BorderLayout.SOUTH);
     }
 
-    /** Shows either the spinner or the results, never both. */
+    /**
+     * Shows either the spinner or the results, never both.
+     *
+     * @param card the card
+     */
     private void showCard(String card) {
         ((CardLayout) centre.getLayout()).show(centre, card);
         loadingPanel.setAnimating(LOADING_CARD.equals(card));
     }
 
-    /** Loads the grouped recommendations for a user, off the UI thread. */
+    /**
+     * Loads the grouped recommendations for a user, off the UI thread.
+     *
+     * @param forUsername the for username
+     */
     public void loadFor(String forUsername) {
         this.username = forUsername;
         reload();

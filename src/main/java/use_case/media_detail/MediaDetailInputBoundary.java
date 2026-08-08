@@ -7,6 +7,8 @@ public interface MediaDetailInputBoundary {
 
     /**
      * Displays details for the selected media.
+     *
+     * @param inputData the selected media
      */
     void execute(MediaDetailInputData inputData);
 

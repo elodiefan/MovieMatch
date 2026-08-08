@@ -16,6 +16,11 @@ public class DeleteAccountController {
 
     /**
      * Executes the Delete Account Use Case.
+     * @param username the username of the user logged in
+     * @param displayName the display name of the user logged in
+     * @param password the password of the user logged in
+     * @param securityQuestion the security question for the user's account
+     * @param securityAnswer the security answer for the user's account
      */
     public void execute(String username, String displayName, String password, String securityQuestion,
                         String securityAnswer) {

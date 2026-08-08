@@ -11,9 +11,13 @@ import entity.Review;
  */
 public final class GetUserReviewsInteractor
         implements GetUserReviewsInputBoundary {
-    /** The review data access object. */
+    /**
+     * The review data access object.
+     */
     private final GetUserReviewsDataAccessInterface reviewDataAccessObject;
-    /** The user reviews presenter. */
+    /**
+     * The user reviews presenter.
+     */
     private final GetUserReviewsOutputBoundary userReviewsPresenter;
 
     /**
@@ -25,6 +29,7 @@ public final class GetUserReviewsInteractor
 
     /**
      * Creates a user reviews interactor with persistence.
+     * @param inputReviewDataAccessObject the DAO used to load reviews
      */
     public GetUserReviewsInteractor(
             final GetUserReviewsDataAccessInterface
@@ -34,6 +39,8 @@ public final class GetUserReviewsInteractor
 
     /**
      * Creates a user reviews interactor with persistence and presentation.
+     * @param inputReviewDataAccessObject the DAO used to load reviews
+     * @param inputUserReviewsPresenter the output boundary
      */
     public GetUserReviewsInteractor(
             final GetUserReviewsDataAccessInterface inputReviewDataAccessObject,
@@ -44,6 +51,7 @@ public final class GetUserReviewsInteractor
 
     /**
      * Executes the use case and sends output through the output boundary.
+     * @param username the username whose reviews are loaded
      */
     @Override
     public void execute(final String username) {
@@ -64,6 +72,8 @@ public final class GetUserReviewsInteractor
 
     /**
      * Returns persisted reviews written by one user, ordered newest to oldest.
+     * @param username the username of the review author
+     * @return the user's matching reviews
      */
     private List<Review> getUserReviews(final String username) {
         final String trimmedUsername = trimToEmpty(username);
@@ -78,6 +88,9 @@ public final class GetUserReviewsInteractor
 
     /**
      * Validates the username needed to load persisted reviews.
+     * @param username the username to validate
+     * @throws IllegalArgumentException if the username is blank
+     * @throws IllegalStateException if the review DAO is not configured
      */
     private void validateUsername(final String username) {
         if (isBlank(username)) {
@@ -90,6 +103,7 @@ public final class GetUserReviewsInteractor
 
     /**
      * Validates that the output boundary has been configured.
+     * @throws IllegalStateException if the presenter is not configured
      */
     private void validateOutputBoundary() {
         if (userReviewsPresenter == null) {
@@ -100,6 +114,8 @@ public final class GetUserReviewsInteractor
 
     /**
      * Checks whether a text value is empty or only whitespace.
+     * @param value the value to check
+     * @return true if the value is blank
      */
     private boolean isBlank(final String value) {
         return value == null || value.trim().isEmpty();
@@ -107,6 +123,8 @@ public final class GetUserReviewsInteractor
 
     /**
      * Trims a text value, or returns an empty string if it is null.
+     * @param value the value to trim
+     * @return the trimmed value
      */
     private String trimToEmpty(final String value) {
         final String trimmedValue;

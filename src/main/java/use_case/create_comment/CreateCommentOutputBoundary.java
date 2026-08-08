@@ -5,12 +5,15 @@ package use_case.create_comment;
  */
 public interface CreateCommentOutputBoundary {
     /**
-     * Handles this review or comment operation.
+     * Prepares the success view after creating a comment.
+     * @param created whether the comment was created
      */
     void prepareSuccessView(boolean created);
 
     /**
      * Handles this review or comment operation.
+     * @param errorMessage the errorMessage
+     * @return the result
      */
     String prepareFailView(String errorMessage);
 }

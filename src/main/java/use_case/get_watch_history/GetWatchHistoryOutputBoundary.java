@@ -4,6 +4,7 @@ public interface GetWatchHistoryOutputBoundary {
 
     /**
      * Prepares the success view when calling the watch history use case.
+     * @param response the output boundary for the success view.
      */
     void prepareSuccessView(GetWatchHistoryOutputData response);
 

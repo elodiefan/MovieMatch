@@ -16,7 +16,9 @@ import interface_adapter.settings.SettingsController;
 import interface_adapter.settings.SettingsState;
 import interface_adapter.settings.SettingsViewModel;
 
-/** The View for changing display settings. */
+/**
+ * The View for changing display settings.
+ */
 public class SettingsView extends JPanel implements PropertyChangeListener {
 
     private static final int SLIDER_TICK_SPACING = 4;
@@ -29,7 +31,9 @@ public class SettingsView extends JPanel implements PropertyChangeListener {
     private final JSlider textSizeSlider;
     private final JLabel textSizeValue;
 
-    /** The panel holding every screen, so a change reaches all of them. */
+    /**
+     * The panel holding every screen, so a change reaches all of them.
+     */
     private Component appearanceRoot;
     private Runnable backHandler;
 
@@ -120,6 +124,8 @@ public class SettingsView extends JPanel implements PropertyChangeListener {
 
     /**
      * Sets the component a settings change should restyle, which is the panel holding every screen rather than this one.
+     *
+     * @param appearanceRoot the appearance root
      */
     public void setAppearanceRoot(Component appearanceRoot) {
         this.appearanceRoot = appearanceRoot;

@@ -554,6 +554,9 @@ public class SearchResultView extends JPanel
      * what has been loaded from what exists. Filters only ever narrow what is
      * already loaded, so when one is active the total is not the useful number
      * to compare against.
+     *
+     * @param state the state
+     * @return the count message
      */
     private String countMessage(SearchResultState state) {
         final int shown = state.getResults().size();

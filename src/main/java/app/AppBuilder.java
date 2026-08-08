@@ -170,11 +170,15 @@ public class AppBuilder {
 
     private static final String WINDOW_TITLE = "MovieMatch";
 
-    /** Comfortable size on a laptop screen; the window is still resizable. */
+    /**
+     * Comfortable size on a laptop screen; the window is still resizable.
+     */
     private static final int DEFAULT_WIDTH = 900;
     private static final int DEFAULT_HEIGHT = 640;
 
-    /** Below this the denser screens start clipping. */
+    /**
+     * Below this the denser screens start clipping.
+     */
     private static final int MIN_WIDTH = 640;
     private static final int MIN_HEIGHT = 480;
 
@@ -235,7 +239,9 @@ public class AppBuilder {
     private RecommendationView recommendationView;
     private HomeRecommendationsPanel homeRecommendationsPanel;
 
-    /** One per screen, because the strip and the full list show different amounts. */
+    /**
+     * One per screen, because the strip and the full list show different amounts.
+     */
     private RecommendationViewModel homeStripRecommendationViewModel;
     private RecommendationViewModel detailedRecommendationViewModel;
     private MediaDetailView mediaDetailView;
@@ -250,6 +256,8 @@ public class AppBuilder {
 
     /**
      * Adds the Delete Account View to the application.
+     *
+     * @return the add delete account view
      */
     public AppBuilder addDeleteAccountView() {
         deleteAccountViewModel = new DeleteAccountViewModel();
@@ -260,6 +268,8 @@ public class AppBuilder {
 
     /**
      * Adds the Get Lists View to the application.
+     *
+     * @return the add get lists view
      */
     public AppBuilder addGetListsView() {
         getListsViewModel = new GetListsViewModel();
@@ -270,6 +280,8 @@ public class AppBuilder {
 
     /**
      * Adds the Home Page View to the application.
+     *
+     * @return the add home page view
      */
     public AppBuilder addHomePageView() {
         homePageViewModel = new HomePageViewModel();
@@ -280,6 +292,8 @@ public class AppBuilder {
 
     /**
      * Adds the Login View to the application.
+     *
+     * @return the add login view
      */
     public AppBuilder addLoginView() {
         loginViewModel = new LoginViewModel();
@@ -290,6 +304,8 @@ public class AppBuilder {
 
     /**
      * Adds the Logout View to the application.
+     *
+     * @return the add logout view
      */
     public AppBuilder addLogoutView() {
         logoutViewModel = new LogoutViewModel();
@@ -301,6 +317,8 @@ public class AppBuilder {
 
     /**
      * Adds the Other Account View to the application.
+     *
+     * @return the add other account view
      */
     public AppBuilder addOtherAccountView() {
         otherAccountViewModel = new OtherAccountViewModel();
@@ -316,6 +334,8 @@ public class AppBuilder {
      * every button on another user's profile throws instead of doing anything.
      * Messaging is passed as null because that use case is still being built;
      * the controller and view both check before using it.
+     *
+     * @return the add other account use case
      */
     public AppBuilder addOtherAccountUseCase() {
         // The presenter accepts a reviews view model but currently discards it,
@@ -333,6 +353,8 @@ public class AppBuilder {
 
     /**
      * Adds the Personal Account View to the application.
+     *
+     * @return the add personal account view
      */
     public AppBuilder addPersonalAccountView() {
         personalAccountViewModel = new PersonalAccountViewModel();
@@ -343,6 +365,8 @@ public class AppBuilder {
 
     /**
      * Adds the Reset Password View to the application.
+     *
+     * @return the add reset password view
      */
     public AppBuilder addResetPasswordView() {
         resetPasswordViewModel = new ResetPasswordViewModel();
@@ -355,6 +379,8 @@ public class AppBuilder {
 
     /**
      * Adds the My Reviews View to the application.
+     *
+     * @return the add user reviews view
      */
     public AppBuilder addUserReviewsView() {
         userReviewsViewModel = new UserReviewsViewModel();
@@ -369,6 +395,8 @@ public class AppBuilder {
 
     /**
      * Adds the Security Question View to the application.
+     *
+     * @return the add security question view
      */
     public AppBuilder addSecurityQuestionView() {
         securityQuestionViewModel = new SecurityQuestionViewModel();
@@ -381,6 +409,8 @@ public class AppBuilder {
 
     /**
      * Adds the Search User View to the application.
+     *
+     * @return the add search user view
      */
     public AppBuilder addSearchUserView() {
         searchUserViewModel = new SearchUserViewModel();
@@ -391,6 +421,8 @@ public class AppBuilder {
 
     /**
      * Adds the Signup View to the application.
+     *
+     * @return the add signup view
      */
     public AppBuilder addSignupView() {
         signupViewModel = new SignupViewModel();
@@ -401,6 +433,8 @@ public class AppBuilder {
 
     /**
      * Adds the Delete Account Use Case to the application.
+     *
+     * @return the add delete account use case
      */
     public AppBuilder addDeleteAccountUseCase() {
         final DeleteAccountOutputBoundary deleteAccountOutputBoundary = new DeleteAccountPresenter(viewManagerModel,
@@ -415,6 +449,8 @@ public class AppBuilder {
 
     /**
      * Adds the Get Watchlist Use Case to the application.
+     *
+     * @return the add get watchlist use case
      */
     public AppBuilder addGetWatchlistUseCase() {
         final GetWatchlistOutputBoundary getWatchlistOutputBoundary = new GetListsPresenter(viewManagerModel,
@@ -429,6 +465,8 @@ public class AppBuilder {
 
     /**
      * Adds the Get Watch History Use Case to the application.
+     *
+     * @return the add get watch history use case
      */
     public AppBuilder addGetWatchHistoryUseCase() {
         final GetWatchHistoryOutputBoundary getWatchHistoryOutputBoundary = new GetListsPresenter(viewManagerModel,
@@ -443,6 +481,8 @@ public class AppBuilder {
 
     /**
      * Adds the Get Blocked Users Use Case to the application.
+     *
+     * @return the add get blocked users use case
      */
     public AppBuilder addGetBlockedUsersUseCase() {
         final GetBlockedUsersOutputBoundary getBlockedUsersOutputBoundary = new GetListsPresenter(viewManagerModel,
@@ -458,6 +498,8 @@ public class AppBuilder {
 //    // TODO: For Yidan/Kiersten -> Implement search view files.
     /**
      * Adds the Home Page Use Case to the application.
+     *
+     * @return the add get profile use case
      */
     public AppBuilder addGetProfileUseCase() {
         final GetProfileOutputBoundary userPresenter = new HomePagePresenter(viewManagerModel,
@@ -492,6 +534,8 @@ public class AppBuilder {
      *
      * The assembly lives in SearchUserUseCaseFactory, following the
      * convention Yidan set with SearchUseCaseFactory.
+     *
+     * @return the add search user use case
      */
     public AppBuilder addSearchUserUseCase() {
         final GetProfileOutputBoundary getProfileOutputBoundary = new HomePagePresenter(viewManagerModel,
@@ -511,6 +555,8 @@ public class AppBuilder {
 
     /**
      * Adds the Login Use Case to the application.
+     *
+     * @return the add login use case
      */
     public AppBuilder addLoginUseCase() {
         final LoginOutputBoundary loginOutputBoundary = new LoginPresenter(viewManagerModel,
@@ -525,6 +571,8 @@ public class AppBuilder {
 
     /**
      * Adds the Personal Account Use Case to the application.
+     *
+     * @return the add personal account use case
      */
     public AppBuilder addPersonalAccountUseCase() {
         final GetProfileOutputBoundary getProfileOutputBoundary = new HomePagePresenter(viewManagerModel,
@@ -556,6 +604,8 @@ public class AppBuilder {
      *
      * Every piece of this use case already existed but was never assembled, so the
      * Log Out button on the personal account page did nothing.
+     *
+     * @return the add logout use case
      */
     public AppBuilder addLogoutUseCase() {
         final LogoutOutputBoundary logoutOutputBoundary = new LogoutPresenter(viewManagerModel,
@@ -587,6 +637,8 @@ public class AppBuilder {
 
     /**
      * Adds the User Reviews Use Case to the application.
+     *
+     * @return the add user reviews use case
      */
     public AppBuilder addUserReviewsUseCase() {
         final UserReviewsPresenter userReviewsPresenter = new UserReviewsPresenter(userReviewsViewModel);
@@ -622,6 +674,8 @@ public class AppBuilder {
      * is saved" — the presenter calls it so it does not need to know which screen
      * comes next. Here that means sending the user back to the login screen so
      * they can sign in with the password they just chose.
+     *
+     * @return the add reset password use case
      */
     public AppBuilder addResetPasswordUseCase() {
         final ResetPasswordOutputBoundary resetPasswordOutputBoundary = new ResetPasswordPresenter(
@@ -643,6 +697,8 @@ public class AppBuilder {
      * A LockoutTracker records failed answers per account and locks it after too
      * many wrong tries; InMemoryLockoutTracker keeps that in memory, so it
      * resets when the app restarts.
+     *
+     * @return the add security question use case
      */
     public AppBuilder addSecurityQuestionUseCase() {
         final SecurityQuestionOutputBoundary securityQuestionOutputBoundary = new SecurityQuestionPresenter(
@@ -660,6 +716,8 @@ public class AppBuilder {
 
     /**
      * Adds the Signup Use Case to the application.
+     *
+     * @return the add signup use case
      */
     public AppBuilder addSignupUseCase() {
         final SignupOutputBoundary signupOutputBoundary =
@@ -675,6 +733,8 @@ public class AppBuilder {
 
     /**
      * Adds the Search View to the application.
+     *
+     * @return the add search view
      */
     public AppBuilder addSearchView() {
         searchViewModel = new SearchViewModel();
@@ -690,6 +750,8 @@ public class AppBuilder {
 
     /**
      * Adds the Search Result View to the application.
+     *
+     * @return the add recommendation view
      */
     public AppBuilder addRecommendationView() {
         homeStripRecommendationViewModel = new RecommendationViewModel();
@@ -739,6 +801,8 @@ public class AppBuilder {
 
     /**
      * Adds the Settings Use Case to the application.
+     *
+     * @return the add settings use case
      */
     public AppBuilder addSettingsUseCase() {
         final SettingsOutputBoundary settingsOutputBoundary = new SettingsPresenter(settingsViewModel);
@@ -753,6 +817,8 @@ public class AppBuilder {
 
     /**
      * Adds the Search Result View to the application.
+     *
+     * @return the add search result view
      */
     public AppBuilder addSearchResultView() {
         searchResultViewModel = new SearchResultViewModel();
@@ -764,6 +830,8 @@ public class AppBuilder {
 
     /**
      * Adds the Search Use Case to the application.
+     *
+     * @return the add search use case
      */
     public AppBuilder addSearchUseCase() {
         SearchUseCaseFactory.create(
@@ -778,6 +846,8 @@ public class AppBuilder {
 
     /**
      * Adds the Filter Use Case to the application.
+     *
+     * @return the add filter use case
      */
     public AppBuilder addFilterUseCase() {
         final FilterOutputBoundary filterPresenter =
@@ -796,6 +866,8 @@ public class AppBuilder {
 
     /**
      * Adds the Media Detail View to the application.
+     *
+     * @return the add media detail view
      */
     public AppBuilder addMediaDetailView() {
         mediaDetailViewModel = new MediaDetailViewModel();
@@ -820,6 +892,8 @@ public class AppBuilder {
 
     /**
      * Adds the Media Detail Use Case to the application.
+     *
+     * @return the add media detail use case
      */
     public AppBuilder addMediaDetailUseCase() {
         final MediaDetailOutputBoundary mediaDetailPresenter =
@@ -863,6 +937,8 @@ public class AppBuilder {
 
     /**
      * Creates the JFrame for the application and initially sets the SignupView to be displayed.
+     *
+     * @return the build
      */
     public JFrame build() {
         final JFrame application = new JFrame(WINDOW_TITLE);

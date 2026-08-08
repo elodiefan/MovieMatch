@@ -6,6 +6,7 @@ package use_case.get_review_comments;
 public interface GetReviewCommentsInputBoundary {
     /**
      * Executes the use case.
+     * @param reviewId the review id
      */
     void execute(String reviewId);
 }

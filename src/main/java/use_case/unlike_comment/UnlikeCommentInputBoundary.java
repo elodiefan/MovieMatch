@@ -6,6 +6,8 @@ package use_case.unlike_comment;
 public interface UnlikeCommentInputBoundary {
     /**
      * Executes the use case.
+     * @param commentId the comment id
+     * @param username the username unliking the comment
      */
     void execute(String commentId, String username);
 }

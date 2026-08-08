@@ -16,7 +16,11 @@ import interface_adapter.reset_password.ResetPasswordController;
 import interface_adapter.reset_password.ResetPasswordState;
 import interface_adapter.reset_password.ResetPasswordViewModel;
 
-/** The View for choosing a new password, shown after the user has answered their security question correctly. */
+/**
+ * The View for choosing a new password, shown after the user has answered their
+ * security question correctly. It displays which account is being changed, takes
+ * the new password twice, and reports success or a validation error.
+ */
 public class ResetPasswordView extends JPanel implements PropertyChangeListener {
 
     private final String viewName = "reset password";

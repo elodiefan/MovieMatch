@@ -6,11 +6,14 @@ package use_case.get_user_comments;
 public interface GetUserCommentsOutputBoundary {
     /**
      * Prepares the success view.
+     * @param outputData the output data
      */
     void prepareUserCommentsSuccessView(GetUserCommentsOutputData outputData);
 
     /**
      * Prepares the failure view.
+     * @param errorMessage the error message
+     * @return the display-safe error message
      */
     String prepareFailView(String errorMessage);
 }

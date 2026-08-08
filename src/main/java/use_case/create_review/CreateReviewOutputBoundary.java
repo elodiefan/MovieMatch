@@ -5,12 +5,15 @@ package use_case.create_review;
  */
 public interface CreateReviewOutputBoundary {
     /**
-     * Handles this review or comment operation.
+     * Prepares the success view after creating a review.
+     * @param review the created review output data
      */
     void prepareSuccessView(CreateReviewOutputData review);
 
     /**
      * Handles this review or comment operation.
+     * @param errorMessage the errorMessage
+     * @return the result
      */
     String prepareFailView(String errorMessage);
 }

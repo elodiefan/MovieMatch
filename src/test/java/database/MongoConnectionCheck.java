@@ -3,7 +3,16 @@ package database;
 import entity.StandardUser;
 import entity.User;
 
-/** Runnable check that the MongoDB connection and the change-password code work. */
+/**
+ * Runnable check that the MongoDB connection and the change-password code work.
+ * <p>
+ * <strong>How to run:</strong> right-click this file in IntelliJ and choose
+ * "Run MongoConnectionCheck.main()". You need a {@code mongo.properties} file in
+ * the project root first â€” see the MongoDB guide for what goes in it.
+ * <p>
+ * It uses its own throwaway account ({@value #TEST_USERNAME}) so it never
+ * touches real user data, and deletes nothing: run it as often as you like.
+ */
 public final class MongoConnectionCheck {
 
     private static final String TEST_USERNAME = "test-user";
@@ -14,7 +23,10 @@ public final class MongoConnectionCheck {
         // Utility class: not meant to be instantiated.
     }
 
-    /** Runs the check. */
+    /**
+     * Runs the check.
+     * @param args ignored
+     */
     public static void main(String[] args) {
         System.out.println("Connecting to MongoDB Atlas...");
 
@@ -39,7 +51,7 @@ public final class MongoConnectionCheck {
             System.out.println("      securityQuestion = " + saved.getSecurityQuestion());
             System.out.println("      answer           = " + saved.getAnswer());
 
-            // 3. Change the password — the part this branch is really testing.
+            // 3. Change the password â€” the part this branch is really testing.
             dao.changePassword(TEST_USERNAME, NEW_PASSWORD);
             System.out.println("3. changed password to: " + NEW_PASSWORD);
 

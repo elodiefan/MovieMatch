@@ -36,6 +36,7 @@ public class OtherAccountController {
 
     /**
      * Executes block user use case.
+     * @param otherUsername the username of the other user
      */
     public void executeBlockUser(String otherUsername) {
         blockUserInteractor.execute(otherUsername);
@@ -43,6 +44,8 @@ public class OtherAccountController {
 
     /**
      * Executes the get watchlist view use case.
+     * @param username the username of the user.
+     * @param displayName the display name of the user.
      */
     public void switchToWatchlistView(String username, String displayName) {
         viewManagerModel.switchView(getListsViewName);
@@ -51,6 +54,8 @@ public class OtherAccountController {
 
     /**
      * Executes the get watch history view use case.
+     * @param username the username of the user.
+     * @param displayName the display name of the user.
      */
     public void switchToWatchHistoryView(String username, String displayName) {
         viewManagerModel.switchView(getListsViewName);
@@ -61,6 +66,7 @@ public class OtherAccountController {
 
     /**
      * Opens the chat with this user, if messaging has been wired up yet.
+     * @param otherUsername the user to message
      */
     public void goToMessages(String otherUsername) {
         // Messaging is still being built, so this may not be connected yet.
@@ -79,6 +85,7 @@ public class OtherAccountController {
 
     /**
      * Says whether the message button can do anything yet.
+     * @return true once messaging is wired up
      */
     public boolean isMessagingAvailable() {
         return accessMessageChatInteractor != null;

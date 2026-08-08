@@ -39,6 +39,7 @@ public class InMemoryReviewDataAccessObject implements
 
     /**
      * Saves a review.
+     * @param review the review to save
      */
     public void saveReview(Review review) {
         reviews.put(review.getReviewId(), review);
@@ -47,6 +48,8 @@ public class InMemoryReviewDataAccessObject implements
 
     /**
      * Returns whether a review exists.
+     * @param reviewId the review id to check
+     * @return true if a review with this id exists
      */
     public boolean existsByReviewId(String reviewId) {
         return reviews.containsKey(reviewId);
@@ -54,6 +57,8 @@ public class InMemoryReviewDataAccessObject implements
 
     /**
      * Returns a review by id.
+     * @param reviewId the review id to search for
+     * @return the review, if it exists
      */
     public Optional<Review> getReviewById(String reviewId) {
         return Optional.ofNullable(reviews.get(reviewId));
@@ -65,6 +70,8 @@ public class InMemoryReviewDataAccessObject implements
 
     /**
      * Returns all reviews written by a user.
+     * @param username the author's username
+     * @return the matching reviews
      */
     public List<Review> getReviewsByUsername(String username) {
         final List<Review> matchingReviews = new ArrayList<>();
@@ -81,6 +88,9 @@ public class InMemoryReviewDataAccessObject implements
 
     /**
      * Returns all reviews for one media item.
+     * @param mediaId the media id
+     * @param mediaType the media type
+     * @return the matching reviews
      */
     public List<Review> getReviewsByMedia(int mediaId, String mediaType) {
         final List<Review> matchingReviews = new ArrayList<>();
@@ -96,6 +106,11 @@ public class InMemoryReviewDataAccessObject implements
 
     /**
      * Updates an existing review.
+     * @param reviewId the review id
+     * @param newRating the updated rating
+     * @param newReviewText the updated review text
+     * @param newUpdatedAt the updated timestamp
+     * @return true if the review was updated
      */
     public boolean editReview(String reviewId, double newRating, String newReviewText,
                               ZonedDateTime newUpdatedAt) {
@@ -111,6 +126,8 @@ public class InMemoryReviewDataAccessObject implements
 
     /**
      * Deletes a review.
+     * @param reviewId the review id
+     * @return true if the review was deleted
      */
     public boolean deleteReview(String reviewId) {
         final boolean reviewExists = existsByReviewId(reviewId);
@@ -131,6 +148,9 @@ public class InMemoryReviewDataAccessObject implements
 
     /**
      * Adds a user's like to a review.
+     * @param reviewId the review id
+     * @param username the username liking the review
+     * @return true if the review exists
      */
     public boolean likeReview(String reviewId, String username) {
         final Optional<Review> review = getReviewById(reviewId);
@@ -145,6 +165,9 @@ public class InMemoryReviewDataAccessObject implements
 
     /**
      * Removes a user's like from a review.
+     * @param reviewId the review id
+     * @param username the username unliking the review
+     * @return true if the review exists
      */
     public boolean unlikeReview(String reviewId, String username) {
         final Optional<Review> review = getReviewById(reviewId);
@@ -159,6 +182,7 @@ public class InMemoryReviewDataAccessObject implements
 
     /**
      * Returns all saved reviews.
+     * @return all reviews
      */
     public List<Review> getAllReviews() {
         return new ArrayList<>(reviews.values());
@@ -174,6 +198,9 @@ public class InMemoryReviewDataAccessObject implements
         return userRatings;
     }
 
+    /**
+     * Closes the in-memory review store.
+     */
     public void close() {
         // No resources to free for an in-memory store.
     }

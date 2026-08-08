@@ -6,6 +6,8 @@ package use_case.like_review;
 public interface LikeReviewInputBoundary {
     /**
      * Executes the use case.
+     * @param reviewId the review id
+     * @param username the username liking the review
      */
     void execute(String reviewId, String username);
 }

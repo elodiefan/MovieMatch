@@ -27,6 +27,8 @@ public class GetWatchlistInteractor implements GetWatchlistInputBoundary {
 
     /**
      * Switches from list view to account view.
+     *
+     * @param getListsInputData the get lists input data
      */
     @Override
     public void switchToAccountView(GetWatchlistInputData getListsInputData) {

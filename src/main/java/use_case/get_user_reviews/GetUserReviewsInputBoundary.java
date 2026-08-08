@@ -6,6 +6,7 @@ package use_case.get_user_reviews;
 public interface GetUserReviewsInputBoundary {
     /**
      * Executes the use case.
+     * @param username the username whose reviews are loaded
      */
     void execute(String username);
 }

@@ -7,11 +7,14 @@ import use_case.log_media.LogMediaOutputData;
  * Presenter for logging media to user lists.
  */
 public class LogMediaPresenter implements LogMediaOutputBoundary {
-    /** The log media view model. */
+    /**
+     * The log media view model.
+     */
     private final LogMediaViewModel logMediaViewModel;
 
     /**
      * Creates a presenter for log media output.
+     * @param inputLogMediaViewModel the log media view model
      */
     public LogMediaPresenter(
             final LogMediaViewModel inputLogMediaViewModel) {

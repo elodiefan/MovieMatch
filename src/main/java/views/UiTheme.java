@@ -31,59 +31,93 @@ import javax.swing.JSlider;
 import javax.swing.border.TitledBorder;
 import javax.swing.plaf.FontUIResource;
 
-/** The application's look and feel. */
+/**
+ * The application's look and feel.
+ */
 public final class UiTheme {
 
-    /** Page background. */
+    /**
+     * Page background.
+     */
     public static final Color BACKGROUND = new Color(0xF4, 0xF6, 0xF9);
 
-    /** Panels and fields that sit on top of the background. */
+    /**
+     * Panels and fields that sit on top of the background.
+     */
     public static final Color SURFACE = new Color(0xFF, 0xFF, 0xFF);
 
-    /** Body text. */
+    /**
+     * Body text.
+     */
     public static final Color TEXT = new Color(0x1F, 0x24, 0x30);
 
-    /** Secondary text, for hints and captions. */
+    /**
+     * Secondary text, for hints and captions.
+     */
     public static final Color MUTED_TEXT = new Color(0x66, 0x6E, 0x7D);
 
-    /** The main accent, used for chrome and selection. */
+    /**
+     * The main accent, used for chrome and selection.
+     */
     public static final Color ACCENT = new Color(0x3D, 0x4B, 0x66);
 
-    /** Hairline separators and borders. */
+    /**
+     * Hairline separators and borders.
+     */
     public static final Color BORDER = new Color(0xD8, 0xDD, 0xE5);
 
-    /** Dark page background. */
+    /**
+     * Dark page background.
+     */
     public static final Color DARK_BACKGROUND = new Color(0x24, 0x28, 0x30);
 
-    /** Dark panels and fields. */
+    /**
+     * Dark panels and fields.
+     */
     public static final Color DARK_SURFACE = new Color(0x2E, 0x33, 0x3D);
 
-    /** Text on a dark background. */
+    /**
+     * Text on a dark background.
+     */
     public static final Color DARK_TEXT = new Color(0xE6, 0xE9, 0xEF);
 
-    /** The accent used to tint dark chrome. */
+    /**
+     * The accent used to tint dark chrome.
+     */
     public static final Color DARK_ACCENT = new Color(0x54, 0x63, 0x82);
 
-    /** Separators on a dark background. */
+    /**
+     * Separators on a dark background.
+     */
     public static final Color DARK_BORDER = new Color(0x3F, 0x46, 0x52);
 
-    /** Padding inside a screen, so content is not flush against the window. */
+    /**
+     * Padding inside a screen, so content is not flush against the window.
+     */
     public static final int PAGE_PADDING = 18;
 
-    /** How wide the content column is allowed to get. */
+    /**
+     * How wide the content column is allowed to get.
+     */
     public static final int CONTENT_MAX_WIDTH = 720;
 
-    /** Vertical breathing room between rows of a screen. */
+    /**
+     * Vertical breathing room between rows of a screen.
+     */
     public static final int ROW_GAP = 12;
 
-    /** Marks a row this class has already sized, so it can be resized later. */
+    /**
+     * Marks a row this class has already sized, so it can be resized later.
+     */
     private static final String PINNED = "UiTheme.pinnedRow";
 
     private static final String PREFERRED_FONT = "Segoe UI";
     private static final int BASE_FONT_SIZE = 15;
     private static final int TITLE_FONT_SIZE = 28;
 
-    /** Kept so a text size change can rescale the heading with everything else. */
+    /**
+     * Kept so a text size change can rescale the heading with everything else.
+     */
     private static final String[] FONT_KEYS = {"Button.font", "Label.font", "TextField.font",
         "PasswordField.font", "CheckBox.font", "RadioButton.font", "ComboBox.font",
         "List.font", "Table.font", "TextArea.font", "TitledBorder.font", "Slider.font"};
@@ -91,7 +125,9 @@ public final class UiTheme {
     private UiTheme() {
     }
 
-    /** Installs the look and feel. */
+    /**
+     * Installs the look and feel.
+     */
     public static void install() {
         try {
             for (UIManager.LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
@@ -115,7 +151,13 @@ public final class UiTheme {
         UIManager.put("TextField.contentMargins", new Insets(6, 8, 6, 8));
     }
 
-    /** Switches the whole application between the light and dark palettes and changes its text size. */
+    /**
+     * Switches the whole application between the light and dark palettes and changes its text size.
+     *
+     * @param root the root
+     * @param darkMode the dark mode
+     * @param textSize the text size
+     */
     public static void applyAppearance(Component root, boolean darkMode, int textSize) {
         putPalette(darkMode);
         putFontSize(textSize);
@@ -189,7 +231,12 @@ public final class UiTheme {
         UIManager.put("defaultFont", base);
     }
 
-    /** Sets the font size on a component and everything inside it. */
+    /**
+     * Sets the font size on a component and everything inside it.
+     *
+     * @param root the root
+     * @param textSize the text size
+     */
     private static void applyFontSize(Component root, int textSize) {
         final Font current = root.getFont();
         if (current != null) {
@@ -227,7 +274,11 @@ public final class UiTheme {
         }
     }
 
-    /** Refreshes the pinned row heights after the text size has changed. */
+    /**
+     * Refreshes the pinned row heights after the text size has changed.
+     *
+     * @param root the root
+     */
     private static void repinRows(Component root) {
         if (root instanceof JComponent) {
             final JComponent component = (JComponent) root;
@@ -243,17 +294,34 @@ public final class UiTheme {
         }
     }
 
-    /** Builds a font, falling back to the platform default if the preferred family is not installed. */
+    /**
+     * Builds a font, falling back to the platform default if the preferred family is not installed.
+     *
+     * @param style the style
+     * @param size the size
+     * @return the base font
+     */
     public static Font baseFont(int style, int size) {
         return new Font(PREFERRED_FONT, style, size);
     }
 
-    /** Styles a label as a screen heading. */
+    /**
+     * Styles a label as a screen heading.
+     *
+     * @param label the label
+     * @return the as title
+     */
     public static JLabel asTitle(JLabel label) {
         return asTitle(label, BASE_FONT_SIZE);
     }
 
-    /** Styles a label as a screen heading, scaled to the current text size. */
+    /**
+     * Styles a label as a screen heading, scaled to the current text size.
+     *
+     * @param label the label
+     * @param textSize the text size
+     * @return the as title
+     */
     public static JLabel asTitle(JLabel label, int textSize) {
         final int headingSize = TITLE_FONT_SIZE + (textSize - BASE_FONT_SIZE);
         label.setFont(baseFont(Font.BOLD, headingSize));
@@ -261,19 +329,31 @@ public final class UiTheme {
         return label;
     }
 
-    /** Reports whether the dark palette is currently installed. */
+    /**
+     * Reports whether the dark palette is currently installed.
+     *
+     * @return the dark mode active
+     */
     public static boolean darkModeActive() {
         return DARK_BACKGROUND.equals(UIManager.get("control"));
     }
 
-    /** Gives a screen breathing room and a consistent background. */
+    /**
+     * Gives a screen breathing room and a consistent background.
+     *
+     * @param view the view
+     */
     public static void padScreen(JComponent view) {
         view.setBorder(BorderFactory.createEmptyBorder(
                 PAGE_PADDING, PAGE_PADDING, PAGE_PADDING, PAGE_PADDING));
         view.setBackground(darkModeActive() ? DARK_BACKGROUND : BACKGROUND);
     }
 
-    /** Stops a vertical screen from spreading its content into the whole window. */
+    /**
+     * Stops a vertical screen from spreading its content into the whole window.
+     *
+     * @param view the view
+     */
     public static void tidyVerticalScreen(JPanel view) {
         if (!(view.getLayout() instanceof BoxLayout)) {
             return;
@@ -324,12 +404,21 @@ public final class UiTheme {
         }
     }
 
-    /** Styles the first label on a screen as its heading. */
+    /**
+     * Styles the first label on a screen as its heading.
+     *
+     * @param view the view
+     */
     public static void styleFirstLabelAsTitle(Container view) {
         styleFirstLabelAsTitle(view, BASE_FONT_SIZE);
     }
 
-    /** Styles the first label on a screen as its heading, at the current text size. */
+    /**
+     * Styles the first label on a screen as its heading, at the current text size.
+     *
+     * @param view the view
+     * @param textSize the text size
+     */
     public static void styleFirstLabelAsTitle(Container view, int textSize) {
         final JLabel first = findFirstLabel(view);
         if (first != null) {
@@ -351,12 +440,21 @@ public final class UiTheme {
         return result;
     }
 
-    /** Applies the palette to a component and everything inside it. */
+    /**
+     * Applies the palette to a component and everything inside it.
+     *
+     * @param root the root
+     */
     public static void applyTo(Component root) {
         applyTo(root, darkModeActive());
     }
 
-    /** Applies one of the two palettes to a component and everything inside it. */
+    /**
+     * Applies one of the two palettes to a component and everything inside it.
+     *
+     * @param root the root
+     * @param darkMode the dark mode
+     */
     public static void applyTo(Component root, boolean darkMode) {
         final Color background = darkMode ? DARK_BACKGROUND : BACKGROUND;
         final Color surface = darkMode ? DARK_SURFACE : SURFACE;

@@ -11,6 +11,8 @@ public interface GetUserReviewsDataAccessInterface {
 
     /**
      * Gets all reviews written by one user.
+     * @param username the author's username
+     * @return the reviews written by the user
      */
     List<Review> getReviewsByUsername(String username);
 }

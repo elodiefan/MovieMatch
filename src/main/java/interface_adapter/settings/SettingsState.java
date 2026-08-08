@@ -1,6 +1,8 @@
 package interface_adapter.settings;
 
-/** The state for the Settings View. */
+/**
+ * The state for the Settings View.
+ */
 public class SettingsState {
 
     private boolean darkMode;

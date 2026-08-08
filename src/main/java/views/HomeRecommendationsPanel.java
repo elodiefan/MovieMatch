@@ -22,7 +22,9 @@ import interface_adapter.recommendation.RecommendationRow;
 import interface_adapter.recommendation.RecommendationState;
 import interface_adapter.recommendation.RecommendationViewModel;
 
-/** The short recommendation strip on the home page. */
+/**
+ * The short recommendation strip on the home page.
+ */
 public class HomeRecommendationsPanel extends JPanel implements PropertyChangeListener {
 
     private static final String SEE_ALL_LABEL = "See all recommendations";
@@ -39,13 +41,19 @@ public class HomeRecommendationsPanel extends JPanel implements PropertyChangeLi
     private final JLabel message;
     private final JButton seeAllButton;
 
-    /** Stops a second load firing while the first is still running. */
+    /**
+     * Stops a second load firing while the first is still running.
+     */
     private boolean loading;
 
-    /** Who the strip is showing, so the full list can be opened for them too. */
+    /**
+     * Who the strip is showing, so the full list can be opened for them too.
+     */
     private String username = "";
 
-    /** Told about a request for the full list, since that screen loads separately. */
+    /**
+     * Told about a request for the full list, since that screen loads separately.
+     */
     private Consumer<String> seeAllHandler;
 
     /** Handles the screen switch to the full recommendation view. */
@@ -87,7 +95,11 @@ public class HomeRecommendationsPanel extends JPanel implements PropertyChangeLi
         loadingPanel.setAnimating(LOADING_CARD.equals(card));
     }
 
-    /** Asks for this user's recommendations, off the UI thread. */
+    /**
+     * Asks for this user's recommendations, off the UI thread.
+     *
+     * @param username the username
+     */
     public void loadFor(String username) {
         if (loading || recommendationController == null
                 || username == null || username.isBlank()) {
@@ -186,7 +198,11 @@ public class HomeRecommendationsPanel extends JPanel implements PropertyChangeLi
         this.recommendationController = recommendationController;
     }
 
-    /** Called with the username when the user asks for the full list. */
+    /**
+     * Called with the username when the user asks for the full list.
+     *
+     * @param seeAllHandler the see all handler
+     */
     public void setSeeAllHandler(Consumer<String> seeAllHandler) {
         this.seeAllHandler = seeAllHandler;
     }

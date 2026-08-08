@@ -18,7 +18,9 @@ import use_case.search_user.SearchUserDataAccess;
 import use_case.security_question.SecurityQuestionUserDataAccessInterface;
 import use_case.signup.SignupUserDataAccessInterface;
 
-/** The storage contract for the whole app. */
+/**
+ * The storage contract for the whole app.
+ */
 public interface UserDataAccessObject extends
         AccessMessageChatUserDataAccessInterface,
         BlockUserUserDataAccessInterface,
@@ -38,6 +40,8 @@ public interface UserDataAccessObject extends
         SignupUserDataAccessInterface,
         WatchedMediaDataAccessInterface {
 
-    /** Releases any resources held by this data store, such as an open database connection. */
+    /**
+     * Releases any resources held by this data store, such as an open database connection.
+     */
     void close();
 }
