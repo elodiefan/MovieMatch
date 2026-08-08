@@ -2,12 +2,16 @@ package entity.recommendation;
 
 import entity.Media;
 
-/** Scores a candidate on how much of its cast and crew the user already enjoys. */
+/**
+ * Scores a candidate on how much of its cast and crew the user already enjoys.
+ */
 public class CastOverlapSubScore implements SubScore {
 
     private static final String NAME = "cast";
 
-    /** Creates the cast overlap factor. */
+    /**
+     * Creates the cast overlap factor.
+     */
     public CastOverlapSubScore() {
         // Stateless: everything needed arrives through scoreFor.
     }

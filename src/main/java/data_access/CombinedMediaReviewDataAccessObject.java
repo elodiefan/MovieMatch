@@ -11,13 +11,20 @@ import use_case.review.get_media_reviews.GetMediaReviewsDataAccessInterface;
  */
 public final class CombinedMediaReviewDataAccessObject
         implements GetMediaReviewsDataAccessInterface {
-    /** External review source. */
+    /**
+     * External review source.
+     */
     private final GetMediaReviewsDataAccessInterface externalReviewDataAccess;
-    /** MovieMatch review source. */
+    /**
+     * MovieMatch review source.
+     */
     private final GetMediaReviewsDataAccessInterface localReviewDataAccess;
 
     /**
      * Creates a combined media review data access object.
+     *
+     * @param inputExternalReviewDataAccess the external review data access
+     * @param inputLocalReviewDataAccess the MovieMatch review data access
      */
     public CombinedMediaReviewDataAccessObject(
             final GetMediaReviewsDataAccessInterface
@@ -38,6 +45,10 @@ public final class CombinedMediaReviewDataAccessObject
 
     /**
      * Adds external TMDB reviews when the API is available.
+     *
+     * @param reviews the combined review list
+     * @param mediaId the media id
+     * @param mediaType the media type
      */
     private void addExternalReviews(final List<Review> reviews,
                                     final int mediaId,
@@ -54,6 +65,10 @@ public final class CombinedMediaReviewDataAccessObject
 
     /**
      * Adds MovieMatch reviews.
+     *
+     * @param reviews the combined review list
+     * @param mediaId the media id
+     * @param mediaType the media type
      */
     private void addLocalReviews(final List<Review> reviews,
                                  final int mediaId,

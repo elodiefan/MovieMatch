@@ -9,11 +9,13 @@ import use_case.get_lists.GetListsInputData;
 public interface GetBlockedUsersInputBoundary {
     /**
      * Executes the get watchlist use case.
+     * @param getListsInputData the input data for the get watchlist use case.
      */
     void execute(GetListsInputData getListsInputData);
 
     /**
      * Executes the switch to account view use case.
+     * @param getListsInputData the input date for the use case.
      */
     void switchToAccountView(GetListsInputData getListsInputData);
 }

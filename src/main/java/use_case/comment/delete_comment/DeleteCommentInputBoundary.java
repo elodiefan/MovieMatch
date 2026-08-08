@@ -6,6 +6,7 @@ package use_case.comment.delete_comment;
 public interface DeleteCommentInputBoundary {
     /**
      * Executes the use case.
+     * @param inputData the input data
      */
     void execute(DeleteCommentInputData inputData);
 }

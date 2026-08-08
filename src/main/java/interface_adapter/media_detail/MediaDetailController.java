@@ -18,6 +18,8 @@ public class MediaDetailController {
 
     /**
      * Displays details for the selected media.
+     *
+     * @param media the selected media
      */
     public void execute(Media media) {
         final MediaDetailInputData inputData =

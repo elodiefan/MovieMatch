@@ -8,16 +8,20 @@ public interface BlockUserUserDataAccessInterface {
 
     /**
      * Checks whether the current user has already blocked the other user.
+     * @param otherUsername the username of the other user
+     * @return return whether other user already in current user's block list
      */
     boolean alreadyBlocked(String otherUsername);
 
     /**
      * Adds the other user to the current user's block list.
+     * @param otherUsername the username of the other user
      */
     void addToBlockList(String otherUsername);
 
     /**
      * Removes the other user from the current user's block list.
+     * @param otherUsername the username of the other user
      */
     void removeFromBlockList(String otherUsername);
 }

@@ -7,21 +7,34 @@ import java.util.List;
  * State for the media reviews panel.
  */
 public final class MediaReviewsState {
-    /** The media id. */
+    /**
+     * The media id.
+     */
     private int mediaId;
-    /** The media type. */
+    /**
+     * The media type.
+     */
     private String mediaType = "";
-    /** The media title. */
+    /**
+     * The media title.
+     */
     private String mediaTitle = "";
-    /** The reviews. */
+    /**
+     * The reviews.
+     */
     private List<MediaReviewRow> reviews = new ArrayList<>();
-    /** The selected review id. */
+    /**
+     * The selected review id.
+     */
     private String selectedReviewId = "";
-    /** The media reviews error. */
+    /**
+     * The media reviews error.
+     */
     private String mediaReviewsError;
 
     /**
      * Returns the media id.
+     * @return the media id
      */
     public int getMediaId() {
         return mediaId;
@@ -29,6 +42,7 @@ public final class MediaReviewsState {
 
     /**
      * Sets the media id.
+     * @param inputMediaId the media id
      */
     public void setMediaId(final int inputMediaId) {
         this.mediaId = inputMediaId;
@@ -36,6 +50,7 @@ public final class MediaReviewsState {
 
     /**
      * Returns the media type.
+     * @return the media type
      */
     public String getMediaType() {
         return mediaType;
@@ -43,6 +58,7 @@ public final class MediaReviewsState {
 
     /**
      * Sets the media type.
+     * @param inputMediaType the media type
      */
     public void setMediaType(final String inputMediaType) {
         this.mediaType = inputMediaType;
@@ -50,6 +66,7 @@ public final class MediaReviewsState {
 
     /**
      * Returns the media title.
+     * @return the media title
      */
     public String getMediaTitle() {
         return mediaTitle;
@@ -57,6 +74,7 @@ public final class MediaReviewsState {
 
     /**
      * Sets the media title.
+     * @param inputMediaTitle the media title
      */
     public void setMediaTitle(final String inputMediaTitle) {
         this.mediaTitle = inputMediaTitle;
@@ -64,6 +82,7 @@ public final class MediaReviewsState {
 
     /**
      * Returns the displayed review rows.
+     * @return a copy of the review rows
      */
     public List<MediaReviewRow> getReviews() {
         return new ArrayList<>(reviews);
@@ -71,6 +90,7 @@ public final class MediaReviewsState {
 
     /**
      * Sets the displayed review rows.
+     * @param inputReviews the review rows
      */
     public void setReviews(final List<MediaReviewRow> inputReviews) {
         this.reviews = new ArrayList<>(inputReviews);
@@ -78,6 +98,7 @@ public final class MediaReviewsState {
 
     /**
      * Returns the selected review id.
+     * @return the selected review id
      */
     public String getSelectedReviewId() {
         return selectedReviewId;
@@ -85,6 +106,7 @@ public final class MediaReviewsState {
 
     /**
      * Sets the selected review id.
+     * @param inputSelectedReviewId the selected review id
      */
     public void setSelectedReviewId(final String inputSelectedReviewId) {
         this.selectedReviewId = inputSelectedReviewId;
@@ -92,6 +114,7 @@ public final class MediaReviewsState {
 
     /**
      * Returns the current media reviews error message.
+     * @return the error message
      */
     public String getMediaReviewsError() {
         return mediaReviewsError;
@@ -99,6 +122,7 @@ public final class MediaReviewsState {
 
     /**
      * Sets the current media reviews error message.
+     * @param inputMediaReviewsError the error message
      */
     public void setMediaReviewsError(final String inputMediaReviewsError) {
         this.mediaReviewsError = inputMediaReviewsError;

@@ -44,6 +44,7 @@ public class LoggedInState {
 
     /**
      * Records why deleting the account failed, so the logged-in view can show it.
+     * @param deleteAccountError the explanation of the failure
      */
     public void deleteAccountError(String deleteAccountError) {
         this.deleteAccountError = deleteAccountError;

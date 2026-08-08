@@ -28,6 +28,8 @@ public class SearchOutputData {
 
     /**
      * Returns how many results exist in total, not how many have been fetched.
+     *
+     * @return the get total results
      */
     public int getTotalResults() {
         return totalResults;
@@ -35,6 +37,8 @@ public class SearchOutputData {
 
     /**
      * Returns the search results.
+     *
+     * @return the get results
      */
     public List<Media> getResults() {
         return results;
@@ -42,6 +46,8 @@ public class SearchOutputData {
 
     /**
      * Returns the keyword these results are for, so more can be requested.
+     *
+     * @return the get keyword
      */
     public String getKeyword() {
         return keyword;
@@ -49,6 +55,8 @@ public class SearchOutputData {
 
     /**
      * Returns the page a further request should start from.
+     *
+     * @return the get next page
      */
     public int getNextPage() {
         return nextPage;
@@ -56,6 +64,8 @@ public class SearchOutputData {
 
     /**
      * Returns whether the source has more pages left.
+     *
+     * @return the is more available
      */
     public boolean isMoreAvailable() {
         return moreAvailable;
@@ -64,6 +74,8 @@ public class SearchOutputData {
     /**
      * Returns whether these results extend the previous ones rather than
      * replacing them.
+     *
+     * @return the is appending
      */
     public boolean isAppending() {
         return appending;

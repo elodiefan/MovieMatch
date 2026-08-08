@@ -43,6 +43,10 @@ public class DatabaseSearchMediaDataAccess
 
     /**
      * The local databases are not paged, so everything is one page.
+     *
+     * @param keyword the keyword
+     * @param page the page
+     * @return the search page
      */
     @Override
     public MediaPage searchPage(String keyword, int page) {

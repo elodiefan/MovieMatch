@@ -13,6 +13,7 @@ public class AccessMessageChatInteractor implements AccessMessageChatInputBounda
 
     /**
      * Executes the access message chat use case.
+     * @param accessMessageChatInputData the input data
      */
     @Override
     public void execute(AccessMessageChatInputData accessMessageChatInputData) {

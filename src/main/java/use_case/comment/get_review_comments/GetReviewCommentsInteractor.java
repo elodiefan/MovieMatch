@@ -10,9 +10,13 @@ import entity.Comment;
  */
 public final class GetReviewCommentsInteractor
         implements GetReviewCommentsInputBoundary {
-    /** The comment data access object. */
+    /**
+     * The comment data access object.
+     */
     private final GetReviewCommentsDataAccessInterface commentDataAccessObject;
-    /** The presenter. */
+    /**
+     * The presenter.
+     */
     private final GetReviewCommentsOutputBoundary presenter;
 
     /**
@@ -24,6 +28,7 @@ public final class GetReviewCommentsInteractor
 
     /**
      * Creates a comments interactor with persistence.
+     * @param inputCommentDataAccessObject the DAO used to load comments
      */
     public GetReviewCommentsInteractor(
             final GetReviewCommentsDataAccessInterface
@@ -33,6 +38,8 @@ public final class GetReviewCommentsInteractor
 
     /**
      * Handles this review or comment operation.
+     * @param inputCommentDataAccessObject the inputCommentDataAccessObject
+     * @param inputPresenter the inputPresenter
      */
     public GetReviewCommentsInteractor(
             final GetReviewCommentsDataAccessInterface
@@ -60,6 +67,8 @@ public final class GetReviewCommentsInteractor
 
     /**
      * Returns persisted comments on one review, ordered from oldest to newest.
+     * @param reviewId the review id to load comments for
+     * @return the comments that belong to the review
      */
     private List<Comment> getReviewComments(final String reviewId) {
         final String trimmedReviewId = trimToEmpty(reviewId);
@@ -73,6 +82,7 @@ public final class GetReviewCommentsInteractor
 
     /**
      * Validates the review id needed to load persisted comments.
+     * @param reviewId the review id to validate
      */
     private void validateReviewId(final String reviewId) {
         if (isBlank(reviewId)) {
@@ -92,6 +102,8 @@ public final class GetReviewCommentsInteractor
 
     /**
      * Checks whether a text value is empty or only whitespace.
+     * @param value the value to check
+     * @return true if the value is blank
      */
     private boolean isBlank(final String value) {
         return value == null || value.trim().isEmpty();
@@ -99,6 +111,8 @@ public final class GetReviewCommentsInteractor
 
     /**
      * Trims a text value, or returns an empty string if it is null.
+     * @param value the value to trim
+     * @return the trimmed value
      */
     private String trimToEmpty(final String value) {
         final String trimmedValue;

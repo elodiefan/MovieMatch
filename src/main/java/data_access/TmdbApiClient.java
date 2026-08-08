@@ -31,6 +31,11 @@ public class TmdbApiClient {
     /**
      * Searches for movies and TV shows from TMDB.
      * ...
+     *
+     * @param keyword the keyword
+     * @param keyword.trim() the keyword.trim()
+     * @param StandardCharsets.UTF_8 the standard charsets. u t f_8
+     * @return the search multi
      */
     public String searchMulti(String keyword, int page)
             throws IOException {
@@ -54,6 +59,11 @@ public class TmdbApiClient {
      * a page of it can yield nothing at all and its result count bears little
      * relation to how many films and shows there are. These endpoints return
      * only what the application can actually show.
+     *
+     * @param keyword the keyword
+     * @param page the page
+     * @return the search movies
+     * @throws IOException if the operation fails
      */
     public String searchMovies(String keyword, int page) throws IOException {
         return sendGetRequest("/search/movie?query=" + encode(keyword) + "&page=" + page);
@@ -61,6 +71,11 @@ public class TmdbApiClient {
 
     /**
      * Searches for TV shows only.
+     *
+     * @param keyword the keyword
+     * @param page the page
+     * @return the search tv shows
+     * @throws IOException if the operation fails
      */
     public String searchTvShows(String keyword, int page) throws IOException {
         return sendGetRequest("/search/tv?query=" + encode(keyword) + "&page=" + page);
@@ -75,6 +90,11 @@ public class TmdbApiClient {
      *
      * Used to build recommendation candidates for someone whose taste profile
      * points at particular genres.
+     *
+     * @param genreIds the genre ids
+     * @param page the page
+     * @return the discover movies
+     * @throws IOException if the operation fails
      */
     public String discoverMovies(String genreIds, int page) throws IOException {
         return sendGetRequest("/discover/movie?with_genres=" + genreIds
@@ -83,6 +103,11 @@ public class TmdbApiClient {
 
     /**
      * Finds popular TV shows in the given genres.
+     *
+     * @param genreIds the genre ids
+     * @param page the page
+     * @return the discover tv shows
+     * @throws IOException if the operation fails
      */
     public String discoverTvShows(String genreIds, int page) throws IOException {
         return sendGetRequest("/discover/tv?with_genres=" + genreIds
@@ -94,6 +119,10 @@ public class TmdbApiClient {
      *
      * This is the fallback for a user with nothing in their lists yet, who has
      * no taste profile to narrow the search with.
+     *
+     * @param page the page
+     * @return the get popular movies
+     * @throws IOException if the operation fails
      */
     public String getPopularMovies(int page) throws IOException {
         return sendGetRequest("/movie/popular?page=" + page);
@@ -101,6 +130,10 @@ public class TmdbApiClient {
 
     /**
      * Returns the TV shows that are popular right now.
+     *
+     * @param page the page
+     * @return the get popular tv shows
+     * @throws IOException if the operation fails
      */
     public String getPopularTvShows(int page) throws IOException {
         return sendGetRequest("/tv/popular?page=" + page);
@@ -109,6 +142,9 @@ public class TmdbApiClient {
     /**
      * Gets the official movie genre list from TMDB.
      * ...
+     *
+     * @return the get movie genres
+     * @throws IOException if the operation fails
      */
     public String getMovieGenres() throws IOException {
         return sendGetRequest(
@@ -119,6 +155,9 @@ public class TmdbApiClient {
     /**
      * Gets the official TV-show genre list from TMDB.
      * ...
+     *
+     * @return the get tv genres
+     * @throws IOException if the operation fails
      */
     public String getTvGenres() throws IOException {
         return sendGetRequest(
@@ -130,7 +169,11 @@ public class TmdbApiClient {
      * Sends an authenticated GET request to TMDB.
      * As mentioned in TMDB API Reference, when response = 200, it is a seuccessful
      * response for GET endpoint.
-     *  ...
+     * ...
+     *
+     * @param path the path
+     * @return the send get request
+     * @throws IOException if the operation fails
      */
     private String sendGetRequest(String path) throws IOException {
         validateAccessToken();
@@ -173,6 +216,8 @@ public class TmdbApiClient {
 
     /**
      * Checks whether the TMDB token is available.
+     *
+     * @throws IOException if the operation fails
      */
     private void validateAccessToken() throws IOException {
         if (accessToken == null
@@ -185,6 +230,10 @@ public class TmdbApiClient {
 
     /**
      * Gets complete movie details and credits from TMDB.
+     *
+     * @param movieId the movie id
+     * @return the get movie details
+     * @throws IOException if the operation fails
      */
     public String getMovieDetails(int movieId) throws IOException {
         final String path =
@@ -196,6 +245,10 @@ public class TmdbApiClient {
 
     /**
      * Gets reviews for one movie from TMDB.
+     *
+     * @param movieId the movie id
+     * @return the get movie reviews
+     * @throws IOException if the operation fails
      */
     public String getMovieReviews(int movieId) throws IOException {
         return sendGetRequest("/movie/" + movieId + "/reviews");
@@ -203,6 +256,10 @@ public class TmdbApiClient {
 
     /**
      * Gets complete TV-show details and credits from TMDB.
+     *
+     * @param tvShowId the tv show id
+     * @return the get tv show details
+     * @throws IOException if the operation fails
      */
     public String getTvShowDetails(int tvShowId) throws IOException {
         final String path =
@@ -214,6 +271,10 @@ public class TmdbApiClient {
 
     /**
      * Gets reviews for one TV show from TMDB.
+     *
+     * @param tvShowId the tv show id
+     * @return the get tv show reviews
+     * @throws IOException if the operation fails
      */
     public String getTvShowReviews(int tvShowId) throws IOException {
         return sendGetRequest("/tv/" + tvShowId + "/reviews");

@@ -11,12 +11,16 @@ import entity.StandardUser;
 import entity.User;
 import entity.UserLists;
 
-/** In-memory implementation of UserDataAccessObject. */
+/**
+ * In-memory implementation of UserDataAccessObject.
+ */
 public class InMemoryUserDataAccessObject implements UserDataAccessObject {
 
     private final Map<String, User> users = new HashMap<>();
 
-    /** Watchlist and watch history ids, kept per user for the offline store. */
+    /**
+     * Watchlist and watch history ids, kept per user for the offline store.
+     */
     private final Map<String, Set<Integer>> engagedMediaIds = new HashMap<>();
 
     @Override
@@ -33,7 +37,12 @@ public class InMemoryUserDataAccessObject implements UserDataAccessObject {
         return users.containsKey(username);
     }
 
-    /** Same check as #existsByName, under the name the login use case uses. */
+    /**
+     * Same check as #existsByName, under the name the login use case uses.
+     *
+     * @param username the username
+     * @return the exists by username
+     */
     @Override
     public boolean existsByUsername(String username) {
         return existsByName(username);
@@ -142,7 +151,12 @@ public class InMemoryUserDataAccessObject implements UserDataAccessObject {
 
     // ---------- Search for users ----------
 
-    /** Finds accounts whose username or display name contains the keyword, ignoring case. */
+    /**
+     * Finds accounts whose username or display name contains the keyword, ignoring case.
+     *
+     * @param keyword the keyword
+     * @return the search
+     */
     @Override
     public List<User> search(String keyword) {
         final String needle = keyword.toLowerCase();
@@ -200,6 +214,9 @@ public class InMemoryUserDataAccessObject implements UserDataAccessObject {
 
     /**
      * Remembers the id as well as the display line, since the lists themselves are kept as text and recommendations need something to match on.
+     *
+     * @param username the username
+     * @param mediaId the media id
      */
     private void recordEngaged(String username, int mediaId) {
         engagedMediaIds.computeIfAbsent(username, key -> new LinkedHashSet<>()).add(mediaId);

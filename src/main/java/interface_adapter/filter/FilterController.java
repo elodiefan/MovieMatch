@@ -26,6 +26,8 @@ public class FilterController {
 
     /**
      * Executes the Filter Use Case.
+     *
+     * @param criteria the selected filter criteria
      */
     public void execute(FilterCriteria criteria) {
         final SearchResultState state =

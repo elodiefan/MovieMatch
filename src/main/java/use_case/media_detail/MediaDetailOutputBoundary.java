@@ -7,11 +7,15 @@ public interface MediaDetailOutputBoundary {
 
     /**
      * Prepares the media detail view.
+     *
+     * @param outputData the selected media details
      */
     void prepareSuccessView(MediaDetailOutputData outputData);
 
     /**
      * Prepares an error view.
+     *
+     * @param error the error message
      */
     void prepareFailView(String error);
 

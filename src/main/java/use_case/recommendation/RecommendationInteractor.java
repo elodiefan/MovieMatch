@@ -14,10 +14,14 @@ import entity.recommendation.TasteProfile;
 import entity.recommendation.TasteProfileBuilder;
 import entity.recommendation.WeightedScoreCalculator;
 
-/** Produces recommendations by running the seven steps of the algorithm. */
+/**
+ * Produces recommendations by running the seven steps of the algorithm.
+ */
 public class RecommendationInteractor implements RecommendationInputBoundary {
 
-    /** How many extra candidates beyond the limit are offered to the adjuster. */
+    /**
+     * How many extra candidates beyond the limit are offered to the adjuster.
+     */
     private static final int SHORTLIST_MARGIN = 5;
 
     private static final String NO_CANDIDATES =
@@ -35,7 +39,15 @@ public class RecommendationInteractor implements RecommendationInputBoundary {
     private final ScoringWeights weights;
     private final int currentYear;
 
-    /** Creates an interactor. */
+    /**
+     * Creates an interactor.
+     *
+     * @param userDataAccess the user data access
+     * @param catalogue the catalogue
+     * @param adjuster the adjuster
+     * @param presenter the presenter
+     * @param currentYear the current year
+     */
     public RecommendationInteractor(final RecommendationDataAccessInterface userDataAccess,
                                     final MediaCatalogueDataAccessInterface catalogue,
                                     final ScoreAdjuster adjuster,
@@ -76,6 +88,9 @@ public class RecommendationInteractor implements RecommendationInputBoundary {
 
     /**
      * Turns the user's ratings into a taste profile, ignoring anything they rated below the threshold and anything the catalogue no longer holds.
+     *
+     * @param ratings the ratings
+     * @return the build profile
      */
     private TasteProfile buildProfile(final List<UserRating> ratings) {
         final TasteProfileBuilder builder = new TasteProfileBuilder();
@@ -88,7 +103,15 @@ public class RecommendationInteractor implements RecommendationInputBoundary {
         return builder.build();
     }
 
-    /** Scores, refines, ranks and packages the candidates. */
+    /**
+     * Scores, refines, ranks and packages the candidates.
+     *
+     * @param username the username
+     * @param inputData the input data
+     * @param profile the profile
+     * @param candidates the candidates
+     * @return the rank and present
+     */
     private RecommendationOutputData rankAndPresent(final String username,
                                                     final RecommendationInputData inputData,
                                                     final TasteProfile profile,
@@ -118,7 +141,14 @@ public class RecommendationInteractor implements RecommendationInputBoundary {
         return new RecommendationOutputData(username, mapped, sections);
     }
 
-    /** Assembles what the scorers need to judge one candidate. */
+    /**
+     * Assembles what the scorers need to judge one candidate.
+     *
+     * @param profile the profile
+     * @param friends the friends
+     * @param candidate the candidate
+     * @return the context for
+     */
     private ScoringContext contextFor(final TasteProfile profile, final List<String> friends,
                                       final Media candidate) {
         final List<Double> friendRatings = this.userDataAccess

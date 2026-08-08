@@ -2,16 +2,22 @@ package entity.recommendation;
 
 import entity.Media;
 
-/** Scores a candidate on how well it is regarded generally. */
+/**
+ * Scores a candidate on how well it is regarded generally.
+ */
 public class PopularitySubScore implements SubScore {
 
-    /** TMDB's average rating runs from 0 to 10. */
+    /**
+     * TMDB's average rating runs from 0 to 10.
+     */
     private static final double MAX_TMDB_RATING = 10.0;
 
     private static final String NAME = "popularity";
     private static final double LOWEST = 0.0;
 
-    /** Creates the popularity factor. */
+    /**
+     * Creates the popularity factor.
+     */
     public PopularitySubScore() {
         // Stateless: everything needed arrives through scoreFor.
     }

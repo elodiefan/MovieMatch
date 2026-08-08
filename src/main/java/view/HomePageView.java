@@ -41,7 +41,9 @@ public class HomePageView extends JPanel implements PropertyChangeListener {
     private final JLabel recommendationsPlaceholder;
     private final JScrollPane recommendationsScroll;
 
-    /** Swapped in for the placeholder once recommendations are wired up. */
+    /**
+     * Swapped in for the placeholder once recommendations are wired up.
+     */
     private HomeRecommendationsPanel recommendationsPanel;
 
     private final JButton searchButton;
@@ -158,6 +160,8 @@ public class HomePageView extends JPanel implements PropertyChangeListener {
 
     /**
      * Puts the live recommendation strip where the placeholder was.
+     *
+     * @param recommendationsPanel the recommendations panel
      */
     public void setRecommendationsPanel(HomeRecommendationsPanel recommendationsPanel) {
         this.recommendationsPanel = recommendationsPanel;
