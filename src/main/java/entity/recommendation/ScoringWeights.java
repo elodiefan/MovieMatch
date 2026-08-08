@@ -1,30 +1,48 @@
 package entity.recommendation;
 
-/** How much each factor counts toward a candidate's final score. */
+/**
+ * How much each factor counts toward a candidate's final score.
+ */
 public class ScoringWeights {
 
-    /** Weight of genre overlap in the default weighting. */
+    /**
+     * Weight of genre overlap in the default weighting.
+     */
     public static final double DEFAULT_GENRE = 0.40;
 
-    /** Weight of cast and crew overlap in the default weighting. */
+    /**
+     * Weight of cast and crew overlap in the default weighting.
+     */
     public static final double DEFAULT_CAST = 0.20;
 
-    /** Weight of TMDB popularity in the default weighting. */
+    /**
+     * Weight of TMDB popularity in the default weighting.
+     */
     public static final double DEFAULT_POPULARITY = 0.15;
 
-    /** Weight of friends' ratings in the default weighting. */
+    /**
+     * Weight of friends' ratings in the default weighting.
+     */
     public static final double DEFAULT_FRIEND = 0.15;
 
-    /** Weight of how recently the title came out, in the default weighting. */
+    /**
+     * Weight of how recently the title came out, in the default weighting.
+     */
     public static final double DEFAULT_RECENCY = 0.10;
 
-    /** How many years it takes a title to decay to a recency score of zero. */
+    /**
+     * How many years it takes a title to decay to a recency score of zero.
+     */
     public static final int DEFAULT_RECENCY_WINDOW_YEARS = 15;
 
-    /** Weights must total this, so that scores stay within [0, 1]. */
+    /**
+     * Weights must total this, so that scores stay within [0, 1].
+     */
     private static final double REQUIRED_TOTAL = 1.0;
 
-    /** Floating-point slack allowed when checking the total. */
+    /**
+     * Floating-point slack allowed when checking the total.
+     */
     private static final double TOLERANCE = 1.0E-9;
 
     private final double genre;
@@ -34,7 +52,16 @@ public class ScoringWeights {
     private final double recency;
     private final int recencyWindowYears;
 
-    /** Creates a weighting. */
+    /**
+     * Creates a weighting.
+     *
+     * @param genre the genre
+     * @param cast the cast
+     * @param popularity the popularity
+     * @param friend the friend
+     * @param recency the recency
+     * @param recencyWindowYears the recency window years
+     */
     public ScoringWeights(final double genre, final double cast, final double popularity,
                           final double friend, final double recency, final int recencyWindowYears) {
         final double total = genre + cast + popularity + friend + recency;
@@ -50,38 +77,66 @@ public class ScoringWeights {
         this.recencyWindowYears = recencyWindowYears;
     }
 
-    /** Returns the weighting described in the algorithm document. */
+    /**
+     * Returns the weighting described in the algorithm document.
+     *
+     * @return the create default
+     */
     public static ScoringWeights createDefault() {
         return new ScoringWeights(DEFAULT_GENRE, DEFAULT_CAST, DEFAULT_POPULARITY,
                 DEFAULT_FRIEND, DEFAULT_RECENCY, DEFAULT_RECENCY_WINDOW_YEARS);
     }
 
-    /** Returns the weight of the genre overlap score. */
+    /**
+     * Returns the weight of the genre overlap score.
+     *
+     * @return the get genre
+     */
     public double getGenre() {
         return this.genre;
     }
 
-    /** Returns the weight of the cast overlap score. */
+    /**
+     * Returns the weight of the cast overlap score.
+     *
+     * @return the get cast
+     */
     public double getCast() {
         return this.cast;
     }
 
-    /** Returns the weight of the popularity score. */
+    /**
+     * Returns the weight of the popularity score.
+     *
+     * @return the get popularity
+     */
     public double getPopularity() {
         return this.popularity;
     }
 
-    /** Returns the weight of the friends' rating score. */
+    /**
+     * Returns the weight of the friends' rating score.
+     *
+     * @return the get friend
+     */
     public double getFriend() {
         return this.friend;
     }
 
-    /** Returns the weight of the recency score. */
+    /**
+     * Returns the weight of the recency score.
+     *
+     * @return the get recency
+     */
     public double getRecency() {
         return this.recency;
     }
 
-    /** Returns how many years it takes recency to decay to zero. */
+    /**
+     * Returns how many years it takes recency to decay to zero.
+     *
+     * @return the get recency window years
+     */
     public int getRecencyWindowYears() {
         return this.recencyWindowYears;
     }

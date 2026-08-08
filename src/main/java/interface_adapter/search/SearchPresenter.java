@@ -84,6 +84,8 @@ public class SearchPresenter implements SearchOutputBoundary {
 
     /**
      * Runs an update on the UI thread, whichever thread called in.
+     *
+     * @param update the update
      */
     private void onUiThread(Runnable update) {
         if (SwingUtilities.isEventDispatchThread()) {

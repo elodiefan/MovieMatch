@@ -2,12 +2,16 @@ package entity.recommendation;
 
 import entity.Media;
 
-/** Scores a candidate on how many of its genres the user already enjoys. */
+/**
+ * Scores a candidate on how many of its genres the user already enjoys.
+ */
 public class GenreOverlapSubScore implements SubScore {
 
     private static final String NAME = "genre";
 
-    /** Creates the genre overlap factor. */
+    /**
+     * Creates the genre overlap factor.
+     */
     public GenreOverlapSubScore() {
         // Stateless: everything needed arrives through scoreFor.
     }

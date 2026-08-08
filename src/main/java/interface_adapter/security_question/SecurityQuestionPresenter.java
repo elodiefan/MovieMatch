@@ -7,7 +7,9 @@ import interface_adapter.reset_password.ResetPasswordViewModel;
 import use_case.security_question.SecurityQuestionOutputBoundary;
 import use_case.security_question.SecurityQuestionOutputData;
 
-/** Presenter for the Security Question use case. */
+/**
+ * Presenter for the Security Question use case.
+ */
 public class SecurityQuestionPresenter
         implements SecurityQuestionOutputBoundary, PasswordResetCompletedHandler {
 
@@ -87,7 +89,11 @@ public class SecurityQuestionPresenter
         securityQuestionViewModel.firePropertyChanged();
     }
 
-    /** The password has been changed, so clear this screen, confirm what happened, and bring the user back to it. */
+    /**
+     * The password has been changed, so clear this screen, confirm what happened, and bring the user back to it.
+     *
+     * @param username the username
+     */
     @Override
     public void passwordResetCompleted(String username) {
         final SecurityQuestionState state = securityQuestionViewModel.getState();

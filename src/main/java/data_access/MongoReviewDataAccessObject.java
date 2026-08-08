@@ -63,6 +63,7 @@ public class MongoReviewDataAccessObject implements ReviewDataAccessObject {
 
     /**
      * Connects using the given properties file.
+     * @param propertiesPath the path to the MongoDB properties file
      */
     public MongoReviewDataAccessObject(String propertiesPath) {
         final Properties properties = loadProperties(propertiesPath);
@@ -76,6 +77,7 @@ public class MongoReviewDataAccessObject implements ReviewDataAccessObject {
 
     /**
      * Saves a review.
+     * @param review the review to save
      */
     public void saveReview(Review review) {
         reviews.replaceOne(Filters.eq(REVIEW_ID, review.getReviewId()),
@@ -84,6 +86,8 @@ public class MongoReviewDataAccessObject implements ReviewDataAccessObject {
 
     /**
      * Returns whether a review exists.
+     * @param reviewId the review id to check
+     * @return true if a review with this id exists
      */
     public boolean existsByReviewId(String reviewId) {
         return reviews.find(Filters.eq(REVIEW_ID, reviewId)).first() != null;
@@ -91,6 +95,8 @@ public class MongoReviewDataAccessObject implements ReviewDataAccessObject {
 
     /**
      * Returns a review by id.
+     * @param reviewId the review id to search for
+     * @return the review, if it exists
      */
     public Optional<Review> getReviewById(String reviewId) {
         final Document document = reviews.find(Filters.eq(REVIEW_ID, reviewId)).first();
@@ -99,6 +105,8 @@ public class MongoReviewDataAccessObject implements ReviewDataAccessObject {
 
     /**
      * Returns all reviews written by a user.
+     * @param username the author's username
+     * @return the matching reviews
      */
     public List<Review> getReviewsByUsername(String username) {
         final List<Review> matchingReviews = new ArrayList<>();
@@ -112,6 +120,9 @@ public class MongoReviewDataAccessObject implements ReviewDataAccessObject {
 
     /**
      * Returns all reviews for one media item.
+     * @param mediaId the media id
+     * @param mediaType the media type
+     * @return the matching reviews
      */
     public List<Review> getReviewsByMedia(int mediaId, String mediaType) {
         final List<Review> matchingReviews = new ArrayList<>();
@@ -127,6 +138,11 @@ public class MongoReviewDataAccessObject implements ReviewDataAccessObject {
 
     /**
      * Updates an existing review.
+     * @param reviewId the review id
+     * @param newRating the updated rating
+     * @param newReviewText the updated review text
+     * @param newUpdatedAt the updated timestamp
+     * @return true if the review was updated
      */
     public boolean editReview(String reviewId, double newRating, String newReviewText,
                               ZonedDateTime newUpdatedAt) {
@@ -140,6 +156,8 @@ public class MongoReviewDataAccessObject implements ReviewDataAccessObject {
 
     /**
      * Deletes a review.
+     * @param reviewId the review id
+     * @return true if the review was deleted
      */
     public boolean deleteReview(String reviewId) {
         return reviews.deleteOne(Filters.eq(REVIEW_ID, reviewId))
@@ -148,6 +166,9 @@ public class MongoReviewDataAccessObject implements ReviewDataAccessObject {
 
     /**
      * Adds a user's like to a review.
+     * @param reviewId the review id
+     * @param username the username liking the review
+     * @return true if the review exists
      */
     public boolean likeReview(String reviewId, String username) {
         reviews.updateOne(Filters.eq(REVIEW_ID, reviewId),
@@ -157,6 +178,9 @@ public class MongoReviewDataAccessObject implements ReviewDataAccessObject {
 
     /**
      * Removes a user's like from a review.
+     * @param reviewId the review id
+     * @param username the username unliking the review
+     * @return true if the review exists
      */
     public boolean unlikeReview(String reviewId, String username) {
         reviews.updateOne(Filters.eq(REVIEW_ID, reviewId),
@@ -166,6 +190,7 @@ public class MongoReviewDataAccessObject implements ReviewDataAccessObject {
 
     /**
      * Returns all saved reviews.
+     * @return all reviews
      */
     public List<Review> getAllReviews() {
         final List<Review> allReviews = new ArrayList<>();

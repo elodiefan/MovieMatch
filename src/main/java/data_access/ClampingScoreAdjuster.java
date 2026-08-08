@@ -8,15 +8,23 @@ import entity.recommendation.TasteProfile;
 import use_case.recommendation.Adjustment;
 import use_case.recommendation.ScoreAdjuster;
 
-/** Wraps another adjuster and refuses to let it move a score very far. */
+/**
+ * Wraps another adjuster and refuses to let it move a score very far.
+ */
 public class ClampingScoreAdjuster implements ScoreAdjuster {
 
-    /** The most any adjuster may move a score in either direction. */
+    /**
+     * The most any adjuster may move a score in either direction.
+     */
     public static final double MAX_ADJUSTMENT = 0.05;
 
     private final ScoreAdjuster delegate;
 
-    /** Wraps an adjuster. */
+    /**
+     * Wraps an adjuster.
+     *
+     * @param delegate the delegate
+     */
     public ClampingScoreAdjuster(final ScoreAdjuster delegate) {
         this.delegate = delegate;
     }
@@ -26,7 +34,13 @@ public class ClampingScoreAdjuster implements ScoreAdjuster {
         return clamp(this.delegate.adjust(candidate, tasteProfile));
     }
 
-    /** Passes a whole shortlist through and clamps every answer. */
+    /**
+     * Passes a whole shortlist through and clamps every answer.
+     *
+     * @param candidates the candidates
+     * @param tasteProfile the taste profile
+     * @return the adjust all
+     */
     @Override
     public List<Adjustment> adjustAll(final List<Media> candidates, final TasteProfile tasteProfile) {
         final List<Adjustment> clamped = new ArrayList<>();

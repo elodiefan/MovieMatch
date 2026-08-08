@@ -8,24 +8,39 @@ import java.util.Map;
 import use_case.recommendation.RecommendationDataAccessInterface;
 import use_case.recommendation.UserRating;
 
-/** Holds ratings in memory, standing in for the review feature until it lands. */
+/**
+ * Holds ratings in memory, standing in for the review feature until it lands.
+ */
 public class InMemoryRecommendationDataAccessObject implements RecommendationDataAccessInterface {
 
     private final Map<String, List<UserRating>> ratingsByUser = new HashMap<>();
     private final Map<String, List<String>> friendsByUser = new HashMap<>();
 
-    /** Creates an empty store. */
+    /**
+     * Creates an empty store.
+     */
     public InMemoryRecommendationDataAccessObject() {
         // Ratings are added through recordRating.
     }
 
-    /** Records that a user rated a title. */
+    /**
+     * Records that a user rated a title.
+     *
+     * @param username the username
+     * @param mediaId the media id
+     * @param rating the rating
+     */
     public void recordRating(final String username, final int mediaId, final double rating) {
         this.ratingsByUser.computeIfAbsent(username, key -> new ArrayList<>())
                 .add(new UserRating(mediaId, rating));
     }
 
-    /** Records a one-way friendship, so friends' ratings can be demonstrated before a real friend feature exists. */
+    /**
+     * Records a one-way friendship, so friends' ratings can be demonstrated before a real friend feature exists.
+     *
+     * @param username the username
+     * @param friendUsername the friend username
+     */
     public void recordFriend(final String username, final String friendUsername) {
         this.friendsByUser.computeIfAbsent(username, key -> new ArrayList<>())
                 .add(friendUsername);

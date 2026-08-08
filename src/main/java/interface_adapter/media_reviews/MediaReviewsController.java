@@ -17,21 +17,39 @@ import use_case.review.unlike_review.UnlikeReviewInputData;
  * Controller for the media reviews panel.
  */
 public final class MediaReviewsController {
-    /** The get media reviews interactor. */
+    /**
+     * The get media reviews interactor.
+     */
     private final GetMediaReviewsInputBoundary getMediaReviewsInteractor;
-    /** The create review interactor. */
+    /**
+     * The create review interactor.
+     */
     private final CreateReviewInputBoundary createReviewInteractor;
-    /** The edit review interactor. */
+    /**
+     * The edit review interactor.
+     */
     private final EditReviewInputBoundary editReviewInteractor;
-    /** The delete review interactor. */
+    /**
+     * The delete review interactor.
+     */
     private final DeleteReviewInputBoundary deleteReviewInteractor;
-    /** The like review interactor. */
+    /**
+     * The like review interactor.
+     */
     private final LikeReviewInputBoundary likeReviewInteractor;
-    /** The unlike review interactor. */
+    /**
+     * The unlike review interactor.
+     */
     private final UnlikeReviewInputBoundary unlikeReviewInteractor;
 
     /**
      * Creates a controller for media review actions.
+     * @param inputGetMediaReviewsInteractor the interactor for loading reviews
+     * @param inputCreateReviewInteractor the interactor for creating reviews
+     * @param inputEditReviewInteractor the interactor for editing reviews
+     * @param inputDeleteReviewInteractor the interactor for deleting reviews
+     * @param inputLikeReviewInteractor the interactor for liking reviews
+     * @param inputUnlikeReviewInteractor the interactor for unliking reviews
      */
     public MediaReviewsController(
             final GetMediaReviewsInputBoundary inputGetMediaReviewsInteractor,
@@ -50,6 +68,8 @@ public final class MediaReviewsController {
 
     /**
      * Loads persisted reviews for one media item.
+     * @param mediaId the reviewed media id
+     * @param mediaType the reviewed media type
      */
     public void loadMediaReviews(final int mediaId, final String mediaType) {
         getMediaReviewsInteractor.execute(new GetMediaReviewsInputData(mediaId,
@@ -58,6 +78,13 @@ public final class MediaReviewsController {
 
     /**
      * Creates a review for one media item.
+     * @param mediaId the reviewed media id
+     * @param mediaType the reviewed media type
+     * @param mediaTitle the reviewed media title
+     * @param authorUsername the review author's username
+     * @param authorDisplayName the review author's display name
+     * @param rating the rating percentage
+     * @param reviewText the written review text
      */
     public void createReview(final int mediaId, final String mediaType,
                              final String mediaTitle,
@@ -72,6 +99,10 @@ public final class MediaReviewsController {
 
     /**
      * Edits a persisted review written by the given user.
+     * @param reviewId the id of the review to edit
+     * @param username the username of the user editing the review
+     * @param newRating the updated rating percentage
+     * @param newReviewText the updated review text
      */
     public void editReview(final String reviewId, final String username,
                            final double newRating,
@@ -82,6 +113,8 @@ public final class MediaReviewsController {
 
     /**
      * Deletes one persisted review written by the given user.
+     * @param reviewId the id of the review to delete
+     * @param username the username of the user deleting the review
      */
     public void deleteReview(final String reviewId, final String username) {
         deleteReviewInteractor.execute(new DeleteReviewInputData(reviewId,
@@ -90,6 +123,8 @@ public final class MediaReviewsController {
 
     /**
      * Likes one persisted review.
+     * @param reviewId the id of the review to like
+     * @param username the username of the user liking the review
      */
     public void likeReview(final String reviewId, final String username) {
         likeReviewInteractor.execute(new LikeReviewInputData(reviewId,
@@ -98,6 +133,8 @@ public final class MediaReviewsController {
 
     /**
      * Unlikes one persisted review.
+     * @param reviewId the id of the review to unlike
+     * @param username the username of the user unliking the review
      */
     public void unlikeReview(final String reviewId, final String username) {
         unlikeReviewInteractor.execute(new UnlikeReviewInputData(reviewId,

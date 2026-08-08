@@ -17,6 +17,18 @@ public class Review extends UserContent {
 
     /**
      * Creates a review.
+     * @param reviewId the unique identifier for this review
+     * @param mediaId the reviewed media's identifier
+     * @param mediaType the reviewed media's type
+     * @param mediaTitle the reviewed media's title
+     * @param authorUsername the username of the review author
+     * @param authorDisplayName the display name of the review author
+     * @param rating the rating left by the author
+     * @param reviewText the body of the review
+     * @param createdAt the time the review was created
+     * @param updatedAt the time the review was last updated
+     * @param source the source of the review
+     * @param likedByUsernames the usernames of users who liked this review
      */
     public Review(String reviewId, int mediaId, String mediaType, String mediaTitle,
                   String authorUsername, String authorDisplayName, double rating,
@@ -34,6 +46,7 @@ public class Review extends UserContent {
 
     /**
      * Returns the unique identifier for this review.
+     * @return the review id
      */
     public String getReviewId() {
         return getContentId();
@@ -41,6 +54,7 @@ public class Review extends UserContent {
 
     /**
      * Returns the reviewed media's identifier.
+     * @return the media id
      */
     public int getMediaId() {
         return mediaId;
@@ -48,6 +62,7 @@ public class Review extends UserContent {
 
     /**
      * Returns the reviewed media's type.
+     * @return the media type
      */
     public String getMediaType() {
         return mediaType;
@@ -55,6 +70,7 @@ public class Review extends UserContent {
 
     /**
      * Returns the reviewed media's title.
+     * @return the media title
      */
     public String getMediaTitle() {
         return mediaTitle;
@@ -62,6 +78,7 @@ public class Review extends UserContent {
 
     /**
      * Returns the rating left by the author.
+     * @return the review rating
      */
     public double getRating() {
         return rating;
@@ -69,6 +86,7 @@ public class Review extends UserContent {
 
     /**
      * Returns the body of the review.
+     * @return the review text
      */
     public String getReviewText() {
         return reviewText;
@@ -76,6 +94,7 @@ public class Review extends UserContent {
 
     /**
      * Returns the time the review was last updated.
+     * @return the last update time
      */
     public ZonedDateTime getUpdatedAt() {
         return updatedAt;
@@ -83,6 +102,7 @@ public class Review extends UserContent {
 
     /**
      * Returns the source of the review.
+     * @return the review source
      */
     public String getSource() {
         return source;
@@ -90,6 +110,9 @@ public class Review extends UserContent {
 
     /**
      * Updates the editable review fields.
+     * @param newRating the updated rating
+     * @param newReviewText the updated review text
+     * @param newUpdatedAt the updated timestamp
      */
     public void edit(double newRating, String newReviewText, ZonedDateTime newUpdatedAt) {
         this.rating = newRating;

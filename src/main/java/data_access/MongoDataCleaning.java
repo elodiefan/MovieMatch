@@ -17,6 +17,8 @@ public class MongoDataCleaning {
 
     /**
      * Takes in raw MongoDB watchlist data and converts it to a String for a UserList watchlist.
+     * @param watchlist the list of MongoDb Documents with watchlist data.
+     * @return the watchlist as a String.
      */
     public static String convertWatchlistToString(List<Document> watchlist) {
         final StringBuilder userWatchlist = new StringBuilder();
@@ -36,6 +38,8 @@ public class MongoDataCleaning {
 
     /**
      * Takes in raw MongoDB watch history data and converts it to a String for a UserList watchhistory.
+     * @param watchHistory the list of MongoDb Documents with watch history data.
+     * @return the watch history as a String.
      */
     public static String convertWatchHistoryToString(List<Document> watchHistory) {
         final StringBuilder userWatchHistory = new StringBuilder();
@@ -55,6 +59,8 @@ public class MongoDataCleaning {
 
     /**
      * Takes in raw MongoDB blocked users data and converts it to a String for a UserList watchlist.
+     * @param blockedUsers the list of MongoDb Documents with blocked users data.
+     * @return the blocked users as a String.
      */
     public static String convertBlockedUsersToString(List<String> blockedUsers) {
         final StringBuilder userBlockedUsers = new StringBuilder();
@@ -69,6 +75,8 @@ public class MongoDataCleaning {
 
     /**
      * Formats raw MongoDB date data as a shortened String for output.
+     * @param rawDateData
+     * @return the data as a shortened String.
      */
     public static String formatDate(String rawDateData) {
         // "2026-07-01T09:07:00-04:00"

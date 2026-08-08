@@ -2,7 +2,9 @@ package interface_adapter.settings;
 
 import use_case.settings.SettingsInteractor;
 
-/** The state for the Settings View. */
+/**
+ * The state for the Settings View.
+ */
 public class SettingsState {
 
     private boolean darkMode;

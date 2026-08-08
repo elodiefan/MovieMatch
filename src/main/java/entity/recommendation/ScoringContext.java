@@ -3,7 +3,9 @@ package entity.recommendation;
 import java.util.Collections;
 import java.util.List;
 
-/** Everything a sub-score needs to judge one candidate, beyond the candidate itself. */
+/**
+ * Everything a sub-score needs to judge one candidate, beyond the candidate itself.
+ */
 public class ScoringContext {
 
     private final TasteProfile tasteProfile;
@@ -11,7 +13,14 @@ public class ScoringContext {
     private final int currentYear;
     private final ScoringWeights weights;
 
-    /** Creates a context for scoring a single candidate. */
+    /**
+     * Creates a context for scoring a single candidate.
+     *
+     * @param tasteProfile the taste profile
+     * @param friendRatings the friend ratings
+     * @param currentYear the current year
+     * @param weights the weights
+     */
     public ScoringContext(final TasteProfile tasteProfile, final List<Double> friendRatings,
                           final int currentYear, final ScoringWeights weights) {
         this.tasteProfile = tasteProfile;
@@ -20,22 +29,38 @@ public class ScoringContext {
         this.weights = weights;
     }
 
-    /** Returns the user's taste profile. */
+    /**
+     * Returns the user's taste profile.
+     *
+     * @return the get taste profile
+     */
     public TasteProfile getTasteProfile() {
         return this.tasteProfile;
     }
 
-    /** Returns the friends' ratings for the candidate being scored. */
+    /**
+     * Returns the friends' ratings for the candidate being scored.
+     *
+     * @return the get friend ratings
+     */
     public List<Double> getFriendRatings() {
         return this.friendRatings;
     }
 
-    /** Returns the year recency is measured against. */
+    /**
+     * Returns the year recency is measured against.
+     *
+     * @return the get current year
+     */
     public int getCurrentYear() {
         return this.currentYear;
     }
 
-    /** Returns the weighting in force. */
+    /**
+     * Returns the weighting in force.
+     *
+     * @return the get weights
+     */
     public ScoringWeights getWeights() {
         return this.weights;
     }

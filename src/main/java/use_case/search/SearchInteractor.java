@@ -15,7 +15,9 @@ import entity.Media;
  */
 public class SearchInteractor implements SearchInputBoundary {
 
-    /** How many pages one request fetches. */
+    /**
+     * How many pages one request fetches.
+     */
     public static final int PAGES_PER_REQUEST = 3;
 
     private static final String EMPTY_KEYWORD_ERROR = "You have to enter at least one word";
@@ -41,6 +43,9 @@ public class SearchInteractor implements SearchInputBoundary {
 
     /**
      * Fetches one block of pages and reports it.
+     *
+     * @param inputData the input data
+     * @param appending the appending
      */
     private void search(SearchInputData inputData, boolean appending) {
         final String keyword = inputData.getKeyword();

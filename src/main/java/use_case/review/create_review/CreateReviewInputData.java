@@ -4,23 +4,44 @@ package use_case.review.create_review;
  * Input data for creating a review.
  */
 public final class CreateReviewInputData {
-    /** The media id. */
+    /**
+     * The media id.
+     */
     private final int mediaId;
-    /** The media type. */
+    /**
+     * The media type.
+     */
     private final String mediaType;
-    /** The media title. */
+    /**
+     * The media title.
+     */
     private final String mediaTitle;
-    /** The author username. */
+    /**
+     * The author username.
+     */
     private final String authorUsername;
-    /** The author display name. */
+    /**
+     * The author display name.
+     */
     private final String authorDisplayName;
-    /** The rating. */
+    /**
+     * The rating.
+     */
     private final double rating;
-    /** The review text. */
+    /**
+     * The review text.
+     */
     private final String reviewText;
 
     /**
      * Creates input data for creating a review.
+     * @param inputMediaId the reviewed media id
+     * @param inputMediaType the reviewed media type
+     * @param inputMediaTitle the reviewed media title
+     * @param inputAuthorUsername the author's username
+     * @param inputAuthorDisplayName the author's display name
+     * @param inputRating the rating percentage
+     * @param inputReviewText the review text
      */
     public CreateReviewInputData(final int inputMediaId,
                                  final String inputMediaType,
@@ -40,42 +61,49 @@ public final class CreateReviewInputData {
 
     /**
      * Handles this review or comment operation.
+     * @return the result
      */
     public int getMediaId() {
         return mediaId;
     }
     /**
      * Handles this review or comment operation.
+     * @return the result
      */
     public String getMediaType() {
         return mediaType;
     }
     /**
      * Handles this review or comment operation.
+     * @return the result
      */
     public String getMediaTitle() {
         return mediaTitle;
     }
     /**
      * Handles this review or comment operation.
+     * @return the result
      */
     public String getAuthorUsername() {
         return authorUsername;
     }
     /**
      * Handles this review or comment operation.
+     * @return the result
      */
     public String getAuthorDisplayName() {
         return authorDisplayName;
     }
     /**
      * Handles this review or comment operation.
+     * @return the result
      */
     public double getRating() {
         return rating;
     }
     /**
      * Handles this review or comment operation.
+     * @return the result
      */
     public String getReviewText() {
         return reviewText;

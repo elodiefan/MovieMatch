@@ -6,27 +6,54 @@ import java.time.ZonedDateTime;
  * Display data for one review written by the user.
  */
 public final class UserReviewRow {
-    /** The review id. */
+    /**
+     * The review id.
+     */
     private final String reviewId;
-    /** The media id. */
+    /**
+     * The media id.
+     */
     private final int mediaId;
-    /** The media type. */
+    /**
+     * The media type.
+     */
     private final String mediaType;
-    /** The media title. */
+    /**
+     * The media title.
+     */
     private final String mediaTitle;
-    /** The rating. */
+    /**
+     * The rating.
+     */
     private final double rating;
-    /** The review text. */
+    /**
+     * The review text.
+     */
     private final String reviewText;
-    /** The created at. */
+    /**
+     * The created at.
+     */
     private final ZonedDateTime createdAt;
-    /** The updated at. */
+    /**
+     * The updated at.
+     */
     private final ZonedDateTime updatedAt;
-    /** The like count. */
+    /**
+     * The like count.
+     */
     private final int likeCount;
 
     /**
      * Creates display data for one user review row.
+     * @param inputReviewId the review id
+     * @param inputMediaId the media id
+     * @param inputMediaType the media type
+     * @param inputMediaTitle the media title
+     * @param inputRating the rating
+     * @param inputReviewText the review text
+     * @param inputCreatedAt the creation time
+     * @param inputUpdatedAt the update time
+     * @param inputLikeCount the like count
      */
     public UserReviewRow(final String inputReviewId,
                          final int inputMediaId,

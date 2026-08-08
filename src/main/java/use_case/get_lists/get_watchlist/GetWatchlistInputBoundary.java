@@ -9,11 +9,13 @@ public interface GetWatchlistInputBoundary {
 
     /**
      * Executes the get watchlist use case.
+     * @param getListsInputData the input data for the get watchlist use case.
      */
     void execute(GetListsInputData getListsInputData);
 
     /**
      * Executes the switch to account view use case.
+     * @param getListsInputData the input data for the use case.
      */
     void switchToAccountView(GetListsInputData getListsInputData);
 }
