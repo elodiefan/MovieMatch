@@ -1,8 +1,10 @@
 package views;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
+import java.awt.Dialog;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -19,12 +21,17 @@ import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
+import javax.swing.JTextField;
+import javax.swing.SwingUtilities;
 import javax.swing.SwingWorker;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 
 import interface_adapter.user_reviews.UserCommentRow;
 import interface_adapter.user_reviews.UserReviewRow;
@@ -54,6 +61,19 @@ public final class MyReviewsView extends JPanel
      */
     private static final String POSTER_BASE_URL =
             "https://image.tmdb.org/t/p/w185";
+    /**
+     * Smallest valid rating percentage.
+     */
+    private static final double MIN_RATING = 0.0;
+    /**
+     * Largest valid rating percentage.
+     */
+    private static final double MAX_RATING = 100.0;
+    /**
+     * Rating validation message.
+     */
+    private static final String RATING_ERROR =
+            "Rating needs to be between 0 and 100 inclusive.";
 
     /**
      * The time_formatter.
@@ -468,19 +488,117 @@ public final class MyReviewsView extends JPanel
                     userReviewsController.deleteReview(reviewId,
                             state.getUsername());
                 } else {
-                    final String ratingText = JOptionPane.showInputDialog(
-                            MyReviewsView.this, "New rating percentage:");
-                    final String reviewText = JOptionPane.showInputDialog(
-                            MyReviewsView.this, "New review text:");
-                    if (!isBlank(ratingText)) {
+                    final Double rating =
+                            promptForRating("New rating percentage:");
+                    if (rating != null) {
+                        final String reviewText =
+                                JOptionPane.showInputDialog(
+                                        MyReviewsView.this,
+                                        "New review text:");
                         userReviewsController.editReview(reviewId,
-                                state.getUsername(),
-                                Double.parseDouble(ratingText), reviewText);
+                                state.getUsername(), rating, reviewText);
                     }
                 }
                 userReviewsController.loadUserReviews(state.getUsername());
             }
             userReviewsViewModel.firePropertyChanged();
+        }
+    }
+
+    /**
+     * Opens a rating dialog that cannot be submitted until valid.
+     * @param title the dialog title
+     * @return the rating, or null if cancelled
+     */
+    private Double promptForRating(final String title) {
+        final JDialog dialog = new JDialog(
+                SwingUtilities.getWindowAncestor(this), title,
+                Dialog.ModalityType.APPLICATION_MODAL);
+        final JTextField ratingField = new JTextField(12);
+        final JLabel validationLabel = new JLabel(" ");
+        validationLabel.setForeground(Color.RED);
+        final JButton submitButton = new JButton("Submit");
+        submitButton.setEnabled(false);
+        final JButton cancelButton = new JButton("Cancel");
+        final Double[] rating = new Double[1];
+
+        final JPanel inputPanel = new JPanel();
+        inputPanel.setLayout(new BoxLayout(inputPanel, BoxLayout.Y_AXIS));
+        inputPanel.add(new JLabel(title));
+        inputPanel.add(ratingField);
+        inputPanel.add(validationLabel);
+
+        final JPanel buttonPanel = new JPanel();
+        buttonPanel.add(cancelButton);
+        buttonPanel.add(submitButton);
+
+        ratingField.getDocument().addDocumentListener(
+                new RatingValidationListener(ratingField, validationLabel,
+                        submitButton));
+        submitButton.addActionListener(event -> {
+            rating[0] = parseRating(ratingField.getText());
+            dialog.dispose();
+        });
+        cancelButton.addActionListener(event -> dialog.dispose());
+
+        dialog.add(inputPanel);
+        dialog.add(buttonPanel, BorderLayout.SOUTH);
+        dialog.pack();
+        dialog.setLocationRelativeTo(this);
+        dialog.setVisible(true);
+        return rating[0];
+    }
+
+    private Double parseRating(final String ratingText) {
+        Double rating = null;
+        try {
+            final double parsedRating = Double.parseDouble(ratingText);
+            if (parsedRating >= MIN_RATING && parsedRating <= MAX_RATING) {
+                rating = parsedRating;
+            }
+        } catch (NumberFormatException exception) {
+            rating = null;
+        }
+        return rating;
+    }
+
+    private final class RatingValidationListener implements DocumentListener {
+        private final JTextField ratingField;
+        private final JLabel validationLabel;
+        private final JButton submitButton;
+
+        private RatingValidationListener(final JTextField inputRatingField,
+                                         final JLabel inputValidationLabel,
+                                         final JButton inputSubmitButton) {
+            this.ratingField = inputRatingField;
+            this.validationLabel = inputValidationLabel;
+            this.submitButton = inputSubmitButton;
+        }
+
+        @Override
+        public void insertUpdate(final DocumentEvent event) {
+            updateValidation();
+        }
+
+        @Override
+        public void removeUpdate(final DocumentEvent event) {
+            updateValidation();
+        }
+
+        @Override
+        public void changedUpdate(final DocumentEvent event) {
+            updateValidation();
+        }
+
+        private void updateValidation() {
+            final boolean validRating = parseRating(ratingField.getText())
+                    != null;
+            submitButton.setEnabled(validRating);
+            if (isBlank(ratingField.getText()) || validRating) {
+                validationLabel.setText(" ");
+            } else {
+                validationLabel.setText(RATING_ERROR);
+            }
         }
     }
 }
