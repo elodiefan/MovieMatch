@@ -1,0 +1,38 @@
+package interface_adapter.search;
+
+import use_case.search.SearchInputBoundary;
+import use_case.search.SearchInputData;
+
+/**
+ * The controller for the Search Use Case.
+ */
+public class SearchController {
+
+    private final SearchInputBoundary searchUseCaseInteractor;
+
+    public SearchController(SearchInputBoundary searchUseCaseInteractor) {
+        this.searchUseCaseInteractor = searchUseCaseInteractor;
+    }
+
+    /**
+     * Executes the Search Use Case.
+     *
+     * @param keyword the keyword
+     */
+    public void execute(String keyword) {
+        final SearchInputData searchInputData =
+                new SearchInputData(keyword);
+
+        searchUseCaseInteractor.execute(searchInputData);
+    }
+
+    /**
+     * Fetches the next block of pages for a search already on screen.
+     *
+     * @param keyword the keyword
+     * @param nextPage the next page
+     */
+    public void loadMore(String keyword, int nextPage) {
+        searchUseCaseInteractor.loadMore(new SearchInputData(keyword, nextPage));
+    }
+}

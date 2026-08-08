@@ -1,8 +1,8 @@
 package interface_adapter.logout;
 
 import interface_adapter.ViewManagerModel;
-import interface_adapter.change_password.LoggedInState;
-import interface_adapter.change_password.LoggedInViewModel;
+import interface_adapter.logged_in.LoggedInState;
+import interface_adapter.logged_in.LoggedInViewModel;
 import interface_adapter.login.LoginState;
 import interface_adapter.login.LoginViewModel;
 import use_case.logout.LogoutOutputBoundary;
@@ -13,45 +13,48 @@ import use_case.logout.LogoutOutputData;
  */
 public class LogoutPresenter implements LogoutOutputBoundary {
 
-    private LoggedInViewModel loggedInViewModel;
-    private ViewManagerModel viewManagerModel;
-    private LoginViewModel loginViewModel;
+    private final LoggedInViewModel loggedInViewModel;
+    private final ViewManagerModel viewManagerModel;
+    private final LoginViewModel loginViewModel;
 
     public LogoutPresenter(ViewManagerModel viewManagerModel,
                            LoggedInViewModel loggedInViewModel,
                            LoginViewModel loginViewModel) {
-        this.loggedInViewModel = loggedInViewModel;
         this.viewManagerModel = viewManagerModel;
+        this.loggedInViewModel = loggedInViewModel;
         this.loginViewModel = loginViewModel;
     }
 
     @Override
-    public void prepareSuccessView(LogoutOutputData response) {
-        // We need to switch to the login view, which should have
-        // an empty username and password.
+    public void prepareSuccessView(LogoutOutputData outputData) {
+        /*
+         * Clear the current session information after logout.
+         * The user will be redirected to the login page.
+         *
+         * The output data is not required because logout only clears session state.
+         */
+        final LoggedInState loggedInState = new LoggedInState();
 
-        // We also need to set the username in the LoggedInState to
-        // the empty string.
-
-        final LoggedInState loggedInState = loggedInViewModel.getState();
-        loggedInState.setUsername("");
         loggedInViewModel.setState(loggedInState);
         loggedInViewModel.firePropertyChanged();
 
-        final LoginState loginState = loginViewModel.getState();
+        // Update LoginState
+        final LoginState loginState =
+                loginViewModel.getState();
+
         loginState.setUsername("");
         loginState.setPassword("");
+
         loginViewModel.setState(loginState);
         loginViewModel.firePropertyChanged();
 
-        // This code tells the View Manager to switch to the LoginView.
-        this.viewManagerModel.setState(loginViewModel.getViewName());
-        this.viewManagerModel.firePropertyChanged();
+        // Switch to Login View
+        viewManagerModel.setState(loginViewModel.getViewName());
+        viewManagerModel.firePropertyChanged();
     }
 
     @Override
     public void prepareFailView(String error) {
-        // No need to add code here. We'll assume that logout can't fail.
-        // Thought question: is this a reasonable assumption?
+        // This should never be called because logout cannot fail.
     }
 }

@@ -1,0 +1,15 @@
+# --- Secrets ---
+mongo.properties
+
+# --- Build output ---
+target/
+out/
+*.class
+
+# --- IDE ---
+.idea/
+*.iml
+
+# API keys / secrets
+config.properties
+tmdb.properties

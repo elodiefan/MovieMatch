@@ -9,8 +9,16 @@ public class PremiumUser extends StandardUser implements Customizable {
     private String profileColour;
 
     public PremiumUser(String username, String displayName, String password,
-                       String securityQuestion, String securityQuestionAnswer) {
-        super(username, displayName, password, securityQuestion, securityQuestionAnswer);
+                       String securityQuestion, String answer) {
+        super(username, displayName, password, securityQuestion, answer);
+        final UserLists userLists = new UserLists(username, "", "", "");
+        setUserLists(userLists);
+        profileColour = "#FFFFFF";
+    }
+
+    public PremiumUser(String username, String displayName, String password,
+                       String securityQuestion, String answer, UserLists userLists) {
+        super(username, displayName, password, securityQuestion, answer, userLists);
         profileColour = "#FFFFFF";
     }
 

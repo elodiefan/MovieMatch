@@ -12,7 +12,7 @@ public interface LoginUserDataAccessInterface {
      * @param username the username to look for
      * @return true if a user with the given username exists; false otherwise
      */
-    boolean existsByName(String username);
+    boolean existsByUsername(String username);
 
     /**
      * Saves the user.
@@ -28,14 +28,15 @@ public interface LoginUserDataAccessInterface {
     User get(String username);
 
     /**
-     * Returns the username of the curren user of the application.
-     * @return the username of the current user
+     * Returns the username of the current user.
+     * @return the current username.
      */
     String getCurrentUsername();
 
     /**
-     * Sets the username indicating who is the current user of the application.
-     * @param username the new current username
+     * Sets the username of the current user.
+     * @param username the username to set it to
      */
     void setCurrentUsername(String username);
+
 }

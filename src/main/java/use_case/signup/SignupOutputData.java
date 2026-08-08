@@ -1,24 +1,39 @@
 package use_case.signup;
 
 /**
- * Output Data for the Signup Use Case.
+ * Output data for the Signup Use Case.
  */
 public class SignupOutputData {
 
     private final String username;
+    private final String displayName;
 
-    private final boolean useCaseFailed;
-
-    public SignupOutputData(String username, boolean useCaseFailed) {
+    /**
+     * Creates the output data for a signup result.
+     *
+     * @param username the username of the created account
+     * @param displayName the display name of the created account
+     */
+    public SignupOutputData(String username, String displayName) {
         this.username = username;
-        this.useCaseFailed = useCaseFailed;
+        this.displayName = displayName;
     }
 
+    /**
+     * Returns the username of the created account.
+     *
+     * @return the created account's username
+     */
     public String getUsername() {
         return username;
     }
 
-    public boolean isUseCaseFailed() {
-        return useCaseFailed;
+    /**
+     * Returns the display name of the created account.
+     *
+     * @return the created account's display name
+     */
+    public String getDisplayName() {
+        return displayName;
     }
 }

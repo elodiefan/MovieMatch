@@ -8,7 +8,7 @@ import use_case.logout.LogoutInputData;
  */
 public class LogoutController {
 
-    private LogoutInputBoundary logoutUseCaseInteractor;
+    private final LogoutInputBoundary logoutUseCaseInteractor;
 
     public LogoutController(LogoutInputBoundary logoutUseCaseInteractor) {
         this.logoutUseCaseInteractor = logoutUseCaseInteractor;
@@ -16,7 +16,7 @@ public class LogoutController {
 
     /**
      * Executes the Logout Use Case.
-     * @param username the username of the user logging in
+     * @param username the username of the user logging out
      */
     public void execute(String username) {
         final LogoutInputData logoutInputData = new LogoutInputData(username);
