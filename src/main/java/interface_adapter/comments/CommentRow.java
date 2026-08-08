@@ -1,6 +1,8 @@
 package interface_adapter.comments;
 
 import java.time.ZonedDateTime;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * Display data for one comment.
@@ -38,6 +40,10 @@ public final class CommentRow {
      * The like count.
      */
     private final int likeCount;
+    /**
+     * The usernames that liked this comment.
+     */
+    private final Set<String> likedByUsernames;
 
     /**
      * Creates display data for one comment row.
@@ -49,6 +55,7 @@ public final class CommentRow {
      * @param inputCommentText the comment text
      * @param inputCreatedAt the creation time
      * @param inputLikeCount the like count
+     * @param inputLikedByUsernames the usernames that liked this comment
      */
     public CommentRow(final String inputCommentId,
                       final String inputReviewId,
@@ -57,7 +64,8 @@ public final class CommentRow {
                       final String inputAuthorDisplayName,
                       final String inputCommentText,
                       final ZonedDateTime inputCreatedAt,
-                      final int inputLikeCount) {
+                      final int inputLikeCount,
+                      final Set<String> inputLikedByUsernames) {
         this.commentId = inputCommentId;
         this.reviewId = inputReviewId;
         this.parentCommentId = inputParentCommentId;
@@ -66,6 +74,7 @@ public final class CommentRow {
         this.commentText = inputCommentText;
         this.createdAt = inputCreatedAt;
         this.likeCount = inputLikeCount;
+        this.likedByUsernames = new HashSet<>(inputLikedByUsernames);
     }
 
     public String getCommentId() {
@@ -98,5 +107,9 @@ public final class CommentRow {
 
     public int getLikeCount() {
         return likeCount;
+    }
+
+    public boolean isLikedBy(final String username) {
+        return username != null && likedByUsernames.contains(username);
     }
 }

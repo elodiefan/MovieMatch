@@ -36,11 +36,11 @@ public final class MediaReviewsPanel extends JPanel
     /**
      * The heart unselected.
      */
-    private static final String HEART_UNSELECTED = "\u2661";
+    private static final String HEART_UNSELECTED = "\u2661 Like";
     /**
      * The heart selected.
      */
-    private static final String HEART_SELECTED = "\u2665";
+    private static final String HEART_SELECTED = "\u2665 Unlike";
 
     /**
      * The card gap.
@@ -213,24 +213,34 @@ public final class MediaReviewsPanel extends JPanel
         if (state != null) {
             mediaTitleLabel.setText(state.getMediaTitle());
             errorLabel.setText(state.getMediaReviewsError());
-            loadContent(state);
-            setReviews(state.getReviews());
+            if (!loadContent(state)) {
+                setReviews(state.getReviews());
+            }
         }
     }
 
     /**
      * Loads persisted reviews and comments for the current media item.
      * @param state the media reviews state
+     * @return true if fresh content was requested
      */
-    private void loadContent(final MediaReviewsState state) {
+    private boolean loadContent(final MediaReviewsState state) {
+        final boolean contentRequested;
         if (!loadingContent && mediaReviewsController != null
                 && !isBlank(state.getMediaType())) {
             loadingContent = true;
-            mediaReviewsController.loadMediaReviews(state.getMediaId(),
-                    state.getMediaType());
-            refreshCommentsForReviews(state);
-            loadingContent = false;
+            try {
+                mediaReviewsController.loadMediaReviews(state.getMediaId(),
+                        state.getMediaType());
+                refreshCommentsForReviews(state);
+            } finally {
+                loadingContent = false;
+            }
+            contentRequested = true;
+        } else {
+            contentRequested = false;
         }
+        return contentRequested;
     }
 
     /**
@@ -274,6 +284,7 @@ public final class MediaReviewsPanel extends JPanel
     private Component createReviewCard(final MediaReviewRow review) {
         final JPanel card = new JPanel();
         card.setLayout(new BoxLayout(card, BoxLayout.Y_AXIS));
+        card.setAlignmentX(Component.LEFT_ALIGNMENT);
 
         card.add(new JLabel(review.getAuthorDisplayName()
                 + " (@" + review.getAuthorUsername() + ")"));
@@ -286,6 +297,7 @@ public final class MediaReviewsPanel extends JPanel
             card.add(createButtonPanel(review));
         } else {
             card.add(new JLabel("External TMDB review"));
+            card.add(createExternalReviewButtonPanel(review));
         }
         card.add(createCommentsSection(review.getReviewId()));
 
@@ -299,22 +311,54 @@ public final class MediaReviewsPanel extends JPanel
      */
     private Component createButtonPanel(final MediaReviewRow review) {
         final JPanel buttonPanel = new JPanel();
+        buttonPanel.setLayout(new BoxLayout(buttonPanel, BoxLayout.X_AXIS));
+        buttonPanel.setAlignmentX(Component.LEFT_ALIGNMENT);
         final JButton editButton =
                 new JButton(MediaReviewsViewModel.EDIT_BUTTON_LABEL);
         final JButton deleteButton =
                 new JButton(MediaReviewsViewModel.DELETE_BUTTON_LABEL);
         final JToggleButton heartButton = createHeartButton(
                 MediaReviewsViewModel.LIKE_BUTTON_LABEL);
+        final boolean ownedByCurrentUser = isWrittenByCurrentUser(
+                review.getAuthorUsername());
+        heartButton.setSelected(review.isLikedBy(currentUsername));
+        updateHeartButton(heartButton,
+                MediaReviewsViewModel.UNLIKE_BUTTON_LABEL,
+                MediaReviewsViewModel.LIKE_BUTTON_LABEL);
 
-        editButton.addActionListener(new SelectReviewListener(
-                review.getReviewId()));
-        deleteButton.addActionListener(new SelectReviewListener(
-                review.getReviewId()));
+        if (ownedByCurrentUser) {
+            editButton.addActionListener(new SelectReviewListener(
+                    review.getReviewId()));
+            deleteButton.addActionListener(new SelectReviewListener(
+                    review.getReviewId()));
+            buttonPanel.add(editButton);
+            buttonPanel.add(deleteButton);
+        }
         heartButton.addActionListener(new HeartReviewListener(
                 review.getReviewId()));
 
-        buttonPanel.add(editButton);
-        buttonPanel.add(deleteButton);
+        buttonPanel.add(heartButton);
+        return buttonPanel;
+    }
+
+    /**
+     * Creates action buttons allowed for an external review.
+     * @param review the review row
+     * @return the button panel
+     */
+    private Component createExternalReviewButtonPanel(
+            final MediaReviewRow review) {
+        final JPanel buttonPanel = new JPanel();
+        buttonPanel.setLayout(new BoxLayout(buttonPanel, BoxLayout.X_AXIS));
+        buttonPanel.setAlignmentX(Component.LEFT_ALIGNMENT);
+        final JToggleButton heartButton = createHeartButton(
+                MediaReviewsViewModel.LIKE_BUTTON_LABEL);
+        heartButton.setSelected(review.isLikedBy(currentUsername));
+        updateHeartButton(heartButton,
+                MediaReviewsViewModel.UNLIKE_BUTTON_LABEL,
+                MediaReviewsViewModel.LIKE_BUTTON_LABEL);
+        heartButton.addActionListener(new HeartReviewListener(
+                review.getReviewId()));
         buttonPanel.add(heartButton);
         return buttonPanel;
     }
@@ -328,9 +372,11 @@ public final class MediaReviewsPanel extends JPanel
         final JPanel section = new JPanel();
         section.setLayout(new BoxLayout(section, BoxLayout.Y_AXIS));
         section.setBorder(BorderFactory.createEmptyBorder(CARD_GAP, 0, 0, 0));
+        section.setAlignmentX(Component.LEFT_ALIGNMENT);
 
         if (commentsViewModel != null) {
             section.add(new JLabel(CommentsViewModel.TITLE_LABEL));
+            section.add(createWriteCommentButton(reviewId));
             boolean hasComments = false;
             for (CommentRow comment : commentsViewModel.getState()
                     .getComments()) {
@@ -350,6 +396,19 @@ public final class MediaReviewsPanel extends JPanel
     }
 
     /**
+     * Creates a button for writing a top-level comment on a review.
+     * @param reviewId the review id
+     * @return the write comment button
+     */
+    private JButton createWriteCommentButton(final String reviewId) {
+        final JButton commentButton =
+                new JButton(CommentsViewModel.WRITE_COMMENT_BUTTON_LABEL);
+        commentButton.setAlignmentX(Component.LEFT_ALIGNMENT);
+        commentButton.addActionListener(new WriteCommentListener(reviewId));
+        return commentButton;
+    }
+
+    /**
      * Creates the display card for one nested comment.
      * @param comment the comment row
      * @return the comment card
@@ -359,6 +418,7 @@ public final class MediaReviewsPanel extends JPanel
         card.setLayout(new BoxLayout(card, BoxLayout.Y_AXIS));
         card.setBorder(BorderFactory.createEmptyBorder(0,
                 getCommentIndent(comment), 0, 0));
+        card.setAlignmentX(Component.LEFT_ALIGNMENT);
 
         card.add(new JLabel(comment.getAuthorDisplayName()
                 + " (@" + comment.getAuthorUsername() + ")"));
@@ -377,22 +437,33 @@ public final class MediaReviewsPanel extends JPanel
      */
     private Component createCommentButtonPanel(final CommentRow comment) {
         final JPanel buttonPanel = new JPanel();
+        buttonPanel.setLayout(new BoxLayout(buttonPanel, BoxLayout.X_AXIS));
+        buttonPanel.setAlignmentX(Component.LEFT_ALIGNMENT);
         final JButton replyButton =
                 new JButton(CommentsViewModel.REPLY_BUTTON_LABEL);
         final JButton deleteButton =
                 new JButton(CommentsViewModel.DELETE_BUTTON_LABEL);
         final JToggleButton heartButton = createHeartButton(
                 CommentsViewModel.LIKE_BUTTON_LABEL);
+        final boolean ownedByCurrentUser = isWrittenByCurrentUser(
+                comment.getAuthorUsername());
+        heartButton.setSelected(comment.isLikedBy(currentUsername));
+        updateHeartButton(heartButton, CommentsViewModel.UNLIKE_BUTTON_LABEL,
+                CommentsViewModel.LIKE_BUTTON_LABEL);
 
         replyButton.addActionListener(new SelectCommentListener(
                 comment.getCommentId(), comment.getReviewId(), true));
-        deleteButton.addActionListener(new SelectCommentListener(
-                comment.getCommentId(), comment.getReviewId(), false));
+        if (ownedByCurrentUser) {
+            deleteButton.addActionListener(new SelectCommentListener(
+                    comment.getCommentId(), comment.getReviewId(), false));
+        }
         heartButton.addActionListener(new HeartCommentListener(
                 comment.getCommentId()));
 
         buttonPanel.add(replyButton);
-        buttonPanel.add(deleteButton);
+        if (ownedByCurrentUser) {
+            buttonPanel.add(deleteButton);
+        }
         buttonPanel.add(heartButton);
         return buttonPanel;
     }
@@ -474,6 +545,16 @@ public final class MediaReviewsPanel extends JPanel
      */
     private boolean hasCurrentUser() {
         return !isBlank(currentUsername) && !isBlank(currentDisplayName);
+    }
+
+    /**
+     * Checks whether the signed-in user wrote the content.
+     * @param authorUsername the content author's username
+     * @return true if the signed-in user is the author
+     */
+    private boolean isWrittenByCurrentUser(final String authorUsername) {
+        return !isBlank(currentUsername)
+                && currentUsername.equals(authorUsername);
     }
 
     /**
@@ -602,6 +683,36 @@ public final class MediaReviewsPanel extends JPanel
 
             state.setSelectedReviewId(reviewId);
             mediaReviewsViewModel.firePropertyChanged();
+        }
+    }
+
+    /**
+     * Selects a comment in the comments view model state.
+     */
+    private final class WriteCommentListener implements ActionListener {
+        /**
+         * The review id.
+         */
+        private final String reviewId;
+
+        private WriteCommentListener(final String inputReviewId) {
+            this.reviewId = inputReviewId;
+        }
+
+        @Override
+        public void actionPerformed(final ActionEvent event) {
+            if (commentsController != null && hasCurrentUser()) {
+                final String commentText = JOptionPane.showInputDialog(
+                        MediaReviewsPanel.this, "Comment text:");
+                if (!isBlank(commentText)) {
+                    commentsController.createComment(reviewId, "",
+                            currentUsername, currentDisplayName, commentText);
+                    commentsController.loadReviewComments(reviewId);
+                }
+            }
+            if (commentsViewModel != null) {
+                commentsViewModel.firePropertyChanged();
+            }
         }
     }
 

@@ -116,7 +116,8 @@ public final class CommentsPresenter implements GetReviewCommentsOutputBoundary,
         return new CommentRow(comment.getCommentId(), comment.getReviewId(),
                 comment.getParentCommentId(), comment.getAuthorUsername(),
                 comment.getAuthorDisplayName(), comment.getCommentText(),
-                comment.getCreatedAt(), comment.getLikeCount());
+                comment.getCreatedAt(), comment.getLikeCount(),
+                comment.getLikedByUsernames());
     }
 
     /**

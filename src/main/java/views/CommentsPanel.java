@@ -33,11 +33,11 @@ public final class CommentsPanel extends JPanel
     /**
      * The heart unselected.
      */
-    private static final String HEART_UNSELECTED = "\u2661";
+    private static final String HEART_UNSELECTED = "\u2661 Like";
     /**
      * The heart selected.
      */
-    private static final String HEART_SELECTED = "\u2665";
+    private static final String HEART_SELECTED = "\u2665 Unlike";
 
     /**
      * The card gap.
@@ -162,22 +162,32 @@ public final class CommentsPanel extends JPanel
     private void updateView(final CommentsState state) {
         if (state != null) {
             errorLabel.setText(state.getCommentsError());
-            refreshComments(state.getReviewId());
-            setComments(state.getReviewId(), state.getComments());
+            if (!refreshComments(state.getReviewId())) {
+                setComments(state.getReviewId(), state.getComments());
+            }
         }
     }
 
     /**
      * Loads persisted comments for one review into the view model state.
      * @param reviewId the review id to load comments for
+     * @return true if fresh comments were requested
      */
-    private void refreshComments(final String reviewId) {
+    private boolean refreshComments(final String reviewId) {
+        final boolean commentsRequested;
         if (!loadingComments && commentsController != null
                 && !isBlank(reviewId)) {
             loadingComments = true;
-            commentsController.loadReviewComments(reviewId);
-            loadingComments = false;
+            try {
+                commentsController.loadReviewComments(reviewId);
+            } finally {
+                loadingComments = false;
+            }
+            commentsRequested = true;
+        } else {
+            commentsRequested = false;
         }
+        return commentsRequested;
     }
 
     /**
@@ -217,6 +227,7 @@ public final class CommentsPanel extends JPanel
         card.setLayout(new BoxLayout(card, BoxLayout.Y_AXIS));
         card.setBorder(BorderFactory.createEmptyBorder(0,
                 getCommentIndent(comment), 0, 0));
+        card.setAlignmentX(Component.LEFT_ALIGNMENT);
 
         card.add(new JLabel(comment.getAuthorDisplayName()
                 + " (@" + comment.getAuthorUsername() + ")"));
@@ -235,21 +246,31 @@ public final class CommentsPanel extends JPanel
      */
     private Component createButtonPanel(final CommentRow comment) {
         final JPanel buttonPanel = new JPanel();
+        buttonPanel.setLayout(new BoxLayout(buttonPanel, BoxLayout.X_AXIS));
+        buttonPanel.setAlignmentX(Component.LEFT_ALIGNMENT);
         final JButton replyButton =
                 new JButton(CommentsViewModel.REPLY_BUTTON_LABEL);
         final JButton deleteButton =
                 new JButton(CommentsViewModel.DELETE_BUTTON_LABEL);
         final JToggleButton heartButton = createHeartButton();
+        final boolean ownedByCurrentUser = isWrittenByCurrentUser(
+                comment.getAuthorUsername());
+        heartButton.setSelected(comment.isLikedBy(currentUsername));
+        updateHeartButton(heartButton);
 
         replyButton.addActionListener(new SelectCommentListener(
                 comment.getCommentId(), true));
-        deleteButton.addActionListener(new SelectCommentListener(
-                comment.getCommentId(), false));
+        if (ownedByCurrentUser) {
+            deleteButton.addActionListener(new SelectCommentListener(
+                    comment.getCommentId(), false));
+        }
         heartButton.addActionListener(new HeartCommentListener(
                 comment.getCommentId()));
 
         buttonPanel.add(replyButton);
-        buttonPanel.add(deleteButton);
+        if (ownedByCurrentUser) {
+            buttonPanel.add(deleteButton);
+        }
         buttonPanel.add(heartButton);
         return buttonPanel;
     }
@@ -329,6 +350,16 @@ public final class CommentsPanel extends JPanel
      */
     private boolean hasCurrentUser() {
         return !isBlank(currentUsername) && !isBlank(currentDisplayName);
+    }
+
+    /**
+     * Checks whether the signed-in user wrote the comment.
+     * @param authorUsername the comment author's username
+     * @return true if the signed-in user is the author
+     */
+    private boolean isWrittenByCurrentUser(final String authorUsername) {
+        return !isBlank(currentUsername)
+                && currentUsername.equals(authorUsername);
     }
 
     /**

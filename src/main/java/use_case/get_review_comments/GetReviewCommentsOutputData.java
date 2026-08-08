@@ -2,6 +2,8 @@ package use_case.get_review_comments;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 import java.time.ZonedDateTime;
 
 /**
@@ -53,6 +55,7 @@ public final class GetReviewCommentsOutputData {
         private final String commentText;
         private final ZonedDateTime createdAt;
         private final int likeCount;
+        private final Set<String> likedByUsernames;
 
         /**
          * Creates one review comment row.
@@ -64,6 +67,7 @@ public final class GetReviewCommentsOutputData {
          * @param commentText the comment text
          * @param createdAt when the comment was created
          * @param likeCount the number of likes
+         * @param likedByUsernames usernames that liked the comment
          */
         public ReviewCommentData(final String commentId,
                                  final String reviewId,
@@ -72,7 +76,8 @@ public final class GetReviewCommentsOutputData {
                                  final String authorDisplayName,
                                  final String commentText,
                                  final ZonedDateTime createdAt,
-                                 final int likeCount) {
+                                 final int likeCount,
+                                 final Set<String> likedByUsernames) {
             this.commentId = commentId;
             this.reviewId = reviewId;
             this.parentCommentId = parentCommentId;
@@ -81,6 +86,7 @@ public final class GetReviewCommentsOutputData {
             this.commentText = commentText;
             this.createdAt = createdAt;
             this.likeCount = likeCount;
+            this.likedByUsernames = new HashSet<>(likedByUsernames);
         }
 
         public String getCommentId() {
@@ -113,6 +119,10 @@ public final class GetReviewCommentsOutputData {
 
         public int getLikeCount() {
             return likeCount;
+        }
+
+        public Set<String> getLikedByUsernames() {
+            return new HashSet<>(likedByUsernames);
         }
     }
 }

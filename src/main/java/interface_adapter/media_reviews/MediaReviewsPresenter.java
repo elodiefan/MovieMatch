@@ -126,7 +126,8 @@ public final class MediaReviewsPresenter
                 review.getAuthorUsername(), review.getAuthorDisplayName(),
                 review.getRating(), review.getReviewText(),
                 review.getCreatedAt(), review.getUpdatedAt(),
-                review.getLikeCount(), review.getSource());
+                review.getLikeCount(), review.getLikedByUsernames(),
+                review.getSource());
     }
 
     /**

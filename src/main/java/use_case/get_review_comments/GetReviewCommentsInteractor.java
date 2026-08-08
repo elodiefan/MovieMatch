@@ -139,7 +139,7 @@ public final class GetReviewCommentsInteractor
                     comment.getReviewId(), comment.getParentCommentId(),
                     comment.getAuthorUsername(), comment.getAuthorDisplayName(),
                     comment.getCommentText(), comment.getCreatedAt(),
-                    comment.getLikeCount()));
+                    comment.getLikeCount(), comment.getLikedByUsernames()));
         }
         return new GetReviewCommentsOutputData(reviewId, outputComments);
     }

@@ -150,7 +150,7 @@ public final class GetMediaReviewsInteractor
                     review.getAuthorDisplayName(), review.getRating(),
                     review.getReviewText(), review.getCreatedAt(),
                     review.getUpdatedAt(), review.getLikeCount(),
-                    review.getSource()));
+                    review.getLikedByUsernames(), review.getSource()));
         }
         return new GetMediaReviewsOutputData(outputReviews);
     }

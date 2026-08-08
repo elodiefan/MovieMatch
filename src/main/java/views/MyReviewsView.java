@@ -146,24 +146,34 @@ public final class MyReviewsView extends JPanel
     private void updateView(final UserReviewsState state) {
         if (state != null) {
             errorLabel.setText(state.getUserReviewsError());
-            loadContent(state);
-            setReviews(state.getReviews());
-            setComments(state.getComments());
+            if (!loadContent(state)) {
+                setReviews(state.getReviews());
+                setComments(state.getComments());
+            }
         }
     }
 
     /**
      * Loads persisted user reviews and comments into state.
      * @param state the user reviews state
+     * @return true if fresh content was requested
      */
-    private void loadContent(final UserReviewsState state) {
+    private boolean loadContent(final UserReviewsState state) {
+        final boolean contentRequested;
         if (!loadingContent && userReviewsController != null
                 && !isBlank(state.getUsername())) {
             loadingContent = true;
-            userReviewsController.loadUserReviews(state.getUsername());
-            userReviewsController.loadUserComments(state.getUsername());
-            loadingContent = false;
+            try {
+                userReviewsController.loadUserReviews(state.getUsername());
+                userReviewsController.loadUserComments(state.getUsername());
+            } finally {
+                loadingContent = false;
+            }
+            contentRequested = true;
+        } else {
+            contentRequested = false;
         }
+        return contentRequested;
     }
 
     /**

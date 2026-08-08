@@ -9,6 +9,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
 import java.util.Properties;
+import java.util.Set;
 
 import org.bson.Document;
 
@@ -47,6 +48,7 @@ public class MongoReviewDataAccessObject implements
 
     private static final String DEFAULT_PROPERTIES = "mongo.properties";
     private static final String DEFAULT_COLLECTION = "reviews";
+    private static final String DEFAULT_LIKES_COLLECTION = "reviewLikes";
 
     private static final String REVIEW_ID = "reviewId";
     private static final String MEDIA_ID = "mediaId";
@@ -63,6 +65,7 @@ public class MongoReviewDataAccessObject implements
 
     private final MongoClient mongoClient;
     private final MongoCollection<Document> reviews;
+    private final MongoCollection<Document> reviewLikes;
 
     /**
      * Connects using the default properties file.
@@ -83,6 +86,8 @@ public class MongoReviewDataAccessObject implements
                 properties.getProperty("database"));
         reviews = database.getCollection(properties.getProperty(
                 "reviewsCollection", DEFAULT_COLLECTION));
+        reviewLikes = database.getCollection(properties.getProperty(
+                "reviewLikesCollection", DEFAULT_LIKES_COLLECTION));
     }
 
     /**
@@ -181,9 +186,16 @@ public class MongoReviewDataAccessObject implements
      * @return true if the review exists
      */
     public boolean likeReview(String reviewId, String username) {
-        reviews.updateOne(Filters.eq(REVIEW_ID, reviewId),
-                Updates.addToSet(LIKED_BY_USERNAMES, username));
-        return existsByReviewId(reviewId);
+        final boolean localReviewExists = existsByReviewId(reviewId);
+        if (localReviewExists) {
+            reviews.updateOne(Filters.eq(REVIEW_ID, reviewId),
+                    Updates.addToSet(LIKED_BY_USERNAMES, username));
+        } else {
+            reviewLikes.updateOne(Filters.eq(REVIEW_ID, reviewId),
+                    Updates.addToSet(LIKED_BY_USERNAMES, username),
+                    new com.mongodb.client.model.UpdateOptions().upsert(true));
+        }
+        return true;
     }
 
     /**
@@ -193,9 +205,33 @@ public class MongoReviewDataAccessObject implements
      * @return true if the review exists
      */
     public boolean unlikeReview(String reviewId, String username) {
-        reviews.updateOne(Filters.eq(REVIEW_ID, reviewId),
-                Updates.pull(LIKED_BY_USERNAMES, username));
-        return existsByReviewId(reviewId);
+        final boolean localReviewExists = existsByReviewId(reviewId);
+        if (localReviewExists) {
+            reviews.updateOne(Filters.eq(REVIEW_ID, reviewId),
+                    Updates.pull(LIKED_BY_USERNAMES, username));
+        } else {
+            reviewLikes.updateOne(Filters.eq(REVIEW_ID, reviewId),
+                    Updates.pull(LIKED_BY_USERNAMES, username));
+        }
+        return true;
+    }
+
+    /**
+     * Returns locally stored likes for an external review id.
+     * @param reviewId the external review id
+     * @return usernames that liked the review
+     */
+    public Set<String> getLikedByUsernames(String reviewId) {
+        final Document document = reviewLikes.find(Filters.eq(REVIEW_ID,
+                reviewId)).first();
+        final Set<String> likedByUsernames;
+        if (document == null) {
+            likedByUsernames = new HashSet<>();
+        } else {
+            likedByUsernames = new HashSet<>(document.getList(
+                    LIKED_BY_USERNAMES, String.class, new ArrayList<>()));
+        }
+        return likedByUsernames;
     }
 
     /**

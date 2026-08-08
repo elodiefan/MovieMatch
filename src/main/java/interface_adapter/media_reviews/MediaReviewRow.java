@@ -1,6 +1,8 @@
 package interface_adapter.media_reviews;
 
 import java.time.ZonedDateTime;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * Display data for one community review on a media page.
@@ -39,6 +41,10 @@ public final class MediaReviewRow {
      */
     private final int likeCount;
     /**
+     * The usernames that liked this review.
+     */
+    private final Set<String> likedByUsernames;
+    /**
      * The review source.
      */
     private final String source;
@@ -53,6 +59,7 @@ public final class MediaReviewRow {
      * @param inputCreatedAt the creation time
      * @param inputUpdatedAt the update time
      * @param inputLikeCount the like count
+     * @param inputLikedByUsernames the usernames that liked this review
      * @param inputSource the review source
      */
     public MediaReviewRow(final String inputReviewId,
@@ -63,6 +70,7 @@ public final class MediaReviewRow {
                           final ZonedDateTime inputCreatedAt,
                           final ZonedDateTime inputUpdatedAt,
                           final int inputLikeCount,
+                          final Set<String> inputLikedByUsernames,
                           final String inputSource) {
         this.reviewId = inputReviewId;
         this.authorUsername = inputAuthorUsername;
@@ -72,6 +80,7 @@ public final class MediaReviewRow {
         this.createdAt = inputCreatedAt;
         this.updatedAt = inputUpdatedAt;
         this.likeCount = inputLikeCount;
+        this.likedByUsernames = new HashSet<>(inputLikedByUsernames);
         this.source = inputSource;
     }
 
@@ -105,6 +114,10 @@ public final class MediaReviewRow {
 
     public int getLikeCount() {
         return likeCount;
+    }
+
+    public boolean isLikedBy(final String username) {
+        return username != null && likedByUsernames.contains(username);
     }
 
     public String getSource() {
