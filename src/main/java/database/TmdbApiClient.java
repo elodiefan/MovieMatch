@@ -17,15 +17,57 @@ public class TmdbApiClient {
     private static final String BASE_URL =
             "https://api.themoviedb.org/3";
 
-    private final HttpClient httpClient;
+    private final RequestSender requestSender;
     private final String accessToken;
+
+    /**
+     * Small HTTP boundary used to keep network behaviour replaceable in tests.
+     */
+    interface RequestSender {
+        Response send(HttpRequest request)
+                throws IOException, InterruptedException;
+    }
+
+    /**
+     * Only the response data this client needs.
+     */
+    static final class Response {
+        private final int statusCode;
+        private final String body;
+
+        Response(int statusCode, String body) {
+            this.statusCode = statusCode;
+            this.body = body;
+        }
+    }
 
     /**
      * Creates a client for accessing the TMDB API.
      */
     public TmdbApiClient() {
-        this.httpClient = HttpClient.newHttpClient();
-        this.accessToken = System.getenv("Tmdb_Read_Access");
+        this(createDefaultSender(), System.getenv("Tmdb_Read_Access"));
+    }
+
+    /**
+     * Creates a client with controlled dependencies for package-level tests.
+     *
+     * @param requestSender sender used for HTTP requests
+     * @param accessToken TMDB bearer token
+     */
+    TmdbApiClient(RequestSender requestSender, String accessToken) {
+        this.requestSender = requestSender;
+        this.accessToken = accessToken;
+    }
+
+    private static RequestSender createDefaultSender() {
+        final HttpClient httpClient = HttpClient.newHttpClient();
+        return request -> {
+            final HttpResponse<String> response = httpClient.send(
+                    request,
+                    HttpResponse.BodyHandlers.ofString()
+            );
+            return new Response(response.statusCode(), response.body());
+        };
     }
 
     /**
@@ -189,20 +231,16 @@ public class TmdbApiClient {
                 .build();
 
         try {
-            final HttpResponse<String> response =
-                    httpClient.send(
-                            request,
-                            HttpResponse.BodyHandlers.ofString()
-                    );
+            final Response response = requestSender.send(request);
 
-            if (response.statusCode() != 200) {
+            if (response.statusCode != 200) {
                 throw new IOException(
                         "TMDB request failed with status code "
-                                + response.statusCode()
+                                + response.statusCode
                 );
             }
 
-            return response.body();
+            return response.body;
         }
         catch (InterruptedException exception) {
             Thread.currentThread().interrupt();

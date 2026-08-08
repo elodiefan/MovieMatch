@@ -21,7 +21,10 @@ import use_case.recommendation.RecommendationOutputBoundary;
 import use_case.recommendation.ReviewedMediaRatingDataAccessInterface;
 import use_case.recommendation.ScoreAdjuster;
 import use_case.recommendation.WatchedMediaDataAccessInterface;
+import java.util.concurrent.Executor;
+
 import views.HomeRecommendationsPanel;
+import views.SwingUiExecutor;
 import views.RecommendationView;
 
 /**
@@ -51,6 +54,8 @@ public final class RecommendationUseCaseFactory {
                               WatchedMediaDataAccessInterface watchedMediaDataAccess,
                               ReviewedMediaRatingDataAccessInterface reviewDataAccess) {
 
+        // Swing lives in the view layer, so the presenter only sees an Executor.
+        final Executor uiExecutor = new SwingUiExecutor();
         final TmdbApiClient tmdbApiClient = new TmdbApiClient();
         final MediaCatalogueDataAccessInterface catalogue = new TmdbMediaCatalogue(tmdbApiClient);
         final RecommendationDataAccessInterface userDataAccess =
@@ -61,11 +66,11 @@ public final class RecommendationUseCaseFactory {
 
         homeRecommendationsPanel.setRecommendationController(new RecommendationController(
                 buildInteractor(userDataAccess, catalogue, adjuster,
-                        new RecommendationPresenter(homeStripViewModel), currentYear)));
+                        new RecommendationPresenter(homeStripViewModel, uiExecutor), currentYear)));
 
         recommendationView.setRecommendationController(new RecommendationController(
                 buildInteractor(userDataAccess, catalogue, adjuster,
-                        new RecommendationPresenter(detailedViewModel), currentYear)));
+                        new RecommendationPresenter(detailedViewModel, uiExecutor), currentYear)));
 
         homeRecommendationsPanel.setOpenFullListHandler(
                 () -> viewManagerModel.switchView(RecommendationViewModel.VIEW_NAME));

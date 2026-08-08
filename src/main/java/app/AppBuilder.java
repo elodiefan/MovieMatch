@@ -43,6 +43,9 @@ import interface_adapter.media_detail.MediaDetailViewModel;
 import interface_adapter.media_reviews.MediaReviewsController;
 import interface_adapter.media_reviews.MediaReviewsPresenter;
 import interface_adapter.media_reviews.MediaReviewsViewModel;
+import interface_adapter.messaging.MessagingController;
+import interface_adapter.messaging.MessagingPresenter;
+import interface_adapter.messaging.MessagingViewModel;
 import interface_adapter.other_account.OtherAccountController;
 import interface_adapter.other_account.OtherAccountPresenter;
 import interface_adapter.other_account.OtherAccountViewModel;
@@ -52,12 +55,24 @@ import interface_adapter.personal_account.PersonalAccountViewModel;
 import interface_adapter.reset_password.ResetPasswordController;
 import interface_adapter.reset_password.ResetPasswordPresenter;
 import interface_adapter.reset_password.ResetPasswordViewModel;
+import use_case.access_message_chat.AccessMessageChatInputBoundary;
+import use_case.access_message_chat.AccessMessageChatInteractor;
+import use_case.access_message_chat.AccessMessageChatOutputBoundary;
+import use_case.block_user.BlockUserInputBoundary;
+import use_case.block_user.BlockUserInteractor;
+import use_case.block_user.BlockUserOutputBoundary;
 import use_case.change_display_name.ChangeDisplayNameInputBoundary;
 import use_case.change_display_name.ChangeDisplayNameInteractor;
 import use_case.change_display_name.ChangeDisplayNameOutputBoundary;
 import use_case.change_username.ChangeUsernameInputBoundary;
 import use_case.change_username.ChangeUsernameInteractor;
 import use_case.change_username.ChangeUsernameOutputBoundary;
+import use_case.fetch_chat_history.FetchChatHistoryInputBoundary;
+import use_case.fetch_chat_history.FetchChatHistoryInteractor;
+import use_case.fetch_chat_history.FetchChatHistoryOutputBoundary;
+import use_case.send_message.SendMessageInputBoundary;
+import use_case.send_message.SendMessageInteractor;
+import use_case.send_message.SendMessageOutputBoundary;
 import interface_adapter.search_user.SearchUserViewModel;
 import interface_adapter.search.SearchViewModel;
 import interface_adapter.recommendation.RecommendationViewModel;
@@ -95,8 +110,6 @@ import use_case.get_user_comments.GetUserCommentsInputBoundary;
 import use_case.get_user_comments.GetUserCommentsInteractor;
 import use_case.like_comment.LikeCommentInteractor;
 import use_case.unlike_comment.UnlikeCommentInteractor;
-import use_case.block_user.BlockUserInputBoundary;
-import use_case.block_user.BlockUserInteractor;
 import use_case.filter.FilterInputBoundary;
 import use_case.filter.FilterInteractor;
 import use_case.filter.FilterOutputBoundary;
@@ -188,6 +201,8 @@ public class AppBuilder {
             new MongoReviewDataAccessObject();
     private final MongoCommentDataAccessObject commentDataAccessObject =
             new MongoCommentDataAccessObject();
+    private final MongoMessagesDataAccessObject mongoMessagesDataAccessObject =
+            new MongoMessagesDataAccessObject();
 
     // Counts failed security answers and holds lock-outs. One shared instance, so
     // every attempt on the same account is counted together.
@@ -220,6 +235,8 @@ public class AppBuilder {
     private ResetPasswordView resetPasswordView;
     private ResetPasswordViewModel resetPasswordViewModel;
     private MyReviewsView userReviewsView;
+    private MessagingView messagingView;
+    private MessagingViewModel messagingViewModel;
     private UserReviewsViewModel userReviewsViewModel;
     private SecurityQuestionView securityQuestionView;
     private SecurityQuestionViewModel securityQuestionViewModel;
@@ -362,12 +379,14 @@ public class AppBuilder {
         // The presenter accepts a reviews view model but currently discards it,
         // so this is inert until that part of the presenter is finished.
         final OtherAccountPresenter otherAccountPresenter = new OtherAccountPresenter(viewManagerModel,
-                otherAccountViewModel);
+                otherAccountViewModel, messagingViewModel);
         final BlockUserInputBoundary blockUserInteractor = new BlockUserInteractor(userDataAccessObject,
                 otherAccountPresenter);
+        final AccessMessageChatInputBoundary accessMessageChatInteractor = new AccessMessageChatInteractor(
+                userDataAccessObject, mongoMessagesDataAccessObject,otherAccountPresenter);
 
         final OtherAccountController otherAccountController = new OtherAccountController(viewManagerModel,
-                blockUserInteractor, createGetListsController(), null);
+                blockUserInteractor, createGetListsController(), accessMessageChatInteractor);
         otherAccountView.setOtherAccountController(otherAccountController);
         return this;
     }
@@ -548,7 +567,6 @@ public class AppBuilder {
         return this;
     }
 
-//    // TODO: For Yidan/Kiersten -> Implement search view files.
     /**
      * Adds the Home Page Use Case to the application.
      *
@@ -809,6 +827,67 @@ public class AppBuilder {
                 recommendationView,
                 userDataAccessObject,
                 reviewDataAccessObject);
+        return this;
+    }
+
+    /**
+     * Adds the Messaging View to the app.
+     * @return this builder
+     */
+    public AppBuilder addMessagingView() {
+        messagingViewModel = new MessagingViewModel();
+        messagingView = new MessagingView(messagingViewModel, viewManagerModel);
+
+        cardPanel.add(
+                messagingView,
+                messagingView.getViewName()
+        );
+
+        return this;
+    }
+
+    /**
+     * Adds access message chat use case to this app.
+     * @return this builder
+     */
+    public AppBuilder addAccessMessageChatUseCase() {
+        final AccessMessageChatOutputBoundary userPresenter = new OtherAccountPresenter(viewManagerModel,
+                otherAccountViewModel, messagingViewModel);
+        final AccessMessageChatInputBoundary accessMessageChatInteractor = new AccessMessageChatInteractor(
+                userDataAccessObject, mongoMessagesDataAccessObject, userPresenter);
+        final BlockUserInputBoundary blockUserInteractor = new BlockUserInteractor(userDataAccessObject,
+                (BlockUserOutputBoundary) userPresenter);
+        final OtherAccountController otherAccountController = new OtherAccountController(viewManagerModel,
+                blockUserInteractor, createGetListsController(), accessMessageChatInteractor);
+        otherAccountView.setOtherAccountController(otherAccountController);
+        return this;
+    }
+
+    public AppBuilder addBlockUserUseCase() {
+        final BlockUserOutputBoundary userPresenter = new OtherAccountPresenter(viewManagerModel,
+                otherAccountViewModel, messagingViewModel);
+        final BlockUserInputBoundary blockUserInteractor = new BlockUserInteractor(userDataAccessObject, userPresenter);
+        final AccessMessageChatInputBoundary accessMessageChatInteractor = new AccessMessageChatInteractor(
+                userDataAccessObject, mongoMessagesDataAccessObject, (AccessMessageChatOutputBoundary) userPresenter);
+        final OtherAccountController otherAccountController = new OtherAccountController(viewManagerModel, blockUserInteractor, createGetListsController(), accessMessageChatInteractor);
+        otherAccountView.setOtherAccountController(otherAccountController);
+        return this;
+    }
+
+    /**
+     * Adds use cases associated with messaging to this app.
+     * @return this builder
+     */
+    public AppBuilder addMessagingUseCases() {
+        final FetchChatHistoryOutputBoundary userPresenter = new MessagingPresenter(viewManagerModel,
+                messagingViewModel, otherAccountViewModel);
+        final FetchChatHistoryInputBoundary fetchChatHistoryInteractor = new FetchChatHistoryInteractor(
+                mongoMessagesDataAccessObject, userPresenter);
+        final SendMessageInputBoundary sendMessageInteractor = new SendMessageInteractor(mongoMessagesDataAccessObject,
+                (SendMessageOutputBoundary) userPresenter);
+        final MessagingController messagingController = new MessagingController(viewManagerModel, sendMessageInteractor,
+                fetchChatHistoryInteractor, otherAccountView.getViewName());
+        messagingView.setMessagingController(messagingController);
         return this;
     }
 
