@@ -30,9 +30,8 @@ public class LogMediaInteractor implements LogMediaInputBoundary {
      * Watchlist failure message for already watched media.
      */
     private static final String ALREADY_WATCHED_MESSAGE =
-            "<html>This media is already in your watch history.<br>"
-                    + "Remove it from watch history before adding it "
-                    + "to your watchlist.</html>";
+            "This media is already in your watch history. Remove it from "
+                    + "watch history before adding it to your watchlist.";
 
     /**
      * The data access object.

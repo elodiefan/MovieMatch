@@ -403,7 +403,8 @@ public class MediaDetailView extends JPanel implements PropertyChangeListener {
         }
         else {
             final String wrappedText = escapeHtml(text)
-                    .replace(". Remove", ".<br>Remove");
+                    .replace("history. Remove", "history.<br>Remove")
+                    .replace("before adding", "before<br>adding");
             labelText = "<html><body style='width: "
                     + LOG_MESSAGE_WIDTH + "px'>"
                     + wrappedText + "</body></html>";
