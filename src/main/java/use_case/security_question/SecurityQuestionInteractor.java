@@ -8,10 +8,10 @@ import entity.User;
  * <p>
  * Responsibilities, matching the feature spec:
  * <ul>
- *     <li>show the user's security question;</li>
- *     <li>verify the typed answer;</li>
- *     <li>let the user keep trying while wrong;</li>
- *     <li>lock the account once too many attempts fail.</li>
+ * <li>show the user's security question;</li>
+ * <li>verify the typed answer;</li>
+ * <li>let the user keep trying while wrong;</li>
+ * <li>lock the account once too many attempts fail.</li>
  * </ul>
  * <p>
  * The counting and timing rules live in {@link AccountLockout}, and the records
@@ -93,12 +93,23 @@ public class SecurityQuestionInteractor implements SecurityQuestionInputBoundary
         }
     }
 
-    /** @return true if the answers match, ignoring case and surrounding spaces. */
+    /**
+     * Checks whether the answers match.
+     * @return true if the answers match, ignoring case and surrounding spaces.
+     *
+     * @param expected the expected
+     * @param actual the actual
+     */
     private boolean matches(String expected, String actual) {
         return expected != null && actual != null && expected.trim().equalsIgnoreCase(actual.trim());
     }
 
-    /** @return this account's lock-out record. */
+    /**
+     * Returns this account's lock-out record.
+     * @return this account's lock-out record.
+     *
+     * @param username the username
+     */
     private AccountLockout lockoutFor(String username) {
         return lockoutTracker.forUser(username);
     }

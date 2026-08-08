@@ -1,11 +1,11 @@
 package interface_adapter.personal_account;
 
-import interface_adapter.ViewModel;
+import interface_adapter.StateModel;
 
 /**
  * The View Model for the Account View.
  */
-public class PersonalAccountViewModel extends ViewModel<PersonalAccountState> {
+public class PersonalAccountViewModel extends StateModel<PersonalAccountState> {
 
     public static final String VIEW_NAME = "personal account";
     public static final String TITLE_LABEL = "My Account";

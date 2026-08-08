@@ -1,9 +1,11 @@
 package interface_adapter.get_lists;
 
-import use_case.get_lists.GetListsInputData;
-import use_case.get_lists.get_blocked_users.GetBlockedUsersInputBoundary;
-import use_case.get_lists.get_watch_history.GetWatchHistoryInputBoundary;
-import use_case.get_lists.get_watchlist.GetWatchlistInputBoundary;
+import use_case.get_blocked_users.GetBlockedUsersInputBoundary;
+import use_case.get_blocked_users.GetBlockedUsersInputData;
+import use_case.get_watch_history.GetWatchHistoryInputBoundary;
+import use_case.get_watch_history.GetWatchHistoryInputData;
+import use_case.get_watchlist.GetWatchlistInputBoundary;
+import use_case.get_watchlist.GetWatchlistInputData;
 
 /**
  * The controller for the lists view.
@@ -40,7 +42,7 @@ public class GetListsController {
      * @param displayName the password of the user logging in
      */
     public void executeWatchlistUseCase(String username, String displayName) {
-        final GetListsInputData getListsInputData = new GetListsInputData(
+        final GetWatchlistInputData getListsInputData = new GetWatchlistInputData(
                 username, displayName);
 
         getWatchlistUseCaseInteractor.execute(getListsInputData);
@@ -52,7 +54,7 @@ public class GetListsController {
      * @param displayName the password of the user logging in
      */
     public void executeWatchHistoryUseCase(String username, String displayName) {
-        final GetListsInputData getListsInputData = new GetListsInputData(
+        final GetWatchHistoryInputData getListsInputData = new GetWatchHistoryInputData(
                 username, displayName);
 
         getWatchHistoryInteractor.execute(getListsInputData);
@@ -64,7 +66,7 @@ public class GetListsController {
      * @param displayName the password of the user logging in
      */
     public void executeBlockUsersUseCase(String username, String displayName) {
-        final GetListsInputData getListsInputData = new GetListsInputData(
+        final GetBlockedUsersInputData getListsInputData = new GetBlockedUsersInputData(
                 username, displayName);
 
         getBlockedUsersInteractor.execute(getListsInputData);
@@ -76,15 +78,19 @@ public class GetListsController {
      * @param displayName the display name of the user whose list view is displayed.
      */
     public void switchToAccountView(String username, String displayName) {
-        final GetListsInputData getListsInputData = new GetListsInputData(
-                username, displayName);
         if (getWatchlistUseCaseInteractor != null) {
+            final GetWatchlistInputData getListsInputData =
+                    new GetWatchlistInputData(username, displayName);
             getWatchlistUseCaseInteractor.switchToAccountView(getListsInputData);
         }
         else if (getWatchHistoryInteractor != null) {
+            final GetWatchHistoryInputData getListsInputData =
+                    new GetWatchHistoryInputData(username, displayName);
             getWatchHistoryInteractor.switchToAccountView(getListsInputData);
         }
         else {
+            final GetBlockedUsersInputData getListsInputData =
+                    new GetBlockedUsersInputData(username, displayName);
             getBlockedUsersInteractor.switchToAccountView(getListsInputData);
         }
     }

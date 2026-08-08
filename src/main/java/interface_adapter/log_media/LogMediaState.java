@@ -4,9 +4,13 @@ package interface_adapter.log_media;
  * State for logging media to user lists.
  */
 public class LogMediaState {
-    /** The success message. */
+    /**
+     * The success message.
+     */
     private String message = "";
-    /** The error message. */
+    /**
+     * The error message.
+     */
     private String error = "";
 
     /**

@@ -7,21 +7,33 @@ import java.time.ZonedDateTime;
  * Interactor for logging media to watchlist and watch history.
  */
 public class LogMediaInteractor implements LogMediaInputBoundary {
-    /** Toronto time zone id. */
+    /**
+     * Toronto time zone id.
+     */
     private static final ZoneId TORONTO_ZONE =
             ZoneId.of("America/Toronto");
-    /** The minimum valid TMDB media id. */
+    /**
+     * The minimum valid TMDB media id.
+     */
     private static final int MIN_MEDIA_ID = 0;
-    /** Watchlist success message. */
+    /**
+     * Watchlist success message.
+     */
     private static final String WATCHLIST_MESSAGE =
             "Added to watchlist.";
-    /** Watch history success message. */
+    /**
+     * Watch history success message.
+     */
     private static final String WATCH_HISTORY_MESSAGE =
             "Added to watch history.";
 
-    /** The data access object. */
+    /**
+     * The data access object.
+     */
     private final LogMediaDataAccessInterface dataAccessObject;
-    /** The output boundary. */
+    /**
+     * The output boundary.
+     */
     private final LogMediaOutputBoundary presenter;
 
     /**

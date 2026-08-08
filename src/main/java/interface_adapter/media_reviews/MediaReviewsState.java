@@ -7,17 +7,29 @@ import java.util.List;
  * State for the media reviews panel.
  */
 public final class MediaReviewsState {
-    /** The media id. */
+    /**
+     * The media id.
+     */
     private int mediaId;
-    /** The media type. */
+    /**
+     * The media type.
+     */
     private String mediaType = "";
-    /** The media title. */
+    /**
+     * The media title.
+     */
     private String mediaTitle = "";
-    /** The reviews. */
+    /**
+     * The reviews.
+     */
     private List<MediaReviewRow> reviews = new ArrayList<>();
-    /** The selected review id. */
+    /**
+     * The selected review id.
+     */
     private String selectedReviewId = "";
-    /** The media reviews error. */
+    /**
+     * The media reviews error.
+     */
     private String mediaReviewsError;
 
     /**

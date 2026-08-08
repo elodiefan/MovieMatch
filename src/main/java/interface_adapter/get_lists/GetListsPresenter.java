@@ -5,12 +5,12 @@ import interface_adapter.other_account.OtherAccountState;
 import interface_adapter.other_account.OtherAccountViewModel;
 import interface_adapter.personal_account.PersonalAccountState;
 import interface_adapter.personal_account.PersonalAccountViewModel;
-import use_case.get_lists.get_blocked_users.GetBlockedUsersOutputBoundary;
-import use_case.get_lists.get_blocked_users.GetBlockedUsersOutputData;
-import use_case.get_lists.get_watch_history.GetWatchHistoryOutputBoundary;
-import use_case.get_lists.get_watch_history.GetWatchHistoryOutputData;
-import use_case.get_lists.get_watchlist.GetWatchlistOutputBoundary;
-import use_case.get_lists.get_watchlist.GetWatchlistOutputData;
+import use_case.get_blocked_users.GetBlockedUsersOutputBoundary;
+import use_case.get_blocked_users.GetBlockedUsersOutputData;
+import use_case.get_watch_history.GetWatchHistoryOutputBoundary;
+import use_case.get_watch_history.GetWatchHistoryOutputData;
+import use_case.get_watchlist.GetWatchlistOutputBoundary;
+import use_case.get_watchlist.GetWatchlistOutputData;
 
 public class GetListsPresenter implements GetWatchlistOutputBoundary, GetWatchHistoryOutputBoundary,
         GetBlockedUsersOutputBoundary {
@@ -37,6 +37,7 @@ public class GetListsPresenter implements GetWatchlistOutputBoundary, GetWatchHi
         getListsState.setUsername(response.getUsername());
         getListsState.setDisplayName(response.getDisplayName());
         getListsState.setDisplayText(response.getWatchlist());
+        getListsState.setListLabel(GetListsViewModel.WATCHLIST);
         this.getListsViewModel.setState(getListsState);
         this.getListsViewModel.firePropertyChanged();
         this.viewManagerModel.setState(getListsViewModel.getViewName());
@@ -50,6 +51,7 @@ public class GetListsPresenter implements GetWatchlistOutputBoundary, GetWatchHi
         getListsState.setUsername(response.getUsername());
         getListsState.setDisplayName(response.getDisplayName());
         getListsState.setDisplayText(response.getWatchHistory());
+        getListsState.setListLabel(GetListsViewModel.WATCH_HISTORY);
         this.getListsViewModel.setState(getListsState);
         this.getListsViewModel.firePropertyChanged();
         this.viewManagerModel.setState(getListsViewModel.getViewName());
@@ -63,6 +65,7 @@ public class GetListsPresenter implements GetWatchlistOutputBoundary, GetWatchHi
         getListsState.setUsername(response.getUsername());
         getListsState.setDisplayName(response.getDisplayName());
         getListsState.setDisplayText(response.getBlockedUsers());
+        getListsState.setListLabel(GetListsViewModel.BLOCKED_USERS);
         this.getListsViewModel.setState(getListsState);
         this.getListsViewModel.firePropertyChanged();
         this.viewManagerModel.setState(getListsViewModel.getViewName());

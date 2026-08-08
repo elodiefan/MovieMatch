@@ -4,9 +4,13 @@ package use_case.log_media;
  * Output data after logging a media item to a user list.
  */
 public class LogMediaOutputData {
-    /** The logged media title. */
+    /**
+     * The logged media title.
+     */
     private final String mediaTitle;
-    /** The success message. */
+    /**
+     * The success message.
+     */
     private final String message;
 
     /**

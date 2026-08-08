@@ -4,11 +4,17 @@ package use_case.log_media;
  * Input data for logging a media item to a user list.
  */
 public class LogMediaInputData {
-    /** The media id. */
+    /**
+     * The media id.
+     */
     private final int mediaId;
-    /** The media type. */
+    /**
+     * The media type.
+     */
     private final String mediaType;
-    /** The media title. */
+    /**
+     * The media title.
+     */
     private final String mediaTitle;
 
     /**

@@ -10,10 +10,14 @@ package entity;
  */
 public class AccountLockout {
 
-    /** Number of wrong answers allowed before the account locks. */
+    /**
+     * Number of wrong answers allowed before the account locks.
+     */
     public static final int MAX_ATTEMPTS = 3;
 
-    /** How long the account stays locked after too many wrong answers. */
+    /**
+     * How long the account stays locked after too many wrong answers.
+     */
     public static final int LOCKOUT_MINUTES = 5;
 
     private static final long MILLIS_PER_MINUTE = 60_000L;
@@ -21,7 +25,9 @@ public class AccountLockout {
 
     private int failedAttempts;
 
-    /** Epoch-millis until which the account is locked; 0 means not locked. */
+    /**
+     * Epoch-millis until which the account is locked; 0 means not locked.
+     */
     private long lockedUntil;
 
     /**
@@ -46,8 +52,9 @@ public class AccountLockout {
     }
 
     /**
+     * Returns whether the account is locked right now.
      * @return true if the account is locked right now. An expired lock is
-     *     cleared here, so the next attempt is allowed.
+     * cleared here, so the next attempt is allowed.
      */
     public boolean isLockedOut() {
         if (lockedUntil == 0L) {
@@ -61,6 +68,7 @@ public class AccountLockout {
     }
 
     /**
+     * Returns how many attempts remain before the account locks.
      * @return how many attempts remain before the account locks
      */
     public int remainingAttempts() {
@@ -68,6 +76,7 @@ public class AccountLockout {
     }
 
     /**
+     * Returns seconds left on the current lock-out.
      * @return seconds left on the current lock-out, or 0 if not locked
      */
     public long remainingLockSeconds() {

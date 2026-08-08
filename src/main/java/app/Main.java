@@ -2,8 +2,8 @@ package app;
 
 import javax.swing.JFrame;
 
-import view.ErrorReporter;
-import view.UiTheme;
+import views.ErrorReporter;
+import views.UiTheme;
 
 /**
  * The Main class of our application.
@@ -11,7 +11,8 @@ import view.UiTheme;
 public class Main {
     /**
      * Builds and runs the CA architecture of the application.
-     * @param args unused arguments
+     *
+     * @param args the args
      */
     public static void main(String[] args) {
         // Without this a failed database call just prints to the console and the
@@ -55,7 +56,11 @@ public class Main {
                 .addSignupUseCase()
                 .addSearchView()
                 .addSearchResultView()
+                .addSettingsView()
+                .addRecommendationView()
                 .addSearchUseCase()
+                .addSettingsUseCase()
+                .addRecommendationUseCase()
                 .addFilterUseCase()
                 .addUserReviewsUseCase()
                 .addMediaDetailView()

@@ -1,12 +1,12 @@
 package interface_adapter.delete_account;
 
-import interface_adapter.ViewModel;
+import interface_adapter.StateModel;
 
 /**
  * The View Model for the Delete Account View.
  */
 
-public class DeleteAccountViewModel extends ViewModel<DeleteAccountState> {
+public class DeleteAccountViewModel extends StateModel<DeleteAccountState> {
 
     public static final String TITLE_LABEL = "Delete Account Screen";
     public static final String DESCRIPTION = "Correctly answer the security question to delete the account ";

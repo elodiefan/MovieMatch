@@ -7,15 +7,25 @@ import java.util.List;
  * State for the user reviews view.
  */
 public final class UserReviewsState {
-    /** The username. */
+    /**
+     * The username.
+     */
     private String username = "";
-    /** The reviews. */
+    /**
+     * The reviews.
+     */
     private List<UserReviewRow> reviews = new ArrayList<>();
-    /** The comments. */
+    /**
+     * The comments.
+     */
     private List<UserCommentRow> comments = new ArrayList<>();
-    /** The selected review id. */
+    /**
+     * The selected review id.
+     */
     private String selectedReviewId = "";
-    /** The user reviews error. */
+    /**
+     * The user reviews error.
+     */
     private String userReviewsError;
 
     /**

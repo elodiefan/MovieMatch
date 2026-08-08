@@ -1,11 +1,11 @@
 package interface_adapter.get_lists;
 
-import interface_adapter.ViewModel;
+import interface_adapter.StateModel;
 
 /**
  * The View Model for the View Lists View.
  */
-public class GetListsViewModel extends ViewModel<GetListsState> {
+public class GetListsViewModel extends StateModel<GetListsState> {
 
     public static final String VIEW_NAME = "view lists";
     public static final String WATCHLIST = "'s watchlist";

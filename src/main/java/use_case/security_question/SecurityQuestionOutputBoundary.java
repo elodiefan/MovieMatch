@@ -16,7 +16,7 @@ public interface SecurityQuestionOutputBoundary {
     void presentSecurityQuestion(SecurityQuestionOutputData outputData);
 
     /**
-     * The answer was correct — identity confirmed. The presenter should now
+     * The answer was correct â€” identity confirmed. The presenter should now
      * open the change-password window.
      * @param outputData the successful result
      */

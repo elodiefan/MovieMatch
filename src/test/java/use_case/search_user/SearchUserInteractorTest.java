@@ -18,7 +18,9 @@ import entity.User;
  */
 class SearchUserInteractorTest {
 
-    /** Records what the interactor searched for and returns whatever it was given. */
+    /**
+     * Records what the interactor searched for and returns whatever it was given.
+     */
     private static class FakeDataAccess implements SearchUserDataAccess {
         private final List<User> toReturn;
         private String receivedKeyword;
@@ -34,7 +36,9 @@ class SearchUserInteractorTest {
         }
     }
 
-    /** Records which presenter method the interactor called, and with what. */
+    /**
+     * Records which presenter method the interactor called, and with what.
+     */
     private static class RecordingPresenter implements SearchUserOutputBoundary {
         private SearchUserOutputData successData;
         private String failError;

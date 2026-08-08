@@ -3,20 +3,15 @@ package interface_adapter.user_reviews;
 import java.util.ArrayList;
 import java.util.List;
 
-import entity.Review;
-import use_case.comment.get_user_comments.GetUserCommentsOutputBoundary;
-import use_case.comment.get_user_comments.GetUserCommentsOutputData;
-import use_case.comment.UserCommentSummaryData;
-import use_case.review.delete_review.DeleteReviewOutputBoundary;
-import use_case.review.delete_review.DeleteReviewOutputData;
-import use_case.review.edit_review.EditReviewOutputBoundary;
-import use_case.review.edit_review.EditReviewOutputData;
-import use_case.review.get_user_reviews.GetUserReviewsOutputBoundary;
-import use_case.review.get_user_reviews.GetUserReviewsOutputData;
-import use_case.review.like_review.LikeReviewOutputBoundary;
-import use_case.review.like_review.LikeReviewOutputData;
-import use_case.review.unlike_review.UnlikeReviewOutputBoundary;
-import use_case.review.unlike_review.UnlikeReviewOutputData;
+import use_case.get_user_comments.GetUserCommentsOutputBoundary;
+import use_case.get_user_comments.GetUserCommentsOutputData;
+import use_case.delete_review.DeleteReviewOutputBoundary;
+import use_case.edit_review.EditReviewOutputBoundary;
+import use_case.edit_review.EditReviewOutputData;
+import use_case.get_user_reviews.GetUserReviewsOutputBoundary;
+import use_case.get_user_reviews.GetUserReviewsOutputData;
+import use_case.like_review.LikeReviewOutputBoundary;
+import use_case.unlike_review.UnlikeReviewOutputBoundary;
 
 /**
  * Presenter for the user reviews view.
@@ -25,7 +20,9 @@ public final class UserReviewsPresenter implements GetUserReviewsOutputBoundary,
         GetUserCommentsOutputBoundary, EditReviewOutputBoundary,
         DeleteReviewOutputBoundary, LikeReviewOutputBoundary,
         UnlikeReviewOutputBoundary {
-    /** The user reviews view model. */
+    /**
+     * The user reviews view model.
+     */
     private final UserReviewsViewModel userReviewsViewModel;
 
     /**
@@ -42,7 +39,8 @@ public final class UserReviewsPresenter implements GetUserReviewsOutputBoundary,
      * @param outputData the output data
      */
     @Override
-    public void prepareSuccessView(final GetUserReviewsOutputData outputData) {
+    public void prepareUserReviewsSuccessView(
+            final GetUserReviewsOutputData outputData) {
         final UserReviewsState state = userReviewsViewModel.getState();
         state.setReviews(prepareReviews(outputData.getReviews()));
         state.setUserReviewsError(null);
@@ -55,7 +53,7 @@ public final class UserReviewsPresenter implements GetUserReviewsOutputBoundary,
      * @param outputData the output data
      */
     @Override
-    public void prepareSuccessView(
+    public void prepareUserCommentsSuccessView(
             final GetUserCommentsOutputData outputData) {
         final UserReviewsState state = userReviewsViewModel.getState();
         state.setComments(prepareComments(outputData.getComments()));
@@ -65,35 +63,26 @@ public final class UserReviewsPresenter implements GetUserReviewsOutputBoundary,
     }
 
     @Override
-    public void prepareSuccessView(final EditReviewOutputData outputData) {
+    public void prepareSuccessView(final EditReviewOutputData review) {
         clearError();
     }
 
     @Override
-    public void prepareSuccessView(final DeleteReviewOutputData outputData) {
-        clearError();
-    }
-
-    @Override
-    public void prepareSuccessView(final LikeReviewOutputData outputData) {
-        clearError();
-    }
-
-    @Override
-    public void prepareSuccessView(final UnlikeReviewOutputData outputData) {
+    public void prepareSuccessView(final boolean deleted) {
         clearError();
     }
 
     /**
-     * Converts review entities into rows that can be displayed by the user
+     * Converts review summaries into rows that can be displayed by the user
      * reviews view.
      * @param reviews the reviews to present
      * @return display-safe review rows
      */
-    private List<UserReviewRow> prepareReviews(final List<Review> reviews) {
+    private List<UserReviewRow> prepareReviews(
+            final List<GetUserReviewsOutputData.UserReviewData> reviews) {
         final List<UserReviewRow> reviewRows = new ArrayList<>();
         if (reviews != null) {
-            for (Review review : reviews) {
+            for (GetUserReviewsOutputData.UserReviewData review : reviews) {
                 if (review != null) {
                     reviewRows.add(createReviewRow(review));
                 }
@@ -108,10 +97,11 @@ public final class UserReviewsPresenter implements GetUserReviewsOutputBoundary,
      * @return display-safe comment rows
      */
     private List<UserCommentRow> prepareComments(
-            final List<UserCommentSummaryData> comments) {
+            final List<GetUserCommentsOutputData.UserCommentData> comments) {
         final List<UserCommentRow> commentRows = new ArrayList<>();
         if (comments != null) {
-            for (UserCommentSummaryData comment : comments) {
+            for (GetUserCommentsOutputData.UserCommentData comment
+                    : comments) {
                 if (comment != null) {
                     commentRows.add(createCommentRow(comment));
                 }
@@ -147,11 +137,12 @@ public final class UserReviewsPresenter implements GetUserReviewsOutputBoundary,
     }
 
     /**
-     * Converts one review entity into one displayed row.
+     * Converts one review summary into one displayed row.
      * @param review the review to convert
      * @return the displayed review row
      */
-    private UserReviewRow createReviewRow(final Review review) {
+    private UserReviewRow createReviewRow(
+            final GetUserReviewsOutputData.UserReviewData review) {
         return new UserReviewRow(review.getReviewId(), review.getMediaId(),
                 review.getMediaType(), review.getMediaTitle(),
                 review.getRating(), review.getReviewText(),
@@ -165,7 +156,7 @@ public final class UserReviewsPresenter implements GetUserReviewsOutputBoundary,
      * @return the displayed comment row
      */
     private UserCommentRow createCommentRow(
-            final UserCommentSummaryData comment) {
+            final GetUserCommentsOutputData.UserCommentData comment) {
         return new UserCommentRow(comment.getCommentId(),
                 comment.getReviewId(), comment.getMediaTitle(),
                 comment.getReviewText(), comment.getCommentText(),

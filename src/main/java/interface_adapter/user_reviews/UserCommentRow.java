@@ -6,19 +6,33 @@ import java.time.ZonedDateTime;
  * Display data for one comment in the user's comment history.
  */
 public final class UserCommentRow {
-    /** The comment id. */
+    /**
+     * The comment id.
+     */
     private final String commentId;
-    /** The review id. */
+    /**
+     * The review id.
+     */
     private final String reviewId;
-    /** The media title. */
+    /**
+     * The media title.
+     */
     private final String mediaTitle;
-    /** The review text. */
+    /**
+     * The review text.
+     */
     private final String reviewText;
-    /** The comment text. */
+    /**
+     * The comment text.
+     */
     private final String commentText;
-    /** The created at. */
+    /**
+     * The created at.
+     */
     private final ZonedDateTime createdAt;
-    /** The like count. */
+    /**
+     * The like count.
+     */
     private final int likeCount;
 
     /**

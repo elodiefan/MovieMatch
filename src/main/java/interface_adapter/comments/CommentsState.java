@@ -7,15 +7,25 @@ import java.util.List;
  * State for review comments.
  */
 public final class CommentsState {
-    /** The review id. */
+    /**
+     * The review id.
+     */
     private String reviewId = "";
-    /** The comments. */
+    /**
+     * The comments.
+     */
     private List<CommentRow> comments = new ArrayList<>();
-    /** The selected comment id. */
+    /**
+     * The selected comment id.
+     */
     private String selectedCommentId = "";
-    /** The parent comment id. */
+    /**
+     * The parent comment id.
+     */
     private String parentCommentId = "";
-    /** The comments error. */
+    /**
+     * The comments error.
+     */
     private String commentsError;
 
     /**

@@ -1,11 +1,11 @@
 package interface_adapter.other_account;
 
-import interface_adapter.ViewModel;
+import interface_adapter.StateModel;
 
 /**
  * The View Model for the Account View.
  */
-public class OtherAccountViewModel extends ViewModel<OtherAccountState> {
+public class OtherAccountViewModel extends StateModel<OtherAccountState> {
 
     public static final String VIEW_NAME = "other account";
     public static final String TITLE_LABEL = "'s Account";

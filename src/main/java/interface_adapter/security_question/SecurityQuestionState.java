@@ -13,13 +13,19 @@ public class SecurityQuestionState {
     private String securityQuestion = "";
     private String answer = "";
 
-    /** A neutral/success message to show the user (e.g. "Answer correct"). */
+    /**
+     * A neutral/success message to show the user (e.g. "Answer correct").
+     */
     private String message = "";
 
-    /** An error message (wrong answer, locked out, no account). */
+    /**
+     * An error message (wrong answer, locked out, no account).
+     */
     private String error = "";
 
-    /** True while the account is locked; the view uses this to disable inputs. */
+    /**
+     * True while the account is locked; the view uses this to disable inputs.
+     */
     private boolean lockedOut = false;
 
     public String getUsername() {

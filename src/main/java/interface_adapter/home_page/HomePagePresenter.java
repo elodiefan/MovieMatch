@@ -9,8 +9,6 @@ import interface_adapter.personal_account.PersonalAccountState;
 import interface_adapter.personal_account.PersonalAccountViewModel;
 import use_case.get_profile.GetProfileOutputBoundary;
 import use_case.get_profile.GetProfileOutputData;
-import use_case.home_page.HomePageOutputBoundary;
-import use_case.home_page.HomePageOutputData;
 
 /**
  * The Presenter for the Home Page Use Case.
@@ -53,18 +51,15 @@ import use_case.home_page.HomePageOutputData;
 
 public class HomePagePresenter implements GetProfileOutputBoundary {
 
-    private HomePageViewModel homePageViewModel;
     private ViewManagerModel viewManagerModel;
     //private SearchViewModel searchViewModel;
     private PersonalAccountViewModel personalAccountViewModel;
     private OtherAccountViewModel otherAccountViewModel;
 
     public HomePagePresenter(ViewManagerModel viewManagerModel,
-                             HomePageViewModel homePageViewModel,
                              PersonalAccountViewModel personalAccountViewModel,
                              OtherAccountViewModel otherAccountViewModel) {
         this.viewManagerModel = viewManagerModel;
-        this.homePageViewModel = homePageViewModel;
         this.personalAccountViewModel = personalAccountViewModel;
         this.otherAccountViewModel = otherAccountViewModel;
     }

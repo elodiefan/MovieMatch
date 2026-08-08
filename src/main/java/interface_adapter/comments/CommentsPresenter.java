@@ -3,17 +3,12 @@ package interface_adapter.comments;
 import java.util.ArrayList;
 import java.util.List;
 
-import entity.Comment;
-import use_case.comment.create_comment.CreateCommentOutputBoundary;
-import use_case.comment.create_comment.CreateCommentOutputData;
-import use_case.comment.delete_comment.DeleteCommentOutputBoundary;
-import use_case.comment.delete_comment.DeleteCommentOutputData;
-import use_case.comment.get_review_comments.GetReviewCommentsOutputBoundary;
-import use_case.comment.get_review_comments.GetReviewCommentsOutputData;
-import use_case.comment.like_comment.LikeCommentOutputBoundary;
-import use_case.comment.like_comment.LikeCommentOutputData;
-import use_case.comment.unlike_comment.UnlikeCommentOutputBoundary;
-import use_case.comment.unlike_comment.UnlikeCommentOutputData;
+import use_case.create_comment.CreateCommentOutputBoundary;
+import use_case.delete_comment.DeleteCommentOutputBoundary;
+import use_case.get_review_comments.GetReviewCommentsOutputBoundary;
+import use_case.get_review_comments.GetReviewCommentsOutputData;
+import use_case.like_comment.LikeCommentOutputBoundary;
+import use_case.unlike_comment.UnlikeCommentOutputBoundary;
 
 /**
  * Presenter for review comments.
@@ -21,7 +16,9 @@ import use_case.comment.unlike_comment.UnlikeCommentOutputData;
 public final class CommentsPresenter implements GetReviewCommentsOutputBoundary,
         CreateCommentOutputBoundary, DeleteCommentOutputBoundary,
         LikeCommentOutputBoundary, UnlikeCommentOutputBoundary {
-    /** The comments view model. */
+    /**
+     * The comments view model.
+     */
     private final CommentsViewModel commentsViewModel;
 
     /**
@@ -54,35 +51,23 @@ public final class CommentsPresenter implements GetReviewCommentsOutputBoundary,
     }
 
     @Override
-    public void prepareSuccessView(final CreateCommentOutputData outputData) {
-        clearError();
-    }
-
-    @Override
-    public void prepareSuccessView(final DeleteCommentOutputData outputData) {
-        clearError();
-    }
-
-    @Override
-    public void prepareSuccessView(final LikeCommentOutputData outputData) {
-        clearError();
-    }
-
-    @Override
-    public void prepareSuccessView(final UnlikeCommentOutputData outputData) {
+    public void prepareSuccessView(final boolean created) {
         clearError();
     }
 
     /**
-     * Converts comment entities into rows that can be displayed by the comments
+     * Converts comment summaries into rows that can be displayed by the comments
      * view.
      * @param comments the comments to present
      * @return display-safe comment rows
      */
-    private List<CommentRow> prepareComments(final List<Comment> comments) {
+    private List<CommentRow> prepareComments(
+            final List<GetReviewCommentsOutputData.ReviewCommentData>
+                    comments) {
         final List<CommentRow> commentRows = new ArrayList<>();
         if (comments != null) {
-            for (Comment comment : comments) {
+            for (GetReviewCommentsOutputData.ReviewCommentData comment
+                    : comments) {
                 if (comment != null) {
                     commentRows.add(createCommentRow(comment));
                 }
@@ -122,11 +107,12 @@ public final class CommentsPresenter implements GetReviewCommentsOutputBoundary,
     }
 
     /**
-     * Converts one comment entity into one displayed row.
+     * Converts one comment summary into one displayed row.
      * @param comment the comment to convert
      * @return the displayed comment row
      */
-    private CommentRow createCommentRow(final Comment comment) {
+    private CommentRow createCommentRow(
+            final GetReviewCommentsOutputData.ReviewCommentData comment) {
         return new CommentRow(comment.getCommentId(), comment.getReviewId(),
                 comment.getParentCommentId(), comment.getAuthorUsername(),
                 comment.getAuthorDisplayName(), comment.getCommentText(),

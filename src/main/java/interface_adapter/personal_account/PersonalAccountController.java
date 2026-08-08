@@ -9,6 +9,10 @@ import interface_adapter.change_username.ChangeUsernameViewModel;
 import interface_adapter.get_lists.GetListsController;
 import interface_adapter.logout.LogoutState;
 import interface_adapter.logout.LogoutViewModel;
+import interface_adapter.reset_password.ResetPasswordState;
+import interface_adapter.reset_password.ResetPasswordViewModel;
+import interface_adapter.user_reviews.UserReviewsState;
+import interface_adapter.user_reviews.UserReviewsViewModel;
 import use_case.get_security_question.GetSecurityQuestionInputBoundary;
 
 /**
@@ -22,10 +26,10 @@ public class PersonalAccountController {
     private final ChangeDisplayNameViewModel changeDisplayNameViewModel;
     private final ChangeUsernameViewModel changeUsernameViewModel;
     private final LogoutViewModel logoutViewModel;
-    private final String resetPasswordViewName;
+    private final ResetPasswordViewModel resetPasswordViewModel;
+    private final UserReviewsViewModel userReviewsViewModel;
     private final String homePageViewName;
     private final String getListsViewName;
-    private final String getReviewsViewName;
 
     public PersonalAccountController(ViewManagerModel viewManagerModel,
                                      GetSecurityQuestionInputBoundary getSecurityQuestionInteractor,
@@ -33,28 +37,28 @@ public class PersonalAccountController {
                                      ChangeDisplayNameViewModel changeDisplayNameViewModel,
                                      ChangeUsernameViewModel changeUsernameViewModel,
                                      LogoutViewModel logoutViewModel,
-                                     String resetPasswordViewName,
+                                     ResetPasswordViewModel resetPasswordViewModel,
                                      String homePageViewName,
                                      String getListsViewName,
-                                     String getReviewsViewName) {
+                                     UserReviewsViewModel userReviewsViewModel) {
         this.viewManagerModel = viewManagerModel;
         this.getSecurityQuestionInteractor = getSecurityQuestionInteractor;
         this.getListsController = getListsController;
         this.logoutViewModel = logoutViewModel;
         this.changeDisplayNameViewModel = changeDisplayNameViewModel;
         this.changeUsernameViewModel = changeUsernameViewModel;
-        this.resetPasswordViewName = resetPasswordViewName;
-        this.homePageViewName = homePageViewName;
+        this.resetPasswordViewModel = resetPasswordViewModel;
+        this.userReviewsViewModel = userReviewsViewModel;
         this.getListsViewName = getListsViewName;
-        this.getReviewsViewName = getReviewsViewName;
     }
 
     /**
      * Switches to the logout confirmation view.
-     * <p>
+     *
      * The confirm view needs to know who is logging out, so the username is
      * carried across in the logout state before the view is shown.
-     * @param username the user who is logging out
+     *
+     * @param username the username
      */
     public void switchToLogoutConfirmView(String username) {
         final LogoutState logoutState = logoutViewModel.getState();
@@ -66,16 +70,32 @@ public class PersonalAccountController {
 
     /**
      * Executes the reviews view use case.
+     * @param username the current username
      */
-    public void switchToReviewsView() {
-        viewManagerModel.switchView(getReviewsViewName);
+    public void switchToReviewsView(String username) {
+        final UserReviewsState userReviewsState = userReviewsViewModel.getState();
+        userReviewsState.setUsername(username);
+        userReviewsViewModel.setState(userReviewsState);
+        userReviewsViewModel.firePropertyChanged();
+
+        viewManagerModel.switchView(userReviewsViewModel.getViewName());
     }
 
     /**
      * Executes the reset password view use case.
+     * @param username the username whose password is being reset
      */
-    public void switchToResetPasswordView() {
-        viewManagerModel.switchView(resetPasswordViewName);
+    public void switchToResetPasswordView(String username) {
+        final ResetPasswordState resetPasswordState = resetPasswordViewModel.getState();
+        resetPasswordState.setUsername(username);
+        resetPasswordState.setNewPassword("");
+        resetPasswordState.setConfirmPassword("");
+        resetPasswordState.setMessage("");
+        resetPasswordState.setError("");
+        resetPasswordViewModel.setState(resetPasswordState);
+        resetPasswordViewModel.firePropertyChanged();
+
+        viewManagerModel.switchView(resetPasswordViewModel.getViewName());
     }
 
     /**
@@ -94,8 +114,9 @@ public class PersonalAccountController {
 
     /**
      * Executes the get watchlist view use case.
-     * @param username the username of the user.
-     * @param displayName the display name of the user.
+     *
+     * @param username the username
+     * @param displayName the display name
      */
     public void switchToWatchlistView(String username, String displayName) {
         viewManagerModel.switchView(getListsViewName);
@@ -104,8 +125,9 @@ public class PersonalAccountController {
 
     /**
      * Executes the get watch history view use case.
-     * @param username the username of the user.
-     * @param displayName the display name of the user.
+     *
+     * @param username the username
+     * @param displayName the display name
      */
     public void switchToWatchHistoryView(String username, String displayName) {
         viewManagerModel.switchView(getListsViewName);
@@ -114,8 +136,9 @@ public class PersonalAccountController {
 
     /**
      * Executes the get watch history view use case.
-     * @param username the username of the user.
-     * @param displayName the display name of the user.
+     *
+     * @param username the username
+     * @param displayName the display name
      */
     public void switchToBlockedUsersView(String username, String displayName) {
         viewManagerModel.switchView(getListsViewName);

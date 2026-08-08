@@ -1,11 +1,11 @@
 package interface_adapter.media_detail;
 
-import interface_adapter.ViewModel;
+import interface_adapter.StateModel;
 
 /**
  * ViewModel for the Media Detail View.
  */
-public class MediaDetailViewModel extends ViewModel<MediaDetailState> {
+public class MediaDetailViewModel extends StateModel<MediaDetailState> {
 
     public static final String VIEW_NAME = "media detail";
 

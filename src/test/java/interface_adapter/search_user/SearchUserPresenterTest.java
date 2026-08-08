@@ -8,7 +8,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import data_access.InMemoryUserDataAccessObject;
+import database.InMemoryUserDataAccessObject;
 import entity.StandardUser;
 import use_case.search_user.SearchUserInputBoundary;
 import use_case.search_user.SearchUserInputData;

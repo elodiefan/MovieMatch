@@ -7,7 +7,9 @@ import use_case.log_media.LogMediaInputData;
  * Controller for logging media to user lists.
  */
 public class LogMediaController {
-    /** The log media interactor. */
+    /**
+     * The log media interactor.
+     */
     private final LogMediaInputBoundary logMediaInteractor;
 
     /**
