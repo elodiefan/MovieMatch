@@ -20,14 +20,16 @@ import com.mongodb.client.MongoDatabase;
 import com.mongodb.client.model.Filters;
 import com.mongodb.client.model.Sorts;
 import use_case.access_message_chat.AccessMessageChatMessageDataAccessInterface;
+import use_case.delete_account.DeleteAccountMessageDataAccessInterface;
 import use_case.fetch_chat_history.FetchChatHistoryMessageDataAccessInterface;
 import use_case.send_message.SendMessageMessageDataAccessInterface;
 
 /**
  * Reads and writes chat messages in MongoDB Atlas.
  */
-public class MongoMessagesDataAccessObject implements AccessMessageChatMessageDataAccessInterface,
-        FetchChatHistoryMessageDataAccessInterface, SendMessageMessageDataAccessInterface {
+public class MongoMessagesDataAccessObject implements DeleteAccountMessageDataAccessInterface,
+        AccessMessageChatMessageDataAccessInterface, FetchChatHistoryMessageDataAccessInterface,
+        SendMessageMessageDataAccessInterface {
 
     /** Default location of the connection settings. */
     public static final String DEFAULT_PROPERTIES = "mongo.properties";
@@ -37,6 +39,7 @@ public class MongoMessagesDataAccessObject implements AccessMessageChatMessageDa
     // Field names exactly as stored in MongoDB. Case matters.
     private static final String CHAT_ID = "chat_id";
     private static final String SENDER = "sender";
+    private static final String RECIPIENT = "receiver";
     private static final String BODY = "body";
     private static final String TIMESTAMP = "timestamp";
     private static final String EMPTY_STRING = "";
@@ -136,8 +139,17 @@ public class MongoMessagesDataAccessObject implements AccessMessageChatMessageDa
         messages.insertOne(
                 new Document(CHAT_ID, sender + WHITE_SPACE + recipient)
                         .append(SENDER, sender)
+                        .append(RECIPIENT, recipient)
                         .append(BODY, message.getBody())
                         .append(TIMESTAMP, message.getDate()));
+    }
+
+    /**
+     * Deletes all messages the user is involved in.
+     * @param username username of the current user
+     */
+    public void deleteChatHistory(String username) {
+        messages.deleteMany(Filters.or(Filters.eq(SENDER, username), Filters.eq(RECIPIENT, username)));
     }
 
     /**

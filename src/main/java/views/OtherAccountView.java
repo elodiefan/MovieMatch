@@ -137,9 +137,14 @@ public class OtherAccountView extends JPanel implements PropertyChangeListener {
             title.setText(state.getDisplayName() + otherAccountViewModel.TITLE_LABEL);
             username.setText(otherAccountViewModel.USERNAME_LABEL + state.getUsername());
             displayName.setText(otherAccountViewModel.DISPLAY_NAME_LABEL + state.getDisplayName());
+            blockButton.setText(state.getBlockStatus());
             if (state.getViewMessageError() != null) {
                 JOptionPane.showMessageDialog(this, state.getViewMessageError());
             }
+        }
+        else if (evt.getPropertyName().equals("changed block state")) {
+            final OtherAccountState state = otherAccountViewModel.getState();
+            blockButton.setText(state.getBlockStatus());
         }
         else if (evt.getPropertyName().equals("cannot message")) {
             JOptionPane.showMessageDialog(this, "Cannot message this user.");

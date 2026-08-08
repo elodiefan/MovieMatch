@@ -512,7 +512,7 @@ public class AppBuilder {
         final DeleteAccountOutputBoundary deleteAccountOutputBoundary = new DeleteAccountPresenter(viewManagerModel,
                 deleteAccountViewModel, signupViewModel, personalAccountViewModel);
         final DeleteAccountInputBoundary deleteAccountInteractor = new DeleteAccountInteractor(
-                userDataAccessObject, deleteAccountOutputBoundary, userFactory);
+                userDataAccessObject, mongoMessagesDataAccessObject, deleteAccountOutputBoundary, userFactory);
 
         final DeleteAccountController deleteAccountController = new DeleteAccountController(deleteAccountInteractor);
         deleteAccountView.setDeleteAccountController(deleteAccountController);
