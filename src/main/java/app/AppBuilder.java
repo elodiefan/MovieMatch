@@ -947,6 +947,8 @@ public class AppBuilder {
         userReviewsView.setMediaReviewTargets(mediaReviewsViewModel,
                 commentsViewModel);
 
+        getListsView.setMediaDetailController(mediaDetailController);
+
         mediaDetailView.setMediaDetailController(
                 mediaDetailController
         );
