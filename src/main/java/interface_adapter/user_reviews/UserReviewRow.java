@@ -23,6 +23,14 @@ public final class UserReviewRow {
      */
     private final String mediaTitle;
     /**
+     * The release year.
+     */
+    private final int releaseYear;
+    /**
+     * The poster path.
+     */
+    private final String posterPath;
+    /**
      * The rating.
      */
     private final double rating;
@@ -49,6 +57,8 @@ public final class UserReviewRow {
      * @param inputMediaId the media id
      * @param inputMediaType the media type
      * @param inputMediaTitle the media title
+     * @param inputReleaseYear the release year
+     * @param inputPosterPath the poster path
      * @param inputRating the rating
      * @param inputReviewText the review text
      * @param inputCreatedAt the creation time
@@ -59,6 +69,8 @@ public final class UserReviewRow {
                          final int inputMediaId,
                          final String inputMediaType,
                          final String inputMediaTitle,
+                         final int inputReleaseYear,
+                         final String inputPosterPath,
                          final double inputRating,
                          final String inputReviewText,
                          final ZonedDateTime inputCreatedAt,
@@ -68,6 +80,8 @@ public final class UserReviewRow {
         this.mediaId = inputMediaId;
         this.mediaType = inputMediaType;
         this.mediaTitle = inputMediaTitle;
+        this.releaseYear = inputReleaseYear;
+        this.posterPath = inputPosterPath;
         this.rating = inputRating;
         this.reviewText = inputReviewText;
         this.createdAt = inputCreatedAt;
@@ -89,6 +103,14 @@ public final class UserReviewRow {
 
     public String getMediaTitle() {
         return mediaTitle;
+    }
+
+    public int getReleaseYear() {
+        return releaseYear;
+    }
+
+    public String getPosterPath() {
+        return posterPath;
     }
 
     public double getRating() {

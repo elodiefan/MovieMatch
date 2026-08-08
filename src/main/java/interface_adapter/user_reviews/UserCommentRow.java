@@ -19,6 +19,14 @@ public final class UserCommentRow {
      */
     private final String mediaTitle;
     /**
+     * The release year.
+     */
+    private final int releaseYear;
+    /**
+     * The poster path.
+     */
+    private final String posterPath;
+    /**
      * The review text.
      */
     private final String reviewText;
@@ -40,6 +48,8 @@ public final class UserCommentRow {
      * @param inputCommentId the comment id
      * @param inputReviewId the review id
      * @param inputMediaTitle the media title
+     * @param inputReleaseYear the release year
+     * @param inputPosterPath the poster path
      * @param inputReviewText the review text
      * @param inputCommentText the comment text
      * @param inputCreatedAt the creation time
@@ -48,6 +58,8 @@ public final class UserCommentRow {
     public UserCommentRow(final String inputCommentId,
                           final String inputReviewId,
                           final String inputMediaTitle,
+                          final int inputReleaseYear,
+                          final String inputPosterPath,
                           final String inputReviewText,
                           final String inputCommentText,
                           final ZonedDateTime inputCreatedAt,
@@ -55,6 +67,8 @@ public final class UserCommentRow {
         this.commentId = inputCommentId;
         this.reviewId = inputReviewId;
         this.mediaTitle = inputMediaTitle;
+        this.releaseYear = inputReleaseYear;
+        this.posterPath = inputPosterPath;
         this.reviewText = inputReviewText;
         this.commentText = inputCommentText;
         this.createdAt = inputCreatedAt;
@@ -71,6 +85,14 @@ public final class UserCommentRow {
 
     public String getMediaTitle() {
         return mediaTitle;
+    }
+
+    public int getReleaseYear() {
+        return releaseYear;
+    }
+
+    public String getPosterPath() {
+        return posterPath;
     }
 
     public String getReviewText() {

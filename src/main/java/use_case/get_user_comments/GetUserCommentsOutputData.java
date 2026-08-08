@@ -35,6 +35,8 @@ public final class GetUserCommentsOutputData {
         private final String commentId;
         private final String reviewId;
         private final String mediaTitle;
+        private final int releaseYear;
+        private final String posterPath;
         private final String reviewText;
         private final String commentText;
         private final ZonedDateTime createdAt;
@@ -45,6 +47,8 @@ public final class GetUserCommentsOutputData {
          * @param commentId the comment id
          * @param reviewId the review id
          * @param mediaTitle the media title
+         * @param releaseYear the release year
+         * @param posterPath the poster path
          * @param reviewText the review text
          * @param commentText the comment text
          * @param createdAt when the comment was created
@@ -52,6 +56,8 @@ public final class GetUserCommentsOutputData {
          */
         public UserCommentData(final String commentId, final String reviewId,
                                final String mediaTitle,
+                               final int releaseYear,
+                               final String posterPath,
                                final String reviewText,
                                final String commentText,
                                final ZonedDateTime createdAt,
@@ -59,6 +65,8 @@ public final class GetUserCommentsOutputData {
             this.commentId = commentId;
             this.reviewId = reviewId;
             this.mediaTitle = mediaTitle;
+            this.releaseYear = releaseYear;
+            this.posterPath = posterPath;
             this.reviewText = reviewText;
             this.commentText = commentText;
             this.createdAt = createdAt;
@@ -75,6 +83,14 @@ public final class GetUserCommentsOutputData {
 
         public String getMediaTitle() {
             return mediaTitle;
+        }
+
+        public int getReleaseYear() {
+            return releaseYear;
+        }
+
+        public String getPosterPath() {
+            return posterPath;
         }
 
         public String getReviewText() {

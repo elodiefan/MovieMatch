@@ -145,6 +145,7 @@ public final class UserReviewsPresenter implements GetUserReviewsOutputBoundary,
             final GetUserReviewsOutputData.UserReviewData review) {
         return new UserReviewRow(review.getReviewId(), review.getMediaId(),
                 review.getMediaType(), review.getMediaTitle(),
+                review.getReleaseYear(), review.getPosterPath(),
                 review.getRating(), review.getReviewText(),
                 review.getCreatedAt(), review.getUpdatedAt(),
                 review.getLikeCount());
@@ -159,6 +160,7 @@ public final class UserReviewsPresenter implements GetUserReviewsOutputBoundary,
             final GetUserCommentsOutputData.UserCommentData comment) {
         return new UserCommentRow(comment.getCommentId(),
                 comment.getReviewId(), comment.getMediaTitle(),
+                comment.getReleaseYear(), comment.getPosterPath(),
                 comment.getReviewText(), comment.getCommentText(),
                 comment.getCreatedAt(), comment.getLikeCount());
     }

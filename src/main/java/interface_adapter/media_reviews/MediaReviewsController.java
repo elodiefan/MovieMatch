@@ -74,6 +74,8 @@ public final class MediaReviewsController {
      * @param mediaId the reviewed media id
      * @param mediaType the reviewed media type
      * @param mediaTitle the reviewed media title
+     * @param releaseYear the reviewed media release year
+     * @param posterPath the reviewed media poster path
      * @param authorUsername the review author's username
      * @param authorDisplayName the review author's display name
      * @param rating the rating percentage
@@ -81,12 +83,15 @@ public final class MediaReviewsController {
      */
     public void createReview(final int mediaId, final String mediaType,
                              final String mediaTitle,
+                             final int releaseYear,
+                             final String posterPath,
                              final String authorUsername,
                              final String authorDisplayName,
                              final double rating,
                              final String reviewText) {
         createReviewInteractor.execute(mediaId, mediaType, mediaTitle,
-                authorUsername, authorDisplayName, rating, reviewText);
+                releaseYear, posterPath, authorUsername, authorDisplayName,
+                rating, reviewText);
     }
 
     /**

@@ -17,6 +17,14 @@ public final class CreateReviewInputData {
      */
     private final String mediaTitle;
     /**
+     * The release year.
+     */
+    private final int releaseYear;
+    /**
+     * The poster path.
+     */
+    private final String posterPath;
+    /**
      * The author username.
      */
     private final String authorUsername;
@@ -38,6 +46,8 @@ public final class CreateReviewInputData {
      * @param inputMediaId the reviewed media id
      * @param inputMediaType the reviewed media type
      * @param inputMediaTitle the reviewed media title
+     * @param inputReleaseYear the reviewed media release year
+     * @param inputPosterPath the reviewed media poster path
      * @param inputAuthorUsername the author's username
      * @param inputAuthorDisplayName the author's display name
      * @param inputRating the rating percentage
@@ -46,6 +56,8 @@ public final class CreateReviewInputData {
     public CreateReviewInputData(final int inputMediaId,
                                  final String inputMediaType,
                                  final String inputMediaTitle,
+                                 final int inputReleaseYear,
+                                 final String inputPosterPath,
                                  final String inputAuthorUsername,
                                  final String inputAuthorDisplayName,
                                  final double inputRating,
@@ -53,6 +65,8 @@ public final class CreateReviewInputData {
         this.mediaId = inputMediaId;
         this.mediaType = inputMediaType;
         this.mediaTitle = inputMediaTitle;
+        this.releaseYear = inputReleaseYear;
+        this.posterPath = inputPosterPath;
         this.authorUsername = inputAuthorUsername;
         this.authorDisplayName = inputAuthorDisplayName;
         this.rating = inputRating;
@@ -79,6 +93,20 @@ public final class CreateReviewInputData {
      */
     public String getMediaTitle() {
         return mediaTitle;
+    }
+    /**
+     * Handles this review or comment operation.
+     * @return the result
+     */
+    public int getReleaseYear() {
+        return releaseYear;
+    }
+    /**
+     * Handles this review or comment operation.
+     * @return the result
+     */
+    public String getPosterPath() {
+        return posterPath;
     }
     /**
      * Handles this review or comment operation.
