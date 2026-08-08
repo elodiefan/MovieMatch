@@ -1,9 +1,10 @@
 package interface_adapter.search;
 
+import java.util.concurrent.Executor;
+
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.swing.SwingUtilities;
 
 import entity.Media;
 import interface_adapter.ViewManagerModel;
@@ -18,16 +19,19 @@ import use_case.search.SearchOutputData;
 public class SearchPresenter implements SearchOutputBoundary {
 
     private final SearchViewModel searchViewModel;
+    private final Executor uiExecutor;
     private final SearchResultViewModel searchResultViewModel;
     private final ViewManagerModel viewManagerModel;
 
     public SearchPresenter(
             ViewManagerModel viewManagerModel,
             SearchViewModel searchViewModel,
-            SearchResultViewModel searchResultViewModel) {
+            SearchResultViewModel searchResultViewModel,
+                             Executor uiExecutor) {
 
         this.viewManagerModel = viewManagerModel;
         this.searchViewModel = searchViewModel;
+        this.uiExecutor = uiExecutor;
         this.searchResultViewModel = searchResultViewModel;
     }
 
@@ -88,11 +92,6 @@ public class SearchPresenter implements SearchOutputBoundary {
      * @param update the update
      */
     private void onUiThread(Runnable update) {
-        if (SwingUtilities.isEventDispatchThread()) {
-            update.run();
-        }
-        else {
-            SwingUtilities.invokeLater(update);
-        }
+        uiExecutor.execute(update);
     }
 }

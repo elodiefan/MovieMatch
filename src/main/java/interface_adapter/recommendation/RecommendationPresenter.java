@@ -1,9 +1,10 @@
 package interface_adapter.recommendation;
 
+import java.util.concurrent.Executor;
+
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.swing.SwingUtilities;
 
 import use_case.recommendation.RecommendationOutputBoundary;
 import use_case.recommendation.RecommendationOutputData;
@@ -14,9 +15,12 @@ import use_case.recommendation.RecommendationOutputData;
 public class RecommendationPresenter implements RecommendationOutputBoundary {
 
     private final RecommendationViewModel recommendationViewModel;
+    private final Executor uiExecutor;
 
-    public RecommendationPresenter(RecommendationViewModel recommendationViewModel) {
+    public RecommendationPresenter(RecommendationViewModel recommendationViewModel,
+                             Executor uiExecutor) {
         this.recommendationViewModel = recommendationViewModel;
+        this.uiExecutor = uiExecutor;
     }
 
     @Override
@@ -47,12 +51,7 @@ public class RecommendationPresenter implements RecommendationOutputBoundary {
     }
 
     private void onUiThread(Runnable update) {
-        if (SwingUtilities.isEventDispatchThread()) {
-            update.run();
-        }
-        else {
-            SwingUtilities.invokeLater(update);
-        }
+        uiExecutor.execute(update);
     }
 
     private List<RecommendationRow> toRows(final RecommendationOutputData outputData) {
