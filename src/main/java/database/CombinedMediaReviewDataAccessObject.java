@@ -55,10 +55,31 @@ public final class CombinedMediaReviewDataAccessObject
                                     final String mediaType) {
         if (externalReviewDataAccess != null) {
             try {
-                reviews.addAll(externalReviewDataAccess.getReviewsByMedia(
-                        mediaId, mediaType));
+                final List<Review> externalReviews =
+                        externalReviewDataAccess.getReviewsByMedia(mediaId,
+                                mediaType);
+                addLocalLikes(externalReviews);
+                reviews.addAll(externalReviews);
             } catch (IllegalStateException exception) {
                 // Keep MovieMatch reviews available when TMDB is offline.
+            }
+        }
+    }
+
+    /**
+     * Adds locally stored likes to external reviews.
+     *
+     * @param reviews the external reviews to update
+     */
+    private void addLocalLikes(final List<Review> reviews) {
+        if (localReviewDataAccess instanceof MongoReviewDataAccessObject) {
+            final MongoReviewDataAccessObject mongoReviewDataAccess =
+                    (MongoReviewDataAccessObject) localReviewDataAccess;
+            for (Review review : reviews) {
+                for (String username : mongoReviewDataAccess
+                        .getLikedByUsernames(review.getReviewId())) {
+                    review.like(username);
+                }
             }
         }
     }

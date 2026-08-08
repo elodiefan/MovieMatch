@@ -36,11 +36,11 @@ public final class MediaReviewsPanel extends JPanel
     /**
      * The heart unselected.
      */
-    private static final String HEART_UNSELECTED = "\u2661";
+    private static final String HEART_UNSELECTED = "\u2661 Like";
     /**
      * The heart selected.
      */
-    private static final String HEART_SELECTED = "\u2665";
+    private static final String HEART_SELECTED = "\u2665 Unlike";
 
     /**
      * The card gap.
@@ -284,6 +284,7 @@ public final class MediaReviewsPanel extends JPanel
     private Component createReviewCard(final MediaReviewRow review) {
         final JPanel card = new JPanel();
         card.setLayout(new BoxLayout(card, BoxLayout.Y_AXIS));
+        card.setAlignmentX(Component.LEFT_ALIGNMENT);
 
         card.add(new JLabel(review.getAuthorDisplayName()
                 + " (@" + review.getAuthorUsername() + ")"));
@@ -296,6 +297,7 @@ public final class MediaReviewsPanel extends JPanel
             card.add(createButtonPanel(review));
         } else {
             card.add(new JLabel("External TMDB review"));
+            card.add(createExternalReviewButtonPanel(review));
         }
         card.add(createCommentsSection(review.getReviewId()));
 
@@ -309,6 +311,8 @@ public final class MediaReviewsPanel extends JPanel
      */
     private Component createButtonPanel(final MediaReviewRow review) {
         final JPanel buttonPanel = new JPanel();
+        buttonPanel.setLayout(new BoxLayout(buttonPanel, BoxLayout.X_AXIS));
+        buttonPanel.setAlignmentX(Component.LEFT_ALIGNMENT);
         final JButton editButton =
                 new JButton(MediaReviewsViewModel.EDIT_BUTTON_LABEL);
         final JButton deleteButton =
@@ -334,6 +338,28 @@ public final class MediaReviewsPanel extends JPanel
     }
 
     /**
+     * Creates action buttons allowed for an external review.
+     * @param review the review row
+     * @return the button panel
+     */
+    private Component createExternalReviewButtonPanel(
+            final MediaReviewRow review) {
+        final JPanel buttonPanel = new JPanel();
+        buttonPanel.setLayout(new BoxLayout(buttonPanel, BoxLayout.X_AXIS));
+        buttonPanel.setAlignmentX(Component.LEFT_ALIGNMENT);
+        final JToggleButton heartButton = createHeartButton(
+                MediaReviewsViewModel.LIKE_BUTTON_LABEL);
+        heartButton.setSelected(review.isLikedBy(currentUsername));
+        updateHeartButton(heartButton,
+                MediaReviewsViewModel.UNLIKE_BUTTON_LABEL,
+                MediaReviewsViewModel.LIKE_BUTTON_LABEL);
+        heartButton.addActionListener(new HeartReviewListener(
+                review.getReviewId()));
+        buttonPanel.add(heartButton);
+        return buttonPanel;
+    }
+
+    /**
      * Creates the nested comments section for one review.
      * @param reviewId the review id
      * @return the comments section
@@ -342,9 +368,11 @@ public final class MediaReviewsPanel extends JPanel
         final JPanel section = new JPanel();
         section.setLayout(new BoxLayout(section, BoxLayout.Y_AXIS));
         section.setBorder(BorderFactory.createEmptyBorder(CARD_GAP, 0, 0, 0));
+        section.setAlignmentX(Component.LEFT_ALIGNMENT);
 
         if (commentsViewModel != null) {
             section.add(new JLabel(CommentsViewModel.TITLE_LABEL));
+            section.add(createWriteCommentButton(reviewId));
             boolean hasComments = false;
             for (CommentRow comment : commentsViewModel.getState()
                     .getComments()) {
@@ -364,6 +392,19 @@ public final class MediaReviewsPanel extends JPanel
     }
 
     /**
+     * Creates a button for writing a top-level comment on a review.
+     * @param reviewId the review id
+     * @return the write comment button
+     */
+    private JButton createWriteCommentButton(final String reviewId) {
+        final JButton commentButton =
+                new JButton(CommentsViewModel.WRITE_COMMENT_BUTTON_LABEL);
+        commentButton.setAlignmentX(Component.LEFT_ALIGNMENT);
+        commentButton.addActionListener(new WriteCommentListener(reviewId));
+        return commentButton;
+    }
+
+    /**
      * Creates the display card for one nested comment.
      * @param comment the comment row
      * @return the comment card
@@ -373,6 +414,7 @@ public final class MediaReviewsPanel extends JPanel
         card.setLayout(new BoxLayout(card, BoxLayout.Y_AXIS));
         card.setBorder(BorderFactory.createEmptyBorder(0,
                 getCommentIndent(comment), 0, 0));
+        card.setAlignmentX(Component.LEFT_ALIGNMENT);
 
         card.add(new JLabel(comment.getAuthorDisplayName()
                 + " (@" + comment.getAuthorUsername() + ")"));
@@ -391,6 +433,8 @@ public final class MediaReviewsPanel extends JPanel
      */
     private Component createCommentButtonPanel(final CommentRow comment) {
         final JPanel buttonPanel = new JPanel();
+        buttonPanel.setLayout(new BoxLayout(buttonPanel, BoxLayout.X_AXIS));
+        buttonPanel.setAlignmentX(Component.LEFT_ALIGNMENT);
         final JButton replyButton =
                 new JButton(CommentsViewModel.REPLY_BUTTON_LABEL);
         final JButton deleteButton =
@@ -619,6 +663,36 @@ public final class MediaReviewsPanel extends JPanel
 
             state.setSelectedReviewId(reviewId);
             mediaReviewsViewModel.firePropertyChanged();
+        }
+    }
+
+    /**
+     * Selects a comment in the comments view model state.
+     */
+    private final class WriteCommentListener implements ActionListener {
+        /**
+         * The review id.
+         */
+        private final String reviewId;
+
+        private WriteCommentListener(final String inputReviewId) {
+            this.reviewId = inputReviewId;
+        }
+
+        @Override
+        public void actionPerformed(final ActionEvent event) {
+            if (commentsController != null && hasCurrentUser()) {
+                final String commentText = JOptionPane.showInputDialog(
+                        MediaReviewsPanel.this, "Comment text:");
+                if (!isBlank(commentText)) {
+                    commentsController.createComment(reviewId, "",
+                            currentUsername, currentDisplayName, commentText);
+                    commentsController.loadReviewComments(reviewId);
+                }
+            }
+            if (commentsViewModel != null) {
+                commentsViewModel.firePropertyChanged();
+            }
         }
     }
 

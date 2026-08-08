@@ -33,11 +33,11 @@ public final class CommentsPanel extends JPanel
     /**
      * The heart unselected.
      */
-    private static final String HEART_UNSELECTED = "\u2661";
+    private static final String HEART_UNSELECTED = "\u2661 Like";
     /**
      * The heart selected.
      */
-    private static final String HEART_SELECTED = "\u2665";
+    private static final String HEART_SELECTED = "\u2665 Unlike";
 
     /**
      * The card gap.
@@ -227,6 +227,7 @@ public final class CommentsPanel extends JPanel
         card.setLayout(new BoxLayout(card, BoxLayout.Y_AXIS));
         card.setBorder(BorderFactory.createEmptyBorder(0,
                 getCommentIndent(comment), 0, 0));
+        card.setAlignmentX(Component.LEFT_ALIGNMENT);
 
         card.add(new JLabel(comment.getAuthorDisplayName()
                 + " (@" + comment.getAuthorUsername() + ")"));
@@ -245,6 +246,8 @@ public final class CommentsPanel extends JPanel
      */
     private Component createButtonPanel(final CommentRow comment) {
         final JPanel buttonPanel = new JPanel();
+        buttonPanel.setLayout(new BoxLayout(buttonPanel, BoxLayout.X_AXIS));
+        buttonPanel.setAlignmentX(Component.LEFT_ALIGNMENT);
         final JButton replyButton =
                 new JButton(CommentsViewModel.REPLY_BUTTON_LABEL);
         final JButton deleteButton =
