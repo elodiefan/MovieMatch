@@ -5,7 +5,6 @@ import java.util.List;
 
 import entity.MediaListItem;
 import entity.UserLists;
-import use_case.get_watchlist.WatchlistItemData;
 
 /**
  * The Watch History View Interactor.
@@ -29,14 +28,15 @@ public class GetWatchHistoryInteractor implements GetWatchHistoryInputBoundary {
         final UserLists userLists = userDataAccessObject.getLists(username);
         final String watchHistory = userLists.getWatchHistory();
         final GetWatchHistoryOutputData getWatchHistoryOutputData = new GetWatchHistoryOutputData(username,
-                displayName, watchHistory, toWatchHistoryItemData(userLists.getWatchHistoryItems()));
+                displayName, watchHistory, toWatchHistoryItemData(
+                        userLists.getWatchHistoryItems()));
         getListsPresenter.prepareSuccessView(getWatchHistoryOutputData);
     }
 
     private List<WatchHistoryItemData> toWatchHistoryItemData(
             List<MediaListItem> mediaListItems) {
         final List<WatchHistoryItemData> itemData = new ArrayList<>();
-        for (MediaListItem item: mediaListItems) {
+        for (MediaListItem item : mediaListItems) {
             itemData.add(new WatchHistoryItemData(item.getMediaId(),
                     item.getMediaType(), item.getMediaTitle(),
                     item.getLoggedAt(), item.getPosterPath()));
@@ -47,11 +47,11 @@ public class GetWatchHistoryInteractor implements GetWatchHistoryInputBoundary {
     /**
      * Switches from list view to account view.
      *
-     * @param getWatchHistoryInputData the get watch history input data
+     * @param getListsInputData the get lists input data
      */
     @Override
-    public void switchToAccountView(GetWatchHistoryInputData getWatchHistoryInputData) {
-        if (userDataAccessObject.getCurrentUsername().equals(getWatchHistoryInputData.getUsername())) {
+    public void switchToAccountView(GetWatchHistoryInputData getListsInputData) {
+        if (userDataAccessObject.getCurrentUsername().equals(getListsInputData.getUsername())) {
             getListsPresenter.switchToPersonalAccountView();
         }
         else {

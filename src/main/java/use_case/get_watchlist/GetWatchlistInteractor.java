@@ -22,13 +22,14 @@ public class GetWatchlistInteractor implements GetWatchlistInputBoundary {
     }
 
     @Override
-    public void execute(GetWatchlistInputData getWatchlistInputData) {
-        final String username = getWatchlistInputData.getUsername();
-        final String displayName = getWatchlistInputData.getDisplayName();
+    public void execute(GetWatchlistInputData getListsInputData) {
+        final String username = getListsInputData.getUsername();
+        final String displayName = getListsInputData.getDisplayName();
         final UserLists userLists = userDataAccessObject.getLists(username);
         final String watchlist = userLists.getWatchlist();
         final GetWatchlistOutputData getWatchlistOutputData = new GetWatchlistOutputData(username,
-                displayName, watchlist, toWatchlistItemData(userLists.getWatchlistItems()));
+                displayName, watchlist, toWatchlistItemData(
+                        userLists.getWatchlistItems()));
         getListsPresenter.prepareSuccessView(getWatchlistOutputData);
     }
 
@@ -46,11 +47,11 @@ public class GetWatchlistInteractor implements GetWatchlistInputBoundary {
     /**
      * Switches from list view to account view.
      *
-     * @param getWatchlistInputData the get lists input data
+     * @param getListsInputData the get lists input data
      */
     @Override
-    public void switchToAccountView(GetWatchlistInputData getWatchlistInputData) {
-        if (userDataAccessObject.getCurrentUsername().equals(getWatchlistInputData.getUsername())) {
+    public void switchToAccountView(GetWatchlistInputData getListsInputData) {
+        if (userDataAccessObject.getCurrentUsername().equals(getListsInputData.getUsername())) {
             getListsPresenter.switchToPersonalAccountView();
         }
         else {

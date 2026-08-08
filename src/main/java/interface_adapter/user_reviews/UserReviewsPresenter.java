@@ -159,7 +159,8 @@ public final class UserReviewsPresenter implements GetUserReviewsOutputBoundary,
     private UserCommentRow createCommentRow(
             final GetUserCommentsOutputData.UserCommentData comment) {
         return new UserCommentRow(comment.getCommentId(),
-                comment.getReviewId(), comment.getMediaTitle(),
+                comment.getReviewId(), comment.getMediaId(),
+                comment.getMediaType(), comment.getMediaTitle(),
                 comment.getReleaseYear(), comment.getPosterPath(),
                 comment.getReviewText(), comment.getCommentText(),
                 comment.getCreatedAt(), comment.getLikeCount());

@@ -29,6 +29,12 @@ public final class CreateReviewInteractor implements CreateReviewInputBoundary {
      * The review data access object.
      */
     private final CreateReviewDataAccessInterface reviewDataAccessObject;
+
+    /**
+     * The user data access object.
+     */
+    private final CreateReviewUserDataAccessInterface userDataAccessObject;
+
     /**
      * The presenter.
      */
@@ -38,7 +44,7 @@ public final class CreateReviewInteractor implements CreateReviewInputBoundary {
      * Creates a review interactor without persistence.
      */
     public CreateReviewInteractor() {
-        this(null, null);
+        this(null, null, null);
     }
 
     /**
@@ -47,7 +53,7 @@ public final class CreateReviewInteractor implements CreateReviewInputBoundary {
      */
     public CreateReviewInteractor(
             final CreateReviewDataAccessInterface inputReviewDataAccessObject) {
-        this(inputReviewDataAccessObject, null);
+        this(inputReviewDataAccessObject, null, null);
     }
 
     /**
@@ -58,7 +64,21 @@ public final class CreateReviewInteractor implements CreateReviewInputBoundary {
     public CreateReviewInteractor(
             final CreateReviewDataAccessInterface inputReviewDataAccessObject,
             final CreateReviewOutputBoundary inputPresenter) {
+        this(inputReviewDataAccessObject, null, inputPresenter);
+    }
+
+    /**
+     * Creates a review interactor with persistence, user lookup, and presentation.
+     * @param inputReviewDataAccessObject the DAO used to save reviews
+     * @param inputUserDataAccessObject the DAO used to check watch history
+     * @param inputPresenter the output boundary
+     */
+    public CreateReviewInteractor(
+            final CreateReviewDataAccessInterface inputReviewDataAccessObject,
+            final CreateReviewUserDataAccessInterface inputUserDataAccessObject,
+            final CreateReviewOutputBoundary inputPresenter) {
         this.reviewDataAccessObject = inputReviewDataAccessObject;
+        this.userDataAccessObject = inputUserDataAccessObject;
         this.presenter = inputPresenter;
     }
 
@@ -98,6 +118,20 @@ public final class CreateReviewInteractor implements CreateReviewInputBoundary {
                 presenter.prepareFailView(error.getMessage());
             }
         }
+    }
+
+    @Override
+    public boolean canCreateReview(final int mediaId, final String mediaType,
+                                   final String authorUsername) {
+        final String error = getReviewPermissionError(mediaId,
+                trimToEmpty(mediaType), trimToEmpty(authorUsername));
+        final boolean canCreate = error == null;
+        if (!canCreate) {
+            if (presenter != null) {
+                presenter.prepareFailView(error);
+            }
+        }
+        return canCreate;
     }
 
     /**
@@ -178,7 +212,48 @@ public final class CreateReviewInteractor implements CreateReviewInputBoundary {
         } else if (reviewDataAccessObject == null) {
             throw new IllegalStateException(
                     "Review data access object has not been configured.");
+        } else {
+            validateReviewPermission(mediaId, mediaType, authorUsername);
         }
+    }
+
+    /**
+     * Validates whether the author is allowed to review the selected media.
+     * @param mediaId the reviewed media's identifier
+     * @param mediaType the reviewed media's type
+     * @param authorUsername the review author's username
+     */
+    private void validateReviewPermission(final int mediaId,
+                                          final String mediaType,
+                                          final String authorUsername) {
+        final String error = getReviewPermissionError(mediaId, mediaType,
+                authorUsername);
+        if (error != null) {
+            throw new IllegalArgumentException(
+                    error);
+        }
+    }
+
+    /**
+     * Gets a review permission error, or null when the user may review.
+     * @param mediaId the reviewed media's identifier
+     * @param mediaType the reviewed media's type
+     * @param authorUsername the review author's username
+     * @return the permission error, or null when the user may review
+     */
+    private String getReviewPermissionError(final int mediaId,
+                                            final String mediaType,
+                                            final String authorUsername) {
+        final String error;
+        if (userDataAccessObject == null) {
+            error = "User data access object has not been configured.";
+        } else if (!userDataAccessObject.hasWatchedMedia(authorUsername,
+                mediaId, mediaType)) {
+            error = "Please add this media to your watch history before writing a review.";
+        } else {
+            error = null;
+        }
+        return error;
     }
 
     private void validatePresenter() {

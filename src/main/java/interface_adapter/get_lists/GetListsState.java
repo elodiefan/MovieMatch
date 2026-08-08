@@ -38,7 +38,7 @@ public class GetListsState {
     }
 
     public List<GetListRow> getListRows() {
-        return listRows;
+        return new ArrayList<>(listRows);
     }
 
     public void setUsername(String username) {
@@ -54,6 +54,6 @@ public class GetListsState {
     }
 
     public void setListRows(List<GetListRow> listRows) {
-        this.listRows = listRows;
+        this.listRows = new ArrayList<>(listRows);
     }
 }

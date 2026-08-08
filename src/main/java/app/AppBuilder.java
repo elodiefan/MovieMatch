@@ -938,6 +938,14 @@ public class AppBuilder {
         searchResultView.setMediaDetailController(
                 mediaDetailController
         );
+        getListsView.setMediaDetailController(
+                mediaDetailController
+        );
+        userReviewsView.setMediaDetailController(
+                mediaDetailController
+        );
+        userReviewsView.setMediaReviewTargets(mediaReviewsViewModel,
+                commentsViewModel);
 
         getListsView.setMediaDetailController(mediaDetailController);
 
@@ -1029,7 +1037,7 @@ public class AppBuilder {
                         mediaReviewsPresenter);
         final CreateReviewInteractor createReviewInteractor =
                 new CreateReviewInteractor(reviewDataAccessObject,
-                        mediaReviewsPresenter);
+                        userDataAccessObject, mediaReviewsPresenter);
         final EditReviewInteractor editReviewInteractor =
                 new EditReviewInteractor(reviewDataAccessObject,
                         mediaReviewsPresenter);

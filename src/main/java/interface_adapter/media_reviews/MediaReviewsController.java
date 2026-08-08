@@ -95,6 +95,19 @@ public final class MediaReviewsController {
     }
 
     /**
+     * Checks whether the user may start writing a review.
+     * @param mediaId the reviewed media id
+     * @param mediaType the reviewed media type
+     * @param authorUsername the review author's username
+     * @return true if the user may write a review
+     */
+    public boolean canCreateReview(final int mediaId, final String mediaType,
+                                   final String authorUsername) {
+        return createReviewInteractor.canCreateReview(mediaId, mediaType,
+                authorUsername);
+    }
+
+    /**
      * Edits a persisted review written by the given user.
      * @param reviewId the id of the review to edit
      * @param username the username of the user editing the review
