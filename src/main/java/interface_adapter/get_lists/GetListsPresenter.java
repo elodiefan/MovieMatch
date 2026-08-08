@@ -1,5 +1,8 @@
 package interface_adapter.get_lists;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import interface_adapter.ViewManagerModel;
 import interface_adapter.other_account.OtherAccountState;
 import interface_adapter.other_account.OtherAccountViewModel;
@@ -9,8 +12,10 @@ import use_case.get_blocked_users.GetBlockedUsersOutputBoundary;
 import use_case.get_blocked_users.GetBlockedUsersOutputData;
 import use_case.get_watch_history.GetWatchHistoryOutputBoundary;
 import use_case.get_watch_history.GetWatchHistoryOutputData;
+import use_case.get_watch_history.WatchHistoryItemData;
 import use_case.get_watchlist.GetWatchlistOutputBoundary;
 import use_case.get_watchlist.GetWatchlistOutputData;
+import use_case.get_watchlist.WatchlistItemData;
 
 public class GetListsPresenter implements GetWatchlistOutputBoundary, GetWatchHistoryOutputBoundary,
         GetBlockedUsersOutputBoundary {
@@ -36,7 +41,7 @@ public class GetListsPresenter implements GetWatchlistOutputBoundary, GetWatchHi
         final GetListsState getListsState = getListsViewModel.getState();
         getListsState.setUsername(response.getUsername());
         getListsState.setDisplayName(response.getDisplayName());
-        getListsState.setDisplayText(response.getWatchlist());
+        getListsState.setListRows(toWatchlistRows(response.getWatchlistItems()));
         getListsState.setListLabel(GetListsViewModel.WATCHLIST);
         this.getListsViewModel.setState(getListsState);
         this.getListsViewModel.firePropertyChanged();
@@ -50,7 +55,7 @@ public class GetListsPresenter implements GetWatchlistOutputBoundary, GetWatchHi
         final GetListsState getListsState = getListsViewModel.getState();
         getListsState.setUsername(response.getUsername());
         getListsState.setDisplayName(response.getDisplayName());
-        getListsState.setDisplayText(response.getWatchHistory());
+        getListsState.setListRows(toWatchHistoryRows(response.getWatchHistoryItems()));
         getListsState.setListLabel(GetListsViewModel.WATCH_HISTORY);
         this.getListsViewModel.setState(getListsState);
         this.getListsViewModel.firePropertyChanged();
@@ -64,7 +69,7 @@ public class GetListsPresenter implements GetWatchlistOutputBoundary, GetWatchHi
         final GetListsState getListsState = getListsViewModel.getState();
         getListsState.setUsername(response.getUsername());
         getListsState.setDisplayName(response.getDisplayName());
-        getListsState.setDisplayText(response.getBlockedUsers());
+        getListsState.setListRows(new ArrayList<>());
         getListsState.setListLabel(GetListsViewModel.BLOCKED_USERS);
         this.getListsViewModel.setState(getListsState);
         this.getListsViewModel.firePropertyChanged();
@@ -90,5 +95,27 @@ public class GetListsPresenter implements GetWatchlistOutputBoundary, GetWatchHi
         otherAccountViewModel.firePropertyChanged();
         viewManagerModel.setState(otherAccountViewModel.getViewName());
         viewManagerModel.firePropertyChanged();
+    }
+
+    private List<GetListRow> toWatchlistRows(
+            List<WatchlistItemData> watchlistItems) {
+        final List<GetListRow> rows = new ArrayList<>();
+        for (WatchlistItemData item : watchlistItems) {
+            rows.add(new GetListRow(item.getMediaId(), item.getMediaType(),
+                    item.getMediaTitle(), item.getLoggedAt(),
+                    item.getPosterPath()));
+        }
+        return rows;
+    }
+
+    private List<GetListRow> toWatchHistoryRows(
+            List<WatchHistoryItemData> watchHistoryItems) {
+        final List<GetListRow> rows = new ArrayList<>();
+        for (WatchHistoryItemData item : watchHistoryItems) {
+            rows.add(new GetListRow(item.getMediaId(), item.getMediaType(),
+                    item.getMediaTitle(), item.getLoggedAt(),
+                    item.getPosterPath()));
+        }
+        return rows;
     }
 }
