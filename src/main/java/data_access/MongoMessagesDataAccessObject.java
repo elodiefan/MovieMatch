@@ -97,7 +97,7 @@ public class MongoMessagesDataAccessObject implements AccessMessageChatMessageDa
             final List<Document> chats = new ArrayList<>();
             messages.find(Filters.or(
                     Filters.eq(CHAT_ID, username + WHITE_SPACE + otherUsername), Filters.eq(CHAT_ID,
-                            otherUsername + WHITE_SPACE + username))).sort(ascending(TIMESTAMP))
+                            otherUsername + WHITE_SPACE + username))).sort(Sorts.ascending(TIMESTAMP))
                             .forEach(doc -> chats.add(doc));
             return MongoDataCleaning.formatChat(chats);
         }
@@ -138,7 +138,7 @@ public class MongoMessagesDataAccessObject implements AccessMessageChatMessageDa
                 new Document(CHAT_ID, sender + WHITE_SPACE + recipient)
                         .append(SENDER, sender)
                         .append(BODY, message.getBody())
-                        .append(TIMESTAMP, message.getDate().toString()));
+                        .append(TIMESTAMP, message.getDate()));
     }
 
     /**

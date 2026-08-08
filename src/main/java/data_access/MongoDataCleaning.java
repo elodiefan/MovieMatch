@@ -1,5 +1,6 @@
 package data_access;
 
+import java.util.Date;
 import java.util.List;
 
 import org.bson.Document;
@@ -102,7 +103,9 @@ public class MongoDataCleaning {
     public static String formatChat(List<Document> chatHistory) {
         final StringBuilder formattedChat = new StringBuilder();
         for (Document message: chatHistory) {
-            final String timestamp = message.get(TIMESTAMP, String.class);
+//            final String timestamp = message.get(TIMESTAMP, String.class);
+            final String timestamp = message.get(TIMESTAMP, Date.class).toString();
+            System.out.println(timestamp);
             final String date = formatDate(timestamp, 0, INDEX_OF_DATE);
             final String time = formatDate(timestamp, INDEX_OF_START_TIME, INDEX_OF_END_TIME);
             formattedChat.append(message.get(SENDER, String.class));
