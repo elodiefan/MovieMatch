@@ -35,4 +35,13 @@ public interface LogMediaDataAccessInterface {
     void addToWatchHistory(String username, int mediaId, String mediaType,
                            String mediaTitle, String posterPath,
                            String watchedAt);
+
+    /**
+     * Checks whether the user has already watched a media item.
+     * @param username the username
+     * @param mediaId the media id
+     * @param mediaType the media type
+     * @return true if the media item is already in watch history
+     */
+    boolean hasWatchedMedia(String username, int mediaId, String mediaType);
 }

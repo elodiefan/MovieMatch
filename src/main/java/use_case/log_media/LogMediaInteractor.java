@@ -26,6 +26,13 @@ public class LogMediaInteractor implements LogMediaInputBoundary {
      */
     private static final String WATCH_HISTORY_MESSAGE =
             "Added to watch history.";
+    /**
+     * Watchlist failure message for already watched media.
+     */
+    private static final String ALREADY_WATCHED_MESSAGE =
+            "<html>This media is already in your watch history.<br>"
+                    + "Remove it from watch history before adding it "
+                    + "to your watchlist.</html>";
 
     /**
      * The data access object.
@@ -50,7 +57,7 @@ public class LogMediaInteractor implements LogMediaInputBoundary {
 
     @Override
     public void addToWatchlist(final LogMediaInputData inputData) {
-        final String error = validateInput(inputData);
+        final String error = validateWatchlistInput(inputData);
         if (error == null) {
             final String username = dataAccessObject.getCurrentUsername();
             dataAccessObject.addToWatchlist(username, inputData.getMediaId(),
@@ -63,6 +70,39 @@ public class LogMediaInteractor implements LogMediaInputBoundary {
         } else {
             presenter.prepareFailView(error);
         }
+    }
+
+    /**
+     * Validates a request to add media to the watchlist.
+     * @param inputData the input data
+     * @return an error message, or null when valid
+     */
+    private String validateWatchlistInput(final LogMediaInputData inputData) {
+        final String inputError = validateInput(inputData);
+        final String error;
+        if (inputError == null) {
+            error = validateNotAlreadyWatched(inputData);
+        } else {
+            error = inputError;
+        }
+        return error;
+    }
+
+    /**
+     * Checks that watched media is not added back to the watchlist.
+     * @param inputData the input data
+     * @return an error message, or null when valid
+     */
+    private String validateNotAlreadyWatched(final LogMediaInputData inputData) {
+        final String error;
+        final String username = dataAccessObject.getCurrentUsername();
+        if (dataAccessObject.hasWatchedMedia(username, inputData.getMediaId(),
+                trimToEmpty(inputData.getMediaType()))) {
+            error = ALREADY_WATCHED_MESSAGE;
+        } else {
+            error = null;
+        }
+        return error;
     }
 
     @Override
