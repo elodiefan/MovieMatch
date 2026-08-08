@@ -245,6 +245,18 @@ public class MongoUserDataAccessObject implements UserDataAccessObject {
                 mediaDocument);
     }
 
+    @Override
+    public boolean hasWatchedMedia(String username, int mediaId,
+                                   String mediaType) {
+        ensureUserListFields(username);
+        final Bson watchedMediaFilter = Filters.and(
+                Filters.eq(USERNAME, username),
+                Filters.elemMatch(WATCH_HISTORY,
+                        Filters.and(Filters.eq(MEDIA_ID, mediaId),
+                                Filters.eq(MEDIA_TYPE, mediaType))));
+        return users.find(watchedMediaFilter).first() != null;
+    }
+
     private static List<String> getBlockedUsers(Document doc) {
         final List<String> blockedUsers = doc.get(BLOCKED_USERS, List.class);
         return blockedUsers;

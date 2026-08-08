@@ -1027,7 +1027,7 @@ public class AppBuilder {
                         mediaReviewsPresenter);
         final CreateReviewInteractor createReviewInteractor =
                 new CreateReviewInteractor(reviewDataAccessObject,
-                        mediaReviewsPresenter);
+                        userDataAccessObject, mediaReviewsPresenter);
         final EditReviewInteractor editReviewInteractor =
                 new EditReviewInteractor(reviewDataAccessObject,
                         mediaReviewsPresenter);

@@ -590,22 +590,50 @@ public final class MediaReviewsPanel extends JPanel
             final MediaReviewsState state = mediaReviewsViewModel.getState();
             state.setSelectedReviewId("");
             if (mediaReviewsController != null && hasCurrentUser()) {
-                final String ratingText = JOptionPane.showInputDialog(
-                        MediaReviewsPanel.this, "Rating percentage:");
-                final String reviewText = JOptionPane.showInputDialog(
-                        MediaReviewsPanel.this, "Review text:");
-                if (!isBlank(ratingText)) {
-                    mediaReviewsController.createReview(state.getMediaId(),
-                            state.getMediaType(), state.getMediaTitle(),
-                            state.getReleaseYear(), state.getPosterPath(),
-                            currentUsername, currentDisplayName,
-                            Double.parseDouble(ratingText), reviewText);
-                    mediaReviewsController.loadMediaReviews(state.getMediaId(),
-                            state.getMediaType());
+                final boolean canCreateReview =
+                        mediaReviewsController.canCreateReview(
+                                state.getMediaId(), state.getMediaType(),
+                                currentUsername);
+                if (canCreateReview) {
+                    final String ratingText = JOptionPane.showInputDialog(
+                            MediaReviewsPanel.this, "Rating percentage:");
+                    final String reviewText = JOptionPane.showInputDialog(
+                            MediaReviewsPanel.this, "Review text:");
+                    if (!isBlank(ratingText)) {
+                        mediaReviewsController.createReview(state.getMediaId(),
+                                state.getMediaType(), state.getMediaTitle(),
+                                state.getReleaseYear(), state.getPosterPath(),
+                                currentUsername, currentDisplayName,
+                                Double.parseDouble(ratingText), reviewText);
+                        if (isBlank(mediaReviewsViewModel.getState()
+                                .getMediaReviewsError())) {
+                            mediaReviewsController.loadMediaReviews(
+                                    state.getMediaId(), state.getMediaType());
+                        }
+                    }
+                } else {
+                    JOptionPane.showMessageDialog(MediaReviewsPanel.this,
+                            getReviewPermissionMessage());
                 }
             }
             mediaReviewsViewModel.firePropertyChanged();
         }
+    }
+
+    /**
+     * Returns the review permission message shown before writing a review.
+     * @return the review permission message
+     */
+    private String getReviewPermissionMessage() {
+        final String errorMessage =
+                mediaReviewsViewModel.getState().getMediaReviewsError();
+        final String message;
+        if (isBlank(errorMessage)) {
+            message = "You need to first add this media to your watch history.";
+        } else {
+            message = errorMessage;
+        }
+        return message;
     }
 
     /**

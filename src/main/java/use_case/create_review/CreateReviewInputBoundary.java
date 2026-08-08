@@ -20,4 +20,14 @@ public interface CreateReviewInputBoundary {
                  int releaseYear, String posterPath,
                  String authorUsername, String authorDisplayName,
                  double rating, String reviewText);
+
+    /**
+     * Checks whether the user may start writing a review for this media item.
+     * @param mediaId the media id
+     * @param mediaType the media type
+     * @param authorUsername the author's username
+     * @return true if the user may write a review
+     */
+    boolean canCreateReview(int mediaId, String mediaType,
+                            String authorUsername);
 }

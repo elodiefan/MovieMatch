@@ -23,6 +23,11 @@ public class InMemoryUserDataAccessObject implements UserDataAccessObject {
      */
     private final Map<String, Set<Integer>> engagedMediaIds = new HashMap<>();
 
+    /**
+     * Watch history media keys, kept per user for review permissions.
+     */
+    private final Map<String, Set<String>> watchedMediaKeys = new HashMap<>();
+
     @Override
     public Set<Integer> findEngagedMediaIds(String username) {
         return new LinkedHashSet<>(engagedMediaIds.getOrDefault(username, new LinkedHashSet<>()));
@@ -153,7 +158,16 @@ public class InMemoryUserDataAccessObject implements UserDataAccessObject {
             user.setUserLists(new UserLists(username, user.getWatchlist(),
                     watchHistory, user.getBlockedUsers()));
             recordEngaged(username, mediaId);
+            recordWatched(username, mediaId, mediaType);
         }
+    }
+
+    @Override
+    public boolean hasWatchedMedia(String username, int mediaId,
+                                   String mediaType) {
+        final Set<String> mediaKeys =
+                watchedMediaKeys.getOrDefault(username, new LinkedHashSet<>());
+        return mediaKeys.contains(toMediaKey(mediaId, mediaType));
     }
 
     // ---------- Delete account (after the security question is answered) ----------
@@ -257,5 +271,14 @@ public class InMemoryUserDataAccessObject implements UserDataAccessObject {
      */
     private void recordEngaged(String username, int mediaId) {
         engagedMediaIds.computeIfAbsent(username, key -> new LinkedHashSet<>()).add(mediaId);
+    }
+
+    private void recordWatched(String username, int mediaId, String mediaType) {
+        watchedMediaKeys.computeIfAbsent(username, key -> new LinkedHashSet<>())
+                .add(toMediaKey(mediaId, mediaType));
+    }
+
+    private String toMediaKey(int mediaId, String mediaType) {
+        return mediaId + ":" + mediaType;
     }
 }
