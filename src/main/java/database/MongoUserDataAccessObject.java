@@ -250,6 +250,7 @@ public class MongoUserDataAccessObject implements UserDataAccessObject {
         ensureUserListFields(username);
         final Document mediaDocument = createMediaListDocument(mediaId,
                 mediaType, mediaTitle, posterPath, WATCHED_AT, watchedAt);
+        removeMediaListItem(username, WATCHLIST, mediaId, mediaType);
         replaceMediaListItem(username, WATCH_HISTORY, mediaId, mediaType,
                 mediaDocument);
     }
@@ -575,11 +576,16 @@ public class MongoUserDataAccessObject implements UserDataAccessObject {
     private void replaceMediaListItem(String username, String listField,
                                       int mediaId, String mediaType,
                                       Document mediaDocument) {
+        removeMediaListItem(username, listField, mediaId, mediaType);
+        users.updateOne(Filters.eq(USERNAME, username),
+                Updates.push(listField, mediaDocument));
+    }
+
+    private void removeMediaListItem(String username, String listField,
+                                     int mediaId, String mediaType) {
         users.updateOne(Filters.eq(USERNAME, username),
                 Updates.pull(listField, new Document(MEDIA_ID, mediaId)
                         .append(MEDIA_TYPE, mediaType)));
-        users.updateOne(Filters.eq(USERNAME, username),
-                Updates.push(listField, mediaDocument));
     }
 
     @Override

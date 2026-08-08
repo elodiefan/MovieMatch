@@ -166,10 +166,13 @@ public class InMemoryUserDataAccessObject implements UserDataAccessObject {
                     user.getUserLists().getWatchHistoryItems();
             watchHistoryItems.add(new MediaListItem(mediaId, mediaType,
                     mediaTitle, watchedAt, posterPath));
-            user.setUserLists(new UserLists(username, user.getWatchlist(),
+            final List<MediaListItem> watchlistItems =
+                    removeFromWatchlist(user.getUserLists()
+                            .getWatchlistItems(), mediaId, mediaType);
+            user.setUserLists(new UserLists(username,
+                    toMediaLog(watchlistItems),
                     watchHistory, user.getBlockedUsers(),
-                    user.getUserLists().getWatchlistItems(),
-                    watchHistoryItems));
+                    watchlistItems, watchHistoryItems));
             recordEngaged(username, mediaId);
             recordWatched(username, mediaId, mediaType);
         }
@@ -274,6 +277,35 @@ public class InMemoryUserDataAccessObject implements UserDataAccessObject {
     private String appendMediaLog(String currentList, String mediaTitle,
                                   String loggedAt) {
         return currentList + mediaTitle + " -- " + loggedAt + "\n";
+    }
+
+    private List<MediaListItem> removeFromWatchlist(
+            List<MediaListItem> watchlistItems, int mediaId,
+            String mediaType) {
+        final List<MediaListItem> remainingItems = new ArrayList<>();
+        for (MediaListItem item : watchlistItems) {
+            if (!isSameMedia(item, mediaId, mediaType)) {
+                remainingItems.add(item);
+            }
+        }
+        return remainingItems;
+    }
+
+    private boolean isSameMedia(MediaListItem item, int mediaId,
+                                String mediaType) {
+        return item.getMediaId() == mediaId
+                && item.getMediaType().equals(mediaType);
+    }
+
+    private String toMediaLog(List<MediaListItem> mediaListItems) {
+        final StringBuilder mediaLog = new StringBuilder();
+        for (MediaListItem item : mediaListItems) {
+            mediaLog.append(item.getMediaTitle());
+            mediaLog.append(" -- ");
+            mediaLog.append(item.getLoggedAt());
+            mediaLog.append("\n");
+        }
+        return mediaLog.toString();
     }
 
     /**
