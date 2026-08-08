@@ -69,10 +69,11 @@ public class ChangeUsernameView extends JPanel implements PropertyChangeListener
             changeUsernameViewModel.firePropertyChanged();
             final PersonalAccountState updatedPersonalAccountState = new PersonalAccountState();
             updatedPersonalAccountState.setUsername(changeUsernameViewModel.getState().getUsername());
+            updatedPersonalAccountState.setDisplayName(changeUsernameViewModel.getState().getDisplayName());
             personalAccountViewModel.setState(updatedPersonalAccountState);
             viewManagerModel.setState(PersonalAccountViewModel.VIEW_NAME);
             viewManagerModel.firePropertyChanged();
-             personalAccountViewModel.firePropertyChanged();
+            personalAccountViewModel.firePropertyChanged();
         });
 
         // Keep state in sync with the "new username" field.
