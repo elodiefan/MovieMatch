@@ -6,7 +6,9 @@ import java.util.List;
 import use_case.recommendation.GenreSection;
 import use_case.recommendation.RecommendedMedia;
 
-/** What the recommendation screens draw. */
+/**
+ * What the recommendation screens draw.
+ */
 public class RecommendationState {
 
     private List<RecommendedMedia> recommendations = new ArrayList<>();
@@ -14,7 +16,9 @@ public class RecommendationState {
     private String recommendationError;
     private String username = "";
 
-    /** Distinguishes "nothing to suggest" from "not asked yet". */
+    /**
+     * Distinguishes "nothing to suggest" from "not asked yet".
+     */
     private boolean loaded;
 
     public List<RecommendedMedia> getRecommendations() {

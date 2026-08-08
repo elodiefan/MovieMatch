@@ -13,10 +13,14 @@ import org.junit.jupiter.api.Test;
 import entity.Genre;
 import entity.Movie;
 
-/** Checks the scoring against the worked example in section 6 of {@code Recommendation_Algorithm.pdf}. */
+/**
+ * Checks the scoring against the worked example in section 6 of {@code Recommendation_Algorithm.pdf}.
+ */
 class WorkedExampleTest {
 
-    /** The document computes recency as at 2026. */
+    /**
+     * The document computes recency as at 2026.
+     */
     private static final int CURRENT_YEAR = 2026;
 
     private static final double TOLERANCE = 0.001;

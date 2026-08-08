@@ -5,15 +5,24 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-/** Arranges suggestions into "Because you like ..." sections. */
+/**
+ * Arranges suggestions into "Because you like ..." sections.
+ */
 public class GenreGrouper {
 
-    /** Creates a grouper. */
+    /**
+     * Creates a grouper.
+     */
     public GenreGrouper() {
         // Stateless: everything needed arrives per call.
     }
 
-    /** Groups suggestions by the genre each was filed under. */
+    /**
+     * Groups suggestions by the genre each was filed under.
+     *
+     * @param recommendations the recommendations
+     * @return the group
+     */
     public List<GenreSection> group(final List<RecommendedMedia> recommendations) {
         // A linked map keeps first-seen order, which — because the input is
         // already ranked — is exactly "best section first".

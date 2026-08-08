@@ -7,6 +7,7 @@ public interface BlockUserInputBoundary {
 
     /**
      * Executes the block user use case.
+     * @param blockUserInputData the input data
      */
     void execute(BlockUserInputData blockUserInputData);
 }

@@ -18,10 +18,14 @@ import entity.Movie;
 import entity.TVShow;
 import use_case.recommendation.MediaCatalogueDataAccessInterface;
 
-/** Supplies recommendation candidates from TMDB. */
+/**
+ * Supplies recommendation candidates from TMDB.
+ */
 public class TmdbMediaCatalogue implements MediaCatalogueDataAccessInterface {
 
-    /** How many pages of candidates to gather. */
+    /**
+     * How many pages of candidates to gather.
+     */
     private static final int CANDIDATE_PAGES = 1;
 
     private static final String RESULTS_FIELD = "results";
@@ -33,7 +37,9 @@ public class TmdbMediaCatalogue implements MediaCatalogueDataAccessInterface {
     private final TmdbApiClient tmdbApiClient;
     private final ObjectMapper objectMapper = new ObjectMapper();
 
-    /** Genre id to name, fetched once because it never changes during a run. */
+    /**
+     * Genre id to name, fetched once because it never changes during a run.
+     */
     private Map<Integer, String> genreNames;
 
     public TmdbMediaCatalogue(TmdbApiClient tmdbApiClient) {
@@ -85,7 +91,13 @@ public class TmdbMediaCatalogue implements MediaCatalogueDataAccessInterface {
         return result;
     }
 
-    /** Drops anything the user has already seen or rated. */
+    /**
+     * Drops anything the user has already seen or rated.
+     *
+     * @param candidates the candidates
+     * @param excludeMediaIds the exclude media ids
+     * @return the without excluded
+     */
     private List<Media> withoutExcluded(List<Media> candidates, Set<Integer> excludeMediaIds) {
         final List<Media> kept = new ArrayList<>();
         for (Media media : candidates) {
@@ -108,7 +120,12 @@ public class TmdbMediaCatalogue implements MediaCatalogueDataAccessInterface {
         }
     }
 
-    /** Builds a Movie from a listing entry. */
+    /**
+     * Builds a Movie from a listing entry.
+     *
+     * @param item the item
+     * @return the to movie summary
+     */
     private Movie toMovieSummary(JsonNode item) {
         return new Movie(
                 item.path(ID_FIELD).asInt(),
@@ -156,7 +173,12 @@ public class TmdbMediaCatalogue implements MediaCatalogueDataAccessInterface {
                 details.path("poster_path").asText(""));
     }
 
-    /** Turns TMDB's genre ids into genres, naming them where possible. */
+    /**
+     * Turns TMDB's genre ids into genres, naming them where possible.
+     *
+     * @param genreIds the genre ids
+     * @return the to genres
+     */
     private List<Genre> toGenres(JsonNode genreIds) {
         final Map<Integer, String> names = genreNames();
         final List<Genre> genres = new ArrayList<>();
@@ -167,7 +189,11 @@ public class TmdbMediaCatalogue implements MediaCatalogueDataAccessInterface {
         return genres;
     }
 
-    /** Loads the genre names once per run. */
+    /**
+     * Loads the genre names once per run.
+     *
+     * @return the genre names
+     */
     private Map<Integer, String> genreNames() {
         if (genreNames == null) {
             genreNames = new HashMap<>();
@@ -205,6 +231,9 @@ public class TmdbMediaCatalogue implements MediaCatalogueDataAccessInterface {
 
     /**
      * Returns the distinct genres across some titles, used to build a taste profile from what a user has already engaged with.
+     *
+     * @param media the media
+     * @return the genres of
      */
     public Set<Genre> genresOf(List<Media> media) {
         final Set<Genre> genres = new LinkedHashSet<>();

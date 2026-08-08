@@ -30,6 +30,12 @@ public final class SearchUseCaseFactory {
 
     /**
      * Creates and connects the Search Use Case.
+     *
+     * @param viewManagerModel the view manager model
+     * @param searchViewModel the search view model
+     * @param searchResultViewModel the search result view model
+     * @param searchView the search view
+     * @param searchResultView the search result view
      */
     public static void create(
             ViewManagerModel viewManagerModel,

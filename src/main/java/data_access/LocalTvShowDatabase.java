@@ -65,6 +65,8 @@ public class LocalTvShowDatabase {
 
     /**
      * Returns all TV shows stored in the database.
+     *
+     * @return all TV shows
      */
     public List<TVShow> getTvShows() {
         return new ArrayList<>(tvShows);

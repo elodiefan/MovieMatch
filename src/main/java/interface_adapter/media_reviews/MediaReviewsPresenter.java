@@ -24,7 +24,9 @@ public final class MediaReviewsPresenter
         implements GetMediaReviewsOutputBoundary, CreateReviewOutputBoundary,
         EditReviewOutputBoundary, DeleteReviewOutputBoundary,
         LikeReviewOutputBoundary, UnlikeReviewOutputBoundary {
-    /** The media reviews view model. */
+    /**
+     * The media reviews view model.
+     */
     private final MediaReviewsViewModel mediaReviewsViewModel;
 
     /**
@@ -36,6 +38,7 @@ public final class MediaReviewsPresenter
 
     /**
      * Creates a presenter for the media reviews view model.
+     * @param inputMediaReviewsViewModel the view model to update
      */
     public MediaReviewsPresenter(
             final MediaReviewsViewModel inputMediaReviewsViewModel) {
@@ -79,6 +82,8 @@ public final class MediaReviewsPresenter
     /**
      * Converts review entities into rows that can be displayed by the media
      * reviews panel.
+     * @param reviews the reviews to present
+     * @return display-safe media review rows
      */
     public List<MediaReviewRow> prepareReviews(final List<Review> reviews) {
         final List<MediaReviewRow> reviewRows = new ArrayList<>();
@@ -94,6 +99,8 @@ public final class MediaReviewsPresenter
 
     /**
      * Converts an error message into display-safe text.
+     * @param errorMessage the error message to present
+     * @return the display-safe error message
      */
     public String prepareFailView(final String errorMessage) {
         final String displayError;
@@ -122,6 +129,8 @@ public final class MediaReviewsPresenter
 
     /**
      * Converts one review entity into one displayed row.
+     * @param review the review to convert
+     * @return the displayed media review row
      */
     private MediaReviewRow createReviewRow(final Review review) {
         return new MediaReviewRow(review.getReviewId(),
@@ -133,6 +142,8 @@ public final class MediaReviewsPresenter
 
     /**
      * Checks whether a text value is empty or only whitespace.
+     * @param value the value to check
+     * @return true if the value is blank
      */
     private boolean isBlank(final String value) {
         return value == null || value.trim().isEmpty();

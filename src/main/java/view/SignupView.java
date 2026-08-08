@@ -49,6 +49,8 @@ public class SignupView extends JPanel implements ActionListener, PropertyChange
 
     /**
      * Creates the signup view.
+     *
+     * @param signupViewModel the signup view model
      */
     public SignupView(SignupViewModel signupViewModel) {
         this.signupViewModel = signupViewModel;
@@ -62,6 +64,8 @@ public class SignupView extends JPanel implements ActionListener, PropertyChange
 
     /**
      * Responds to signup view button clicks.
+     *
+     * @param event the button click event
      */
     @Override
     public void actionPerformed(ActionEvent event) {
@@ -79,6 +83,8 @@ public class SignupView extends JPanel implements ActionListener, PropertyChange
 
     /**
      * Responds to changes in the signup view model.
+     *
+     * @param event the property change event
      */
     @Override
     public void propertyChange(PropertyChangeEvent event) {
@@ -91,6 +97,8 @@ public class SignupView extends JPanel implements ActionListener, PropertyChange
 
     /**
      * Returns the name used to identify this view.
+     *
+     * @return the signup view name
      */
     public String getViewName() {
         return signupViewModel.getViewName();
@@ -98,6 +106,8 @@ public class SignupView extends JPanel implements ActionListener, PropertyChange
 
     /**
      * Sets the controller used by this signup view.
+     *
+     * @param signupController the signup controller
      */
     public void setSignupController(SignupController signupController) {
         this.signupController = signupController;
@@ -105,6 +115,8 @@ public class SignupView extends JPanel implements ActionListener, PropertyChange
 
     /**
      * Creates the signup form panel.
+     *
+     * @return the form panel
      */
     private JPanel createFormPanel() {
         final JPanel formPanel = new JPanel(new GridBagLayout());
@@ -122,6 +134,8 @@ public class SignupView extends JPanel implements ActionListener, PropertyChange
 
     /**
      * Creates the signup button panel.
+     *
+     * @return the button panel
      */
     private JPanel createButtonPanel() {
         final JPanel buttonPanel = new JPanel();
@@ -136,6 +150,11 @@ public class SignupView extends JPanel implements ActionListener, PropertyChange
 
     /**
      * Adds a labeled input row to the form panel.
+     *
+     * @param formPanel the panel receiving the row
+     * @param labelText the row label text
+     * @param inputComponent the input component
+     * @param row the row number
      */
     private void addFormRow(JPanel formPanel, String labelText, java.awt.Component inputComponent, int row) {
         final GridBagConstraints labelConstraints = createLabelConstraints(row);
@@ -146,6 +165,9 @@ public class SignupView extends JPanel implements ActionListener, PropertyChange
 
     /**
      * Creates constraints for a form label.
+     *
+     * @param row the row number
+     * @return label constraints
      */
     private GridBagConstraints createLabelConstraints(int row) {
         final GridBagConstraints constraints = new GridBagConstraints();
@@ -158,6 +180,9 @@ public class SignupView extends JPanel implements ActionListener, PropertyChange
 
     /**
      * Creates constraints for a form input.
+     *
+     * @param row the row number
+     * @return input constraints
      */
     private GridBagConstraints createInputConstraints(int row) {
         final GridBagConstraints constraints = new GridBagConstraints();
@@ -198,6 +223,8 @@ public class SignupView extends JPanel implements ActionListener, PropertyChange
 
     /**
      * Returns the selected security question.
+     *
+     * @return the selected security question
      */
     private String getSelectedSecurityQuestion() {
         final Object selectedQuestion = securityQuestionComboBox.getSelectedItem();
@@ -213,6 +240,8 @@ public class SignupView extends JPanel implements ActionListener, PropertyChange
 
     /**
      * Updates the visible signup fields from the current signup state.
+     *
+     * @param state the current signup state
      */
     private void setFields(SignupState state) {
         usernameInputField.setText(state.getUsername());

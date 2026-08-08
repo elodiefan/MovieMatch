@@ -5,10 +5,14 @@ import entity.recommendation.TasteProfile;
 import use_case.recommendation.Adjustment;
 import use_case.recommendation.ScoreAdjuster;
 
-/** An adjuster that never changes anything. */
+/**
+ * An adjuster that never changes anything.
+ */
 public class NoOpScoreAdjuster implements ScoreAdjuster {
 
-    /** Creates the adjuster. */
+    /**
+     * Creates the adjuster.
+     */
     public NoOpScoreAdjuster() {
         // Stateless.
     }

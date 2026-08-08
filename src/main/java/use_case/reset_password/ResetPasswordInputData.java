@@ -1,7 +1,8 @@
 package use_case.reset_password;
 
 /**
- * Input data for the Reset Password use case: which user, and the new password typed twice (so the interactor can confirm the two entries match).
+ * Input data for the Reset Password use case: which user, and the new password
+ * typed twice (so the interactor can confirm the two entries match).
  */
 public class ResetPasswordInputData {
 

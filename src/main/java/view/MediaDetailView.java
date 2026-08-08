@@ -60,7 +60,9 @@ public class MediaDetailView extends JPanel implements PropertyChangeListener {
     private final JLabel posterLabel;
     private final MediaReviewsPanel mediaReviewsPanel;
 
-    /** How this screen finds out who is signed in. */
+    /**
+     * How this screen finds out who is signed in.
+     */
     private Supplier<String> usernameSource;
     private Function<String, String> displayNameSource;
     private MediaDetailController mediaDetailController;
@@ -204,6 +206,8 @@ public class MediaDetailView extends JPanel implements PropertyChangeListener {
 
     /**
      * Sets the controller used to log media to user lists.
+     *
+     * @param inputLogMediaController the input log media controller
      */
     public void setLogMediaController(
             LogMediaController inputLogMediaController) {
@@ -212,6 +216,8 @@ public class MediaDetailView extends JPanel implements PropertyChangeListener {
 
     /**
      * Sets the controller used by the embedded media reviews panel.
+     *
+     * @param mediaReviewsController the media reviews controller
      */
     public void setMediaReviewsController(
             MediaReviewsController mediaReviewsController) {
@@ -220,6 +226,8 @@ public class MediaDetailView extends JPanel implements PropertyChangeListener {
 
     /**
      * Sets the controller used by the embedded comments panel.
+     *
+     * @param commentsController the comments controller
      */
     public void setCommentsController(CommentsController commentsController) {
         mediaReviewsPanel.setCommentsController(commentsController);
@@ -232,6 +240,9 @@ public class MediaDetailView extends JPanel implements PropertyChangeListener {
      * and nothing was ever telling them who that is, so writing a review did
      * nothing at all. Nobody is signed in when the screen is built, so this
      * takes suppliers and asks them each time the screen is shown.
+     *
+     * @param usernameSource the username source
+     * @param displayNameSource the display name source
      */
     public void setCurrentUserSource(Supplier<String> usernameSource,
                                      Function<String, String> displayNameSource) {

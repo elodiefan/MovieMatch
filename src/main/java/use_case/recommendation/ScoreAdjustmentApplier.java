@@ -6,20 +6,34 @@ import java.util.List;
 import entity.recommendation.ScoredMedia;
 import entity.recommendation.TasteProfile;
 
-/** Lets an adjuster refine the ranking, within strict limits. */
+/**
+ * Lets an adjuster refine the ranking, within strict limits.
+ */
 public class ScoreAdjustmentApplier {
 
-    /** The most an adjuster may move a score in either direction. */
+    /**
+     * The most an adjuster may move a score in either direction.
+     */
     public static final double MAX_ADJUSTMENT = 0.05;
 
     private final ScoreAdjuster adjuster;
 
-    /** Creates an applier wrapping the given adjuster. */
+    /**
+     * Creates an applier wrapping the given adjuster.
+     *
+     * @param adjuster the adjuster
+     */
     public ScoreAdjustmentApplier(final ScoreAdjuster adjuster) {
         this.adjuster = adjuster;
     }
 
-    /** Applies clamped adjustments to a shortlist. */
+    /**
+     * Applies clamped adjustments to a shortlist.
+     *
+     * @param shortlist the shortlist
+     * @param profile the profile
+     * @return the apply to
+     */
     public List<ScoredMedia> applyTo(final List<ScoredMedia> shortlist, final TasteProfile profile) {
         final List<entity.Media> candidates = new ArrayList<>();
         for (final ScoredMedia scored : shortlist) {
@@ -52,7 +66,13 @@ public class ScoreAdjustmentApplier {
         return adjusted;
     }
 
-    /** Adjusts a single result, falling back to no change if the adjuster fails. */
+    /**
+     * Adjusts a single result, falling back to no change if the adjuster fails.
+     *
+     * @param scored the scored
+     * @param adjustment the adjustment
+     * @return the apply one
+     */
     private ScoredMedia applyOne(final ScoredMedia scored, final Adjustment adjustment) {
         // Clamped here, and again inside ClampingScoreAdjuster, which is the
         // two places the algorithm document asks for.

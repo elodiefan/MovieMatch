@@ -2,7 +2,9 @@ package interface_adapter.search_user;
 
 import interface_adapter.ViewModel;
 
-/** The View Model for the Search User View. */
+/**
+ * The View Model for the Search User View.
+ */
 public class SearchUserViewModel extends ViewModel<SearchUserState> {
 
     public static final String VIEW_NAME = "search user";

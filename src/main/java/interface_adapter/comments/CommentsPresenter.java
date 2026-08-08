@@ -21,7 +21,9 @@ import use_case.comment.unlike_comment.UnlikeCommentOutputData;
 public final class CommentsPresenter implements GetReviewCommentsOutputBoundary,
         CreateCommentOutputBoundary, DeleteCommentOutputBoundary,
         LikeCommentOutputBoundary, UnlikeCommentOutputBoundary {
-    /** The comments view model. */
+    /**
+     * The comments view model.
+     */
     private final CommentsViewModel commentsViewModel;
 
     /**
@@ -33,6 +35,7 @@ public final class CommentsPresenter implements GetReviewCommentsOutputBoundary,
 
     /**
      * Creates a presenter for the comments view model.
+     * @param inputCommentsViewModel the view model to update
      */
     public CommentsPresenter(final CommentsViewModel inputCommentsViewModel) {
         this.commentsViewModel = inputCommentsViewModel;
@@ -75,6 +78,8 @@ public final class CommentsPresenter implements GetReviewCommentsOutputBoundary,
     /**
      * Converts comment entities into rows that can be displayed by the comments
      * view.
+     * @param comments the comments to present
+     * @return display-safe comment rows
      */
     private List<CommentRow> prepareComments(final List<Comment> comments) {
         final List<CommentRow> commentRows = new ArrayList<>();
@@ -90,6 +95,8 @@ public final class CommentsPresenter implements GetReviewCommentsOutputBoundary,
 
     /**
      * Converts an error message into display-safe text.
+     * @param errorMessage the error message to present
+     * @return the display-safe error message
      */
     public String prepareFailView(final String errorMessage) {
         final String displayError;
@@ -118,6 +125,8 @@ public final class CommentsPresenter implements GetReviewCommentsOutputBoundary,
 
     /**
      * Converts one comment entity into one displayed row.
+     * @param comment the comment to convert
+     * @return the displayed comment row
      */
     private CommentRow createCommentRow(final Comment comment) {
         return new CommentRow(comment.getCommentId(), comment.getReviewId(),
@@ -128,6 +137,8 @@ public final class CommentsPresenter implements GetReviewCommentsOutputBoundary,
 
     /**
      * Checks whether a text value is empty or only whitespace.
+     * @param value the value to check
+     * @return true if the value is blank
      */
     private boolean isBlank(final String value) {
         return value == null || value.trim().isEmpty();

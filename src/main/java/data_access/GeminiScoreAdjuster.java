@@ -21,22 +21,32 @@ import use_case.recommendation.Adjustment;
 import use_case.recommendation.ScoreAdjuster;
 import use_case.recommendation.ScoreAdjustmentException;
 
-/** Asks Gemini to nudge one candidate's score and explain it in a sentence. */
+/**
+ * Asks Gemini to nudge one candidate's score and explain it in a sentence.
+ */
 public class GeminiScoreAdjuster implements ScoreAdjuster {
 
-    /** Where the key is read from, matching how the TMDB token is supplied. */
+    /**
+     * Where the key is read from, matching how the TMDB token is supplied.
+     */
     public static final String API_KEY_VARIABLE = "Gemini_API_Key";
 
-    /** Overridable so the model can be changed without a rebuild. */
+    /**
+     * Overridable so the model can be changed without a rebuild.
+     */
     public static final String MODEL_VARIABLE = "Gemini_Model";
 
-    /** Used when the model variable is not set. */
+    /**
+     * Used when the model variable is not set.
+     */
     public static final String DEFAULT_MODEL = "gemini-flash-lite-latest";
 
     private static final String ENDPOINT =
             "https://generativelanguage.googleapis.com/v1beta/models/%s:generateContent";
 
-    /** The document's cap, enforced here as well as in the use case. */
+    /**
+     * The document's cap, enforced here as well as in the use case.
+     */
     private static final double MAX_ADJUSTMENT = 0.05;
 
     private static final int TIMEOUT_SECONDS = 10;
@@ -66,6 +76,8 @@ public class GeminiScoreAdjuster implements ScoreAdjuster {
 
     /**
      * Says whether a key is configured, so callers can skip the network entirely rather than failing once per candidate.
+     *
+     * @return the is configured
      */
     public boolean isConfigured() {
         return apiKey != null && !apiKey.isBlank();
@@ -92,7 +104,13 @@ public class GeminiScoreAdjuster implements ScoreAdjuster {
         }
     }
 
-    /** Asks about the whole shortlist in one request. */
+    /**
+     * Asks about the whole shortlist in one request.
+     *
+     * @param candidates the candidates
+     * @param tasteProfile the taste profile
+     * @return the adjust all
+     */
     @Override
     public List<Adjustment> adjustAll(List<Media> candidates, TasteProfile tasteProfile) {
         final List<Adjustment> adjustments = new ArrayList<>();
@@ -142,7 +160,14 @@ public class GeminiScoreAdjuster implements ScoreAdjuster {
                 + "\"explanation\": \"<one short sentence>\"}]}";
     }
 
-    /** Reads a batch reply, keeping every candidate lined up with its own entry. */
+    /**
+     * Reads a batch reply, keeping every candidate lined up with its own entry.
+     *
+     * @param reply the reply
+     * @param expected the expected
+     * @return the parse batch
+     * @throws IOException if the operation fails
+     */
     private List<Adjustment> parseBatch(String reply, int expected) throws IOException {
         final List<Adjustment> adjustments = new ArrayList<>();
         for (int i = 0; i < expected; i++) {
@@ -171,7 +196,13 @@ public class GeminiScoreAdjuster implements ScoreAdjuster {
                 Math.max(-MAX_ADJUSTMENT, Math.min(MAX_ADJUSTMENT, delta)), explanation);
     }
 
-    /** Pulls the JSON object out of a reply. */
+    /**
+     * Pulls the JSON object out of a reply.
+     *
+     * @param reply the reply
+     * @return the extract json
+     * @throws IOException if the operation fails
+     */
     private String extractJson(String reply) throws IOException {
         final JsonNode root = objectMapper.readTree(reply);
         final String text = root.path("candidates").path(0)
@@ -191,6 +222,10 @@ public class GeminiScoreAdjuster implements ScoreAdjuster {
 
     /**
      * Describes the candidate and the user's taste, and asks for exactly the two values the algorithm allows this step to contribute.
+     *
+     * @param candidate the candidate
+     * @param tasteProfile the taste profile
+     * @return the build prompt
      */
     private String buildPrompt(Media candidate, TasteProfile tasteProfile) {
         final String likedGenres = tasteProfile.getGenres().stream()
@@ -247,7 +282,13 @@ public class GeminiScoreAdjuster implements ScoreAdjuster {
         return response.body();
     }
 
-    /** Reads the number and sentence out of the reply. */
+    /**
+     * Reads the number and sentence out of the reply.
+     *
+     * @param reply the reply
+     * @return the parse
+     * @throws IOException if the operation fails
+     */
     private Adjustment parse(String reply) throws IOException {
         final JsonNode parsed = objectMapper.readTree(extractJson(reply));
         final double delta = parsed.path("delta").asDouble(0.0);

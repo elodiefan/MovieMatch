@@ -121,6 +121,8 @@ public class TVShow implements Media {
 
     /**
      * Returns the amount of seasons of this show.
+     *
+     * @return the genre id
      */
     public int numberOfSeasons() {
         return numberOfSeasons;
@@ -128,6 +130,8 @@ public class TVShow implements Media {
 
     /**
      * Returns the amount of episodes of this show.
+     *
+     * @return the genre id
      */
     public int numberOfEpisodes() {
         return numberOfEpisodes;

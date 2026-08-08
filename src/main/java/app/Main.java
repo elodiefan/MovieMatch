@@ -11,6 +11,8 @@ import view.UiTheme;
 public class Main {
     /**
      * Builds and runs the CA architecture of the application.
+     *
+     * @param args the args
      */
     public static void main(String[] args) {
         // Without this a failed database call just prints to the console and the

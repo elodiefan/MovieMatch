@@ -5,7 +5,9 @@ import java.util.List;
 
 import entity.Media;
 
-/** One page of search results, and how many pages exist in total. */
+/**
+ * One page of search results, and how many pages exist in total.
+ */
 public class MediaPage {
 
     private final List<Media> media;
@@ -28,6 +30,8 @@ public class MediaPage {
 
     /**
      * Returns how many results the source says exist for this keyword, across every page, not just the ones fetched so far.
+     *
+     * @return the get total results
      */
     public int getTotalResults() {
         return totalResults;

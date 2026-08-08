@@ -16,6 +16,8 @@ public class SearchController {
 
     /**
      * Executes the Search Use Case.
+     *
+     * @param keyword the keyword
      */
     public void execute(String keyword) {
         final SearchInputData searchInputData =
@@ -26,6 +28,9 @@ public class SearchController {
 
     /**
      * Fetches the next block of pages for a search already on screen.
+     *
+     * @param keyword the keyword
+     * @param nextPage the next page
      */
     public void loadMore(String keyword, int nextPage) {
         searchUseCaseInteractor.loadMore(new SearchInputData(keyword, nextPage));

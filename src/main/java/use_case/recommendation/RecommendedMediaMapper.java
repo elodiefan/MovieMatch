@@ -8,17 +8,27 @@ import entity.Media;
 import entity.recommendation.ScoredMedia;
 import entity.recommendation.TasteProfile;
 
-/** Turns scored entities into the shape a screen can display. */
+/**
+ * Turns scored entities into the shape a screen can display.
+ */
 public class RecommendedMediaMapper {
 
     private static final String NO_GENRE = "Other";
 
-    /** Creates a mapper. */
+    /**
+     * Creates a mapper.
+     */
     public RecommendedMediaMapper() {
         // Stateless: everything needed arrives per call.
     }
 
-    /** Converts one scored result. */
+    /**
+     * Converts one scored result.
+     *
+     * @param scored the scored
+     * @param profile the profile
+     * @return the to recommended media
+     */
     public RecommendedMedia toRecommendedMedia(final ScoredMedia scored, final TasteProfile profile) {
         final Media media = scored.getMedia();
         return new RecommendedMedia(
@@ -30,7 +40,13 @@ public class RecommendedMediaMapper {
                 scored.getExplanation());
     }
 
-    /** Converts a whole list. */
+    /**
+     * Converts a whole list.
+     *
+     * @param scored the scored
+     * @param profile the profile
+     * @return the to recommended media
+     */
     public List<RecommendedMedia> toRecommendedMedia(final List<ScoredMedia> scored,
                                                      final TasteProfile profile) {
         final List<RecommendedMedia> mapped = new ArrayList<>();
@@ -40,7 +56,13 @@ public class RecommendedMediaMapper {
         return mapped;
     }
 
-    /** Chooses which of a title's genres to file it under. */
+    /**
+     * Chooses which of a title's genres to file it under.
+     *
+     * @param media the media
+     * @param profile the profile
+     * @return the pick primary genre
+     */
     private String pickPrimaryGenre(final Media media, final TasteProfile profile) {
         String chosen = NO_GENRE;
         for (final Genre genre : media.getGenres()) {

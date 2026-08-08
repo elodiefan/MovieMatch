@@ -15,6 +15,8 @@ public class SignupPresenter implements SignupOutputBoundary {
 
     /**
      * Creates a signup presenter.
+     *
+     * @param signupViewModel the view model for the signup view
      */
     public SignupPresenter(SignupViewModel signupViewModel) {
         this(null, signupViewModel);
@@ -22,6 +24,9 @@ public class SignupPresenter implements SignupOutputBoundary {
 
     /**
      * Creates a signup presenter that can update app navigation.
+     *
+     * @param viewManagerModel the shared view manager model
+     * @param signupViewModel the view model for the signup view
      */
     public SignupPresenter(ViewManagerModel viewManagerModel, SignupViewModel signupViewModel) {
         this.viewManagerModel = viewManagerModel;
@@ -30,6 +35,8 @@ public class SignupPresenter implements SignupOutputBoundary {
 
     /**
      * Prepares the signup view after a successful signup.
+     *
+     * @param outputData the successful signup output data
      */
     @Override
     public void prepareSuccessView(SignupOutputData outputData) {
@@ -47,6 +54,8 @@ public class SignupPresenter implements SignupOutputBoundary {
 
     /**
      * Prepares the signup view after a failed signup.
+     *
+     * @param errorMessage the explanation of the signup failure
      */
     @Override
     public void prepareFailView(String errorMessage) {

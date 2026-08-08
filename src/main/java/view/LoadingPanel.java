@@ -13,7 +13,9 @@ import javax.swing.JPanel;
 import javax.swing.JProgressBar;
 import javax.swing.SwingConstants;
 
-/** A centred "working on it" panel, shown while a screen waits on the network. */
+/**
+ * A centred "working on it" panel, shown while a screen waits on the network.
+ */
 public class LoadingPanel extends JPanel {
 
     private static final int BAR_WIDTH = 260;
@@ -55,12 +57,20 @@ public class LoadingPanel extends JPanel {
         this.add(column, BorderLayout.CENTER);
     }
 
-    /** Changes the headline while still loading. */
+    /**
+     * Changes the headline while still loading.
+     *
+     * @param text the text
+     */
     public void setMessage(String text) {
         message.setText(text);
     }
 
-    /** Sets the smaller line under the bar, for saying what is happening. */
+    /**
+     * Sets the smaller line under the bar, for saying what is happening.
+     *
+     * @param text the text
+     */
     public void setDetail(String text) {
         if (text == null || text.isBlank()) {
             detail.setText(" ");
@@ -70,7 +80,11 @@ public class LoadingPanel extends JPanel {
         }
     }
 
-    /** Stops the animation when hidden, so it does not repaint forever offscreen. */
+    /**
+     * Stops the animation when hidden, so it does not repaint forever offscreen.
+     *
+     * @param animating the animating
+     */
     public void setAnimating(boolean animating) {
         bar.setIndeterminate(animating);
     }

@@ -33,52 +33,91 @@ import interface_adapter.media_reviews.MediaReviewsViewModel;
  */
 public final class MediaReviewsPanel extends JPanel
         implements PropertyChangeListener {
-    /** The heart unselected. */
+    /**
+     * The heart unselected.
+     */
     private static final String HEART_UNSELECTED = "\u2661";
-    /** The heart selected. */
+    /**
+     * The heart selected.
+     */
     private static final String HEART_SELECTED = "\u2665";
 
-    /** The card gap. */
+    /**
+     * The card gap.
+     */
     private static final int CARD_GAP = 10;
-    /** The comment gap. */
+    /**
+     * The comment gap.
+     */
     private static final int COMMENT_GAP = 6;
-    /** The comment indent. */
+    /**
+     * The comment indent.
+     */
     private static final int COMMENT_INDENT = 24;
-    /** The reply indent. */
+    /**
+     * The reply indent.
+     */
     private static final int REPLY_INDENT = 48;
-    /** MovieMatch review source label. */
+    /**
+     * MovieMatch review source label.
+     */
     private static final String MOVIEMATCH_SOURCE = "moviematch";
 
-    /** The time_formatter. */
+    /**
+     * The time_formatter.
+     */
     private static final DateTimeFormatter TIME_FORMATTER =
             DateTimeFormatter.ofPattern("yyyy-MM-dd h:mm a z");
 
-    /** The media reviews view model. */
+    /**
+     * The media reviews view model.
+     */
     private final MediaReviewsViewModel mediaReviewsViewModel;
-    /** The comments view model. */
+    /**
+     * The comments view model.
+     */
     private final CommentsViewModel commentsViewModel;
-    /** The media title label. */
+    /**
+     * The media title label.
+     */
     private final JLabel mediaTitleLabel = new JLabel();
-    /** The error label. */
+    /**
+     * The error label.
+     */
     private final JLabel errorLabel = new JLabel();
-    /** The reviews panel. */
+    /**
+     * The reviews panel.
+     */
     private final JPanel reviewsPanel = new JPanel();
-    /** The write review button. */
+    /**
+     * The write review button.
+     */
     private final JButton writeReviewButton =
             new JButton(MediaReviewsViewModel.WRITE_REVIEW_BUTTON_LABEL);
-    /** The media reviews controller. */
+    /**
+     * The media reviews controller.
+     */
     private MediaReviewsController mediaReviewsController;
-    /** The comments controller. */
+    /**
+     * The comments controller.
+     */
     private CommentsController commentsController;
-    /** The current username. */
+    /**
+     * The current username.
+     */
     private String currentUsername = "";
-    /** The current display name. */
+    /**
+     * The current display name.
+     */
     private String currentDisplayName = "";
-    /** The loading content. */
+    /**
+     * The loading content.
+     */
     private boolean loadingContent;
 
     /**
      * Handles this review or comment operation.
+     * @param inputMediaReviewsViewModel the inputMediaReviewsViewModel
      */
     public MediaReviewsPanel(
             final MediaReviewsViewModel inputMediaReviewsViewModel) {
@@ -87,6 +126,8 @@ public final class MediaReviewsPanel extends JPanel
 
     /**
      * Handles this review or comment operation.
+     * @param inputMediaReviewsViewModel the inputMediaReviewsViewModel
+     * @param inputCommentsViewModel the inputCommentsViewModel
      */
     public MediaReviewsPanel(
             final MediaReviewsViewModel inputMediaReviewsViewModel,
@@ -118,6 +159,7 @@ public final class MediaReviewsPanel extends JPanel
 
     /**
      * Updates the panel when the media reviews state changes.
+     * @param event the property change event
      */
     @Override
     public void propertyChange(final PropertyChangeEvent event) {
@@ -128,6 +170,7 @@ public final class MediaReviewsPanel extends JPanel
 
     /**
      * Returns the write review button for app wiring.
+     * @return the write review button
      */
     public JButton getWriteReviewButton() {
         return writeReviewButton;
@@ -135,6 +178,7 @@ public final class MediaReviewsPanel extends JPanel
 
     /**
      * Sets the media reviews controller.
+     * @param inputMediaReviewsController the media reviews controller
      */
     public void setMediaReviewsController(
             final MediaReviewsController inputMediaReviewsController) {
@@ -143,6 +187,7 @@ public final class MediaReviewsPanel extends JPanel
 
     /**
      * Sets the comments controller.
+     * @param inputCommentsController the comments controller
      */
     public void setCommentsController(
             final CommentsController inputCommentsController) {
@@ -151,6 +196,8 @@ public final class MediaReviewsPanel extends JPanel
 
     /**
      * Sets the current user for write, edit, delete, like, and unlike actions.
+     * @param username the current username
+     * @param displayName the current user's display name
      */
     public void setCurrentUser(final String username,
                                final String displayName) {
@@ -160,6 +207,7 @@ public final class MediaReviewsPanel extends JPanel
 
     /**
      * Refreshes visible content from state.
+     * @param state the media reviews state
      */
     private void updateView(final MediaReviewsState state) {
         if (state != null) {
@@ -172,6 +220,7 @@ public final class MediaReviewsPanel extends JPanel
 
     /**
      * Loads persisted reviews and comments for the current media item.
+     * @param state the media reviews state
      */
     private void loadContent(final MediaReviewsState state) {
         if (!loadingContent && mediaReviewsController != null
@@ -186,6 +235,7 @@ public final class MediaReviewsPanel extends JPanel
 
     /**
      * Loads persisted comments for the displayed reviews.
+     * @param state the media reviews state
      */
     private void refreshCommentsForReviews(final MediaReviewsState state) {
         if (commentsController != null && commentsViewModel != null) {
@@ -197,6 +247,7 @@ public final class MediaReviewsPanel extends JPanel
 
     /**
      * Displays the given review rows.
+     * @param reviews the review rows to display
      */
     private void setReviews(final List<MediaReviewRow> reviews) {
         reviewsPanel.removeAll();
@@ -217,6 +268,8 @@ public final class MediaReviewsPanel extends JPanel
 
     /**
      * Creates the display card for one media review.
+     * @param review the review row
+     * @return the review card
      */
     private Component createReviewCard(final MediaReviewRow review) {
         final JPanel card = new JPanel();
@@ -241,6 +294,8 @@ public final class MediaReviewsPanel extends JPanel
 
     /**
      * Creates action buttons for one review.
+     * @param review the review row
+     * @return the button panel
      */
     private Component createButtonPanel(final MediaReviewRow review) {
         final JPanel buttonPanel = new JPanel();
@@ -266,6 +321,8 @@ public final class MediaReviewsPanel extends JPanel
 
     /**
      * Creates the nested comments section for one review.
+     * @param reviewId the review id
+     * @return the comments section
      */
     private Component createCommentsSection(final String reviewId) {
         final JPanel section = new JPanel();
@@ -294,6 +351,8 @@ public final class MediaReviewsPanel extends JPanel
 
     /**
      * Creates the display card for one nested comment.
+     * @param comment the comment row
+     * @return the comment card
      */
     private Component createCommentCard(final CommentRow comment) {
         final JPanel card = new JPanel();
@@ -313,6 +372,8 @@ public final class MediaReviewsPanel extends JPanel
 
     /**
      * Creates action buttons for one nested comment.
+     * @param comment the comment row
+     * @return the button panel
      */
     private Component createCommentButtonPanel(final CommentRow comment) {
         final JPanel buttonPanel = new JPanel();
@@ -338,6 +399,8 @@ public final class MediaReviewsPanel extends JPanel
 
     /**
      * Creates an unselected heart button for liking content.
+     * @param tooltip the button tooltip
+     * @return the heart button
      */
     private JToggleButton createHeartButton(final String tooltip) {
         final JToggleButton heartButton = new JToggleButton(HEART_UNSELECTED);
@@ -347,6 +410,8 @@ public final class MediaReviewsPanel extends JPanel
 
     /**
      * Checks whether a review was created inside MovieMatch.
+     * @param review the review row
+     * @return true if the review belongs to MovieMatch
      */
     private boolean isMovieMatchReview(final MediaReviewRow review) {
         return MOVIEMATCH_SOURCE.equals(review.getSource());
@@ -354,6 +419,9 @@ public final class MediaReviewsPanel extends JPanel
 
     /**
      * Updates the heart button's selected appearance.
+     * @param heartButton the heart button
+     * @param selectedTooltip the tooltip for the selected state
+     * @param unselectedTooltip the tooltip for the unselected state
      */
     private void updateHeartButton(final JToggleButton heartButton,
                                    final String selectedTooltip,
@@ -371,6 +439,8 @@ public final class MediaReviewsPanel extends JPanel
 
     /**
      * Returns the indentation for a top-level comment or reply.
+     * @param comment the comment row
+     * @return the indentation amount
      */
     private int getCommentIndent(final CommentRow comment) {
         final int indent;
@@ -385,6 +455,8 @@ public final class MediaReviewsPanel extends JPanel
 
     /**
      * Formats a date and time for display.
+     * @param dateTime the date and time
+     * @return the formatted date and time
      */
     private String formatTime(final ZonedDateTime dateTime) {
         final String formattedTime;
@@ -398,6 +470,7 @@ public final class MediaReviewsPanel extends JPanel
 
     /**
      * Checks whether the current user is available for an action.
+     * @return true if the user is available
      */
     private boolean hasCurrentUser() {
         return !isBlank(currentUsername) && !isBlank(currentDisplayName);
@@ -405,6 +478,8 @@ public final class MediaReviewsPanel extends JPanel
 
     /**
      * Checks whether a value is null, empty, or only whitespace.
+     * @param value the value to check
+     * @return true if the value is blank
      */
     private boolean isBlank(final String value) {
         return value == null || value.trim().isEmpty();
@@ -412,6 +487,8 @@ public final class MediaReviewsPanel extends JPanel
 
     /**
      * Trims a value, or returns an empty string when null.
+     * @param value the value to trim
+     * @return the trimmed value
      */
     private String trimToEmpty(final String value) {
         final String trimmedValue;
@@ -453,7 +530,9 @@ public final class MediaReviewsPanel extends JPanel
      * Selects a review in the view model state.
      */
     private final class SelectReviewListener implements ActionListener {
-        /** The review id. */
+        /**
+         * The review id.
+         */
         private final String reviewId;
 
         private SelectReviewListener(final String inputReviewId) {
@@ -492,7 +571,9 @@ public final class MediaReviewsPanel extends JPanel
      * Toggles a review heart and selects the review.
      */
     private final class HeartReviewListener implements ActionListener {
-        /** The review id. */
+        /**
+         * The review id.
+         */
         private final String reviewId;
 
         private HeartReviewListener(final String inputReviewId) {
@@ -528,11 +609,17 @@ public final class MediaReviewsPanel extends JPanel
      * Selects a comment in the comments view model state.
      */
     private final class SelectCommentListener implements ActionListener {
-        /** The comment id. */
+        /**
+         * The comment id.
+         */
         private final String commentId;
-        /** The review id. */
+        /**
+         * The review id.
+         */
         private final String reviewId;
-        /** The reply. */
+        /**
+         * The reply.
+         */
         private final boolean reply;
 
         private SelectCommentListener(final String inputCommentId,
@@ -574,7 +661,9 @@ public final class MediaReviewsPanel extends JPanel
      * Toggles a comment heart and selects the comment.
      */
     private final class HeartCommentListener implements ActionListener {
-        /** The comment id. */
+        /**
+         * The comment id.
+         */
         private final String commentId;
 
         private HeartCommentListener(final String inputCommentId) {
