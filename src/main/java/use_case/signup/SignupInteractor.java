@@ -123,7 +123,7 @@ public class SignupInteractor implements SignupInputBoundary {
      * @param username the trimmed username to validate
      * @return an error message if validation fails; null otherwise
      */
-    private String validateUsername(String username) {
+    public String validateUsername(String username) {
         return validateUsernameFormat(username);
     }
 

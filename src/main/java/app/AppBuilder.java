@@ -11,10 +11,16 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.WindowConstants;
 
-import views.UiTheme;
+import views.*;
 
 import database.*;
 
+import interface_adapter.change_display_name.ChangeDisplayNameController;
+import interface_adapter.change_display_name.ChangeDisplayNamePresenter;
+import interface_adapter.change_display_name.ChangeDisplayNameViewModel;
+import interface_adapter.change_username.ChangeUsernameController;
+import interface_adapter.change_username.ChangeUsernamePresenter;
+import interface_adapter.change_username.ChangeUsernameViewModel;
 import interface_adapter.comments.CommentsController;
 import interface_adapter.comments.CommentsPresenter;
 import interface_adapter.comments.CommentsViewModel;
@@ -46,20 +52,22 @@ import interface_adapter.personal_account.PersonalAccountViewModel;
 import interface_adapter.reset_password.ResetPasswordController;
 import interface_adapter.reset_password.ResetPasswordPresenter;
 import interface_adapter.reset_password.ResetPasswordViewModel;
-import views.SearchUserView;
+import use_case.change_display_name.ChangeDisplayNameInputBoundary;
+import use_case.change_display_name.ChangeDisplayNameInteractor;
+import use_case.change_display_name.ChangeDisplayNameOutputBoundary;
+import use_case.change_username.ChangeUsernameInputBoundary;
+import use_case.change_username.ChangeUsernameInteractor;
+import use_case.change_username.ChangeUsernameOutputBoundary;
 import interface_adapter.search_user.SearchUserViewModel;
 import interface_adapter.search.SearchViewModel;
 import interface_adapter.recommendation.RecommendationViewModel;
 import interface_adapter.search_result.SearchResultViewModel;
 import interface_adapter.settings.SettingsController;
-import views.HomeRecommendationsPanel;
-import views.RecommendationView;
 import interface_adapter.settings.SettingsPresenter;
 import interface_adapter.settings.SettingsViewModel;
 import use_case.settings.SettingsInputBoundary;
 import use_case.settings.SettingsInteractor;
 import use_case.settings.SettingsOutputBoundary;
-import views.SettingsView;
 import interface_adapter.security_question.SecurityQuestionController;
 import interface_adapter.security_question.SecurityQuestionPresenter;
 import interface_adapter.security_question.SecurityQuestionViewModel;
@@ -144,21 +152,6 @@ import use_case.security_question.SecurityQuestionOutputBoundary;
 import use_case.signup.SignupInputBoundary;
 import use_case.signup.SignupInteractor;
 import use_case.signup.SignupOutputBoundary;
-import views.DeleteAccountView;
-import views.GetListsView;
-import views.HomePageView;
-import views.LoginView;
-import views.LogoutConfirmView;
-import views.MediaDetailView;
-import views.MyReviewsView;
-import views.OtherAccountView;
-import views.PersonalAccountView;
-import views.ResetPasswordView;
-import views.SearchResultView;
-import views.SearchView;
-import views.SecurityQuestionView;
-import views.SignupView;
-import views.ViewManager;
 
 /**
  * The AppBuilder class is responsible for putting together the pieces of
@@ -206,6 +199,10 @@ public class AppBuilder {
             new CombinedMediaReviewDataAccessObject(tmdbReviewDataAccessObject,
                     reviewDataAccessObject);
 
+    private ChangeDisplayNameView changeDisplayNameView;
+    private ChangeDisplayNameViewModel changeDisplayNameViewModel;
+    private ChangeUsernameView changeUsernameView;
+    private ChangeUsernameViewModel changeUsernameViewModel;
     private DeleteAccountView deleteAccountView;
     private DeleteAccountViewModel deleteAccountViewModel;
     private GetListsView getListsView;
@@ -252,6 +249,30 @@ public class AppBuilder {
 
     public AppBuilder() {
         cardPanel.setLayout(cardLayout);
+    }
+
+    /**
+     * Adds the Change Display Name View to the application.
+     * @return this builder
+     */
+    public AppBuilder addChangeDisplayNameView() {
+        changeDisplayNameViewModel = new ChangeDisplayNameViewModel();
+        changeDisplayNameView = new ChangeDisplayNameView(changeDisplayNameViewModel,
+                personalAccountViewModel, viewManagerModel);
+        cardPanel.add(changeDisplayNameView, changeDisplayNameView.getViewName());
+        return this;
+    }
+
+    /**
+     * Adds the Change Username View to the application.
+     * @return this builder
+     */
+    public AppBuilder addChangeUsernameView() {
+        changeUsernameViewModel = new ChangeUsernameViewModel();
+        changeUsernameView = new ChangeUsernameView(changeUsernameViewModel,
+                personalAccountViewModel, viewManagerModel);
+        cardPanel.add(changeUsernameView, changeUsernameView.getViewName());
+        return this;
     }
 
     /**
@@ -432,6 +453,38 @@ public class AppBuilder {
     }
 
     /**
+     * Adds the Change Display Name Use Case to the application.
+     * @return this builder
+     */
+    public AppBuilder addChangeDisplayNameUseCase() {
+        final ChangeDisplayNameOutputBoundary changeDisplayNameOutputBoundary = new ChangeDisplayNamePresenter(
+                viewManagerModel, changeDisplayNameViewModel);
+        final ChangeDisplayNameInputBoundary changeDisplayNameInteractor = new ChangeDisplayNameInteractor(
+                userDataAccessObject, changeDisplayNameOutputBoundary);
+        final ChangeDisplayNameController changeDisplayNameController = new ChangeDisplayNameController(
+                changeDisplayNameInteractor, viewManagerModel, personalAccountViewModel);
+        changeDisplayNameView.setChangeDisplayNameController(changeDisplayNameController);
+        return this;
+    }
+
+    /**
+     * Adds the Change Username Use Case to the application.
+     * @return this builder
+     */
+    public AppBuilder addChangeUsernameUseCase() {
+
+        final ChangeUsernameOutputBoundary changeUsernameOutputBoundary = new ChangeUsernamePresenter(
+                viewManagerModel, changeUsernameViewModel);
+        final SignupOutputBoundary signupOutputBoundary = new SignupPresenter(signupViewModel);
+        final ChangeUsernameInputBoundary changeUsernameInteractor = new ChangeUsernameInteractor(
+                userDataAccessObject, changeUsernameOutputBoundary, new SignupInteractor(userDataAccessObject, signupOutputBoundary, userFactory));
+        final ChangeUsernameController changeUsernameController = new ChangeUsernameController(
+                changeUsernameInteractor, viewManagerModel, personalAccountViewModel);
+        changeUsernameView.setChangeUsernameController(changeUsernameController);
+        return this;
+    }
+
+    /**
      * Adds the Delete Account Use Case to the application.
      *
      * @return the add delete account use case
@@ -517,16 +570,6 @@ public class AppBuilder {
                 );
         homePageView.setHomePageController(homePageController);
         return this;
-//        final HomePageOutputBoundary homePageOutputBoundary = new HomePagePresenter(viewManagerModel,
-//               homePageViewModel, searchViewModel, accountViewModel);
-//        final HomePageOutputBoundary homePageOutputBoundary = new HomePagePresenter(viewManagerModel,
-//                homePageViewModel, accountViewModel);
-//        final HomePageInputBoundary homePageInteractor = new HomePageInteractor(
-//                userDataAccessObject, homePageOutputBoundary, userFactory);
-//
-//        final HomePageController homePageController = new HomePageController(homePageInteractor);
-//        homePageView.setHomePageController(homePageController);
-//        return this;
     }
 
     /**
@@ -577,8 +620,6 @@ public class AppBuilder {
     public AppBuilder addPersonalAccountUseCase() {
         final GetProfileOutputBoundary getProfileOutputBoundary = new HomePagePresenter(viewManagerModel,
                 personalAccountViewModel, otherAccountViewModel);
-        final GetProfileInputBoundary getProfileInteractor = new GetProfileInteractor(userDataAccessObject,
-                getProfileOutputBoundary);
 
         final GetListsController getListsController = createGetListsController();
         final GetSecurityQuestionOutputBoundary getSecurityQuestionOutputBoundary = new PersonalAccountPresenter(viewManagerModel,
@@ -589,6 +630,8 @@ public class AppBuilder {
         final PersonalAccountController personalAccountController = new PersonalAccountController(viewManagerModel,
                 getSecurityQuestionInteractor,
                 getListsController,
+                changeDisplayNameViewModel,
+                changeUsernameViewModel,
                 logoutViewModel,
                 resetPasswordViewModel,
                 homePageViewModel.getViewName(),
@@ -617,23 +660,6 @@ public class AppBuilder {
         logoutView.setLogoutController(logoutController);
         return this;
     }
-
-//
-//    /**
-//     * Adds the Other Account Use Case to the application.
-//     */
-//    public AppBuilder addGetProfileUseCase() {
-//        final GetProfileOutputBoundary getProfileOutputBoundary = new HomePagePresenter();
-//        final GetProfileInputBoundary getProfileInteractor = new GetProfileInteractor(userDataAccessObject,
-//                getProfileOutputBoundary);
-//        // viewManagerModel, accountViewModel, resetPasswordViewModel, deleteAccountViewModel);
-////        final AccountInputBoundary accountInteractor = new AccountInteractor(
-////                userDataAccessObject, accountOutputBoundary);
-//
-//        final AccountController accountController = new AccountController(accountInteractor);
-//        accountView.setAccountController(accountController);
-//        return this;
-//    }
 
     /**
      * Adds the User Reviews Use Case to the application.

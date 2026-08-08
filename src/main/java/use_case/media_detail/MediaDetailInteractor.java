@@ -44,7 +44,9 @@ public class MediaDetailInteractor implements MediaDetailInputBoundary {
                             media.getReleaseYear(),
                             media.getAverageRating(),
                             media.getGenres(),
-                            media.getLanguage()
+                            media.getLanguage(),
+                            media.getOverview(),
+                            media.getPosterPath()
                     );
 
             mediaDetailPresenter.prepareSuccessView(outputData);
