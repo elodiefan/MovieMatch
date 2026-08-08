@@ -6,15 +6,22 @@ package use_case.change_display_name;
 public class ChangeDisplayNameInputData {
 
     private final String username;
+    private final String oldDisplayName;
     private final String newDisplayName;
 
-    public ChangeDisplayNameInputData(String username, String newDisplayName) {
+    public ChangeDisplayNameInputData(String username, String oldDisplayName,
+                                      String newDisplayName) {
         this.username = username;
+        this.oldDisplayName = oldDisplayName;
         this.newDisplayName = newDisplayName;
     }
 
     String getUsername() {
         return username;
+    }
+
+    String getOldDisplayName() {
+        return oldDisplayName;
     }
 
     String getNewDisplayName() {

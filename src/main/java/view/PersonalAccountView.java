@@ -70,8 +70,8 @@ public class PersonalAccountView extends JPanel implements PropertyChangeListene
         resetPasswordButton = new JButton(PersonalAccountViewModel.RESET_PASSWORD_BUTTON);
         deleteAccountButton = new JButton(PersonalAccountViewModel.DELETE_ACCOUNT_BUTTON);
         accountOptionsPanel.add(backButton);
-        accountOptionsPanel.add(changeDisplayNameButton);
         accountOptionsPanel.add(changeUsernameButton);
+        accountOptionsPanel.add(changeDisplayNameButton);
         accountOptionsPanel.add(logoutButton);
         accountOptionsPanel.add(resetPasswordButton);
         accountOptionsPanel.add(deleteAccountButton);
@@ -129,7 +129,8 @@ public class PersonalAccountView extends JPanel implements PropertyChangeListene
                     @Override
                     public void actionPerformed(ActionEvent e) {
                         final PersonalAccountState state = personalAccountViewModel.getState();
-                        personalAccountController.switchToChangeDisplayNameView(state.getUsername());
+                        personalAccountController.switchToChangeDisplayNameView(state.getUsername(),
+                                state.getDisplayName());
                     }
                 }
         );
@@ -139,7 +140,8 @@ public class PersonalAccountView extends JPanel implements PropertyChangeListene
                     @Override
                     public void actionPerformed(ActionEvent e) {
                         final PersonalAccountState state = personalAccountViewModel.getState();
-                        personalAccountController.switchToChangeUsernameView(state.getUsername());
+                        personalAccountController.switchToChangeUsernameView(state.getUsername(),
+                                state.getDisplayName());
                     }
                 }
         );

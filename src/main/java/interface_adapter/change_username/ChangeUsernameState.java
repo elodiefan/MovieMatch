@@ -7,6 +7,7 @@ public class ChangeUsernameState {
 
     private String username = "";
     private String newUsername = "";
+    private String displayName = "";
     private String message = "";
     private String error = "";
 
@@ -40,5 +41,13 @@ public class ChangeUsernameState {
 
     public void setError(String error) {
         this.error = error;
+    }
+
+    public String getDisplayName() {
+        return displayName;
+    }
+
+    public void setDisplayName(String displayName) {
+        this.displayName = displayName;
     }
 }

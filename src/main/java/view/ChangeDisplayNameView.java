@@ -15,6 +15,7 @@ import interface_adapter.change_display_name.ChangeDisplayNameController;
 import interface_adapter.change_display_name.ChangeDisplayNameState;
 import interface_adapter.change_display_name.ChangeDisplayNameViewModel;
 import interface_adapter.login.LoginViewModel;
+import interface_adapter.personal_account.PersonalAccountState;
 import interface_adapter.personal_account.PersonalAccountViewModel;
 import interface_adapter.reset_password.ResetPasswordState;
 
@@ -62,14 +63,17 @@ public class ChangeDisplayNameView extends JPanel implements PropertyChangeListe
                     public void actionPerformed(ActionEvent e) {
                         final ChangeDisplayNameState state = changeDisplayNameViewModel.getState();
                         changeDisplayNameController.changeDisplayName(
-                                state.getUsername(), newDisplayNameField.getText());
+                                state.getUsername(), state.getOldDisplayName(), newDisplayNameField.getText());
                         newDisplayNameField.setText("");
                     }
                 });
         
         backButton.addActionListener(evt -> {
-            changeDisplayNameViewModel.setState(new ChangeDisplayNameState());
             changeDisplayNameViewModel.firePropertyChanged();
+            final PersonalAccountState updatedPersonalAccountState = new PersonalAccountState();
+            updatedPersonalAccountState.setUsername(changeDisplayNameViewModel.getState().getUsername());
+            updatedPersonalAccountState.setDisplayName(changeDisplayNameViewModel.getState().getOldDisplayName());
+            personalAccountViewModel.setState(updatedPersonalAccountState);
             viewManagerModel.setState(PersonalAccountViewModel.VIEW_NAME);
             viewManagerModel.firePropertyChanged();
             personalAccountViewModel.firePropertyChanged();
@@ -90,7 +94,7 @@ public class ChangeDisplayNameView extends JPanel implements PropertyChangeListe
 
             @Override
             public void removeUpdate(DocumentEvent e) {
-               // update();
+                update();
             }
 
             @Override
@@ -109,9 +113,7 @@ public class ChangeDisplayNameView extends JPanel implements PropertyChangeListe
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
         final ChangeDisplayNameState state = (ChangeDisplayNameState) evt.getNewValue();
-
         forUserLabel.setText("Changing display name for: " + state.getUsername());
-
         newDisplayNameField.setText(state.getNewDisplayName());
 
         // Show error if present, otherwise the success message.

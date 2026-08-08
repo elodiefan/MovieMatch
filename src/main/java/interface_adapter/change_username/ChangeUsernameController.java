@@ -27,9 +27,10 @@ public class ChangeUsernameController {
      * Ask the use case to set a new username for the user.
      * @param username the account whose username is being changed
      * @param newUsername the new username
+     * @param displayName the display name
      */
-    public void changeUsername(String username, String newUsername) {
-        changeUsernameInteractor.changeUsername(new ChangeUsernameInputData(username, newUsername));
+    public void changeUsername(String username, String newUsername, String displayName) {
+        changeUsernameInteractor.changeUsername(new ChangeUsernameInputData(username, newUsername, displayName));
     }
 
     /**

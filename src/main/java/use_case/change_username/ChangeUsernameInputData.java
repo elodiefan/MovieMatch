@@ -7,10 +7,12 @@ public class ChangeUsernameInputData {
 
     private final String username;
     private final String newUsername;
+    private final String displayName;
 
-    public ChangeUsernameInputData(String username, String newUsername) {
+    public ChangeUsernameInputData(String username, String newUsername, String displayName) {
         this.username = username;
         this.newUsername = newUsername;
+        this.displayName = displayName;
     }
 
     String getUsername() {
@@ -19,5 +21,9 @@ public class ChangeUsernameInputData {
 
     String getNewUsername() {
         return newUsername;
+    }
+
+    String getDisplayName() {
+        return displayName;
     }
 }

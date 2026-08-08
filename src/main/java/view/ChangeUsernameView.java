@@ -4,6 +4,7 @@ import interface_adapter.ViewManagerModel;
 import interface_adapter.change_username.ChangeUsernameController;
 import interface_adapter.change_username.ChangeUsernameState;
 import interface_adapter.change_username.ChangeUsernameViewModel;
+import interface_adapter.personal_account.PersonalAccountState;
 import interface_adapter.personal_account.PersonalAccountViewModel;
 
 import javax.swing.*;
@@ -59,17 +60,19 @@ public class ChangeUsernameView extends JPanel implements PropertyChangeListener
                     public void actionPerformed(ActionEvent e) {
                         final ChangeUsernameState state = changeUsernameViewModel.getState();
                         changeUsernameController.changeUsername(
-                                state.getUsername(), newUsernameField.getText());
+                                state.getUsername(), newUsernameField.getText(), state.getDisplayName());
                         newUsernameField.setText("");
                     }
                 });
 
         backButton.addActionListener(evt -> {
-            changeUsernameViewModel.setState(new ChangeUsernameState());
             changeUsernameViewModel.firePropertyChanged();
+            final PersonalAccountState updatedPersonalAccountState = new PersonalAccountState();
+            updatedPersonalAccountState.setUsername(changeUsernameViewModel.getState().getUsername());
+            personalAccountViewModel.setState(updatedPersonalAccountState);
             viewManagerModel.setState(PersonalAccountViewModel.VIEW_NAME);
             viewManagerModel.firePropertyChanged();
-            personalAccountViewModel.firePropertyChanged();
+             personalAccountViewModel.firePropertyChanged();
         });
 
         // Keep state in sync with the "new username" field.
@@ -87,7 +90,7 @@ public class ChangeUsernameView extends JPanel implements PropertyChangeListener
 
             @Override
             public void removeUpdate(DocumentEvent e) {
-               // update();
+                update();
             }
 
             @Override
@@ -106,7 +109,7 @@ public class ChangeUsernameView extends JPanel implements PropertyChangeListener
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
         final ChangeUsernameState state = (ChangeUsernameState) evt.getNewValue();
-        forUserLabel.setText("Changing username for: " + state.getNewUsername());
+        forUserLabel.setText("Changing username for: " + state.getUsername());
         newUsernameField.setText(state.getNewUsername());
 
         // Show error if present, otherwise the success message.

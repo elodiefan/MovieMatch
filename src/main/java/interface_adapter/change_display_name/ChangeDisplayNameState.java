@@ -6,6 +6,7 @@ package interface_adapter.change_display_name;
 public class ChangeDisplayNameState {
 
     private String username = "";
+    private String oldDisplayName = "";
     private String newDisplayName = "";
     private String message = "";
     private String error = "";
@@ -16,6 +17,14 @@ public class ChangeDisplayNameState {
 
     public void setUsername(String username) {
         this.username = username;
+    }
+
+    public String getOldDisplayName() {
+        return oldDisplayName;
+    }
+
+    public void setOldDisplayName(String oldDisplayName) {
+        this.oldDisplayName = oldDisplayName;
     }
 
     public String getNewDisplayName() {

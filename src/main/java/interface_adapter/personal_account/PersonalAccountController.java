@@ -124,11 +124,13 @@ public class PersonalAccountController {
 
     /**
      * Executes the switch to change display name view.
-     * @param username
+     * @param username the username of the user.
+     * @param displayName the display name of the user.
      */
-    public void switchToChangeDisplayNameView(String username) {
-        final ChangeDisplayNameState changeDisplayNameState = changeDisplayNameViewModel.getState();
+    public void switchToChangeDisplayNameView(String username, String displayName) {
+        final ChangeDisplayNameState changeDisplayNameState = new ChangeDisplayNameState();
         changeDisplayNameState.setUsername(username);
+        changeDisplayNameState.setOldDisplayName(displayName);
         changeDisplayNameViewModel.setState(changeDisplayNameState);
         changeDisplayNameViewModel.firePropertyChanged();
         viewManagerModel.switchView(changeDisplayNameViewModel.getViewName());
@@ -136,11 +138,13 @@ public class PersonalAccountController {
 
     /**
      * Executes the switch to change username view.
-     * @param username
+     * @param username username of the given user.
+     * @param displayName display name of the given user.
      */
-    public void switchToChangeUsernameView(String username) {
-        final ChangeUsernameState changeUsernameState = changeUsernameViewModel.getState();
+    public void switchToChangeUsernameView(String username, String displayName) {
+        final ChangeUsernameState changeUsernameState = new ChangeUsernameState();
         changeUsernameState.setUsername(username);
+        changeUsernameState.setDisplayName(displayName);
         changeUsernameViewModel.setState(changeUsernameState);
         changeUsernameViewModel.firePropertyChanged();
         viewManagerModel.switchView(changeUsernameViewModel.getViewName());

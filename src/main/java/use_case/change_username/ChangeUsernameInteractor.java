@@ -26,6 +26,7 @@ public class ChangeUsernameInteractor implements ChangeUsernameInputBoundary {
     public void changeUsername(ChangeUsernameInputData inputData) {
         final String username = inputData.getUsername();
         final String newUsername = inputData.getNewUsername();
+        final String displayName = inputData.getDisplayName();
 
         String validationCheck = signupInteractor.validateUsername(newUsername);
         if (validationCheck == null && userDataAccessObject.existsByName(newUsername)) {
@@ -37,7 +38,7 @@ public class ChangeUsernameInteractor implements ChangeUsernameInputBoundary {
         }
         else {
             userDataAccessObject.changeUsername(username, newUsername);
-            presenter.prepareSuccessView(new ChangeUsernameOutputData(username, newUsername));
+            presenter.prepareSuccessView(new ChangeUsernameOutputData(username, newUsername, displayName));
         }
     }
 }

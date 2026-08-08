@@ -21,7 +21,8 @@ public class ChangeDisplayNamePresenter implements ChangeDisplayNameOutputBounda
     @Override
     public void prepareSuccessView(ChangeDisplayNameOutputData outputData) {
         final ChangeDisplayNameState changeDisplayNameState = changeDisplayNameViewModel.getState();
-        changeDisplayNameState.setNewDisplayName(outputData.getNewDisplayName());
+        changeDisplayNameState.setOldDisplayName(outputData.getNewDisplayName());
+        changeDisplayNameState.setNewDisplayName("");
         changeDisplayNameState.setError("");
         changeDisplayNameState.setMessage("Display name changes saved.");
         changeDisplayNameViewModel.setState(changeDisplayNameState);

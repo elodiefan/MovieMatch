@@ -20,13 +20,14 @@ public class ChangeDisplayNameInteractor implements ChangeDisplayNameInputBounda
     @Override
     public void changeDisplayName(ChangeDisplayNameInputData inputData) {
         final String username = inputData.getUsername();
+        final String oldDisplayName = inputData.getOldDisplayName();
         final String newDisplayName = inputData.getNewDisplayName();
 
         if (!userDataAccessObject.existsByName(username)) {
             presenter.prepareFailView("No account found with that username.");
             return;
         }
-        if (newDisplayName == null || newDisplayName.isEmpty()) {
+        if (newDisplayName == null || newDisplayName.isBlank()) {
             presenter.prepareFailView("Display name cannot be empty.");
             return;
         }
@@ -36,6 +37,6 @@ public class ChangeDisplayNameInteractor implements ChangeDisplayNameInputBounda
             return;
         }
         userDataAccessObject.changeDisplayName(username, newDisplayName);
-        presenter.prepareSuccessView(new ChangeDisplayNameOutputData(username, newDisplayName));
+        presenter.prepareSuccessView(new ChangeDisplayNameOutputData(username, oldDisplayName, newDisplayName));
     }
 }

@@ -26,10 +26,12 @@ public class ChangeDisplayNameController {
     /**
      * Ask the use case to set a new display name for the user.
      * @param username the account whose display name is being changed
+     * @param oldDisplayName the old display name
      * @param newDisplayName the new display name
      */
-    public void changeDisplayName(String username, String newDisplayName) {
-        changeDisplayNameInteractor.changeDisplayName(new ChangeDisplayNameInputData(username, newDisplayName));
+    public void changeDisplayName(String username, String oldDisplayName, String newDisplayName) {
+        changeDisplayNameInteractor.changeDisplayName(new ChangeDisplayNameInputData(username, oldDisplayName,
+                newDisplayName));
     }
 
     /**
