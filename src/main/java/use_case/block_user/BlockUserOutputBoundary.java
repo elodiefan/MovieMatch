@@ -7,7 +7,7 @@ package use_case.block_user;
 public interface BlockUserOutputBoundary {
     /**
      * Prepares the success view for the Block User Use Case.
-     * @param isOnBlockList whether the user is now blocked
+     * @param outputData the output data
      */
-    void prepareBlockSuccessView(boolean isOnBlockList);
+    void prepareBlockSuccessView(BlockUserOutputData outputData);
 }
