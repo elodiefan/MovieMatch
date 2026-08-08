@@ -96,6 +96,12 @@ public class MessagingView extends JPanel implements PropertyChangeListener {
 
                             messagingController.executeSendMessage(state.getUsername(), state.getOtherUsername(),
                                     textInputField.getText(), LocalDateTime.now());
+
+                            messagingController.executeFetchUpdateChatHistory(
+                                    state.getUsername(),
+                                    state.getOtherUsername(),
+                                    chatTextArea.getText()
+                            );
                         }
                     }
                 }
