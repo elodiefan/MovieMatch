@@ -1,11 +1,11 @@
 package interface_adapter.comments;
 
-import interface_adapter.ViewModel;
+import interface_adapter.StateModel;
 
 /**
  * View model for review comments.
  */
-public final class CommentsViewModel extends ViewModel<CommentsState> {
+public final class CommentsViewModel extends StateModel<CommentsState> {
 
     /**
      * The view name.

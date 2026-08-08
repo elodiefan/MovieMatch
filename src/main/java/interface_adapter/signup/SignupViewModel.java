@@ -1,11 +1,11 @@
 package interface_adapter.signup;
 
-import interface_adapter.ViewModel;
+import interface_adapter.StateModel;
 
 /**
  * View model for the Signup View.
  */
-public class SignupViewModel extends ViewModel<SignupState> {
+public class SignupViewModel extends StateModel<SignupState> {
 
     public static final String VIEW_NAME = "sign up";
     public static final String TITLE_LABEL = "Sign Up";

@@ -52,6 +52,7 @@ public class AccountLockout {
     }
 
     /**
+     * Returns whether the account is locked right now.
      * @return true if the account is locked right now. An expired lock is
      * cleared here, so the next attempt is allowed.
      */
@@ -67,6 +68,7 @@ public class AccountLockout {
     }
 
     /**
+     * Returns how many attempts remain before the account locks.
      * @return how many attempts remain before the account locks
      */
     public int remainingAttempts() {
@@ -74,6 +76,7 @@ public class AccountLockout {
     }
 
     /**
+     * Returns seconds left on the current lock-out.
      * @return seconds left on the current lock-out, or 0 if not locked
      */
     public long remainingLockSeconds() {

@@ -3,19 +3,15 @@ package interface_adapter.media_reviews;
 import java.util.ArrayList;
 import java.util.List;
 
-import entity.Review;
-import use_case.review.create_review.CreateReviewOutputBoundary;
-import use_case.review.create_review.CreateReviewOutputData;
-import use_case.review.delete_review.DeleteReviewOutputBoundary;
-import use_case.review.delete_review.DeleteReviewOutputData;
-import use_case.review.edit_review.EditReviewOutputBoundary;
-import use_case.review.edit_review.EditReviewOutputData;
-import use_case.review.get_media_reviews.GetMediaReviewsOutputBoundary;
-import use_case.review.get_media_reviews.GetMediaReviewsOutputData;
-import use_case.review.like_review.LikeReviewOutputBoundary;
-import use_case.review.like_review.LikeReviewOutputData;
-import use_case.review.unlike_review.UnlikeReviewOutputBoundary;
-import use_case.review.unlike_review.UnlikeReviewOutputData;
+import use_case.create_review.CreateReviewOutputBoundary;
+import use_case.create_review.CreateReviewOutputData;
+import use_case.delete_review.DeleteReviewOutputBoundary;
+import use_case.edit_review.EditReviewOutputBoundary;
+import use_case.edit_review.EditReviewOutputData;
+import use_case.get_media_reviews.GetMediaReviewsOutputBoundary;
+import use_case.get_media_reviews.GetMediaReviewsOutputData;
+import use_case.like_review.LikeReviewOutputBoundary;
+import use_case.unlike_review.UnlikeReviewOutputBoundary;
 
 /**
  * Presenter for the media reviews panel.
@@ -46,7 +42,8 @@ public final class MediaReviewsPresenter
     }
 
     @Override
-    public void prepareSuccessView(final GetMediaReviewsOutputData outputData) {
+    public void prepareSuccessView(
+            final GetMediaReviewsOutputData outputData) {
         final MediaReviewsState state = mediaReviewsViewModel.getState();
         state.setReviews(prepareReviews(outputData.getReviews()));
         state.setMediaReviewsError(null);
@@ -55,40 +52,31 @@ public final class MediaReviewsPresenter
     }
 
     @Override
-    public void prepareSuccessView(final CreateReviewOutputData outputData) {
+    public void prepareSuccessView(final CreateReviewOutputData review) {
         clearError();
     }
 
     @Override
-    public void prepareSuccessView(final EditReviewOutputData outputData) {
+    public void prepareSuccessView(final EditReviewOutputData review) {
         clearError();
     }
 
     @Override
-    public void prepareSuccessView(final DeleteReviewOutputData outputData) {
-        clearError();
-    }
-
-    @Override
-    public void prepareSuccessView(final LikeReviewOutputData outputData) {
-        clearError();
-    }
-
-    @Override
-    public void prepareSuccessView(final UnlikeReviewOutputData outputData) {
+    public void prepareSuccessView(final boolean deleted) {
         clearError();
     }
 
     /**
-     * Converts review entities into rows that can be displayed by the media
+     * Converts review summaries into rows that can be displayed by the media
      * reviews panel.
      * @param reviews the reviews to present
      * @return display-safe media review rows
      */
-    public List<MediaReviewRow> prepareReviews(final List<Review> reviews) {
+    public List<MediaReviewRow> prepareReviews(
+            final List<GetMediaReviewsOutputData.MediaReviewData> reviews) {
         final List<MediaReviewRow> reviewRows = new ArrayList<>();
         if (reviews != null) {
-            for (Review review : reviews) {
+            for (GetMediaReviewsOutputData.MediaReviewData review : reviews) {
                 if (review != null) {
                     reviewRows.add(createReviewRow(review));
                 }
@@ -128,11 +116,12 @@ public final class MediaReviewsPresenter
     }
 
     /**
-     * Converts one review entity into one displayed row.
+     * Converts one review summary into one displayed row.
      * @param review the review to convert
      * @return the displayed media review row
      */
-    private MediaReviewRow createReviewRow(final Review review) {
+    private MediaReviewRow createReviewRow(
+            final GetMediaReviewsOutputData.MediaReviewData review) {
         return new MediaReviewRow(review.getReviewId(),
                 review.getAuthorUsername(), review.getAuthorDisplayName(),
                 review.getRating(), review.getReviewText(),

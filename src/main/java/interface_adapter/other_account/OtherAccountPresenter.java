@@ -1,11 +1,7 @@
 package interface_adapter.other_account;
 
 import interface_adapter.ViewManagerModel;
-import interface_adapter.account.ReviewsViewModel;
-import use_case.access_message_chat.AccessMessageChatOutputBoundary;
-import use_case.access_message_chat.AccessMessageChatOutputData;
 import use_case.block_user.BlockUserOutputBoundary;
-import use_case.block_user.BlockUserOutputData;
 
 /**
  * The Presenter for Other Account.
@@ -14,14 +10,11 @@ public class OtherAccountPresenter implements BlockUserOutputBoundary { //, Acce
 
     private final OtherAccountViewModel otherAccountViewModel;
     private final ViewManagerModel viewManagerModel;
-    // private final ReviewsViewModel reviewsViewModel;
 
     public OtherAccountPresenter(ViewManagerModel viewManagerModel,
-                                 OtherAccountViewModel otherAccountViewModel,
-                                 ReviewsViewModel reviewsViewModel) {
+                                 OtherAccountViewModel otherAccountViewModel) {
         this.viewManagerModel = viewManagerModel;
         this.otherAccountViewModel = otherAccountViewModel;
-        //  this.reviewsViewModel = reviewsViewModel;
     }
 
 
@@ -41,9 +34,9 @@ public class OtherAccountPresenter implements BlockUserOutputBoundary { //, Acce
 //    }
 
     @Override
-    public void prepareBlockSuccessView(BlockUserOutputData response) {
+    public void prepareBlockSuccessView(boolean isOnBlockList) {
         final OtherAccountState otherAccountState = otherAccountViewModel.getState();
-        otherAccountState.setBlocked(response.isOnBlockList());
+        otherAccountState.setBlocked(isOnBlockList);
         otherAccountViewModel.setState(otherAccountState);
         otherAccountViewModel.firePropertyChanged("changed block state");
     }

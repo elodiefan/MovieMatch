@@ -2,12 +2,12 @@ package app;
 
 import java.time.Year;
 
-import data_access.ClampingScoreAdjuster;
-import data_access.GeminiScoreAdjuster;
-import data_access.NoOpScoreAdjuster;
-import data_access.TmdbApiClient;
-import data_access.TmdbMediaCatalogue;
-import data_access.UserActivityRecommendationDataAccess;
+import database.ClampingScoreAdjuster;
+import database.GeminiScoreAdjuster;
+import database.NoOpScoreAdjuster;
+import database.TmdbApiClient;
+import database.TmdbMediaCatalogue;
+import database.UserActivityRecommendationDataAccess;
 import interface_adapter.ViewManagerModel;
 import interface_adapter.home_page.HomePageViewModel;
 import interface_adapter.recommendation.RecommendationController;
@@ -18,11 +18,11 @@ import use_case.recommendation.RecommendationDataAccessInterface;
 import use_case.recommendation.RecommendationInputBoundary;
 import use_case.recommendation.RecommendationInteractor;
 import use_case.recommendation.RecommendationOutputBoundary;
+import use_case.recommendation.ReviewedMediaRatingDataAccessInterface;
 import use_case.recommendation.ScoreAdjuster;
 import use_case.recommendation.WatchedMediaDataAccessInterface;
-import use_case.review.ReviewDataAccessInterface;
-import view.HomeRecommendationsPanel;
-import view.RecommendationView;
+import views.HomeRecommendationsPanel;
+import views.RecommendationView;
 
 /**
  * Assembles the recommendation use case.
@@ -49,7 +49,7 @@ public final class RecommendationUseCaseFactory {
                               HomeRecommendationsPanel homeRecommendationsPanel,
                               RecommendationView recommendationView,
                               WatchedMediaDataAccessInterface watchedMediaDataAccess,
-                              ReviewDataAccessInterface reviewDataAccess) {
+                              ReviewedMediaRatingDataAccessInterface reviewDataAccess) {
 
         final TmdbApiClient tmdbApiClient = new TmdbApiClient();
         final MediaCatalogueDataAccessInterface catalogue = new TmdbMediaCatalogue(tmdbApiClient);
@@ -61,13 +61,16 @@ public final class RecommendationUseCaseFactory {
 
         homeRecommendationsPanel.setRecommendationController(new RecommendationController(
                 buildInteractor(userDataAccess, catalogue, adjuster,
-                        new RecommendationPresenter(homeStripViewModel), currentYear),
-                viewManagerModel, HomePageViewModel.VIEW_NAME));
+                        new RecommendationPresenter(homeStripViewModel), currentYear)));
 
         recommendationView.setRecommendationController(new RecommendationController(
                 buildInteractor(userDataAccess, catalogue, adjuster,
-                        new RecommendationPresenter(detailedViewModel), currentYear),
-                viewManagerModel, HomePageViewModel.VIEW_NAME));
+                        new RecommendationPresenter(detailedViewModel), currentYear)));
+
+        homeRecommendationsPanel.setOpenFullListHandler(
+                () -> viewManagerModel.switchView(RecommendationViewModel.VIEW_NAME));
+        recommendationView.setBackHandler(
+                () -> viewManagerModel.switchView(HomePageViewModel.VIEW_NAME));
     }
 
     private static RecommendationInputBoundary buildInteractor(

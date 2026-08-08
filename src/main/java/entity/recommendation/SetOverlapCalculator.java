@@ -20,6 +20,7 @@ public final class SetOverlapCalculator {
     /**
      * Returns the share of the candidate's values that also appear in the profile's.
      *
+     * @param <T> the value type being compared
      * @param candidateValues the candidate values
      * @param profileValues the profile values
      * @return the overlap ratio

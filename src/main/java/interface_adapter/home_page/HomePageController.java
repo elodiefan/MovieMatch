@@ -1,9 +1,6 @@
 package interface_adapter.home_page;
 
 import interface_adapter.ViewManagerModel;
-import interface_adapter.search.SearchViewModel;
-import interface_adapter.search_user.SearchUserViewModel;
-import interface_adapter.settings.SettingsViewModel;
 import use_case.get_profile.GetProfileInputBoundary;
 import use_case.get_profile.GetProfileInputData;
 
@@ -14,19 +11,28 @@ import use_case.get_profile.GetProfileInputData;
 public class HomePageController {
     private final GetProfileInputBoundary getProfileInteractor;
     private final ViewManagerModel viewManagerModel;
+    private final String searchViewName;
+    private final String searchUserViewName;
+    private final String settingsViewName;
 
     public HomePageController(
         GetProfileInputBoundary getProfileInteractor,
-        ViewManagerModel viewManagerModel) {
+        ViewManagerModel viewManagerModel,
+        String searchViewName,
+        String searchUserViewName,
+        String settingsViewName) {
         this.getProfileInteractor = getProfileInteractor;
         this.viewManagerModel = viewManagerModel;
+        this.searchViewName = searchViewName;
+        this.searchUserViewName = searchUserViewName;
+        this.settingsViewName = settingsViewName;
     }
 
     /**
      * Swtiches view to Search View.
      */
     public void switchToSearchView() {
-        viewManagerModel.setState(SearchViewModel.VIEW_NAME);
+        viewManagerModel.setState(searchViewName);
         viewManagerModel.firePropertyChanged();
     }
 
@@ -38,18 +44,18 @@ public class HomePageController {
      * interactor. Same as PersonalAccountController does.
      */
     public void switchToSettingsView() {
-        viewManagerModel.switchView(SettingsViewModel.VIEW_NAME);
+        viewManagerModel.switchView(settingsViewName);
     }
 
     /**
      * Switches view to the Search User View.
      */
     public void switchToSearchUserView() {
-        viewManagerModel.switchView(SearchUserViewModel.VIEW_NAME);
+        viewManagerModel.switchView(searchUserViewName);
     }
 
     /**
-     * Gets personal profile view
+     * Gets personal profile view.
      *
      * @param username the username
      * @param displayName the display name

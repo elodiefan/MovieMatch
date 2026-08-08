@@ -11,7 +11,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
-import data_access.TmdbApiClient;
+import database.TmdbApiClient;
 
 /**
  * Generates local movie and TV-show databases from TMDB.

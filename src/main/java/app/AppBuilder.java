@@ -11,9 +11,9 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.WindowConstants;
 
-import view.UiTheme;
+import views.UiTheme;
 
-import data_access.*;
+import database.*;
 
 import interface_adapter.comments.CommentsController;
 import interface_adapter.comments.CommentsPresenter;
@@ -37,7 +37,6 @@ import interface_adapter.media_detail.MediaDetailViewModel;
 import interface_adapter.media_reviews.MediaReviewsController;
 import interface_adapter.media_reviews.MediaReviewsPresenter;
 import interface_adapter.media_reviews.MediaReviewsViewModel;
-import interface_adapter.account.ReviewsViewModel;
 import interface_adapter.other_account.OtherAccountController;
 import interface_adapter.other_account.OtherAccountPresenter;
 import interface_adapter.other_account.OtherAccountViewModel;
@@ -47,20 +46,20 @@ import interface_adapter.personal_account.PersonalAccountViewModel;
 import interface_adapter.reset_password.ResetPasswordController;
 import interface_adapter.reset_password.ResetPasswordPresenter;
 import interface_adapter.reset_password.ResetPasswordViewModel;
-import view.SearchUserView;
+import views.SearchUserView;
 import interface_adapter.search_user.SearchUserViewModel;
 import interface_adapter.search.SearchViewModel;
 import interface_adapter.recommendation.RecommendationViewModel;
 import interface_adapter.search_result.SearchResultViewModel;
 import interface_adapter.settings.SettingsController;
-import view.HomeRecommendationsPanel;
-import view.RecommendationView;
+import views.HomeRecommendationsPanel;
+import views.RecommendationView;
 import interface_adapter.settings.SettingsPresenter;
 import interface_adapter.settings.SettingsViewModel;
 import use_case.settings.SettingsInputBoundary;
 import use_case.settings.SettingsInteractor;
 import use_case.settings.SettingsOutputBoundary;
-import view.SettingsView;
+import views.SettingsView;
 import interface_adapter.security_question.SecurityQuestionController;
 import interface_adapter.security_question.SecurityQuestionPresenter;
 import interface_adapter.security_question.SecurityQuestionViewModel;
@@ -81,33 +80,33 @@ import interface_adapter.signup.SignupViewModel;
 import interface_adapter.user_reviews.UserReviewsController;
 import interface_adapter.user_reviews.UserReviewsPresenter;
 import interface_adapter.user_reviews.UserReviewsViewModel;
-import use_case.comment.create_comment.CreateCommentInteractor;
-import use_case.comment.delete_comment.DeleteCommentInteractor;
-import use_case.comment.get_review_comments.GetReviewCommentsInteractor;
-import use_case.comment.get_user_comments.GetUserCommentsInputBoundary;
-import use_case.comment.get_user_comments.GetUserCommentsInteractor;
-import use_case.comment.like_comment.LikeCommentInteractor;
-import use_case.comment.unlike_comment.UnlikeCommentInteractor;
+import use_case.create_comment.CreateCommentInteractor;
+import use_case.delete_comment.DeleteCommentInteractor;
+import use_case.get_review_comments.GetReviewCommentsInteractor;
+import use_case.get_user_comments.GetUserCommentsInputBoundary;
+import use_case.get_user_comments.GetUserCommentsInteractor;
+import use_case.like_comment.LikeCommentInteractor;
+import use_case.unlike_comment.UnlikeCommentInteractor;
 import use_case.block_user.BlockUserInputBoundary;
 import use_case.block_user.BlockUserInteractor;
 import use_case.filter.FilterInputBoundary;
 import use_case.filter.FilterInteractor;
 import use_case.filter.FilterOutputBoundary;
-import use_case.get_lists.get_blocked_users.GetBlockedUsersInputBoundary;
-import use_case.get_lists.get_blocked_users.GetBlockedUsersInteractor;
-import use_case.get_lists.get_blocked_users.GetBlockedUsersOutputBoundary;
-import use_case.get_lists.get_watch_history.GetWatchHistoryInputBoundary;
-import use_case.get_lists.get_watch_history.GetWatchHistoryInteractor;
-import use_case.get_lists.get_watch_history.GetWatchHistoryOutputBoundary;
-import use_case.get_lists.get_watchlist.GetWatchlistOutputBoundary;
+import use_case.get_blocked_users.GetBlockedUsersInputBoundary;
+import use_case.get_blocked_users.GetBlockedUsersInteractor;
+import use_case.get_blocked_users.GetBlockedUsersOutputBoundary;
+import use_case.get_watch_history.GetWatchHistoryInputBoundary;
+import use_case.get_watch_history.GetWatchHistoryInteractor;
+import use_case.get_watch_history.GetWatchHistoryOutputBoundary;
+import use_case.get_watchlist.GetWatchlistOutputBoundary;
 import use_case.get_profile.GetProfileInputBoundary;
 import use_case.get_profile.GetProfileInteractor;
 import use_case.get_profile.GetProfileOutputBoundary;
-import use_case.comment.unlike_comment.delete_account.DeleteAccountInputBoundary;
-import use_case.comment.unlike_comment.delete_account.DeleteAccountInteractor;
-import use_case.comment.unlike_comment.delete_account.DeleteAccountOutputBoundary;
-import use_case.get_lists.get_watchlist.GetWatchlistInputBoundary;
-import use_case.get_lists.get_watchlist.GetWatchlistInteractor;
+import use_case.delete_account.DeleteAccountInputBoundary;
+import use_case.delete_account.DeleteAccountInteractor;
+import use_case.delete_account.DeleteAccountOutputBoundary;
+import use_case.get_watchlist.GetWatchlistInputBoundary;
+import use_case.get_watchlist.GetWatchlistInteractor;
 import use_case.get_security_question.GetSecurityQuestionInputBoundary;
 import use_case.get_security_question.GetSecurityQuestionInteractor;
 import use_case.get_security_question.GetSecurityQuestionOutputBoundary;
@@ -126,40 +125,40 @@ import use_case.logout.LogoutOutputBoundary;
 import use_case.reset_password.ResetPasswordInputBoundary;
 import use_case.reset_password.ResetPasswordInteractor;
 import use_case.reset_password.ResetPasswordOutputBoundary;
-import use_case.review.create_review.CreateReviewInteractor;
-import use_case.review.delete_review.DeleteReviewInputBoundary;
-import use_case.review.delete_review.DeleteReviewInteractor;
-import use_case.review.edit_review.EditReviewInputBoundary;
-import use_case.review.edit_review.EditReviewInteractor;
-import use_case.review.get_media_reviews.GetMediaReviewsInteractor;
-import use_case.review.get_user_reviews.GetUserReviewsInputBoundary;
-import use_case.review.get_user_reviews.GetUserReviewsInteractor;
-import use_case.review.get_user_reviews.GetUserReviewsOutputBoundary;
-import use_case.review.like_review.LikeReviewInputBoundary;
-import use_case.review.like_review.LikeReviewInteractor;
-import use_case.review.unlike_review.UnlikeReviewInputBoundary;
-import use_case.review.unlike_review.UnlikeReviewInteractor;
+import use_case.create_review.CreateReviewInteractor;
+import use_case.delete_review.DeleteReviewInputBoundary;
+import use_case.delete_review.DeleteReviewInteractor;
+import use_case.edit_review.EditReviewInputBoundary;
+import use_case.edit_review.EditReviewInteractor;
+import use_case.get_media_reviews.GetMediaReviewsInteractor;
+import use_case.get_user_reviews.GetUserReviewsInputBoundary;
+import use_case.get_user_reviews.GetUserReviewsInteractor;
+import use_case.get_user_reviews.GetUserReviewsOutputBoundary;
+import use_case.like_review.LikeReviewInputBoundary;
+import use_case.like_review.LikeReviewInteractor;
+import use_case.unlike_review.UnlikeReviewInputBoundary;
+import use_case.unlike_review.UnlikeReviewInteractor;
 import use_case.security_question.SecurityQuestionInputBoundary;
 import use_case.security_question.SecurityQuestionInteractor;
 import use_case.security_question.SecurityQuestionOutputBoundary;
 import use_case.signup.SignupInputBoundary;
 import use_case.signup.SignupInteractor;
 import use_case.signup.SignupOutputBoundary;
-import view.DeleteAccountView;
-import view.GetListsView;
-import view.HomePageView;
-import view.LoginView;
-import view.LogoutConfirmView;
-import view.MediaDetailView;
-import view.MyReviewsView;
-import view.OtherAccountView;
-import view.PersonalAccountView;
-import view.ResetPasswordView;
-import view.SearchResultView;
-import view.SearchView;
-import view.SecurityQuestionView;
-import view.SignupView;
-import view.ViewManager;
+import views.DeleteAccountView;
+import views.GetListsView;
+import views.HomePageView;
+import views.LoginView;
+import views.LogoutConfirmView;
+import views.MediaDetailView;
+import views.MyReviewsView;
+import views.OtherAccountView;
+import views.PersonalAccountView;
+import views.ResetPasswordView;
+import views.SearchResultView;
+import views.SearchView;
+import views.SecurityQuestionView;
+import views.SignupView;
+import views.ViewManager;
 
 /**
  * The AppBuilder class is responsible for putting together the pieces of
@@ -192,22 +191,20 @@ public class AppBuilder {
     // Needs a mongo.properties file in the project root; see the MongoDB guide.
     // Swap to InMemoryUserDataAccessObject to run without a network.
     private final UserDataAccessObject userDataAccessObject = new MongoUserDataAccessObject();
-    private final ReviewDataAccessObject reviewDataAccessObject = new MongoReviewDataAccessObject();
-    private final CommentDataAccessObject commentDataAccessObject = new MongoCommentDataAccessObject();
+    private final MongoReviewDataAccessObject reviewDataAccessObject =
+            new MongoReviewDataAccessObject();
+    private final MongoCommentDataAccessObject commentDataAccessObject =
+            new MongoCommentDataAccessObject();
 
     // Counts failed security answers and holds lock-outs. One shared instance, so
     // every attempt on the same account is counted together.
     private final InMemoryLockoutTracker lockoutTracker = new InMemoryLockoutTracker();
-    private final MongoReviewDataAccessObject mongoReviewDataAccessObject =
-            new MongoReviewDataAccessObject();
-    private final MongoCommentDataAccessObject mongoCommentDataAccessObject =
-            new MongoCommentDataAccessObject();
     private final TmdbReviewDataAccessObject tmdbReviewDataAccessObject =
             new TmdbReviewDataAccessObject(new TmdbApiClient());
     private final CombinedMediaReviewDataAccessObject
             mediaReviewDataAccessObject =
             new CombinedMediaReviewDataAccessObject(tmdbReviewDataAccessObject,
-                    mongoReviewDataAccessObject);
+                    reviewDataAccessObject);
 
     private DeleteAccountView deleteAccountView;
     private DeleteAccountViewModel deleteAccountViewModel;
@@ -344,7 +341,7 @@ public class AppBuilder {
         // The presenter accepts a reviews view model but currently discards it,
         // so this is inert until that part of the presenter is finished.
         final OtherAccountPresenter otherAccountPresenter = new OtherAccountPresenter(viewManagerModel,
-                otherAccountViewModel, new ReviewsViewModel());
+                otherAccountViewModel);
         final BlockUserInputBoundary blockUserInteractor = new BlockUserInteractor(userDataAccessObject,
                 otherAccountPresenter);
 
@@ -373,7 +370,9 @@ public class AppBuilder {
      */
     public AppBuilder addResetPasswordView() {
         resetPasswordViewModel = new ResetPasswordViewModel();
-        resetPasswordView = new ResetPasswordView(resetPasswordViewModel, viewManagerModel);
+        resetPasswordView = new ResetPasswordView(resetPasswordViewModel);
+        resetPasswordView.setBackHandler(
+                () -> viewManagerModel.switchView(LoginViewModel.VIEW_NAME));
         cardPanel.add(resetPasswordView, resetPasswordView.getViewName());
         return this;
     }
@@ -401,7 +400,9 @@ public class AppBuilder {
      */
     public AppBuilder addSecurityQuestionView() {
         securityQuestionViewModel = new SecurityQuestionViewModel();
-        securityQuestionView = new SecurityQuestionView(securityQuestionViewModel, viewManagerModel);
+        securityQuestionView = new SecurityQuestionView(securityQuestionViewModel);
+        securityQuestionView.setBackHandler(
+                () -> viewManagerModel.switchView(LoginViewModel.VIEW_NAME));
         cardPanel.add(securityQuestionView, securityQuestionView.getViewName());
         return this;
     }
@@ -502,14 +503,17 @@ public class AppBuilder {
      */
     public AppBuilder addGetProfileUseCase() {
         final GetProfileOutputBoundary userPresenter = new HomePagePresenter(viewManagerModel,
-                homePageViewModel, personalAccountViewModel, otherAccountViewModel);
+                personalAccountViewModel, otherAccountViewModel);
         final GetProfileInputBoundary getProfileInteractor = new GetProfileInteractor(userDataAccessObject,
-                (HomePagePresenter) userPresenter);
+                userPresenter);
 
         final HomePageController homePageController =
                 new HomePageController(
                         getProfileInteractor,
-                        viewManagerModel
+                        viewManagerModel,
+                        SearchViewModel.VIEW_NAME,
+                        SearchUserViewModel.VIEW_NAME,
+                        SettingsViewModel.VIEW_NAME
                 );
         homePageView.setHomePageController(homePageController);
         return this;
@@ -535,9 +539,9 @@ public class AppBuilder {
      */
     public AppBuilder addSearchUserUseCase() {
         final GetProfileOutputBoundary getProfileOutputBoundary = new HomePagePresenter(viewManagerModel,
-                homePageViewModel, personalAccountViewModel, otherAccountViewModel);
+                personalAccountViewModel, otherAccountViewModel);
         final GetProfileInputBoundary getProfileInteractor = new GetProfileInteractor(userDataAccessObject,
-                (HomePagePresenter) getProfileOutputBoundary);
+                getProfileOutputBoundary);
 
         SearchUserUseCaseFactory.create(
                 viewManagerModel,
@@ -572,9 +576,9 @@ public class AppBuilder {
      */
     public AppBuilder addPersonalAccountUseCase() {
         final GetProfileOutputBoundary getProfileOutputBoundary = new HomePagePresenter(viewManagerModel,
-                homePageViewModel, personalAccountViewModel, otherAccountViewModel);
+                personalAccountViewModel, otherAccountViewModel);
         final GetProfileInputBoundary getProfileInteractor = new GetProfileInteractor(userDataAccessObject,
-                (HomePagePresenter) getProfileOutputBoundary);
+                getProfileOutputBoundary);
 
         final GetListsController getListsController = createGetListsController();
         final GetSecurityQuestionOutputBoundary getSecurityQuestionOutputBoundary = new PersonalAccountPresenter(viewManagerModel,
@@ -589,7 +593,7 @@ public class AppBuilder {
                 resetPasswordViewModel,
                 homePageViewModel.getViewName(),
                 getListsViewModel.getViewName(),
-                userReviewsViewModel.getViewName());
+                userReviewsViewModel);
 
         personalAccountView.setPersonalAccountController(personalAccountController);
         return this;
@@ -637,16 +641,21 @@ public class AppBuilder {
      * @return the add user reviews use case
      */
     public AppBuilder addUserReviewsUseCase() {
-        final GetUserReviewsOutputBoundary userReviewsOutputBoundary = new UserReviewsPresenter(userReviewsViewModel);
+        final UserReviewsPresenter userReviewsPresenter = new UserReviewsPresenter(userReviewsViewModel);
+        final GetUserReviewsOutputBoundary userReviewsOutputBoundary = userReviewsPresenter;
         final GetUserReviewsInputBoundary userReviewsInteractor = new GetUserReviewsInteractor(reviewDataAccessObject,
                 userReviewsOutputBoundary);
 
-        final EditReviewInputBoundary editReviewsInteractor = new EditReviewInteractor();
-        final DeleteReviewInputBoundary deleteReviewsInteractor = new DeleteReviewInteractor();
-        final LikeReviewInputBoundary likeReviewsInteractor = new LikeReviewInteractor();
-        final UnlikeReviewInputBoundary unlikeReviewsInteractor = new UnlikeReviewInteractor();
+        final EditReviewInputBoundary editReviewsInteractor = new EditReviewInteractor(reviewDataAccessObject,
+                userReviewsPresenter);
+        final DeleteReviewInputBoundary deleteReviewsInteractor = new DeleteReviewInteractor(reviewDataAccessObject,
+                userReviewsPresenter);
+        final LikeReviewInputBoundary likeReviewsInteractor = new LikeReviewInteractor(reviewDataAccessObject,
+                userReviewsPresenter);
+        final UnlikeReviewInputBoundary unlikeReviewsInteractor = new UnlikeReviewInteractor(reviewDataAccessObject,
+                userReviewsPresenter);
         final GetUserCommentsInputBoundary userCommentsInteractor = new GetUserCommentsInteractor(commentDataAccessObject,
-                reviewDataAccessObject);
+                reviewDataAccessObject, userReviewsPresenter);
 
         final UserReviewsController userReviewsController = new UserReviewsController(userReviewsInteractor,
                 editReviewsInteractor,
@@ -694,7 +703,9 @@ public class AppBuilder {
     public AppBuilder addSecurityQuestionUseCase() {
         final SecurityQuestionOutputBoundary securityQuestionOutputBoundary = new SecurityQuestionPresenter(
                 securityQuestionViewModel,
-                resetPasswordViewModel, viewManagerModel);
+                resetPasswordViewModel,
+                () -> viewManagerModel.switchView(ResetPasswordViewModel.VIEW_NAME),
+                () -> viewManagerModel.switchView(SecurityQuestionViewModel.VIEW_NAME));
         final SecurityQuestionInputBoundary securityQuestionInteractor = new SecurityQuestionInteractor(
                 userDataAccessObject, securityQuestionOutputBoundary, lockoutTracker);
         final SecurityQuestionController securityQuestionController = new SecurityQuestionController(
@@ -709,8 +720,9 @@ public class AppBuilder {
      * @return the add signup use case
      */
     public AppBuilder addSignupUseCase() {
-        final SignupOutputBoundary signupOutputBoundary = new SignupPresenter(viewManagerModel,
-                signupViewModel);
+        final SignupOutputBoundary signupOutputBoundary =
+                new SignupPresenter(signupViewModel,
+                        () -> viewManagerModel.switchView(LoginViewModel.VIEW_NAME));
         final SignupInputBoundary userSignupInteractor = new SignupInteractor(
                 userDataAccessObject, signupOutputBoundary, userFactory);
 
@@ -796,9 +808,10 @@ public class AppBuilder {
         final SettingsOutputBoundary settingsOutputBoundary = new SettingsPresenter(settingsViewModel);
         final SettingsInputBoundary settingsInteractor = new SettingsInteractor(settingsOutputBoundary);
 
-        final SettingsController settingsController = new SettingsController(settingsInteractor,
-                viewManagerModel, HomePageViewModel.VIEW_NAME);
+        final SettingsController settingsController = new SettingsController(settingsInteractor);
         settingsView.setSettingsController(settingsController);
+        settingsView.setBackHandler(
+                () -> viewManagerModel.switchView(HomePageViewModel.VIEW_NAME));
         return this;
     }
 
@@ -844,10 +857,7 @@ public class AppBuilder {
                 new FilterInteractor(filterPresenter);
 
         final FilterController filterController =
-                new FilterController(
-                        filterInteractor,
-                        searchResultViewModel
-                );
+                new FilterController(filterInteractor);
 
         searchResultView.setFilterController(filterController);
 
@@ -990,19 +1000,19 @@ public class AppBuilder {
                 new GetMediaReviewsInteractor(mediaReviewDataAccessObject,
                         mediaReviewsPresenter);
         final CreateReviewInteractor createReviewInteractor =
-                new CreateReviewInteractor(mongoReviewDataAccessObject,
+                new CreateReviewInteractor(reviewDataAccessObject,
                         mediaReviewsPresenter);
         final EditReviewInteractor editReviewInteractor =
-                new EditReviewInteractor(mongoReviewDataAccessObject,
+                new EditReviewInteractor(reviewDataAccessObject,
                         mediaReviewsPresenter);
         final DeleteReviewInteractor deleteReviewInteractor =
-                new DeleteReviewInteractor(mongoReviewDataAccessObject,
+                new DeleteReviewInteractor(reviewDataAccessObject,
                         mediaReviewsPresenter);
         final LikeReviewInteractor likeReviewInteractor =
-                new LikeReviewInteractor(mongoReviewDataAccessObject,
+                new LikeReviewInteractor(reviewDataAccessObject,
                         mediaReviewsPresenter);
         final UnlikeReviewInteractor unlikeReviewInteractor =
-                new UnlikeReviewInteractor(mongoReviewDataAccessObject,
+                new UnlikeReviewInteractor(reviewDataAccessObject,
                         mediaReviewsPresenter);
 
         return new MediaReviewsController(getMediaReviewsInteractor,
@@ -1015,19 +1025,19 @@ public class AppBuilder {
         final CommentsPresenter commentsPresenter =
                 new CommentsPresenter(commentsViewModel);
         final GetReviewCommentsInteractor getReviewCommentsInteractor =
-                new GetReviewCommentsInteractor(mongoCommentDataAccessObject,
+                new GetReviewCommentsInteractor(commentDataAccessObject,
                         commentsPresenter);
         final CreateCommentInteractor createCommentInteractor =
-                new CreateCommentInteractor(mongoCommentDataAccessObject,
+                new CreateCommentInteractor(commentDataAccessObject,
                         commentsPresenter);
         final DeleteCommentInteractor deleteCommentInteractor =
-                new DeleteCommentInteractor(mongoCommentDataAccessObject,
+                new DeleteCommentInteractor(commentDataAccessObject,
                         commentsPresenter);
         final LikeCommentInteractor likeCommentInteractor =
-                new LikeCommentInteractor(mongoCommentDataAccessObject,
+                new LikeCommentInteractor(commentDataAccessObject,
                         commentsPresenter);
         final UnlikeCommentInteractor unlikeCommentInteractor =
-                new UnlikeCommentInteractor(mongoCommentDataAccessObject,
+                new UnlikeCommentInteractor(commentDataAccessObject,
                         commentsPresenter);
 
         return new CommentsController(getReviewCommentsInteractor,

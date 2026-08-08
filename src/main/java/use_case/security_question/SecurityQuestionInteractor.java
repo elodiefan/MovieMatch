@@ -94,6 +94,7 @@ public class SecurityQuestionInteractor implements SecurityQuestionInputBoundary
     }
 
     /**
+     * Checks whether the answers match.
      * @return true if the answers match, ignoring case and surrounding spaces.
      *
      * @param expected the expected
@@ -104,6 +105,7 @@ public class SecurityQuestionInteractor implements SecurityQuestionInputBoundary
     }
 
     /**
+     * Returns this account's lock-out record.
      * @return this account's lock-out record.
      *
      * @param username the username

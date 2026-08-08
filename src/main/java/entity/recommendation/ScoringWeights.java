@@ -61,6 +61,7 @@ public class ScoringWeights {
      * @param friend the friend
      * @param recency the recency
      * @param recencyWindowYears the recency window years
+     * @throws IllegalArgumentException if the weights do not sum to 1.0
      */
     public ScoringWeights(final double genre, final double cast, final double popularity,
                           final double friend, final double recency, final int recencyWindowYears) {

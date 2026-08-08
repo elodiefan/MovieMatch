@@ -1,6 +1,5 @@
 package interface_adapter.security_question;
 
-import interface_adapter.ViewManagerModel;
 import interface_adapter.reset_password.PasswordResetCompletedHandler;
 import interface_adapter.reset_password.ResetPasswordState;
 import interface_adapter.reset_password.ResetPasswordViewModel;
@@ -15,14 +14,17 @@ public class SecurityQuestionPresenter
 
     private final SecurityQuestionViewModel securityQuestionViewModel;
     private final ResetPasswordViewModel resetPasswordViewModel;
-    private final ViewManagerModel viewManagerModel;
+    private final Runnable resetPasswordViewHandler;
+    private final Runnable securityQuestionViewHandler;
 
     public SecurityQuestionPresenter(SecurityQuestionViewModel securityQuestionViewModel,
                                      ResetPasswordViewModel resetPasswordViewModel,
-                                     ViewManagerModel viewManagerModel) {
+                                     Runnable resetPasswordViewHandler,
+                                     Runnable securityQuestionViewHandler) {
         this.securityQuestionViewModel = securityQuestionViewModel;
         this.resetPasswordViewModel = resetPasswordViewModel;
-        this.viewManagerModel = viewManagerModel;
+        this.resetPasswordViewHandler = resetPasswordViewHandler;
+        this.securityQuestionViewHandler = securityQuestionViewHandler;
     }
 
     @Override
@@ -58,8 +60,7 @@ public class SecurityQuestionPresenter
         resetPasswordViewModel.firePropertyChanged();
 
         // ...and switch the active view to it.
-        viewManagerModel.setState(resetPasswordViewModel.getViewName());
-        viewManagerModel.firePropertyChanged();
+        resetPasswordViewHandler.run();
     }
 
     @Override
@@ -106,7 +107,6 @@ public class SecurityQuestionPresenter
         securityQuestionViewModel.setState(state);
         securityQuestionViewModel.firePropertyChanged();
 
-        viewManagerModel.setState(securityQuestionViewModel.getViewName());
-        viewManagerModel.firePropertyChanged();
+        securityQuestionViewHandler.run();
     }
 }

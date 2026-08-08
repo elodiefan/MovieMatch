@@ -1,15 +1,10 @@
 package interface_adapter.comments;
 
-import use_case.comment.create_comment.CreateCommentInputBoundary;
-import use_case.comment.create_comment.CreateCommentInputData;
-import use_case.comment.delete_comment.DeleteCommentInputBoundary;
-import use_case.comment.delete_comment.DeleteCommentInputData;
-import use_case.comment.get_review_comments.GetReviewCommentsInputBoundary;
-import use_case.comment.get_review_comments.GetReviewCommentsInputData;
-import use_case.comment.like_comment.LikeCommentInputBoundary;
-import use_case.comment.like_comment.LikeCommentInputData;
-import use_case.comment.unlike_comment.UnlikeCommentInputBoundary;
-import use_case.comment.unlike_comment.UnlikeCommentInputData;
+import use_case.create_comment.CreateCommentInputBoundary;
+import use_case.delete_comment.DeleteCommentInputBoundary;
+import use_case.get_review_comments.GetReviewCommentsInputBoundary;
+import use_case.like_comment.LikeCommentInputBoundary;
+import use_case.unlike_comment.UnlikeCommentInputBoundary;
 
 /**
  * Controller for review comments.
@@ -64,8 +59,7 @@ public final class CommentsController {
      * @param reviewId the review id to load comments for
      */
     public void loadReviewComments(final String reviewId) {
-        getReviewCommentsInteractor.execute(new GetReviewCommentsInputData(
-                reviewId));
+        getReviewCommentsInteractor.execute(reviewId);
     }
 
     /**
@@ -81,9 +75,8 @@ public final class CommentsController {
                               final String authorUsername,
                               final String authorDisplayName,
                               final String commentText) {
-        createCommentInteractor.execute(new CreateCommentInputData(reviewId,
-                parentCommentId, authorUsername, authorDisplayName,
-                commentText));
+        createCommentInteractor.execute(reviewId, parentCommentId,
+                authorUsername, authorDisplayName, commentText);
     }
 
     /**
@@ -92,8 +85,7 @@ public final class CommentsController {
      * @param username the username of the user deleting the comment
      */
     public void deleteComment(final String commentId, final String username) {
-        deleteCommentInteractor.execute(new DeleteCommentInputData(commentId,
-                username));
+        deleteCommentInteractor.execute(commentId, username);
     }
 
     /**
@@ -102,8 +94,7 @@ public final class CommentsController {
      * @param username the username of the user liking the comment
      */
     public void likeComment(final String commentId, final String username) {
-        likeCommentInteractor.execute(new LikeCommentInputData(commentId,
-                username));
+        likeCommentInteractor.execute(commentId, username);
     }
 
     /**
@@ -112,7 +103,6 @@ public final class CommentsController {
      * @param username the username of the user unliking the comment
      */
     public void unlikeComment(final String commentId, final String username) {
-        unlikeCommentInteractor.execute(new UnlikeCommentInputData(commentId,
-                username));
+        unlikeCommentInteractor.execute(commentId, username);
     }
 }

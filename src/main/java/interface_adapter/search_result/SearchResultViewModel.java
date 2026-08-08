@@ -1,11 +1,11 @@
 package interface_adapter.search_result;
 
-import interface_adapter.ViewModel;
+import interface_adapter.StateModel;
 
 /**
  * The ViewModel for displaying search results.
  */
-public class SearchResultViewModel extends ViewModel<SearchResultState> {
+public class SearchResultViewModel extends StateModel<SearchResultState> {
 
     public static final String VIEW_NAME = "search result";
 

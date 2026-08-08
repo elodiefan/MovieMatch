@@ -1,14 +1,12 @@
 package interface_adapter.log_media;
 
-import interface_adapter.ViewModel;
+import interface_adapter.StateModel;
 
 /**
  * View model for logging media to user lists.
  */
-public class LogMediaViewModel extends ViewModel<LogMediaState> {
-    /**
-     * Button label for watchlist logging.
-     */
+public class LogMediaViewModel extends StateModel<LogMediaState> {
+    /** Button label for watchlist logging. */
     public static final String WATCHLIST_BUTTON_LABEL = "Want to watch";
     /**
      * Button label for watch history logging.
