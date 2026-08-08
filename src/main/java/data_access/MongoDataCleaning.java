@@ -1,5 +1,7 @@
 package data_access;
 
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.Date;
 import java.util.List;
 
@@ -21,6 +23,7 @@ public class MongoDataCleaning {
     private static final String TIMESTAMP = "timestamp";
     private static final int INDEX_OF_START_TIME = 11;
     private static final int INDEX_OF_END_TIME = 19;
+    private static final int TIME_SHIFT = 4;
 
     /**
      * Takes in raw MongoDB watchlist data and converts it to a String for a UserList watchlist.
@@ -103,8 +106,10 @@ public class MongoDataCleaning {
     public static String formatChat(List<Document> chatHistory) {
         final StringBuilder formattedChat = new StringBuilder();
         for (Document message: chatHistory) {
-//            final String timestamp = message.get(TIMESTAMP, String.class);
-            final String timestamp = message.get(TIMESTAMP, Date.class).toString();
+            LocalDateTime localDateTime = message.get(TIMESTAMP, Date.class).toInstant().atZone(ZoneId.systemDefault())
+                    .toLocalDateTime();
+            localDateTime = localDateTime.plusHours(TIME_SHIFT);
+            final String timestamp = localDateTime.toString();
             System.out.println(timestamp);
             final String date = formatDate(timestamp, 0, INDEX_OF_DATE);
             final String time = formatDate(timestamp, INDEX_OF_START_TIME, INDEX_OF_END_TIME);
