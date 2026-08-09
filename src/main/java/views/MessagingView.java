@@ -31,7 +31,7 @@ public class MessagingView extends JPanel implements PropertyChangeListener {
 
     private final JLabel title;
 
-    private final JTextArea chatTextArea = new JTextArea(20, 50);
+    private final JTextArea chatTextArea = new JTextArea(10, 30);
 
     private final JButton back;
     private final JButton refresh;
