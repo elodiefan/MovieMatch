@@ -15,6 +15,8 @@ public class DeleteAccountInteractor implements DeleteAccountInputBoundary {
 
     private final DeleteAccountUserDataAccessInterface userDataAccessObject;
     private final DeleteAccountMessageDataAccessInterface messageDataAccessObject;
+    private final DeleteAccountReviewDataAccessInterface reviewDataAccessObject;
+    private final DeleteAccountCommentDataAccessInterface commentDataAccessObject;
     private final DeleteAccountOutputBoundary userPresenter;
     private final UserFactory userFactory;
 
@@ -24,10 +26,14 @@ public class DeleteAccountInteractor implements DeleteAccountInputBoundary {
 
     public DeleteAccountInteractor(DeleteAccountUserDataAccessInterface deleteAccountUserDataAccessInterface,
                                    DeleteAccountMessageDataAccessInterface deleteAccountMessageDataAccessInterface,
+                                   DeleteAccountReviewDataAccessInterface deleteAccountReviewDataAccessInterface,
+                                   DeleteAccountCommentDataAccessInterface deleteAccountCommentDataAccessInterface,
                                    DeleteAccountOutputBoundary deleteAccountOutputBoundary,
                                    UserFactory userFactory) {
         this.userDataAccessObject = deleteAccountUserDataAccessInterface;
         this.messageDataAccessObject = deleteAccountMessageDataAccessInterface;
+        this.reviewDataAccessObject = deleteAccountReviewDataAccessInterface;
+        this.commentDataAccessObject = deleteAccountCommentDataAccessInterface;
         this.userPresenter = deleteAccountOutputBoundary;
         this.userFactory = userFactory;
     }
@@ -61,6 +67,8 @@ public class DeleteAccountInteractor implements DeleteAccountInputBoundary {
                 final DeleteAccountOutputData deleteAccountOutputData = new DeleteAccountOutputData(username, false);
                 userDataAccessObject.deleteAccount(user);
                 messageDataAccessObject.deleteChatHistory(username);
+                reviewDataAccessObject.deleteAllReviews(username);
+                commentDataAccessObject.deleteAllComments(username);
                 userPresenter.prepareSuccessView(deleteAccountOutputData);
             }
         }
