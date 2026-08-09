@@ -634,6 +634,64 @@ public final class MyReviewsView extends JPanel
     }
 
     /**
+     * Opens a rating dialog that cannot be submitted until valid.
+     * @param title the dialog title
+     * @return the rating, or null if cancelled
+     */
+    private Double promptForRating(final String title) {
+        final JDialog dialog = new JDialog(
+                SwingUtilities.getWindowAncestor(this), title,
+                Dialog.ModalityType.APPLICATION_MODAL);
+        final JTextField ratingField = new JTextField(12);
+        final JLabel validationLabel = new JLabel(" ");
+        validationLabel.setForeground(Color.RED);
+        final JButton submitButton = new JButton("Submit");
+        submitButton.setEnabled(false);
+        final JButton cancelButton = new JButton("Cancel");
+        final Double[] rating = new Double[1];
+
+        final JPanel inputPanel = new JPanel();
+        inputPanel.setLayout(new BoxLayout(inputPanel, BoxLayout.Y_AXIS));
+        inputPanel.add(new JLabel(title));
+        inputPanel.add(ratingField);
+        inputPanel.add(validationLabel);
+
+        final JPanel buttonPanel = new JPanel();
+        buttonPanel.add(cancelButton);
+        buttonPanel.add(submitButton);
+
+        ratingField.getDocument().addDocumentListener(
+                new RatingValidationListener(ratingField, validationLabel,
+                        submitButton));
+        submitButton.addActionListener(event -> {
+            rating[0] = parseRating(ratingField.getText());
+            dialog.dispose();
+        });
+        cancelButton.addActionListener(event -> dialog.dispose());
+
+        dialog.add(inputPanel);
+        dialog.add(buttonPanel, BorderLayout.SOUTH);
+        dialog.pack();
+        dialog.setLocationRelativeTo(this);
+        dialog.setVisible(true);
+        return rating[0];
+    }
+
+    private Double parseRating(final String ratingText) {
+        Double rating = null;
+        try {
+            final double parsedRating = Double.parseDouble(ratingText);
+            if (parsedRating >= MIN_RATING && parsedRating <= MAX_RATING) {
+                rating = parsedRating;
+            }
+        }
+        catch (NumberFormatException exception) {
+            rating = null;
+        }
+        return rating;
+    }
+
+    /**
      * Selects a review in the view model state.
      */
     private final class SelectReviewListener implements ActionListener {
@@ -708,64 +766,6 @@ public final class MyReviewsView extends JPanel
             }
             userReviewsViewModel.firePropertyChanged();
         }
-    }
-
-    /**
-     * Opens a rating dialog that cannot be submitted until valid.
-     * @param title the dialog title
-     * @return the rating, or null if cancelled
-     */
-    private Double promptForRating(final String title) {
-        final JDialog dialog = new JDialog(
-                SwingUtilities.getWindowAncestor(this), title,
-                Dialog.ModalityType.APPLICATION_MODAL);
-        final JTextField ratingField = new JTextField(12);
-        final JLabel validationLabel = new JLabel(" ");
-        validationLabel.setForeground(Color.RED);
-        final JButton submitButton = new JButton("Submit");
-        submitButton.setEnabled(false);
-        final JButton cancelButton = new JButton("Cancel");
-        final Double[] rating = new Double[1];
-
-        final JPanel inputPanel = new JPanel();
-        inputPanel.setLayout(new BoxLayout(inputPanel, BoxLayout.Y_AXIS));
-        inputPanel.add(new JLabel(title));
-        inputPanel.add(ratingField);
-        inputPanel.add(validationLabel);
-
-        final JPanel buttonPanel = new JPanel();
-        buttonPanel.add(cancelButton);
-        buttonPanel.add(submitButton);
-
-        ratingField.getDocument().addDocumentListener(
-                new RatingValidationListener(ratingField, validationLabel,
-                        submitButton));
-        submitButton.addActionListener(event -> {
-            rating[0] = parseRating(ratingField.getText());
-            dialog.dispose();
-        });
-        cancelButton.addActionListener(event -> dialog.dispose());
-
-        dialog.add(inputPanel);
-        dialog.add(buttonPanel, BorderLayout.SOUTH);
-        dialog.pack();
-        dialog.setLocationRelativeTo(this);
-        dialog.setVisible(true);
-        return rating[0];
-    }
-
-    private Double parseRating(final String ratingText) {
-        Double rating = null;
-        try {
-            final double parsedRating = Double.parseDouble(ratingText);
-            if (parsedRating >= MIN_RATING && parsedRating <= MAX_RATING) {
-                rating = parsedRating;
-            }
-        }
-        catch (NumberFormatException exception) {
-            rating = null;
-        }
-        return rating;
     }
 
     private final class RatingValidationListener implements DocumentListener {
