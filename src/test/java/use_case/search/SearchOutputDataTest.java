@@ -5,19 +5,15 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertSame;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.junit.jupiter.api.Test;
-
-import entity.Media;
-import entity.Movie;
 
 class SearchOutputDataTest {
 
     @Test
     void gettersExposeCompleteFreshSearchResult() {
-        final List<Media> results = List.of(movie(1, "Arrival"));
+        final List<MediaResultData> results = List.of(mediaResult(1, "Arrival"));
         final SearchOutputData outputData = new SearchOutputData(
                 results, "arrival", 4, true, false, 83);
 
@@ -40,8 +36,9 @@ class SearchOutputDataTest {
         assertEquals(20, outputData.getTotalResults());
     }
 
-    private static Movie movie(int id, String title) {
-        return new Movie(id, title, 2016, 8.0, new ArrayList<>(),
-                "en", new ArrayList<>(), 116);
+    private static MediaResultData mediaResult(int id, String title) {
+        return new MediaResultData(id, "movie", title, 2016, 8.0,
+                List.of("Science Fiction"), List.of(878), "en",
+                "Overview for " + title, "/poster.jpg");
     }
 }
