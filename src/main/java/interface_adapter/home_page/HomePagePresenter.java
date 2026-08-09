@@ -44,6 +44,7 @@ public class HomePagePresenter implements GetProfileOutputBoundary {
         otherAccountState.setUsername(response.getUsername());
         otherAccountState.setDisplayName(response.getDisplayName());
         otherAccountState.setBlocked(response.isBlocked());
+        otherAccountState.setViewMessageError("");
         otherAccountViewModel.setState(otherAccountState);
         otherAccountViewModel.firePropertyChanged();
 
