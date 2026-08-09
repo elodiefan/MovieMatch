@@ -1,0 +1,44 @@
+@startuml
+title Search Data Access — Dependency Inversion and Fallback (Part 2 of 2)
+
+left to right direction
+skinparam classAttributeIconSize 0
+skinparam shadowing false
+skinparam linetype ortho
+
+class SearchInteractor
+
+interface SearchMediaDataAccess {
+    + searchPage(String keyword, int page): MediaPage
+}
+
+class FallbackSearchMediaDataAccess {
+    + searchPage(String keyword, int page): MediaPage
+}
+
+class TMDBSearchMediaDataAccess {
+    + searchPage(String keyword, int page): MediaPage
+}
+
+class TMDBAPIClient
+class LocalMovieDatabase
+class LocalTVShowDatabase
+class MediaPage
+abstract class Media
+class Movie
+class TVShow
+
+SearchInteractor --> SearchMediaDataAccess
+FallbackSearchMediaDataAccess ..|> SearchMediaDataAccess
+TMDBSearchMediaDataAccess ..|> SearchMediaDataAccess
+
+FallbackSearchMediaDataAccess --> TMDBSearchMediaDataAccess
+FallbackSearchMediaDataAccess --> LocalMovieDatabase
+FallbackSearchMediaDataAccess --> LocalTVShowDatabase
+TMDBSearchMediaDataAccess --> TMDBAPIClient
+
+MediaPage o-- Media
+Movie --|> Media
+TVShow --|> Media
+
+@enduml
