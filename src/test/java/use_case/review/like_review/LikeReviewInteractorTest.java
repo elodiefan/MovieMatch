@@ -1,8 +1,81 @@
 package use_case.review.like_review;
 
-/**
- * Tests for the like review interactor.
- */
-public class LikeReviewInteractorTest {
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
+import org.junit.jupiter.api.Test;
+
+class LikeReviewInteractorTest {
+
+    @Test
+    void validInputCallsDataAccessAndPresentsSuccess() {
+        final RecordingPresenter presenter = new RecordingPresenter();
+        final String[] received = new String[2];
+        final LikeReviewInteractor interactor = new LikeReviewInteractor((reviewId, username) -> {
+            received[0] = reviewId;
+            received[1] = username;
+            return true;
+        }, presenter);
+
+        interactor.execute(" review-1 ", " bob ");
+
+        assertEquals("review-1", received[0]);
+        assertEquals("bob", received[1]);
+        assertTrue(presenter.success);
+    }
+
+    @Test
+    void blankReviewIdPresentsFailureWithoutCallingDataAccess() {
+        final RecordingPresenter presenter = new RecordingPresenter();
+        final boolean[] called = {false};
+        final LikeReviewInteractor interactor = new LikeReviewInteractor((reviewId, username) -> {
+            called[0] = true;
+            return true;
+        }, presenter);
+
+        interactor.execute("  ", "bob");
+
+        assertEquals("Review id cannot be empty.", presenter.failure);
+        assertFalse(called[0]);
+    }
+
+    @Test
+    void blankUsernamePresentsFailure() {
+        final RecordingPresenter presenter = new RecordingPresenter();
+        new LikeReviewInteractor((id, username) -> true, presenter)
+                .execute("review-1", " ");
+        assertEquals("Username cannot be empty.", presenter.failure);
+    }
+
+    @Test
+    void missingDataAccessIsReportedAsFailure() {
+        final RecordingPresenter presenter = new RecordingPresenter();
+        new LikeReviewInteractor(null, presenter).execute("review-1", "bob");
+        assertEquals("Review data access object has not been configured.", presenter.failure);
+    }
+
+    @Test
+    void nullReviewIdIsReportedAsFailure() {
+        final RecordingPresenter presenter = new RecordingPresenter();
+        new LikeReviewInteractor((id, username) -> true, presenter).execute(null, "bob");
+        assertEquals("Review id cannot be empty.", presenter.failure);
+    }
+
+    private static final class RecordingPresenter implements LikeReviewOutputBoundary {
+        private boolean success;
+        private String failure;
+
+        @Override
+        public void prepareSuccessView(boolean liked) {
+            success = liked;
+        }
+
+        @Override
+        public String prepareFailView(String errorMessage) {
+            failure = errorMessage;
+            return errorMessage;
+        }
+    }
 
 }

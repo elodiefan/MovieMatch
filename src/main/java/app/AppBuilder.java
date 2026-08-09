@@ -548,7 +548,8 @@ public class AppBuilder {
         final DeleteAccountOutputBoundary deleteAccountOutputBoundary = new DeleteAccountPresenter(viewManagerModel,
                 deleteAccountViewModel, signupViewModel, personalAccountViewModel);
         final DeleteAccountInputBoundary deleteAccountInteractor = new DeleteAccountInteractor(
-                userDataAccessObject, mongoMessagesDataAccessObject, deleteAccountOutputBoundary, userFactory);
+                userDataAccessObject, mongoMessagesDataAccessObject, reviewDataAccessObject, commentDataAccessObject,
+                deleteAccountOutputBoundary, userFactory);
 
         final DeleteAccountController deleteAccountController = new DeleteAccountController(deleteAccountInteractor);
         deleteAccountView.setDeleteAccountController(deleteAccountController);
@@ -624,7 +625,7 @@ public class AppBuilder {
     /**
      * Adds the Search User Use Case to the application.
      * The assembly lives in SearchUserUseCaseFactory, following the
-     * convention Yidan set with SearchUseCaseFactory.
+     * convention Bob set with SearchUseCaseFactory.
      *
      * @return the add search user use case
      */
@@ -724,8 +725,8 @@ public class AppBuilder {
                 userReviewsPresenter);
         final UnlikeReviewInputBoundary unlikeReviewsInteractor = new UnlikeReviewInteractor(reviewDataAccessObject,
                 userReviewsPresenter);
-        final GetUserCommentsInputBoundary userCommentsInteractor = new GetUserCommentsInteractor(commentDataAccessObject,
-                reviewDataAccessObject, userReviewsPresenter);
+        final GetUserCommentsInputBoundary userCommentsInteractor = new GetUserCommentsInteractor(
+                commentDataAccessObject, reviewDataAccessObject, userReviewsPresenter);
         final DeleteCommentInteractor deleteCommentsInteractor =
                 new DeleteCommentInteractor(commentDataAccessObject,
                         userReviewsPresenter);

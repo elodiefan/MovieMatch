@@ -56,7 +56,7 @@ class SignupInteractorTest {
     }
 
     private static SignupInputData validInput() {
-        return new SignupInputData("yidan", "Yidan", "password1", "password1",
+        return new SignupInputData("bob", "Bob", "password1", "password1",
                 "First pet?", "Mochi");
     }
 
@@ -67,14 +67,14 @@ class SignupInteractorTest {
         final SignupInteractor interactor = new SignupInteractor(dataAccess, presenter,
                 new StandardUserFactory());
 
-        interactor.execute(new SignupInputData("  yidan  ", "  Yidan Xu  ", "password1",
+        interactor.execute(new SignupInputData("  bob  ", "  Bob  ", "password1",
                 "password1", "  First pet?  ", "  Mochi  "));
 
         assertNull(presenter.failure);
-        assertEquals("yidan", presenter.success.getUsername());
-        assertEquals("Yidan Xu", presenter.success.getDisplayName());
-        assertEquals("yidan", dataAccess.savedUsername);
-        assertEquals("Yidan Xu", dataAccess.savedDisplayName);
+        assertEquals("bob", presenter.success.getUsername());
+        assertEquals("Bob", presenter.success.getDisplayName());
+        assertEquals("bob", dataAccess.savedUsername);
+        assertEquals("Bob", dataAccess.savedDisplayName);
         assertEquals("password1", dataAccess.savedPassword);
         assertEquals("First pet?", dataAccess.savedQuestion);
         assertEquals("Mochi", dataAccess.savedAnswer);
@@ -100,13 +100,13 @@ class SignupInteractorTest {
         final SignupInteractor interactor = new SignupInteractor(dataAccess, presenter,
                 new StandardUserFactory());
 
-        interactor.execute(new SignupInputData("ab", "Yidan", "password1", "password1",
+        interactor.execute(new SignupInputData("ab", "Bob", "password1", "password1",
                 "First pet?", "Mochi"));
         assertTrue(presenter.failure.startsWith("Username must be"));
 
         final RecordingPresenter passwordPresenter = new RecordingPresenter();
         new SignupInteractor(dataAccess, passwordPresenter, new StandardUserFactory()).execute(
-                new SignupInputData("yidan", "Yidan", "password1", "different1",
+                new SignupInputData("bob", "Bob", "password1", "different1",
                         "First pet?", "Mochi"));
         assertEquals("Passwords don't match.", passwordPresenter.failure);
         assertNull(dataAccess.savedUsername);

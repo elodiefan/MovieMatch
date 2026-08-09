@@ -27,6 +27,7 @@ import use_case.comment.get_review_comments.GetReviewCommentsDataAccessInterface
 import use_case.comment.get_user_comments.GetUserCommentsDataAccessInterface;
 import use_case.comment.like_comment.LikeCommentDataAccessInterface;
 import use_case.comment.unlike_comment.UnlikeCommentDataAccessInterface;
+import use_case.delete_account.DeleteAccountCommentDataAccessInterface;
 
 /**
  * MongoDB data access object for comments on reviews.
@@ -35,7 +36,7 @@ public class MongoCommentDataAccessObject implements
         CreateCommentDataAccessInterface, DeleteCommentDataAccessInterface,
         EditCommentDataAccessInterface, GetReviewCommentsDataAccessInterface,
         GetUserCommentsDataAccessInterface, LikeCommentDataAccessInterface,
-        UnlikeCommentDataAccessInterface {
+        UnlikeCommentDataAccessInterface, DeleteAccountCommentDataAccessInterface {
 
     private static final String DEFAULT_PROPERTIES = "mongo.properties";
     private static final String DEFAULT_COLLECTION = "comments";
@@ -166,6 +167,14 @@ public class MongoCommentDataAccessObject implements
     public boolean deleteComment(String commentId) {
         return comments.deleteOne(Filters.eq(COMMENT_ID, commentId))
                 .getDeletedCount() > 0;
+    }
+
+    /**
+     * Deletes all comments made by authorUsername.
+     * @param authorUsername the author's username
+     */
+    public void deleteAllComments(String authorUsername) {
+        comments.deleteMany(Filters.eq(AUTHOR_USERNAME, authorUsername));
     }
 
     /**

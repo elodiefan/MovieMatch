@@ -37,10 +37,12 @@ public final class EditCommentInteractor implements EditCommentInputBoundary {
                     inputData.getUsername(), inputData.getCommentText());
             if (edited) {
                 presenter.prepareSuccessView(true);
-            } else {
+            }
+            else {
                 presenter.prepareFailView("Comment could not be edited.");
             }
-        } catch (IllegalArgumentException | IllegalStateException error) {
+        }
+        catch (IllegalArgumentException | IllegalStateException error) {
             if (presenter != null) {
                 presenter.prepareFailView(error.getMessage());
             }
@@ -63,7 +65,8 @@ public final class EditCommentInteractor implements EditCommentInputBoundary {
                 && comment.get().getAuthorUsername().equals(trimmedUsername)) {
             edited = commentDataAccessObject.editComment(trimmedCommentId,
                     trimmedCommentText);
-        } else {
+        }
+        else {
             edited = false;
         }
         return edited;
@@ -74,11 +77,14 @@ public final class EditCommentInteractor implements EditCommentInputBoundary {
                                          final String commentText) {
         if (isBlank(commentId)) {
             throw new IllegalArgumentException("Comment id cannot be empty.");
-        } else if (isBlank(username)) {
+        }
+        else if (isBlank(username)) {
             throw new IllegalArgumentException("Username cannot be empty.");
-        } else if (isBlank(commentText)) {
+        }
+        else if (isBlank(commentText)) {
             throw new IllegalArgumentException("Comment text cannot be empty.");
-        } else if (commentDataAccessObject == null) {
+        }
+        else if (commentDataAccessObject == null) {
             throw new IllegalStateException(
                     "Comment data access object has not been configured.");
         }
@@ -99,7 +105,8 @@ public final class EditCommentInteractor implements EditCommentInputBoundary {
         final String trimmedValue;
         if (value == null) {
             trimmedValue = "";
-        } else {
+        }
+        else {
             trimmedValue = value.trim();
         }
         return trimmedValue;
