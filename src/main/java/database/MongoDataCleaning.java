@@ -1,5 +1,8 @@
 package database;
 
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.util.Date;
 import java.util.List;
 
 import org.bson.Document;
@@ -15,6 +18,13 @@ public class MongoDataCleaning {
     private static final int INDEX_OF_DATE = 10;
     private static final String NEW_LINE = "\n";
 
+    private static final String SENDER = "sender";
+    private static final String BODY = "body";
+    private static final String TIMESTAMP = "timestamp";
+    private static final int INDEX_OF_START_TIME = 11;
+    private static final int INDEX_OF_END_TIME = 19;
+    private static final int TIME_SHIFT = 4;
+
     /**
      * Takes in raw MongoDB watchlist data and converts it to a String for a UserList watchlist.
      * @param watchlist the list of MongoDb Documents with watchlist data.
@@ -25,7 +35,7 @@ public class MongoDataCleaning {
         if (watchlist != null) {
             for (Document mediaToWatch : watchlist) {
                 final String date = formatDate(mediaToWatch.get(ADDED_AT,
-                        String.class));
+                        String.class), 0, INDEX_OF_DATE);
                 userWatchlist.append(mediaToWatch.get(MEDIA_TITLE,
                         String.class));
                 userWatchlist.append(" -- ");
@@ -46,7 +56,7 @@ public class MongoDataCleaning {
         if (watchHistory != null) {
             for (Document mediaWatched : watchHistory) {
                 final String date = formatDate(mediaWatched.get(WATCHED_AT,
-                        String.class));
+                        String.class), 0, INDEX_OF_DATE);
                 userWatchHistory.append(mediaWatched.get(MEDIA_TITLE,
                         String.class));
                 userWatchHistory.append(" -- ");
@@ -76,17 +86,42 @@ public class MongoDataCleaning {
     /**
      * Formats raw MongoDB date data as a shortened String for output.
      * @param rawDateData the raw MongoDB date value
+     * @param start start index
+     * @param end end index
      * @return the data as a shortened String.
      */
-    public static String formatDate(String rawDateData) {
+    public static String formatDate(String rawDateData, int start, int end) {
         // "2026-07-01T09:07:00-04:00"
         final String date;
-        if (rawDateData == null || rawDateData.length() < INDEX_OF_DATE) {
+        if (rawDateData == null || rawDateData.length() < end) {
             date = "";
-        } else {
-            date = rawDateData.substring(0, INDEX_OF_DATE);
+        }
+        else {
+            date = rawDateData.substring(start, end);
         }
         return date;
+    }
 
+    /**
+     * Formats raw MongoDB chat data as a String for output.
+     * @param chatHistory list of chat history
+     * @return the data as a String
+     */
+    public static String formatChat(List<Document> chatHistory) {
+        final StringBuilder formattedChat = new StringBuilder();
+        for (Document message: chatHistory) {
+            LocalDateTime localDateTime = message.get(TIMESTAMP, Date.class).toInstant().atZone(ZoneId.systemDefault())
+                    .toLocalDateTime();
+            localDateTime = localDateTime.plusHours(TIME_SHIFT);
+            final String timestamp = localDateTime.toString();
+            final String date = formatDate(timestamp, 0, INDEX_OF_DATE);
+            final String time = formatDate(timestamp, INDEX_OF_START_TIME, INDEX_OF_END_TIME);
+            formattedChat.append(message.get(SENDER, String.class));
+            formattedChat.append(" - ");
+            formattedChat.append(message.get(BODY, String.class));
+            formattedChat.append(" (" + date + ", " + time + ")");
+            formattedChat.append(NEW_LINE);
+        }
+        return formattedChat.toString();
     }
 }

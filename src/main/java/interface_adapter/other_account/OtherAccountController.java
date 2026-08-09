@@ -4,7 +4,9 @@ import interface_adapter.ViewManagerModel;
 import interface_adapter.get_lists.GetListsController;
 import interface_adapter.search_user.SearchUserViewModel;
 import use_case.access_message_chat.AccessMessageChatInputBoundary;
+import use_case.access_message_chat.AccessMessageChatInputData;
 import use_case.block_user.BlockUserInputBoundary;
+import use_case.block_user.BlockUserInputData;
 //import use_case.get_lists.get_watchlist.GetWatchlistInputBoundary;
 //import use_case.get_lists.get_watch_history.GetWatchHistoryInputBoundary;
 //import use_case.get_reviews.GetReviews.InputBoundary;
@@ -39,7 +41,8 @@ public class OtherAccountController {
      * @param otherUsername the username of the other user
      */
     public void executeBlockUser(String otherUsername) {
-        blockUserInteractor.execute(otherUsername);
+        final BlockUserInputData blockUserInputData = new BlockUserInputData(otherUsername);
+        blockUserInteractor.execute(blockUserInputData);
     }
 
     /**
@@ -65,15 +68,12 @@ public class OtherAccountController {
     // TODO: get user reviews use case
 
     /**
-     * Opens the chat with this user, if messaging has been wired up yet.
-     * @param otherUsername the user to message
+     * Switches view to chatroom with other user.
+     * @param otherUsername username of the other user
      */
     public void goToMessages(String otherUsername) {
-        // Messaging is still being built, so this may not be connected yet.
-        // Without the guard the button throws instead of doing nothing.
-        if (accessMessageChatInteractor != null) {
-            accessMessageChatInteractor.execute(otherUsername);
-        }
+        final AccessMessageChatInputData accessMessageChatInputData = new AccessMessageChatInputData(otherUsername);
+        accessMessageChatInteractor.execute(accessMessageChatInputData);
     }
 
     /**

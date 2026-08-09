@@ -33,6 +33,17 @@ public class OtherAccountState {
         this.blocked = blocked;
     }
 
+    /**
+     * Shows next block action available.
+     * @return next block action available to current user
+     */
+    public String getBlockStatus() {
+        if (isBlocked()) {
+            return "Unblock";
+        }
+        return "Block";
+    }
+
     public String getViewMessageError() {
         return viewMessageError;
     }

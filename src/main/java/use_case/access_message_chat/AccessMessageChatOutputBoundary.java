@@ -7,9 +7,9 @@ package use_case.access_message_chat;
 public interface AccessMessageChatOutputBoundary {
     /**
      * Prepares the success view for the access message chat use case.
-     * @param canViewChat whether the chat can be viewed
+     * @param outputData the output data
      */
-    void prepareAccessMessageChatSuccessView(boolean canViewChat);
+    void prepareAccessMessageChatSuccessView(AccessMessageChatOutputData outputData);
 
     /**
      * Prepares the fail view for the access message chat use case.

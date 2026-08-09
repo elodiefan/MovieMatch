@@ -83,11 +83,6 @@ public class InMemoryUserDataAccessObject implements UserDataAccessObject {
         this.currentUsername = username;
     }
 
-    @Override
-    public String getDisplayName() {
-        return "";
-    }
-
     // ---------- Reset password (after the security question is answered) ----------
 
     @Override
