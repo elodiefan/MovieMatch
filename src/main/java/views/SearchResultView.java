@@ -685,7 +685,12 @@ public class SearchResultView extends JPanel
                 try {
                     final ImageIcon poster = get();
                     posterLabel.setIcon(poster);
-                    posterLabel.setText(poster == null ? UNAVAILABLE_POSTER_TEXT : "");
+                    if (poster == null) {
+                        posterLabel.setText(UNAVAILABLE_POSTER_TEXT);
+                    }
+                    else {
+                        posterLabel.setText("");
+                    }
                 }
                 catch (InterruptedException exception) {
                     Thread.currentThread().interrupt();

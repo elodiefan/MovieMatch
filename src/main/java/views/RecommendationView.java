@@ -186,7 +186,7 @@ public class RecommendationView extends JPanel implements PropertyChangeListener
 
     private void addSection(RecommendationSection section) {
         final JLabel heading = new JLabel(section.getHeading());
-        heading.setFont(UiTheme.sectionFont());
+        heading.setFont(UITheme.sectionFont());
         heading.setAlignmentX(Component.LEFT_ALIGNMENT);
         heading.setBorder(BorderFactory.createEmptyBorder(SECTION_GAP, 0, 4, 0));
         sectionsPanel.add(heading);

@@ -38,7 +38,7 @@ import interface_adapter.settings.SettingsViewModel;
 /**
  * The application's look and feel.
  */
-public final class UiTheme {
+public final class UITheme {
 
     public static final String CONTROL_KEY = "control";
     /**
@@ -114,7 +114,7 @@ public final class UiTheme {
     /**
      * Marks a row this class has already sized, so it can be resized later.
      */
-    private static final String PINNED = "UiTheme.pinnedRow";
+    private static final String PINNED = "UITheme.pinnedRow";
 
     private static final String PREFERRED_FONT = "Segoe UI";
 
@@ -149,7 +149,7 @@ public final class UiTheme {
         "PasswordField.font", "CheckBox.font", "RadioButton.font", "ComboBox.font",
         "List.font", "Table.font", "TextArea.font", "TitledBorder.font", "Slider.font"};
 
-    private UiTheme() {
+    private UITheme() {
     }
 
     /**
@@ -207,7 +207,12 @@ public final class UiTheme {
                 styleFirstLabelAsTitle((Container) card, textSize);
             }
         }
-        root.setBackground(darkMode ? DARK_BACKGROUND : BACKGROUND);
+        if (darkMode) {
+            root.setBackground(DARK_BACKGROUND);
+        }
+        else {
+            root.setBackground(BACKGROUND);
+        }
 
         repinRows(root);
         resizeWindowForTextSize(root, textSize);
@@ -405,7 +410,12 @@ public final class UiTheme {
      */
     public static JLabel asTitle(JLabel label, int textSize) {
         label.setFont(baseFont(Font.BOLD, (int) Math.round(textSize * TITLE_SCALE)));
-        label.setForeground(darkModeActive() ? DARK_TEXT : TEXT);
+        if (darkModeActive()) {
+            label.setForeground(DARK_TEXT);
+        }
+        else {
+            label.setForeground(TEXT);
+        }
         return label;
     }
 
@@ -426,7 +436,12 @@ public final class UiTheme {
     public static void padScreen(JComponent view) {
         view.setBorder(BorderFactory.createEmptyBorder(
                 PAGE_PADDING, PAGE_PADDING, PAGE_PADDING, PAGE_PADDING));
-        view.setBackground(darkModeActive() ? DARK_BACKGROUND : BACKGROUND);
+        if (darkModeActive()) {
+            view.setBackground(DARK_BACKGROUND);
+        }
+        else {
+            view.setBackground(BACKGROUND);
+        }
     }
 
     /**
@@ -536,10 +551,34 @@ public final class UiTheme {
      * @param darkMode the dark mode
      */
     public static void applyTo(Component root, boolean darkMode) {
-        final Color background = darkMode ? DARK_BACKGROUND : BACKGROUND;
-        final Color surface = darkMode ? DARK_SURFACE : SURFACE;
-        final Color foreground = darkMode ? DARK_TEXT : TEXT;
-        final Color border = darkMode ? DARK_BORDER : BORDER;
+        final Color background;
+        if (darkMode) {
+            background = DARK_BACKGROUND;
+        }
+        else {
+            background = BACKGROUND;
+        }
+        final Color surface;
+        if (darkMode) {
+            surface = DARK_SURFACE;
+        }
+        else {
+            surface = SURFACE;
+        }
+        final Color foreground;
+        if (darkMode) {
+            foreground = DARK_TEXT;
+        }
+        else {
+            foreground = TEXT;
+        }
+        final Color border;
+        if (darkMode) {
+            border = DARK_BORDER;
+        }
+        else {
+            border = BORDER;
+        }
 
         if (root instanceof JPanel) {
             root.setBackground(background);

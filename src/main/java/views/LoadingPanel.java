@@ -27,11 +27,11 @@ public class LoadingPanel extends JPanel {
 
     public LoadingPanel(String initialMessage) {
         message = new JLabel(initialMessage, SwingConstants.CENTER);
-        message.setFont(UiTheme.sectionFont());
+        message.setFont(UITheme.sectionFont());
         message.setAlignmentX(Component.CENTER_ALIGNMENT);
 
         detail = new JLabel(" ", SwingConstants.CENTER);
-        detail.setForeground(UiTheme.MUTED_TEXT);
+        detail.setForeground(UITheme.MUTED_TEXT);
         detail.setAlignmentX(Component.CENTER_ALIGNMENT);
 
         bar = new JProgressBar();

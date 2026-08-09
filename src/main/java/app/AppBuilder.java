@@ -192,7 +192,7 @@ import views.SearchView;
 import views.SecurityQuestionView;
 import views.SettingsView;
 import views.SignupView;
-import views.UiTheme;
+import views.UITheme;
 import views.ViewManager;
 
 /**
@@ -1092,17 +1092,17 @@ public class AppBuilder {
         // screen, so no view has to know about the theme.
         for (Component card : cardPanel.getComponents()) {
             if (card instanceof JComponent) {
-                UiTheme.padScreen((JComponent) card);
+                UITheme.padScreen((JComponent) card);
             }
-            UiTheme.applyTo(card);
+            UITheme.applyTo(card);
             // Before the heading is styled, so the heading keeps its own size.
-            UiTheme.applyDefaultTextSize(card);
-            UiTheme.styleFirstLabelAsTitle((Container) card);
+            UITheme.applyDefaultTextSize(card);
+            UITheme.styleFirstLabelAsTitle((Container) card);
             if (card instanceof JPanel) {
-                UiTheme.tidyVerticalScreen((JPanel) card);
+                UITheme.tidyVerticalScreen((JPanel) card);
             }
         }
-        cardPanel.setBackground(UiTheme.BACKGROUND);
+        cardPanel.setBackground(UITheme.BACKGROUND);
 
         // CardLayout stretches the active screen to fill, so putting the card
         // panel in the centre is what makes the app respond to a resize.

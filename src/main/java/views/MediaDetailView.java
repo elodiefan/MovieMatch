@@ -353,8 +353,12 @@ public class MediaDetailView extends JPanel implements PropertyChangeListener {
                 try {
                     final ImageIcon poster = get();
                     posterLabel.setIcon(poster);
-                    posterLabel.setText(poster == null ? UNAVAILABLE_POSTER_TEXT : ""
-                    );
+                    if (poster == null) {
+                        posterLabel.setText(UNAVAILABLE_POSTER_TEXT);
+                    }
+                    else {
+                        posterLabel.setText("");
+                    }
                 }
                 catch (InterruptedException exception) {
                     Thread.currentThread().interrupt();

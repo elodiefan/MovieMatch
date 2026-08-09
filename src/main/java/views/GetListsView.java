@@ -61,7 +61,7 @@ public class GetListsView extends JPanel implements PropertyChangeListener {
         this.getListsViewModel.addPropertyChangeListener(this);
 
         viewMessage = new JLabel("", SwingConstants.CENTER);
-        UiTheme.asTitle(viewMessage);
+        UITheme.asTitle(viewMessage);
         final JPanel labelPanel = new JPanel(new BorderLayout());
         labelPanel.add(viewMessage, BorderLayout.CENTER);
         labelPanel.setBorder(BorderFactory.createEmptyBorder(0, 0, TEXT_PADDING, 0));

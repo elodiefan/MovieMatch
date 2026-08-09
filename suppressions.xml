@@ -20,4 +20,5 @@
     <suppress checks="AvoidEscapedUnicodeCharacters"/>
     <suppress checks="CyclomaticComplexity"/>
     <suppress checks="NPathComplexity"/>
+    <suppress checks="UncommentedMain"/>
 </suppressions>

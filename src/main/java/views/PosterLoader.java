@@ -4,6 +4,7 @@ import java.awt.Image;
 import java.net.URI;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ExecutionException;
 
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
@@ -72,7 +73,7 @@ public final class PosterLoader {
                 catch (InterruptedException exception) {
                     Thread.currentThread().interrupt();
                 }
-                catch (Exception exception) {
+                catch (ExecutionException exception) {
                     // A missing or unreadable poster is not worth surfacing;
                     // the row still reads fine with its placeholder.
                     label.setIcon(null);

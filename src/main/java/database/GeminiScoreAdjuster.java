@@ -95,7 +95,11 @@ public class GeminiScoreAdjuster implements ScoreAdjuster {
             final String reply = send(buildPrompt(candidate, tasteProfile));
             return parse(reply);
         }
-        catch (IOException | RuntimeException exception) {
+        catch (IOException exception) {
+            throw new ScoreAdjustmentException(
+                    "Gemini could not be reached or its reply could not be read.", exception);
+        }
+        catch (RuntimeException exception) {
             throw new ScoreAdjustmentException(
                     "Gemini could not be reached or its reply could not be read.", exception);
         }

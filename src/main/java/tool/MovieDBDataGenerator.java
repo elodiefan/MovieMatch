@@ -16,7 +16,7 @@ import database.TMDBAPIClient;
 /**
  * Generates local movie and TV-show databases from TMDB.
  */
-public class MoviedbDataGenerator {
+public class MovieDBDataGenerator {
 
     private static final int MOVIE_TARGET = 100;
     private static final int TV_SHOW_TARGET = 100;
@@ -67,7 +67,7 @@ public class MoviedbDataGenerator {
      *
      * @param tmdbApiClient client used to communicate with TMDB
      */
-    public MoviedbDataGenerator(TMDBAPIClient tmdbApiClient) {
+    public MovieDBDataGenerator(TMDBAPIClient tmdbApiClient) {
         this.tmdbApiClient = tmdbApiClient;
         this.objectMapper = new ObjectMapper();
     }
@@ -79,8 +79,8 @@ public class MoviedbDataGenerator {
      * @throws IllegalStateException the exception thrown
      */
     public static void main(String[] args) {
-        final MoviedbDataGenerator generator =
-                new MoviedbDataGenerator(new TMDBAPIClient());
+        final MovieDBDataGenerator generator =
+                new MovieDBDataGenerator(new TMDBAPIClient());
 
         try {
             generator.generateDatabases();

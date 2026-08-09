@@ -71,7 +71,7 @@ public class SettingsView extends JPanel implements PropertyChangeListener {
         adultContentToggle.setSelected(false);
 
         final JLabel adultContentHint = new JLabel(SettingsViewModel.ADULT_CONTENT_HINT);
-        adultContentHint.setForeground(UiTheme.MUTED_TEXT);
+        adultContentHint.setForeground(UITheme.MUTED_TEXT);
         adultContentHint.setBorder(
                 BorderFactory.createEmptyBorder(0, HINT_INDENT, 0, 0));
 
@@ -131,7 +131,7 @@ public class SettingsView extends JPanel implements PropertyChangeListener {
             final boolean darkMode = state.isDarkMode();
             final int textSize = state.getTextSize();
             SwingUtilities.invokeLater(
-                    () -> UiTheme.applyAppearance(appearanceRoot, darkMode, textSize));
+                    () -> UITheme.applyAppearance(appearanceRoot, darkMode, textSize));
         }
     }
 

@@ -158,8 +158,12 @@ public class SecurityQuestionView extends JPanel implements PropertyChangeListen
             answerInputField.setText(state.getAnswer());
         }
 
-        questionLabel.setText(state.getSecurityQuestion().isEmpty()
-                ? EMPTY_TEXT : "Q: " + state.getSecurityQuestion());
+        if (state.getSecurityQuestion().isEmpty()) {
+            questionLabel.setText(EMPTY_TEXT);
+        }
+        else {
+            questionLabel.setText("Q: " + state.getSecurityQuestion());
+        }
 
         // Show the error if there is one, otherwise the (success) message.
         if (state.getError() != null && !state.getError().isEmpty()) {
