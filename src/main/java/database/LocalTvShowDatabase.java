@@ -76,6 +76,7 @@ public class LocalTvShowDatabase {
      * Loads TV shows from tvshows.json.
      *
      * @return TV shows loaded from the resource file
+     * @throws IllegalStateException the exception thrown
      */
     private List<TVShow> loadTvShows() {
         final List<TVShow> loadedTvShows = new ArrayList<>();
