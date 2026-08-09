@@ -21,6 +21,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.SwingWorker;
 
@@ -46,8 +47,11 @@ public class MediaDetailView extends JPanel implements PropertyChangeListener {
     private static final int POSTER_WIDTH = 140;
     private static final int POSTER_HEIGHT = 210;
     private static final int DETAIL_GAP = 12;
+    private static final int NO_DETAIL_GAP = 0;
     private static final int LOG_MESSAGE_WIDTH = 360;
-    private static final int LOG_MESSAGE_HEIGHT = 80;
+    private static final int LOG_MESSAGE_HEIGHT = 48;
+    private static final int SCROLL_UNIT_INCREMENT = 32;
+    private static final int SCROLL_BLOCK_INCREMENT = 180;
 
     private final String viewName = MediaDetailViewModel.VIEW_NAME;
 
@@ -144,9 +148,7 @@ public class MediaDetailView extends JPanel implements PropertyChangeListener {
                 event -> addCurrentMediaToWatchHistory()
         );
 
-        this.setLayout(
-                new BoxLayout(this, BoxLayout.Y_AXIS)
-        );
+        this.setLayout(new BorderLayout());
         this.setBorder(
                 BorderFactory.createEmptyBorder(
                         DETAIL_GAP,
@@ -156,7 +158,12 @@ public class MediaDetailView extends JPanel implements PropertyChangeListener {
                 )
         );
 
-        this.add(pageTitle);
+        final JPanel contentPanel = new JPanel();
+        contentPanel.setLayout(new BoxLayout(contentPanel, BoxLayout.Y_AXIS));
+
+        final JPanel topPanel = new JPanel();
+        topPanel.setLayout(new BoxLayout(topPanel, BoxLayout.Y_AXIS));
+        topPanel.add(pageTitle);
 
         final JPanel informationPanel = new JPanel();
         informationPanel.setLayout(
@@ -188,19 +195,34 @@ public class MediaDetailView extends JPanel implements PropertyChangeListener {
         detailHeaderPanel.setAlignmentX(Component.LEFT_ALIGNMENT);
         detailHeaderPanel.setBorder(
                 BorderFactory.createEmptyBorder(
-                        DETAIL_GAP, 0, DETAIL_GAP, 0
+                        NO_DETAIL_GAP, 0, 0, 0
                 )
         );
         detailHeaderPanel.add(posterLabel, BorderLayout.WEST);
         detailHeaderPanel.add(informationPanel, BorderLayout.CENTER);
 
-        this.add(detailHeaderPanel);
+        topPanel.add(detailHeaderPanel);
+        topPanel.setAlignmentX(Component.LEFT_ALIGNMENT);
+        mediaReviewsPanel.setAlignmentX(Component.LEFT_ALIGNMENT);
+        contentPanel.add(topPanel);
+        contentPanel.add(mediaReviewsPanel);
 
-        this.add(mediaReviewsPanel);
+        final JPanel bottomPanel = new JPanel();
+        bottomPanel.setLayout(new BoxLayout(bottomPanel, BoxLayout.Y_AXIS));
+        backButton.setAlignmentX(Component.LEFT_ALIGNMENT);
+        errorLabel.setAlignmentX(Component.LEFT_ALIGNMENT);
+        bottomPanel.add(backButton);
+        bottomPanel.add(errorLabel);
+        bottomPanel.setAlignmentX(Component.LEFT_ALIGNMENT);
+        contentPanel.add(bottomPanel);
 
-        this.add(backButton);
-
-        this.add(errorLabel);
+        final JScrollPane pageScrollPane = new JScrollPane(contentPanel);
+        pageScrollPane.setBorder(BorderFactory.createEmptyBorder());
+        pageScrollPane.getVerticalScrollBar().setUnitIncrement(
+                SCROLL_UNIT_INCREMENT);
+        pageScrollPane.getVerticalScrollBar().setBlockIncrement(
+                SCROLL_BLOCK_INCREMENT);
+        this.add(pageScrollPane, BorderLayout.CENTER);
     }
 
     public String getViewName() {

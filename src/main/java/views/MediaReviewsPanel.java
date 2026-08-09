@@ -1,8 +1,12 @@
 package views;
 
+import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dialog;
+import java.awt.FlowLayout;
+import java.awt.Font;
+import java.awt.Window;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.beans.PropertyChangeEvent;
@@ -11,6 +15,7 @@ import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 
+import javax.swing.AbstractButton;
 import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
@@ -19,10 +24,13 @@ import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JScrollBar;
 import javax.swing.JScrollPane;
+import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.JToggleButton;
 import javax.swing.SwingUtilities;
+import javax.swing.UIManager;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 
@@ -52,6 +60,22 @@ public final class MediaReviewsPanel extends JPanel
      * The card gap.
      */
     private static final int CARD_GAP = 10;
+    /**
+     * The gap between the reviews heading and the write button.
+     */
+    private static final int HEADER_GAP = 8;
+    /**
+     * Scale used for content inside review cards.
+     */
+    private static final float REVIEW_SECTION_TEXT_SCALE = 0.85F;
+    /**
+     * Extra points added to the reviews title.
+     */
+    private static final float REVIEW_TITLE_SIZE_INCREASE = 2.0F;
+    /**
+     * Preferred columns for wrapped review body text.
+     */
+    private static final int REVIEW_TEXT_COLUMNS = 50;
     /**
      * The comment gap.
      */
@@ -133,6 +157,10 @@ public final class MediaReviewsPanel extends JPanel
      * The loading content.
      */
     private boolean loadingContent;
+    /**
+     * The media item currently displayed in the reviews panel.
+     */
+    private String displayedMediaKey = "";
 
     /**
      * Handles this review or comment operation.
@@ -159,17 +187,35 @@ public final class MediaReviewsPanel extends JPanel
         }
 
         final JLabel title = new JLabel(MediaReviewsViewModel.TITLE_LABEL);
-        title.setAlignmentX(Component.CENTER_ALIGNMENT);
-        mediaTitleLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
-
+        title.setFont(reviewSectionFont().deriveFont(Font.BOLD,
+                reviewSectionFont().getSize2D() + REVIEW_TITLE_SIZE_INCREASE));
+        mediaTitleLabel.setFont(reviewSectionFont());
+        errorLabel.setFont(reviewSectionFont());
+        styleReviewSectionButton(writeReviewButton);
         reviewsPanel.setLayout(new BoxLayout(reviewsPanel, BoxLayout.Y_AXIS));
 
-        setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
-        add(title);
-        add(mediaTitleLabel);
-        add(errorLabel);
-        add(writeReviewButton);
-        add(new JScrollPane(reviewsPanel));
+        final JPanel titlePanel = new JPanel();
+        titlePanel.setLayout(new BoxLayout(titlePanel, BoxLayout.Y_AXIS));
+        title.setAlignmentX(Component.LEFT_ALIGNMENT);
+        mediaTitleLabel.setAlignmentX(Component.LEFT_ALIGNMENT);
+        titlePanel.add(title);
+        titlePanel.add(mediaTitleLabel);
+
+        final JPanel buttonPanel = new JPanel(new FlowLayout(
+                FlowLayout.RIGHT, 0, 0));
+        buttonPanel.add(writeReviewButton);
+
+        final JPanel headerRow = new JPanel(new BorderLayout(HEADER_GAP, 0));
+        headerRow.add(titlePanel, BorderLayout.CENTER);
+        headerRow.add(buttonPanel, BorderLayout.EAST);
+
+        final JPanel headerPanel = new JPanel(new BorderLayout());
+        headerPanel.add(headerRow, BorderLayout.NORTH);
+        headerPanel.add(errorLabel, BorderLayout.SOUTH);
+
+        setLayout(new BorderLayout());
+        add(headerPanel, BorderLayout.NORTH);
+        add(reviewsPanel, BorderLayout.CENTER);
 
         writeReviewButton.addActionListener(new WriteReviewListener());
 
@@ -230,10 +276,13 @@ public final class MediaReviewsPanel extends JPanel
      */
     private void updateView(final MediaReviewsState state) {
         if (state != null) {
+            final String mediaKey = createMediaKey(state);
+            final boolean newMediaLoaded = !mediaKey.equals(displayedMediaKey);
+            displayedMediaKey = mediaKey;
             mediaTitleLabel.setText(state.getMediaTitle());
             errorLabel.setText(state.getMediaReviewsError());
             if (!loadContent(state)) {
-                setReviews(state.getReviews());
+                setReviews(state.getReviews(), newMediaLoaded);
             }
         }
     }
@@ -279,12 +328,16 @@ public final class MediaReviewsPanel extends JPanel
     /**
      * Displays the given review rows.
      * @param reviews the review rows to display
+     * @param scrollToTop true when the media page should start at the first row
      */
-    private void setReviews(final List<MediaReviewRow> reviews) {
+    private void setReviews(final List<MediaReviewRow> reviews,
+                            final boolean scrollToTop) {
+        final JScrollPane scrollPane = getPageScrollPane();
+        final int previousScrollValue = getScrollValue(scrollPane);
         reviewsPanel.removeAll();
 
         if (reviews.isEmpty()) {
-            reviewsPanel.add(new JLabel(
+            reviewsPanel.add(createReviewLabel(
                     MediaReviewsViewModel.EMPTY_REVIEWS_MESSAGE));
         }
         else {
@@ -296,6 +349,63 @@ public final class MediaReviewsPanel extends JPanel
 
         reviewsPanel.revalidate();
         reviewsPanel.repaint();
+        restoreReviewScrollPosition(scrollToTop, previousScrollValue);
+    }
+
+    /**
+     * Restores the review list position after its contents are redrawn.
+     * @param scrollToTop true when the list should show the first row
+     * @param previousScrollValue the scroll position before the redraw
+     */
+    private void restoreReviewScrollPosition(final boolean scrollToTop,
+                                             final int previousScrollValue) {
+        SwingUtilities.invokeLater(() -> {
+            final JScrollPane scrollPane = getPageScrollPane();
+            if (scrollPane != null) {
+                final JScrollBar scrollBar = scrollPane.getVerticalScrollBar();
+                final int targetScrollValue;
+                if (scrollToTop) {
+                    targetScrollValue = scrollBar.getMinimum();
+                } else {
+                    targetScrollValue = Math.min(previousScrollValue,
+                            scrollBar.getMaximum());
+                }
+                scrollBar.setValue(targetScrollValue);
+            }
+        });
+    }
+
+    /**
+     * Returns the page scroll pane that owns this embedded panel.
+     * @return the page scroll pane, or null before the panel is attached
+     */
+    private JScrollPane getPageScrollPane() {
+        return (JScrollPane) SwingUtilities.getAncestorOfClass(
+                JScrollPane.class, this);
+    }
+
+    /**
+     * Returns a scroll pane's current vertical value.
+     * @param scrollPane the scroll pane to read
+     * @return the current vertical scroll value
+     */
+    private int getScrollValue(final JScrollPane scrollPane) {
+        final int scrollValue;
+        if (scrollPane == null) {
+            scrollValue = 0;
+        } else {
+            scrollValue = scrollPane.getVerticalScrollBar().getValue();
+        }
+        return scrollValue;
+    }
+
+    /**
+     * Creates a stable key for the currently displayed media item.
+     * @param state the media reviews state
+     * @return the media key
+     */
+    private String createMediaKey(final MediaReviewsState state) {
+        return state.getMediaType() + ":" + state.getMediaId();
     }
 
     /**
@@ -309,18 +419,18 @@ public final class MediaReviewsPanel extends JPanel
         card.setAlignmentX(Component.LEFT_ALIGNMENT);
         highlightSelectedReview(card, review);
 
-        card.add(new JLabel(review.getAuthorDisplayName()
+        card.add(createReviewLabel(review.getAuthorDisplayName()
                 + " (@" + review.getAuthorUsername() + ")"));
-        card.add(new JLabel("Rating: " + review.getRating() + "%"));
-        card.add(new JLabel("Created: " + formatTime(review.getCreatedAt())));
-        card.add(new JLabel("Updated: " + formatTime(review.getUpdatedAt())));
-        card.add(new JLabel("Likes: " + review.getLikeCount()));
-        card.add(new JLabel(review.getReviewText()));
+        card.add(createReviewLabel("Rating: " + review.getRating() + "%"));
+        card.add(createReviewLabel("Created: " + formatTime(review.getCreatedAt())));
+        card.add(createReviewLabel("Updated: " + formatTime(review.getUpdatedAt())));
+        card.add(createReviewLabel("Likes: " + review.getLikeCount()));
+        card.add(createReviewSectionTextArea(review.getReviewText()));
         if (isMovieMatchReview(review)) {
             card.add(createButtonPanel(review));
         }
         else {
-            card.add(new JLabel("External TMDB review"));
+            card.add(createReviewLabel("External TMDB review"));
             card.add(createExternalReviewButtonPanel(review));
         }
         card.add(createCommentsSection(review.getReviewId()));
@@ -328,8 +438,28 @@ public final class MediaReviewsPanel extends JPanel
         return card;
     }
 
+    private JLabel createReviewLabel(final String text) {
+        final JLabel label = new JLabel(text);
+        label.setAlignmentX(Component.LEFT_ALIGNMENT);
+        label.setFont(reviewSectionFont());
+        return label;
+    }
+
+    private JTextArea createReviewSectionTextArea(final String text) {
+        final JTextArea textArea = new JTextArea(text);
+        textArea.setEditable(false);
+        textArea.setFocusable(false);
+        textArea.setOpaque(false);
+        textArea.setLineWrap(true);
+        textArea.setWrapStyleWord(true);
+        textArea.setColumns(REVIEW_TEXT_COLUMNS);
+        textArea.setAlignmentX(Component.LEFT_ALIGNMENT);
+        textArea.setFont(reviewSectionFont());
+        return textArea;
+    }
+
     /**
-     * Highlights and scrolls to the selected review when there is one.
+     * Highlights the selected review when there is one.
      * @param card the review card
      * @param review the review row
      */
@@ -338,8 +468,6 @@ public final class MediaReviewsPanel extends JPanel
         final String selectedReviewId = mediaReviewsViewModel.getState()
                 .getSelectedReviewId();
         if (review.getReviewId().equals(selectedReviewId)) {
-            card.setOpaque(true);
-            card.setBackground(new Color(255, 249, 196));
             card.setBorder(BorderFactory.createLineBorder(Color.RED));
             SwingUtilities.invokeLater(() -> {
                 card.scrollRectToVisible(
@@ -357,10 +485,12 @@ public final class MediaReviewsPanel extends JPanel
         final JPanel buttonPanel = new JPanel();
         buttonPanel.setLayout(new BoxLayout(buttonPanel, BoxLayout.X_AXIS));
         buttonPanel.setAlignmentX(Component.LEFT_ALIGNMENT);
-        final JButton editButton =
+            final JButton editButton =
                 new JButton(MediaReviewsViewModel.EDIT_BUTTON_LABEL);
         final JButton deleteButton =
                 new JButton(MediaReviewsViewModel.DELETE_BUTTON_LABEL);
+        styleReviewSectionButton(editButton);
+        styleReviewSectionButton(deleteButton);
         final JToggleButton heartButton = createHeartButton(
                 MediaReviewsViewModel.LIKE_BUTTON_LABEL);
         final boolean ownedByCurrentUser = isWrittenByCurrentUser(
@@ -419,7 +549,7 @@ public final class MediaReviewsPanel extends JPanel
         section.setAlignmentX(Component.LEFT_ALIGNMENT);
 
         if (commentsViewModel != null) {
-            section.add(new JLabel(CommentsViewModel.TITLE_LABEL));
+            section.add(createReviewLabel(CommentsViewModel.TITLE_LABEL));
             section.add(createWriteCommentButton(reviewId));
             boolean hasComments = false;
             for (CommentRow comment : commentsViewModel.getState()
@@ -431,7 +561,7 @@ public final class MediaReviewsPanel extends JPanel
                 }
             }
             if (!hasComments) {
-                section.add(new JLabel(
+                section.add(createReviewLabel(
                         CommentsViewModel.EMPTY_COMMENTS_MESSAGE));
             }
         }
@@ -448,6 +578,7 @@ public final class MediaReviewsPanel extends JPanel
         final JButton commentButton =
                 new JButton(CommentsViewModel.WRITE_COMMENT_BUTTON_LABEL);
         commentButton.setAlignmentX(Component.LEFT_ALIGNMENT);
+        styleReviewSectionButton(commentButton);
         commentButton.addActionListener(new WriteCommentListener(reviewId));
         return commentButton;
     }
@@ -465,18 +596,18 @@ public final class MediaReviewsPanel extends JPanel
         card.setAlignmentX(Component.LEFT_ALIGNMENT);
         highlightSelectedComment(card, comment);
 
-        card.add(new JLabel(comment.getAuthorDisplayName()
+        card.add(createReviewLabel(comment.getAuthorDisplayName()
                 + " (@" + comment.getAuthorUsername() + ")"));
-        card.add(new JLabel("Created: " + formatTime(comment.getCreatedAt())));
-        card.add(new JLabel("Likes: " + comment.getLikeCount()));
-        card.add(new JLabel(comment.getCommentText()));
+        card.add(createReviewLabel("Created: " + formatTime(comment.getCreatedAt())));
+        card.add(createReviewLabel("Likes: " + comment.getLikeCount()));
+        card.add(createReviewSectionTextArea(comment.getCommentText()));
         card.add(createCommentButtonPanel(comment));
 
         return card;
     }
 
     /**
-     * Highlights and scrolls to the selected comment when there is one.
+     * Highlights the selected comment when there is one.
      * @param card the comment card
      * @param comment the comment row
      */
@@ -484,8 +615,6 @@ public final class MediaReviewsPanel extends JPanel
                                           final CommentRow comment) {
         if (commentsViewModel != null && comment.getCommentId().equals(
                 commentsViewModel.getState().getSelectedCommentId())) {
-            card.setOpaque(true);
-            card.setBackground(new Color(255, 249, 196));
             card.setBorder(BorderFactory.createCompoundBorder(
                     BorderFactory.createLineBorder(Color.RED),
                     BorderFactory.createEmptyBorder(0,
@@ -510,6 +639,8 @@ public final class MediaReviewsPanel extends JPanel
                 new JButton(CommentsViewModel.REPLY_BUTTON_LABEL);
         final JButton deleteButton =
                 new JButton(CommentsViewModel.DELETE_BUTTON_LABEL);
+        styleReviewSectionButton(replyButton);
+        styleReviewSectionButton(deleteButton);
         final JToggleButton heartButton = createHeartButton(
                 CommentsViewModel.LIKE_BUTTON_LABEL);
         final boolean ownedByCurrentUser = isWrittenByCurrentUser(
@@ -542,8 +673,22 @@ public final class MediaReviewsPanel extends JPanel
      */
     private JToggleButton createHeartButton(final String tooltip) {
         final JToggleButton heartButton = new JToggleButton(HEART_UNSELECTED);
+        styleReviewSectionButton(heartButton);
         heartButton.setToolTipText(tooltip);
         return heartButton;
+    }
+
+    private void styleReviewSectionButton(final AbstractButton button) {
+        button.setFont(reviewSectionFont());
+    }
+
+    private Font reviewSectionFont() {
+        Font baseFont = UIManager.getFont("Label.font");
+        if (baseFont == null) {
+            baseFont = getFont();
+        }
+        return baseFont.deriveFont(
+                baseFont.getSize2D() * REVIEW_SECTION_TEXT_SCALE);
     }
 
     /**
@@ -653,6 +798,47 @@ public final class MediaReviewsPanel extends JPanel
     }
 
     /**
+     * Clears the selected review when writing a new review.
+     */
+    private final class WriteReviewListener implements ActionListener {
+        @Override
+        public void actionPerformed(final ActionEvent event) {
+            final MediaReviewsState state = mediaReviewsViewModel.getState();
+            state.setSelectedReviewId("");
+            if (mediaReviewsController != null && hasCurrentUser()) {
+                final boolean canCreateReview =
+                        mediaReviewsController.canCreateReview(
+                                state.getMediaId(), state.getMediaType(),
+                                currentUsername);
+                if (canCreateReview) {
+                    final Double rating =
+                            promptForRating("Rating percentage:");
+                    if (rating != null) {
+                        final String reviewText =
+                                promptForText("Review text:");
+                        mediaReviewsController.createReview(
+                                state.getMediaId(), state.getMediaType(),
+                                state.getMediaTitle(),
+                                state.getReleaseYear(),
+                                state.getPosterPath(), currentUsername,
+                                currentDisplayName, rating, reviewText);
+                        if (isBlank(mediaReviewsViewModel.getState()
+                                .getMediaReviewsError())) {
+                            mediaReviewsController.loadMediaReviews(
+                                    state.getMediaId(),
+                                    state.getMediaType());
+                        }
+                    }
+                } else {
+                    JOptionPane.showMessageDialog(getDialogParent(),
+                            getReviewPermissionMessage());
+                }
+            }
+            mediaReviewsViewModel.firePropertyChanged();
+        }
+    }
+
+    /**
      * Returns the review permission message shown before writing a review.
      * @return the review permission message
      */
@@ -670,13 +856,53 @@ public final class MediaReviewsPanel extends JPanel
     }
 
     /**
+     * Selects a review in the view model state.
+     */
+    private final class SelectReviewListener implements ActionListener {
+        /**
+         * The review id.
+         */
+        private final String reviewId;
+
+        private SelectReviewListener(final String inputReviewId) {
+            this.reviewId = inputReviewId;
+        }
+
+        @Override
+        public void actionPerformed(final ActionEvent event) {
+            final MediaReviewsState state = mediaReviewsViewModel.getState();
+            state.setSelectedReviewId(reviewId);
+            if (mediaReviewsController != null && !isBlank(currentUsername)) {
+                final String command =
+                        ((JButton) event.getSource()).getText();
+                if (MediaReviewsViewModel.DELETE_BUTTON_LABEL.equals(command)) {
+                    mediaReviewsController.deleteReview(reviewId,
+                            currentUsername);
+                } else {
+                    final Double rating =
+                            promptForRating("New rating percentage:");
+                    if (rating != null) {
+                        final String reviewText =
+                                promptForText("New review text:");
+                        mediaReviewsController.editReview(reviewId,
+                                currentUsername, rating, reviewText);
+                    }
+                }
+                mediaReviewsController.loadMediaReviews(state.getMediaId(),
+                        state.getMediaType());
+            }
+            mediaReviewsViewModel.firePropertyChanged();
+        }
+    }
+
+    /**
      * Opens a rating dialog that cannot be submitted until valid.
      * @param title the dialog title
      * @return the rating, or null if cancelled
      */
     private Double promptForRating(final String title) {
         final JDialog dialog = new JDialog(
-                SwingUtilities.getWindowAncestor(this), title,
+                getDialogParent(), title,
                 Dialog.ModalityType.APPLICATION_MODAL);
         final JTextField ratingField = new JTextField(12);
         final JLabel validationLabel = new JLabel(" ");
@@ -708,9 +934,26 @@ public final class MediaReviewsPanel extends JPanel
         dialog.add(inputPanel);
         dialog.add(buttonPanel, java.awt.BorderLayout.SOUTH);
         dialog.pack();
-        dialog.setLocationRelativeTo(this);
+        dialog.setLocationRelativeTo(getDialogParent());
         dialog.setVisible(true);
         return rating[0];
+    }
+
+    /**
+     * Opens a centered text prompt.
+     * @param message the prompt message
+     * @return the entered text, or null if cancelled
+     */
+    private String promptForText(final String message) {
+        return JOptionPane.showInputDialog(getDialogParent(), message);
+    }
+
+    /**
+     * Returns the owning window used to center dialogs.
+     * @return the owning window
+     */
+    private Window getDialogParent() {
+        return SwingUtilities.getWindowAncestor(this);
     }
 
     private Double parseRating(final String ratingText) {
@@ -867,8 +1110,7 @@ public final class MediaReviewsPanel extends JPanel
         @Override
         public void actionPerformed(final ActionEvent event) {
             if (commentsController != null && hasCurrentUser()) {
-                final String commentText = JOptionPane.showInputDialog(
-                        MediaReviewsPanel.this, "Comment text:");
+                final String commentText = promptForText("Comment text:");
                 if (!isBlank(commentText)) {
                     commentsController.createComment(reviewId, "",
                             currentUsername, currentDisplayName, commentText);
@@ -913,8 +1155,7 @@ public final class MediaReviewsPanel extends JPanel
                 if (reply) {
                     commentsViewModel.getState().setParentCommentId(commentId);
                     if (commentsController != null && hasCurrentUser()) {
-                        final String commentText = JOptionPane.showInputDialog(
-                                MediaReviewsPanel.this, "Reply text:");
+                        final String commentText = promptForText("Reply text:");
                         if (!isBlank(commentText)) {
                             commentsController.createComment(reviewId,
                                     commentId, currentUsername,
