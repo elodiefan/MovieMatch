@@ -158,12 +158,4 @@ public class MongoMessagesDataAccessObject implements DeleteAccountMessageDataAc
     public void close() {
         this.mongoClient.close();
     }
-
-//
-//    /**
-//     * Deletes every message in the scratch collection.
-//     */
-//    public void deleteEverything() {
-//        this.messages.deleteMany(new Document());
-//    }
 }
