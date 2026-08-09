@@ -1,0 +1,43 @@
+@startuml
+allowmixing
+left to right direction
+
+skinparam shadowing false
+skinparam linetype ortho
+skinparam nodesep 45
+skinparam ranksep 55
+
+class CreateReviewInteractor
+interface CreateReviewDataAccessInterface
+class GetMediaReviewsInteractor
+interface GetMediaReviewsDataAccessInterface
+
+class MongoReviewDataAccessObject
+class InMemoryReviewDataAccessObject
+class CombinedMediaReviewDataAccessObject
+class TmdbReviewDataAccessObject
+
+class Review
+database MongoDB
+class TMDBAPI
+
+CreateReviewInteractor --> CreateReviewDataAccessInterface
+CreateReviewInteractor --> Review
+
+MongoReviewDataAccessObject ..|> CreateReviewDataAccessInterface
+InMemoryReviewDataAccessObject ..|> CreateReviewDataAccessInterface
+
+MongoReviewDataAccessObject --> MongoDB
+MongoReviewDataAccessObject --> Review
+InMemoryReviewDataAccessObject --> Review
+
+GetMediaReviewsInteractor --> GetMediaReviewsDataAccessInterface
+GetMediaReviewsInteractor --> Review
+
+CombinedMediaReviewDataAccessObject ..|> GetMediaReviewsDataAccessInterface
+CombinedMediaReviewDataAccessObject --> MongoReviewDataAccessObject
+CombinedMediaReviewDataAccessObject --> TmdbReviewDataAccessObject
+TmdbReviewDataAccessObject --> TMDBAPI
+TmdbReviewDataAccessObject --> Review
+
+@enduml
