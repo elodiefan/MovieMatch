@@ -13,7 +13,7 @@ public class SettingsInteractor implements SettingsInputBoundary {
     /**
      * Largest size the layouts still hold together at.
      */
-    public static final int MAX_TEXT_SIZE = 36;
+    public static final int MAX_TEXT_SIZE = 25;
 
     /**
      * The size the application starts at.

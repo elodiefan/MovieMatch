@@ -6,6 +6,8 @@ import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Insets;
+import java.awt.Toolkit;
+import java.awt.Window;
 import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.List;
@@ -122,6 +124,11 @@ public final class UiTheme {
      * rather than two that can quietly disagree.
      */
     private static final int BASE_FONT_SIZE = SettingsViewModel.DEFAULT_TEXT_SIZE;
+    private static final int DEFAULT_WINDOW_WIDTH = 900;
+    private static final int DEFAULT_WINDOW_HEIGHT = 640;
+    private static final int MIN_WINDOW_WIDTH = 640;
+    private static final int MIN_WINDOW_HEIGHT = 480;
+    private static final double MAX_SCREEN_USAGE = 0.9;
 
     /**
      * How much larger a screen heading is than its body text.
@@ -206,9 +213,32 @@ public final class UiTheme {
         // Larger text means taller rows, and the layout pass pinned each row to
         // the height it had at the old size. Left alone, the content clips.
         repinRows(root);
+        resizeWindowForTextSize(root, textSize);
 
         root.revalidate();
         root.repaint();
+    }
+
+    private static void resizeWindowForTextSize(final Component root,
+                                                final int textSize) {
+        final Window window = SwingUtilities.getWindowAncestor(root);
+        if (window != null) {
+            final double scale = (double) textSize / BASE_FONT_SIZE;
+            final Dimension screenSize = Toolkit.getDefaultToolkit()
+                    .getScreenSize();
+            final int maxWidth = (int) Math.round(
+                    screenSize.width * MAX_SCREEN_USAGE);
+            final int maxHeight = (int) Math.round(
+                    screenSize.height * MAX_SCREEN_USAGE);
+            final int width = Math.min(maxWidth, Math.max(MIN_WINDOW_WIDTH,
+                    (int) Math.round(DEFAULT_WINDOW_WIDTH * scale)));
+            final int height = Math.min(maxHeight, Math.max(MIN_WINDOW_HEIGHT,
+                    (int) Math.round(DEFAULT_WINDOW_HEIGHT * scale)));
+            final Dimension windowSize = new Dimension(width, height);
+            window.setPreferredSize(windowSize);
+            window.setSize(windowSize);
+            window.validate();
+        }
     }
 
     private static void putPalette(boolean darkMode) {
