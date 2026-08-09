@@ -2,7 +2,6 @@ package use_case.security_question;
 
 /**
  * Input boundary for the "Change Password via Security Question" use case.
- * <p>
  * The controller talks to the interactor only through this interface, so the
  * interface_adapter layer never depends on the concrete interactor. There are
  * two steps in this use case:

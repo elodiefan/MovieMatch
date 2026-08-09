@@ -17,7 +17,6 @@ public class InMemoryContentPreferences
 
     /**
      * Off until the user asks for it.
-     *
      * Written on the UI thread when the checkbox changes and read on a
      * background thread while recommendations load, so the two threads have to
      * agree on its value.

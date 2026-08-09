@@ -32,6 +32,9 @@ public class TmdbMediaCatalogue implements MediaCatalogueDataAccessInterface {
     private static final String GENRE_IDS_FIELD = "genre_ids";
     private static final String VOTE_AVERAGE_FIELD = "vote_average";
     private static final String ORIGINAL_LANGUAGE_FIELD = "original_language";
+    private static final String OVERVIEW = "overview";
+    private static final String POSTER_PATH = "poster_path";
+    private static final String NAME = "name";
 
     private final TmdbApiClient tmdbApiClient;
     private final ObjectMapper objectMapper = new ObjectMapper();
@@ -140,14 +143,14 @@ public class TmdbMediaCatalogue implements MediaCatalogueDataAccessInterface {
                 item.path(ORIGINAL_LANGUAGE_FIELD).asText(),
                 new ArrayList<>(),
                 0,
-                item.path("overview").asText(""),
-                item.path("poster_path").asText(""));
+                item.path(OVERVIEW).asText(""),
+                item.path(POSTER_PATH).asText(""));
     }
 
     private TVShow toTvSummary(JsonNode item) {
         return new TVShow(
                 item.path(ID_FIELD).asInt(),
-                item.path("name").asText(),
+                item.path(NAME).asText(),
                 parseYear(item.path("first_air_date").asText()),
                 item.path(VOTE_AVERAGE_FIELD).asDouble(),
                 toGenres(item.path(GENRE_IDS_FIELD)),
@@ -155,14 +158,14 @@ public class TmdbMediaCatalogue implements MediaCatalogueDataAccessInterface {
                 new ArrayList<>(),
                 0,
                 0,
-                item.path("overview").asText(""),
-                item.path("poster_path").asText(""));
+                item.path(OVERVIEW).asText(""),
+                item.path(POSTER_PATH).asText(""));
     }
 
     private Movie toMovie(JsonNode details) {
         final List<Genre> genres = new ArrayList<>();
         for (JsonNode genre : details.path("genres")) {
-            genres.add(new Genre(genre.path(ID_FIELD).asInt(), genre.path("name").asText()));
+            genres.add(new Genre(genre.path(ID_FIELD).asInt(), genre.path(NAME).asText()));
         }
         return new Movie(
                 details.path(ID_FIELD).asInt(),
@@ -173,8 +176,8 @@ public class TmdbMediaCatalogue implements MediaCatalogueDataAccessInterface {
                 details.path(ORIGINAL_LANGUAGE_FIELD).asText(),
                 new ArrayList<>(),
                 details.path("runtime").asInt(),
-                details.path("overview").asText(""),
-                details.path("poster_path").asText(""));
+                details.path(OVERVIEW).asText(""),
+                details.path(POSTER_PATH).asText(""));
     }
 
     /**
@@ -216,7 +219,7 @@ public class TmdbMediaCatalogue implements MediaCatalogueDataAccessInterface {
 
     private void addGenreNames(String json) throws IOException {
         for (JsonNode genre : objectMapper.readTree(json).path("genres")) {
-            genreNames.put(genre.path(ID_FIELD).asInt(), genre.path("name").asText());
+            genreNames.put(genre.path(ID_FIELD).asInt(), genre.path(NAME).asText());
         }
     }
 
@@ -234,7 +237,8 @@ public class TmdbMediaCatalogue implements MediaCatalogueDataAccessInterface {
     }
 
     /**
-     * Returns the distinct genres across some titles, used to build a taste profile from what a user has already engaged with.
+     * Returns the distinct genres across some titles, used to build a taste profile
+     * from what a user has already engaged with.
      *
      * @param media the media
      * @return the genres of

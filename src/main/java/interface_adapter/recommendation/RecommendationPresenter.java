@@ -30,7 +30,6 @@ public class RecommendationPresenter implements RecommendationOutputBoundary {
             state.setUsername(outputData.getUsername());
             state.setRecommendationError(null);
             state.setLoaded(true);
-
             recommendationViewModel.setState(state);
             recommendationViewModel.firePropertyChanged();
         });

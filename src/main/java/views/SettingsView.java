@@ -148,7 +148,8 @@ public class SettingsView extends JPanel implements PropertyChangeListener {
     }
 
     /**
-     * Sets the component a settings change should restyle, which is the panel holding every screen rather than this one.
+     * Sets the component a settings change should restyle,
+     * which is the panel holding every screen rather than this one.
      *
      * @param appearanceRoot the appearance root
      */

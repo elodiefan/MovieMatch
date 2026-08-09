@@ -42,6 +42,7 @@ public class MediaDetailView extends JPanel implements PropertyChangeListener {
 
     private static final String POSTER_BASE_URL =
             "https://image.tmdb.org/t/p/w342";
+    private static final String UNAVAILABLE_POSTER_TEXT = "Poster unavailable.";
     private static final int POSTER_WIDTH = 140;
     private static final int POSTER_HEIGHT = 210;
     private static final int DETAIL_GAP = 12;
@@ -242,7 +243,6 @@ public class MediaDetailView extends JPanel implements PropertyChangeListener {
 
     /**
      * Tells this screen how to find out who is signed in.
-     *
      * The reviews and comments panels refuse to act without a signed-in user,
      * and nothing was ever telling them who that is, so writing a review did
      * nothing at all. Nobody is signed in when the screen is built, so this
@@ -320,7 +320,7 @@ public class MediaDetailView extends JPanel implements PropertyChangeListener {
         posterLabel.setIcon(null);
 
         if (posterPath == null || posterPath.isEmpty()) {
-            posterLabel.setText("Poster unavailable.");
+            posterLabel.setText(UNAVAILABLE_POSTER_TEXT);
             return;
         }
 
@@ -330,46 +330,38 @@ public class MediaDetailView extends JPanel implements PropertyChangeListener {
             @Override
             protected ImageIcon doInBackground() {
                 try {
-                    final ImageIcon original =
-                            new ImageIcon(URI.create(
-                                    POSTER_BASE_URL + posterPath
-                            ).toURL());
+                    final ImageIcon original = new ImageIcon(URI.create(POSTER_BASE_URL + posterPath).toURL());
                     if (original.getIconWidth() <= 0) {
                         return null;
                     }
-                    final Image scaled = original.getImage().getScaledInstance(
-                            POSTER_WIDTH,
-                            POSTER_HEIGHT,
+                    final Image scaled = original.getImage().getScaledInstance(POSTER_WIDTH, POSTER_HEIGHT,
                             Image.SCALE_SMOOTH
                     );
                     return new ImageIcon(scaled);
                 }
-                catch (MalformedURLException | IllegalArgumentException
-                       exception) {
+                catch (MalformedURLException | IllegalArgumentException exception) {
                     return null;
                 }
             }
 
             @Override
             protected void done() {
-                if (!posterPath.equals(
-                        mediaDetailViewModel.getState().getPosterPath())) {
+                if (!posterPath.equals(mediaDetailViewModel.getState().getPosterPath())) {
                     return;
                 }
 
                 try {
                     final ImageIcon poster = get();
                     posterLabel.setIcon(poster);
-                    posterLabel.setText(
-                            poster == null ? "Poster unavailable." : ""
+                    posterLabel.setText(poster == null ? UNAVAILABLE_POSTER_TEXT : ""
                     );
                 }
                 catch (InterruptedException exception) {
                     Thread.currentThread().interrupt();
-                    posterLabel.setText("Poster unavailable.");
+                    posterLabel.setText(UNAVAILABLE_POSTER_TEXT);
                 }
                 catch (ExecutionException exception) {
-                    posterLabel.setText("Poster unavailable.");
+                    posterLabel.setText(UNAVAILABLE_POSTER_TEXT);
                 }
             }
         }.execute();

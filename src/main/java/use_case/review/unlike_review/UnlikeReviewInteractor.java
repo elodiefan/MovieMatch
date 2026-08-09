@@ -50,7 +50,8 @@ public final class UnlikeReviewInteractor implements UnlikeReviewInputBoundary {
             final boolean unliked = unlikeReview(inputData.getReviewId(),
                     inputData.getUsername());
             presenter.prepareSuccessView(unliked);
-        } catch (IllegalArgumentException | IllegalStateException error) {
+        }
+        catch (IllegalArgumentException | IllegalStateException error) {
             if (presenter != null) {
                 presenter.prepareFailView(error.getMessage());
             }
@@ -83,9 +84,11 @@ public final class UnlikeReviewInteractor implements UnlikeReviewInputBoundary {
                                           final String username) {
         if (isBlank(reviewId)) {
             throw new IllegalArgumentException("Review id cannot be empty.");
-        } else if (isBlank(username)) {
+        }
+        else if (isBlank(username)) {
             throw new IllegalArgumentException("Username cannot be empty.");
-        } else if (reviewDataAccessObject == null) {
+        }
+        else if (reviewDataAccessObject == null) {
             throw new IllegalStateException(
                     "Review data access object has not been configured.");
         }

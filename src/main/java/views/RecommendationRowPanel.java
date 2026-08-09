@@ -14,7 +14,6 @@ import interface_adapter.recommendation.RecommendationRow;
 
 /**
  * One suggested title: its poster, name, genre and the reason it was picked.
- *
  * Shared by the home page strip and the full recommendation screen so both
  * stay identical, and so a change to how a suggestion reads happens once.
  */
@@ -24,7 +23,6 @@ public class RecommendationRowPanel extends JPanel {
 
     /**
      * Roughly how many characters of explanation belong on a line.
-     *
      * A wrapped label needs a width in pixels, so it is worked out from the
      * text size rather than fixed, or the line length changes every time the
      * slider does.
@@ -78,7 +76,6 @@ public class RecommendationRowPanel extends JPanel {
 
     /**
      * Keeps the row the height it actually needs.
-     *
      * The lists these sit in hand any spare height to whichever rows will
      * accept it. Left alone that stretches every suggestion down a tall window
      * and strands the poster in an over-sized box. Width still fills, so the

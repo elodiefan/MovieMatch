@@ -1,8 +1,6 @@
 package views;
 
 import java.awt.Component;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
@@ -20,7 +18,6 @@ import interface_adapter.security_question.SecurityQuestionViewModel;
 
 /**
  * The View for recovering an account by answering a security question.
- * <p>
  * Layout, top to bottom:
  * <ol>
  * <li>a username field + a "Show question" button;</li>
@@ -35,12 +32,13 @@ import interface_adapter.security_question.SecurityQuestionViewModel;
 public class SecurityQuestionView extends JPanel implements PropertyChangeListener {
 
     private final String viewName = "security question";
+    private final String EMPTY_TEXT = " ";
     private final SecurityQuestionViewModel securityQuestionViewModel;
 
     private final JTextField usernameInputField = new JTextField(15);
     private final JTextField answerInputField = new JTextField(15);
-    private final JLabel questionLabel = new JLabel(" ");
-    private final JLabel messageLabel = new JLabel(" ");
+    private final JLabel questionLabel = new JLabel(EMPTY_TEXT);
+    private final JLabel messageLabel = new JLabel(EMPTY_TEXT);
 
     private final JButton showQuestion;
     private final JButton verify;
@@ -161,7 +159,7 @@ public class SecurityQuestionView extends JPanel implements PropertyChangeListen
         }
 
         questionLabel.setText(state.getSecurityQuestion().isEmpty()
-                ? " " : "Q: " + state.getSecurityQuestion());
+                ? EMPTY_TEXT : "Q: " + state.getSecurityQuestion());
 
         // Show the error if there is one, otherwise the (success) message.
         if (state.getError() != null && !state.getError().isEmpty()) {

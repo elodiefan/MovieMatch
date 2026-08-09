@@ -52,6 +52,8 @@ import interface_adapter.user_reviews.UserReviewsViewModel;
  */
 public final class MyReviewsView extends JPanel
         implements PropertyChangeListener {
+
+    private static final String UNAVAILABLE_POSTER_TEXT = "Poster unavailable";
     /**
      * The card gap.
      */
@@ -251,11 +253,13 @@ public final class MyReviewsView extends JPanel
             try {
                 userReviewsController.loadUserReviews(state.getUsername());
                 userReviewsController.loadUserComments(state.getUsername());
-            } finally {
+            }
+            finally {
                 loadingContent = false;
             }
             contentRequested = true;
-        } else {
+        }
+        else {
             contentRequested = false;
         }
         return contentRequested;
@@ -271,7 +275,8 @@ public final class MyReviewsView extends JPanel
         if (reviews.isEmpty()) {
             reviewsPanel.add(new JLabel(
                     UserReviewsViewModel.EMPTY_REVIEWS_MESSAGE));
-        } else {
+        }
+        else {
             for (UserReviewRow review : reviews) {
                 reviewsPanel.add(createReviewCard(review));
                 reviewsPanel.add(Box.createVerticalStrut(CARD_GAP));
@@ -292,7 +297,8 @@ public final class MyReviewsView extends JPanel
         if (comments.isEmpty()) {
             commentsPanel.add(new JLabel(
                     UserReviewsViewModel.EMPTY_COMMENTS_MESSAGE));
-        } else {
+        }
+        else {
             for (UserCommentRow comment : comments) {
                 commentsPanel.add(createCommentCard(comment));
                 commentsPanel.add(Box.createVerticalStrut(CARD_GAP));
@@ -405,7 +411,8 @@ public final class MyReviewsView extends JPanel
         final String yearText;
         if (releaseYear > 0) {
             yearText = " (" + releaseYear + ")";
-        } else {
+        }
+        else {
             yearText = "";
         }
         final JLabel titleLabel = new JLabel(mediaTitle + yearText);
@@ -515,8 +522,9 @@ public final class MyReviewsView extends JPanel
     private void updatePoster(final JLabel posterLabel,
                               final String posterPath) {
         if (posterPath == null || posterPath.isEmpty()) {
-            posterLabel.setText("Poster unavailable");
-        } else {
+            posterLabel.setText(UNAVAILABLE_POSTER_TEXT);
+        }
+        else {
             posterLabel.setText("Loading...");
             loadPosterInBackground(posterLabel, posterPath);
         }
@@ -547,7 +555,8 @@ public final class MyReviewsView extends JPanel
                         POSTER_WIDTH, POSTER_HEIGHT, Image.SCALE_SMOOTH);
                 poster = new ImageIcon(scaled);
             }
-        } catch (MalformedURLException | IllegalArgumentException exception) {
+        }
+        catch (MalformedURLException | IllegalArgumentException exception) {
             poster = null;
         }
         return poster;
@@ -558,12 +567,14 @@ public final class MyReviewsView extends JPanel
         try {
             final ImageIcon poster = worker.get();
             posterLabel.setIcon(poster);
-            posterLabel.setText(poster == null ? "Poster unavailable" : "");
-        } catch (InterruptedException exception) {
+            posterLabel.setText(poster == null ? UNAVAILABLE_POSTER_TEXT : "");
+        }
+        catch (InterruptedException exception) {
             Thread.currentThread().interrupt();
-            posterLabel.setText("Poster unavailable");
-        } catch (ExecutionException exception) {
-            posterLabel.setText("Poster unavailable");
+            posterLabel.setText(UNAVAILABLE_POSTER_TEXT);
+        }
+        catch (ExecutionException exception) {
+            posterLabel.setText(UNAVAILABLE_POSTER_TEXT);
         }
     }
 
@@ -576,7 +587,8 @@ public final class MyReviewsView extends JPanel
         final String formattedTime;
         if (dateTime == null) {
             formattedTime = "";
-        } else {
+        }
+        else {
             formattedTime = dateTime.format(TIME_FORMATTER);
         }
         return formattedTime;
@@ -614,7 +626,8 @@ public final class MyReviewsView extends JPanel
                 if (UserReviewsViewModel.DELETE_BUTTON_LABEL.equals(command)) {
                     userReviewsController.deleteReview(reviewId,
                             state.getUsername());
-                } else {
+                }
+                else {
                     final Double rating =
                             promptForRating("New rating percentage:");
                     if (rating != null) {
@@ -683,7 +696,8 @@ public final class MyReviewsView extends JPanel
             if (parsedRating >= MIN_RATING && parsedRating <= MAX_RATING) {
                 rating = parsedRating;
             }
-        } catch (NumberFormatException exception) {
+        }
+        catch (NumberFormatException exception) {
             rating = null;
         }
         return rating;
@@ -723,7 +737,8 @@ public final class MyReviewsView extends JPanel
             submitButton.setEnabled(validRating);
             if (isBlank(ratingField.getText()) || validRating) {
                 validationLabel.setText(" ");
-            } else {
+            }
+            else {
                 validationLabel.setText(RATING_ERROR);
             }
         }

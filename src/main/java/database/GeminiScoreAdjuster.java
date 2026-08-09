@@ -25,8 +25,6 @@ import use_case.recommendation.ScoreAdjustmentException;
  */
 public class GeminiScoreAdjuster implements ScoreAdjuster {
 
-    private final String DELIMITER = ", ";
-
     /**
      * Where the key is read from, matching how the TMDB token is supplied.
      */
@@ -53,10 +51,11 @@ public class GeminiScoreAdjuster implements ScoreAdjuster {
     private static final int TIMEOUT_SECONDS = 10;
     private static final int MAX_EXPLANATION_LENGTH = 200;
 
-    private final HttpClient httpClient;
-    private final ObjectMapper objectMapper = new ObjectMapper();
     private final String apiKey;
     private final String model;
+    private final String DELIMITER = ", ";
+    private final HttpClient httpClient;
+    private final ObjectMapper objectMapper = new ObjectMapper();
 
     public GeminiScoreAdjuster() {
         this(System.getenv(API_KEY_VARIABLE), System.getenv(MODEL_VARIABLE));

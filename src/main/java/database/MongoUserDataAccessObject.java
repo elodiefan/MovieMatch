@@ -391,7 +391,8 @@ public class MongoUserDataAccessObject implements UserDataAccessObject {
 
         if (!currentUserBlockList.contains(otherUsername)) {
             currentUserBlockList.add(otherUsername);
-            users.updateOne(Filters.eq(USERNAME, getCurrentUsername()), Updates.set(BLOCKED_USERS, currentUserBlockList));
+            users.updateOne(Filters.eq(USERNAME, getCurrentUsername()),
+                    Updates.set(BLOCKED_USERS, currentUserBlockList));
         }
     }
 
@@ -401,7 +402,8 @@ public class MongoUserDataAccessObject implements UserDataAccessObject {
 
         if (currentUserBlockList.contains(otherUsername)) {
             currentUserBlockList.remove(otherUsername);
-            users.updateOne(Filters.eq(USERNAME, getCurrentUsername()), Updates.set(BLOCKED_USERS, currentUserBlockList));
+            users.updateOne(Filters.eq(USERNAME, getCurrentUsername()),
+                    Updates.set(BLOCKED_USERS, currentUserBlockList));
         }
     }
 
@@ -538,11 +540,13 @@ public class MongoUserDataAccessObject implements UserDataAccessObject {
             if (MOVIE_TYPE.equals(mediaType)) {
                 detailsJson = tmdbApiClient.getMovieDetails(mediaId);
                 posterPath = parsePosterPath(detailsJson);
-            } else if (TV_TYPE.equals(mediaType)) {
+            }
+            else if (TV_TYPE.equals(mediaType)) {
                 detailsJson = tmdbApiClient.getTvShowDetails(mediaId);
                 posterPath = parsePosterPath(detailsJson);
             }
-        } catch (IOException | IllegalStateException exception) {
+        }
+        catch (IOException | IllegalStateException exception) {
             posterPath = "";
         }
         return posterPath;

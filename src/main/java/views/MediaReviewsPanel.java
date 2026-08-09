@@ -252,11 +252,13 @@ public final class MediaReviewsPanel extends JPanel
                 mediaReviewsController.loadMediaReviews(state.getMediaId(),
                         state.getMediaType());
                 refreshCommentsForReviews(state);
-            } finally {
+            }
+            finally {
                 loadingContent = false;
             }
             contentRequested = true;
-        } else {
+        }
+        else {
             contentRequested = false;
         }
         return contentRequested;
@@ -284,8 +286,9 @@ public final class MediaReviewsPanel extends JPanel
         if (reviews.isEmpty()) {
             reviewsPanel.add(new JLabel(
                     MediaReviewsViewModel.EMPTY_REVIEWS_MESSAGE));
-        } else {
-        for (MediaReviewRow review : reviews) {
+        }
+        else {
+            for (MediaReviewRow review : reviews) {
                 reviewsPanel.add(createReviewCard(review));
                 reviewsPanel.add(Box.createVerticalStrut(CARD_GAP));
             }
@@ -315,7 +318,8 @@ public final class MediaReviewsPanel extends JPanel
         card.add(new JLabel(review.getReviewText()));
         if (isMovieMatchReview(review)) {
             card.add(createButtonPanel(review));
-        } else {
+        }
+        else {
             card.add(new JLabel("External TMDB review"));
             card.add(createExternalReviewButtonPanel(review));
         }
@@ -337,8 +341,10 @@ public final class MediaReviewsPanel extends JPanel
             card.setOpaque(true);
             card.setBackground(new Color(255, 249, 196));
             card.setBorder(BorderFactory.createLineBorder(Color.RED));
-            SwingUtilities.invokeLater(() -> card.scrollRectToVisible(
-                    card.getBounds()));
+            SwingUtilities.invokeLater(() -> {
+                card.scrollRectToVisible(
+                        card.getBounds());
+            });
         }
     }
 
@@ -484,8 +490,10 @@ public final class MediaReviewsPanel extends JPanel
                     BorderFactory.createLineBorder(Color.RED),
                     BorderFactory.createEmptyBorder(0,
                             getCommentIndent(comment), 0, 0)));
-            SwingUtilities.invokeLater(() -> card.scrollRectToVisible(
-                    card.getBounds()));
+            SwingUtilities.invokeLater(() -> {
+                card.scrollRectToVisible(
+                        card.getBounds());
+            });
         }
     }
 
@@ -560,7 +568,8 @@ public final class MediaReviewsPanel extends JPanel
             heartButton.setText(HEART_SELECTED);
             heartButton.setForeground(Color.RED);
             heartButton.setToolTipText(selectedTooltip);
-        } else {
+        }
+        else {
             heartButton.setText(HEART_UNSELECTED);
             heartButton.setForeground(null);
             heartButton.setToolTipText(unselectedTooltip);
@@ -577,7 +586,8 @@ public final class MediaReviewsPanel extends JPanel
         if (comment.getParentCommentId() == null
                 || comment.getParentCommentId().isEmpty()) {
             indent = COMMENT_INDENT;
-        } else {
+        }
+        else {
             indent = REPLY_INDENT;
         }
         return indent;
@@ -592,7 +602,8 @@ public final class MediaReviewsPanel extends JPanel
         final String formattedTime;
         if (dateTime == null) {
             formattedTime = "";
-        } else {
+        }
+        else {
             formattedTime = dateTime.format(TIME_FORMATTER);
         }
         return formattedTime;
@@ -634,7 +645,8 @@ public final class MediaReviewsPanel extends JPanel
         final String trimmedValue;
         if (value == null) {
             trimmedValue = "";
-        } else {
+        }
+        else {
             trimmedValue = value.trim();
         }
         return trimmedValue;
@@ -674,7 +686,8 @@ public final class MediaReviewsPanel extends JPanel
                                     state.getMediaType());
                         }
                     }
-                } else {
+                }
+                else {
                     JOptionPane.showMessageDialog(MediaReviewsPanel.this,
                             getReviewPermissionMessage());
                 }
@@ -693,7 +706,8 @@ public final class MediaReviewsPanel extends JPanel
         final String message;
         if (isBlank(errorMessage)) {
             message = "You need to first add this media to your watch history.";
-        } else {
+        }
+        else {
             message = errorMessage;
         }
         return message;
@@ -722,7 +736,8 @@ public final class MediaReviewsPanel extends JPanel
                 if (MediaReviewsViewModel.DELETE_BUTTON_LABEL.equals(command)) {
                     mediaReviewsController.deleteReview(reviewId,
                             currentUsername);
-                } else {
+                }
+                else {
                     final Double rating =
                             promptForRating("New rating percentage:");
                     if (rating != null) {
@@ -792,7 +807,8 @@ public final class MediaReviewsPanel extends JPanel
             if (parsedRating >= MIN_RATING && parsedRating <= MAX_RATING) {
                 rating = parsedRating;
             }
-        } catch (NumberFormatException exception) {
+        }
+        catch (NumberFormatException exception) {
             rating = null;
         }
         return rating;
@@ -832,7 +848,8 @@ public final class MediaReviewsPanel extends JPanel
             submitButton.setEnabled(validRating);
             if (isBlank(ratingField.getText()) || validRating) {
                 validationLabel.setText(" ");
-            } else {
+            }
+            else {
                 validationLabel.setText(RATING_ERROR);
             }
         }
@@ -860,7 +877,8 @@ public final class MediaReviewsPanel extends JPanel
                 if (heartButton.isSelected()) {
                     mediaReviewsController.likeReview(reviewId,
                             currentUsername);
-                } else {
+                }
+                else {
                     mediaReviewsController.unlikeReview(reviewId,
                             currentUsername);
                 }
@@ -947,7 +965,8 @@ public final class MediaReviewsPanel extends JPanel
                             commentsController.loadReviewComments(reviewId);
                         }
                     }
-                } else if (commentsController != null
+                }
+                else if (commentsController != null
                         && !isBlank(currentUsername)) {
                     commentsController.deleteComment(commentId,
                             currentUsername);
@@ -978,7 +997,8 @@ public final class MediaReviewsPanel extends JPanel
             if (commentsController != null && !isBlank(currentUsername)) {
                 if (heartButton.isSelected()) {
                     commentsController.likeComment(commentId, currentUsername);
-                } else {
+                }
+                else {
                     commentsController.unlikeComment(commentId,
                             currentUsername);
                 }

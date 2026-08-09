@@ -14,13 +14,13 @@ import java.nio.charset.StandardCharsets;
  */
 public class TmdbApiClient {
 
+    private static final String PAGE_EQUALS = "&page=";
     private static final String BASE_URL =
             "https://api.themoviedb.org/3";
 
     /**
      * TMDB keyword ids for pornographic material: hentai, ecchi, softcore,
      * erotic, animated porn and pornography.
-     *
      * Joined with an encoded bar, which TMDB reads as "any of these". They were
      * chosen narrowly: films that are merely explicit keep their own keywords
      * and are not caught by these.
@@ -61,7 +61,6 @@ public class TmdbApiClient {
 
     /**
      * Creates a client with controlled dependencies for package-level tests.
-     *
      * @param requestSender sender used for HTTP requests
      * @param accessToken TMDB bearer token
      */
@@ -84,7 +83,6 @@ public class TmdbApiClient {
     /**
      * Searches for movies and TV shows from TMDB.
      * <a href="https://developer.themoviedb.org/reference/search-multi?utm_source=chatgpt.com">...</a>
-     *
      * @param keyword the title entered by the user
      * @param page the result page requested from TMDB
      * @return the complete JSON response from TMDB
@@ -100,38 +98,35 @@ public class TmdbApiClient {
         final String path =
                 "/search/multi"
                         + "?query=" + encodedKeyword
-                        + "&page=" + page;
+                        + PAGE_EQUALS + page;
 
         return sendGetRequest(path);
     }
 
     /**
      * Searches for movies only.
-     *
      * Multi-search also returns people, who are dropped on the way through, so
      * a page of it can yield nothing at all and its result count bears little
      * relation to how many films and shows there are. These endpoints return
      * only what the application can actually show.
-     *
      * @param keyword the keyword
      * @param page the page
      * @return the search movies
      * @throws IOException if the operation fails
      */
     public String searchMovies(String keyword, int page) throws IOException {
-        return sendGetRequest("/search/movie?query=" + encode(keyword) + "&page=" + page);
+        return sendGetRequest("/search/movie?query=" + encode(keyword) + PAGE_EQUALS + page);
     }
 
     /**
      * Searches for TV shows only.
-     *
      * @param keyword the keyword
      * @param page the page
      * @return the search tv shows
      * @throws IOException if the operation fails
      */
     public String searchTvShows(String keyword, int page) throws IOException {
-        return sendGetRequest("/search/tv?query=" + encode(keyword) + "&page=" + page);
+        return sendGetRequest("/search/tv?query=" + encode(keyword) + PAGE_EQUALS + page);
     }
 
     private static String encode(String keyword) {
@@ -140,10 +135,8 @@ public class TmdbApiClient {
 
     /**
      * Finds popular movies in the given genres.
-     *
      * Used to build recommendation candidates for someone whose taste profile
      * points at particular genres.
-     *
      * @param genreIds the genre ids
      * @param page the page
      * @return the discover movies
@@ -155,7 +148,6 @@ public class TmdbApiClient {
 
     /**
      * Finds popular movies in the given genres, optionally leaving adult ones out.
-     *
      * @param genreIds the genre ids
      * @param page the page
      * @param allowAdultContent whether adult titles may be returned
@@ -175,7 +167,6 @@ public class TmdbApiClient {
 
     /**
      * Finds popular TV shows in the given genres.
-     *
      * @param genreIds the genre ids
      * @param page the page
      * @return the discover tv shows
@@ -187,7 +178,6 @@ public class TmdbApiClient {
 
     /**
      * Finds popular TV shows in the given genres, optionally leaving adult ones out.
-     *
      * @param genreIds the genre ids
      * @param page the page
      * @param allowAdultContent whether adult titles may be returned
@@ -206,10 +196,8 @@ public class TmdbApiClient {
 
     /**
      * Returns what is popular right now, regardless of genre.
-     *
      * This is the fallback for a user with nothing in their lists yet, who has
      * no taste profile to narrow the search with.
-     *
      * @param page the page
      * @return the get popular movies
      * @throws IOException if the operation fails
@@ -220,9 +208,8 @@ public class TmdbApiClient {
 
     /**
      * Returns the TV shows that are popular right now.
-     *
      * @param page the page
-     * @return the get popular tv shows
+     * @return the popular tv shows
      * @throws IOException if the operation fails
      */
     public String getPopularTvShows(int page) throws IOException {
@@ -231,11 +218,9 @@ public class TmdbApiClient {
 
     /**
      * Returns popular movies, optionally leaving adult ones out.
-     *
      * The plain popular endpoints take no filters at all, so this asks discover
      * for the same thing ordered by popularity, which does. What comes back is
      * the popular list minus whatever was filtered.
-     *
      * @param page the page
      * @param allowAdultContent whether adult titles may be returned
      * @return the popular movies
@@ -248,7 +233,6 @@ public class TmdbApiClient {
 
     /**
      * Returns popular TV shows, optionally leaving adult ones out.
-     *
      * @param page the page
      * @param allowAdultContent whether adult titles may be returned
      * @return the popular tv shows
@@ -261,13 +245,11 @@ public class TmdbApiClient {
 
     /**
      * Builds the query parameters that keep adult titles out of a discover request.
-     *
      * The adult flag on its own is not enough. TMDB only sets it for material
      * catalogued as pornography, and leaves it false on plenty of titles that
      * are plainly not for a general audience, so filtering on it alone changes
      * nothing. What it does keep accurate is its keywords, and excluding those
      * removes the titles the flag misses.
-     *
      * @param allowAdultContent whether adult titles may be returned
      * @return the query parameters to append, empty when nothing is filtered
      */
@@ -281,8 +263,6 @@ public class TmdbApiClient {
 
     /**
      * Gets the official movie genre list from TMDB.
-     * ...
-     *
      * @return the get movie genres
      * @throws IOException if the operation fails
      */
@@ -294,8 +274,6 @@ public class TmdbApiClient {
 
     /**
      * Gets the official TV-show genre list from TMDB.
-     * ...
-     *
      * @return the get tv genres
      * @throws IOException if the operation fails
      */
@@ -309,8 +287,6 @@ public class TmdbApiClient {
      * Sends an authenticated GET request to TMDB.
      * As mentioned in TMDB API Reference, when response = 200, it is a seuccessful
      * response for GET endpoint.
-     * ...
-     *
      * @param path the path
      * @return the send get request
      * @throws IOException if the operation fails
@@ -352,7 +328,6 @@ public class TmdbApiClient {
 
     /**
      * Checks whether the TMDB token is available.
-     *
      * @throws IOException if the operation fails
      */
     private void validateAccessToken() throws IOException {
@@ -366,7 +341,6 @@ public class TmdbApiClient {
 
     /**
      * Gets complete movie details and credits from TMDB.
-     *
      * @param movieId the movie id
      * @return the get movie details
      * @throws IOException if the operation fails
@@ -381,7 +355,6 @@ public class TmdbApiClient {
 
     /**
      * Gets reviews for one movie from TMDB.
-     *
      * @param movieId the movie id
      * @return the get movie reviews
      * @throws IOException if the operation fails
@@ -392,7 +365,6 @@ public class TmdbApiClient {
 
     /**
      * Gets complete TV-show details and credits from TMDB.
-     *
      * @param tvShowId the tv show id
      * @return the get tv show details
      * @throws IOException if the operation fails
@@ -407,7 +379,6 @@ public class TmdbApiClient {
 
     /**
      * Gets reviews for one TV show from TMDB.
-     *
      * @param tvShowId the tv show id
      * @return the get tv show reviews
      * @throws IOException if the operation fails
@@ -418,7 +389,6 @@ public class TmdbApiClient {
 
     /**
      * Gets one page of movies from a TMDB endpoint.
-     *
      * @param categoryPath path and query parameters after /movie or /discover
      * @return the movie-list JSON response
      * @throws IOException if the request cannot be completed
@@ -429,7 +399,6 @@ public class TmdbApiClient {
 
     /**
      * Gets one page of TV shows from a TMDB endpoint.
-     *
      * @param categoryPath path and query parameters after /tv or /discover
      * @return the TV-show-list JSON response
      * @throws IOException if the request cannot be completed

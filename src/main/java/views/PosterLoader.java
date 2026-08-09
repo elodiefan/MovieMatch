@@ -12,10 +12,8 @@ import javax.swing.SwingWorker;
 
 /**
  * Fetches poster thumbnails and puts them on a label once they arrive.
- *
  * The path comes from the data layer as plain text; how big to draw it is a
  * display decision, so the address is assembled here rather than further in.
- *
  * Every poster is fetched off the UI thread and kept, so scrolling a list of
  * suggestions never stalls the window and the same artwork is only downloaded
  * once per run.
@@ -39,7 +37,6 @@ public final class PosterLoader {
 
     /**
      * Puts the poster for a path onto a label when it has downloaded.
-     *
      * Does nothing at all when the title has no artwork, which leaves the
      * placeholder in place rather than showing a broken image.
      *
@@ -86,7 +83,6 @@ public final class PosterLoader {
 
     /**
      * Scales a poster to sit inside the slot without distorting it.
-     *
      * Posters are usually two by three but not always, so forcing every one to
      * the same rectangle stretches the odd ones. Scaling by whichever side runs
      * out of room first keeps the artwork's own shape and leaves the slack as

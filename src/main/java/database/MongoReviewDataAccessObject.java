@@ -198,7 +198,8 @@ public class MongoReviewDataAccessObject implements
         if (localReviewExists) {
             reviews.updateOne(Filters.eq(REVIEW_ID, reviewId),
                     Updates.addToSet(LIKED_BY_USERNAMES, username));
-        } else {
+        }
+        else {
             reviewLikes.updateOne(Filters.eq(REVIEW_ID, reviewId),
                     Updates.addToSet(LIKED_BY_USERNAMES, username),
                     new com.mongodb.client.model.UpdateOptions().upsert(true));
@@ -217,7 +218,8 @@ public class MongoReviewDataAccessObject implements
         if (localReviewExists) {
             reviews.updateOne(Filters.eq(REVIEW_ID, reviewId),
                     Updates.pull(LIKED_BY_USERNAMES, username));
-        } else {
+        }
+        else {
             reviewLikes.updateOne(Filters.eq(REVIEW_ID, reviewId),
                     Updates.pull(LIKED_BY_USERNAMES, username));
         }
@@ -235,7 +237,8 @@ public class MongoReviewDataAccessObject implements
         final Set<String> likedByUsernames;
         if (document == null) {
             likedByUsernames = new HashSet<>();
-        } else {
+        }
+        else {
             likedByUsernames = new HashSet<>(document.getList(
                     LIKED_BY_USERNAMES, String.class, new ArrayList<>()));
         }
@@ -352,11 +355,13 @@ public class MongoReviewDataAccessObject implements
             if (MOVIE_TYPE.equals(mediaType)) {
                 detailsJson = tmdbApiClient.getMovieDetails(mediaId);
                 mediaMetadata = parseMovieMetadata(detailsJson);
-            } else if (TV_TYPE.equals(mediaType)) {
+            }
+            else if (TV_TYPE.equals(mediaType)) {
                 detailsJson = tmdbApiClient.getTvShowDetails(mediaId);
                 mediaMetadata = parseTvMetadata(detailsJson);
             }
-        } catch (IOException | IllegalStateException exception) {
+        }
+        catch (IOException | IllegalStateException exception) {
             mediaMetadata = fallback;
         }
         return mediaMetadata;
@@ -381,7 +386,8 @@ public class MongoReviewDataAccessObject implements
         if (date != null && date.length() >= 4) {
             try {
                 year = Integer.parseInt(date.substring(0, 4));
-            } catch (NumberFormatException exception) {
+            }
+            catch (NumberFormatException exception) {
                 year = 0;
             }
         }

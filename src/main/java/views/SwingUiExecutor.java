@@ -6,7 +6,6 @@ import javax.swing.SwingUtilities;
 
 /**
  * Runs an update on Swing's event dispatch thread.
- *
  * Presenters need their updates to land on the UI thread, because work that
  * reaches the network runs off it. Taking a plain Executor there and keeping
  * the Swing part here means the interface adapter layer never names a UI

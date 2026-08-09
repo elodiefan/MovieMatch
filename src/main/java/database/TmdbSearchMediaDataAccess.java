@@ -26,15 +26,15 @@ public class TmdbSearchMediaDataAccess
     private static final String TOTAL_RESULTS_FIELD = "total_results";
     private static final String GENRES_FIELD = "genres";
     private static final String VOTE_AVERAGE_FIELD = "vote_average";
-    private static final String ORIGINAL_LANGUAGE_FIELD =
-            "original_language";
+    private static final String ORIGINAL_LANGUAGE_FIELD = "original_language";
     private static final String CREDITS_FIELD = "credits";
     private static final String CAST_FIELD = "cast";
+    private static final String OVERVIEW_FIELD = "overview";
+    private static final String POSTER_PATH_FIELD = "poster_path";
+    private static final String NAME_FIELD = "name";
 
     private final TmdbApiClient tmdbApiClient;
     private final ObjectMapper objectMapper;
-    private static final String OVERVIEW_FIELD = "overview";
-    private static final String POSTER_PATH_FIELD = "poster_path";
 
     /**
      * Creates a data access object that searches TMDB through client
@@ -62,9 +62,8 @@ public class TmdbSearchMediaDataAccess
 
     /**
      * Fetches one page of TMDB results and reports how many pages exist.
-     *
      * Only the page asked for is fetched. Requesting every page TMDB reports
-     * meant up to 500 page requests plus a details request per result, which
+     * meant up to 500-page requests plus a details request per result, which
      * for a common word is over ten thousand calls.
      *
      * @param keyword the keyword
@@ -104,7 +103,6 @@ public class TmdbSearchMediaDataAccess
 
         return new MediaPage(results, totalPages, totalResults);
     }
-
 
     /**
      * Converts one page of results, which are all of the same kind because the
@@ -200,7 +198,7 @@ public class TmdbSearchMediaDataAccess
         final int id =
                 details.path(ID_FIELD).asInt();
         final String title =
-                details.path("name").asText();
+                details.path(NAME_FIELD).asText();
         final int releaseYear =
                 parseYear(details.path("first_air_date").asText());
         final double averageRating =
@@ -253,7 +251,7 @@ public class TmdbSearchMediaDataAccess
             final int id =
                     genreNode.path(ID_FIELD).asInt();
             final String name =
-                    genreNode.path("name").asText();
+                    genreNode.path(NAME_FIELD).asText();
 
             genres.add(new Genre(id, name));
         }
@@ -272,7 +270,7 @@ public class TmdbSearchMediaDataAccess
 
         for (JsonNode castNode : castNodes) {
             cast.add(
-                    castNode.path("name").asText()
+                    castNode.path(NAME_FIELD).asText()
             );
         }
 

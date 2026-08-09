@@ -1,4 +1,5 @@
 package interface_adapter.user_reviews;
+
 import use_case.comment.get_user_comments.GetUserCommentsInputBoundary;
 import use_case.review.delete_review.DeleteReviewInputBoundary;
 import use_case.review.edit_review.EditReviewInputBoundary;
@@ -37,8 +38,7 @@ public final class UserReviewsController {
 
     /**
      * Creates a controller for user review actions.
-     * @param inputGetUserReviewsInteractor the interactor for loading user
-     * reviews
+     * @param inputGetUserReviewsInteractor the interactor for loading user reviews
      * @param inputEditReviewInteractor the interactor for editing reviews
      * @param inputDeleteReviewInteractor the interactor for deleting reviews
      * @param inputLikeReviewInteractor the interactor for liking reviews
@@ -57,14 +57,12 @@ public final class UserReviewsController {
 
     /**
      * Creates a controller for user review and comment actions.
-     * @param inputGetUserReviewsInteractor the interactor for loading user
-     * reviews
+     * @param inputGetUserReviewsInteractor the interactor for loading user reviews
      * @param inputEditReviewInteractor the interactor for editing reviews
      * @param inputDeleteReviewInteractor the interactor for deleting reviews
      * @param inputLikeReviewInteractor the interactor for liking reviews
      * @param inputUnlikeReviewInteractor the interactor for unliking reviews
-     * @param inputGetUserCommentsInteractor the interactor for loading user
-     * comments
+     * @param inputGetUserCommentsInteractor the interactor for loading user comments
      */
     public UserReviewsController(
             final GetUserReviewsInputBoundary inputGetUserReviewsInteractor,
@@ -98,7 +96,6 @@ public final class UserReviewsController {
             getUserCommentsInteractor.execute(username);
         }
     }
-
 
     /**
      * Edits an existing review.

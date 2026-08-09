@@ -5,7 +5,6 @@ import entity.User;
 
 /**
  * Interactor (business logic) for changing a password via a security question.
- * <p>
  * Responsibilities, matching the feature spec:
  * <ul>
  * <li>show the user's security question;</li>
@@ -13,7 +12,6 @@ import entity.User;
  * <li>let the user keep trying while wrong;</li>
  * <li>lock the account once too many attempts fail.</li>
  * </ul>
- * <p>
  * The counting and timing rules live in {@link AccountLockout}, and the records
  * themselves are kept by a {@link LockoutTracker}. This class holds no state of
  * its own: it only decides which rule to apply and what to report back.
@@ -94,11 +92,10 @@ public class SecurityQuestionInteractor implements SecurityQuestionInputBoundary
     }
 
     /**
-     * Checks whether the answers match.
-     * @return true if the answers match, ignoring case and surrounding spaces.
-     *
+     * Checks whether the answers match.*
      * @param expected the expected
      * @param actual the actual
+     * @return true if the answers match, ignoring case and surrounding spaces.
      */
     private boolean matches(String expected, String actual) {
         return expected != null && actual != null && expected.trim().equalsIgnoreCase(actual.trim());
@@ -106,9 +103,8 @@ public class SecurityQuestionInteractor implements SecurityQuestionInputBoundary
 
     /**
      * Returns this account's lock-out record.
-     * @return this account's lock-out record.
-     *
      * @param username the username
+     * @return this account's lock-out record.
      */
     private AccountLockout lockoutFor(String username) {
         return lockoutTracker.forUser(username);

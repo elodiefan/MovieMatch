@@ -111,8 +111,8 @@ public final class CommentRow {
 
     /**
      * Returns if a comment is liked by a given username.
-     * @param username the given user.
-     * @return
+     * @param username the given user
+     * @return true if liked by given user; false, otherwise
      */
     public boolean isLikedBy(final String username) {
         return username != null && likedByUsernames.contains(username);

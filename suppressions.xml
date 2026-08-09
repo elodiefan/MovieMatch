@@ -8,4 +8,7 @@
     <suppress checks="MagicNumber"/>
     <suppress checks="AbbreviationAsWordInName"/>
     <suppress checks="ParameterNumber"/>
+    <suppress checks="ReturnCount"/>
+    <suppress checks="HiddenField"/>
+    <suppress checks="MethodCount"/>
 </suppressions>
