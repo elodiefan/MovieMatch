@@ -1,11 +1,13 @@
 package views;
 
 import java.awt.Component;
+import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
+import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JLabel;
@@ -19,6 +21,12 @@ import interface_adapter.personal_account.PersonalAccountViewModel;
  * The View for when the user wants to delete their account.
  */
 public class PersonalAccountView extends JPanel implements PropertyChangeListener {
+
+    private static final int LIST_BUTTON_ROWS = 2;
+    private static final int LIST_BUTTON_COLUMNS = 2;
+    private static final int ACCOUNT_BUTTON_ROWS = 3;
+    private static final int ACCOUNT_BUTTON_COLUMNS = 2;
+    private static final int BUTTON_GAP = 8;
 
     private final String viewName = "personal account";
     private final PersonalAccountViewModel personalAccountViewModel;
@@ -52,7 +60,10 @@ public class PersonalAccountView extends JPanel implements PropertyChangeListene
         profilePanel.add(username);
         profilePanel.add(displayName);
 
-        final JPanel listOptionsPanel = new JPanel();
+        final JPanel listOptionsPanel = new JPanel(new GridLayout(
+                LIST_BUTTON_ROWS, LIST_BUTTON_COLUMNS, BUTTON_GAP, BUTTON_GAP));
+        listOptionsPanel.setBorder(BorderFactory.createEmptyBorder(
+                BUTTON_GAP, BUTTON_GAP, BUTTON_GAP, BUTTON_GAP));
         watchlistButton = new JButton(PersonalAccountViewModel.WATCHLIST_BUTTON);
         watchHistoryButton = new JButton(PersonalAccountViewModel.WATCH_HISTORY_BUTTON);
         reviewsButton = new JButton(PersonalAccountViewModel.REVIEWS_BUTTON);
@@ -62,7 +73,11 @@ public class PersonalAccountView extends JPanel implements PropertyChangeListene
         listOptionsPanel.add(reviewsButton);
         listOptionsPanel.add(blockedUsersButton);
 
-        final JPanel accountOptionsPanel = new JPanel();
+        final JPanel accountOptionsPanel = new JPanel(new GridLayout(
+                ACCOUNT_BUTTON_ROWS, ACCOUNT_BUTTON_COLUMNS,
+                BUTTON_GAP, BUTTON_GAP));
+        accountOptionsPanel.setBorder(BorderFactory.createEmptyBorder(
+                BUTTON_GAP, BUTTON_GAP, BUTTON_GAP, BUTTON_GAP));
         backButton = new JButton(PersonalAccountViewModel.BACK_BUTTON);
         changeDisplayNameButton = new JButton(PersonalAccountViewModel.CHANGE_DISPLAY_NAME_BUTTON);
         changeUsernameButton = new JButton(PersonalAccountViewModel.CHANGE_USERNAME_BUTTON);
