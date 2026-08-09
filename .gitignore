@@ -12,4 +12,3 @@ out/
 
 # API keys / secrets
 config.properties
-tmdb.properties

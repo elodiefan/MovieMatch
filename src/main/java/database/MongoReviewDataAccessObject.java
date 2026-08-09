@@ -24,6 +24,7 @@ import com.mongodb.client.model.ReplaceOptions;
 import com.mongodb.client.model.Updates;
 import entity.Review;
 import use_case.comment.get_user_comments.GetUserCommentsReviewDataAccessInterface;
+import use_case.delete_account.DeleteAccountReviewDataAccessInterface;
 import use_case.recommendation.ReviewedMediaRatingDataAccessInterface;
 import use_case.recommendation.UserRating;
 import use_case.review.create_review.CreateReviewDataAccessInterface;
@@ -46,7 +47,8 @@ public class MongoReviewDataAccessObject implements
         GetUserReviewsDataAccessInterface,
         LikeReviewDataAccessInterface,
         ReviewedMediaRatingDataAccessInterface,
-        UnlikeReviewDataAccessInterface {
+        UnlikeReviewDataAccessInterface,
+        DeleteAccountReviewDataAccessInterface {
 
     private static final String DEFAULT_PROPERTIES = "mongo.properties";
     private static final String DEFAULT_COLLECTION = "reviews";
@@ -179,12 +181,20 @@ public class MongoReviewDataAccessObject implements
 
     /**
      * Deletes a review.
-     * @param reviewId the review id
+     * @param reviewId id of review
      * @return true if the review was deleted
      */
     public boolean deleteReview(String reviewId) {
         return reviews.deleteOne(Filters.eq(REVIEW_ID, reviewId))
                 .getDeletedCount() > 0;
+    }
+
+    /**
+     * Deletes all reviews by a user.
+     * @param authorUsername author's username
+     */
+    public void deleteAllReviews(String authorUsername) {
+        reviews.deleteMany(Filters.eq(AUTHOR_USERNAME, authorUsername));
     }
 
     /**
