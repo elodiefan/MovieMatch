@@ -37,7 +37,7 @@ public class MediaDetailPresenter implements MediaDetailOutputBoundary {
         detailState.setTitle(outputData.getTitle());
         detailState.setReleaseYear(outputData.getReleaseYear());
         detailState.setAverageRating(outputData.getAverageRating());
-        detailState.setGenres(outputData.getGenres());
+        detailState.setGenreNames(outputData.getGenreNames());
         detailState.setLanguage(outputData.getLanguage());
         detailState.setOverview(outputData.getOverview());
         detailState.setPosterPath(outputData.getPosterPath());

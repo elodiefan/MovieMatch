@@ -1,10 +1,8 @@
 package interface_adapter.media_detail;
 
 import java.util.ArrayList;
+import java.util.List;
 
-import entity.Media;
-import entity.Movie;
-import entity.TVShow;
 import use_case.media_detail.MediaDetailInputBoundary;
 import use_case.media_detail.MediaDetailInputData;
 
@@ -23,11 +21,26 @@ public class MediaDetailController {
     /**
      * Displays details for the selected media.
      *
-     * @param media the selected media
+     * @param mediaId the media id
+     * @param mediaType the media type
+     * @param mediaTitle the media title
+     * @param releaseYear the release year
+     * @param averageRating the average rating
+     * @param genreNames the genre names
+     * @param language the language
+     * @param overview the overview
+     * @param posterPath the poster path
      */
-    public void execute(Media media) {
+    public void execute(final int mediaId, final String mediaType,
+                        final String mediaTitle, final int releaseYear,
+                        final double averageRating,
+                        final List<String> genreNames,
+                        final String language, final String overview,
+                        final String posterPath) {
         final MediaDetailInputData inputData =
-                new MediaDetailInputData(media);
+                new MediaDetailInputData(mediaId, mediaType, mediaTitle,
+                        releaseYear, averageRating, genreNames, language,
+                        overview, posterPath);
 
         mediaDetailUseCaseInteractor.execute(inputData);
     }
@@ -43,25 +56,8 @@ public class MediaDetailController {
     public void execute(final int mediaId, final String mediaType,
                         final String mediaTitle, final int releaseYear,
                         final String posterPath) {
-        execute(createMedia(mediaId, mediaType, mediaTitle, releaseYear,
-                posterPath));
-    }
-
-    private Media createMedia(final int mediaId, final String mediaType,
-                              final String mediaTitle,
-                              final int releaseYear,
-                              final String posterPath) {
-        final Media media;
-        if ("tv".equals(mediaType)) {
-            media = new TVShow(mediaId, mediaTitle, releaseYear, 0,
-                    new ArrayList<>(), "", new ArrayList<>(), 0, 0, "",
-                    posterPath);
-        } else {
-            media = new Movie(mediaId, mediaTitle, releaseYear, 0,
-                    new ArrayList<>(), "", new ArrayList<>(), 0, "",
-                    posterPath);
-        }
-        return media;
+        execute(mediaId, mediaType, mediaTitle, releaseYear, 0,
+                new ArrayList<>(), "", "", posterPath);
     }
 
     /**

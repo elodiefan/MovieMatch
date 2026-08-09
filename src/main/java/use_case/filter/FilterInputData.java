@@ -2,18 +2,18 @@ package use_case.filter;
 
 import java.util.List;
 
-import entity.Media;
+import use_case.search.MediaResultData;
 
 /**
  * Input data for the Filter Use Case.
  */
 public class FilterInputData {
 
-    private final List<Media> originalResults;
+    private final List<MediaResultData> originalResults;
     private final FilterCriteria criteria;
 
     public FilterInputData(
-            List<Media> originalResults,
+            List<MediaResultData> originalResults,
             FilterCriteria criteria) {
         this.originalResults = originalResults;
         this.criteria = criteria;
@@ -24,7 +24,7 @@ public class FilterInputData {
      *
      * @return the original search results
      */
-    public List<Media> getOriginalResults() {
+    public List<MediaResultData> getOriginalResults() {
         return originalResults;
     }
 

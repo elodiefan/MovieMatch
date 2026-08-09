@@ -3,15 +3,13 @@ package interface_adapter.search_result;
 import java.util.ArrayList;
 import java.util.List;
 
-import entity.Media;
-
 /**
  * The state for Search Result View.
  */
 public class SearchResultState {
 
-    private List<Media> originalResults = new ArrayList<>();
-    private List<Media> results = new ArrayList<>();
+    private List<SearchResultRow> originalResults = new ArrayList<>();
+    private List<SearchResultRow> results = new ArrayList<>();
     private String filterError;
 
     /**
@@ -63,7 +61,7 @@ public class SearchResultState {
      *
      * @return the get original results
      */
-    public List<Media> getOriginalResults() {
+    public List<SearchResultRow> getOriginalResults() {
         return originalResults;
     }
 
@@ -72,7 +70,7 @@ public class SearchResultState {
      *
      * @param originalResults the original results
      */
-    public void setOriginalResults(List<Media> originalResults) {
+    public void setOriginalResults(List<SearchResultRow> originalResults) {
         this.originalResults = originalResults;
     }
 
@@ -81,7 +79,7 @@ public class SearchResultState {
      *
      * @return the get results
      */
-    public List<Media> getResults() {
+    public List<SearchResultRow> getResults() {
         return results;
     }
 
@@ -90,7 +88,7 @@ public class SearchResultState {
      *
      * @param results the results
      */
-    public void setResults(List<Media> results) {
+    public void setResults(List<SearchResultRow> results) {
         this.results = results;
     }
 

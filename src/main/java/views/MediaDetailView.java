@@ -24,7 +24,6 @@ import javax.swing.JPanel;
 import javax.swing.JTextArea;
 import javax.swing.SwingWorker;
 
-import entity.Genre;
 import interface_adapter.comments.CommentsController;
 import interface_adapter.comments.CommentsViewModel;
 import interface_adapter.log_media.LogMediaController;
@@ -300,8 +299,7 @@ public class MediaDetailView extends JPanel implements PropertyChangeListener {
                         + state.getAverageRating());
 
         genreLabel.setText(
-                "Genres: " + state.getGenres().stream()
-                        .map(Genre::getName)
+                "Genres: " + state.getGenreNames().stream()
                         .collect(Collectors.joining(", "))
         );
 

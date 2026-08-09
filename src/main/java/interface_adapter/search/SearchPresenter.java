@@ -5,11 +5,11 @@ import java.util.concurrent.Executor;
 import java.util.ArrayList;
 import java.util.List;
 
-
-import entity.Media;
 import interface_adapter.ViewManagerModel;
+import interface_adapter.search_result.SearchResultRow;
 import interface_adapter.search_result.SearchResultState;
 import interface_adapter.search_result.SearchResultViewModel;
+import use_case.search.MediaResultData;
 import use_case.search.SearchOutputBoundary;
 import use_case.search.SearchOutputData;
 
@@ -55,14 +55,14 @@ public class SearchPresenter implements SearchOutputBoundary {
             final SearchResultState state =
                     searchResultViewModel.getState();
 
-            final List<Media> combined;
+            final List<SearchResultRow> combined;
             if (outputData.isAppending()) {
                 // Loading more extends what the user is already looking at.
                 combined = new ArrayList<>(state.getOriginalResults());
-                combined.addAll(outputData.getResults());
+                combined.addAll(toSearchResultRows(outputData.getResults()));
             }
             else {
-                combined = outputData.getResults();
+                combined = toSearchResultRows(outputData.getResults());
             }
 
             state.setOriginalResults(combined);
@@ -93,5 +93,19 @@ public class SearchPresenter implements SearchOutputBoundary {
      */
     private void onUiThread(Runnable update) {
         uiExecutor.execute(update);
+    }
+
+    private List<SearchResultRow> toSearchResultRows(
+            List<MediaResultData> mediaResults) {
+        final List<SearchResultRow> rows = new ArrayList<>();
+        for (MediaResultData media : mediaResults) {
+            rows.add(new SearchResultRow(media.getMediaId(),
+                    media.getMediaType(), media.getTitle(),
+                    media.getReleaseYear(), media.getAverageRating(),
+                    media.getGenreNames(), media.getGenreIds(),
+                    media.getLanguage(), media.getOverview(),
+                    media.getPosterPath()));
+        }
+        return rows;
     }
 }
