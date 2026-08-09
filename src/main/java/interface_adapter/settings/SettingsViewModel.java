@@ -1,7 +1,6 @@
 package interface_adapter.settings;
 
 import interface_adapter.StateModel;
-import use_case.settings.SettingsInteractor;
 
 /**
  * The View Model for the Settings View.
@@ -19,11 +18,9 @@ public class SettingsViewModel extends StateModel<SettingsState> {
                     + "are never requested.</html>";
     public static final String BACK_BUTTON_LABEL = "Back";
 
-    // Taken from the use case rather than repeated, so the slider can never
-    // offer a size the interactor would only clamp away again.
-    public static final int MIN_TEXT_SIZE = SettingsInteractor.MIN_TEXT_SIZE;
-    public static final int MAX_TEXT_SIZE = SettingsInteractor.MAX_TEXT_SIZE;
-    public static final int DEFAULT_TEXT_SIZE = SettingsInteractor.DEFAULT_TEXT_SIZE;
+    public static final int MIN_TEXT_SIZE = 10;
+    public static final int MAX_TEXT_SIZE = 25;
+    public static final int DEFAULT_TEXT_SIZE = 22;
 
     public SettingsViewModel() {
         super(VIEW_NAME);
