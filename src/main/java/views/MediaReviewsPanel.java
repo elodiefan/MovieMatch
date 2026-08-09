@@ -159,6 +159,10 @@ public final class MediaReviewsPanel extends JPanel
      * The loading content.
      */
     private boolean loadingContent;
+    /**
+     * The media item currently displayed in the reviews panel.
+     */
+    private String displayedMediaKey = "";
 
     /**
      * Handles this review or comment operation.
@@ -274,10 +278,13 @@ public final class MediaReviewsPanel extends JPanel
      */
     private void updateView(final MediaReviewsState state) {
         if (state != null) {
+            final String mediaKey = createMediaKey(state);
+            final boolean newMediaLoaded = !mediaKey.equals(displayedMediaKey);
+            displayedMediaKey = mediaKey;
             mediaTitleLabel.setText(state.getMediaTitle());
             errorLabel.setText(state.getMediaReviewsError());
             if (!loadContent(state)) {
-                setReviews(state.getReviews());
+                setReviews(state.getReviews(), newMediaLoaded);
             }
         }
     }
@@ -321,8 +328,12 @@ public final class MediaReviewsPanel extends JPanel
     /**
      * Displays the given review rows.
      * @param reviews the review rows to display
+     * @param scrollToTop true when the media page should start at the first row
      */
-    private void setReviews(final List<MediaReviewRow> reviews) {
+    private void setReviews(final List<MediaReviewRow> reviews,
+                            final boolean scrollToTop) {
+        final int previousScrollValue = reviewsScrollPane.getVerticalScrollBar()
+                .getValue();
         reviewsPanel.removeAll();
 
         if (reviews.isEmpty()) {
@@ -337,6 +348,36 @@ public final class MediaReviewsPanel extends JPanel
 
         reviewsPanel.revalidate();
         reviewsPanel.repaint();
+        restoreReviewScrollPosition(scrollToTop, previousScrollValue);
+    }
+
+    /**
+     * Restores the review list position after its contents are redrawn.
+     * @param scrollToTop true when the list should show the first row
+     * @param previousScrollValue the scroll position before the redraw
+     */
+    private void restoreReviewScrollPosition(final boolean scrollToTop,
+                                             final int previousScrollValue) {
+        SwingUtilities.invokeLater(() -> {
+            final int targetScrollValue;
+            if (scrollToTop) {
+                targetScrollValue = reviewsScrollPane.getVerticalScrollBar()
+                        .getMinimum();
+            } else {
+                targetScrollValue = Math.min(previousScrollValue,
+                        reviewsScrollPane.getVerticalScrollBar().getMaximum());
+            }
+            reviewsScrollPane.getVerticalScrollBar().setValue(targetScrollValue);
+        });
+    }
+
+    /**
+     * Creates a stable key for the currently displayed media item.
+     * @param state the media reviews state
+     * @return the media key
+     */
+    private String createMediaKey(final MediaReviewsState state) {
+        return state.getMediaType() + ":" + state.getMediaId();
     }
 
     /**
@@ -389,7 +430,7 @@ public final class MediaReviewsPanel extends JPanel
     }
 
     /**
-     * Highlights and scrolls to the selected review when there is one.
+     * Highlights the selected review when there is one.
      * @param card the review card
      * @param review the review row
      */
@@ -401,8 +442,6 @@ public final class MediaReviewsPanel extends JPanel
             card.setOpaque(true);
             card.setBackground(new Color(255, 249, 196));
             card.setBorder(BorderFactory.createLineBorder(Color.RED));
-            SwingUtilities.invokeLater(() -> card.scrollRectToVisible(
-                    card.getBounds()));
         }
     }
 
@@ -537,7 +576,7 @@ public final class MediaReviewsPanel extends JPanel
     }
 
     /**
-     * Highlights and scrolls to the selected comment when there is one.
+     * Highlights the selected comment when there is one.
      * @param card the comment card
      * @param comment the comment row
      */
@@ -551,8 +590,6 @@ public final class MediaReviewsPanel extends JPanel
                     BorderFactory.createLineBorder(Color.RED),
                     BorderFactory.createEmptyBorder(0,
                             getCommentIndent(comment), 0, 0)));
-            SwingUtilities.invokeLater(() -> card.scrollRectToVisible(
-                    card.getBounds()));
         }
     }
 
