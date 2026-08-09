@@ -34,5 +34,5 @@ MovieMatch would be marketed to movie and TV fans who want both a personal media
 
 The primary audience is people in their late teens through mid-thirties who already use watchlists or rate media and would enjoy comparing their tastes with friends rather than browsing streaming services alone. MovieMatch also provides personalized recommendations based on a user’s ratings, watch history, and watchlist, with a brief explanation for why each title was suggested. A secondary audience includes university students and campus film societies that want a shared, subscription-free space to track screenings, discuss films, and compare ratings.
 
-Currently, MovieMatch does not support language translation, making it less likely to be used by non-English speaking demographics. 
+Currently, MovieMatch does not support language translation, making it less likely to be used by non-English speaking demographics. Furthermore, it is only available as a desktop application, so mobile/tablet users will likely be dissuaded from using it as well. 
 
