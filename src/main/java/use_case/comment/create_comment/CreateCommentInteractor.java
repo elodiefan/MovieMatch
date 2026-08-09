@@ -50,15 +50,9 @@ public final class CreateCommentInteractor
     }
 
     @Override
-    public void execute(final String reviewId, final String parentCommentId,
-                        final String authorUsername,
-                        final String authorDisplayName,
-                        final String commentText) {
+    public void execute(final CreateCommentInputData inputData) {
         try {
             validatePresenter();
-            final CreateCommentInputData inputData =
-                    new CreateCommentInputData(reviewId, parentCommentId,
-                            authorUsername, authorDisplayName, commentText);
             createComment(inputData.getReviewId(),
                     inputData.getParentCommentId(),
                     inputData.getAuthorUsername(),

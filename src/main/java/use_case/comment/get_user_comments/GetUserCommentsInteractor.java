@@ -62,11 +62,9 @@ public final class GetUserCommentsInteractor
      * @param username the username whose comments are loaded
      */
     @Override
-    public void execute(final String username) {
+    public void execute(final GetUserCommentsInputData inputData) {
         try {
             validateOutputBoundary();
-            final GetUserCommentsInputData inputData =
-                    new GetUserCommentsInputData(username);
             final List<GetUserCommentsOutputData.UserCommentData> comments =
                     getUserComments(inputData.getUsername());
             userCommentsPresenter.prepareUserCommentsSuccessView(

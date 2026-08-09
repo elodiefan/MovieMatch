@@ -42,11 +42,9 @@ public final class LikeCommentInteractor implements LikeCommentInputBoundary {
     }
 
     @Override
-    public void execute(final String commentId, final String username) {
+    public void execute(final LikeCommentInputData inputData) {
         try {
             validatePresenter();
-            final LikeCommentInputData inputData =
-                    new LikeCommentInputData(commentId, username);
             final boolean liked = likeComment(inputData.getCommentId(),
                     inputData.getUsername());
             presenter.prepareSuccessView(liked);

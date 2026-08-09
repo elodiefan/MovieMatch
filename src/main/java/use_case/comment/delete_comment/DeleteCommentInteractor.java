@@ -48,11 +48,9 @@ public final class DeleteCommentInteractor
     }
 
     @Override
-    public void execute(final String commentId, final String username) {
+    public void execute(final DeleteCommentInputData inputData) {
         try {
             validatePresenter();
-            final DeleteCommentInputData inputData =
-                    new DeleteCommentInputData(commentId, username);
             final boolean deleted = deleteComment(inputData.getCommentId(),
                     inputData.getUsername());
             if (deleted) {

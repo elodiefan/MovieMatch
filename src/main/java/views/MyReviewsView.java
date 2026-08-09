@@ -367,6 +367,7 @@ public final class MyReviewsView extends JPanel
                 + formatTime(comment.getCreatedAt())));
         detailPanel.add(new JLabel("Likes: " + comment.getLikeCount()));
         detailPanel.add(new JLabel(comment.getCommentText()));
+        detailPanel.add(createCommentButtonPanel(comment));
 
         final JLabel posterLabel = createPosterLabel(comment.getPosterPath());
         addCommentNavigation(posterLabel, comment);
@@ -374,6 +375,30 @@ public final class MyReviewsView extends JPanel
         card.add(detailPanel, BorderLayout.CENTER);
 
         return card;
+    }
+
+    /**
+     * Creates the action buttons for one comment row.
+     * @param comment the comment row
+     * @return the button panel
+     */
+    private Component createCommentButtonPanel(final UserCommentRow comment) {
+        final JPanel buttonPanel = new JPanel();
+        buttonPanel.setLayout(new BoxLayout(buttonPanel, BoxLayout.X_AXIS));
+        buttonPanel.setAlignmentX(Component.LEFT_ALIGNMENT);
+        final JButton editButton =
+                new JButton(UserReviewsViewModel.EDIT_BUTTON_LABEL);
+        final JButton deleteButton =
+                new JButton(UserReviewsViewModel.DELETE_BUTTON_LABEL);
+
+        editButton.addActionListener(new SelectCommentListener(
+                comment.getCommentId()));
+        deleteButton.addActionListener(new SelectCommentListener(
+                comment.getCommentId()));
+
+        buttonPanel.add(editButton);
+        buttonPanel.add(deleteButton);
+        return buttonPanel;
     }
 
     /**
@@ -609,6 +634,83 @@ public final class MyReviewsView extends JPanel
     }
 
     /**
+     * Selects a review in the view model state.
+     */
+    private final class SelectReviewListener implements ActionListener {
+        /**
+         * The review id.
+         */
+        private final String reviewId;
+
+        private SelectReviewListener(final String inputReviewId) {
+            this.reviewId = inputReviewId;
+        }
+
+        @Override
+        public void actionPerformed(final ActionEvent event) {
+            final UserReviewsState state = userReviewsViewModel.getState();
+            state.setSelectedReviewId(reviewId);
+            if (userReviewsController != null
+                    && !isBlank(state.getUsername())) {
+                final String command = ((JButton) event.getSource()).getText();
+                if (UserReviewsViewModel.DELETE_BUTTON_LABEL.equals(command)) {
+                    userReviewsController.deleteReview(reviewId,
+                            state.getUsername());
+                } else {
+                    final Double rating =
+                            promptForRating("New rating percentage:");
+                    if (rating != null) {
+                        final String reviewText =
+                                JOptionPane.showInputDialog(
+                                        MyReviewsView.this,
+                                        "New review text:");
+                        userReviewsController.editReview(reviewId,
+                                state.getUsername(), rating, reviewText);
+                    }
+                }
+                userReviewsController.loadUserReviews(state.getUsername());
+            }
+            userReviewsViewModel.firePropertyChanged();
+        }
+    }
+
+    /**
+     * Selects a comment in the view model state.
+     */
+    private final class SelectCommentListener implements ActionListener {
+        /**
+         * The comment id.
+         */
+        private final String commentId;
+
+        private SelectCommentListener(final String inputCommentId) {
+            this.commentId = inputCommentId;
+        }
+
+        @Override
+        public void actionPerformed(final ActionEvent event) {
+            final UserReviewsState state = userReviewsViewModel.getState();
+            if (userReviewsController != null
+                    && !isBlank(state.getUsername())) {
+                final String command = ((JButton) event.getSource()).getText();
+                if (UserReviewsViewModel.DELETE_BUTTON_LABEL.equals(command)) {
+                    userReviewsController.deleteComment(commentId,
+                            state.getUsername());
+                } else {
+                    final String commentText = JOptionPane.showInputDialog(
+                            MyReviewsView.this, "New comment text:");
+                    if (!isBlank(commentText)) {
+                        userReviewsController.editComment(commentId,
+                                state.getUsername(), commentText);
+                    }
+                }
+                userReviewsController.loadUserComments(state.getUsername());
+            }
+            userReviewsViewModel.firePropertyChanged();
+        }
+    }
+
+    /**
      * Opens a rating dialog that cannot be submitted until valid.
      * @param title the dialog title
      * @return the rating, or null if cancelled
@@ -664,48 +766,6 @@ public final class MyReviewsView extends JPanel
             rating = null;
         }
         return rating;
-    }
-
-    /**
-     * Selects a review in the view model state.
-     */
-    private final class SelectReviewListener implements ActionListener {
-        /**
-         * The review id.
-         */
-        private final String reviewId;
-
-        private SelectReviewListener(final String inputReviewId) {
-            this.reviewId = inputReviewId;
-        }
-
-        @Override
-        public void actionPerformed(final ActionEvent event) {
-            final UserReviewsState state = userReviewsViewModel.getState();
-            state.setSelectedReviewId(reviewId);
-            if (userReviewsController != null
-                    && !isBlank(state.getUsername())) {
-                final String command = ((JButton) event.getSource()).getText();
-                if (UserReviewsViewModel.DELETE_BUTTON_LABEL.equals(command)) {
-                    userReviewsController.deleteReview(reviewId,
-                            state.getUsername());
-                }
-                else {
-                    final Double rating =
-                            promptForRating("New rating percentage:");
-                    if (rating != null) {
-                        final String reviewText =
-                                JOptionPane.showInputDialog(
-                                        MyReviewsView.this,
-                                        "New review text:");
-                        userReviewsController.editReview(reviewId,
-                                state.getUsername(), rating, reviewText);
-                    }
-                }
-                userReviewsController.loadUserReviews(state.getUsername());
-            }
-            userReviewsViewModel.firePropertyChanged();
-        }
     }
 
     private final class RatingValidationListener implements DocumentListener {

@@ -7,7 +7,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.junit.jupiter.api.Test;
 
-import entity.StandardUser;
+import entity.StandardUserFactory;
 import entity.User;
 
 class LoginInteractorTest {
@@ -83,12 +83,13 @@ class LoginInteractorTest {
     @Test
     void incorrectPasswordFailsWithoutChangingSession() {
         final FakeDataAccess dataAccess = new FakeDataAccess();
-        dataAccess.user = new StandardUser("yidan", "Yidan", "password1", "Question?", "answer");
+        dataAccess.user = new StandardUserFactory().create(
+                "bob", "Bob", "password1", "Question?", "answer");
         final RecordingPresenter presenter = new RecordingPresenter();
 
-        new LoginInteractor(dataAccess, presenter).execute(new LoginInputData("yidan", "wrong"));
+        new LoginInteractor(dataAccess, presenter).execute(new LoginInputData("bob", "wrong"));
 
-        assertEquals("Incorrect password for \"yidan\".", presenter.failure);
+        assertEquals("Incorrect password for \"bob\".", presenter.failure);
         assertNull(dataAccess.currentUsername);
         assertNull(dataAccess.savedUser);
     }
@@ -96,15 +97,16 @@ class LoginInteractorTest {
     @Test
     void correctCredentialsSaveSessionAndSucceed() {
         final FakeDataAccess dataAccess = new FakeDataAccess();
-        dataAccess.user = new StandardUser("yidan", "Yidan Xu", "password1", "Question?", "answer");
+        dataAccess.user = new StandardUserFactory().create(
+                "bob", "Bob", "password1", "Question?", "answer");
         final RecordingPresenter presenter = new RecordingPresenter();
 
-        new LoginInteractor(dataAccess, presenter).execute(new LoginInputData("yidan", "password1"));
+        new LoginInteractor(dataAccess, presenter).execute(new LoginInputData("bob", "password1"));
 
         assertNull(presenter.failure);
-        assertEquals("yidan", presenter.success.getUsername());
-        assertEquals("Yidan Xu", presenter.success.getDisplayName());
-        assertEquals("yidan", dataAccess.currentUsername);
+        assertEquals("bob", presenter.success.getUsername());
+        assertEquals("Bob", presenter.success.getDisplayName());
+        assertEquals("bob", dataAccess.currentUsername);
         assertSame(dataAccess.user, dataAccess.savedUser);
     }
 

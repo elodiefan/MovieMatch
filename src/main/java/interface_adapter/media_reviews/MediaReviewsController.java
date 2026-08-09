@@ -1,11 +1,17 @@
 package interface_adapter.media_reviews;
 
 import use_case.review.create_review.CreateReviewInputBoundary;
+import use_case.review.create_review.CreateReviewInputData;
 import use_case.review.delete_review.DeleteReviewInputBoundary;
+import use_case.review.delete_review.DeleteReviewInputData;
 import use_case.review.edit_review.EditReviewInputBoundary;
+import use_case.review.edit_review.EditReviewInputData;
 import use_case.review.get_media_reviews.GetMediaReviewsInputBoundary;
+import use_case.review.get_media_reviews.GetMediaReviewsInputData;
 import use_case.review.like_review.LikeReviewInputBoundary;
+import use_case.review.like_review.LikeReviewInputData;
 import use_case.review.unlike_review.UnlikeReviewInputBoundary;
+import use_case.review.unlike_review.UnlikeReviewInputData;
 
 /**
  * Controller for the media reviews panel.
@@ -66,7 +72,8 @@ public final class MediaReviewsController {
      * @param mediaType the reviewed media type
      */
     public void loadMediaReviews(final int mediaId, final String mediaType) {
-        getMediaReviewsInteractor.execute(mediaId, mediaType);
+        getMediaReviewsInteractor.execute(new GetMediaReviewsInputData(mediaId,
+                mediaType));
     }
 
     /**
@@ -89,9 +96,9 @@ public final class MediaReviewsController {
                              final String authorDisplayName,
                              final double rating,
                              final String reviewText) {
-        createReviewInteractor.execute(mediaId, mediaType, mediaTitle,
-                releaseYear, posterPath, authorUsername, authorDisplayName,
-                rating, reviewText);
+        createReviewInteractor.execute(new CreateReviewInputData(mediaId,
+                mediaType, mediaTitle, releaseYear, posterPath,
+                authorUsername, authorDisplayName, rating, reviewText));
     }
 
     /**
@@ -103,8 +110,8 @@ public final class MediaReviewsController {
      */
     public boolean canCreateReview(final int mediaId, final String mediaType,
                                    final String authorUsername) {
-        return createReviewInteractor.canCreateReview(mediaId, mediaType,
-                authorUsername);
+        return createReviewInteractor.canCreateReview(new CreateReviewInputData(
+                mediaId, mediaType, "", 0, "", authorUsername, "", 0, ""));
     }
 
     /**
@@ -117,8 +124,8 @@ public final class MediaReviewsController {
     public void editReview(final String reviewId, final String username,
                            final double newRating,
                            final String newReviewText) {
-        editReviewInteractor.execute(reviewId, username, newRating,
-                newReviewText);
+        editReviewInteractor.execute(new EditReviewInputData(reviewId,
+                username, newRating, newReviewText));
     }
 
     /**
@@ -127,7 +134,8 @@ public final class MediaReviewsController {
      * @param username the username of the user deleting the review
      */
     public void deleteReview(final String reviewId, final String username) {
-        deleteReviewInteractor.execute(reviewId, username);
+        deleteReviewInteractor.execute(new DeleteReviewInputData(reviewId,
+                username));
     }
 
     /**
@@ -136,7 +144,8 @@ public final class MediaReviewsController {
      * @param username the username of the user liking the review
      */
     public void likeReview(final String reviewId, final String username) {
-        likeReviewInteractor.execute(reviewId, username);
+        likeReviewInteractor.execute(new LikeReviewInputData(reviewId,
+                username));
     }
 
     /**
@@ -145,6 +154,7 @@ public final class MediaReviewsController {
      * @param username the username of the user unliking the review
      */
     public void unlikeReview(final String reviewId, final String username) {
-        unlikeReviewInteractor.execute(reviewId, username);
+        unlikeReviewInteractor.execute(new UnlikeReviewInputData(reviewId,
+                username));
     }
 }

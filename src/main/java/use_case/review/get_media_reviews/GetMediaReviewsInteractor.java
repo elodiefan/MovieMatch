@@ -56,11 +56,9 @@ public final class GetMediaReviewsInteractor
     }
 
     @Override
-    public void execute(final int mediaId, final String mediaType) {
+    public void execute(final GetMediaReviewsInputData inputData) {
         try {
             validatePresenter();
-            final GetMediaReviewsInputData inputData =
-                    new GetMediaReviewsInputData(mediaId, mediaType);
             final List<Review> reviews = getMediaReviews(
                     inputData.getMediaId(), inputData.getMediaType());
             presenter.prepareSuccessView(toOutputData(reviews));

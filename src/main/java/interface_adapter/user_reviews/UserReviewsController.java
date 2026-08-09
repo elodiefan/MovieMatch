@@ -1,11 +1,21 @@
 package interface_adapter.user_reviews;
 
+import use_case.comment.delete_comment.DeleteCommentInputBoundary;
+import use_case.comment.delete_comment.DeleteCommentInputData;
+import use_case.comment.edit_comment.EditCommentInputBoundary;
+import use_case.comment.edit_comment.EditCommentInputData;
 import use_case.comment.get_user_comments.GetUserCommentsInputBoundary;
+import use_case.comment.get_user_comments.GetUserCommentsInputData;
 import use_case.review.delete_review.DeleteReviewInputBoundary;
+import use_case.review.delete_review.DeleteReviewInputData;
 import use_case.review.edit_review.EditReviewInputBoundary;
+import use_case.review.edit_review.EditReviewInputData;
 import use_case.review.get_user_reviews.GetUserReviewsInputBoundary;
+import use_case.review.get_user_reviews.GetUserReviewsInputData;
 import use_case.review.like_review.LikeReviewInputBoundary;
+import use_case.review.like_review.LikeReviewInputData;
 import use_case.review.unlike_review.UnlikeReviewInputBoundary;
+import use_case.review.unlike_review.UnlikeReviewInputData;
 
 /**
  * Controller for the user reviews view.
@@ -35,6 +45,14 @@ public final class UserReviewsController {
      * The get user comments interactor.
      */
     private final GetUserCommentsInputBoundary getUserCommentsInteractor;
+    /**
+     * The delete comment interactor.
+     */
+    private final DeleteCommentInputBoundary deleteCommentInteractor;
+    /**
+     * The edit comment interactor.
+     */
+    private final EditCommentInputBoundary editCommentInteractor;
 
     /**
      * Creates a controller for user review actions.
@@ -52,7 +70,7 @@ public final class UserReviewsController {
             final UnlikeReviewInputBoundary inputUnlikeReviewInteractor) {
         this(inputGetUserReviewsInteractor, inputEditReviewInteractor,
                 inputDeleteReviewInteractor, inputLikeReviewInteractor,
-                inputUnlikeReviewInteractor, null);
+                inputUnlikeReviewInteractor, null, null, null);
     }
 
     /**
@@ -62,7 +80,10 @@ public final class UserReviewsController {
      * @param inputDeleteReviewInteractor the interactor for deleting reviews
      * @param inputLikeReviewInteractor the interactor for liking reviews
      * @param inputUnlikeReviewInteractor the interactor for unliking reviews
-     * @param inputGetUserCommentsInteractor the interactor for loading user comments
+     * @param inputGetUserCommentsInteractor the interactor for loading user
+     * comments
+     * @param inputDeleteCommentInteractor the interactor for deleting comments
+     * @param inputEditCommentInteractor the interactor for editing comments
      */
     public UserReviewsController(
             final GetUserReviewsInputBoundary inputGetUserReviewsInteractor,
@@ -70,13 +91,17 @@ public final class UserReviewsController {
             final DeleteReviewInputBoundary inputDeleteReviewInteractor,
             final LikeReviewInputBoundary inputLikeReviewInteractor,
             final UnlikeReviewInputBoundary inputUnlikeReviewInteractor,
-            final GetUserCommentsInputBoundary inputGetUserCommentsInteractor) {
+            final GetUserCommentsInputBoundary inputGetUserCommentsInteractor,
+            final DeleteCommentInputBoundary inputDeleteCommentInteractor,
+            final EditCommentInputBoundary inputEditCommentInteractor) {
         this.getUserReviewsInteractor = inputGetUserReviewsInteractor;
         this.editReviewInteractor = inputEditReviewInteractor;
         this.deleteReviewInteractor = inputDeleteReviewInteractor;
         this.likeReviewInteractor = inputLikeReviewInteractor;
         this.unlikeReviewInteractor = inputUnlikeReviewInteractor;
         this.getUserCommentsInteractor = inputGetUserCommentsInteractor;
+        this.deleteCommentInteractor = inputDeleteCommentInteractor;
+        this.editCommentInteractor = inputEditCommentInteractor;
     }
 
     /**
@@ -84,7 +109,7 @@ public final class UserReviewsController {
      * @param username the username of the review author
      */
     public void loadUserReviews(final String username) {
-        getUserReviewsInteractor.execute(username);
+        getUserReviewsInteractor.execute(new GetUserReviewsInputData(username));
     }
 
     /**
@@ -93,7 +118,8 @@ public final class UserReviewsController {
      */
     public void loadUserComments(final String username) {
         if (getUserCommentsInteractor != null) {
-            getUserCommentsInteractor.execute(username);
+            getUserCommentsInteractor.execute(new GetUserCommentsInputData(
+                    username));
         }
     }
 
@@ -107,8 +133,8 @@ public final class UserReviewsController {
     public void editReview(final String reviewId, final String username,
                              final double newRating,
                              final String newReviewText) {
-        editReviewInteractor.execute(reviewId, username, newRating,
-                newReviewText);
+        editReviewInteractor.execute(new EditReviewInputData(reviewId,
+                username, newRating, newReviewText));
     }
 
     /**
@@ -117,7 +143,30 @@ public final class UserReviewsController {
      * @param username the username of the user deleting the review
      */
     public void deleteReview(final String reviewId, final String username) {
-        deleteReviewInteractor.execute(reviewId, username);
+        deleteReviewInteractor.execute(new DeleteReviewInputData(reviewId,
+                username));
+    }
+
+    /**
+     * Edits an existing comment.
+     * @param commentId the id of the comment to edit
+     * @param username the username of the user editing the comment
+     * @param newCommentText the replacement comment text
+     */
+    public void editComment(final String commentId, final String username,
+                            final String newCommentText) {
+        editCommentInteractor.execute(new EditCommentInputData(commentId,
+                username, newCommentText));
+    }
+
+    /**
+     * Deletes a persisted user comment.
+     * @param commentId the id of the comment to delete
+     * @param username the username of the user deleting the comment
+     */
+    public void deleteComment(final String commentId, final String username) {
+        deleteCommentInteractor.execute(new DeleteCommentInputData(commentId,
+                username));
     }
 
     /**
@@ -126,7 +175,8 @@ public final class UserReviewsController {
      * @param username the username of the user liking the review
      */
     public void likeReview(final String reviewId, final String username) {
-        likeReviewInteractor.execute(reviewId, username);
+        likeReviewInteractor.execute(new LikeReviewInputData(reviewId,
+                username));
     }
 
     /**
@@ -135,6 +185,7 @@ public final class UserReviewsController {
      * @param username the username of the user unliking the review
      */
     public void unlikeReview(final String reviewId, final String username) {
-        unlikeReviewInteractor.execute(reviewId, username);
+        unlikeReviewInteractor.execute(new UnlikeReviewInputData(reviewId,
+                username));
     }
 }

@@ -42,11 +42,9 @@ public final class LikeReviewInteractor implements LikeReviewInputBoundary {
     }
 
     @Override
-    public void execute(final String reviewId, final String username) {
+    public void execute(final LikeReviewInputData inputData) {
         try {
             validatePresenter();
-            final LikeReviewInputData inputData =
-                    new LikeReviewInputData(reviewId, username);
             final boolean liked = likeReview(inputData.getReviewId(),
                     inputData.getUsername());
             presenter.prepareSuccessView(liked);

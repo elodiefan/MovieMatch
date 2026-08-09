@@ -65,12 +65,12 @@ class ResetPasswordInteractorTest {
         final RecordingPresenter presenter = new RecordingPresenter();
 
         new ResetPasswordInteractor(dataAccess, presenter).changePassword(
-                new ResetPasswordInputData("yidan", "newpass1", "newpass1"));
+                new ResetPasswordInputData("bob", "newpass1", "newpass1"));
 
         assertNull(presenter.failure);
-        assertEquals("yidan", dataAccess.changedUsername);
+        assertEquals("bob", dataAccess.changedUsername);
         assertEquals("newpass1", dataAccess.changedPassword);
-        assertEquals("yidan", presenter.success.getUsername());
+        assertEquals("bob", presenter.success.getUsername());
     }
 
     private static void assertFailure(String password, String confirmation, String expectedMessage) {
@@ -78,7 +78,7 @@ class ResetPasswordInteractorTest {
         final RecordingPresenter presenter = new RecordingPresenter();
 
         new ResetPasswordInteractor(dataAccess, presenter).changePassword(
-                new ResetPasswordInputData("yidan", password, confirmation));
+                new ResetPasswordInputData("bob", password, confirmation));
 
         assertEquals(expectedMessage, presenter.failure);
         assertNull(dataAccess.changedPassword);
