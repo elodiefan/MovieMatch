@@ -11,7 +11,19 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.WindowConstants;
 
+import interface_adapter.messaging.MessagingController;
+import interface_adapter.messaging.MessagingPresenter;
 import interface_adapter.messaging.MessagingViewModel;
+import use_case.access_message_chat.AccessMessageChatInputBoundary;
+import use_case.access_message_chat.AccessMessageChatInteractor;
+import use_case.access_message_chat.AccessMessageChatOutputBoundary;
+import use_case.block_user.BlockUserOutputBoundary;
+import use_case.fetch_chat_history.FetchChatHistoryInputBoundary;
+import use_case.fetch_chat_history.FetchChatHistoryInteractor;
+import use_case.fetch_chat_history.FetchChatHistoryOutputBoundary;
+import use_case.send_message.SendMessageInputBoundary;
+import use_case.send_message.SendMessageInteractor;
+import use_case.send_message.SendMessageOutputBoundary;
 import views.*;
 
 import database.*;
@@ -373,7 +385,7 @@ public class AppBuilder {
         // The presenter accepts a reviews view model but currently discards it,
         // so this is inert until that part of the presenter is finished.
         final OtherAccountPresenter otherAccountPresenter = new OtherAccountPresenter(viewManagerModel,
-                otherAccountViewModel);
+                otherAccountViewModel, messagingViewModel);
         final BlockUserInputBoundary blockUserInteractor = new BlockUserInteractor(userDataAccessObject,
                 otherAccountPresenter);
 
