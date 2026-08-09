@@ -105,6 +105,18 @@ public class OtherAccountView extends JPanel implements PropertyChangeListener {
                 }
         );
 
+        blockButton.addActionListener(
+                evt -> {
+                    if (evt.getSource().equals(blockButton)) {
+                        final OtherAccountState currentState = otherAccountViewModel.getState();
+
+                        this.otherAccountController.executeBlockUser(
+                                currentState.getUsername()
+                        );
+                    }
+                }
+        );
+
         this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 
         this.add(title);
