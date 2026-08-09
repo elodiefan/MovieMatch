@@ -2,16 +2,16 @@ package use_case.filter;
 
 import java.util.List;
 
-import entity.Media;
+import use_case.search.MediaResultData;
 
 /**
  * Output data for the Filter Use Case.
  */
 public class FilterOutputData {
 
-    private final List<Media> filteredResults;
+    private final List<MediaResultData> filteredResults;
 
-    public FilterOutputData(List<Media> filteredResults) {
+    public FilterOutputData(List<MediaResultData> filteredResults) {
         this.filteredResults = filteredResults;
     }
 
@@ -20,7 +20,7 @@ public class FilterOutputData {
      *
      * @return the filtered media results
      */
-    public List<Media> getFilteredResults() {
+    public List<MediaResultData> getFilteredResults() {
         return filteredResults;
     }
 }

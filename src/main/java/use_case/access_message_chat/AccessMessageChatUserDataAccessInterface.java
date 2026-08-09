@@ -13,10 +13,4 @@ public interface AccessMessageChatUserDataAccessInterface {
      * @return the can message
      */
     boolean canMessage(String otherUsername);
-
-    /**
-     * Gets username of current user.
-     * @return username of current user
-     */
-    String getCurrentUsername();
 }

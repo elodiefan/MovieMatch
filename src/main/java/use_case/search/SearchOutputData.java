@@ -2,21 +2,19 @@ package use_case.search;
 
 import java.util.List;
 
-import entity.Media;
-
 /**
  * Output data for the Search Use Case.
  */
 public class SearchOutputData {
 
-    private final List<Media> results;
+    private final List<MediaResultData> results;
     private final String keyword;
     private final int nextPage;
     private final boolean moreAvailable;
     private final boolean appending;
     private final int totalResults;
 
-    public SearchOutputData(List<Media> results, String keyword, int nextPage,
+    public SearchOutputData(List<MediaResultData> results, String keyword, int nextPage,
                             boolean moreAvailable, boolean appending, int totalResults) {
         this.results = results;
         this.keyword = keyword;
@@ -40,7 +38,7 @@ public class SearchOutputData {
      *
      * @return the get results
      */
-    public List<Media> getResults() {
+    public List<MediaResultData> getResults() {
         return results;
     }
 

@@ -1,11 +1,16 @@
 package views;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Component;
+import java.awt.Cursor;
 import java.awt.Dimension;
+import java.awt.Dialog;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.net.MalformedURLException;
@@ -19,18 +24,28 @@ import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
+import javax.swing.JTextField;
+import javax.swing.SwingUtilities;
 import javax.swing.SwingWorker;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 
 import interface_adapter.user_reviews.UserCommentRow;
 import interface_adapter.user_reviews.UserReviewRow;
 import interface_adapter.user_reviews.UserReviewsController;
 import interface_adapter.user_reviews.UserReviewsState;
 import interface_adapter.user_reviews.UserReviewsViewModel;
+import interface_adapter.comments.CommentsState;
+import interface_adapter.comments.CommentsViewModel;
+import interface_adapter.media_detail.MediaDetailController;
+import interface_adapter.media_reviews.MediaReviewsState;
+import interface_adapter.media_reviews.MediaReviewsViewModel;
 
 /**
  * Swing view for a user's reviews.
@@ -54,6 +69,19 @@ public final class MyReviewsView extends JPanel
      */
     private static final String POSTER_BASE_URL =
             "https://image.tmdb.org/t/p/w185";
+    /**
+     * Smallest valid rating percentage.
+     */
+    private static final double MIN_RATING = 0.0;
+    /**
+     * Largest valid rating percentage.
+     */
+    private static final double MAX_RATING = 100.0;
+    /**
+     * Rating validation message.
+     */
+    private static final String RATING_ERROR =
+            "Rating needs to be between 0 and 100 inclusive.";
 
     /**
      * The time_formatter.
@@ -90,6 +118,18 @@ public final class MyReviewsView extends JPanel
      * The user reviews controller.
      */
     private UserReviewsController userReviewsController;
+    /**
+     * The media detail controller.
+     */
+    private MediaDetailController mediaDetailController;
+    /**
+     * The media reviews view model.
+     */
+    private MediaReviewsViewModel mediaReviewsViewModel;
+    /**
+     * The comments view model.
+     */
+    private CommentsViewModel commentsViewModel;
     /**
      * The loading content.
      */
@@ -161,6 +201,27 @@ public final class MyReviewsView extends JPanel
     public void setUserReviewsController(
             final UserReviewsController inputUserReviewsController) {
         this.userReviewsController = inputUserReviewsController;
+    }
+
+    /**
+     * Sets the controller for opening media detail pages.
+     * @param inputMediaDetailController the media detail controller
+     */
+    public void setMediaDetailController(
+            final MediaDetailController inputMediaDetailController) {
+        this.mediaDetailController = inputMediaDetailController;
+    }
+
+    /**
+     * Sets destination view models used to select review/comment targets.
+     * @param inputMediaReviewsViewModel the media reviews view model
+     * @param inputCommentsViewModel the comments view model
+     */
+    public void setMediaReviewTargets(
+            final MediaReviewsViewModel inputMediaReviewsViewModel,
+            final CommentsViewModel inputCommentsViewModel) {
+        this.mediaReviewsViewModel = inputMediaReviewsViewModel;
+        this.commentsViewModel = inputCommentsViewModel;
     }
 
     /**
@@ -256,8 +317,10 @@ public final class MyReviewsView extends JPanel
         final JPanel detailPanel = new JPanel();
         detailPanel.setLayout(new BoxLayout(detailPanel, BoxLayout.Y_AXIS));
         detailPanel.setAlignmentX(Component.LEFT_ALIGNMENT);
-        detailPanel.add(createMediaTitleLabel(review.getMediaTitle(),
-                review.getReleaseYear()));
+        final JLabel titleLabel = createMediaTitleLabel(review.getMediaTitle(),
+                review.getReleaseYear());
+        addReviewNavigation(titleLabel, review);
+        detailPanel.add(titleLabel);
         detailPanel.add(new JLabel("Rating: " + review.getRating() + "%"));
         detailPanel.add(new JLabel("Created: "
                 + formatTime(review.getCreatedAt())));
@@ -267,7 +330,9 @@ public final class MyReviewsView extends JPanel
         detailPanel.add(new JLabel(review.getReviewText()));
         detailPanel.add(createButtonPanel(review));
 
-        card.add(createPosterLabel(review.getPosterPath()), BorderLayout.WEST);
+        final JLabel posterLabel = createPosterLabel(review.getPosterPath());
+        addReviewNavigation(posterLabel, review);
+        card.add(posterLabel, BorderLayout.WEST);
         card.add(detailPanel, BorderLayout.CENTER);
 
         return card;
@@ -287,15 +352,19 @@ public final class MyReviewsView extends JPanel
         final JPanel detailPanel = new JPanel();
         detailPanel.setLayout(new BoxLayout(detailPanel, BoxLayout.Y_AXIS));
         detailPanel.setAlignmentX(Component.LEFT_ALIGNMENT);
-        detailPanel.add(createMediaTitleLabel(comment.getMediaTitle(),
-                comment.getReleaseYear()));
+        final JLabel titleLabel = createMediaTitleLabel(comment.getMediaTitle(),
+                comment.getReleaseYear());
+        addCommentNavigation(titleLabel, comment);
+        detailPanel.add(titleLabel);
         detailPanel.add(new JLabel("On review: " + comment.getReviewText()));
         detailPanel.add(new JLabel("Created: "
                 + formatTime(comment.getCreatedAt())));
         detailPanel.add(new JLabel("Likes: " + comment.getLikeCount()));
         detailPanel.add(new JLabel(comment.getCommentText()));
 
-        card.add(createPosterLabel(comment.getPosterPath()), BorderLayout.WEST);
+        final JLabel posterLabel = createPosterLabel(comment.getPosterPath());
+        addCommentNavigation(posterLabel, comment);
+        card.add(posterLabel, BorderLayout.WEST);
         card.add(detailPanel, BorderLayout.CENTER);
 
         return card;
@@ -358,6 +427,84 @@ public final class MyReviewsView extends JPanel
         posterLabel.setAlignmentX(Component.LEFT_ALIGNMENT);
         updatePoster(posterLabel, posterPath);
         return posterLabel;
+    }
+
+    /**
+     * Adds click navigation to a review media label or poster.
+     * @param component the clickable component
+     * @param review the review row
+     */
+    private void addReviewNavigation(final Component component,
+                                     final UserReviewRow review) {
+        component.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+        component.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(final MouseEvent event) {
+                openMediaDetail(review);
+            }
+        });
+    }
+
+    /**
+     * Adds click navigation to a comment media label or poster.
+     * @param component the clickable component
+     * @param comment the comment row
+     */
+    private void addCommentNavigation(final Component component,
+                                      final UserCommentRow comment) {
+        component.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+        component.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(final MouseEvent event) {
+                openMediaDetail(comment);
+            }
+        });
+    }
+
+    /**
+     * Opens the media detail page focused on the selected review.
+     * @param review the review row
+     */
+    private void openMediaDetail(final UserReviewRow review) {
+        selectTarget(review.getReviewId(), "");
+        if (mediaDetailController != null) {
+            mediaDetailController.execute(review.getMediaId(),
+                    review.getMediaType(), review.getMediaTitle(),
+                    review.getReleaseYear(), review.getPosterPath());
+        }
+    }
+
+    /**
+     * Opens the media detail page focused on the selected comment.
+     * @param comment the comment row
+     */
+    private void openMediaDetail(final UserCommentRow comment) {
+        selectTarget(comment.getReviewId(), comment.getCommentId());
+        if (mediaDetailController != null) {
+            mediaDetailController.execute(comment.getMediaId(),
+                    comment.getMediaType(), comment.getMediaTitle(),
+                    comment.getReleaseYear(), comment.getPosterPath());
+        }
+    }
+
+    /**
+     * Stores the review/comment that should be highlighted after navigation.
+     * @param reviewId the selected review id
+     * @param commentId the selected comment id
+     */
+    private void selectTarget(final String reviewId, final String commentId) {
+        if (mediaReviewsViewModel != null) {
+            final MediaReviewsState reviewsState =
+                    mediaReviewsViewModel.getState();
+            reviewsState.setSelectedReviewId(reviewId);
+            mediaReviewsViewModel.setState(reviewsState);
+        }
+        if (commentsViewModel != null) {
+            final CommentsState commentsState = commentsViewModel.getState();
+            commentsState.setReviewId(reviewId);
+            commentsState.setSelectedCommentId(commentId);
+            commentsViewModel.setState(commentsState);
+        }
     }
 
     /**
@@ -468,19 +615,117 @@ public final class MyReviewsView extends JPanel
                     userReviewsController.deleteReview(reviewId,
                             state.getUsername());
                 } else {
-                    final String ratingText = JOptionPane.showInputDialog(
-                            MyReviewsView.this, "New rating percentage:");
-                    final String reviewText = JOptionPane.showInputDialog(
-                            MyReviewsView.this, "New review text:");
-                    if (!isBlank(ratingText)) {
+                    final Double rating =
+                            promptForRating("New rating percentage:");
+                    if (rating != null) {
+                        final String reviewText =
+                                JOptionPane.showInputDialog(
+                                        MyReviewsView.this,
+                                        "New review text:");
                         userReviewsController.editReview(reviewId,
-                                state.getUsername(),
-                                Double.parseDouble(ratingText), reviewText);
+                                state.getUsername(), rating, reviewText);
                     }
                 }
                 userReviewsController.loadUserReviews(state.getUsername());
             }
             userReviewsViewModel.firePropertyChanged();
+        }
+    }
+
+    /**
+     * Opens a rating dialog that cannot be submitted until valid.
+     * @param title the dialog title
+     * @return the rating, or null if cancelled
+     */
+    private Double promptForRating(final String title) {
+        final JDialog dialog = new JDialog(
+                SwingUtilities.getWindowAncestor(this), title,
+                Dialog.ModalityType.APPLICATION_MODAL);
+        final JTextField ratingField = new JTextField(12);
+        final JLabel validationLabel = new JLabel(" ");
+        validationLabel.setForeground(Color.RED);
+        final JButton submitButton = new JButton("Submit");
+        submitButton.setEnabled(false);
+        final JButton cancelButton = new JButton("Cancel");
+        final Double[] rating = new Double[1];
+
+        final JPanel inputPanel = new JPanel();
+        inputPanel.setLayout(new BoxLayout(inputPanel, BoxLayout.Y_AXIS));
+        inputPanel.add(new JLabel(title));
+        inputPanel.add(ratingField);
+        inputPanel.add(validationLabel);
+
+        final JPanel buttonPanel = new JPanel();
+        buttonPanel.add(cancelButton);
+        buttonPanel.add(submitButton);
+
+        ratingField.getDocument().addDocumentListener(
+                new RatingValidationListener(ratingField, validationLabel,
+                        submitButton));
+        submitButton.addActionListener(event -> {
+            rating[0] = parseRating(ratingField.getText());
+            dialog.dispose();
+        });
+        cancelButton.addActionListener(event -> dialog.dispose());
+
+        dialog.add(inputPanel);
+        dialog.add(buttonPanel, BorderLayout.SOUTH);
+        dialog.pack();
+        dialog.setLocationRelativeTo(this);
+        dialog.setVisible(true);
+        return rating[0];
+    }
+
+    private Double parseRating(final String ratingText) {
+        Double rating = null;
+        try {
+            final double parsedRating = Double.parseDouble(ratingText);
+            if (parsedRating >= MIN_RATING && parsedRating <= MAX_RATING) {
+                rating = parsedRating;
+            }
+        } catch (NumberFormatException exception) {
+            rating = null;
+        }
+        return rating;
+    }
+
+    private final class RatingValidationListener implements DocumentListener {
+        private final JTextField ratingField;
+        private final JLabel validationLabel;
+        private final JButton submitButton;
+
+        private RatingValidationListener(final JTextField inputRatingField,
+                                         final JLabel inputValidationLabel,
+                                         final JButton inputSubmitButton) {
+            this.ratingField = inputRatingField;
+            this.validationLabel = inputValidationLabel;
+            this.submitButton = inputSubmitButton;
+        }
+
+        @Override
+        public void insertUpdate(final DocumentEvent event) {
+            updateValidation();
+        }
+
+        @Override
+        public void removeUpdate(final DocumentEvent event) {
+            updateValidation();
+        }
+
+        @Override
+        public void changedUpdate(final DocumentEvent event) {
+            updateValidation();
+        }
+
+        private void updateValidation() {
+            final boolean validRating = parseRating(ratingField.getText())
+                    != null;
+            submitButton.setEnabled(validRating);
+            if (isBlank(ratingField.getText()) || validRating) {
+                validationLabel.setText(" ");
+            } else {
+                validationLabel.setText(RATING_ERROR);
+            }
         }
     }
 }

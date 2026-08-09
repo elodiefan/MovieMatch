@@ -27,15 +27,14 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 import javax.swing.SwingWorker;
 
-import entity.Media;
 import interface_adapter.ViewManagerModel;
 import interface_adapter.filter.FilterController;
 import interface_adapter.filter.FilterRequestModel;
 import interface_adapter.media_detail.MediaDetailController;
 import interface_adapter.search.SearchController;
 import interface_adapter.search_result.SearchResultState;
+import interface_adapter.search_result.SearchResultRow;
 import interface_adapter.search_result.SearchResultViewModel;
-import use_case.filter.FilterCriteria;
 
 /**
  * View for displaying and filtering search results.
@@ -322,19 +321,14 @@ public class SearchResultView extends JPanel
         }
         else {
             try {
-                final FilterCriteria criteria =
-                        new FilterCriteria(
-                                getSelectedLanguages(),
-                                parseDouble(minimumRatingField),
-                                getSelectedGenreIds(),
-                                parseInteger(earliestYearField),
-                                parseInteger(latestYearField)
-                        );
-
                 messageLabel.setText(" ");
                 filterController.execute(new FilterRequestModel(
                         searchResultViewModel.getState().getOriginalResults(),
-                        criteria));
+                        getSelectedLanguages(),
+                        parseDouble(minimumRatingField),
+                        getSelectedGenreIds(),
+                        parseInteger(earliestYearField),
+                        parseInteger(latestYearField)));
             }
             catch (NumberFormatException exception) {
                 showInputError(
@@ -354,18 +348,9 @@ public class SearchResultView extends JPanel
         messageLabel.setText(" ");
 
         if (filterController != null) {
-            final FilterCriteria emptyCriteria =
-                    new FilterCriteria(
-                            new ArrayList<>(),
-                            null,
-                            new ArrayList<>(),
-                            null,
-                            null
-                    );
-
             filterController.execute(new FilterRequestModel(
                     searchResultViewModel.getState().getOriginalResults(),
-                    emptyCriteria));
+                    new ArrayList<>(), null, new ArrayList<>(), null, null));
         }
     }
 
@@ -628,7 +613,7 @@ public class SearchResultView extends JPanel
         this.searchController = searchController;
     }
 
-    private void addMediaResult(Media media) {
+    private void addMediaResult(SearchResultRow media) {
         final JButton mediaCard = new JButton();
         mediaCard.setLayout(new BorderLayout(0, CARD_PADDING));
 
@@ -729,9 +714,13 @@ public class SearchResultView extends JPanel
                 .replace("'", "&#39;");
     }
 
-    private void showMediaDetail(Media media) {
+    private void showMediaDetail(SearchResultRow media) {
         if (mediaDetailController != null) {
-            mediaDetailController.execute(media);
+            mediaDetailController.execute(media.getMediaId(),
+                    media.getMediaType(), media.getTitle(),
+                    media.getReleaseYear(), media.getAverageRating(),
+                    media.getGenreNames(), media.getLanguage(),
+                    media.getOverview(), media.getPosterPath());
         }
         else {
             JOptionPane.showMessageDialog(

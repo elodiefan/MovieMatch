@@ -15,6 +15,14 @@ public final class UserCommentRow {
      */
     private final String reviewId;
     /**
+     * The media id.
+     */
+    private final int mediaId;
+    /**
+     * The media type.
+     */
+    private final String mediaType;
+    /**
      * The media title.
      */
     private final String mediaTitle;
@@ -47,6 +55,8 @@ public final class UserCommentRow {
      * Creates display data for one comment row.
      * @param inputCommentId the comment id
      * @param inputReviewId the review id
+     * @param inputMediaId the media id
+     * @param inputMediaType the media type
      * @param inputMediaTitle the media title
      * @param inputReleaseYear the release year
      * @param inputPosterPath the poster path
@@ -57,6 +67,8 @@ public final class UserCommentRow {
      */
     public UserCommentRow(final String inputCommentId,
                           final String inputReviewId,
+                          final int inputMediaId,
+                          final String inputMediaType,
                           final String inputMediaTitle,
                           final int inputReleaseYear,
                           final String inputPosterPath,
@@ -66,6 +78,8 @@ public final class UserCommentRow {
                           final int inputLikeCount) {
         this.commentId = inputCommentId;
         this.reviewId = inputReviewId;
+        this.mediaId = inputMediaId;
+        this.mediaType = inputMediaType;
         this.mediaTitle = inputMediaTitle;
         this.releaseYear = inputReleaseYear;
         this.posterPath = inputPosterPath;
@@ -81,6 +95,14 @@ public final class UserCommentRow {
 
     public String getReviewId() {
         return reviewId;
+    }
+
+    public int getMediaId() {
+        return mediaId;
+    }
+
+    public String getMediaType() {
+        return mediaType;
     }
 
     public String getMediaTitle() {

@@ -5,17 +5,18 @@ import use_case.block_user.BlockUserUserDataAccessInterface;
 import use_case.change_display_name.ChangeDisplayNameUserDataAccessInterface;
 import use_case.change_username.ChangeUsernameUserDataAccessInterface;
 import use_case.delete_account.DeleteAccountUserDataAccessInterface;
-import use_case.get_blocked_users.GetBlockedUsersUserDataAccessInterface;
+import use_case.get_lists.get_blocked_users.GetBlockedUsersUserDataAccessInterface;
 import use_case.get_profile.GetProfileUserDataAccessInterface;
 import use_case.get_security_question.GetSecurityQuestionUserDataAccessInterface;
-import use_case.get_watch_history.GetWatchHistoryUserDataAccessInterface;
-import use_case.get_watchlist.GetWatchlistUserDataAccessInterface;
+import use_case.get_lists.get_watch_history.GetWatchHistoryUserDataAccessInterface;
+import use_case.get_lists.get_watchlist.GetWatchlistUserDataAccessInterface;
 import use_case.home_page.HomePageUserDataAccessInterface;
 import use_case.login.LoginUserDataAccessInterface;
 import use_case.log_media.LogMediaDataAccessInterface;
 import use_case.logout.LogoutUserDataAccessInterface;
 import use_case.reset_password.ResetPasswordUserDataAccessInterface;
 import use_case.recommendation.WatchedMediaDataAccessInterface;
+import use_case.review.create_review.CreateReviewUserDataAccessInterface;
 import use_case.search_user.SearchUserDataAccess;
 import use_case.security_question.SecurityQuestionUserDataAccessInterface;
 import use_case.signup.SignupUserDataAccessInterface;
@@ -28,6 +29,7 @@ public interface UserDataAccessObject extends
         BlockUserUserDataAccessInterface,
         ChangeDisplayNameUserDataAccessInterface,
         ChangeUsernameUserDataAccessInterface,
+        CreateReviewUserDataAccessInterface,
         DeleteAccountUserDataAccessInterface,
         GetBlockedUsersUserDataAccessInterface,
         GetWatchHistoryUserDataAccessInterface,

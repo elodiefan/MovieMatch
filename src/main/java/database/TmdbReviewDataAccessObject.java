@@ -10,7 +10,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import entity.Review;
 
-import use_case.get_media_reviews.GetMediaReviewsDataAccessInterface;
+import use_case.review.get_media_reviews.GetMediaReviewsDataAccessInterface;
 
 /**
  * Loads read-only review data from TMDB.
