@@ -1,0 +1,304 @@
+package database;
+
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import entity.Genre;
+import entity.Media;
+import entity.Movie;
+import entity.TVShow;
+import use_case.search.MediaPage;
+import use_case.search.SearchMediaDataAccess;
+
+/**
+ * Accesses TMDB search data and converts the responses into Media entities.
+ * String literals defined for avoiding multiple times of using same string.
+ */
+public class TMDBSearchMediaDataAccess
+        implements SearchMediaDataAccess {
+
+    private static final String ID_FIELD = "id";
+    private static final String RESULTS_FIELD = "results";
+    private static final String TOTAL_PAGES_FIELD = "total_pages";
+    private static final String TOTAL_RESULTS_FIELD = "total_results";
+    private static final String GENRES_FIELD = "genres";
+    private static final String VOTE_AVERAGE_FIELD = "vote_average";
+    private static final String ORIGINAL_LANGUAGE_FIELD = "original_language";
+    private static final String CREDITS_FIELD = "credits";
+    private static final String CAST_FIELD = "cast";
+    private static final String OVERVIEW_FIELD = "overview";
+    private static final String POSTER_PATH_FIELD = "poster_path";
+    private static final String NAME_FIELD = "name";
+
+    private final TMDBAPIClient tmdbApiClient;
+    private final ObjectMapper objectMapper;
+
+    /**
+     * Creates a data access object that searches TMDB through client
+     * Data are translated by object mapper.
+     *
+     * @param tmdbApiClient the tmdb api client
+     */
+    public TMDBSearchMediaDataAccess(
+            TMDBAPIClient tmdbApiClient) {
+        this.tmdbApiClient = tmdbApiClient;
+        this.objectMapper = new ObjectMapper();
+    }
+
+    /**
+     * Searches TMDB for movies.json and TV shows matching a keyword.
+     * Externally connected to search interactor, checking input/output and handling exceptions.
+     *
+     * @param keyword keyword entered by the user
+     * @return matching movies.json and TV shows
+     */
+    @Override
+    public List<Media> search(String keyword) {
+        return searchPage(keyword, 1).getMedia();
+    }
+
+    /**
+     * Fetches one page of TMDB results and reports how many pages exist.
+     * Only the page asked for is fetched. Requesting every page TMDB reports
+     * meant up to 500-page requests plus a details request per result, which
+     * for a common word is over ten thousand calls.
+     *
+     * @param keyword the keyword
+     * @param page the page
+     * @return the search page
+     */
+    @Override
+    public MediaPage searchPage(String keyword, int page) {
+        final List<Media> results = new ArrayList<>();
+        int totalPages = 0;
+        int totalResults = 0;
+
+        if (keyword != null && !keyword.trim().isEmpty()) {
+            try {
+                final JsonNode movies =
+                        objectMapper.readTree(tmdbApiClient.searchMovies(keyword, page));
+                final JsonNode shows =
+                        objectMapper.readTree(tmdbApiClient.searchTVShows(keyword, page));
+
+                addMediaFromPage(movies, results, true);
+                addMediaFromPage(shows, results, false);
+
+                // Movies and shows are paged separately, so keep going until
+                // both are exhausted, and report the two counts together.
+                totalPages = Math.max(movies.path(TOTAL_PAGES_FIELD).asInt(),
+                        shows.path(TOTAL_PAGES_FIELD).asInt());
+                totalResults = movies.path(TOTAL_RESULTS_FIELD).asInt()
+                        + shows.path(TOTAL_RESULTS_FIELD).asInt();
+            }
+            catch (IOException exception) {
+                throw new IllegalStateException(
+                        "Unable to search media through TMDB.",
+                        exception
+                );
+            }
+        }
+
+        return new MediaPage(results, totalPages, totalResults);
+    }
+
+    /**
+     * Converts one page of results, which are all of the same kind because the
+     * movie and TV endpoints are queried separately.
+     *
+     * @param pageNode the page node
+     * @param results the results
+     * @param movies the movies
+     * @throws IOException if the operation fails
+     */
+    private void addMediaFromPage(
+            JsonNode pageNode,
+            List<Media> results,
+            boolean movies) throws IOException {
+        for (JsonNode item : pageNode.path(RESULTS_FIELD)) {
+            final int id = item.path(ID_FIELD).asInt();
+
+            if (movies) {
+                results.add(getMovie(id));
+            }
+            else {
+                results.add(getTvShow(id));
+            }
+        }
+    }
+
+    /**
+     * Gets detailed movie information and converts it into a Movie.
+     *
+     * @param movieId the movie id
+     * @return the get movie
+     * @throws IOException if the operation fails
+     */
+    private Movie getMovie(int movieId) throws IOException {
+        final String detailsJson =
+                tmdbApiClient.getMovieDetails(movieId);
+        final JsonNode details =
+                objectMapper.readTree(detailsJson);
+
+        final int id =
+                details.path(ID_FIELD).asInt();
+        final String title =
+                details.path("title").asText();
+        final int releaseYear =
+                parseYear(details.path("release_date").asText());
+        final double averageRating =
+                details.path(VOTE_AVERAGE_FIELD).asDouble();
+        final List<Genre> genres =
+                parseGenres(details.path(GENRES_FIELD));
+        final String language =
+                details.path(ORIGINAL_LANGUAGE_FIELD).asText();
+        final List<String> cast =
+                parseCast(
+                        details.path(CREDITS_FIELD)
+                                .path(CAST_FIELD)
+                );
+        final int runtime =
+                details.path("runtime").asInt();
+
+        final String overview =
+                details.path(OVERVIEW_FIELD).asText("");
+
+        final String posterPath =
+                details.path(POSTER_PATH_FIELD).asText("");
+
+        return new Movie(
+                id,
+                title,
+                releaseYear,
+                averageRating,
+                genres,
+                language,
+                cast,
+                runtime,
+                overview,
+                posterPath
+        );
+    }
+
+    /**
+     * Gets complete TV-show information and converts it into a TVShow.
+     *
+     * @param tvShowId the tv show id
+     * @return the get tv show
+     * @throws IOException if the operation fails
+     */
+    private TVShow getTvShow(int tvShowId) throws IOException {
+        final String detailsJson =
+                tmdbApiClient.getTVShowDetails(tvShowId);
+        final JsonNode details =
+                objectMapper.readTree(detailsJson);
+
+        final int id =
+                details.path(ID_FIELD).asInt();
+        final String title =
+                details.path(NAME_FIELD).asText();
+        final int releaseYear =
+                parseYear(details.path("first_air_date").asText());
+        final double averageRating =
+                details.path(VOTE_AVERAGE_FIELD).asDouble();
+        final List<Genre> genres =
+                parseGenres(details.path(GENRES_FIELD));
+        final String language =
+                details.path(ORIGINAL_LANGUAGE_FIELD).asText();
+        final List<String> cast =
+                parseCast(
+                        details.path(CREDITS_FIELD)
+                                .path(CAST_FIELD)
+                );
+        final int numberOfSeasons =
+                details.path("number_of_seasons").asInt();
+        final int numberOfEpisodes =
+                details.path("number_of_episodes").asInt();
+
+        final String overview =
+                details.path(OVERVIEW_FIELD).asText("");
+
+        final String posterPath =
+                details.path(POSTER_PATH_FIELD).asText("");
+
+        return new TVShow(
+                id,
+                title,
+                releaseYear,
+                averageRating,
+                genres,
+                language,
+                cast,
+                numberOfSeasons,
+                numberOfEpisodes,
+                overview,
+                posterPath
+        );
+    }
+
+    /**
+     * Converts a TMDB genre array into Genre list containing both id and name of genre.
+     *
+     * @param genreNodes the genre nodes
+     * @return the parse genres
+     */
+    private List<Genre> parseGenres(JsonNode genreNodes) {
+        final List<Genre> genres = new ArrayList<>();
+
+        for (JsonNode genreNode : genreNodes) {
+            final int id =
+                    genreNode.path(ID_FIELD).asInt();
+            final String name =
+                    genreNode.path(NAME_FIELD).asText();
+
+            genres.add(new Genre(id, name));
+        }
+
+        return genres;
+    }
+
+    /**
+     * Extracts only cast-member names from TMDB credits.
+     *
+     * @param castNodes the cast nodes
+     * @return the parse cast
+     */
+    private List<String> parseCast(JsonNode castNodes) {
+        final List<String> cast = new ArrayList<>();
+
+        for (JsonNode castNode : castNodes) {
+            cast.add(
+                    castNode.path(NAME_FIELD).asText()
+            );
+        }
+
+        return cast;
+    }
+
+    /**
+     * Extracts the year from a date using the YYYY-MM-DD format.
+     * Lost release year is shown as 0.
+     * 4 is the amount of character that represents a year.
+     *
+     * @param date the date
+     * @return the parse year
+     */
+    private int parseYear(String date) {
+        int year = 0;
+
+        if (date != null && date.length() >= 4) {
+            try {
+                year = Integer.parseInt(
+                        date.substring(0, 4)
+                );
+            }
+            catch (NumberFormatException exception) {
+                year = 0;
+            }
+        }
+
+        return year;
+    }
+}

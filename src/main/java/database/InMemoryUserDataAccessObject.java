@@ -1,0 +1,324 @@
+package database;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.LinkedHashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+
+import entity.MediaListItem;
+import entity.StandardUser;
+import entity.User;
+import entity.UserLists;
+
+/**
+ * In-memory implementation of UserDataAccessObject.
+ */
+public class InMemoryUserDataAccessObject implements UserDataAccessObject {
+
+    private final Map<String, User> users = new HashMap<>();
+    private String currentUsername;
+
+    /**
+     * Watchlist and watch history ids, kept per user for the offline store.
+     */
+    private final Map<String, Set<Integer>> engagedMediaIds = new HashMap<>();
+
+    /**
+     * Watch history media keys, kept per user for review permissions.
+     */
+    private final Map<String, Set<String>> watchedMediaKeys = new HashMap<>();
+
+    @Override
+    public Set<Integer> findEngagedMediaIds(String username) {
+        return new LinkedHashSet<>(engagedMediaIds.getOrDefault(username, new LinkedHashSet<>()));
+    }
+
+    // ---------- Signup + Login ----------
+
+    @Override
+    public boolean existsByName(String username) {
+        return users.containsKey(username);
+    }
+
+    /**
+     * Same check as #existsByName, under the name the login use case uses.
+     *
+     * @param username the username
+     * @return the exists by username
+     */
+    @Override
+    public boolean existsByUsername(String username) {
+        return existsByName(username);
+    }
+
+    @Override
+    public void save(User user) {
+        users.put(user.getUsername(), user);
+    }
+
+    @Override
+    public void saveUser(String username, String displayName, String password,
+                         String securityQuestion, String securityAnswer) {
+        users.put(username, new StandardUser(username, displayName, password,
+                securityQuestion, securityAnswer));
+    }
+
+    @Override
+    public User get(String username) {
+        return users.get(username);
+    }
+
+    // ---------- Logout ----------
+
+    @Override
+    public String getCurrentUsername() {
+        return currentUsername;
+    }
+
+    @Override
+    public void setCurrentUsername(String username) {
+        this.currentUsername = username;
+    }
+
+    // ---------- Reset password (after the security question is answered) ----------
+
+    @Override
+    public void changePassword(String username, String newPassword) {
+        final User old = users.get(username);
+        if (old == null) {
+            return;
+        }
+        // StandardUser is immutable, so rebuild it with the new password.
+        users.put(username, new StandardUser(old.getUsername(), old.getDisplayName(),
+                newPassword, old.getSecurityQuestion(), old.getAnswer()));
+    }
+
+    // ---------- Change display name ----------
+
+    @Override
+    public void changeDisplayName(String username, String newDisplayName) {
+        final User old = users.get(username);
+        if (old == null) {
+            return;
+        }
+        users.put(username, new StandardUser(old.getUsername(), newDisplayName,
+                old.getPassword(), old.getSecurityQuestion(), old.getAnswer(), old.getUserLists()));
+    }
+
+    // ---------- Change username ----------
+
+    @Override
+    public void changeUsername(String username, String newUsername) {
+        final User old = users.get(username);
+        if (old == null) {
+            return;
+        }
+        users.remove(username);
+        users.put(newUsername, new StandardUser(newUsername, old.getDisplayName(),
+                old.getPassword(), old.getSecurityQuestion(), old.getAnswer(), old.getUserLists()));
+    }
+
+    // ---------- Get watchlist ----------
+
+    @Override
+    public UserLists getLists(String username) {
+        final User user = users.get(username);
+        return user.getUserLists();
+    }
+
+    @Override
+    public void addToWatchlist(String username, int mediaId,
+                               String mediaType, String mediaTitle,
+                               String posterPath, String addedAt) {
+        final User user = users.get(username);
+        if (user != null) {
+            final String watchlist = appendMediaLog(user.getWatchlist(),
+                    mediaTitle, addedAt);
+            final List<MediaListItem> watchlistItems =
+                    user.getUserLists().getWatchlistItems();
+            watchlistItems.add(new MediaListItem(mediaId, mediaType,
+                    mediaTitle, addedAt, posterPath));
+            user.setUserLists(new UserLists(username, watchlist,
+                    user.getWatchHistory(), user.getBlockedUsers(),
+                    watchlistItems,
+                    user.getUserLists().getWatchHistoryItems()));
+            recordEngaged(username, mediaId);
+        }
+    }
+
+    @Override
+    public void addToWatchHistory(String username, int mediaId,
+                                  String mediaType, String mediaTitle,
+                                  String posterPath, String watchedAt) {
+        final User user = users.get(username);
+        if (user != null) {
+            final String watchHistory = appendMediaLog(user.getWatchHistory(),
+                    mediaTitle, watchedAt);
+            final List<MediaListItem> watchHistoryItems =
+                    user.getUserLists().getWatchHistoryItems();
+            watchHistoryItems.add(new MediaListItem(mediaId, mediaType,
+                    mediaTitle, watchedAt, posterPath));
+            final List<MediaListItem> watchlistItems =
+                    removeFromWatchlist(user.getUserLists()
+                            .getWatchlistItems(), mediaId, mediaType);
+            user.setUserLists(new UserLists(username,
+                    toMediaLog(watchlistItems),
+                    watchHistory, user.getBlockedUsers(),
+                    watchlistItems, watchHistoryItems));
+            recordEngaged(username, mediaId);
+            recordWatched(username, mediaId, mediaType);
+        }
+    }
+
+    @Override
+    public boolean hasWatchedMedia(String username, int mediaId,
+                                   String mediaType) {
+        final Set<String> mediaKeys =
+                watchedMediaKeys.getOrDefault(username, new LinkedHashSet<>());
+        return mediaKeys.contains(toMediaKey(mediaId, mediaType));
+    }
+
+    // ---------- Delete account (after the security question is answered) ----------
+
+    @Override
+    public void deleteAccount(User user) {
+        users.remove(user.getUsername());
+    }
+
+    @Override
+    public String getCurrentSecurityAnswer() {
+        final User currentUser = users.get(currentUsername);
+        return currentUser.getAnswer();
+    }
+
+    // ---------- Get user profile ----------
+    @Override
+    public String getDisplayName(String username) {
+        return users.get(username).getDisplayName();
+    }
+
+    // ---------- Get security question ----------
+    @Override
+        public String getSecurityQuestion() {
+        return users.get(currentUsername).getSecurityQuestion();
+    }
+
+    // ---------- Search for users ----------
+
+    /**
+     * Finds accounts whose username or display name contains the keyword, ignoring case.
+     *
+     * @param keyword the keyword
+     * @return the search
+     */
+    @Override
+    public List<User> search(String keyword) {
+        final String needle = keyword.toLowerCase();
+        final List<User> found = new ArrayList<>();
+        for (User user : users.values()) {
+            if (matches(user, needle)) {
+                found.add(user);
+            }
+        }
+        return found;
+    }
+
+    private boolean matches(User user, String lowercaseKeyword) {
+        return user.getUsername().toLowerCase().contains(lowercaseKeyword)
+                || user.getDisplayName().toLowerCase().contains(lowercaseKeyword);
+    }
+
+    // ---------- Block user ----------
+    @Override
+    public boolean alreadyBlocked(String otherUsername) {
+        return false;
+    }
+
+    @Override
+    public void addToBlockList(String otherUsername) {
+
+    }
+
+    @Override
+    public void removeFromBlockList(String otherUsername) {
+
+    }
+
+    // ---------- Access message chat view ----------
+    /**
+     * Checks whether the given user is blocked.
+     * @param otherUsername the other user's username
+     * @return false in the in-memory placeholder implementation
+     */
+    public boolean inBlockList(String otherUsername) {
+        return false;
+    }
+
+    @Override
+    public boolean canMessage(String otherUsername) {
+        return false;
+    }
+
+    // ---------- Nothing to release ----------
+
+    @Override
+    public void close() {
+        // No resources to free for an in-memory store.
+    }
+
+    private String appendMediaLog(String currentList, String mediaTitle,
+                                  String loggedAt) {
+        return currentList + mediaTitle + " -- " + loggedAt + "\n";
+    }
+
+    private List<MediaListItem> removeFromWatchlist(
+            List<MediaListItem> watchlistItems, int mediaId,
+            String mediaType) {
+        final List<MediaListItem> remainingItems = new ArrayList<>();
+        for (MediaListItem item : watchlistItems) {
+            if (!isSameMedia(item, mediaId, mediaType)) {
+                remainingItems.add(item);
+            }
+        }
+        return remainingItems;
+    }
+
+    private boolean isSameMedia(MediaListItem item, int mediaId,
+                                String mediaType) {
+        return item.getMediaId() == mediaId
+                && item.getMediaType().equals(mediaType);
+    }
+
+    private String toMediaLog(List<MediaListItem> mediaListItems) {
+        final StringBuilder mediaLog = new StringBuilder();
+        for (MediaListItem item : mediaListItems) {
+            mediaLog.append(item.getMediaTitle());
+            mediaLog.append(" -- ");
+            mediaLog.append(item.getLoggedAt());
+            mediaLog.append("\n");
+        }
+        return mediaLog.toString();
+    }
+
+    /**
+     * Remembers the id as well as the display line, since the lists themselves are kept as text
+     * and recommendations need something to match on.
+     *
+     * @param username the username
+     * @param mediaId the media id
+     */
+    private void recordEngaged(String username, int mediaId) {
+        engagedMediaIds.computeIfAbsent(username, key -> new LinkedHashSet<>()).add(mediaId);
+    }
+
+    private void recordWatched(String username, int mediaId, String mediaType) {
+        watchedMediaKeys.computeIfAbsent(username, key -> new LinkedHashSet<>())
+                .add(toMediaKey(mediaId, mediaType));
+    }
+
+    private String toMediaKey(int mediaId, String mediaType) {
+        return mediaId + ":" + mediaType;
+    }
+}

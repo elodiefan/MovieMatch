@@ -1,0 +1,47 @@
+@startuml
+title Search Use Case — Core Clean Architecture (Part 1 of 2)
+
+left to right direction
+skinparam classAttributeIconSize 0
+skinparam shadowing false
+skinparam linetype ortho
+
+class SearchView
+
+class SearchController
+
+interface SearchInputBoundary {
+    + execute(SearchInputData)
+    + loadMore(SearchInputData)
+}
+
+class SearchInteractor {
+    - searchDataAccess: SearchMediaDataAccess
+    - searchPresenter: SearchOutputBoundary
+    + execute(SearchInputData)
+    + loadMore(SearchInputData)
+}
+
+interface SearchMediaDataAccess {
+    + searchPage(String, int): MediaPage
+}
+
+interface SearchOutputBoundary {
+    + prepareSuccessView(SearchOutputData)
+    + prepareFailView(String)
+}
+
+class SearchPresenter
+class SearchResultViewModel
+class SearchResultView
+
+SearchView --> SearchController
+SearchController --> SearchInputBoundary
+SearchInteractor ..|> SearchInputBoundary
+SearchInteractor --> SearchMediaDataAccess
+SearchInteractor --> SearchOutputBoundary
+SearchPresenter ..|> SearchOutputBoundary
+SearchPresenter --> SearchResultViewModel
+SearchResultView --> SearchResultViewModel
+
+@enduml

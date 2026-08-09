@@ -32,7 +32,7 @@ public class DeleteAccountController {
     /**
      * Switches view back to user's account page.
      */
-    public void switchToAccountView() {
-        deleteAccountUseCaseInteractor.switchToAccountView();
+    public void switchToPersonalAccountView() {
+        deleteAccountUseCaseInteractor.switchToPersonalAccountView();
     }
 }

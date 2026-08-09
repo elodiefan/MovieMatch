@@ -2,7 +2,6 @@ package entity;
 
 /**
  * The lock-out rules for one account.
- * <p>
  * After {@link #MAX_ATTEMPTS} wrong security answers the account is locked for
  * {@link #LOCKOUT_MINUTES} minutes, and answers are refused until the lock
  * expires. Keeping these rules here rather than in an interactor means the
@@ -10,10 +9,14 @@ package entity;
  */
 public class AccountLockout {
 
-    /** Number of wrong answers allowed before the account locks. */
+    /**
+     * Number of wrong answers allowed before the account locks.
+     */
     public static final int MAX_ATTEMPTS = 3;
 
-    /** How long the account stays locked after too many wrong answers. */
+    /**
+     * How long the account stays locked after too many wrong answers.
+     */
     public static final int LOCKOUT_MINUTES = 5;
 
     private static final long MILLIS_PER_MINUTE = 60_000L;
@@ -21,7 +24,9 @@ public class AccountLockout {
 
     private int failedAttempts;
 
-    /** Epoch-millis until which the account is locked; 0 means not locked. */
+    /**
+     * Epoch-millis until which the account is locked; 0 means not locked.
+     */
     private long lockedUntil;
 
     /**
@@ -46,21 +51,20 @@ public class AccountLockout {
     }
 
     /**
-     * @return true if the account is locked right now. An expired lock is
-     *     cleared here, so the next attempt is allowed.
+     * Returns whether the account is locked right now.
+     * @return true if the account is locked right now. An expired lock is cleared here, so the next attempt is allowed.
      */
     public boolean isLockedOut() {
-        if (lockedUntil == 0L) {
-            return false;
-        }
+        boolean returnValue = lockedUntil != 0L;
         if (System.currentTimeMillis() >= lockedUntil) {
             lockedUntil = 0L;
-            return false;
+            returnValue = false;
         }
-        return true;
+        return returnValue;
     }
 
     /**
+     * Returns how many attempts remain before the account locks.
      * @return how many attempts remain before the account locks
      */
     public int remainingAttempts() {
@@ -68,12 +72,17 @@ public class AccountLockout {
     }
 
     /**
+     * Returns seconds left on the current lock-out.
      * @return seconds left on the current lock-out, or 0 if not locked
      */
     public long remainingLockSeconds() {
+        final long returnValue;
         if (lockedUntil == 0L) {
-            return 0L;
+            returnValue = 0L;
         }
-        return Math.max(0L, (lockedUntil - System.currentTimeMillis()) / MILLIS_PER_SECOND);
+        else {
+            returnValue = Math.max(0L, (lockedUntil - System.currentTimeMillis()) / MILLIS_PER_SECOND);
+        }
+        return returnValue;
     }
 }

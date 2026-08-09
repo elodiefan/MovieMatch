@@ -17,6 +17,34 @@ public class TVShow implements Media {
     private final List<String> cast;
     private final int numberOfSeasons;
     private final int numberOfEpisodes;
+    private final String overview;
+    private final String posterPath;
+
+    /**
+     * Creates a TV show without overview or poster metadata.
+     *
+     * @param id the id of the TV show
+     * @param title the title of the TV show
+     * @param releaseYear the release year of the TV show
+     * @param averageRating the rating of the TV show
+     * @param genres the genres of the TV show
+     * @param language the language of the TV show
+     * @param cast the cast of the TV show
+     * @param numberOfSeasons the number of seasons
+     * @param numberOfEpisodes the number of episodes
+     */
+    public TVShow(int id,
+                  String title,
+                  int releaseYear,
+                  double averageRating,
+                  List<Genre> genres,
+                  String language,
+                  List<String> cast,
+                  int numberOfSeasons,
+                  int numberOfEpisodes) {
+        this(id, title, releaseYear, averageRating, genres, language, cast,
+                numberOfSeasons, numberOfEpisodes, "", "");
+    }
 
     /**
      * Creates a new movie.
@@ -30,6 +58,8 @@ public class TVShow implements Media {
      * @param cast the cast of the movie
      * @param numberOfSeasons the number of seasons of the movie
      * @param numberOfEpisodes the number of episodes of the movie
+     * @param overview the overview of the movie
+     * @param posterPath the TMDB poster path of the movie
      */
     public TVShow(int id,
                   String title,
@@ -39,7 +69,9 @@ public class TVShow implements Media {
                   String language,
                   List<String> cast,
                   int numberOfSeasons,
-                  int numberOfEpisodes) {
+                  int numberOfEpisodes,
+                  String overview,
+                  String posterPath) {
         this.id = id;
         this.title = title;
         this.releaseYear = releaseYear;
@@ -49,6 +81,8 @@ public class TVShow implements Media {
         this.cast = cast;
         this.numberOfSeasons = numberOfSeasons;
         this.numberOfEpisodes = numberOfEpisodes;
+        this.overview = overview;
+        this.posterPath = posterPath;
     }
 
     @Override
@@ -106,5 +140,20 @@ public class TVShow implements Media {
     @Override
     public void updateRating(double rating) {
         this.averageRating = rating;
+    }
+
+    @Override
+    public MediaType getMediaType() {
+        return MediaType.TV_SHOW;
+    }
+
+    @Override
+    public String getOverview() {
+        return overview;
+    }
+
+    @Override
+    public String getPosterPath() {
+        return posterPath;
     }
 }

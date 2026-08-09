@@ -5,15 +5,13 @@ import entity.User;
 
 /**
  * Interactor (business logic) for changing a password via a security question.
- * <p>
  * Responsibilities, matching the feature spec:
  * <ul>
- *     <li>show the user's security question;</li>
- *     <li>verify the typed answer;</li>
- *     <li>let the user keep trying while wrong;</li>
- *     <li>lock the account once too many attempts fail.</li>
+ * <li>show the user's security question;</li>
+ * <li>verify the typed answer;</li>
+ * <li>let the user keep trying while wrong;</li>
+ * <li>lock the account once too many attempts fail.</li>
  * </ul>
- * <p>
  * The counting and timing rules live in {@link AccountLockout}, and the records
  * themselves are kept by a {@link LockoutTracker}. This class holds no state of
  * its own: it only decides which rule to apply and what to report back.
@@ -73,7 +71,7 @@ public class SecurityQuestionInteractor implements SecurityQuestionInputBoundary
 
         // 3. Correct answer -> clear the record and let them change their password.
         //    Compared case-insensitively and trimmed, so "Fido " matches "fido".
-        if (matches(user.getSecurityAnswer(), inputData.getSecurityAnswer())) {
+        if (matches(user.getAnswer(), inputData.getSecurityAnswer())) {
             lockout.reset();
             presenter.prepareSuccessView(new SecurityQuestionOutputData(
                     username, question, false, AccountLockout.MAX_ATTEMPTS, false, 0L));
@@ -93,12 +91,21 @@ public class SecurityQuestionInteractor implements SecurityQuestionInputBoundary
         }
     }
 
-    /** @return true if the answers match, ignoring case and surrounding spaces. */
+    /**
+     * Checks whether the answers match.*
+     * @param expected the expected
+     * @param actual the actual
+     * @return true if the answers match, ignoring case and surrounding spaces.
+     */
     private boolean matches(String expected, String actual) {
         return expected != null && actual != null && expected.trim().equalsIgnoreCase(actual.trim());
     }
 
-    /** @return this account's lock-out record. */
+    /**
+     * Returns this account's lock-out record.
+     * @param username the username
+     * @return this account's lock-out record.
+     */
     private AccountLockout lockoutFor(String username) {
         return lockoutTracker.forUser(username);
     }

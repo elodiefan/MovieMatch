@@ -2,7 +2,6 @@ package use_case.security_question;
 
 /**
  * Output boundary for the Security Question use case.
- * <p>
  * The interactor reports results back through this interface; the presenter
  * implements it and updates the view model. Three distinct outcomes are
  * separated so the presenter can react differently to each.
@@ -16,7 +15,7 @@ public interface SecurityQuestionOutputBoundary {
     void presentSecurityQuestion(SecurityQuestionOutputData outputData);
 
     /**
-     * The answer was correct — identity confirmed. The presenter should now
+     * The answer was correct â€” identity confirmed. The presenter should now
      * open the change-password window.
      * @param outputData the successful result
      */
