@@ -66,9 +66,10 @@ class SettingsInteractorTest {
     @Test
     @DisplayName("a size the user asks for is passed straight back")
     void chosenSizeIsKept() {
-        this.apply(false, 30, false);
+        final int chosenSize = SettingsInteractor.MAX_TEXT_SIZE - 1;
+        this.apply(false, chosenSize, false);
 
-        assertEquals(30, this.presenter.output.getTextSize());
+        assertEquals(chosenSize, this.presenter.output.getTextSize());
     }
 
     @Test

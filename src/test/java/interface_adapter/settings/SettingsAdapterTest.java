@@ -88,14 +88,15 @@ class SettingsAdapterTest {
         // Driven through the real interactor and presenter, so this covers the
         // whole path a click actually takes rather than one link of it.
         final boolean[] stored = new boolean[1];
+        final int chosenSize = SettingsInteractor.MAX_TEXT_SIZE - 1;
         final SettingsController wired = new SettingsController(
                 new SettingsInteractor(presenter, allowed -> stored[0] = allowed));
 
-        wired.execute(true, 30, true);
+        wired.execute(true, chosenSize, true);
 
         final SettingsState state = viewModel.getState();
         assertTrue(state.isDarkMode());
-        assertEquals(30, state.getTextSize());
+        assertEquals(chosenSize, state.getTextSize());
         assertTrue(state.isAllowAdultContent());
         assertTrue(stored[0], "the preference has to reach what recommendations read");
     }
