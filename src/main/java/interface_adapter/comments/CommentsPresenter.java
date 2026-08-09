@@ -5,6 +5,7 @@ import java.util.List;
 
 import use_case.comment.create_comment.CreateCommentOutputBoundary;
 import use_case.comment.delete_comment.DeleteCommentOutputBoundary;
+import use_case.comment.edit_comment.EditCommentOutputBoundary;
 import use_case.comment.get_review_comments.GetReviewCommentsOutputBoundary;
 import use_case.comment.get_review_comments.GetReviewCommentsOutputData;
 import use_case.comment.like_comment.LikeCommentOutputBoundary;
@@ -15,7 +16,8 @@ import use_case.comment.unlike_comment.UnlikeCommentOutputBoundary;
  */
 public final class CommentsPresenter implements GetReviewCommentsOutputBoundary,
         CreateCommentOutputBoundary, DeleteCommentOutputBoundary,
-        LikeCommentOutputBoundary, UnlikeCommentOutputBoundary {
+        EditCommentOutputBoundary, LikeCommentOutputBoundary,
+        UnlikeCommentOutputBoundary {
     /**
      * The comments view model.
      */

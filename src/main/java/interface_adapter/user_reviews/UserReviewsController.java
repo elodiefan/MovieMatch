@@ -1,5 +1,7 @@
 package interface_adapter.user_reviews;
 
+import use_case.comment.delete_comment.DeleteCommentInputBoundary;
+import use_case.comment.edit_comment.EditCommentInputBoundary;
 import use_case.comment.get_user_comments.GetUserCommentsInputBoundary;
 import use_case.review.delete_review.DeleteReviewInputBoundary;
 import use_case.review.edit_review.EditReviewInputBoundary;
@@ -35,6 +37,14 @@ public final class UserReviewsController {
      * The get user comments interactor.
      */
     private final GetUserCommentsInputBoundary getUserCommentsInteractor;
+    /**
+     * The delete comment interactor.
+     */
+    private final DeleteCommentInputBoundary deleteCommentInteractor;
+    /**
+     * The edit comment interactor.
+     */
+    private final EditCommentInputBoundary editCommentInteractor;
 
     /**
      * Creates a controller for user review actions.
@@ -52,7 +62,7 @@ public final class UserReviewsController {
             final UnlikeReviewInputBoundary inputUnlikeReviewInteractor) {
         this(inputGetUserReviewsInteractor, inputEditReviewInteractor,
                 inputDeleteReviewInteractor, inputLikeReviewInteractor,
-                inputUnlikeReviewInteractor, null);
+                inputUnlikeReviewInteractor, null, null, null);
     }
 
     /**
@@ -62,7 +72,10 @@ public final class UserReviewsController {
      * @param inputDeleteReviewInteractor the interactor for deleting reviews
      * @param inputLikeReviewInteractor the interactor for liking reviews
      * @param inputUnlikeReviewInteractor the interactor for unliking reviews
-     * @param inputGetUserCommentsInteractor the interactor for loading user comments
+     * @param inputGetUserCommentsInteractor the interactor for loading user
+     * comments
+     * @param inputDeleteCommentInteractor the interactor for deleting comments
+     * @param inputEditCommentInteractor the interactor for editing comments
      */
     public UserReviewsController(
             final GetUserReviewsInputBoundary inputGetUserReviewsInteractor,
@@ -70,13 +83,17 @@ public final class UserReviewsController {
             final DeleteReviewInputBoundary inputDeleteReviewInteractor,
             final LikeReviewInputBoundary inputLikeReviewInteractor,
             final UnlikeReviewInputBoundary inputUnlikeReviewInteractor,
-            final GetUserCommentsInputBoundary inputGetUserCommentsInteractor) {
+            final GetUserCommentsInputBoundary inputGetUserCommentsInteractor,
+            final DeleteCommentInputBoundary inputDeleteCommentInteractor,
+            final EditCommentInputBoundary inputEditCommentInteractor) {
         this.getUserReviewsInteractor = inputGetUserReviewsInteractor;
         this.editReviewInteractor = inputEditReviewInteractor;
         this.deleteReviewInteractor = inputDeleteReviewInteractor;
         this.likeReviewInteractor = inputLikeReviewInteractor;
         this.unlikeReviewInteractor = inputUnlikeReviewInteractor;
         this.getUserCommentsInteractor = inputGetUserCommentsInteractor;
+        this.deleteCommentInteractor = inputDeleteCommentInteractor;
+        this.editCommentInteractor = inputEditCommentInteractor;
     }
 
     /**
@@ -118,6 +135,26 @@ public final class UserReviewsController {
      */
     public void deleteReview(final String reviewId, final String username) {
         deleteReviewInteractor.execute(reviewId, username);
+    }
+
+    /**
+     * Edits an existing comment.
+     * @param commentId the id of the comment to edit
+     * @param username the username of the user editing the comment
+     * @param newCommentText the replacement comment text
+     */
+    public void editComment(final String commentId, final String username,
+                            final String newCommentText) {
+        editCommentInteractor.execute(commentId, username, newCommentText);
+    }
+
+    /**
+     * Deletes a persisted user comment.
+     * @param commentId the id of the comment to delete
+     * @param username the username of the user deleting the comment
+     */
+    public void deleteComment(final String commentId, final String username) {
+        deleteCommentInteractor.execute(commentId, username);
     }
 
     /**

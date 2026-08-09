@@ -2,6 +2,7 @@ package interface_adapter.comments;
 
 import use_case.comment.create_comment.CreateCommentInputBoundary;
 import use_case.comment.delete_comment.DeleteCommentInputBoundary;
+import use_case.comment.edit_comment.EditCommentInputBoundary;
 import use_case.comment.get_review_comments.GetReviewCommentsInputBoundary;
 import use_case.comment.like_comment.LikeCommentInputBoundary;
 import use_case.comment.unlike_comment.UnlikeCommentInputBoundary;
@@ -23,6 +24,10 @@ public final class CommentsController {
      */
     private final DeleteCommentInputBoundary deleteCommentInteractor;
     /**
+     * The edit comment interactor.
+     */
+    private final EditCommentInputBoundary editCommentInteractor;
+    /**
      * The like comment interactor.
      */
     private final LikeCommentInputBoundary likeCommentInteractor;
@@ -36,6 +41,7 @@ public final class CommentsController {
      * @param inputGetReviewCommentsInteractor the interactor for loading comments
      * @param inputCreateCommentInteractor the interactor for creating comments
      * @param inputDeleteCommentInteractor the interactor for deleting comments
+     * @param inputEditCommentInteractor the interactor for editing comments
      * @param inputLikeCommentInteractor the interactor for liking comments
      * @param inputUnlikeCommentInteractor the interactor for unliking comments
      */
@@ -44,11 +50,13 @@ public final class CommentsController {
                     inputGetReviewCommentsInteractor,
             final CreateCommentInputBoundary inputCreateCommentInteractor,
             final DeleteCommentInputBoundary inputDeleteCommentInteractor,
+            final EditCommentInputBoundary inputEditCommentInteractor,
             final LikeCommentInputBoundary inputLikeCommentInteractor,
             final UnlikeCommentInputBoundary inputUnlikeCommentInteractor) {
         this.getReviewCommentsInteractor = inputGetReviewCommentsInteractor;
         this.createCommentInteractor = inputCreateCommentInteractor;
         this.deleteCommentInteractor = inputDeleteCommentInteractor;
+        this.editCommentInteractor = inputEditCommentInteractor;
         this.likeCommentInteractor = inputLikeCommentInteractor;
         this.unlikeCommentInteractor = inputUnlikeCommentInteractor;
     }
@@ -85,6 +93,17 @@ public final class CommentsController {
      */
     public void deleteComment(final String commentId, final String username) {
         deleteCommentInteractor.execute(commentId, username);
+    }
+
+    /**
+     * Edits one persisted comment written by the given user.
+     * @param commentId the id of the comment to edit
+     * @param username the username of the user editing the comment
+     * @param newCommentText the replacement comment text
+     */
+    public void editComment(final String commentId, final String username,
+                            final String newCommentText) {
+        editCommentInteractor.execute(commentId, username, newCommentText);
     }
 
     /**
