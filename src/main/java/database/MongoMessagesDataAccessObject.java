@@ -10,7 +10,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
 
-import entity.Message;
 import org.bson.Document;
 
 import com.mongodb.client.MongoClient;
@@ -19,6 +18,7 @@ import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
 import com.mongodb.client.model.Filters;
 import com.mongodb.client.model.Sorts;
+import entity.Message;
 import use_case.access_message_chat.AccessMessageChatMessageDataAccessInterface;
 import use_case.delete_account.DeleteAccountMessageDataAccessInterface;
 import use_case.fetch_chat_history.FetchChatHistoryMessageDataAccessInterface;

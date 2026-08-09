@@ -15,7 +15,8 @@ public class SettingsViewModel extends StateModel<SettingsState> {
     public static final String TEXT_SIZE_LABEL = "Text size";
     public static final String ADULT_CONTENT_LABEL = "Show adult recommendations";
     public static final String ADULT_CONTENT_HINT =
-            "Off by default. Leave it off and adult titles are never requested.";
+            "<html>Off by default. Leave it off and adult titles<br>"
+                    + "are never requested.</html>";
     public static final String BACK_BUTTON_LABEL = "Back";
 
     // Taken from the use case rather than repeated, so the slider can never

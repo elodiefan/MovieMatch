@@ -2,9 +2,9 @@ package views;
 
 import java.awt.BorderLayout;
 import java.awt.Component;
+import java.awt.Cursor;
 import java.awt.Dimension;
 import java.awt.Image;
-import java.awt.Cursor;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
@@ -28,8 +28,8 @@ import javax.swing.JTextArea;
 import javax.swing.SwingConstants;
 import javax.swing.SwingWorker;
 
-import interface_adapter.get_lists.GetListsController;
 import interface_adapter.get_lists.GetListRow;
+import interface_adapter.get_lists.GetListsController;
 import interface_adapter.get_lists.GetListsState;
 import interface_adapter.get_lists.GetListsViewModel;
 import interface_adapter.media_detail.MediaDetailController;

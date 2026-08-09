@@ -3,7 +3,6 @@ package interface_adapter.personal_account;
 import interface_adapter.ViewManagerModel;
 import interface_adapter.delete_account.DeleteAccountState;
 import interface_adapter.delete_account.DeleteAccountViewModel;
-// import interface_adapter.login.LoginViewModel;
 import interface_adapter.reset_password.ResetPasswordViewModel;
 import use_case.get_security_question.GetSecurityQuestionOutputBoundary;
 import use_case.get_security_question.GetSecurityQuestionOutputData;

@@ -1,20 +1,21 @@
 package views;
 
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
+
+import javax.swing.*;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
+
 import interface_adapter.ViewManagerModel;
 import interface_adapter.change_username.ChangeUsernameController;
 import interface_adapter.change_username.ChangeUsernameState;
 import interface_adapter.change_username.ChangeUsernameViewModel;
 import interface_adapter.personal_account.PersonalAccountState;
 import interface_adapter.personal_account.PersonalAccountViewModel;
-
-import javax.swing.*;
-import javax.swing.event.DocumentEvent;
-import javax.swing.event.DocumentListener;
-import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
 
 /**
  * The view for changing username.

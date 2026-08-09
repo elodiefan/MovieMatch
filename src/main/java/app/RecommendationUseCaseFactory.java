@@ -1,6 +1,7 @@
 package app;
 
 import java.time.Year;
+import java.util.concurrent.Executor;
 
 import database.ClampingScoreAdjuster;
 import database.GeminiScoreAdjuster;
@@ -22,11 +23,9 @@ import use_case.recommendation.RecommendationOutputBoundary;
 import use_case.recommendation.ReviewedMediaRatingDataAccessInterface;
 import use_case.recommendation.ScoreAdjuster;
 import use_case.recommendation.WatchedMediaDataAccessInterface;
-import java.util.concurrent.Executor;
-
 import views.HomeRecommendationsPanel;
-import views.SwingUiExecutor;
 import views.RecommendationView;
+import views.SwingUiExecutor;
 
 /**
  * Assembles the recommendation use case.
