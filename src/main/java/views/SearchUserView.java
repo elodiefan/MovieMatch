@@ -2,6 +2,8 @@ package views;
 
 import java.awt.Component;
 import java.awt.Dimension;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
@@ -64,7 +66,17 @@ public class SearchUserView extends JPanel implements PropertyChangeListener {
         // Enter in the text field searches too, since that is what people expect.
         searchButton.addActionListener(event -> this.search());
         searchInput.addActionListener(event -> this.search());
-        backButton.addActionListener(event -> searchUserController.switchToHomePageView());
+        backButton.addActionListener(event -> {
+            resetSearch();
+            searchUserController.switchToHomePageView();
+        });
+
+        this.addComponentListener(new ComponentAdapter() {
+            @Override
+            public void componentShown(final ComponentEvent event) {
+                resetSearch();
+            }
+        });
 
         this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
         this.add(title);
@@ -78,8 +90,14 @@ public class SearchUserView extends JPanel implements PropertyChangeListener {
         searchUserController.execute(searchInput.getText());
     }
 
+    private void resetSearch() {
+        searchInput.setText("");
+        searchUserViewModel.setState(new SearchUserState());
+        searchUserViewModel.firePropertyChanged();
+    }
+
     @Override
-    public void propertyChange(PropertyChangeEvent evt) {
+    public void propertyChange(final PropertyChangeEvent evt) {
         final SearchUserState state = (SearchUserState) evt.getNewValue();
 
         resultsPanel.removeAll();
@@ -99,7 +117,7 @@ public class SearchUserView extends JPanel implements PropertyChangeListener {
         this.repaint();
     }
 
-    private void addUserResult(UserSearchRow user) {
+    private void addUserResult(final UserSearchRow user) {
         final JPanel userPanel = new JPanel();
         userPanel.add(new JLabel(user.getDisplayName() + " (" + user.getUsername() + ")"));
 
@@ -115,7 +133,7 @@ public class SearchUserView extends JPanel implements PropertyChangeListener {
         return viewName;
     }
 
-    public void setSearchUserController(SearchUserController searchUserController) {
+    public void setSearchUserController(final SearchUserController searchUserController) {
         this.searchUserController = searchUserController;
     }
 }
