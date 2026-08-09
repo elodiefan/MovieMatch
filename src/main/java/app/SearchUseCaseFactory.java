@@ -5,7 +5,6 @@ import database.LocalMovieDatabase;
 import database.LocalTvShowDatabase;
 import database.TmdbApiClient;
 import database.TmdbSearchMediaDataAccess;
-import views.SearchResultView;
 import interface_adapter.ViewManagerModel;
 import interface_adapter.search.SearchController;
 import interface_adapter.search.SearchPresenter;
@@ -15,6 +14,7 @@ import use_case.search.SearchInputBoundary;
 import use_case.search.SearchInteractor;
 import use_case.search.SearchMediaDataAccess;
 import use_case.search.SearchOutputBoundary;
+import views.SearchResultView;
 import views.SearchView;
 
 /**

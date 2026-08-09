@@ -1,9 +1,8 @@
 package interface_adapter.search;
 
-import java.util.concurrent.Executor;
-
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.Executor;
 
 import interface_adapter.ViewManagerModel;
 import interface_adapter.search_result.SearchResultRow;
