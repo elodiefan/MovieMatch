@@ -49,6 +49,8 @@ public class MediaDetailView extends JPanel implements PropertyChangeListener {
     private static final int NO_DETAIL_GAP = 0;
     private static final int LOG_MESSAGE_WIDTH = 360;
     private static final int LOG_MESSAGE_HEIGHT = 48;
+    private static final int SCROLL_UNIT_INCREMENT = 32;
+    private static final int SCROLL_BLOCK_INCREMENT = 180;
 
     private final String viewName = MediaDetailViewModel.VIEW_NAME;
 
@@ -215,6 +217,10 @@ public class MediaDetailView extends JPanel implements PropertyChangeListener {
 
         final JScrollPane pageScrollPane = new JScrollPane(contentPanel);
         pageScrollPane.setBorder(BorderFactory.createEmptyBorder());
+        pageScrollPane.getVerticalScrollBar().setUnitIncrement(
+                SCROLL_UNIT_INCREMENT);
+        pageScrollPane.getVerticalScrollBar().setBlockIncrement(
+                SCROLL_BLOCK_INCREMENT);
         this.add(pageScrollPane, BorderLayout.CENTER);
     }
 
