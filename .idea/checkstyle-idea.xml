@@ -6,6 +6,7 @@
     <option name="thirdPartyClasspath" />
     <option name="activeLocationIds">
       <option value="2907f05e-d281-4ce9-a158-71cde3e1c277" />
+      <option value="d44fc946-4993-4a64-b18e-38475e0e2d25" />
     </option>
     <option name="locations">
       <list>
@@ -18,7 +19,9 @@
         <ConfigurationLocation id="2907f05e-d281-4ce9-a158-71cde3e1c277" type="LOCAL_FILE" scope="All" description="final checkstyle">$PROJECT_DIR$/mystyle.xml</ConfigurationLocation>
         <ConfigurationLocation id="7c62d432-dd3e-4718-a7f9-860192750299" type="LOCAL_FILE" scope="All" description="new checkstyle">$PROJECT_DIR$/mystyle.xml</ConfigurationLocation>
         <ConfigurationLocation id="cde3553d-c9d6-40b5-aeff-4e175574b49c" type="LOCAL_FILE" scope="All" description="newest checkstyle">C:\Users\catty\Desktop\mystyle.xml</ConfigurationLocation>
+        <ConfigurationLocation id="d44fc946-4993-4a64-b18e-38475e0e2d25" type="LOCAL_FILE" scope="All" description="newestcheckstyleattempt">$PROJECT_DIR$/mystyle.xml</ConfigurationLocation>
         <ConfigurationLocation id="c087878c-7ddc-4a9e-b6ab-a56914428e80" type="LOCAL_FILE" scope="All" description="suppressmagic">C:\Users\catty\Desktop\mystyle.xml</ConfigurationLocation>
+        <ConfigurationLocation id="a779b7d8-d64f-428c-b4e2-c44568542a01" type="LOCAL_FILE" scope="All" description="tryagain">$PROJECT_DIR$/mystyle.xml</ConfigurationLocation>
       </list>
     </option>
   </component>
