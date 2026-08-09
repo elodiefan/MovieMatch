@@ -31,6 +31,7 @@ public final class LikeCommentInputData {
     public String getCommentId() {
         return commentId;
     }
+
     /**
      * Handles this review or comment operation.
      * @return the result

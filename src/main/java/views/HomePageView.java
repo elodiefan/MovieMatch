@@ -144,7 +144,6 @@ public class HomePageView extends JPanel implements PropertyChangeListener {
         this.add(buttons, BorderLayout.SOUTH);
     }
 
-    // TODO: Implement if program allows for user to be brought to media page when click on recommendations???
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
         final HomePageState state = (HomePageState) evt.getNewValue();

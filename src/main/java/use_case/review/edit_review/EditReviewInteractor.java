@@ -70,10 +70,12 @@ public final class EditReviewInteractor implements EditReviewInputBoundary {
                     inputData.getReviewText());
             if (review == null) {
                 presenter.prepareFailView("Review could not be edited.");
-            } else {
+            }
+            else {
                 presenter.prepareSuccessView(toOutputData(review));
             }
-        } catch (IllegalArgumentException | IllegalStateException error) {
+        }
+        catch (IllegalArgumentException | IllegalStateException error) {
             if (presenter != null) {
                 presenter.prepareFailView(error.getMessage());
             }
@@ -103,7 +105,8 @@ public final class EditReviewInteractor implements EditReviewInputBoundary {
                 && review.get().getAuthorUsername().equals(trimmedUsername)) {
             editedReview = editPersistedReview(review.get(), newRating,
                     trimmedReviewText);
-        } else {
+        }
+        else {
             editedReview = null;
         }
         return editedReview;
@@ -135,7 +138,8 @@ public final class EditReviewInteractor implements EditReviewInputBoundary {
                                         final double rating) {
         if (review == null) {
             throw new IllegalArgumentException("Review cannot be null.");
-        } else if (rating < MIN_RATING || rating > MAX_RATING) {
+        }
+        else if (rating < MIN_RATING || rating > MAX_RATING) {
             throw new IllegalArgumentException(
                     "Rating must be between 0 and 100.");
         }
@@ -154,12 +158,15 @@ public final class EditReviewInteractor implements EditReviewInputBoundary {
                                         final double rating) {
         if (isBlank(reviewId)) {
             throw new IllegalArgumentException("Review id cannot be empty.");
-        } else if (isBlank(username)) {
+        }
+        else if (isBlank(username)) {
             throw new IllegalArgumentException("Username cannot be empty.");
-        } else if (rating < MIN_RATING || rating > MAX_RATING) {
+        }
+        else if (rating < MIN_RATING || rating > MAX_RATING) {
             throw new IllegalArgumentException(
                     "Rating must be between 0 and 100.");
-        } else if (reviewDataAccessObject == null) {
+        }
+        else if (reviewDataAccessObject == null) {
             throw new IllegalStateException(
                     "Review data access object has not been configured.");
         }
@@ -207,7 +214,8 @@ public final class EditReviewInteractor implements EditReviewInputBoundary {
         final String trimmedValue;
         if (value == null) {
             trimmedValue = "";
-        } else {
+        }
+        else {
             trimmedValue = value.trim();
         }
         return trimmedValue;

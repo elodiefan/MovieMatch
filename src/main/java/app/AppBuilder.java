@@ -11,7 +11,16 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.WindowConstants;
 
-import database.*;
+import database.CombinedMediaReviewDataAccessObject;
+import database.InMemoryContentPreferences;
+import database.InMemoryLockoutTracker;
+import database.MongoCommentDataAccessObject;
+import database.MongoMessagesDataAccessObject;
+import database.MongoReviewDataAccessObject;
+import database.MongoUserDataAccessObject;
+import database.TmdbApiClient;
+import database.TmdbReviewDataAccessObject;
+import database.UserDataAccessObject;
 import entity.StandardUserFactory;
 import entity.UserFactory;
 import interface_adapter.ViewManagerModel;
@@ -162,12 +171,33 @@ import use_case.settings.SettingsOutputBoundary;
 import use_case.signup.SignupInputBoundary;
 import use_case.signup.SignupInteractor;
 import use_case.signup.SignupOutputBoundary;
-import views.*;
+import views.ChangeDisplayNameView;
+import views.ChangeUsernameView;
+import views.DeleteAccountView;
+import views.GetListsView;
+import views.HomePageView;
+import views.HomeRecommendationsPanel;
+import views.LoginView;
+import views.LogoutConfirmView;
+import views.MediaDetailView;
+import views.MessagingView;
+import views.MyReviewsView;
+import views.OtherAccountView;
+import views.PersonalAccountView;
+import views.RecommendationView;
+import views.ResetPasswordView;
+import views.SearchResultView;
+import views.SearchUserView;
+import views.SearchView;
+import views.SecurityQuestionView;
+import views.SettingsView;
+import views.SignupView;
+import views.UiTheme;
+import views.ViewManager;
 
 /**
  * The AppBuilder class is responsible for putting together the pieces of
  * our CA architecture; piece by piece.
- *
  * This is done by adding each View and then adding related Use Cases.
  */
 public class AppBuilder {
@@ -371,7 +401,6 @@ public class AppBuilder {
 
     /**
      * Adds the Other Account Use Case to the application.
-     *
      * Without this the view is registered but its controller is never set, so
      * every button on another user's profile throws instead of doing anything.
      * Messaging is passed as null because that use case is still being built;
@@ -498,7 +527,8 @@ public class AppBuilder {
                 viewManagerModel, changeUsernameViewModel);
         final SignupOutputBoundary signupOutputBoundary = new SignupPresenter(signupViewModel);
         final ChangeUsernameInputBoundary changeUsernameInteractor = new ChangeUsernameInteractor(
-                userDataAccessObject, changeUsernameOutputBoundary, new SignupInteractor(userDataAccessObject, signupOutputBoundary, userFactory));
+                userDataAccessObject, changeUsernameOutputBoundary, new SignupInteractor(userDataAccessObject,
+                signupOutputBoundary, userFactory));
         final ChangeUsernameController changeUsernameController = new ChangeUsernameController(
                 changeUsernameInteractor, viewManagerModel, personalAccountViewModel);
         changeUsernameView.setChangeUsernameController(changeUsernameController);
@@ -527,11 +557,6 @@ public class AppBuilder {
      * @return the add get watchlist use case
      */
     public AppBuilder addGetWatchlistUseCase() {
-        final GetWatchlistOutputBoundary getWatchlistOutputBoundary = new GetListsPresenter(viewManagerModel,
-                getListsViewModel, personalAccountViewModel, otherAccountViewModel);
-        final GetWatchlistInputBoundary getWatchlistInteractor = new GetWatchlistInteractor(
-                userDataAccessObject, getWatchlistOutputBoundary);
-
         final GetListsController getListsController = createGetListsController();
         getListsView.setGetListsController(getListsController);
         return this;
@@ -569,7 +594,6 @@ public class AppBuilder {
         return this;
     }
 
-//    // TODO: For Yidan/Kiersten -> Implement search view files.
     /**
      * Adds the Home Page Use Case to the application.
      *
@@ -595,7 +619,6 @@ public class AppBuilder {
 
     /**
      * Adds the Search User Use Case to the application.
-     *
      * The assembly lives in SearchUserUseCaseFactory, following the
      * convention Yidan set with SearchUseCaseFactory.
      *
@@ -639,14 +662,11 @@ public class AppBuilder {
      * @return the add personal account use case
      */
     public AppBuilder addPersonalAccountUseCase() {
-        final GetProfileOutputBoundary getProfileOutputBoundary = new HomePagePresenter(viewManagerModel,
-                personalAccountViewModel, otherAccountViewModel);
-
         final GetListsController getListsController = createGetListsController();
-        final GetSecurityQuestionOutputBoundary getSecurityQuestionOutputBoundary = new PersonalAccountPresenter(viewManagerModel,
-                personalAccountViewModel, resetPasswordViewModel, deleteAccountViewModel);
-        final GetSecurityQuestionInputBoundary getSecurityQuestionInteractor = new GetSecurityQuestionInteractor(userDataAccessObject,
-                getSecurityQuestionOutputBoundary);
+        final GetSecurityQuestionOutputBoundary getSecurityQuestionOutputBoundary = new PersonalAccountPresenter(
+                viewManagerModel, personalAccountViewModel, resetPasswordViewModel, deleteAccountViewModel);
+        final GetSecurityQuestionInputBoundary getSecurityQuestionInteractor = new GetSecurityQuestionInteractor(
+                userDataAccessObject, getSecurityQuestionOutputBoundary);
 
         final PersonalAccountController personalAccountController = new PersonalAccountController(viewManagerModel,
                 getSecurityQuestionInteractor,
@@ -665,7 +685,6 @@ public class AppBuilder {
 
     /**
      * Adds the Logout Use Case to the application.
-     *
      * Every piece of this use case already existed but was never assembled, so the
      * Log Out button on the personal account page did nothing.
      *
@@ -701,8 +720,8 @@ public class AppBuilder {
                 userReviewsPresenter);
         final UnlikeReviewInputBoundary unlikeReviewsInteractor = new UnlikeReviewInteractor(reviewDataAccessObject,
                 userReviewsPresenter);
-        final GetUserCommentsInputBoundary userCommentsInteractor = new GetUserCommentsInteractor(commentDataAccessObject,
-                reviewDataAccessObject, userReviewsPresenter);
+        final GetUserCommentsInputBoundary userCommentsInteractor = new GetUserCommentsInteractor(
+                commentDataAccessObject, reviewDataAccessObject, userReviewsPresenter);
 
         final UserReviewsController userReviewsController = new UserReviewsController(userReviewsInteractor,
                 editReviewsInteractor,
@@ -716,7 +735,6 @@ public class AppBuilder {
 
     /**
      * Adds the Reset Password Use Case to the application.
-     *
      * A PasswordResetCompletedHandler is just "what happens once the new password
      * is saved" — the presenter calls it so it does not need to know which screen
      * comes next. Here that means sending the user back to the login screen so
@@ -740,7 +758,6 @@ public class AppBuilder {
 
     /**
      * Adds the Security Question Use Case to the application.
-     *
      * A LockoutTracker records failed answers per account and locks it after too
      * many wrong tries; InMemoryLockoutTracker keeps that in memory, so it
      * resets when the app restarts.
@@ -867,13 +884,18 @@ public class AppBuilder {
         return this;
     }
 
+    /**
+     * Adds block user use case to this app.
+     * @return this builder.
+     */
     public AppBuilder addBlockUserUseCase() {
         final BlockUserOutputBoundary userPresenter = new OtherAccountPresenter(viewManagerModel,
                 otherAccountViewModel, messagingViewModel);
         final BlockUserInputBoundary blockUserInteractor = new BlockUserInteractor(userDataAccessObject, userPresenter);
         final AccessMessageChatInputBoundary accessMessageChatInteractor = new AccessMessageChatInteractor(
                 userDataAccessObject, mongoMessagesDataAccessObject, (AccessMessageChatOutputBoundary) userPresenter);
-        final OtherAccountController otherAccountController = new OtherAccountController(viewManagerModel, blockUserInteractor, createGetListsController(), accessMessageChatInteractor);
+        final OtherAccountController otherAccountController = new OtherAccountController(viewManagerModel,
+                blockUserInteractor, createGetListsController(), accessMessageChatInteractor);
         otherAccountView.setOtherAccountController(otherAccountController);
         return this;
     }
@@ -1178,5 +1200,4 @@ public class AppBuilder {
 
         return new LogMediaController(logMediaInteractor);
     }
-
 }

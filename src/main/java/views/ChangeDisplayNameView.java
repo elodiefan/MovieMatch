@@ -6,7 +6,11 @@ import java.awt.event.ActionListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
-import javax.swing.*;
+import javax.swing.BoxLayout;
+import javax.swing.JButton;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JTextField;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 
@@ -14,10 +18,8 @@ import interface_adapter.ViewManagerModel;
 import interface_adapter.change_display_name.ChangeDisplayNameController;
 import interface_adapter.change_display_name.ChangeDisplayNameState;
 import interface_adapter.change_display_name.ChangeDisplayNameViewModel;
-import interface_adapter.login.LoginViewModel;
 import interface_adapter.personal_account.PersonalAccountState;
 import interface_adapter.personal_account.PersonalAccountViewModel;
-import interface_adapter.reset_password.ResetPasswordState;
 
 /**
  * The view for changing display name.

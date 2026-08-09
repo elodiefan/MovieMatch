@@ -2,7 +2,6 @@ package views;
 
 import java.awt.BorderLayout;
 import java.awt.CardLayout;
-import java.awt.Component;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.util.concurrent.ExecutionException;
@@ -26,14 +25,13 @@ import interface_adapter.recommendation.RecommendationViewModel;
  * The short recommendation strip on the home page.
  */
 public class HomeRecommendationsPanel extends JPanel implements PropertyChangeListener {
-
+    private static final String LOADING_CARD = "loading";
+    private static final String RESULTS_CARD = "results";
     private static final String SEE_ALL_LABEL = "See all recommendations";
+    private static final String EMPTY_SPACE = " ";
 
     private final RecommendationViewModel recommendationViewModel;
     private RecommendationController recommendationController;
-
-    private static final String LOADING_CARD = "loading";
-    private static final String RESULTS_CARD = "results";
 
     private final JPanel rows;
     private final LoadingPanel loadingPanel;
@@ -66,7 +64,7 @@ public class HomeRecommendationsPanel extends JPanel implements PropertyChangeLi
         rows = new JPanel();
         rows.setLayout(new BoxLayout(rows, BoxLayout.Y_AXIS));
 
-        message = new JLabel(" ", SwingConstants.CENTER);
+        message = new JLabel(EMPTY_SPACE, SwingConstants.CENTER);
 
         final JScrollPane scroll = new JScrollPane(rows);
         scroll.setBorder(BorderFactory.createTitledBorder(RecommendationViewModel.TITLE_LABEL));
@@ -97,17 +95,16 @@ public class HomeRecommendationsPanel extends JPanel implements PropertyChangeLi
 
     /**
      * Asks for this user's recommendations, off the UI thread.
-     *
-     * @param username the username
+     * @param givenUsername the username
      */
-    public void loadFor(String username) {
+    public void loadFor(String givenUsername) {
         if (loading || recommendationController == null
-                || username == null || username.isBlank()) {
+                || givenUsername == null || givenUsername.isBlank()) {
             return;
         }
-        this.username = username;
+        this.username = givenUsername;
         loading = true;
-        message.setText(" ");
+        message.setText(EMPTY_SPACE);
         showCard(LOADING_CARD);
 
         new SwingWorker<Void, Void>() {
@@ -148,7 +145,7 @@ public class HomeRecommendationsPanel extends JPanel implements PropertyChangeLi
             message.setText(RecommendationViewModel.EMPTY_LABEL);
         }
         else if (state.isLoaded()) {
-            message.setText(" ");
+            message.setText(EMPTY_SPACE);
             state.getRecommendations().forEach(this::addRow);
         }
 

@@ -5,10 +5,8 @@ import use_case.settings.ContentPreferenceDataAccessInterface;
 
 /**
  * Holds the content settings for as long as the application is running.
- *
  * One object satisfies both use cases: settings writes the preference, and
  * recommendations read it. Neither knows about the other.
- *
  * Nothing is written to the database, so the preference lasts a session and
  * starts off again next launch, which matches how dark mode and text size
  * already behave.

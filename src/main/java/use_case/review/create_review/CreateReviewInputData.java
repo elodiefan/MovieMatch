@@ -84,9 +84,11 @@ public final class CreateReviewInputData {
      * Handles this review or comment operation.
      * @return the result
      */
+
     public String getMediaType() {
         return mediaType;
     }
+
     /**
      * Handles this review or comment operation.
      * @return the result
@@ -94,6 +96,7 @@ public final class CreateReviewInputData {
     public String getMediaTitle() {
         return mediaTitle;
     }
+
     /**
      * Handles this review or comment operation.
      * @return the result
@@ -101,6 +104,7 @@ public final class CreateReviewInputData {
     public int getReleaseYear() {
         return releaseYear;
     }
+
     /**
      * Handles this review or comment operation.
      * @return the result
@@ -108,6 +112,7 @@ public final class CreateReviewInputData {
     public String getPosterPath() {
         return posterPath;
     }
+
     /**
      * Handles this review or comment operation.
      * @return the result
@@ -115,6 +120,7 @@ public final class CreateReviewInputData {
     public String getAuthorUsername() {
         return authorUsername;
     }
+
     /**
      * Handles this review or comment operation.
      * @return the result
@@ -122,6 +128,7 @@ public final class CreateReviewInputData {
     public String getAuthorDisplayName() {
         return authorDisplayName;
     }
+
     /**
      * Handles this review or comment operation.
      * @return the result
@@ -129,6 +136,7 @@ public final class CreateReviewInputData {
     public double getRating() {
         return rating;
     }
+
     /**
      * Handles this review or comment operation.
      * @return the result

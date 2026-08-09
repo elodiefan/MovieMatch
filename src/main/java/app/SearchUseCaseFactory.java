@@ -67,8 +67,7 @@ public final class SearchUseCaseFactory {
                 new SearchPresenter(
                         viewManagerModel,
                         searchViewModel,
-                        searchResultViewModel
-                ,
+                        searchResultViewModel,
                         new views.SwingUiExecutor());
 
         final SearchInputBoundary searchInteractor =

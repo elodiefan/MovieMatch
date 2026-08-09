@@ -65,7 +65,8 @@ public final class CreateCommentInteractor
                     inputData.getAuthorDisplayName(),
                     inputData.getCommentText());
             presenter.prepareSuccessView(true);
-        } catch (IllegalArgumentException | IllegalStateException error) {
+        }
+        catch (IllegalArgumentException | IllegalStateException error) {
             if (presenter != null) {
                 presenter.prepareFailView(error.getMessage());
             }
@@ -75,8 +76,7 @@ public final class CreateCommentInteractor
     /**
      * Creates a new comment on a review.
      * @param reviewId the id of the review being commented on
-     * @param parentCommentId the parent comment id, or null for a top-level
-     * comment
+     * @param parentCommentId the parent comment id, or null for a top-level comment
      * @param authorUsername the comment author's username
      * @param authorDisplayName the comment author's display name
      * @param commentText the comment text
@@ -121,15 +121,19 @@ public final class CreateCommentInteractor
                                      final String commentText) {
         if (isBlank(reviewId)) {
             throw new IllegalArgumentException("Review id cannot be empty.");
-        } else if (isBlank(authorUsername)) {
+        }
+        else if (isBlank(authorUsername)) {
             throw new IllegalArgumentException(
                     "Author username cannot be empty.");
-        } else if (isBlank(authorDisplayName)) {
+        }
+        else if (isBlank(authorDisplayName)) {
             throw new IllegalArgumentException(
                     "Author display name cannot be empty.");
-        } else if (isBlank(commentText)) {
+        }
+        else if (isBlank(commentText)) {
             throw new IllegalArgumentException("Comment text cannot be empty.");
-        } else if (commentDataAccessObject == null) {
+        }
+        else if (commentDataAccessObject == null) {
             throw new IllegalStateException(
                     "Comment data access object has not been configured.");
         }
@@ -160,7 +164,8 @@ public final class CreateCommentInteractor
         final String trimmedValue;
         if (value == null) {
             trimmedValue = "";
-        } else {
+        }
+        else {
             trimmedValue = value.trim();
         }
         return trimmedValue;
@@ -175,7 +180,8 @@ public final class CreateCommentInteractor
         final String trimmedValue;
         if (isBlank(value)) {
             trimmedValue = null;
-        } else {
+        }
+        else {
             trimmedValue = value.trim();
         }
         return trimmedValue;

@@ -52,7 +52,6 @@ public class Main {
                 .addMessagingUseCases()
                 .addPersonalAccountUseCase()
                 .addResetPasswordUseCase()
-//                .addReviewsUseCase()
                 .addSearchUserUseCase()
                 .addSecurityQuestionUseCase()
                 .addSignupUseCase()

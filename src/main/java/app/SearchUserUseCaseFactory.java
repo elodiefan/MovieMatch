@@ -13,7 +13,6 @@ import views.SearchUserView;
 
 /**
  * Factory for assembling the Search User Use Case to avoid direct changing of appbuilder.
- * <p>
  * Follows the same convention as {@code SearchUseCaseFactory}: everything this
  * use case needs is built here, so adding it costs {@code AppBuilder} one call
  * instead of twenty lines. That matters on a file several people edit at once.

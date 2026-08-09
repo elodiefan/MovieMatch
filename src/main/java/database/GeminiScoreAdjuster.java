@@ -25,6 +25,8 @@ import use_case.recommendation.ScoreAdjustmentException;
  */
 public class GeminiScoreAdjuster implements ScoreAdjuster {
 
+    private final String DELIMITER = ", ";
+
     /**
      * Where the key is read from, matching how the TMDB token is supplied.
      */
@@ -74,7 +76,8 @@ public class GeminiScoreAdjuster implements ScoreAdjuster {
     }
 
     /**
-     * Says whether a key is configured, so callers can skip the network entirely rather than failing once per candidate.
+     * Says whether a key is configured, so callers can skip the network entirely
+     * rather than failing once per candidate.
      *
      * @return the is configured
      */
@@ -216,11 +219,12 @@ public class GeminiScoreAdjuster implements ScoreAdjuster {
     }
 
     private String namesOf(java.util.Collection<Genre> genres) {
-        return genres.stream().map(Genre::getName).collect(Collectors.joining(", "));
+        return genres.stream().map(Genre::getName).collect(Collectors.joining(DELIMITER));
     }
 
     /**
-     * Describes the candidate and the user's taste, and asks for exactly the two values the algorithm allows this step to contribute.
+     * Describes the candidate and the user's taste, and asks for exactly the two values
+     * the algorithm allows this step to contribute.
      *
      * @param candidate the candidate
      * @param tasteProfile the taste profile
@@ -229,10 +233,10 @@ public class GeminiScoreAdjuster implements ScoreAdjuster {
     private String buildPrompt(Media candidate, TasteProfile tasteProfile) {
         final String likedGenres = tasteProfile.getGenres().stream()
                 .map(Genre::getName)
-                .collect(Collectors.joining(", "));
+                .collect(Collectors.joining(DELIMITER));
         final String candidateGenres = candidate.getGenres().stream()
                 .map(Genre::getName)
-                .collect(Collectors.joining(", "));
+                .collect(Collectors.joining(DELIMITER));
 
         return "You are refining a film recommendation that has already been scored by a "
                 + "deterministic formula. Do not re-rank anything.\n\n"

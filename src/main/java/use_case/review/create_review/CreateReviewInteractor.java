@@ -113,7 +113,8 @@ public final class CreateReviewInteractor implements CreateReviewInputBoundary {
                     inputData.getAuthorDisplayName(), inputData.getRating(),
                     inputData.getReviewText());
             presenter.prepareSuccessView(toOutputData(review));
-        } catch (IllegalArgumentException | IllegalStateException error) {
+        }
+        catch (IllegalArgumentException | IllegalStateException error) {
             if (presenter != null) {
                 presenter.prepareFailView(error.getMessage());
             }
@@ -196,23 +197,30 @@ public final class CreateReviewInteractor implements CreateReviewInputBoundary {
                                     final double rating) {
         if (mediaId < 0) {
             throw new IllegalArgumentException("Media id cannot be negative.");
-        } else if (isBlank(mediaType)) {
+        }
+        else if (isBlank(mediaType)) {
             throw new IllegalArgumentException("Media type cannot be empty.");
-        } else if (isBlank(mediaTitle)) {
+        }
+        else if (isBlank(mediaTitle)) {
             throw new IllegalArgumentException("Media title cannot be empty.");
-        } else if (isBlank(authorUsername)) {
+        }
+        else if (isBlank(authorUsername)) {
             throw new IllegalArgumentException(
                     "Author username cannot be empty.");
-        } else if (isBlank(authorDisplayName)) {
+        }
+        else if (isBlank(authorDisplayName)) {
             throw new IllegalArgumentException(
                     "Author display name cannot be empty.");
-        } else if (rating < MIN_RATING || rating > MAX_RATING) {
+        }
+        else if (rating < MIN_RATING || rating > MAX_RATING) {
             throw new IllegalArgumentException(
                     "Rating must be between 0 and 100.");
-        } else if (reviewDataAccessObject == null) {
+        }
+        else if (reviewDataAccessObject == null) {
             throw new IllegalStateException(
                     "Review data access object has not been configured.");
-        } else {
+        }
+        else {
             validateReviewPermission(mediaId, mediaType, authorUsername);
         }
     }
@@ -222,10 +230,11 @@ public final class CreateReviewInteractor implements CreateReviewInputBoundary {
      * @param mediaId the reviewed media's identifier
      * @param mediaType the reviewed media's type
      * @param authorUsername the review author's username
+     * @throws IllegalArgumentException the exception when the argument is invalid
      */
     private void validateReviewPermission(final int mediaId,
                                           final String mediaType,
-                                          final String authorUsername) {
+                                          final String authorUsername) throws IllegalArgumentException {
         final String error = getReviewPermissionError(mediaId, mediaType,
                 authorUsername);
         if (error != null) {
@@ -247,10 +256,12 @@ public final class CreateReviewInteractor implements CreateReviewInputBoundary {
         final String error;
         if (userDataAccessObject == null) {
             error = "User data access object has not been configured.";
-        } else if (!userDataAccessObject.hasWatchedMedia(authorUsername,
+        }
+        else if (!userDataAccessObject.hasWatchedMedia(authorUsername,
                 mediaId, mediaType)) {
             error = "Please add this media to your watch history before writing a review.";
-        } else {
+        }
+        else {
             error = null;
         }
         return error;
@@ -281,7 +292,8 @@ public final class CreateReviewInteractor implements CreateReviewInputBoundary {
         final String trimmedValue;
         if (value == null) {
             trimmedValue = "";
-        } else {
+        }
+        else {
             trimmedValue = value.trim();
         }
         return trimmedValue;
