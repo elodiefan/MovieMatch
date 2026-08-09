@@ -6,6 +6,7 @@ import java.awt.Component;
 import java.awt.Dialog;
 import java.awt.FlowLayout;
 import java.awt.Font;
+import java.awt.Window;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.beans.PropertyChangeEvent;
@@ -802,9 +803,7 @@ public final class MediaReviewsPanel extends JPanel
                             promptForRating("Rating percentage:");
                     if (rating != null) {
                         final String reviewText =
-                                JOptionPane.showInputDialog(
-                                        MediaReviewsPanel.this,
-                                        "Review text:");
+                                promptForText("Review text:");
                         mediaReviewsController.createReview(
                                 state.getMediaId(), state.getMediaType(),
                                 state.getMediaTitle(),
@@ -819,7 +818,7 @@ public final class MediaReviewsPanel extends JPanel
                         }
                     }
                 } else {
-                    JOptionPane.showMessageDialog(MediaReviewsPanel.this,
+                    JOptionPane.showMessageDialog(getDialogParent(),
                             getReviewPermissionMessage());
                 }
             }
@@ -871,9 +870,7 @@ public final class MediaReviewsPanel extends JPanel
                             promptForRating("New rating percentage:");
                     if (rating != null) {
                         final String reviewText =
-                                JOptionPane.showInputDialog(
-                                        MediaReviewsPanel.this,
-                                        "New review text:");
+                                promptForText("New review text:");
                         mediaReviewsController.editReview(reviewId,
                                 currentUsername, rating, reviewText);
                     }
@@ -892,7 +889,7 @@ public final class MediaReviewsPanel extends JPanel
      */
     private Double promptForRating(final String title) {
         final JDialog dialog = new JDialog(
-                SwingUtilities.getWindowAncestor(this), title,
+                getDialogParent(), title,
                 Dialog.ModalityType.APPLICATION_MODAL);
         final JTextField ratingField = new JTextField(12);
         final JLabel validationLabel = new JLabel(" ");
@@ -924,9 +921,26 @@ public final class MediaReviewsPanel extends JPanel
         dialog.add(inputPanel);
         dialog.add(buttonPanel, java.awt.BorderLayout.SOUTH);
         dialog.pack();
-        dialog.setLocationRelativeTo(this);
+        dialog.setLocationRelativeTo(getDialogParent());
         dialog.setVisible(true);
         return rating[0];
+    }
+
+    /**
+     * Opens a centered text prompt.
+     * @param message the prompt message
+     * @return the entered text, or null if cancelled
+     */
+    private String promptForText(final String message) {
+        return JOptionPane.showInputDialog(getDialogParent(), message);
+    }
+
+    /**
+     * Returns the owning window used to center dialogs.
+     * @return the owning window
+     */
+    private Window getDialogParent() {
+        return SwingUtilities.getWindowAncestor(this);
     }
 
     private Double parseRating(final String ratingText) {
@@ -1036,8 +1050,7 @@ public final class MediaReviewsPanel extends JPanel
         @Override
         public void actionPerformed(final ActionEvent event) {
             if (commentsController != null && hasCurrentUser()) {
-                final String commentText = JOptionPane.showInputDialog(
-                        MediaReviewsPanel.this, "Comment text:");
+                final String commentText = promptForText("Comment text:");
                 if (!isBlank(commentText)) {
                     commentsController.createComment(reviewId, "",
                             currentUsername, currentDisplayName, commentText);
@@ -1082,8 +1095,7 @@ public final class MediaReviewsPanel extends JPanel
                 if (reply) {
                     commentsViewModel.getState().setParentCommentId(commentId);
                     if (commentsController != null && hasCurrentUser()) {
-                        final String commentText = JOptionPane.showInputDialog(
-                                MediaReviewsPanel.this, "Reply text:");
+                        final String commentText = promptForText("Reply text:");
                         if (!isBlank(commentText)) {
                             commentsController.createComment(reviewId,
                                     commentId, currentUsername,
