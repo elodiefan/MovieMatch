@@ -6,8 +6,7 @@ package use_case.review.delete_review;
 public interface DeleteReviewInputBoundary {
     /**
      * Executes the use case.
-     * @param reviewId the review id
-     * @param username the username requesting deletion
+     * @param inputData the input data for deleting a review
      */
-    void execute(String reviewId, String username);
+    void execute(DeleteReviewInputData inputData);
 }

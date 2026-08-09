@@ -84,28 +84,12 @@ public final class CreateReviewInteractor implements CreateReviewInputBoundary {
 
     /**
      * Executes the use case.
-     * @param mediaId the media id
-     * @param mediaType the media type
-     * @param mediaTitle the media title
-     * @param releaseYear the release year
-     * @param posterPath the poster path
-     * @param authorUsername the author's username
-     * @param authorDisplayName the author's display name
-     * @param rating the review rating
-     * @param reviewText the review text
+     * @param inputData the input data for creating a review
      */
     @Override
-    public void execute(final int mediaId, final String mediaType,
-                        final String mediaTitle, final int releaseYear,
-                        final String posterPath, final String authorUsername,
-                        final String authorDisplayName, final double rating,
-                        final String reviewText) {
+    public void execute(final CreateReviewInputData inputData) {
         try {
             validatePresenter();
-            final CreateReviewInputData inputData =
-                    new CreateReviewInputData(mediaId, mediaType, mediaTitle,
-                            releaseYear, posterPath, authorUsername,
-                            authorDisplayName, rating, reviewText);
             final Review review = createReview(inputData.getMediaId(),
                     inputData.getMediaType(), inputData.getMediaTitle(),
                     inputData.getReleaseYear(), inputData.getPosterPath(),
@@ -122,10 +106,10 @@ public final class CreateReviewInteractor implements CreateReviewInputBoundary {
     }
 
     @Override
-    public boolean canCreateReview(final int mediaId, final String mediaType,
-                                   final String authorUsername) {
-        final String error = getReviewPermissionError(mediaId,
-                trimToEmpty(mediaType), trimToEmpty(authorUsername));
+    public boolean canCreateReview(final CreateReviewInputData inputData) {
+        final String error = getReviewPermissionError(inputData.getMediaId(),
+                trimToEmpty(inputData.getMediaType()),
+                trimToEmpty(inputData.getAuthorUsername()));
         final boolean canCreate = error == null;
         if (!canCreate) {
             if (presenter != null) {

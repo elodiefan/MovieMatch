@@ -30,13 +30,9 @@ public final class EditCommentInteractor implements EditCommentInputBoundary {
     }
 
     @Override
-    public void execute(final String commentId, final String username,
-                        final String newCommentText) {
+    public void execute(final EditCommentInputData inputData) {
         try {
             validatePresenter();
-            final EditCommentInputData inputData =
-                    new EditCommentInputData(commentId, username,
-                            newCommentText);
             final boolean edited = editComment(inputData.getCommentId(),
                     inputData.getUsername(), inputData.getCommentText());
             if (edited) {

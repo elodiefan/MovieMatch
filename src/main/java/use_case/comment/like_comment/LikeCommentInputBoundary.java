@@ -6,8 +6,7 @@ package use_case.comment.like_comment;
 public interface LikeCommentInputBoundary {
     /**
      * Executes the use case.
-     * @param commentId the comment id
-     * @param username the username liking the comment
+     * @param inputData the input data for liking a comment
      */
-    void execute(String commentId, String username);
+    void execute(LikeCommentInputData inputData);
 }
