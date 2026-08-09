@@ -10,7 +10,7 @@ import java.util.List;
 
 import org.junit.jupiter.api.Test;
 
-import entity.StandardUser;
+import entity.StandardUserFactory;
 import entity.User;
 
 /**
@@ -55,7 +55,8 @@ class SearchUserInteractorTest {
     }
 
     private static User user(String username, String displayName) {
-        return new StandardUser(username, displayName, "hunter2", "First pet?", "rex");
+        return new StandardUserFactory().create(
+                username, displayName, "hunter2", "First pet?", "rex");
     }
 
     @Test

@@ -624,7 +624,7 @@ public class AppBuilder {
     /**
      * Adds the Search User Use Case to the application.
      * The assembly lives in SearchUserUseCaseFactory, following the
-     * convention Yidan set with SearchUseCaseFactory.
+     * convention Bob set with SearchUseCaseFactory.
      *
      * @return the add search user use case
      */
