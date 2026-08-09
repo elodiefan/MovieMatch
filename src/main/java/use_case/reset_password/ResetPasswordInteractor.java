@@ -2,7 +2,6 @@ package use_case.reset_password;
 
 /**
  * Interactor for the Reset Password use case.
- * <p>
  * Validates the new password, then writes it through the DAO. Rules:
  * <ul>
  * <li>the new password must not be blank;</li>

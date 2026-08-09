@@ -2,7 +2,6 @@ package entity;
 
 /**
  * The lock-out rules for one account.
- * <p>
  * After {@link #MAX_ATTEMPTS} wrong security answers the account is locked for
  * {@link #LOCKOUT_MINUTES} minutes, and answers are refused until the lock
  * expires. Keeping these rules here rather than in an interactor means the
@@ -53,18 +52,15 @@ public class AccountLockout {
 
     /**
      * Returns whether the account is locked right now.
-     * @return true if the account is locked right now. An expired lock is
-     * cleared here, so the next attempt is allowed.
+     * @return true if the account is locked right now. An expired lock is cleared here, so the next attempt is allowed.
      */
     public boolean isLockedOut() {
-        if (lockedUntil == 0L) {
-            return false;
-        }
+        boolean returnValue = lockedUntil != 0L;
         if (System.currentTimeMillis() >= lockedUntil) {
             lockedUntil = 0L;
-            return false;
+            returnValue = false;
         }
-        return true;
+        return returnValue;
     }
 
     /**
@@ -80,9 +76,13 @@ public class AccountLockout {
      * @return seconds left on the current lock-out, or 0 if not locked
      */
     public long remainingLockSeconds() {
+        final long returnValue;
         if (lockedUntil == 0L) {
-            return 0L;
+            returnValue = 0L;
         }
-        return Math.max(0L, (lockedUntil - System.currentTimeMillis()) / MILLIS_PER_SECOND);
+        else {
+            returnValue = Math.max(0L, (lockedUntil - System.currentTimeMillis()) / MILLIS_PER_SECOND);
+        }
+        return returnValue;
     }
 }

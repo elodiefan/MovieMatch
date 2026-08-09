@@ -94,5 +94,4 @@ public class GetListsController {
             getBlockedUsersInteractor.switchToAccountView(getListsInputData);
         }
     }
-    // dont bother switching to account view, call getprofile interactor instead to get that file to make a choice of which profile to view
 }

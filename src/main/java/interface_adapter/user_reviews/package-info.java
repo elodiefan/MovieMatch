@@ -1,3 +1,4 @@
+
 /**
  * Interface adapters for the user's reviews and comments view.
  */

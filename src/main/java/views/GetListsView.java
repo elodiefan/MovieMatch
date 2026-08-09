@@ -44,6 +44,7 @@ public class GetListsView extends JPanel implements PropertyChangeListener {
     private static final int CARD_GAP = 10;
     private static final int POSTER_WIDTH = 80;
     private static final int POSTER_HEIGHT = 120;
+    private static final int CARD_HEIGHT = POSTER_HEIGHT + CARD_GAP + CARD_GAP;
     private static final String POSTER_BASE_URL =
             "https://image.tmdb.org/t/p/w185";
 
@@ -61,7 +62,7 @@ public class GetListsView extends JPanel implements PropertyChangeListener {
         this.getListsViewModel.addPropertyChangeListener(this);
 
         viewMessage = new JLabel("", SwingConstants.CENTER);
-        UiTheme.asTitle(viewMessage);
+        UITheme.asTitle(viewMessage);
         final JPanel labelPanel = new JPanel(new BorderLayout());
         labelPanel.add(viewMessage, BorderLayout.CENTER);
         labelPanel.setBorder(BorderFactory.createEmptyBorder(0, 0, TEXT_PADDING, 0));
@@ -117,7 +118,8 @@ public class GetListsView extends JPanel implements PropertyChangeListener {
             userList.setText(state.getDisplayText());
             userList.setCaretPosition(0);
             listPanel.add(userList);
-        } else {
+        }
+        else {
             for (GetListRow row : rows) {
                 listPanel.add(createListCard(row));
                 listPanel.add(Box.createVerticalStrut(CARD_GAP));
@@ -132,6 +134,7 @@ public class GetListsView extends JPanel implements PropertyChangeListener {
         card.setBorder(BorderFactory.createEmptyBorder(
                 CARD_GAP, CARD_GAP, CARD_GAP, CARD_GAP));
         card.setAlignmentX(Component.LEFT_ALIGNMENT);
+        card.setMaximumSize(new Dimension(Integer.MAX_VALUE, CARD_HEIGHT));
         final JLabel posterLabel = createPosterLabel(row.getPosterPath());
         addMediaClickListener(posterLabel, row);
         card.add(posterLabel, BorderLayout.WEST);
@@ -143,7 +146,7 @@ public class GetListsView extends JPanel implements PropertyChangeListener {
         final JLabel dateLabel = new JLabel(formatLoggedAt(row.getLoggedAt()));
         textPanel.add(titleLabel);
         textPanel.add(dateLabel);
-        card.add(textPanel, BorderLayout.CENTER);
+        card.add(textPanel, BorderLayout.NORTH);
         return card;
     }
 
@@ -152,7 +155,7 @@ public class GetListsView extends JPanel implements PropertyChangeListener {
         posterLabel.setPreferredSize(new Dimension(POSTER_WIDTH,
                 POSTER_HEIGHT));
         posterLabel.setHorizontalAlignment(JLabel.CENTER);
-        posterLabel.setVerticalAlignment(JLabel.CENTER);
+        posterLabel.setVerticalAlignment(JLabel.TOP);
         updatePoster(posterLabel, posterPath);
         return posterLabel;
     }
@@ -161,7 +164,8 @@ public class GetListsView extends JPanel implements PropertyChangeListener {
         posterLabel.setIcon(null);
         if (posterPath == null || posterPath.isEmpty()) {
             posterLabel.setText("Poster unavailable");
-        } else {
+        }
+        else {
             posterLabel.setText("Loading...");
             loadPosterImage(posterLabel, posterPath);
         }
@@ -184,7 +188,8 @@ public class GetListsView extends JPanel implements PropertyChangeListener {
                 try {
                     posterLabel.setIcon(get());
                     posterLabel.setText("");
-                } catch (InterruptedException | ExecutionException error) {
+                }
+                catch (InterruptedException | ExecutionException error) {
                     posterLabel.setText("Poster unavailable");
                     Thread.currentThread().interrupt();
                 }
@@ -196,7 +201,8 @@ public class GetListsView extends JPanel implements PropertyChangeListener {
         final String formattedDate;
         if (loggedAt == null || loggedAt.length() < TEXT_PADDING) {
             formattedDate = "";
-        } else {
+        }
+        else {
             formattedDate = loggedAt.substring(0, TEXT_PADDING);
         }
         return formattedDate;

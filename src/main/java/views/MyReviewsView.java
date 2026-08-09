@@ -52,6 +52,8 @@ import interface_adapter.user_reviews.UserReviewsViewModel;
  */
 public final class MyReviewsView extends JPanel
         implements PropertyChangeListener {
+
+    private static final String UNAVAILABLE_POSTER_TEXT = "Poster unavailable";
     /**
      * The card gap.
      */
@@ -251,11 +253,13 @@ public final class MyReviewsView extends JPanel
             try {
                 userReviewsController.loadUserReviews(state.getUsername());
                 userReviewsController.loadUserComments(state.getUsername());
-            } finally {
+            }
+            finally {
                 loadingContent = false;
             }
             contentRequested = true;
-        } else {
+        }
+        else {
             contentRequested = false;
         }
         return contentRequested;
@@ -271,7 +275,8 @@ public final class MyReviewsView extends JPanel
         if (reviews.isEmpty()) {
             reviewsPanel.add(new JLabel(
                     UserReviewsViewModel.EMPTY_REVIEWS_MESSAGE));
-        } else {
+        }
+        else {
             for (UserReviewRow review : reviews) {
                 reviewsPanel.add(createReviewCard(review));
                 reviewsPanel.add(Box.createVerticalStrut(CARD_GAP));
@@ -292,7 +297,8 @@ public final class MyReviewsView extends JPanel
         if (comments.isEmpty()) {
             commentsPanel.add(new JLabel(
                     UserReviewsViewModel.EMPTY_COMMENTS_MESSAGE));
-        } else {
+        }
+        else {
             for (UserCommentRow comment : comments) {
                 commentsPanel.add(createCommentCard(comment));
                 commentsPanel.add(Box.createVerticalStrut(CARD_GAP));
@@ -361,6 +367,7 @@ public final class MyReviewsView extends JPanel
                 + formatTime(comment.getCreatedAt())));
         detailPanel.add(new JLabel("Likes: " + comment.getLikeCount()));
         detailPanel.add(new JLabel(comment.getCommentText()));
+        detailPanel.add(createCommentButtonPanel(comment));
 
         final JLabel posterLabel = createPosterLabel(comment.getPosterPath());
         addCommentNavigation(posterLabel, comment);
@@ -368,6 +375,30 @@ public final class MyReviewsView extends JPanel
         card.add(detailPanel, BorderLayout.CENTER);
 
         return card;
+    }
+
+    /**
+     * Creates the action buttons for one comment row.
+     * @param comment the comment row
+     * @return the button panel
+     */
+    private Component createCommentButtonPanel(final UserCommentRow comment) {
+        final JPanel buttonPanel = new JPanel();
+        buttonPanel.setLayout(new BoxLayout(buttonPanel, BoxLayout.X_AXIS));
+        buttonPanel.setAlignmentX(Component.LEFT_ALIGNMENT);
+        final JButton editButton =
+                new JButton(UserReviewsViewModel.EDIT_BUTTON_LABEL);
+        final JButton deleteButton =
+                new JButton(UserReviewsViewModel.DELETE_BUTTON_LABEL);
+
+        editButton.addActionListener(new SelectCommentListener(
+                comment.getCommentId()));
+        deleteButton.addActionListener(new SelectCommentListener(
+                comment.getCommentId()));
+
+        buttonPanel.add(editButton);
+        buttonPanel.add(deleteButton);
+        return buttonPanel;
     }
 
     /**
@@ -405,7 +436,8 @@ public final class MyReviewsView extends JPanel
         final String yearText;
         if (releaseYear > 0) {
             yearText = " (" + releaseYear + ")";
-        } else {
+        }
+        else {
             yearText = "";
         }
         final JLabel titleLabel = new JLabel(mediaTitle + yearText);
@@ -515,8 +547,9 @@ public final class MyReviewsView extends JPanel
     private void updatePoster(final JLabel posterLabel,
                               final String posterPath) {
         if (posterPath == null || posterPath.isEmpty()) {
-            posterLabel.setText("Poster unavailable");
-        } else {
+            posterLabel.setText(UNAVAILABLE_POSTER_TEXT);
+        }
+        else {
             posterLabel.setText("Loading...");
             loadPosterInBackground(posterLabel, posterPath);
         }
@@ -547,7 +580,8 @@ public final class MyReviewsView extends JPanel
                         POSTER_WIDTH, POSTER_HEIGHT, Image.SCALE_SMOOTH);
                 poster = new ImageIcon(scaled);
             }
-        } catch (MalformedURLException | IllegalArgumentException exception) {
+        }
+        catch (MalformedURLException | IllegalArgumentException exception) {
             poster = null;
         }
         return poster;
@@ -558,12 +592,19 @@ public final class MyReviewsView extends JPanel
         try {
             final ImageIcon poster = worker.get();
             posterLabel.setIcon(poster);
-            posterLabel.setText(poster == null ? "Poster unavailable" : "");
-        } catch (InterruptedException exception) {
+            if (poster == null) {
+                posterLabel.setText(UNAVAILABLE_POSTER_TEXT);
+            }
+            else {
+                posterLabel.setText("");
+            }
+        }
+        catch (InterruptedException exception) {
             Thread.currentThread().interrupt();
-            posterLabel.setText("Poster unavailable");
-        } catch (ExecutionException exception) {
-            posterLabel.setText("Poster unavailable");
+            posterLabel.setText(UNAVAILABLE_POSTER_TEXT);
+        }
+        catch (ExecutionException exception) {
+            posterLabel.setText(UNAVAILABLE_POSTER_TEXT);
         }
     }
 
@@ -576,7 +617,8 @@ public final class MyReviewsView extends JPanel
         final String formattedTime;
         if (dateTime == null) {
             formattedTime = "";
-        } else {
+        }
+        else {
             formattedTime = dateTime.format(TIME_FORMATTER);
         }
         return formattedTime;
@@ -633,6 +675,42 @@ public final class MyReviewsView extends JPanel
     }
 
     /**
+     * Selects a comment in the view model state.
+     */
+    private final class SelectCommentListener implements ActionListener {
+        /**
+         * The comment id.
+         */
+        private final String commentId;
+
+        private SelectCommentListener(final String inputCommentId) {
+            this.commentId = inputCommentId;
+        }
+
+        @Override
+        public void actionPerformed(final ActionEvent event) {
+            final UserReviewsState state = userReviewsViewModel.getState();
+            if (userReviewsController != null
+                    && !isBlank(state.getUsername())) {
+                final String command = ((JButton) event.getSource()).getText();
+                if (UserReviewsViewModel.DELETE_BUTTON_LABEL.equals(command)) {
+                    userReviewsController.deleteComment(commentId,
+                            state.getUsername());
+                } else {
+                    final String commentText = JOptionPane.showInputDialog(
+                            MyReviewsView.this, "New comment text:");
+                    if (!isBlank(commentText)) {
+                        userReviewsController.editComment(commentId,
+                                state.getUsername(), commentText);
+                    }
+                }
+                userReviewsController.loadUserComments(state.getUsername());
+            }
+            userReviewsViewModel.firePropertyChanged();
+        }
+    }
+
+    /**
      * Opens a rating dialog that cannot be submitted until valid.
      * @param title the dialog title
      * @return the rating, or null if cancelled
@@ -683,7 +761,8 @@ public final class MyReviewsView extends JPanel
             if (parsedRating >= MIN_RATING && parsedRating <= MAX_RATING) {
                 rating = parsedRating;
             }
-        } catch (NumberFormatException exception) {
+        }
+        catch (NumberFormatException exception) {
             rating = null;
         }
         return rating;
@@ -723,7 +802,8 @@ public final class MyReviewsView extends JPanel
             submitButton.setEnabled(validRating);
             if (isBlank(ratingField.getText()) || validRating) {
                 validationLabel.setText(" ");
-            } else {
+            }
+            else {
                 validationLabel.setText(RATING_ERROR);
             }
         }

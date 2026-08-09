@@ -3,6 +3,8 @@ package interface_adapter.user_reviews;
 import java.util.ArrayList;
 import java.util.List;
 
+import use_case.comment.delete_comment.DeleteCommentOutputBoundary;
+import use_case.comment.edit_comment.EditCommentOutputBoundary;
 import use_case.comment.get_user_comments.GetUserCommentsOutputBoundary;
 import use_case.comment.get_user_comments.GetUserCommentsOutputData;
 import use_case.review.delete_review.DeleteReviewOutputBoundary;
@@ -18,7 +20,8 @@ import use_case.review.unlike_review.UnlikeReviewOutputBoundary;
  */
 public final class UserReviewsPresenter implements GetUserReviewsOutputBoundary,
         GetUserCommentsOutputBoundary, EditReviewOutputBoundary,
-        DeleteReviewOutputBoundary, LikeReviewOutputBoundary,
+        DeleteReviewOutputBoundary, DeleteCommentOutputBoundary,
+        EditCommentOutputBoundary, LikeReviewOutputBoundary,
         UnlikeReviewOutputBoundary {
     /**
      * The user reviews view model.
@@ -119,7 +122,8 @@ public final class UserReviewsPresenter implements GetUserReviewsOutputBoundary,
         final String displayError;
         if (isBlank(errorMessage)) {
             displayError = "Unable to load reviews.";
-        } else {
+        }
+        else {
             displayError = errorMessage.trim();
         }
         final UserReviewsState state = userReviewsViewModel.getState();

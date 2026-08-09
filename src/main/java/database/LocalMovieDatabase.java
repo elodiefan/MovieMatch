@@ -76,6 +76,7 @@ public class LocalMovieDatabase {
      * Loads movie entities from movies.json.
      *
      * @return movies loaded from the resource file
+     * @throws IllegalStateException the exception thrown
      */
     private List<Movie> loadMovies() {
         final List<Movie> loadedMovies = new ArrayList<>();

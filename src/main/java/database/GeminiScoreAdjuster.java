@@ -51,10 +51,11 @@ public class GeminiScoreAdjuster implements ScoreAdjuster {
     private static final int TIMEOUT_SECONDS = 10;
     private static final int MAX_EXPLANATION_LENGTH = 200;
 
-    private final HttpClient httpClient;
-    private final ObjectMapper objectMapper = new ObjectMapper();
     private final String apiKey;
     private final String model;
+    private final String DELIMITER = ", ";
+    private final HttpClient httpClient;
+    private final ObjectMapper objectMapper = new ObjectMapper();
 
     public GeminiScoreAdjuster() {
         this(System.getenv(API_KEY_VARIABLE), System.getenv(MODEL_VARIABLE));
@@ -74,7 +75,8 @@ public class GeminiScoreAdjuster implements ScoreAdjuster {
     }
 
     /**
-     * Says whether a key is configured, so callers can skip the network entirely rather than failing once per candidate.
+     * Says whether a key is configured, so callers can skip the network entirely
+     * rather than failing once per candidate.
      *
      * @return the is configured
      */
@@ -93,7 +95,11 @@ public class GeminiScoreAdjuster implements ScoreAdjuster {
             final String reply = send(buildPrompt(candidate, tasteProfile));
             return parse(reply);
         }
-        catch (IOException | RuntimeException exception) {
+        catch (IOException exception) {
+            throw new ScoreAdjustmentException(
+                    "Gemini could not be reached or its reply could not be read.", exception);
+        }
+        catch (RuntimeException exception) {
             throw new ScoreAdjustmentException(
                     "Gemini could not be reached or its reply could not be read.", exception);
         }
@@ -216,11 +222,12 @@ public class GeminiScoreAdjuster implements ScoreAdjuster {
     }
 
     private String namesOf(java.util.Collection<Genre> genres) {
-        return genres.stream().map(Genre::getName).collect(Collectors.joining(", "));
+        return genres.stream().map(Genre::getName).collect(Collectors.joining(DELIMITER));
     }
 
     /**
-     * Describes the candidate and the user's taste, and asks for exactly the two values the algorithm allows this step to contribute.
+     * Describes the candidate and the user's taste, and asks for exactly the two values
+     * the algorithm allows this step to contribute.
      *
      * @param candidate the candidate
      * @param tasteProfile the taste profile
@@ -229,10 +236,10 @@ public class GeminiScoreAdjuster implements ScoreAdjuster {
     private String buildPrompt(Media candidate, TasteProfile tasteProfile) {
         final String likedGenres = tasteProfile.getGenres().stream()
                 .map(Genre::getName)
-                .collect(Collectors.joining(", "));
+                .collect(Collectors.joining(DELIMITER));
         final String candidateGenres = candidate.getGenres().stream()
                 .map(Genre::getName)
-                .collect(Collectors.joining(", "));
+                .collect(Collectors.joining(DELIMITER));
 
         return "You are refining a film recommendation that has already been scored by a "
                 + "deterministic formula. Do not re-rank anything.\n\n"

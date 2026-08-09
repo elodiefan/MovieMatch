@@ -5,7 +5,6 @@ import use_case.security_question.SecurityQuestionInputData;
 
 /**
  * Controller for the Security Question use case.
- * <p>
  * Turns raw view input (plain strings) into use-case input data and forwards it
  * to the interactor through the input boundary. It holds no business logic.
  */

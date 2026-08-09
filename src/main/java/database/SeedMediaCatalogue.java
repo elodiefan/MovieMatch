@@ -49,7 +49,6 @@ public class SeedMediaCatalogue implements MediaCatalogueDataAccessInterface {
 
     /**
      * Returns the seed titles matching the given genres.
-     *
      * The seed catalogue is a fixed, hand-written list with nothing adult in
      * it, so the preference makes no difference to what comes back.
      *

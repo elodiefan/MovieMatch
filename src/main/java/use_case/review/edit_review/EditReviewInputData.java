@@ -45,6 +45,7 @@ public final class EditReviewInputData {
     public String getReviewId() {
         return reviewId;
     }
+
     /**
      * Handles this review or comment operation.
      * @return the result
@@ -52,6 +53,7 @@ public final class EditReviewInputData {
     public String getUsername() {
         return username;
     }
+
     /**
      * Handles this review or comment operation.
      * @return the result
@@ -59,6 +61,7 @@ public final class EditReviewInputData {
     public double getRating() {
         return rating;
     }
+
     /**
      * Handles this review or comment operation.
      * @return the result

@@ -34,6 +34,7 @@ public final class CommentsPanel extends JPanel
      * The heart unselected.
      */
     private static final String HEART_UNSELECTED = "\u2661 Like";
+
     /**
      * The heart selected.
      */
@@ -180,11 +181,13 @@ public final class CommentsPanel extends JPanel
             loadingComments = true;
             try {
                 commentsController.loadReviewComments(reviewId);
-            } finally {
+            }
+            finally {
                 loadingComments = false;
             }
             commentsRequested = true;
-        } else {
+        }
+        else {
             commentsRequested = false;
         }
         return commentsRequested;
@@ -294,7 +297,8 @@ public final class CommentsPanel extends JPanel
             heartButton.setText(HEART_SELECTED);
             heartButton.setForeground(Color.RED);
             heartButton.setToolTipText(CommentsViewModel.UNLIKE_BUTTON_LABEL);
-        } else {
+        }
+        else {
             heartButton.setText(HEART_UNSELECTED);
             heartButton.setForeground(null);
             heartButton.setToolTipText(CommentsViewModel.LIKE_BUTTON_LABEL);
@@ -323,7 +327,8 @@ public final class CommentsPanel extends JPanel
         if (comment.getParentCommentId() == null
                 || comment.getParentCommentId().isEmpty()) {
             indent = COMMENT_INDENT;
-        } else {
+        }
+        else {
             indent = REPLY_INDENT;
         }
         return indent;
@@ -338,7 +343,8 @@ public final class CommentsPanel extends JPanel
         final String formattedTime;
         if (dateTime == null) {
             formattedTime = "";
-        } else {
+        }
+        else {
             formattedTime = dateTime.format(TIME_FORMATTER);
         }
         return formattedTime;
@@ -380,7 +386,8 @@ public final class CommentsPanel extends JPanel
         final String trimmedValue;
         if (value == null) {
             trimmedValue = "";
-        } else {
+        }
+        else {
             trimmedValue = value.trim();
         }
         return trimmedValue;
@@ -443,7 +450,8 @@ public final class CommentsPanel extends JPanel
                                 state.getReviewId());
                     }
                 }
-            } else if (commentsController != null
+            }
+            else if (commentsController != null
                     && !isBlank(currentUsername)) {
                 commentsController.deleteComment(commentId, currentUsername);
                 commentsController.loadReviewComments(state.getReviewId());
@@ -473,7 +481,8 @@ public final class CommentsPanel extends JPanel
             if (commentsController != null && !isBlank(currentUsername)) {
                 if (heartButton.isSelected()) {
                     commentsController.likeComment(commentId, currentUsername);
-                } else {
+                }
+                else {
                     commentsController.unlikeComment(commentId,
                             currentUsername);
                 }

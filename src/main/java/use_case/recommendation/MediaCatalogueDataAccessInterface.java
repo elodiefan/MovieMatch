@@ -13,7 +13,6 @@ public interface MediaCatalogueDataAccessInterface {
 
     /**
      * Returns titles worth considering for a user.
-     *
      * The catalogue is asked to leave adult titles out rather than being handed
      * them to discard afterwards, because whether a title counts as adult is
      * something only the source knows.

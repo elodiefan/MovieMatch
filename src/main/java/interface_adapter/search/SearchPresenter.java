@@ -53,33 +53,24 @@ public class SearchPresenter implements SearchOutputBoundary {
         onUiThread(() -> {
             final SearchResultState state =
                     searchResultViewModel.getState();
-
             final List<SearchResultRow> combined;
             if (outputData.isAppending()) {
-                // Loading more extends what the user is already looking at.
                 combined = new ArrayList<>(state.getOriginalResults());
                 combined.addAll(toSearchResultRows(outputData.getResults()));
             }
             else {
                 combined = toSearchResultRows(outputData.getResults());
             }
-
             state.setOriginalResults(combined);
             state.setResults(combined);
             state.setKeyword(outputData.getKeyword());
             state.setNextPage(outputData.getNextPage());
             state.setMoreAvailable(outputData.isMoreAvailable());
             state.setTotalResults(outputData.getTotalResults());
-
             searchResultViewModel.setState(state);
             searchResultViewModel.firePropertyChanged();
-
-            // Loading more happens while already on the results screen, so
-            // switching view again would only throw away the scroll position.
             if (!outputData.isAppending()) {
-                viewManagerModel.setState(
-                        SearchResultViewModel.VIEW_NAME
-                );
+                viewManagerModel.setState(SearchResultViewModel.VIEW_NAME);
                 viewManagerModel.firePropertyChanged();
             }
         });

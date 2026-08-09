@@ -64,7 +64,8 @@ public final class GetMediaReviewsInteractor
             final List<Review> reviews = getMediaReviews(
                     inputData.getMediaId(), inputData.getMediaType());
             presenter.prepareSuccessView(toOutputData(reviews));
-        } catch (IllegalArgumentException | IllegalStateException error) {
+        }
+        catch (IllegalArgumentException | IllegalStateException error) {
             if (presenter != null) {
                 presenter.prepareFailView(error.getMessage());
             }
@@ -101,9 +102,11 @@ public final class GetMediaReviewsInteractor
                                              final String mediaType) {
         if (mediaId < MIN_MEDIA_ID) {
             throw new IllegalArgumentException("Media id cannot be negative.");
-        } else if (isBlank(mediaType)) {
+        }
+        else if (isBlank(mediaType)) {
             throw new IllegalArgumentException("Media type cannot be empty.");
-        } else if (reviewDataAccessObject == null) {
+        }
+        else if (reviewDataAccessObject == null) {
             throw new IllegalStateException(
                     "Review data access object has not been configured.");
         }
@@ -134,7 +137,8 @@ public final class GetMediaReviewsInteractor
         final String trimmedValue;
         if (value == null) {
             trimmedValue = "";
-        } else {
+        }
+        else {
             trimmedValue = value.trim();
         }
         return trimmedValue;

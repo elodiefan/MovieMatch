@@ -57,10 +57,12 @@ public final class DeleteCommentInteractor
                     inputData.getUsername());
             if (deleted) {
                 presenter.prepareSuccessView(true);
-            } else {
+            }
+            else {
                 presenter.prepareFailView("Comment could not be deleted.");
             }
-        } catch (IllegalArgumentException | IllegalStateException error) {
+        }
+        catch (IllegalArgumentException | IllegalStateException error) {
             if (presenter != null) {
                 presenter.prepareFailView(error.getMessage());
             }
@@ -86,7 +88,8 @@ public final class DeleteCommentInteractor
                 && canDeleteComment(comment.get(), trimmedCommentId,
                 trimmedUsername)) {
             deleted = commentDataAccessObject.deleteComment(trimmedCommentId);
-        } else {
+        }
+        else {
             deleted = false;
         }
         return deleted;
@@ -103,9 +106,11 @@ public final class DeleteCommentInteractor
                                            final String username) {
         if (isBlank(commentId)) {
             throw new IllegalArgumentException("Comment id cannot be empty.");
-        } else if (isBlank(username)) {
+        }
+        else if (isBlank(username)) {
             throw new IllegalArgumentException("Username cannot be empty.");
-        } else if (commentDataAccessObject == null) {
+        }
+        else if (commentDataAccessObject == null) {
             throw new IllegalStateException(
                     "Comment data access object has not been configured.");
         }
@@ -131,7 +136,8 @@ public final class DeleteCommentInteractor
         final boolean canDelete;
         if (comment == null) {
             canDelete = false;
-        } else {
+        }
+        else {
             canDelete = comment.getCommentId().equals(commentId)
                     && comment.getAuthorUsername().equals(username);
         }
@@ -156,7 +162,8 @@ public final class DeleteCommentInteractor
         final String trimmedValue;
         if (value == null) {
             trimmedValue = "";
-        } else {
+        }
+        else {
             trimmedValue = value.trim();
         }
         return trimmedValue;

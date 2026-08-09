@@ -67,10 +67,9 @@ public class HomePageView extends JPanel implements PropertyChangeListener {
         header.add(title);
         header.add(javax.swing.Box.createRigidArea(new java.awt.Dimension(0, HEADER_GAP)));
         header.add(greeting);
-        header.setBorder(BorderFactory.createEmptyBorder(0, 0, UiTheme.ROW_GAP, 0));
+        header.setBorder(BorderFactory.createEmptyBorder(0, 0, UITheme.ROW_GAP, 0));
 
         recommendationsHeader = new JLabel(HomePageViewModel.RECOMMENDATIONS_LABEL);
-        // TODO: Populate list with recommendations and *maybe* when click on media brings you to media's page.
         listOfRecommendations = new JList();
         recommendationsPlaceholder = new JLabel(
                 "Nothing here yet. Use Search to find something to watch.", SwingConstants.CENTER);
@@ -144,11 +143,16 @@ public class HomePageView extends JPanel implements PropertyChangeListener {
         this.add(buttons, BorderLayout.SOUTH);
     }
 
-    // TODO: Implement if program allows for user to be brought to media page when click on recommendations???
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
         final HomePageState state = (HomePageState) evt.getNewValue();
-        final String name = state.getUsername() == null ? "" : state.getUsername();
+        final String name;
+        if (state.getUsername() == null) {
+            name = "";
+        }
+        else {
+            name = state.getUsername();
+        }
         greeting.setText("Hi, " + name);
 
         // Landing on the home page is what triggers a load; the panel itself

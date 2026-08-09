@@ -9,6 +9,7 @@ import java.util.Optional;
 import entity.Comment;
 import use_case.comment.create_comment.CreateCommentDataAccessInterface;
 import use_case.comment.delete_comment.DeleteCommentDataAccessInterface;
+import use_case.comment.edit_comment.EditCommentDataAccessInterface;
 import use_case.comment.get_review_comments.GetReviewCommentsDataAccessInterface;
 import use_case.comment.get_user_comments.GetUserCommentsDataAccessInterface;
 import use_case.comment.like_comment.LikeCommentDataAccessInterface;
@@ -19,8 +20,9 @@ import use_case.comment.unlike_comment.UnlikeCommentDataAccessInterface;
  */
 public class InMemoryCommentDataAccessObject implements
         CreateCommentDataAccessInterface, DeleteCommentDataAccessInterface,
-        GetReviewCommentsDataAccessInterface, GetUserCommentsDataAccessInterface,
-        LikeCommentDataAccessInterface, UnlikeCommentDataAccessInterface {
+        EditCommentDataAccessInterface, GetReviewCommentsDataAccessInterface,
+        GetUserCommentsDataAccessInterface, LikeCommentDataAccessInterface,
+        UnlikeCommentDataAccessInterface {
     private final Map<String, Comment> comments = new LinkedHashMap<>();
 
     /**

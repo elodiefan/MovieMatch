@@ -60,7 +60,8 @@ public final class GetReviewCommentsInteractor
                     inputData.getReviewId());
             presenter.prepareSuccessView(toOutputData(inputData.getReviewId(),
                     comments));
-        } catch (IllegalArgumentException | IllegalStateException error) {
+        }
+        catch (IllegalArgumentException | IllegalStateException error) {
             if (presenter != null) {
                 presenter.prepareFailView(error.getMessage());
             }
@@ -91,7 +92,8 @@ public final class GetReviewCommentsInteractor
     private void validateReviewId(final String reviewId) {
         if (isBlank(reviewId)) {
             throw new IllegalArgumentException("Review id cannot be empty.");
-        } else if (commentDataAccessObject == null) {
+        }
+        else if (commentDataAccessObject == null) {
             throw new IllegalStateException(
                     "Comment data access object has not been configured.");
         }
@@ -122,7 +124,8 @@ public final class GetReviewCommentsInteractor
         final String trimmedValue;
         if (value == null) {
             trimmedValue = "";
-        } else {
+        }
+        else {
             trimmedValue = value.trim();
         }
         return trimmedValue;

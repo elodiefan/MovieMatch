@@ -20,7 +20,7 @@ import entity.Media;
 /**
  * Tests how the catalogue asks TMDB for recommendation candidates.
  */
-class TmdbMediaCatalogueTest {
+class TMDBMediaCatalogueTest {
 
     private static final Genre ANIMATION = new Genre(16, "Animation");
     private static final Genre COMEDY = new Genre(35, "Comedy");
@@ -28,13 +28,13 @@ class TmdbMediaCatalogueTest {
     /**
      * Answers every request with one film and records what was asked for.
      */
-    private static class RecordingSender implements TmdbApiClient.RequestSender {
+    private static class RecordingSender implements TMDBAPIClient.RequestSender {
         private final List<String> paths = new ArrayList<>();
 
         @Override
-        public TmdbApiClient.Response send(HttpRequest request) {
+        public TMDBAPIClient.Response send(HttpRequest request) {
             paths.add(request.uri().toString());
-            return new TmdbApiClient.Response(200, "{\"results\":[{"
+            return new TMDBAPIClient.Response(200, "{\"results\":[{"
                     + "\"id\":42,\"title\":\"A Film\",\"name\":\"A Show\","
                     + "\"release_date\":\"2020-05-01\",\"first_air_date\":\"2019-01-01\","
                     + "\"vote_average\":7.5,\"genre_ids\":[16],"
@@ -54,11 +54,11 @@ class TmdbMediaCatalogueTest {
     }
 
     private RecordingSender sender;
-    private TmdbMediaCatalogue catalogue;
+    private TMDBMediaCatalogue catalogue;
 
     private void given() {
         sender = new RecordingSender();
-        catalogue = new TmdbMediaCatalogue(new TmdbApiClient(sender, "test-token"));
+        catalogue = new TMDBMediaCatalogue(new TMDBAPIClient(sender, "test-token"));
     }
 
     @Test

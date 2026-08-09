@@ -14,7 +14,7 @@ import entity.TVShow;
 /**
  * A local database storing TV show information.
  */
-public class LocalTvShowDatabase {
+public class LocalTVShowDatabase {
 
     private static final String TV_SHOWS_FILE = "/tvshows.json";
 
@@ -23,7 +23,7 @@ public class LocalTvShowDatabase {
     /**
      * Creates a local TV show database by loading tvshows.json.
      */
-    public LocalTvShowDatabase() {
+    public LocalTVShowDatabase() {
         this.tvShows = loadTvShows();
     }
 
@@ -32,7 +32,7 @@ public class LocalTvShowDatabase {
      *
      * @param tvShows the TV shows stored inside the database
      */
-    public LocalTvShowDatabase(List<TVShow> tvShows) {
+    public LocalTVShowDatabase(List<TVShow> tvShows) {
         this.tvShows = new ArrayList<>(tvShows);
     }
 
@@ -76,13 +76,14 @@ public class LocalTvShowDatabase {
      * Loads TV shows from tvshows.json.
      *
      * @return TV shows loaded from the resource file
+     * @throws IllegalStateException the exception thrown
      */
     private List<TVShow> loadTvShows() {
         final List<TVShow> loadedTvShows = new ArrayList<>();
         final ObjectMapper objectMapper = new ObjectMapper();
 
         try (InputStream inputStream =
-                     LocalTvShowDatabase.class.getResourceAsStream(
+                     LocalTVShowDatabase.class.getResourceAsStream(
                              TV_SHOWS_FILE
                      )) {
 

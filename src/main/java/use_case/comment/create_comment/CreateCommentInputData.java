@@ -52,6 +52,7 @@ public final class CreateCommentInputData {
     public String getReviewId() {
         return reviewId;
     }
+
     /**
      * Handles this review or comment operation.
      * @return the result
@@ -59,6 +60,7 @@ public final class CreateCommentInputData {
     public String getParentCommentId() {
         return parentCommentId;
     }
+
     /**
      * Handles this review or comment operation.
      * @return the result
@@ -66,6 +68,7 @@ public final class CreateCommentInputData {
     public String getAuthorUsername() {
         return authorUsername;
     }
+
     /**
      * Handles this review or comment operation.
      * @return the result
@@ -73,6 +76,7 @@ public final class CreateCommentInputData {
     public String getAuthorDisplayName() {
         return authorDisplayName;
     }
+
     /**
      * Handles this review or comment operation.
      * @return the result

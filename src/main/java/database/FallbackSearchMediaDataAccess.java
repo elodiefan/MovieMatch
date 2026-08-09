@@ -15,7 +15,7 @@ public class FallbackSearchMediaDataAccess
 
     private final SearchMediaDataAccess tmdbSearchMediaDataAccess;
     private final LocalMovieDatabase localMovieDatabase;
-    private final LocalTvShowDatabase localTvShowDatabase;
+    private final LocalTVShowDatabase localTvShowDatabase;
 
     /**
      * Creates a search data access object with a local fallback.
@@ -27,7 +27,7 @@ public class FallbackSearchMediaDataAccess
     public FallbackSearchMediaDataAccess(
             SearchMediaDataAccess tmdbSearchMediaDataAccess,
             LocalMovieDatabase localMovieDatabase,
-            LocalTvShowDatabase localTvShowDatabase) {
+            LocalTVShowDatabase localTvShowDatabase) {
 
         this.tmdbSearchMediaDataAccess =
                 tmdbSearchMediaDataAccess;

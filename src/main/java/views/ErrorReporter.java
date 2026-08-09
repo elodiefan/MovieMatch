@@ -22,8 +22,10 @@ public final class ErrorReporter {
      */
     public static void install() {
         Thread.setDefaultUncaughtExceptionHandler(
-                (thread, throwable) -> SwingUtilities.invokeLater(
-                        () -> show(null, throwable)));
+                (thread, throwable) -> {
+                    SwingUtilities.invokeLater(
+                            () -> show(null, throwable));
+                });
     }
 
     /**

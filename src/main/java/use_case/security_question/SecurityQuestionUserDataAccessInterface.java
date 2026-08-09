@@ -4,7 +4,6 @@ import entity.User;
 
 /**
  * Data-access interface for the Security Question use case.
- * <p>
  * The interactor depends on this abstraction (not a concrete database), so any
  * DAO â€” an in-memory map for tests, or the real {@code InternalDatabase} â€” can
  * be plugged in. Only read access is needed: this use case verifies identity;

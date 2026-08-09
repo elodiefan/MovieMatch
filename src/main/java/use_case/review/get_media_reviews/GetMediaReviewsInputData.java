@@ -31,6 +31,7 @@ public final class GetMediaReviewsInputData {
     public int getMediaId() {
         return mediaId;
     }
+
     /**
      * Handles this review or comment operation.
      * @return the result

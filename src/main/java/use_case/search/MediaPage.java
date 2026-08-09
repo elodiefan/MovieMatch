@@ -29,7 +29,8 @@ public class MediaPage {
     }
 
     /**
-     * Returns how many results the source says exist for this keyword, across every page, not just the ones fetched so far.
+     * Returns how many results the source says exist for this keyword,
+     * across every page, not just the ones fetched so far.
      *
      * @return the get total results
      */
