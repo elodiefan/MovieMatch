@@ -19,5 +19,5 @@
     <suppress checks="LambdaBodyLength"/>
     <suppress checks="AvoidEscapedUnicodeCharacters"/>
     <suppress checks="CyclomaticComplexity"/>
-    <supress checks="NPathComplexity"/>
+    <suppress checks="NPathComplexity"/>
 </suppressions>

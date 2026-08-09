@@ -37,6 +37,31 @@
         <property name="files"
                   value=".*[\\/]src[\\/](test|it|xdocs-examples)[\\/].*(?&lt;!Support)\.java"/>
     </module>
+    <module name="SuppressionSingleFilter">
+        <property name="checks" value="MemberName"/>
+        <property name="files"
+                  value="GeminiScoreAdjuster.java"/>
+    </module>
+    <module name="SuppressionSingleFilter">
+        <property name="checks" value="MemberName"/>
+        <property name="files"
+                  value="SecurityQuestionView.java"/>
+    </module>
+    <module name="SuppressionSingleFilter">
+        <property name="checks" value="MultipleStringLiterals"/>
+        <property name="files"
+                  value="SeedMediaCatalogue.java"/>
+    </module>
+    <module name="SuppressionSingleFilter">
+        <property name="checks" value="RegexpSinglelineJava"/>
+        <property name="files"
+                  value="RecommendationInteractor.java"/>
+    </module>
+    <module name="SuppressionSingleFilter">
+        <property name="checks" value="RegexpSinglelineJava"/>
+        <property name="files"
+                  value="SecurityQuestionPresenter.java"/>
+    </module>
     <module name="SuppressWarningsFilter"/>
     <module name="SuppressWithPlainTextCommentFilter">
         <!--
