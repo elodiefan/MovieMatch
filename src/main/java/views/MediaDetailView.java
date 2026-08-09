@@ -204,13 +204,18 @@ public class MediaDetailView extends JPanel implements PropertyChangeListener {
         topPanel.setAlignmentX(Component.LEFT_ALIGNMENT);
         mediaReviewsPanel.setAlignmentX(Component.LEFT_ALIGNMENT);
         contentPanel.add(topPanel);
+
+        final JPanel navigationPanel =
+                new JPanel(new FlowLayout(FlowLayout.LEFT, 0, 0));
+        backButton.setAlignmentX(Component.LEFT_ALIGNMENT);
+        navigationPanel.setAlignmentX(Component.LEFT_ALIGNMENT);
+        navigationPanel.add(backButton);
+        contentPanel.add(navigationPanel);
         contentPanel.add(mediaReviewsPanel);
 
         final JPanel bottomPanel = new JPanel();
         bottomPanel.setLayout(new BoxLayout(bottomPanel, BoxLayout.Y_AXIS));
-        backButton.setAlignmentX(Component.LEFT_ALIGNMENT);
         errorLabel.setAlignmentX(Component.LEFT_ALIGNMENT);
-        bottomPanel.add(backButton);
         bottomPanel.add(errorLabel);
         bottomPanel.setAlignmentX(Component.LEFT_ALIGNMENT);
         contentPanel.add(bottomPanel);
