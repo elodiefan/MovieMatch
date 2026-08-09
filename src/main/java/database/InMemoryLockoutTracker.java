@@ -8,7 +8,6 @@ import use_case.security_question.LockoutTracker;
 
 /**
  * In-memory implementation of {@link LockoutTracker}.
- * <p>
  * Holds one {@link AccountLockout} per username for as long as the app runs, so
  * failed attempts and lock-outs are forgotten on restart. That is fine for a
  * desktop app with a single running copy. Storing them in the database instead

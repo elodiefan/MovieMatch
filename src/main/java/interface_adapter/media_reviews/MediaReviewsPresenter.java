@@ -94,7 +94,8 @@ public final class MediaReviewsPresenter
         final String displayError;
         if (isBlank(errorMessage)) {
             displayError = "Unable to load media reviews.";
-        } else {
+        }
+        else {
             displayError = errorMessage.trim();
         }
         if (mediaReviewsViewModel != null) {

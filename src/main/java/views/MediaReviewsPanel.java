@@ -301,11 +301,13 @@ public final class MediaReviewsPanel extends JPanel
                 mediaReviewsController.loadMediaReviews(state.getMediaId(),
                         state.getMediaType());
                 refreshCommentsForReviews(state);
-            } finally {
+            }
+            finally {
                 loadingContent = false;
             }
             contentRequested = true;
-        } else {
+        }
+        else {
             contentRequested = false;
         }
         return contentRequested;
@@ -337,8 +339,9 @@ public final class MediaReviewsPanel extends JPanel
         if (reviews.isEmpty()) {
             reviewsPanel.add(createReviewLabel(
                     MediaReviewsViewModel.EMPTY_REVIEWS_MESSAGE));
-        } else {
-        for (MediaReviewRow review : reviews) {
+        }
+        else {
+            for (MediaReviewRow review : reviews) {
                 reviewsPanel.add(createReviewCard(review));
                 reviewsPanel.add(Box.createVerticalStrut(CARD_GAP));
             }
@@ -363,7 +366,8 @@ public final class MediaReviewsPanel extends JPanel
                 final int targetScrollValue;
                 if (scrollToTop) {
                     targetScrollValue = scrollBar.getMinimum();
-                } else {
+                }
+                else {
                     targetScrollValue = Math.min(previousScrollValue,
                             scrollBar.getMaximum());
                 }
@@ -390,7 +394,8 @@ public final class MediaReviewsPanel extends JPanel
         final int scrollValue;
         if (scrollPane == null) {
             scrollValue = 0;
-        } else {
+        }
+        else {
             scrollValue = scrollPane.getVerticalScrollBar().getValue();
         }
         return scrollValue;
@@ -425,7 +430,8 @@ public final class MediaReviewsPanel extends JPanel
         card.add(createReviewSectionTextArea(review.getReviewText()));
         if (isMovieMatchReview(review)) {
             card.add(createButtonPanel(review));
-        } else {
+        }
+        else {
             card.add(createReviewLabel("External TMDB review"));
             card.add(createExternalReviewButtonPanel(review));
         }
@@ -477,7 +483,7 @@ public final class MediaReviewsPanel extends JPanel
         final JPanel buttonPanel = new JPanel();
         buttonPanel.setLayout(new BoxLayout(buttonPanel, BoxLayout.X_AXIS));
         buttonPanel.setAlignmentX(Component.LEFT_ALIGNMENT);
-            final JButton editButton =
+        final JButton editButton =
                 new JButton(MediaReviewsViewModel.EDIT_BUTTON_LABEL);
         final JButton deleteButton =
                 new JButton(MediaReviewsViewModel.DELETE_BUTTON_LABEL);
@@ -701,7 +707,8 @@ public final class MediaReviewsPanel extends JPanel
             heartButton.setText(HEART_SELECTED);
             heartButton.setForeground(Color.RED);
             heartButton.setToolTipText(selectedTooltip);
-        } else {
+        }
+        else {
             heartButton.setText(HEART_UNSELECTED);
             heartButton.setForeground(null);
             heartButton.setToolTipText(unselectedTooltip);
@@ -718,7 +725,8 @@ public final class MediaReviewsPanel extends JPanel
         if (comment.getParentCommentId() == null
                 || comment.getParentCommentId().isEmpty()) {
             indent = COMMENT_INDENT;
-        } else {
+        }
+        else {
             indent = REPLY_INDENT;
         }
         return indent;
@@ -733,7 +741,8 @@ public final class MediaReviewsPanel extends JPanel
         final String formattedTime;
         if (dateTime == null) {
             formattedTime = "";
-        } else {
+        }
+        else {
             formattedTime = dateTime.format(TIME_FORMATTER);
         }
         return formattedTime;
@@ -775,51 +784,11 @@ public final class MediaReviewsPanel extends JPanel
         final String trimmedValue;
         if (value == null) {
             trimmedValue = "";
-        } else {
+        }
+        else {
             trimmedValue = value.trim();
         }
         return trimmedValue;
-    }
-
-    /**
-     * Clears the selected review when writing a new review.
-     */
-    private final class WriteReviewListener implements ActionListener {
-        @Override
-        public void actionPerformed(final ActionEvent event) {
-            final MediaReviewsState state = mediaReviewsViewModel.getState();
-            state.setSelectedReviewId("");
-            if (mediaReviewsController != null && hasCurrentUser()) {
-                final boolean canCreateReview =
-                        mediaReviewsController.canCreateReview(
-                                state.getMediaId(), state.getMediaType(),
-                                currentUsername);
-                if (canCreateReview) {
-                    final Double rating =
-                            promptForRating("Rating percentage:");
-                    if (rating != null) {
-                        final String reviewText =
-                                promptForText("Review text:");
-                        mediaReviewsController.createReview(
-                                state.getMediaId(), state.getMediaType(),
-                                state.getMediaTitle(),
-                                state.getReleaseYear(),
-                                state.getPosterPath(), currentUsername,
-                                currentDisplayName, rating, reviewText);
-                        if (isBlank(mediaReviewsViewModel.getState()
-                                .getMediaReviewsError())) {
-                            mediaReviewsController.loadMediaReviews(
-                                    state.getMediaId(),
-                                    state.getMediaType());
-                        }
-                    }
-                } else {
-                    JOptionPane.showMessageDialog(getDialogParent(),
-                            getReviewPermissionMessage());
-                }
-            }
-            mediaReviewsViewModel.firePropertyChanged();
-        }
     }
 
     /**
@@ -832,50 +801,11 @@ public final class MediaReviewsPanel extends JPanel
         final String message;
         if (isBlank(errorMessage)) {
             message = "You need to first add this media to your watch history.";
-        } else {
+        }
+        else {
             message = errorMessage;
         }
         return message;
-    }
-
-    /**
-     * Selects a review in the view model state.
-     */
-    private final class SelectReviewListener implements ActionListener {
-        /**
-         * The review id.
-         */
-        private final String reviewId;
-
-        private SelectReviewListener(final String inputReviewId) {
-            this.reviewId = inputReviewId;
-        }
-
-        @Override
-        public void actionPerformed(final ActionEvent event) {
-            final MediaReviewsState state = mediaReviewsViewModel.getState();
-            state.setSelectedReviewId(reviewId);
-            if (mediaReviewsController != null && !isBlank(currentUsername)) {
-                final String command =
-                        ((JButton) event.getSource()).getText();
-                if (MediaReviewsViewModel.DELETE_BUTTON_LABEL.equals(command)) {
-                    mediaReviewsController.deleteReview(reviewId,
-                            currentUsername);
-                } else {
-                    final Double rating =
-                            promptForRating("New rating percentage:");
-                    if (rating != null) {
-                        final String reviewText =
-                                promptForText("New review text:");
-                        mediaReviewsController.editReview(reviewId,
-                                currentUsername, rating, reviewText);
-                    }
-                }
-                mediaReviewsController.loadMediaReviews(state.getMediaId(),
-                        state.getMediaType());
-            }
-            mediaReviewsViewModel.firePropertyChanged();
-        }
     }
 
     /**
@@ -946,10 +876,52 @@ public final class MediaReviewsPanel extends JPanel
             if (parsedRating >= MIN_RATING && parsedRating <= MAX_RATING) {
                 rating = parsedRating;
             }
-        } catch (NumberFormatException exception) {
+        }
+        catch (NumberFormatException exception) {
             rating = null;
         }
         return rating;
+    }
+
+    /**
+     * Selects a review in the view model state.
+     */
+    private final class SelectReviewListener implements ActionListener {
+        /**
+         * The review id.
+         */
+        private final String reviewId;
+
+        private SelectReviewListener(final String inputReviewId) {
+            this.reviewId = inputReviewId;
+        }
+
+        @Override
+        public void actionPerformed(final ActionEvent event) {
+            final MediaReviewsState state = mediaReviewsViewModel.getState();
+            state.setSelectedReviewId(reviewId);
+            if (mediaReviewsController != null && !isBlank(currentUsername)) {
+                final String command =
+                        ((JButton) event.getSource()).getText();
+                if (MediaReviewsViewModel.DELETE_BUTTON_LABEL.equals(command)) {
+                    mediaReviewsController.deleteReview(reviewId,
+                            currentUsername);
+                }
+                else {
+                    final Double rating =
+                            promptForRating("New rating percentage:");
+                    if (rating != null) {
+                        final String reviewText =
+                                promptForText("New review text:");
+                        mediaReviewsController.editReview(reviewId,
+                                currentUsername, rating, reviewText);
+                    }
+                }
+                mediaReviewsController.loadMediaReviews(state.getMediaId(),
+                        state.getMediaType());
+            }
+            mediaReviewsViewModel.firePropertyChanged();
+        }
     }
 
     private final class RatingValidationListener implements DocumentListener {
@@ -986,7 +958,8 @@ public final class MediaReviewsPanel extends JPanel
             submitButton.setEnabled(validRating);
             if (isBlank(ratingField.getText()) || validRating) {
                 validationLabel.setText(" ");
-            } else {
+            }
+            else {
                 validationLabel.setText(RATING_ERROR);
             }
         }
@@ -1014,7 +987,8 @@ public final class MediaReviewsPanel extends JPanel
                 if (heartButton.isSelected()) {
                     mediaReviewsController.likeReview(reviewId,
                             currentUsername);
-                } else {
+                }
+                else {
                     mediaReviewsController.unlikeReview(reviewId,
                             currentUsername);
                 }
@@ -1099,7 +1073,8 @@ public final class MediaReviewsPanel extends JPanel
                             commentsController.loadReviewComments(reviewId);
                         }
                     }
-                } else if (commentsController != null
+                }
+                else if (commentsController != null
                         && !isBlank(currentUsername)) {
                     commentsController.deleteComment(commentId,
                             currentUsername);
@@ -1130,7 +1105,8 @@ public final class MediaReviewsPanel extends JPanel
             if (commentsController != null && !isBlank(currentUsername)) {
                 if (heartButton.isSelected()) {
                     commentsController.likeComment(commentId, currentUsername);
-                } else {
+                }
+                else {
                     commentsController.unlikeComment(commentId,
                             currentUsername);
                 }
@@ -1144,6 +1120,48 @@ public final class MediaReviewsPanel extends JPanel
                 commentsViewModel.getState().setSelectedCommentId(commentId);
                 commentsViewModel.firePropertyChanged();
             }
+        }
+    }
+
+    /**
+     * Clears the selected review when writing a new review.
+     */
+    private final class WriteReviewListener implements ActionListener {
+        @Override
+        public void actionPerformed(final ActionEvent event) {
+            final MediaReviewsState state = mediaReviewsViewModel.getState();
+            state.setSelectedReviewId("");
+            if (mediaReviewsController != null && hasCurrentUser()) {
+                final boolean canCreateReview =
+                        mediaReviewsController.canCreateReview(
+                                state.getMediaId(), state.getMediaType(),
+                                currentUsername);
+                if (canCreateReview) {
+                    final Double rating =
+                            promptForRating("Rating percentage:");
+                    if (rating != null) {
+                        final String reviewText =
+                                promptForText("Review text:");
+                        mediaReviewsController.createReview(
+                                state.getMediaId(), state.getMediaType(),
+                                state.getMediaTitle(),
+                                state.getReleaseYear(),
+                                state.getPosterPath(), currentUsername,
+                                currentDisplayName, rating, reviewText);
+                        if (isBlank(mediaReviewsViewModel.getState()
+                                .getMediaReviewsError())) {
+                            mediaReviewsController.loadMediaReviews(
+                                    state.getMediaId(),
+                                    state.getMediaType());
+                        }
+                    }
+                }
+                else {
+                    JOptionPane.showMessageDialog(getDialogParent(),
+                            getReviewPermissionMessage());
+                }
+            }
+            mediaReviewsViewModel.firePropertyChanged();
         }
     }
 }

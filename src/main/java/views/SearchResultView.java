@@ -71,15 +71,16 @@ public class SearchResultView extends JPanel
     private static final int SCIENCE_FICTION_GENRE_ID = 878;
     private static final int THRILLER_GENRE_ID = 53;
 
+    private static final String LOAD_MORE_LABEL = "Load more results";
+    private static final String LOADING_LABEL = "Loading...";
+    private static final String EMPTY_TEXT = " ";
+    private static final String UNAVAILABLE_POSTER_TEXT = "Poster unavailable";
     private final String viewName = SearchResultViewModel.VIEW_NAME;
 
     private final SearchResultViewModel searchResultViewModel;
 
     private MediaDetailController mediaDetailController;
     private FilterController filterController;
-
-    private static final String LOAD_MORE_LABEL = "Load more results";
-    private static final String LOADING_LABEL = "Loading...";
 
     private final JPanel resultsPanel;
     private final JButton backButton;
@@ -133,7 +134,7 @@ public class SearchResultView extends JPanel
     private final JTextField latestYearField =
             new JTextField(FILTER_FIELD_WIDTH);
 
-    private final JLabel messageLabel = new JLabel(" ");
+    private final JLabel messageLabel = new JLabel(EMPTY_TEXT);
 
     public SearchResultView(
             SearchResultViewModel searchResultViewModel,
@@ -321,7 +322,7 @@ public class SearchResultView extends JPanel
         }
         else {
             try {
-                messageLabel.setText(" ");
+                messageLabel.setText(EMPTY_TEXT);
                 filterController.execute(new FilterRequestModel(
                         searchResultViewModel.getState().getOriginalResults(),
                         getSelectedLanguages(),
@@ -345,7 +346,7 @@ public class SearchResultView extends JPanel
         minimumRatingField.setText("");
         earliestYearField.setText("");
         latestYearField.setText("");
-        messageLabel.setText(" ");
+        messageLabel.setText(EMPTY_TEXT);
 
         if (filterController != null) {
             filterController.execute(new FilterRequestModel(
@@ -547,7 +548,6 @@ public class SearchResultView extends JPanel
 
     /**
      * Describes how much of the result set is on screen.
-     *
      * Results arrive a few pages at a time, so the count has to distinguish
      * what has been loaded from what exists. Filters only ever narrow what is
      * already loaded, so when one is active the total is not the useful number
@@ -657,7 +657,7 @@ public class SearchResultView extends JPanel
 
     private void updatePoster(JLabel posterLabel, String posterPath) {
         if (posterPath == null || posterPath.isEmpty()) {
-            posterLabel.setText("Poster unavailable");
+            posterLabel.setText(UNAVAILABLE_POSTER_TEXT);
             return;
         }
 
@@ -667,21 +667,15 @@ public class SearchResultView extends JPanel
             @Override
             protected ImageIcon doInBackground() {
                 try {
-                    final ImageIcon original = new ImageIcon(
-                            URI.create(POSTER_BASE_URL + posterPath).toURL()
-                    );
+                    final ImageIcon original = new ImageIcon(URI.create(POSTER_BASE_URL + posterPath).toURL());
                     if (original.getIconWidth() <= 0) {
                         return null;
                     }
-                    final Image scaled = original.getImage().getScaledInstance(
-                            POSTER_WIDTH,
-                            POSTER_HEIGHT,
-                            Image.SCALE_SMOOTH
-                    );
+                    final Image scaled = original.getImage().getScaledInstance(POSTER_WIDTH, POSTER_HEIGHT,
+                            Image.SCALE_SMOOTH);
                     return new ImageIcon(scaled);
                 }
-                catch (MalformedURLException | IllegalArgumentException
-                       exception) {
+                catch (MalformedURLException | IllegalArgumentException exception) {
                     return null;
                 }
             }
@@ -691,16 +685,19 @@ public class SearchResultView extends JPanel
                 try {
                     final ImageIcon poster = get();
                     posterLabel.setIcon(poster);
-                    posterLabel.setText(
-                            poster == null ? "Poster unavailable" : ""
-                    );
+                    if (poster == null) {
+                        posterLabel.setText(UNAVAILABLE_POSTER_TEXT);
+                    }
+                    else {
+                        posterLabel.setText("");
+                    }
                 }
                 catch (InterruptedException exception) {
                     Thread.currentThread().interrupt();
-                    posterLabel.setText("Poster unavailable");
+                    posterLabel.setText(UNAVAILABLE_POSTER_TEXT);
                 }
                 catch (ExecutionException exception) {
-                    posterLabel.setText("Poster unavailable");
+                    posterLabel.setText(UNAVAILABLE_POSTER_TEXT);
                 }
             }
         }.execute();

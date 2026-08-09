@@ -38,8 +38,9 @@ import interface_adapter.settings.SettingsViewModel;
 /**
  * The application's look and feel.
  */
-public final class UiTheme {
+public final class UITheme {
 
+    public static final String CONTROL_KEY = "control";
     /**
      * Page background.
      */
@@ -113,13 +114,12 @@ public final class UiTheme {
     /**
      * Marks a row this class has already sized, so it can be resized later.
      */
-    private static final String PINNED = "UiTheme.pinnedRow";
+    private static final String PINNED = "UITheme.pinnedRow";
 
     private static final String PREFERRED_FONT = "Segoe UI";
 
     /**
      * The size the application starts at.
-     *
      * Taken from the settings screen's default so there is one number to change
      * rather than two that can quietly disagree.
      */
@@ -132,7 +132,6 @@ public final class UiTheme {
 
     /**
      * How much larger a screen heading is than its body text.
-     *
      * A multiple rather than a fixed size, so the heading keeps standing out at
      * every point on the slider instead of converging on the body text.
      */
@@ -150,7 +149,7 @@ public final class UiTheme {
         "PasswordField.font", "CheckBox.font", "RadioButton.font", "ComboBox.font",
         "List.font", "Table.font", "TextArea.font", "TitledBorder.font", "Slider.font"};
 
-    private UiTheme() {
+    private UITheme() {
     }
 
     /**
@@ -208,10 +207,13 @@ public final class UiTheme {
                 styleFirstLabelAsTitle((Container) card, textSize);
             }
         }
-        root.setBackground(darkMode ? DARK_BACKGROUND : BACKGROUND);
+        if (darkMode) {
+            root.setBackground(DARK_BACKGROUND);
+        }
+        else {
+            root.setBackground(BACKGROUND);
+        }
 
-        // Larger text means taller rows, and the layout pass pinned each row to
-        // the height it had at the old size. Left alone, the content clips.
         repinRows(root);
         resizeWindowForTextSize(root, textSize);
 
@@ -245,7 +247,7 @@ public final class UiTheme {
         if (darkMode) {
             UIManager.put("nimbusBase", DARK_ACCENT);
             UIManager.put("nimbusBlueGrey", new Color(0x44, 0x4B, 0x59));
-            UIManager.put("control", DARK_BACKGROUND);
+            UIManager.put(CONTROL_KEY, DARK_BACKGROUND);
             UIManager.put("nimbusLightBackground", DARK_SURFACE);
             UIManager.put("text", DARK_TEXT);
             UIManager.put("info", DARK_SURFACE);
@@ -257,7 +259,7 @@ public final class UiTheme {
         else {
             UIManager.put("nimbusBase", ACCENT);
             UIManager.put("nimbusBlueGrey", new Color(0xC7, 0xCC, 0xD6));
-            UIManager.put("control", BACKGROUND);
+            UIManager.put(CONTROL_KEY, BACKGROUND);
             UIManager.put("nimbusLightBackground", SURFACE);
             UIManager.put("text", TEXT);
             UIManager.put("info", SURFACE);
@@ -284,7 +286,6 @@ public final class UiTheme {
 
     /**
      * Puts the starting text size on a screen and everything inside it.
-     *
      * Registering the size with the look and feel is not enough on its own.
      * Nimbus works buttons out from its own copy of the defaults and never
      * looks at the one set here, so a button would sit at the platform's size
@@ -381,7 +382,8 @@ public final class UiTheme {
     }
 
     /**
-     * Builds the font for a heading inside a screen, sized against the body text so it stays a heading whatever the text size is set to.
+     * Builds the font for a heading inside a screen, sized against the body text
+     * so it stays a heading whatever the text size is set to.
      *
      * @return the section font
      */
@@ -408,7 +410,12 @@ public final class UiTheme {
      */
     public static JLabel asTitle(JLabel label, int textSize) {
         label.setFont(baseFont(Font.BOLD, (int) Math.round(textSize * TITLE_SCALE)));
-        label.setForeground(darkModeActive() ? DARK_TEXT : TEXT);
+        if (darkModeActive()) {
+            label.setForeground(DARK_TEXT);
+        }
+        else {
+            label.setForeground(TEXT);
+        }
         return label;
     }
 
@@ -418,7 +425,7 @@ public final class UiTheme {
      * @return the dark mode active
      */
     public static boolean darkModeActive() {
-        return DARK_BACKGROUND.equals(UIManager.get("control"));
+        return DARK_BACKGROUND.equals(UIManager.get(CONTROL_KEY));
     }
 
     /**
@@ -429,7 +436,12 @@ public final class UiTheme {
     public static void padScreen(JComponent view) {
         view.setBorder(BorderFactory.createEmptyBorder(
                 PAGE_PADDING, PAGE_PADDING, PAGE_PADDING, PAGE_PADDING));
-        view.setBackground(darkModeActive() ? DARK_BACKGROUND : BACKGROUND);
+        if (darkModeActive()) {
+            view.setBackground(DARK_BACKGROUND);
+        }
+        else {
+            view.setBackground(BACKGROUND);
+        }
     }
 
     /**
@@ -539,10 +551,34 @@ public final class UiTheme {
      * @param darkMode the dark mode
      */
     public static void applyTo(Component root, boolean darkMode) {
-        final Color background = darkMode ? DARK_BACKGROUND : BACKGROUND;
-        final Color surface = darkMode ? DARK_SURFACE : SURFACE;
-        final Color foreground = darkMode ? DARK_TEXT : TEXT;
-        final Color border = darkMode ? DARK_BORDER : BORDER;
+        final Color background;
+        if (darkMode) {
+            background = DARK_BACKGROUND;
+        }
+        else {
+            background = BACKGROUND;
+        }
+        final Color surface;
+        if (darkMode) {
+            surface = DARK_SURFACE;
+        }
+        else {
+            surface = SURFACE;
+        }
+        final Color foreground;
+        if (darkMode) {
+            foreground = DARK_TEXT;
+        }
+        else {
+            foreground = TEXT;
+        }
+        final Color border;
+        if (darkMode) {
+            border = DARK_BORDER;
+        }
+        else {
+            border = BORDER;
+        }
 
         if (root instanceof JPanel) {
             root.setBackground(background);

@@ -2,7 +2,6 @@ package interface_adapter.security_question;
 
 /**
  * The state backing the Security Question view.
- * <p>
  * A plain data holder (same style as {@code LoginState}). The presenter writes
  * to it and the view reads from it to decide what to display: the question, any
  * message, and whether the input should be disabled because of a lock-out.
@@ -26,7 +25,7 @@ public class SecurityQuestionState {
     /**
      * True while the account is locked; the view uses this to disable inputs.
      */
-    private boolean lockedOut = false;
+    private boolean lockedOut;
 
     public String getUsername() {
         return username;

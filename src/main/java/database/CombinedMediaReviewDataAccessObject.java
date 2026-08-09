@@ -60,7 +60,8 @@ public final class CombinedMediaReviewDataAccessObject
                                 mediaType);
                 addLocalLikes(externalReviews);
                 reviews.addAll(externalReviews);
-            } catch (IllegalStateException exception) {
+            }
+            catch (IllegalStateException exception) {
                 // Keep MovieMatch reviews available when TMDB is offline.
             }
         }

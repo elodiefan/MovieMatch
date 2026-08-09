@@ -13,9 +13,9 @@ import org.junit.jupiter.api.Test;
 
 class UserContentTest {
 
-    private static final class TestContent extends UserContent {
-        TestContent(String contentId, String authorUsername, String authorDisplayName,
-                    ZonedDateTime createdAt, Set<String> likedByUsernames) {
+    private static final class TestContentAbstract extends AbstractUserContent {
+        TestContentAbstract(String contentId, String authorUsername, String authorDisplayName,
+                            ZonedDateTime createdAt, Set<String> likedByUsernames) {
             super(contentId, authorUsername, authorDisplayName, createdAt, likedByUsernames);
         }
     }
@@ -24,7 +24,7 @@ class UserContentTest {
     void gettersReturnContentInformation() {
         final ZonedDateTime createdAt = ZonedDateTime.of(
                 2026, 8, 8, 12, 0, 0, 0, ZoneId.of("America/Toronto"));
-        final TestContent content = new TestContent(
+        final TestContentAbstract content = new TestContentAbstract(
                 "content-1", "bob", "Bob", createdAt, Set.of("alice"));
 
         assertEquals("content-1", content.getContentId());
@@ -37,7 +37,7 @@ class UserContentTest {
 
     @Test
     void likesCanBeAddedAndRemovedWithoutDuplicates() {
-        final TestContent content = contentWithNoLikes();
+        final TestContentAbstract content = contentWithNoLikes();
 
         content.like("alice");
         content.like("alice");
@@ -50,8 +50,8 @@ class UserContentTest {
     @Test
     void likeCollectionsAreDefensivelyCopied() {
         final Set<String> original = new HashSet<>(Set.of("alice"));
-        final TestContent content = new TestContent(
-                "content-1", "bob", "Bob", UserContent.getCurrentTorontoTime(), original);
+        final TestContentAbstract content = new TestContentAbstract(
+                "content-1", "bob", "Bob", AbstractUserContent.getCurrentTorontoTime(), original);
 
         original.add("charlie");
         final Set<String> returned = content.getLikedByUsernames();
@@ -62,15 +62,15 @@ class UserContentTest {
 
     @Test
     void currentTimeUsesTorontoZone() {
-        final ZonedDateTime currentTime = UserContent.getCurrentTorontoTime();
+        final ZonedDateTime currentTime = AbstractUserContent.getCurrentTorontoTime();
 
         assertEquals(ZoneId.of("America/Toronto"), currentTime.getZone());
         assertTrue(currentTime.isBefore(ZonedDateTime.now(currentTime.getZone()).plusSeconds(1)));
         assertFalse(currentTime.isBefore(ZonedDateTime.now(currentTime.getZone()).minusSeconds(1)));
     }
 
-    private static TestContent contentWithNoLikes() {
-        return new TestContent("content-1", "bob", "Bob",
-                UserContent.getCurrentTorontoTime(), Set.of());
+    private static TestContentAbstract contentWithNoLikes() {
+        return new TestContentAbstract("content-1", "bob", "Bob",
+                AbstractUserContent.getCurrentTorontoTime(), Set.of());
     }
 }

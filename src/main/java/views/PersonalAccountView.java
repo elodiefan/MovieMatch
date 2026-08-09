@@ -49,10 +49,8 @@ public class PersonalAccountView extends JPanel implements PropertyChangeListene
     public PersonalAccountView(PersonalAccountViewModel personalAccountViewModel) {
         this.personalAccountViewModel = personalAccountViewModel;
         this.personalAccountViewModel.addPropertyChangeListener(this);
-
         final JLabel title = new JLabel(PersonalAccountViewModel.TITLE_LABEL);
         title.setAlignmentX(Component.CENTER_ALIGNMENT);
-
         final JPanel profilePanel = new JPanel();
         welcomeLabel = new JLabel();
         username = new JLabel();

@@ -71,7 +71,8 @@ public final class GetUserCommentsInteractor
                     getUserComments(inputData.getUsername());
             userCommentsPresenter.prepareUserCommentsSuccessView(
                     new GetUserCommentsOutputData(comments));
-        } catch (IllegalArgumentException | IllegalStateException error) {
+        }
+        catch (IllegalArgumentException | IllegalStateException error) {
             if (userCommentsPresenter != null) {
                 userCommentsPresenter.prepareFailView(error.getMessage());
             }
@@ -122,7 +123,8 @@ public final class GetUserCommentsInteractor
             releaseYear = review.get().getReleaseYear();
             posterPath = review.get().getPosterPath();
             reviewText = review.get().getReviewText();
-        } else {
+        }
+        else {
             mediaId = 0;
             mediaType = "";
             mediaTitle = "";
@@ -180,7 +182,8 @@ public final class GetUserCommentsInteractor
         final String trimmedValue;
         if (value == null) {
             trimmedValue = "";
-        } else {
+        }
+        else {
             trimmedValue = value.trim();
         }
         return trimmedValue;

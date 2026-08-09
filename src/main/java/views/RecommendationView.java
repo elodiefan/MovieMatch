@@ -28,13 +28,12 @@ import interface_adapter.recommendation.RecommendationViewModel;
 public class RecommendationView extends JPanel implements PropertyChangeListener {
 
     private static final int SECTION_GAP = 14;
-
+    private static final String LOADING_CARD = "loading";
+    private static final String RESULTS_CARD = "results";
+    private static final String EMPTY_TEXT = " ";
     private final String viewName = RecommendationViewModel.VIEW_NAME;
     private final RecommendationViewModel recommendationViewModel;
     private RecommendationController recommendationController;
-
-    private static final String LOADING_CARD = "loading";
-    private static final String RESULTS_CARD = "results";
 
     private final JPanel sectionsPanel;
     private final JScrollPane resultsScroll;
@@ -54,7 +53,7 @@ public class RecommendationView extends JPanel implements PropertyChangeListener
 
         // Blank while loading, since the loading panel says so already. This is
         // for messages that outlive the spinner, like an error or an empty result.
-        message = new JLabel(" ", SwingConstants.CENTER);
+        message = new JLabel(EMPTY_TEXT, SwingConstants.CENTER);
 
         final JPanel header = new JPanel();
         header.setLayout(new BoxLayout(header, BoxLayout.Y_AXIS));
@@ -117,13 +116,12 @@ public class RecommendationView extends JPanel implements PropertyChangeListener
 
     private void reload() {
         if (recommendationController == null || username == null || username.isBlank()) {
-            // Nothing to fetch for, so say so instead of leaving a spinner up.
             message.setText(RecommendationViewModel.EMPTY_LABEL);
             showCard(RESULTS_CARD);
             return;
         }
         refreshButton.setEnabled(false);
-        message.setText(" ");
+        message.setText(EMPTY_TEXT);
         showCard(LOADING_CARD);
 
         new SwingWorker<Void, Void>() {
@@ -168,7 +166,7 @@ public class RecommendationView extends JPanel implements PropertyChangeListener
             message.setText(RecommendationViewModel.EMPTY_LABEL);
         }
         else if (state.isLoaded()) {
-            message.setText(" ");
+            message.setText(EMPTY_TEXT);
             if (state.getSections().isEmpty()) {
                 // Asked for ungrouped results, so show them as one list.
                 state.getRecommendations().forEach(this::addResult);
@@ -188,7 +186,7 @@ public class RecommendationView extends JPanel implements PropertyChangeListener
 
     private void addSection(RecommendationSection section) {
         final JLabel heading = new JLabel(section.getHeading());
-        heading.setFont(UiTheme.sectionFont());
+        heading.setFont(UITheme.sectionFont());
         heading.setAlignmentX(Component.LEFT_ALIGNMENT);
         heading.setBorder(BorderFactory.createEmptyBorder(SECTION_GAP, 0, 4, 0));
         sectionsPanel.add(heading);

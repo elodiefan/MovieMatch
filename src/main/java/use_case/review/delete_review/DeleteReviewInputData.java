@@ -31,6 +31,7 @@ public final class DeleteReviewInputData {
     public String getReviewId() {
         return reviewId;
     }
+
     /**
      * Handles this review or comment operation.
      * @return the result

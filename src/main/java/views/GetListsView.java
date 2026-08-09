@@ -61,7 +61,7 @@ public class GetListsView extends JPanel implements PropertyChangeListener {
         this.getListsViewModel.addPropertyChangeListener(this);
 
         viewMessage = new JLabel("", SwingConstants.CENTER);
-        UiTheme.asTitle(viewMessage);
+        UITheme.asTitle(viewMessage);
         final JPanel labelPanel = new JPanel(new BorderLayout());
         labelPanel.add(viewMessage, BorderLayout.CENTER);
         labelPanel.setBorder(BorderFactory.createEmptyBorder(0, 0, TEXT_PADDING, 0));
@@ -117,7 +117,8 @@ public class GetListsView extends JPanel implements PropertyChangeListener {
             userList.setText(state.getDisplayText());
             userList.setCaretPosition(0);
             listPanel.add(userList);
-        } else {
+        }
+        else {
             for (GetListRow row : rows) {
                 listPanel.add(createListCard(row));
                 listPanel.add(Box.createVerticalStrut(CARD_GAP));
@@ -161,7 +162,8 @@ public class GetListsView extends JPanel implements PropertyChangeListener {
         posterLabel.setIcon(null);
         if (posterPath == null || posterPath.isEmpty()) {
             posterLabel.setText("Poster unavailable");
-        } else {
+        }
+        else {
             posterLabel.setText("Loading...");
             loadPosterImage(posterLabel, posterPath);
         }
@@ -184,7 +186,8 @@ public class GetListsView extends JPanel implements PropertyChangeListener {
                 try {
                     posterLabel.setIcon(get());
                     posterLabel.setText("");
-                } catch (InterruptedException | ExecutionException error) {
+                }
+                catch (InterruptedException | ExecutionException error) {
                     posterLabel.setText("Poster unavailable");
                     Thread.currentThread().interrupt();
                 }
@@ -196,7 +199,8 @@ public class GetListsView extends JPanel implements PropertyChangeListener {
         final String formattedDate;
         if (loggedAt == null || loggedAt.length() < TEXT_PADDING) {
             formattedDate = "";
-        } else {
+        }
+        else {
             formattedDate = loggedAt.substring(0, TEXT_PADDING);
         }
         return formattedDate;

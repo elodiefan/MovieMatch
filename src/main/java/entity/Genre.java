@@ -42,7 +42,6 @@ public class Genre {
 
     /**
      * Compares genres by value rather than by identity.
-     *
      * Two genres loaded separately — say from a user's taste profile and from a
      * candidate title — describe the same genre when their ids match. Without
      * this, putting genres in a {@code Set} would treat those as different

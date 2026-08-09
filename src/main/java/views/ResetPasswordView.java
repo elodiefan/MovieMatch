@@ -135,7 +135,7 @@ public class ResetPasswordView extends JPanel implements PropertyChangeListener 
     public void propertyChange(PropertyChangeEvent evt) {
         final ResetPasswordState state = (ResetPasswordState) evt.getNewValue();
 
-forUserLabel.setText("Changing password for: " + state.getUsername());
+        forUserLabel.setText("Changing password for: " + state.getUsername());
 
         // Reflect the (possibly cleared) fields from state.
         newPasswordField.setText(state.getNewPassword());

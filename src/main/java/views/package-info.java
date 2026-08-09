@@ -1,3 +1,4 @@
+
 /**
  * Swing views for the MovieMatch application.
  */

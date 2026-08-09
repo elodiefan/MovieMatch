@@ -58,6 +58,7 @@ public class MongoMessagesDataAccessObject implements DeleteAccountMessageDataAc
     /**
      * Connects using the same settings file the rest of the app uses.
      * @param propertiesPath path to mongo.properties
+     * @throws IllegalStateException the exception thrown
      */
     public MongoMessagesDataAccessObject(final String propertiesPath) {
         final Properties props = new Properties();
