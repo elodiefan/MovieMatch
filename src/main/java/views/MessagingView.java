@@ -1,10 +1,5 @@
 package views;
 
-import interface_adapter.ViewManagerModel;
-import interface_adapter.messaging.MessagingController;
-import interface_adapter.messaging.MessagingState;
-import interface_adapter.messaging.MessagingViewModel;
-
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -15,6 +10,11 @@ import java.time.LocalDateTime;
 import javax.swing.*;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
+
+import interface_adapter.ViewManagerModel;
+import interface_adapter.messaging.MessagingController;
+import interface_adapter.messaging.MessagingState;
+import interface_adapter.messaging.MessagingViewModel;
 
 /**
  * The View for messaging.

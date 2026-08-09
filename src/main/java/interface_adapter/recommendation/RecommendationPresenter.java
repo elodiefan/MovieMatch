@@ -1,10 +1,8 @@
 package interface_adapter.recommendation;
 
-import java.util.concurrent.Executor;
-
 import java.util.ArrayList;
 import java.util.List;
-
+import java.util.concurrent.Executor;
 
 import use_case.recommendation.RecommendationOutputBoundary;
 import use_case.recommendation.RecommendationOutputData;

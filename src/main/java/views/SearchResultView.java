@@ -17,9 +17,9 @@ import java.util.concurrent.ExecutionException;
 import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
-import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -32,8 +32,8 @@ import interface_adapter.filter.FilterController;
 import interface_adapter.filter.FilterRequestModel;
 import interface_adapter.media_detail.MediaDetailController;
 import interface_adapter.search.SearchController;
-import interface_adapter.search_result.SearchResultState;
 import interface_adapter.search_result.SearchResultRow;
+import interface_adapter.search_result.SearchResultState;
 import interface_adapter.search_result.SearchResultViewModel;
 
 /**

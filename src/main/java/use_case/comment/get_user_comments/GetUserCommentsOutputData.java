@@ -1,8 +1,8 @@
 package use_case.comment.get_user_comments;
 
+import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.List;
-import java.time.ZonedDateTime;
 
 /**
  * Output data for loading comments written by one user.

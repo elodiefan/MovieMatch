@@ -1,11 +1,11 @@
 package entity;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 import java.time.ZonedDateTime;
 import java.util.Set;
 
 import org.junit.jupiter.api.Test;
-
-import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
  * Tests for the Review entity.

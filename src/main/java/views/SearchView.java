@@ -3,6 +3,7 @@ package views;
 import java.awt.Component;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.util.concurrent.ExecutionException;
 
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
@@ -10,8 +11,6 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.SwingWorker;
-
-import java.util.concurrent.ExecutionException;
 
 import interface_adapter.ViewManagerModel;
 import interface_adapter.search.SearchController;
