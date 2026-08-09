@@ -21,6 +21,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.SwingWorker;
 
@@ -154,6 +155,9 @@ public class MediaDetailView extends JPanel implements PropertyChangeListener {
                 )
         );
 
+        final JPanel contentPanel = new JPanel();
+        contentPanel.setLayout(new BoxLayout(contentPanel, BoxLayout.Y_AXIS));
+
         final JPanel topPanel = new JPanel();
         topPanel.setLayout(new BoxLayout(topPanel, BoxLayout.Y_AXIS));
         topPanel.add(pageTitle);
@@ -195,8 +199,10 @@ public class MediaDetailView extends JPanel implements PropertyChangeListener {
         detailHeaderPanel.add(informationPanel, BorderLayout.CENTER);
 
         topPanel.add(detailHeaderPanel);
-        this.add(topPanel, BorderLayout.NORTH);
-        this.add(mediaReviewsPanel, BorderLayout.CENTER);
+        topPanel.setAlignmentX(Component.LEFT_ALIGNMENT);
+        mediaReviewsPanel.setAlignmentX(Component.LEFT_ALIGNMENT);
+        contentPanel.add(topPanel);
+        contentPanel.add(mediaReviewsPanel);
 
         final JPanel bottomPanel = new JPanel();
         bottomPanel.setLayout(new BoxLayout(bottomPanel, BoxLayout.Y_AXIS));
@@ -204,7 +210,12 @@ public class MediaDetailView extends JPanel implements PropertyChangeListener {
         errorLabel.setAlignmentX(Component.LEFT_ALIGNMENT);
         bottomPanel.add(backButton);
         bottomPanel.add(errorLabel);
-        this.add(bottomPanel, BorderLayout.SOUTH);
+        bottomPanel.setAlignmentX(Component.LEFT_ALIGNMENT);
+        contentPanel.add(bottomPanel);
+
+        final JScrollPane pageScrollPane = new JScrollPane(contentPanel);
+        pageScrollPane.setBorder(BorderFactory.createEmptyBorder());
+        this.add(pageScrollPane, BorderLayout.CENTER);
     }
 
     public String getViewName() {

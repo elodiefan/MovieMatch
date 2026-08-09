@@ -1,9 +1,9 @@
 package views;
 
+import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dialog;
-import java.awt.BorderLayout;
 import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
@@ -14,15 +14,16 @@ import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 
+import javax.swing.AbstractButton;
 import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
-import javax.swing.AbstractButton;
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JScrollBar;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
@@ -131,10 +132,6 @@ public final class MediaReviewsPanel extends JPanel
      */
     private final JPanel reviewsPanel = new JPanel();
     /**
-     * Scroll area for the community reviews list.
-     */
-    private final JScrollPane reviewsScrollPane = new JScrollPane(reviewsPanel);
-    /**
      * The write review button.
      */
     private final JButton writeReviewButton =
@@ -217,7 +214,7 @@ public final class MediaReviewsPanel extends JPanel
 
         setLayout(new BorderLayout());
         add(headerPanel, BorderLayout.NORTH);
-        add(reviewsScrollPane, BorderLayout.CENTER);
+        add(reviewsPanel, BorderLayout.CENTER);
 
         writeReviewButton.addActionListener(new WriteReviewListener());
 
@@ -332,8 +329,8 @@ public final class MediaReviewsPanel extends JPanel
      */
     private void setReviews(final List<MediaReviewRow> reviews,
                             final boolean scrollToTop) {
-        final int previousScrollValue = reviewsScrollPane.getVerticalScrollBar()
-                .getValue();
+        final JScrollPane scrollPane = getPageScrollPane();
+        final int previousScrollValue = getScrollValue(scrollPane);
         reviewsPanel.removeAll();
 
         if (reviews.isEmpty()) {
@@ -359,16 +356,43 @@ public final class MediaReviewsPanel extends JPanel
     private void restoreReviewScrollPosition(final boolean scrollToTop,
                                              final int previousScrollValue) {
         SwingUtilities.invokeLater(() -> {
-            final int targetScrollValue;
-            if (scrollToTop) {
-                targetScrollValue = reviewsScrollPane.getVerticalScrollBar()
-                        .getMinimum();
-            } else {
-                targetScrollValue = Math.min(previousScrollValue,
-                        reviewsScrollPane.getVerticalScrollBar().getMaximum());
+            final JScrollPane scrollPane = getPageScrollPane();
+            if (scrollPane != null) {
+                final JScrollBar scrollBar = scrollPane.getVerticalScrollBar();
+                final int targetScrollValue;
+                if (scrollToTop) {
+                    targetScrollValue = scrollBar.getMinimum();
+                } else {
+                    targetScrollValue = Math.min(previousScrollValue,
+                            scrollBar.getMaximum());
+                }
+                scrollBar.setValue(targetScrollValue);
             }
-            reviewsScrollPane.getVerticalScrollBar().setValue(targetScrollValue);
         });
+    }
+
+    /**
+     * Returns the page scroll pane that owns this embedded panel.
+     * @return the page scroll pane, or null before the panel is attached
+     */
+    private JScrollPane getPageScrollPane() {
+        return (JScrollPane) SwingUtilities.getAncestorOfClass(
+                JScrollPane.class, this);
+    }
+
+    /**
+     * Returns a scroll pane's current vertical value.
+     * @param scrollPane the scroll pane to read
+     * @return the current vertical scroll value
+     */
+    private int getScrollValue(final JScrollPane scrollPane) {
+        final int scrollValue;
+        if (scrollPane == null) {
+            scrollValue = 0;
+        } else {
+            scrollValue = scrollPane.getVerticalScrollBar().getValue();
+        }
+        return scrollValue;
     }
 
     /**
