@@ -51,11 +51,9 @@ public final class GetReviewCommentsInteractor
     }
 
     @Override
-    public void execute(final String reviewId) {
+    public void execute(final GetReviewCommentsInputData inputData) {
         try {
             validatePresenter();
-            final GetReviewCommentsInputData inputData =
-                    new GetReviewCommentsInputData(reviewId);
             final List<Comment> comments = getReviewComments(
                     inputData.getReviewId());
             presenter.prepareSuccessView(toOutputData(inputData.getReviewId(),

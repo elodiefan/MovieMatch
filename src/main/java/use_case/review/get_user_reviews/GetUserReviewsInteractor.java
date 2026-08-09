@@ -54,11 +54,9 @@ public final class GetUserReviewsInteractor
      * @param username the username whose reviews are loaded
      */
     @Override
-    public void execute(final String username) {
+    public void execute(final GetUserReviewsInputData inputData) {
         try {
             validateOutputBoundary();
-            final GetUserReviewsInputData inputData =
-                    new GetUserReviewsInputData(username);
             final List<Review> matchingReviews =
                     getUserReviews(inputData.getUsername());
             userReviewsPresenter.prepareUserReviewsSuccessView(

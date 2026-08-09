@@ -58,13 +58,9 @@ public final class EditReviewInteractor implements EditReviewInputBoundary {
     }
 
     @Override
-    public void execute(final String reviewId, final String username,
-                        final double rating, final String reviewText) {
+    public void execute(final EditReviewInputData inputData) {
         try {
             validatePresenter();
-            final EditReviewInputData inputData =
-                    new EditReviewInputData(reviewId, username, rating,
-                            reviewText);
             final Review review = editReview(inputData.getReviewId(),
                     inputData.getUsername(), inputData.getRating(),
                     inputData.getReviewText());

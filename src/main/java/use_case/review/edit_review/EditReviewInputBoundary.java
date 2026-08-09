@@ -6,11 +6,7 @@ package use_case.review.edit_review;
 public interface EditReviewInputBoundary {
     /**
      * Executes the use case.
-     * @param reviewId the review id
-     * @param username the username requesting the edit
-     * @param rating the updated rating
-     * @param reviewText the updated review text
+     * @param inputData the input data for editing a review
      */
-    void execute(String reviewId, String username, double rating,
-                 String reviewText);
+    void execute(EditReviewInputData inputData);
 }

@@ -46,11 +46,9 @@ public final class DeleteReviewInteractor implements DeleteReviewInputBoundary {
     }
 
     @Override
-    public void execute(final String reviewId, final String username) {
+    public void execute(final DeleteReviewInputData inputData) {
         try {
             validatePresenter();
-            final DeleteReviewInputData inputData =
-                    new DeleteReviewInputData(reviewId, username);
             final boolean deleted = deleteReview(inputData.getReviewId(),
                     inputData.getUsername());
             if (deleted) {

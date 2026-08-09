@@ -6,8 +6,7 @@ package use_case.review.get_media_reviews;
 public interface GetMediaReviewsInputBoundary {
     /**
      * Executes the use case.
-     * @param mediaId the media id
-     * @param mediaType the media type
+     * @param inputData the input data for loading media reviews
      */
-    void execute(int mediaId, String mediaType);
+    void execute(GetMediaReviewsInputData inputData);
 }

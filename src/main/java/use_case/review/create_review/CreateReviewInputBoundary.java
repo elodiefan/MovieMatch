@@ -6,28 +6,14 @@ package use_case.review.create_review;
 public interface CreateReviewInputBoundary {
     /**
      * Executes the use case.
-     * @param mediaId the media id
-     * @param mediaType the media type
-     * @param mediaTitle the media title
-     * @param releaseYear the release year
-     * @param posterPath the poster path
-     * @param authorUsername the author's username
-     * @param authorDisplayName the author's display name
-     * @param rating the review rating
-     * @param reviewText the review text
+     * @param inputData the input data for creating a review
      */
-    void execute(int mediaId, String mediaType, String mediaTitle,
-                 int releaseYear, String posterPath,
-                 String authorUsername, String authorDisplayName,
-                 double rating, String reviewText);
+    void execute(CreateReviewInputData inputData);
 
     /**
      * Checks whether the user may start writing a review for this media item.
-     * @param mediaId the media id
-     * @param mediaType the media type
-     * @param authorUsername the author's username
+     * @param inputData the input data containing the media and author
      * @return true if the user may write a review
      */
-    boolean canCreateReview(int mediaId, String mediaType,
-                            String authorUsername);
+    boolean canCreateReview(CreateReviewInputData inputData);
 }

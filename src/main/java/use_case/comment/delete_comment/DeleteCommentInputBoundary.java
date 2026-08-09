@@ -6,8 +6,7 @@ package use_case.comment.delete_comment;
 public interface DeleteCommentInputBoundary {
     /**
      * Executes the use case.
-     * @param commentId the comment id
-     * @param username the username requesting deletion
+     * @param inputData the input data for deleting a comment
      */
-    void execute(String commentId, String username);
+    void execute(DeleteCommentInputData inputData);
 }

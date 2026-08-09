@@ -44,11 +44,9 @@ public final class UnlikeCommentInteractor
     }
 
     @Override
-    public void execute(final String commentId, final String username) {
+    public void execute(final UnlikeCommentInputData inputData) {
         try {
             validatePresenter();
-            final UnlikeCommentInputData inputData =
-                    new UnlikeCommentInputData(commentId, username);
             final boolean unliked = unlikeComment(inputData.getCommentId(),
                     inputData.getUsername());
             presenter.prepareSuccessView(unliked);

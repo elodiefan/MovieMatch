@@ -42,11 +42,9 @@ public final class UnlikeReviewInteractor implements UnlikeReviewInputBoundary {
     }
 
     @Override
-    public void execute(final String reviewId, final String username) {
+    public void execute(final UnlikeReviewInputData inputData) {
         try {
             validatePresenter();
-            final UnlikeReviewInputData inputData =
-                    new UnlikeReviewInputData(reviewId, username);
             final boolean unliked = unlikeReview(inputData.getReviewId(),
                     inputData.getUsername());
             presenter.prepareSuccessView(unliked);
