@@ -724,8 +724,8 @@ public class AppBuilder {
                 userReviewsPresenter);
         final UnlikeReviewInputBoundary unlikeReviewsInteractor = new UnlikeReviewInteractor(reviewDataAccessObject,
                 userReviewsPresenter);
-        final GetUserCommentsInputBoundary userCommentsInteractor = new GetUserCommentsInteractor(commentDataAccessObject,
-                reviewDataAccessObject, userReviewsPresenter);
+        final GetUserCommentsInputBoundary userCommentsInteractor = new GetUserCommentsInteractor(
+                commentDataAccessObject, reviewDataAccessObject, userReviewsPresenter);
         final DeleteCommentInteractor deleteCommentsInteractor =
                 new DeleteCommentInteractor(commentDataAccessObject,
                         userReviewsPresenter);

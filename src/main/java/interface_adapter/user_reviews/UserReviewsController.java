@@ -72,8 +72,7 @@ public final class UserReviewsController {
      * @param inputDeleteReviewInteractor the interactor for deleting reviews
      * @param inputLikeReviewInteractor the interactor for liking reviews
      * @param inputUnlikeReviewInteractor the interactor for unliking reviews
-     * @param inputGetUserCommentsInteractor the interactor for loading user
-     * comments
+     * @param inputGetUserCommentsInteractor the interactor for loading user comments.
      * @param inputDeleteCommentInteractor the interactor for deleting comments
      * @param inputEditCommentInteractor the interactor for editing comments
      */
