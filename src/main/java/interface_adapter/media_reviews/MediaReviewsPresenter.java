@@ -1,25 +1,82 @@
 package interface_adapter.media_reviews;
 
-import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
-import entity.Review;
+import use_case.review.create_review.CreateReviewOutputBoundary;
+import use_case.review.create_review.CreateReviewOutputData;
+import use_case.review.delete_review.DeleteReviewOutputBoundary;
+import use_case.review.edit_review.EditReviewOutputBoundary;
+import use_case.review.edit_review.EditReviewOutputData;
+import use_case.review.get_media_reviews.GetMediaReviewsOutputBoundary;
+import use_case.review.get_media_reviews.GetMediaReviewsOutputData;
+import use_case.review.like_review.LikeReviewOutputBoundary;
+import use_case.review.unlike_review.UnlikeReviewOutputBoundary;
 
 /**
  * Presenter for the media reviews panel.
  */
-public class MediaReviewsPresenter {
+public final class MediaReviewsPresenter
+        implements GetMediaReviewsOutputBoundary, CreateReviewOutputBoundary,
+        EditReviewOutputBoundary, DeleteReviewOutputBoundary,
+        LikeReviewOutputBoundary, UnlikeReviewOutputBoundary {
     /**
-     * Converts review entities into rows that can be displayed by the media
+     * The media reviews view model.
+     */
+    private final MediaReviewsViewModel mediaReviewsViewModel;
+
+    /**
+     * Creates a presenter used only for row conversion.
+     */
+    public MediaReviewsPresenter() {
+        this(null);
+    }
+
+    /**
+     * Creates a presenter for the media reviews view model.
+     * @param inputMediaReviewsViewModel the view model to update
+     */
+    public MediaReviewsPresenter(
+            final MediaReviewsViewModel inputMediaReviewsViewModel) {
+        this.mediaReviewsViewModel = inputMediaReviewsViewModel;
+    }
+
+    @Override
+    public void prepareSuccessView(
+            final GetMediaReviewsOutputData outputData) {
+        final MediaReviewsState state = mediaReviewsViewModel.getState();
+        state.setReviews(prepareReviews(outputData.getReviews()));
+        state.setMediaReviewsError(null);
+        mediaReviewsViewModel.setState(state);
+        mediaReviewsViewModel.firePropertyChanged();
+    }
+
+    @Override
+    public void prepareSuccessView(final CreateReviewOutputData review) {
+        clearError();
+    }
+
+    @Override
+    public void prepareSuccessView(final EditReviewOutputData review) {
+        clearError();
+    }
+
+    @Override
+    public void prepareSuccessView(final boolean deleted) {
+        clearError();
+    }
+
+    /**
+     * Converts review summaries into rows that can be displayed by the media
      * reviews panel.
      * @param reviews the reviews to present
      * @return display-safe media review rows
      */
-    public List<MediaReviewRow> prepareReviews(final List<Review> reviews) {
+    public List<MediaReviewRow> prepareReviews(
+            final List<GetMediaReviewsOutputData.MediaReviewData> reviews) {
         final List<MediaReviewRow> reviewRows = new ArrayList<>();
         if (reviews != null) {
-            for (Review review : reviews) {
+            for (GetMediaReviewsOutputData.MediaReviewData review : reviews) {
                 if (review != null) {
                     reviewRows.add(createReviewRow(review));
                 }
@@ -37,23 +94,41 @@ public class MediaReviewsPresenter {
         final String displayError;
         if (isBlank(errorMessage)) {
             displayError = "Unable to load media reviews.";
-        } else {
+        }
+        else {
             displayError = errorMessage.trim();
+        }
+        if (mediaReviewsViewModel != null) {
+            final MediaReviewsState state = mediaReviewsViewModel.getState();
+            state.setMediaReviewsError(displayError);
+            mediaReviewsViewModel.setState(state);
+            mediaReviewsViewModel.firePropertyChanged();
         }
         return displayError;
     }
 
+    private void clearError() {
+        if (mediaReviewsViewModel != null) {
+            final MediaReviewsState state = mediaReviewsViewModel.getState();
+            state.setMediaReviewsError(null);
+            mediaReviewsViewModel.setState(state);
+            mediaReviewsViewModel.firePropertyChanged();
+        }
+    }
+
     /**
-     * Converts one review entity into one displayed row.
+     * Converts one review summary into one displayed row.
      * @param review the review to convert
      * @return the displayed media review row
      */
-    private MediaReviewRow createReviewRow(final Review review) {
+    private MediaReviewRow createReviewRow(
+            final GetMediaReviewsOutputData.MediaReviewData review) {
         return new MediaReviewRow(review.getReviewId(),
                 review.getAuthorUsername(), review.getAuthorDisplayName(),
                 review.getRating(), review.getReviewText(),
                 review.getCreatedAt(), review.getUpdatedAt(),
-                review.getLikeCount());
+                review.getLikeCount(), review.getLikedByUsernames(),
+                review.getSource());
     }
 
     /**
@@ -65,109 +140,4 @@ public class MediaReviewsPresenter {
         return value == null || value.trim().isEmpty();
     }
 
-    /**
-     * Display data for one community review on a media page.
-     */
-    public static final class MediaReviewRow {
-        private final String reviewId;
-        private final String authorUsername;
-        private final String authorDisplayName;
-        private final double rating;
-        private final String reviewText;
-        private final ZonedDateTime createdAt;
-        private final ZonedDateTime updatedAt;
-        private final int likeCount;
-
-        /**
-         * Creates display data for one media review row.
-         * @param reviewId the review id
-         * @param authorUsername the author's username
-         * @param authorDisplayName the author's display name
-         * @param rating the review rating percentage
-         * @param reviewText the review text
-         * @param createdAt the review creation time
-         * @param updatedAt the review update time
-         * @param likeCount the number of likes on the review
-         */
-        public MediaReviewRow(final String reviewId,
-                              final String authorUsername,
-                              final String authorDisplayName,
-                              final double rating, final String reviewText,
-                              final ZonedDateTime createdAt,
-                              final ZonedDateTime updatedAt,
-                              final int likeCount) {
-            this.reviewId = reviewId;
-            this.authorUsername = authorUsername;
-            this.authorDisplayName = authorDisplayName;
-            this.rating = rating;
-            this.reviewText = reviewText;
-            this.createdAt = createdAt;
-            this.updatedAt = updatedAt;
-            this.likeCount = likeCount;
-        }
-
-        /**
-         * Returns the review id.
-         * @return the review id
-         */
-        public String getReviewId() {
-            return reviewId;
-        }
-
-        /**
-         * Returns the author's username.
-         * @return the author's username
-         */
-        public String getAuthorUsername() {
-            return authorUsername;
-        }
-
-        /**
-         * Returns the author's display name.
-         * @return the author's display name
-         */
-        public String getAuthorDisplayName() {
-            return authorDisplayName;
-        }
-
-        /**
-         * Returns the review rating percentage.
-         * @return the rating percentage
-         */
-        public double getRating() {
-            return rating;
-        }
-
-        /**
-         * Returns the review text.
-         * @return the review text
-         */
-        public String getReviewText() {
-            return reviewText;
-        }
-
-        /**
-         * Returns the review creation time.
-         * @return the creation time
-         */
-        public ZonedDateTime getCreatedAt() {
-            return createdAt;
-        }
-
-        /**
-         * Returns the review update time.
-         * @return the update time
-         */
-        public ZonedDateTime getUpdatedAt() {
-            return updatedAt;
-        }
-
-        /**
-         * Returns the review like count.
-         * @return the like count
-         */
-        public int getLikeCount() {
-            return likeCount;
-        }
-    }
 }

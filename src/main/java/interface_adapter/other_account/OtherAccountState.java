@@ -7,7 +7,6 @@ public class OtherAccountState {
     private String username = "";
     private String displayName = "";
     private boolean blocked;
-    private String nextBlockOption = "";
     private String viewMessageError;
 
     public String getUsername() {
@@ -34,12 +33,15 @@ public class OtherAccountState {
         this.blocked = blocked;
     }
 
-    public String getNextBlockOption() {
-        return nextBlockOption;
-    }
-
-    public void setNextBlockOption(String nextBlockOption) {
-        this.nextBlockOption = nextBlockOption;
+    /**
+     * Shows next block action available.
+     * @return next block action available to current user
+     */
+    public String getBlockStatus() {
+        if (isBlocked()) {
+            return "Unblock";
+        }
+        return "Block";
     }
 
     public String getViewMessageError() {

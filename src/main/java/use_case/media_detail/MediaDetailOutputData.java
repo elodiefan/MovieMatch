@@ -2,8 +2,6 @@ package use_case.media_detail;
 
 import java.util.List;
 
-import entity.Genre;
-
 /**
  * Output data for the Media Detail Use Case.
  */
@@ -15,23 +13,29 @@ public class MediaDetailOutputData {
     private final String title;
     private final int releaseYear;
     private final double averageRating;
-    private final List<Genre> genres;
+    private final List<String> genreNames;
     private final String language;
+    private final String overview;
+    private final String posterPath;
 
     public MediaDetailOutputData(int mediaId,
                                  String mediaType,
                                  String title,
                                  int releaseYear,
                                  double averageRating,
-                                 List<Genre> genres,
-                                 String language) {
+                                 List<String> genreNames,
+                                 String language,
+                                 String overview,
+                                 String posterPath) {
         this.mediaId = mediaId;
         this.mediaType = mediaType;
         this.title = title;
         this.releaseYear = releaseYear;
         this.averageRating = averageRating;
-        this.genres = genres;
+        this.genreNames = genreNames;
         this.language = language;
+        this.overview = overview;
+        this.posterPath = posterPath;
     }
 
     public String getTitle() {
@@ -46,12 +50,20 @@ public class MediaDetailOutputData {
         return averageRating;
     }
 
-    public List<Genre> getGenres() {
-        return genres;
+    public List<String> getGenreNames() {
+        return genreNames;
     }
 
     public String getLanguage() {
         return language;
+    }
+
+    public String getOverview() {
+        return overview;
+    }
+
+    public String getPosterPath() {
+        return posterPath;
     }
 
     public int getMediaId() {

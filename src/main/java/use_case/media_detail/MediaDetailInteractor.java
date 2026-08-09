@@ -1,8 +1,5 @@
 package use_case.media_detail;
 
-import entity.Media;
-import entity.Movie;
-
 /**
  * The Media Detail Interactor.
  */
@@ -18,33 +15,23 @@ public class MediaDetailInteractor implements MediaDetailInputBoundary {
     @Override
     public void execute(MediaDetailInputData inputData) {
 
-        final Media media = inputData.getMedia();
-
-        if (media == null) {
+        if (inputData == null) {
             mediaDetailPresenter.prepareFailView(
                     "Unable to display media details."
             );
         }
         else {
-
-            final String mediaType;
-
-            if (media instanceof Movie) {
-                mediaType = "movie";
-            }
-            else {
-                mediaType = "tv";
-            }
-
             final MediaDetailOutputData outputData =
                     new MediaDetailOutputData(
-                            media.getID(),
-                            mediaType,
-                            media.getTitle(),
-                            media.getReleaseYear(),
-                            media.getAverageRating(),
-                            media.getGenres(),
-                            media.getLanguage()
+                            inputData.getMediaId(),
+                            inputData.getMediaType(),
+                            inputData.getTitle(),
+                            inputData.getReleaseYear(),
+                            inputData.getAverageRating(),
+                            inputData.getGenreNames(),
+                            inputData.getLanguage(),
+                            inputData.getOverview(),
+                            inputData.getPosterPath()
                     );
 
             mediaDetailPresenter.prepareSuccessView(outputData);

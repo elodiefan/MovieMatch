@@ -2,8 +2,6 @@ package interface_adapter.media_detail;
 
 import java.util.List;
 
-import entity.Genre;
-
 /**
  * The state for Media Detail View.
  */
@@ -12,8 +10,10 @@ public class MediaDetailState {
     private String title;
     private int releaseYear;
     private double averageRating;
-    private List<Genre> genres;
+    private List<String> genreNames;
     private String language;
+    private String overview;
+    private String posterPath;
     private int mediaId;
     private String mediaType;
     private String mediaDetailError = "";
@@ -42,12 +42,12 @@ public class MediaDetailState {
         this.averageRating = averageRating;
     }
 
-    public List<Genre> getGenres() {
-        return genres;
+    public List<String> getGenreNames() {
+        return genreNames;
     }
 
-    public void setGenres(List<Genre> genres) {
-        this.genres = genres;
+    public void setGenreNames(List<String> genreNames) {
+        this.genreNames = genreNames;
     }
 
     public String getLanguage() {
@@ -56,6 +56,22 @@ public class MediaDetailState {
 
     public void setLanguage(String language) {
         this.language = language;
+    }
+
+    public String getOverview() {
+        return overview;
+    }
+
+    public void setOverview(String overview) {
+        this.overview = overview;
+    }
+
+    public String getPosterPath() {
+        return posterPath;
+    }
+
+    public void setPosterPath(String posterPath) {
+        this.posterPath = posterPath;
     }
 
     public int getMediaId() {

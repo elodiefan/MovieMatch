@@ -3,11 +3,14 @@ package use_case.access_message_chat;
 public class AccessMessageChatInteractor implements AccessMessageChatInputBoundary {
 
     private final AccessMessageChatUserDataAccessInterface userDataAccessObject;
+    private final AccessMessageChatMessageDataAccessInterface messageDataAccessObject;
     private final AccessMessageChatOutputBoundary userPresenter;
 
-    public AccessMessageChatInteractor(AccessMessageChatUserDataAccessInterface accessMessageChatUserDataAccessInterface,
+    public AccessMessageChatInteractor(AccessMessageChatUserDataAccessInterface userDataAccessInterface,
+                                       AccessMessageChatMessageDataAccessInterface messageDataAccessInterface,
                                        AccessMessageChatOutputBoundary accessMessageChatOutputBoundary) {
-        this.userDataAccessObject = accessMessageChatUserDataAccessInterface;
+        this.userDataAccessObject = userDataAccessInterface;
+        this.messageDataAccessObject = messageDataAccessInterface;
         this.userPresenter = accessMessageChatOutputBoundary;
     }
 
@@ -22,7 +25,13 @@ public class AccessMessageChatInteractor implements AccessMessageChatInputBounda
             userPresenter.prepareAccessMessageChatFailView("Cannot message this user.");
         }
         else {
-            final AccessMessageChatOutputData accessMessageChatOutputData = new AccessMessageChatOutputData(true, false);
+            final String currentUsername = userDataAccessObject.getCurrentUsername();
+
+            final String displayText =
+                    messageDataAccessObject.getNewMessages(currentUsername, otherUsername);
+
+            final AccessMessageChatOutputData accessMessageChatOutputData = new AccessMessageChatOutputData(
+                    true, currentUsername, otherUsername, displayText, false);
             userPresenter.prepareAccessMessageChatSuccessView(accessMessageChatOutputData);
         }
     }

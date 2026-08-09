@@ -1,26 +1,23 @@
 package use_case.get_lists.get_blocked_users;
 
-import use_case.get_lists.GetListsInputData;
-import use_case.get_lists.GetListsUserDataAccessInterface;
-
 /**
  * The Blocked Users View Interactor.
  */
 public class GetBlockedUsersInteractor implements GetBlockedUsersInputBoundary {
 
-    private final GetListsUserDataAccessInterface userDataAccessObject;
+    private final GetBlockedUsersUserDataAccessInterface userDataAccessObject;
     private final GetBlockedUsersOutputBoundary getListsPresenter;
 
-    public GetBlockedUsersInteractor(GetListsUserDataAccessInterface userDataAccessInterface,
+    public GetBlockedUsersInteractor(GetBlockedUsersUserDataAccessInterface userDataAccessInterface,
                                      GetBlockedUsersOutputBoundary getBlockedUsersOutputBoundary) {
         this.userDataAccessObject = userDataAccessInterface;
         this.getListsPresenter = getBlockedUsersOutputBoundary;
     }
 
     @Override
-    public void execute(GetListsInputData getListsInputData) {
+    public void execute(GetBlockedUsersInputData getListsInputData) {
         final String username = getListsInputData.getUsername();
-        final String displayName = getListsInputData.getDislayName();
+        final String displayName = getListsInputData.getDisplayName();
         final String blockedUsers = userDataAccessObject.getLists(username).getBlockedUsers();
         final GetBlockedUsersOutputData getBlockedUsersOutputData = new GetBlockedUsersOutputData(username,
                 displayName, blockedUsers);
@@ -29,9 +26,11 @@ public class GetBlockedUsersInteractor implements GetBlockedUsersInputBoundary {
 
     /**
      * Switches from list view to account view.
+     *
+     * @param getListsInputData the get lists input data
      */
     @Override
-    public void switchToAccountView(GetListsInputData getListsInputData) {
+    public void switchToAccountView(GetBlockedUsersInputData getListsInputData) {
         if (userDataAccessObject.getCurrentUsername().equals(getListsInputData.getUsername())) {
             getListsPresenter.switchToPersonalAccountView();
         }

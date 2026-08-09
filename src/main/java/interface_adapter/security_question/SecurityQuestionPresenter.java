@@ -1,6 +1,5 @@
 package interface_adapter.security_question;
 
-import interface_adapter.ViewManagerModel;
 import interface_adapter.reset_password.PasswordResetCompletedHandler;
 import interface_adapter.reset_password.ResetPasswordState;
 import interface_adapter.reset_password.ResetPasswordViewModel;
@@ -9,35 +8,23 @@ import use_case.security_question.SecurityQuestionOutputData;
 
 /**
  * Presenter for the Security Question use case.
- * <p>
- * Translates use-case results into view-model state changes:
- * <ul>
- *     <li>{@link #presentSecurityQuestion} — put the question on screen;</li>
- *     <li>{@link #prepareSuccessView} — identity confirmed, so seed the
- *     reset-password screen with the verified username and switch to it via the
- *     {@link ViewManagerModel};</li>
- *     <li>{@link #prepareFailView} — show a wrong-answer / locked-out / no-account
- *     message and (when locked) disable the inputs.</li>
- * </ul>
- * <p>
- * It also implements {@link PasswordResetCompletedHandler}: once the password
- * has actually been changed, this screen is where the user is returned to, with
- * a confirmation message. Doing it here means the reset-password package never
- * has to know this package exists.
  */
 public class SecurityQuestionPresenter
         implements SecurityQuestionOutputBoundary, PasswordResetCompletedHandler {
 
     private final SecurityQuestionViewModel securityQuestionViewModel;
     private final ResetPasswordViewModel resetPasswordViewModel;
-    private final ViewManagerModel viewManagerModel;
+    private final Runnable resetPasswordViewHandler;
+    private final Runnable securityQuestionViewHandler;
 
     public SecurityQuestionPresenter(SecurityQuestionViewModel securityQuestionViewModel,
                                      ResetPasswordViewModel resetPasswordViewModel,
-                                     ViewManagerModel viewManagerModel) {
+                                     Runnable resetPasswordViewHandler,
+                                     Runnable securityQuestionViewHandler) {
         this.securityQuestionViewModel = securityQuestionViewModel;
         this.resetPasswordViewModel = resetPasswordViewModel;
-        this.viewManagerModel = viewManagerModel;
+        this.resetPasswordViewHandler = resetPasswordViewHandler;
+        this.securityQuestionViewHandler = securityQuestionViewHandler;
     }
 
     @Override
@@ -73,8 +60,7 @@ public class SecurityQuestionPresenter
         resetPasswordViewModel.firePropertyChanged();
 
         // ...and switch the active view to it.
-        viewManagerModel.setState(resetPasswordViewModel.getViewName());
-        viewManagerModel.firePropertyChanged();
+        resetPasswordViewHandler.run();
     }
 
     @Override
@@ -105,9 +91,9 @@ public class SecurityQuestionPresenter
     }
 
     /**
-     * The password has been changed, so clear this screen, confirm what
-     * happened, and bring the user back to it.
-     * @param username the account whose password was changed
+     * The password has been changed, so clear this screen, confirm what happened, and bring the user back to it.
+     *
+     * @param username the username
      */
     @Override
     public void passwordResetCompleted(String username) {
@@ -121,7 +107,6 @@ public class SecurityQuestionPresenter
         securityQuestionViewModel.setState(state);
         securityQuestionViewModel.firePropertyChanged();
 
-        viewManagerModel.setState(securityQuestionViewModel.getViewName());
-        viewManagerModel.firePropertyChanged();
+        securityQuestionViewHandler.run();
     }
 }

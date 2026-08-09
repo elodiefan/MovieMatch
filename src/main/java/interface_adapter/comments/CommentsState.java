@@ -6,11 +6,26 @@ import java.util.List;
 /**
  * State for review comments.
  */
-public class CommentsState {
+public final class CommentsState {
+    /**
+     * The review id.
+     */
     private String reviewId = "";
-    private List<CommentsPresenter.CommentRow> comments = new ArrayList<>();
+    /**
+     * The comments.
+     */
+    private List<CommentRow> comments = new ArrayList<>();
+    /**
+     * The selected comment id.
+     */
     private String selectedCommentId = "";
+    /**
+     * The parent comment id.
+     */
     private String parentCommentId = "";
+    /**
+     * The comments error.
+     */
     private String commentsError;
 
     /**
@@ -23,27 +38,26 @@ public class CommentsState {
 
     /**
      * Sets the review id whose comments are displayed.
-     * @param reviewId the review id
+     * @param inputReviewId the review id
      */
-    public void setReviewId(final String reviewId) {
-        this.reviewId = reviewId;
+    public void setReviewId(final String inputReviewId) {
+        this.reviewId = inputReviewId;
     }
 
     /**
      * Returns the displayed comment rows.
      * @return a copy of the comment rows
      */
-    public List<CommentsPresenter.CommentRow> getComments() {
+    public List<CommentRow> getComments() {
         return new ArrayList<>(comments);
     }
 
     /**
      * Sets the displayed comment rows.
-     * @param comments the comment rows
+     * @param inputComments the comment rows
      */
-    public void setComments(
-            final List<CommentsPresenter.CommentRow> comments) {
-        this.comments = new ArrayList<>(comments);
+    public void setComments(final List<CommentRow> inputComments) {
+        this.comments = new ArrayList<>(inputComments);
     }
 
     /**
@@ -56,10 +70,10 @@ public class CommentsState {
 
     /**
      * Sets the selected comment id.
-     * @param selectedCommentId the selected comment id
+     * @param inputSelectedCommentId the selected comment id
      */
-    public void setSelectedCommentId(final String selectedCommentId) {
-        this.selectedCommentId = selectedCommentId;
+    public void setSelectedCommentId(final String inputSelectedCommentId) {
+        this.selectedCommentId = inputSelectedCommentId;
     }
 
     /**
@@ -72,10 +86,10 @@ public class CommentsState {
 
     /**
      * Sets the parent comment id for a reply being written.
-     * @param parentCommentId the parent comment id
+     * @param inputParentCommentId the parent comment id
      */
-    public void setParentCommentId(final String parentCommentId) {
-        this.parentCommentId = parentCommentId;
+    public void setParentCommentId(final String inputParentCommentId) {
+        this.parentCommentId = inputParentCommentId;
     }
 
     /**
@@ -88,9 +102,9 @@ public class CommentsState {
 
     /**
      * Sets the current comments error message.
-     * @param commentsError the error message
+     * @param inputCommentsError the error message
      */
-    public void setCommentsError(final String commentsError) {
-        this.commentsError = commentsError;
+    public void setCommentsError(final String inputCommentsError) {
+        this.commentsError = inputCommentsError;
     }
 }

@@ -7,7 +7,16 @@ package use_case.access_message_chat;
 public interface AccessMessageChatUserDataAccessInterface {
 
     /**
-     *  Checks whether other username has current username blocked or vice versa.
+     * Checks whether other username has current username blocked or vice versa.
+     *
+     * @param otherUsername the other username
+     * @return the can message
      */
     boolean canMessage(String otherUsername);
+
+    /**
+     * Gets username of current user.
+     * @return username of current user
+     */
+    String getCurrentUsername();
 }

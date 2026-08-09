@@ -1,7 +1,5 @@
 package use_case.get_profile;
 
-import interface_adapter.home_page.HomePagePresenter;
-
 /**
  * Interactor for get user profile use case.
  */
@@ -11,9 +9,9 @@ public class GetProfileInteractor implements GetProfileInputBoundary {
     private final GetProfileOutputBoundary userPresenter;
 
     public GetProfileInteractor(GetProfileUserDataAccessInterface getProfileUserDataAccessInterface,
-                                HomePagePresenter homePagePresenter) {
+                                GetProfileOutputBoundary getProfileOutputBoundary) {
         this.userDataAccessObject = getProfileUserDataAccessInterface;
-        this.userPresenter = homePagePresenter;
+        this.userPresenter = getProfileOutputBoundary;
     }
 
     /**
@@ -24,8 +22,9 @@ public class GetProfileInteractor implements GetProfileInputBoundary {
     public void execute(GetProfileInputData getProfileInputData) {
         final String currentUsername = userDataAccessObject.getCurrentUsername();
         final String userDisplayName = userDataAccessObject.getDisplayName(getProfileInputData.getUsername());
+        final boolean isBlocked = userDataAccessObject.canMessage(getProfileInputData.getUsername());
         final GetProfileOutputData getProfileOutputData = new GetProfileOutputData(getProfileInputData.getUsername(),
-                userDisplayName, false);
+                userDisplayName, isBlocked, false);
         if (getProfileInputData.getUsername().equals(currentUsername)) {
             userPresenter.switchToPersonalAccountView(getProfileOutputData);
         }

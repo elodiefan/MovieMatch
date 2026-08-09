@@ -2,19 +2,20 @@ package use_case.reset_password;
 
 /**
  * Interactor for the Reset Password use case.
- * <p>
  * Validates the new password, then writes it through the DAO. Rules:
  * <ul>
- *     <li>the new password must not be blank;</li>
- *     <li>it must be at least {@link #MIN_LENGTH} characters;</li>
- *     <li>the "new" and "confirm" entries must match.</li>
+ * <li>the new password must not be blank;</li>
+ * <li>it must be at least {@link #MIN_LENGTH} characters;</li>
+ * <li>the "new" and "confirm" entries must match.</li>
  * </ul>
  * On success it reports back through the presenter; on any rule violation it
  * reports a fail with an explanation and does not touch storage.
  */
 public class ResetPasswordInteractor implements ResetPasswordInputBoundary {
 
-    /** Minimum allowed password length. */
+    /**
+     * Minimum allowed password length.
+     */
     static final int MIN_LENGTH = 4;
 
     private final ResetPasswordUserDataAccessInterface userDataAccessObject;
@@ -52,7 +53,7 @@ public class ResetPasswordInteractor implements ResetPasswordInputBoundary {
             return;
         }
 
-        // All good — persist the change and report success.
+        // All good â€” persist the change and report success.
         userDataAccessObject.changePassword(username, newPassword);
         presenter.prepareSuccessView(new ResetPasswordOutputData(username, false));
     }

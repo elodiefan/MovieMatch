@@ -1,18 +1,15 @@
 package use_case.get_lists.get_watch_history;
 
-import use_case.get_lists.GetListsInputData;
-
 public interface GetWatchHistoryInputBoundary {
     /**
      * Executes the get watch history use case.
-     * @param getListsInputData the input data for the get watch history use case.
+     * @param getListsInputData the input data
      */
-    void execute(GetListsInputData getListsInputData);
+    void execute(GetWatchHistoryInputData getListsInputData);
 
     /**
      * Executes the switch to account view use case.
-     * @param getListsInputData the input data for the use case.
+     * @param getListsInputData the input data
      */
-    void switchToAccountView(GetListsInputData getListsInputData);
+    void switchToAccountView(GetWatchHistoryInputData getListsInputData);
 }
-

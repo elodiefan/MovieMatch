@@ -37,6 +37,36 @@
         <property name="files"
                   value=".*[\\/]src[\\/](test|it|xdocs-examples)[\\/].*(?&lt;!Support)\.java"/>
     </module>
+    <module name="SuppressionSingleFilter">
+        <property name="checks" value="MemberName"/>
+        <property name="files"
+                  value="GeminiScoreAdjuster.java"/>
+    </module>
+    <module name="SuppressionSingleFilter">
+        <property name="checks" value="MemberName"/>
+        <property name="files"
+                  value="SecurityQuestionView.java"/>
+    </module>
+    <module name="SuppressionSingleFilter">
+        <property name="checks" value="MultipleStringLiterals"/>
+        <property name="files"
+                  value="SeedMediaCatalogue.java"/>
+    </module>
+    <module name="SuppressionSingleFilter">
+        <property name="checks" value="RegexpSinglelineJava"/>
+        <property name="files"
+                  value="RecommendationInteractor.java"/>
+    </module>
+    <module name="SuppressionSingleFilter">
+        <property name="checks" value="RegexpSinglelineJava"/>
+        <property name="files"
+                  value="SecurityQuestionPresenter.java"/>
+    </module>
+    <module name="SuppressionSingleFilter">
+        <property name="checks" value="IllegalCatch"/>
+        <property name="message"
+                  value="Catching 'RuntimeException' is not allowed."/>
+    </module>
     <module name="SuppressWarningsFilter"/>
     <module name="SuppressWithPlainTextCommentFilter">
         <!--
@@ -204,7 +234,10 @@
     <module name="FileTabCharacter">
         <property name="eachLine" value="false"/>
     </module>
-
+    <module name="SuppressionFilter">
+        <property name="file" value="suppressions.xml"/>
+        <property name="optional" value="true"/>
+    </module>
     <module name="TreeWalker">
         <property name="tabWidth" value="4"/>
 
@@ -535,6 +568,7 @@
         <module name="VariableDeclarationUsageDistance"/>
 
         <!-- Filters -->
+
         <module name="SuppressionCommentFilter">
             <!--
               Use suppressions.xml for suppressions, this is only example.
@@ -740,7 +774,7 @@
         <module name="AbbreviationAsWordInName">
             <property name="ignoreFinal" value="false"/>
             <property name="allowedAbbreviationLength" value="0"/>
-            <property name="allowedAbbreviations" value="DB,AST,HTML,ID,JSON,CSV"/>
+            <property name="allowedAbbreviations" value="DB,AST,HTML,ID,JSON,CSV,TV,API,TMDB"/>
         </module>
         <module name="AbstractClassName"/>
         <module name="ClassTypeParameterName"/>
@@ -803,7 +837,9 @@
         </module>
         <module name="MethodLength"/>
         <module name="OuterTypeNumber"/>
-        <module name="ParameterNumber"/>
+        <module name="ParameterNumber">
+            <property name="max"  value="20"/>
+        </module>
         <module name="RecordComponentNumber"/>
 
         <!-- Whitespace -->

@@ -1,7 +1,10 @@
 package use_case.get_lists.get_watchlist;
 
-import use_case.get_lists.GetListsInputData;
-import use_case.get_lists.GetListsUserDataAccessInterface;
+import java.util.ArrayList;
+import java.util.List;
+
+import entity.MediaListItem;
+import entity.UserLists;
 
 /**
  * The Watchlist View Interactor.
@@ -9,30 +12,45 @@ import use_case.get_lists.GetListsUserDataAccessInterface;
 
 public class GetWatchlistInteractor implements GetWatchlistInputBoundary {
 
-    private final GetListsUserDataAccessInterface userDataAccessObject;
+    private final GetWatchlistUserDataAccessInterface userDataAccessObject;
     private final GetWatchlistOutputBoundary getListsPresenter;
 
-    public GetWatchlistInteractor(GetListsUserDataAccessInterface userDataAccessInterface,
+    public GetWatchlistInteractor(GetWatchlistUserDataAccessInterface userDataAccessInterface,
                                   GetWatchlistOutputBoundary getWatchListOutputBoundary) {
         this.userDataAccessObject = userDataAccessInterface;
         this.getListsPresenter = getWatchListOutputBoundary;
     }
 
     @Override
-    public void execute(GetListsInputData getListsInputData) {
+    public void execute(GetWatchlistInputData getListsInputData) {
         final String username = getListsInputData.getUsername();
-        final String displayName = getListsInputData.getDislayName();
-        final String watchlist = userDataAccessObject.getLists(username).getWatchlist();
+        final String displayName = getListsInputData.getDisplayName();
+        final UserLists userLists = userDataAccessObject.getLists(username);
+        final String watchlist = userLists.getWatchlist();
         final GetWatchlistOutputData getWatchlistOutputData = new GetWatchlistOutputData(username,
-                displayName, watchlist);
+                displayName, watchlist, toWatchlistItemData(
+                        userLists.getWatchlistItems()));
         getListsPresenter.prepareSuccessView(getWatchlistOutputData);
+    }
+
+    private List<WatchlistItemData> toWatchlistItemData(
+            List<MediaListItem> mediaListItems) {
+        final List<WatchlistItemData> itemData = new ArrayList<>();
+        for (MediaListItem item : mediaListItems) {
+            itemData.add(new WatchlistItemData(item.getMediaId(),
+                    item.getMediaType(), item.getMediaTitle(),
+                    item.getLoggedAt(), item.getPosterPath()));
+        }
+        return itemData;
     }
 
     /**
      * Switches from list view to account view.
+     *
+     * @param getListsInputData the get lists input data
      */
     @Override
-    public void switchToAccountView(GetListsInputData getListsInputData) {
+    public void switchToAccountView(GetWatchlistInputData getListsInputData) {
         if (userDataAccessObject.getCurrentUsername().equals(getListsInputData.getUsername())) {
             getListsPresenter.switchToPersonalAccountView();
         }

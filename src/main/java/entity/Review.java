@@ -6,10 +6,12 @@ import java.util.Set;
 /**
  * Represents a user's review on a piece of media.
  */
-public class Review extends UserContent {
+public class Review extends AbstractUserContent {
     private final int mediaId;
     private final String mediaType;
     private final String mediaTitle;
+    private final int releaseYear;
+    private final String posterPath;
     private final String source;
     private double rating;
     private String reviewText;
@@ -34,10 +36,40 @@ public class Review extends UserContent {
                   String authorUsername, String authorDisplayName, double rating,
                   String reviewText, ZonedDateTime createdAt, ZonedDateTime updatedAt,
                   String source, Set<String> likedByUsernames) {
+        this(reviewId, mediaId, mediaType, mediaTitle, 0, "", authorUsername,
+                authorDisplayName, rating, reviewText, createdAt, updatedAt,
+                source, likedByUsernames);
+    }
+
+    /**
+     * Creates a review with media display metadata.
+     * @param reviewId the unique identifier for this review
+     * @param mediaId the reviewed media's identifier
+     * @param mediaType the reviewed media's type
+     * @param mediaTitle the reviewed media's title
+     * @param releaseYear the reviewed media's release year
+     * @param posterPath the reviewed media's poster path
+     * @param authorUsername the username of the review author
+     * @param authorDisplayName the display name of the review author
+     * @param rating the rating left by the author
+     * @param reviewText the body of the review
+     * @param createdAt the time the review was created
+     * @param updatedAt the time the review was last updated
+     * @param source the source of the review
+     * @param likedByUsernames the usernames of users who liked this review
+     */
+    public Review(String reviewId, int mediaId, String mediaType,
+                  String mediaTitle, int releaseYear, String posterPath,
+                  String authorUsername, String authorDisplayName,
+                  double rating, String reviewText, ZonedDateTime createdAt,
+                  ZonedDateTime updatedAt, String source,
+                  Set<String> likedByUsernames) {
         super(reviewId, authorUsername, authorDisplayName, createdAt, likedByUsernames);
         this.mediaId = mediaId;
         this.mediaType = mediaType;
         this.mediaTitle = mediaTitle;
+        this.releaseYear = releaseYear;
+        this.posterPath = posterPath;
         this.rating = rating;
         this.reviewText = reviewText;
         this.updatedAt = updatedAt;
@@ -74,6 +106,22 @@ public class Review extends UserContent {
      */
     public String getMediaTitle() {
         return mediaTitle;
+    }
+
+    /**
+     * Returns the reviewed media's release year.
+     * @return the release year
+     */
+    public int getReleaseYear() {
+        return releaseYear;
+    }
+
+    /**
+     * Returns the reviewed media's poster path.
+     * @return the poster path
+     */
+    public String getPosterPath() {
+        return posterPath;
     }
 
     /**

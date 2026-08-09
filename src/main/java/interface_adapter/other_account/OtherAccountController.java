@@ -2,14 +2,11 @@ package interface_adapter.other_account;
 
 import interface_adapter.ViewManagerModel;
 import interface_adapter.get_lists.GetListsController;
+import interface_adapter.search_user.SearchUserViewModel;
 import use_case.access_message_chat.AccessMessageChatInputBoundary;
 import use_case.access_message_chat.AccessMessageChatInputData;
 import use_case.block_user.BlockUserInputBoundary;
 import use_case.block_user.BlockUserInputData;
-//import use_case.get_watchlist.GetWatchlistInputBoundary;
-//import use_case.get_watch_history.GetWatchHistoryInputBoundary;
-//import use_case.get_reviews.GetReviews.InputBoundary;
-//import use_case.send_message.SendMessageInputBoundary;
 
 /**
  * The controller for the Account Use Case.
@@ -20,9 +17,6 @@ public class OtherAccountController {
     private final GetListsController getListsController;
     private final ViewManagerModel viewManagerModel;
     private final String getListsViewName = "view lists";
-    //private final GetWatchlistInputBoundary getWatchlistInteractor;
-    //private final GetWatchHistoryInputBoundary getWatchHistoryInteractor;
-    //private final GetReviewsInputBoundary getReviewsInteractor;
     private final AccessMessageChatInputBoundary accessMessageChatInteractor;
 
     public OtherAccountController(ViewManagerModel viewManagerModel,
@@ -66,13 +60,27 @@ public class OtherAccountController {
 
     // TODO: get user reviews use case
 
+    /**
+     * Switches view to chatroom with other user.
+     * @param otherUsername username of the other user
+     */
     public void goToMessages(String otherUsername) {
         final AccessMessageChatInputData accessMessageChatInputData = new AccessMessageChatInputData(otherUsername);
         accessMessageChatInteractor.execute(accessMessageChatInputData);
     }
 
-    // TODO: switch to search view
+    /**
+     * Returns to the screen this profile was opened from.
+     */
     public void switchToSearchView() {
+        viewManagerModel.switchView(SearchUserViewModel.VIEW_NAME);
+    }
 
+    /**
+     * Says whether the message button can do anything yet.
+     * @return true once messaging is wired up
+     */
+    public boolean isMessagingAvailable() {
+        return accessMessageChatInteractor != null;
     }
 }
