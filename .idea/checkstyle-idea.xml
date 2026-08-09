@@ -5,13 +5,20 @@
     <scanScope>JavaOnly</scanScope>
     <option name="thirdPartyClasspath" />
     <option name="activeLocationIds">
-      <option value="4c0a9cf6-4b3d-4512-a719-6b1d6b17a0cf" />
+      <option value="2907f05e-d281-4ce9-a158-71cde3e1c277" />
     </option>
     <option name="locations">
       <list>
         <ConfigurationLocation id="bundled-sun-checks" type="BUNDLED" scope="All" description="Sun Checks">(bundled)</ConfigurationLocation>
         <ConfigurationLocation id="bundled-google-checks" type="BUNDLED" scope="All" description="Google Checks">(bundled)</ConfigurationLocation>
         <ConfigurationLocation id="4c0a9cf6-4b3d-4512-a719-6b1d6b17a0cf" type="LOCAL_FILE" scope="All" description="CSC207 Style">$PROJECT_DIR$/mystyle.xml</ConfigurationLocation>
+        <ConfigurationLocation id="2ad5fe7f-90b9-4bf8-80a3-226e2070bcea" type="LOCAL_FILE" scope="All" description="checkstyle">$PROJECT_DIR$/mystyle.xml</ConfigurationLocation>
+        <ConfigurationLocation id="e78f8b53-c323-464d-9ca0-18c26344fab0" type="LOCAL_FILE" scope="All" description="checkstyle try again">C:\Users\catty\Desktop\mystyle.xml</ConfigurationLocation>
+        <ConfigurationLocation id="46369072-161b-4c33-a2a1-aaac91302368" type="LOCAL_FILE" scope="All" description="checkstyle updated">C:\Users\catty\Desktop\mystyle.xml</ConfigurationLocation>
+        <ConfigurationLocation id="2907f05e-d281-4ce9-a158-71cde3e1c277" type="LOCAL_FILE" scope="All" description="final checkstyle">$PROJECT_DIR$/mystyle.xml</ConfigurationLocation>
+        <ConfigurationLocation id="7c62d432-dd3e-4718-a7f9-860192750299" type="LOCAL_FILE" scope="All" description="new checkstyle">$PROJECT_DIR$/mystyle.xml</ConfigurationLocation>
+        <ConfigurationLocation id="cde3553d-c9d6-40b5-aeff-4e175574b49c" type="LOCAL_FILE" scope="All" description="newest checkstyle">C:\Users\catty\Desktop\mystyle.xml</ConfigurationLocation>
+        <ConfigurationLocation id="c087878c-7ddc-4a9e-b6ab-a56914428e80" type="LOCAL_FILE" scope="All" description="suppressmagic">C:\Users\catty\Desktop\mystyle.xml</ConfigurationLocation>
       </list>
     </option>
   </component>
