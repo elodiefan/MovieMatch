@@ -714,7 +714,8 @@ public final class MyReviewsView extends JPanel
                 if (UserReviewsViewModel.DELETE_BUTTON_LABEL.equals(command)) {
                     userReviewsController.deleteReview(reviewId,
                             state.getUsername());
-                } else {
+                }
+                else {
                     final Double rating =
                             promptForRating("New rating percentage:");
                     if (rating != null) {
@@ -754,7 +755,8 @@ public final class MyReviewsView extends JPanel
                 if (UserReviewsViewModel.DELETE_BUTTON_LABEL.equals(command)) {
                     userReviewsController.deleteComment(commentId,
                             state.getUsername());
-                } else {
+                }
+                else {
                     final String commentText = JOptionPane.showInputDialog(
                             MyReviewsView.this, "New comment text:");
                     if (!isBlank(commentText)) {
