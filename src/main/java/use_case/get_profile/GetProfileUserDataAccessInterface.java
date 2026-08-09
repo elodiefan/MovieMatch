@@ -14,4 +14,11 @@ public interface GetProfileUserDataAccessInterface {
      * @return the current user's display name
      */
     String getDisplayName(String username);
+
+    /**
+     * Gets whether current user can message other user or not.
+     * @param username username to look for
+     * @return whether username blocked by current user
+     */
+    boolean canMessage(String username);
 }

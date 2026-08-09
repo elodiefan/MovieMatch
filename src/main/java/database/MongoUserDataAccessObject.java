@@ -316,7 +316,6 @@ public class MongoUserDataAccessObject implements UserDataAccessObject {
     }
 
     // ---------- Get user profile ----------
-    // ---------- Get user profile ----------
     @Override
     public String getDisplayName() {
         return currentUserField(DISPLAY_NAME);

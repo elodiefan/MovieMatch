@@ -12,11 +12,9 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
-import interface_adapter.delete_account.DeleteAccountState;
 import interface_adapter.other_account.OtherAccountController;
 import interface_adapter.other_account.OtherAccountState;
 import interface_adapter.other_account.OtherAccountViewModel;
-import interface_adapter.personal_account.PersonalAccountState;
 
 public class OtherAccountView extends JPanel implements PropertyChangeListener {
 
