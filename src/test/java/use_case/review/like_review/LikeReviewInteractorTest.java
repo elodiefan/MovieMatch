@@ -40,6 +40,28 @@ class LikeReviewInteractorTest {
         assertFalse(called[0]);
     }
 
+    @Test
+    void blankUsernamePresentsFailure() {
+        final RecordingPresenter presenter = new RecordingPresenter();
+        new LikeReviewInteractor((id, username) -> true, presenter)
+                .execute("review-1", " ");
+        assertEquals("Username cannot be empty.", presenter.failure);
+    }
+
+    @Test
+    void missingDataAccessIsReportedAsFailure() {
+        final RecordingPresenter presenter = new RecordingPresenter();
+        new LikeReviewInteractor(null, presenter).execute("review-1", "bob");
+        assertEquals("Review data access object has not been configured.", presenter.failure);
+    }
+
+    @Test
+    void nullReviewIdIsReportedAsFailure() {
+        final RecordingPresenter presenter = new RecordingPresenter();
+        new LikeReviewInteractor((id, username) -> true, presenter).execute(null, "bob");
+        assertEquals("Review id cannot be empty.", presenter.failure);
+    }
+
     private static final class RecordingPresenter implements LikeReviewOutputBoundary {
         private boolean success;
         private String failure;

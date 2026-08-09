@@ -9,7 +9,7 @@ import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import entity.StandardUser;
+import entity.StandardUserFactory;
 import entity.User;
 
 /**
@@ -25,9 +25,10 @@ class InMemoryUserSearchTest {
     @BeforeEach
     void setUp() {
         dataAccess = new InMemoryUserDataAccessObject();
-        dataAccess.save(new StandardUser("kiersten", "Kiersten", "pw", "q", "a"));
-        dataAccess.save(new StandardUser("lily", "Lily Fan", "pw", "q", "a"));
-        dataAccess.save(new StandardUser("enzo", "Tanay", "pw", "q", "a"));
+        final StandardUserFactory userFactory = new StandardUserFactory();
+        dataAccess.save(userFactory.create("kiersten", "Kiersten", "pw", "q", "a"));
+        dataAccess.save(userFactory.create("lily", "Lily Fan", "pw", "q", "a"));
+        dataAccess.save(userFactory.create("enzo", "Tanay", "pw", "q", "a"));
     }
 
     private List<String> usernamesFrom(List<User> users) {

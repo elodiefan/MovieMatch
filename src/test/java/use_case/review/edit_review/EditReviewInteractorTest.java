@@ -48,6 +48,42 @@ class EditReviewInteractorTest {
         assertEquals("Review could not be edited.", presenter.failure);
     }
 
+    @Test
+    void missingReviewIsReportedAsFailure() {
+        final RecordingPresenter presenter = new RecordingPresenter();
+
+        new EditReviewInteractor(new RecordingReviewDao(null), presenter).execute(
+                "review-1", "bob", 80.0, "Text");
+
+        assertEquals("Review could not be edited.", presenter.failure);
+    }
+
+    @Test
+    void blankReviewIdIsReportedAsFailure() {
+        assertFailure(" ", "bob", 80.0, "Review id cannot be empty.");
+    }
+
+    @Test
+    void blankUsernameIsReportedAsFailure() {
+        assertFailure("review-1", " ", 80.0, "Username cannot be empty.");
+    }
+
+    @Test
+    void invalidRatingIsReportedAsFailure() {
+        assertFailure("review-1", "bob", -1.0,
+                "Rating must be between 0 and 100.");
+    }
+
+    private static void assertFailure(final String reviewId, final String username,
+                                      final double rating, final String expectedMessage) {
+        final RecordingPresenter presenter = new RecordingPresenter();
+
+        new EditReviewInteractor(new RecordingReviewDao(reviewByBob()), presenter).execute(
+                reviewId, username, rating, "Text");
+
+        assertEquals(expectedMessage, presenter.failure);
+    }
+
     private static Review reviewByBob() {
         final ZonedDateTime time = ZonedDateTime.parse("2026-01-01T12:00:00-05:00");
         return new Review("review-1", 42, "movie", "Example Movie", "bob", "Bob",
@@ -64,7 +100,7 @@ class EditReviewInteractorTest {
 
         @Override
         public Optional<Review> getReviewById(final String reviewId) {
-            return Optional.of(review);
+            return Optional.ofNullable(review);
         }
 
         @Override

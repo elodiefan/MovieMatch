@@ -38,6 +38,62 @@ class DeleteReviewInteractorTest {
         assertFalse(dataAccess.deleteCalled);
     }
 
+    @Test
+    void missingReviewCannotBeDeleted() {
+        final RecordingDataAccess dataAccess = new RecordingDataAccess(null, true);
+        final RecordingPresenter presenter = new RecordingPresenter();
+
+        new DeleteReviewInteractor(dataAccess, presenter).execute("review-1", "bob");
+
+        assertEquals("Review could not be deleted.", presenter.failure);
+        assertFalse(dataAccess.deleteCalled);
+    }
+
+    @Test
+    void failedDaoDeletionIsReportedAsFailure() {
+        final RecordingPresenter presenter = new RecordingPresenter();
+
+        new DeleteReviewInteractor(new RecordingDataAccess(reviewWrittenBy("bob"), false),
+                presenter).execute("review-1", "bob");
+
+        assertEquals("Review could not be deleted.", presenter.failure);
+    }
+
+    @Test
+    void blankReviewIdIsReportedAsFailure() {
+        assertFailure(" ", "bob", "Review id cannot be empty.");
+    }
+
+    @Test
+    void blankUsernameIsReportedAsFailure() {
+        assertFailure("review-1", " ", "Username cannot be empty.");
+    }
+
+    @Test
+    void nullReviewIdIsReportedAsFailure() {
+        assertFailure(null, "bob", "Review id cannot be empty.");
+    }
+
+    @Test
+    void nullUsernameIsReportedAsFailure() {
+        assertFailure("review-1", null, "Username cannot be empty.");
+    }
+
+    @Test
+    void missingDataAccessIsReportedAsFailure() {
+        final RecordingPresenter presenter = new RecordingPresenter();
+        new DeleteReviewInteractor(null, presenter).execute("review-1", "bob");
+        assertEquals("Review data access object has not been configured.",
+                presenter.failure);
+    }
+
+    private void assertFailure(String reviewId, String username, String expectedMessage) {
+        final RecordingPresenter presenter = new RecordingPresenter();
+        new DeleteReviewInteractor(new RecordingDataAccess(null, true), presenter)
+                .execute(reviewId, username);
+        assertEquals(expectedMessage, presenter.failure);
+    }
+
     private Review reviewWrittenBy(String username) {
         final ZonedDateTime time = ZonedDateTime.now();
         return new Review("review-1", 101, "movie", "Example Movie",

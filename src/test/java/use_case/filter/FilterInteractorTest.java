@@ -40,6 +40,44 @@ class FilterInteractorTest {
         assertEquals("Earliest year cannot be later than latest year", presenter.failure);
     }
 
+    @Test
+    void nullInputIsReportedAsFailure() {
+        final RecordingPresenter presenter = new RecordingPresenter();
+
+        new FilterInteractor(presenter).execute(null);
+
+        assertEquals("Filter input cannot be null", presenter.failure);
+    }
+
+    @Test
+    void nullOriginalResultsAreReportedAsFailure() {
+        final RecordingPresenter presenter = new RecordingPresenter();
+
+        new FilterInteractor(presenter).execute(new FilterInputData(null,
+                new FilterCriteria(null, null, null, null, null)));
+
+        assertEquals("Original search results cannot be null", presenter.failure);
+    }
+
+    @Test
+    void nullCriteriaAreReportedAsFailure() {
+        final RecordingPresenter presenter = new RecordingPresenter();
+
+        new FilterInteractor(presenter).execute(new FilterInputData(List.of(), null));
+
+        assertEquals("Filter criteria cannot be null", presenter.failure);
+    }
+
+    @Test
+    void invalidMinimumRatingIsReportedAsFailure() {
+        final RecordingPresenter presenter = new RecordingPresenter();
+
+        new FilterInteractor(presenter).execute(new FilterInputData(List.of(),
+                new FilterCriteria(null, 11.0, null, null, null)));
+
+        assertEquals("Minimum rating must be between 0 and 10", presenter.failure);
+    }
+
     private static MediaResultData media(final int id, final String title,
                                          final int year, final double rating,
                                          final int genreId, final String language) {

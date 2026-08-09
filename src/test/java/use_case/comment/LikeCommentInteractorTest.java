@@ -43,6 +43,28 @@ class LikeCommentInteractorTest {
         assertFalse(called[0]);
     }
 
+    @Test
+    void blankUsernamePresentsFailure() {
+        final RecordingPresenter presenter = new RecordingPresenter();
+        new LikeCommentInteractor((id, username) -> true, presenter)
+                .execute("comment-1", " ");
+        assertEquals("Username cannot be empty.", presenter.failure);
+    }
+
+    @Test
+    void missingDataAccessIsReportedAsFailure() {
+        final RecordingPresenter presenter = new RecordingPresenter();
+        new LikeCommentInteractor(null, presenter).execute("comment-1", "bob");
+        assertEquals("Comment data access object has not been configured.", presenter.failure);
+    }
+
+    @Test
+    void nullCommentIdIsReportedAsFailure() {
+        final RecordingPresenter presenter = new RecordingPresenter();
+        new LikeCommentInteractor((id, username) -> true, presenter).execute(null, "bob");
+        assertEquals("Comment id cannot be empty.", presenter.failure);
+    }
+
     private static final class RecordingPresenter implements LikeCommentOutputBoundary {
         private boolean success;
         private String failure;

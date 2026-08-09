@@ -45,6 +45,63 @@ class CreateCommentInteractorTest {
         assertEquals("Comment text cannot be empty.", presenter.failure);
     }
 
+    @Test
+    void blankReviewIdIsReportedAsFailure() {
+        assertFailure(" ", "bob", "Bob", "Text",
+                "Review id cannot be empty.");
+    }
+
+    @Test
+    void blankUsernameIsReportedAsFailure() {
+        assertFailure("review-1", " ", "Bob", "Text",
+                "Author username cannot be empty.");
+    }
+
+    @Test
+    void blankDisplayNameIsReportedAsFailure() {
+        assertFailure("review-1", "bob", " ", "Text",
+                "Author display name cannot be empty.");
+    }
+
+    @Test
+    void nullReviewIdIsReportedAsFailure() {
+        assertFailure(null, "bob", "Bob", "Text",
+                "Review id cannot be empty.");
+    }
+
+    @Test
+    void missingDataAccessIsReportedAsFailure() {
+        final RecordingPresenter presenter = new RecordingPresenter();
+
+        new CreateCommentInteractor(null, presenter).execute(
+                "review-1", null, "bob", "Bob", "Text");
+
+        assertEquals("Comment data access object has not been configured.",
+                presenter.failure);
+    }
+
+    @Test
+    void replyKeepsTrimmedParentCommentId() {
+        final RecordingCommentDao dao = new RecordingCommentDao();
+        final RecordingPresenter presenter = new RecordingPresenter();
+
+        new CreateCommentInteractor(dao, presenter).execute(
+                "review-1", " parent-1 ", "bob", "Bob", "Reply");
+
+        assertEquals("parent-1", dao.savedComment.getParentCommentId());
+    }
+
+    private static void assertFailure(final String reviewId, final String username,
+                                      final String displayName, final String text,
+                                      final String expectedMessage) {
+        final RecordingPresenter presenter = new RecordingPresenter();
+
+        new CreateCommentInteractor(new RecordingCommentDao(), presenter).execute(
+                reviewId, null, username, displayName, text);
+
+        assertEquals(expectedMessage, presenter.failure);
+    }
+
     private static final class RecordingCommentDao implements CreateCommentDataAccessInterface {
         private Comment savedComment;
 

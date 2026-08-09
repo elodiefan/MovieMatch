@@ -43,6 +43,65 @@ class DeleteCommentInteractorTest {
         assertFalse(dataAccess.deleteCalled);
     }
 
+    @Test
+    void missingCommentCannotBeDeleted() {
+        final RecordingDataAccess dataAccess = new RecordingDataAccess(null, true);
+        final RecordingPresenter presenter = new RecordingPresenter();
+
+        new DeleteCommentInteractor(dataAccess, presenter).execute("comment-1", "bob");
+
+        assertEquals("Comment could not be deleted.", presenter.failure);
+        assertFalse(dataAccess.deleteCalled);
+    }
+
+    @Test
+    void failedDaoDeletionIsReportedAsFailure() {
+        final Comment comment = new Comment("comment-1", "review-1", null,
+                "bob", "Bob", "Text", ZonedDateTime.now(), Set.of());
+        final RecordingPresenter presenter = new RecordingPresenter();
+
+        new DeleteCommentInteractor(new RecordingDataAccess(comment, false), presenter)
+                .execute("comment-1", "bob");
+
+        assertEquals("Comment could not be deleted.", presenter.failure);
+    }
+
+    @Test
+    void blankCommentIdIsReportedAsFailure() {
+        assertFailure(" ", "bob", "Comment id cannot be empty.");
+    }
+
+    @Test
+    void blankUsernameIsReportedAsFailure() {
+        assertFailure("comment-1", " ", "Username cannot be empty.");
+    }
+
+    @Test
+    void nullCommentIdIsReportedAsFailure() {
+        assertFailure(null, "bob", "Comment id cannot be empty.");
+    }
+
+    @Test
+    void nullUsernameIsReportedAsFailure() {
+        assertFailure("comment-1", null, "Username cannot be empty.");
+    }
+
+    @Test
+    void missingDataAccessIsReportedAsFailure() {
+        final RecordingPresenter presenter = new RecordingPresenter();
+        new DeleteCommentInteractor(null, presenter).execute("comment-1", "bob");
+        assertEquals("Comment data access object has not been configured.",
+                presenter.failure);
+    }
+
+    private static void assertFailure(final String commentId, final String username,
+                                      final String expectedMessage) {
+        final RecordingPresenter presenter = new RecordingPresenter();
+        new DeleteCommentInteractor(new RecordingDataAccess(null, true), presenter)
+                .execute(commentId, username);
+        assertEquals(expectedMessage, presenter.failure);
+    }
+
     private static final class RecordingDataAccess implements DeleteCommentDataAccessInterface {
         private final Comment comment;
         private final boolean deleteResult;

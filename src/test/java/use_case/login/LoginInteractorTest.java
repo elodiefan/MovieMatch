@@ -7,7 +7,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.junit.jupiter.api.Test;
 
-import entity.StandardUser;
+import entity.StandardUserFactory;
 import entity.User;
 
 class LoginInteractorTest {
@@ -83,7 +83,8 @@ class LoginInteractorTest {
     @Test
     void incorrectPasswordFailsWithoutChangingSession() {
         final FakeDataAccess dataAccess = new FakeDataAccess();
-        dataAccess.user = new StandardUser("bob", "Bob", "password1", "Question?", "answer");
+        dataAccess.user = new StandardUserFactory().create(
+                "bob", "Bob", "password1", "Question?", "answer");
         final RecordingPresenter presenter = new RecordingPresenter();
 
         new LoginInteractor(dataAccess, presenter).execute(new LoginInputData("bob", "wrong"));
@@ -96,7 +97,8 @@ class LoginInteractorTest {
     @Test
     void correctCredentialsSaveSessionAndSucceed() {
         final FakeDataAccess dataAccess = new FakeDataAccess();
-        dataAccess.user = new StandardUser("bob", "Bob", "password1", "Question?", "answer");
+        dataAccess.user = new StandardUserFactory().create(
+                "bob", "Bob", "password1", "Question?", "answer");
         final RecordingPresenter presenter = new RecordingPresenter();
 
         new LoginInteractor(dataAccess, presenter).execute(new LoginInputData("bob", "password1"));

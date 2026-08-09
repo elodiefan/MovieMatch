@@ -11,7 +11,7 @@ import java.util.Map;
 import org.junit.jupiter.api.Test;
 
 import entity.AccountLockout;
-import entity.StandardUser;
+import entity.StandardUserFactory;
 import entity.User;
 
 class SecurityQuestionInteractorTest {
@@ -131,7 +131,8 @@ class SecurityQuestionInteractorTest {
 
     private static FakeDataAccess userDataAccess() {
         final FakeDataAccess dataAccess = new FakeDataAccess();
-        dataAccess.user = new StandardUser("bob", "Bob", "password1", "First pet?", "Mochi");
+        dataAccess.user = new StandardUserFactory().create(
+                "bob", "Bob", "password1", "First pet?", "Mochi");
         return dataAccess;
     }
 }

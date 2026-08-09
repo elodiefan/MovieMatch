@@ -34,6 +34,29 @@ class ChangeDisplayNameInteractorTest {
         assertNull(presenter.success);
     }
 
+    @Test
+    void unknownUsernameIsReportedAsFailure() {
+        final RecordingPresenter presenter = new RecordingPresenter();
+
+        new ChangeDisplayNameInteractor(new RecordingDataAccess(false), presenter)
+                .changeDisplayName(new ChangeDisplayNameInputData("bob", "Bob", "Bobby"));
+
+        assertEquals("No account found with that username.", presenter.failure);
+        assertNull(presenter.success);
+    }
+
+    @Test
+    void displayNameLongerThanThirtyCharactersIsRejected() {
+        final RecordingPresenter presenter = new RecordingPresenter();
+
+        new ChangeDisplayNameInteractor(new RecordingDataAccess(true), presenter)
+                .changeDisplayName(new ChangeDisplayNameInputData(
+                        "bob", "Bob", "This display name is much too long"));
+
+        assertEquals("Display name must be less than 30 characters.", presenter.failure);
+        assertNull(presenter.success);
+    }
+
     private static final class RecordingDataAccess
             implements ChangeDisplayNameUserDataAccessInterface {
         private final boolean exists;

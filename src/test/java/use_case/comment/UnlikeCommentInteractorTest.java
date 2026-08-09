@@ -43,6 +43,29 @@ class UnlikeCommentInteractorTest {
         assertFalse(called[0]);
     }
 
+    @Test
+    void blankCommentIdPresentsFailure() {
+        final RecordingPresenter presenter = new RecordingPresenter();
+        new UnlikeCommentInteractor((id, username) -> true, presenter)
+                .execute(" ", "bob");
+        assertEquals("Comment id cannot be empty.", presenter.failure);
+    }
+
+    @Test
+    void missingDataAccessIsReportedAsFailure() {
+        final RecordingPresenter presenter = new RecordingPresenter();
+        new UnlikeCommentInteractor(null, presenter).execute("comment-1", "bob");
+        assertEquals("Comment data access object has not been configured.", presenter.failure);
+    }
+
+    @Test
+    void nullUsernameIsReportedAsFailure() {
+        final RecordingPresenter presenter = new RecordingPresenter();
+        new UnlikeCommentInteractor((id, username) -> true, presenter)
+                .execute("comment-1", null);
+        assertEquals("Username cannot be empty.", presenter.failure);
+    }
+
     private static final class RecordingPresenter implements UnlikeCommentOutputBoundary {
         private boolean success;
         private String failure;

@@ -56,17 +56,53 @@ class LogMediaInteractorTest {
         assertNull(presenter.failure);
     }
 
+    @Test
+    void nullMediaIsReportedAsFailure() {
+        final RecordingPresenter presenter = new RecordingPresenter();
+        new LogMediaInteractor(new RecordingMediaDao(), presenter).addToWatchlist(null);
+        assertEquals("No media selected.", presenter.failure);
+    }
+
+    @Test
+    void loggedOutUserCannotSaveMedia() {
+        final RecordingMediaDao dao = new RecordingMediaDao();
+        dao.currentUsername = " ";
+        final RecordingPresenter presenter = new RecordingPresenter();
+
+        new LogMediaInteractor(dao, presenter).addToWatchHistory(
+                new LogMediaInputData(42, "movie", "Example Movie"));
+
+        assertEquals("Please log in before saving media.", presenter.failure);
+    }
+
+    @Test
+    void missingMediaTypeIsReportedAsFailure() {
+        final RecordingPresenter presenter = new RecordingPresenter();
+        new LogMediaInteractor(new RecordingMediaDao(), presenter).addToWatchHistory(
+                new LogMediaInputData(42, " ", "Example Movie"));
+        assertEquals("Media type is missing.", presenter.failure);
+    }
+
+    @Test
+    void missingMediaTitleIsReportedAsFailure() {
+        final RecordingPresenter presenter = new RecordingPresenter();
+        new LogMediaInteractor(new RecordingMediaDao(), presenter).addToWatchHistory(
+                new LogMediaInputData(42, "movie", " "));
+        assertEquals("Media title is missing.", presenter.failure);
+    }
+
     private static final class RecordingMediaDao implements LogMediaDataAccessInterface {
         private boolean alreadyWatched;
         private boolean addedToWatchlist;
         private boolean addedToWatchHistory;
+        private String currentUsername = "bob";
         private String usernameReceived;
         private String mediaTypeReceived;
         private String timestampReceived;
 
         @Override
         public String getCurrentUsername() {
-            return "bob";
+            return currentUsername;
         }
 
         @Override

@@ -1,6 +1,6 @@
 package database;
 
-import entity.StandardUser;
+import entity.StandardUserFactory;
 import entity.User;
 
 /**
@@ -38,8 +38,8 @@ public final class MongoConnectionCheck {
             System.out.println("Connected.\n");
 
             // 1. Make sure the test account exists, with a known password.
-            dao.save(new StandardUser(TEST_USERNAME, "Test User", ORIGINAL_PASSWORD,
-                    "What is your pet's name?", "Fido"));
+            dao.save(new StandardUserFactory().create(TEST_USERNAME, "Test User",
+                    ORIGINAL_PASSWORD, "What is your pet's name?", "Fido"));
             System.out.println("1. saved '" + TEST_USERNAME + "' with password: " + ORIGINAL_PASSWORD);
 
             // 2. Read it back out of the database.

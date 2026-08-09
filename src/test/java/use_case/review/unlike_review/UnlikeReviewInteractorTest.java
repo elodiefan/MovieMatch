@@ -40,6 +40,29 @@ class UnlikeReviewInteractorTest {
         assertFalse(called[0]);
     }
 
+    @Test
+    void blankReviewIdPresentsFailure() {
+        final RecordingPresenter presenter = new RecordingPresenter();
+        new UnlikeReviewInteractor((id, username) -> true, presenter)
+                .execute(" ", "bob");
+        assertEquals("Review id cannot be empty.", presenter.failure);
+    }
+
+    @Test
+    void missingDataAccessIsReportedAsFailure() {
+        final RecordingPresenter presenter = new RecordingPresenter();
+        new UnlikeReviewInteractor(null, presenter).execute("review-1", "bob");
+        assertEquals("Review data access object has not been configured.", presenter.failure);
+    }
+
+    @Test
+    void nullUsernameIsReportedAsFailure() {
+        final RecordingPresenter presenter = new RecordingPresenter();
+        new UnlikeReviewInteractor((id, username) -> true, presenter)
+                .execute("review-1", null);
+        assertEquals("Username cannot be empty.", presenter.failure);
+    }
+
     private static final class RecordingPresenter implements UnlikeReviewOutputBoundary {
         private boolean success;
         private String failure;

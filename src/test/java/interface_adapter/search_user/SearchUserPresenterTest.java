@@ -9,7 +9,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import database.InMemoryUserDataAccessObject;
-import entity.StandardUser;
+import entity.StandardUserFactory;
 import use_case.search_user.SearchUserInputBoundary;
 import use_case.search_user.SearchUserInputData;
 import use_case.search_user.SearchUserInteractor;
@@ -27,8 +27,9 @@ class SearchUserPresenterTest {
     @BeforeEach
     void setUp() {
         final InMemoryUserDataAccessObject dataAccess = new InMemoryUserDataAccessObject();
-        dataAccess.save(new StandardUser("kiersten", "Kiersten", "pw", "q", "a"));
-        dataAccess.save(new StandardUser("lily", "Lily Fan", "pw", "q", "a"));
+        final StandardUserFactory userFactory = new StandardUserFactory();
+        dataAccess.save(userFactory.create("kiersten", "Kiersten", "pw", "q", "a"));
+        dataAccess.save(userFactory.create("lily", "Lily Fan", "pw", "q", "a"));
 
         viewModel = new SearchUserViewModel();
         interactor = new SearchUserInteractor(dataAccess, new SearchUserPresenter(viewModel));

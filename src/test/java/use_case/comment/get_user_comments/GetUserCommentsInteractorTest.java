@@ -54,6 +54,24 @@ class GetUserCommentsInteractorTest {
         assertEquals("Username cannot be empty.", presenter.failure);
     }
 
+    @Test
+    void missingRelatedReviewUsesEmptyMediaInformation() {
+        final ZonedDateTime time = ZonedDateTime.parse("2026-01-01T12:00:00-05:00");
+        final Comment comment = new Comment("comment-1", "missing-review", null,
+                "bob", "Bob", "Comment", time, new HashSet<>());
+        final RecordingPresenter presenter = new RecordingPresenter();
+
+        new GetUserCommentsInteractor(
+                username -> new ArrayList<>(List.of(comment)),
+                reviewId -> Optional.empty(), presenter).execute("bob");
+
+        final GetUserCommentsOutputData.UserCommentData result =
+                presenter.success.getComments().get(0);
+        assertEquals(0, result.getMediaId());
+        assertEquals("", result.getMediaTitle());
+        assertEquals("", result.getReviewText());
+    }
+
     private static final class RecordingPresenter implements GetUserCommentsOutputBoundary {
         private GetUserCommentsOutputData success;
         private String failure;
