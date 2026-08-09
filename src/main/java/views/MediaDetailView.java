@@ -45,8 +45,9 @@ public class MediaDetailView extends JPanel implements PropertyChangeListener {
     private static final int POSTER_WIDTH = 140;
     private static final int POSTER_HEIGHT = 210;
     private static final int DETAIL_GAP = 12;
+    private static final int NO_DETAIL_GAP = 0;
     private static final int LOG_MESSAGE_WIDTH = 360;
-    private static final int LOG_MESSAGE_HEIGHT = 80;
+    private static final int LOG_MESSAGE_HEIGHT = 48;
 
     private final String viewName = MediaDetailViewModel.VIEW_NAME;
 
@@ -143,9 +144,7 @@ public class MediaDetailView extends JPanel implements PropertyChangeListener {
                 event -> addCurrentMediaToWatchHistory()
         );
 
-        this.setLayout(
-                new BoxLayout(this, BoxLayout.Y_AXIS)
-        );
+        this.setLayout(new BorderLayout());
         this.setBorder(
                 BorderFactory.createEmptyBorder(
                         DETAIL_GAP,
@@ -155,7 +154,9 @@ public class MediaDetailView extends JPanel implements PropertyChangeListener {
                 )
         );
 
-        this.add(pageTitle);
+        final JPanel topPanel = new JPanel();
+        topPanel.setLayout(new BoxLayout(topPanel, BoxLayout.Y_AXIS));
+        topPanel.add(pageTitle);
 
         final JPanel informationPanel = new JPanel();
         informationPanel.setLayout(
@@ -187,19 +188,23 @@ public class MediaDetailView extends JPanel implements PropertyChangeListener {
         detailHeaderPanel.setAlignmentX(Component.LEFT_ALIGNMENT);
         detailHeaderPanel.setBorder(
                 BorderFactory.createEmptyBorder(
-                        DETAIL_GAP, 0, DETAIL_GAP, 0
+                        NO_DETAIL_GAP, 0, 0, 0
                 )
         );
         detailHeaderPanel.add(posterLabel, BorderLayout.WEST);
         detailHeaderPanel.add(informationPanel, BorderLayout.CENTER);
 
-        this.add(detailHeaderPanel);
+        topPanel.add(detailHeaderPanel);
+        this.add(topPanel, BorderLayout.NORTH);
+        this.add(mediaReviewsPanel, BorderLayout.CENTER);
 
-        this.add(mediaReviewsPanel);
-
-        this.add(backButton);
-
-        this.add(errorLabel);
+        final JPanel bottomPanel = new JPanel();
+        bottomPanel.setLayout(new BoxLayout(bottomPanel, BoxLayout.Y_AXIS));
+        backButton.setAlignmentX(Component.LEFT_ALIGNMENT);
+        errorLabel.setAlignmentX(Component.LEFT_ALIGNMENT);
+        bottomPanel.add(backButton);
+        bottomPanel.add(errorLabel);
+        this.add(bottomPanel, BorderLayout.SOUTH);
     }
 
     public String getViewName() {

@@ -3,6 +3,9 @@ package views;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dialog;
+import java.awt.BorderLayout;
+import java.awt.FlowLayout;
+import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.beans.PropertyChangeEvent;
@@ -13,6 +16,7 @@ import java.util.List;
 
 import javax.swing.Box;
 import javax.swing.BoxLayout;
+import javax.swing.AbstractButton;
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JDialog;
@@ -21,8 +25,10 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JToggleButton;
+import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.SwingUtilities;
+import javax.swing.UIManager;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 
@@ -52,6 +58,22 @@ public final class MediaReviewsPanel extends JPanel
      * The card gap.
      */
     private static final int CARD_GAP = 10;
+    /**
+     * The gap between the reviews heading and the write button.
+     */
+    private static final int HEADER_GAP = 8;
+    /**
+     * Scale used for content inside review cards.
+     */
+    private static final float REVIEW_SECTION_TEXT_SCALE = 0.85F;
+    /**
+     * Extra points added to the reviews title.
+     */
+    private static final float REVIEW_TITLE_SIZE_INCREASE = 2.0F;
+    /**
+     * Preferred columns for wrapped review body text.
+     */
+    private static final int REVIEW_TEXT_COLUMNS = 50;
     /**
      * The comment gap.
      */
@@ -109,6 +131,10 @@ public final class MediaReviewsPanel extends JPanel
      */
     private final JPanel reviewsPanel = new JPanel();
     /**
+     * Scroll area for the community reviews list.
+     */
+    private final JScrollPane reviewsScrollPane = new JScrollPane(reviewsPanel);
+    /**
      * The write review button.
      */
     private final JButton writeReviewButton =
@@ -159,17 +185,35 @@ public final class MediaReviewsPanel extends JPanel
         }
 
         final JLabel title = new JLabel(MediaReviewsViewModel.TITLE_LABEL);
-        title.setAlignmentX(Component.CENTER_ALIGNMENT);
-        mediaTitleLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
-
+        title.setFont(reviewSectionFont().deriveFont(Font.BOLD,
+                reviewSectionFont().getSize2D() + REVIEW_TITLE_SIZE_INCREASE));
+        mediaTitleLabel.setFont(reviewSectionFont());
+        errorLabel.setFont(reviewSectionFont());
+        styleReviewSectionButton(writeReviewButton);
         reviewsPanel.setLayout(new BoxLayout(reviewsPanel, BoxLayout.Y_AXIS));
 
-        setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
-        add(title);
-        add(mediaTitleLabel);
-        add(errorLabel);
-        add(writeReviewButton);
-        add(new JScrollPane(reviewsPanel));
+        final JPanel titlePanel = new JPanel();
+        titlePanel.setLayout(new BoxLayout(titlePanel, BoxLayout.Y_AXIS));
+        title.setAlignmentX(Component.LEFT_ALIGNMENT);
+        mediaTitleLabel.setAlignmentX(Component.LEFT_ALIGNMENT);
+        titlePanel.add(title);
+        titlePanel.add(mediaTitleLabel);
+
+        final JPanel buttonPanel = new JPanel(new FlowLayout(
+                FlowLayout.RIGHT, 0, 0));
+        buttonPanel.add(writeReviewButton);
+
+        final JPanel headerRow = new JPanel(new BorderLayout(HEADER_GAP, 0));
+        headerRow.add(titlePanel, BorderLayout.CENTER);
+        headerRow.add(buttonPanel, BorderLayout.EAST);
+
+        final JPanel headerPanel = new JPanel(new BorderLayout());
+        headerPanel.add(headerRow, BorderLayout.NORTH);
+        headerPanel.add(errorLabel, BorderLayout.SOUTH);
+
+        setLayout(new BorderLayout());
+        add(headerPanel, BorderLayout.NORTH);
+        add(reviewsScrollPane, BorderLayout.CENTER);
 
         writeReviewButton.addActionListener(new WriteReviewListener());
 
@@ -282,7 +326,7 @@ public final class MediaReviewsPanel extends JPanel
         reviewsPanel.removeAll();
 
         if (reviews.isEmpty()) {
-            reviewsPanel.add(new JLabel(
+            reviewsPanel.add(createReviewLabel(
                     MediaReviewsViewModel.EMPTY_REVIEWS_MESSAGE));
         } else {
         for (MediaReviewRow review : reviews) {
@@ -306,22 +350,42 @@ public final class MediaReviewsPanel extends JPanel
         card.setAlignmentX(Component.LEFT_ALIGNMENT);
         highlightSelectedReview(card, review);
 
-        card.add(new JLabel(review.getAuthorDisplayName()
+        card.add(createReviewLabel(review.getAuthorDisplayName()
                 + " (@" + review.getAuthorUsername() + ")"));
-        card.add(new JLabel("Rating: " + review.getRating() + "%"));
-        card.add(new JLabel("Created: " + formatTime(review.getCreatedAt())));
-        card.add(new JLabel("Updated: " + formatTime(review.getUpdatedAt())));
-        card.add(new JLabel("Likes: " + review.getLikeCount()));
-        card.add(new JLabel(review.getReviewText()));
+        card.add(createReviewLabel("Rating: " + review.getRating() + "%"));
+        card.add(createReviewLabel("Created: " + formatTime(review.getCreatedAt())));
+        card.add(createReviewLabel("Updated: " + formatTime(review.getUpdatedAt())));
+        card.add(createReviewLabel("Likes: " + review.getLikeCount()));
+        card.add(createReviewSectionTextArea(review.getReviewText()));
         if (isMovieMatchReview(review)) {
             card.add(createButtonPanel(review));
         } else {
-            card.add(new JLabel("External TMDB review"));
+            card.add(createReviewLabel("External TMDB review"));
             card.add(createExternalReviewButtonPanel(review));
         }
         card.add(createCommentsSection(review.getReviewId()));
 
         return card;
+    }
+
+    private JLabel createReviewLabel(final String text) {
+        final JLabel label = new JLabel(text);
+        label.setAlignmentX(Component.LEFT_ALIGNMENT);
+        label.setFont(reviewSectionFont());
+        return label;
+    }
+
+    private JTextArea createReviewSectionTextArea(final String text) {
+        final JTextArea textArea = new JTextArea(text);
+        textArea.setEditable(false);
+        textArea.setFocusable(false);
+        textArea.setOpaque(false);
+        textArea.setLineWrap(true);
+        textArea.setWrapStyleWord(true);
+        textArea.setColumns(REVIEW_TEXT_COLUMNS);
+        textArea.setAlignmentX(Component.LEFT_ALIGNMENT);
+        textArea.setFont(reviewSectionFont());
+        return textArea;
     }
 
     /**
@@ -351,10 +415,12 @@ public final class MediaReviewsPanel extends JPanel
         final JPanel buttonPanel = new JPanel();
         buttonPanel.setLayout(new BoxLayout(buttonPanel, BoxLayout.X_AXIS));
         buttonPanel.setAlignmentX(Component.LEFT_ALIGNMENT);
-        final JButton editButton =
+            final JButton editButton =
                 new JButton(MediaReviewsViewModel.EDIT_BUTTON_LABEL);
         final JButton deleteButton =
                 new JButton(MediaReviewsViewModel.DELETE_BUTTON_LABEL);
+        styleReviewSectionButton(editButton);
+        styleReviewSectionButton(deleteButton);
         final JToggleButton heartButton = createHeartButton(
                 MediaReviewsViewModel.LIKE_BUTTON_LABEL);
         final boolean ownedByCurrentUser = isWrittenByCurrentUser(
@@ -413,7 +479,7 @@ public final class MediaReviewsPanel extends JPanel
         section.setAlignmentX(Component.LEFT_ALIGNMENT);
 
         if (commentsViewModel != null) {
-            section.add(new JLabel(CommentsViewModel.TITLE_LABEL));
+            section.add(createReviewLabel(CommentsViewModel.TITLE_LABEL));
             section.add(createWriteCommentButton(reviewId));
             boolean hasComments = false;
             for (CommentRow comment : commentsViewModel.getState()
@@ -425,7 +491,7 @@ public final class MediaReviewsPanel extends JPanel
                 }
             }
             if (!hasComments) {
-                section.add(new JLabel(
+                section.add(createReviewLabel(
                         CommentsViewModel.EMPTY_COMMENTS_MESSAGE));
             }
         }
@@ -442,6 +508,7 @@ public final class MediaReviewsPanel extends JPanel
         final JButton commentButton =
                 new JButton(CommentsViewModel.WRITE_COMMENT_BUTTON_LABEL);
         commentButton.setAlignmentX(Component.LEFT_ALIGNMENT);
+        styleReviewSectionButton(commentButton);
         commentButton.addActionListener(new WriteCommentListener(reviewId));
         return commentButton;
     }
@@ -459,11 +526,11 @@ public final class MediaReviewsPanel extends JPanel
         card.setAlignmentX(Component.LEFT_ALIGNMENT);
         highlightSelectedComment(card, comment);
 
-        card.add(new JLabel(comment.getAuthorDisplayName()
+        card.add(createReviewLabel(comment.getAuthorDisplayName()
                 + " (@" + comment.getAuthorUsername() + ")"));
-        card.add(new JLabel("Created: " + formatTime(comment.getCreatedAt())));
-        card.add(new JLabel("Likes: " + comment.getLikeCount()));
-        card.add(new JLabel(comment.getCommentText()));
+        card.add(createReviewLabel("Created: " + formatTime(comment.getCreatedAt())));
+        card.add(createReviewLabel("Likes: " + comment.getLikeCount()));
+        card.add(createReviewSectionTextArea(comment.getCommentText()));
         card.add(createCommentButtonPanel(comment));
 
         return card;
@@ -502,6 +569,8 @@ public final class MediaReviewsPanel extends JPanel
                 new JButton(CommentsViewModel.REPLY_BUTTON_LABEL);
         final JButton deleteButton =
                 new JButton(CommentsViewModel.DELETE_BUTTON_LABEL);
+        styleReviewSectionButton(replyButton);
+        styleReviewSectionButton(deleteButton);
         final JToggleButton heartButton = createHeartButton(
                 CommentsViewModel.LIKE_BUTTON_LABEL);
         final boolean ownedByCurrentUser = isWrittenByCurrentUser(
@@ -534,8 +603,22 @@ public final class MediaReviewsPanel extends JPanel
      */
     private JToggleButton createHeartButton(final String tooltip) {
         final JToggleButton heartButton = new JToggleButton(HEART_UNSELECTED);
+        styleReviewSectionButton(heartButton);
         heartButton.setToolTipText(tooltip);
         return heartButton;
+    }
+
+    private void styleReviewSectionButton(final AbstractButton button) {
+        button.setFont(reviewSectionFont());
+    }
+
+    private Font reviewSectionFont() {
+        Font baseFont = UIManager.getFont("Label.font");
+        if (baseFont == null) {
+            baseFont = getFont();
+        }
+        return baseFont.deriveFont(
+                baseFont.getSize2D() * REVIEW_SECTION_TEXT_SCALE);
     }
 
     /**
