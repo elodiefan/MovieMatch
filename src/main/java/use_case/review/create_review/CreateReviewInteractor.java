@@ -3,8 +3,8 @@ package use_case.review.create_review;
 import java.util.HashSet;
 import java.util.UUID;
 
+import entity.AbstractUserContent;
 import entity.Review;
-import entity.UserContent;
 
 /**
  * Interactor for creating a review.
@@ -170,8 +170,8 @@ public final class CreateReviewInteractor implements CreateReviewInputBoundary {
                 trimmedMediaTitle, releaseYear, trimmedPosterPath,
                 trimmedAuthorUsername,
                 trimmedAuthorDisplayName, rating, trimmedReviewText,
-                UserContent.getCurrentTorontoTime(),
-                UserContent.getCurrentTorontoTime(), MOVIEMATCH_SOURCE,
+                AbstractUserContent.getCurrentTorontoTime(),
+                AbstractUserContent.getCurrentTorontoTime(), MOVIEMATCH_SOURCE,
                 new HashSet<>());
         if (reviewDataAccessObject != null) {
             reviewDataAccessObject.saveReview(review);

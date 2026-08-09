@@ -3,8 +3,8 @@ package use_case.review.edit_review;
 import java.time.ZonedDateTime;
 import java.util.Optional;
 
+import entity.AbstractUserContent;
 import entity.Review;
-import entity.UserContent;
 
 /**
  * Interactor for editing a review.
@@ -124,7 +124,7 @@ public final class EditReviewInteractor implements EditReviewInputBoundary {
         validateEditReviewData(review, newRating);
 
         review.edit(newRating, trimToEmpty(newReviewText),
-                UserContent.getCurrentTorontoTime());
+                AbstractUserContent.getCurrentTorontoTime());
         return review;
     }
 
@@ -189,7 +189,7 @@ public final class EditReviewInteractor implements EditReviewInputBoundary {
     private Review editPersistedReview(final Review review,
                                        final double newRating,
                                        final String newReviewText) {
-        final ZonedDateTime updatedAt = UserContent.getCurrentTorontoTime();
+        final ZonedDateTime updatedAt = AbstractUserContent.getCurrentTorontoTime();
         reviewDataAccessObject.editReview(review.getReviewId(), newRating,
                 newReviewText, updatedAt);
         review.edit(newRating, newReviewText, updatedAt);

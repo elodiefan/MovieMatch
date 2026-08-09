@@ -3,8 +3,8 @@ package use_case.comment.create_comment;
 import java.util.HashSet;
 import java.util.UUID;
 
+import entity.AbstractUserContent;
 import entity.Comment;
-import entity.UserContent;
 
 /**
  * Interactor for creating a comment.
@@ -98,7 +98,7 @@ public final class CreateCommentInteractor
         final Comment comment = new Comment(UUID.randomUUID().toString(),
                 trimmedReviewId, trimmedParentCommentId,
                 trimmedAuthorUsername, trimmedAuthorDisplayName,
-                trimmedCommentText, UserContent.getCurrentTorontoTime(),
+                trimmedCommentText, AbstractUserContent.getCurrentTorontoTime(),
                 new HashSet<>());
         if (commentDataAccessObject != null) {
             commentDataAccessObject.saveComment(comment);

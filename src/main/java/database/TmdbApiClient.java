@@ -32,27 +32,6 @@ public class TmdbApiClient {
     private final String accessToken;
 
     /**
-     * Small HTTP boundary used to keep network behaviour replaceable in tests.
-     */
-    interface RequestSender {
-        Response send(HttpRequest request)
-                throws IOException, InterruptedException;
-    }
-
-    /**
-     * Only the response data this client needs.
-     */
-    static final class Response {
-        private final int statusCode;
-        private final String body;
-
-        Response(int statusCode, String body) {
-            this.statusCode = statusCode;
-            this.body = body;
-        }
-    }
-
-    /**
      * Creates a client for accessing the TMDB API.
      */
     public TmdbApiClient() {
@@ -405,5 +384,26 @@ public class TmdbApiClient {
      */
     public String getTvShows(String categoryPath) throws IOException {
         return sendGetRequest(categoryPath);
+    }
+
+    /**
+     * Small HTTP boundary used to keep network behaviour replaceable in tests.
+     */
+    interface RequestSender {
+        Response send(HttpRequest request)
+                throws IOException, InterruptedException;
+    }
+
+    /**
+     * Only the response data this client needs.
+     */
+    static final class Response {
+        private final int statusCode;
+        private final String body;
+
+        Response(int statusCode, String body) {
+            this.statusCode = statusCode;
+            this.body = body;
+        }
     }
 }

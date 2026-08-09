@@ -119,7 +119,8 @@ public final class UnlikeReviewInteractor implements UnlikeReviewInputBoundary {
         final String trimmedValue;
         if (value == null) {
             trimmedValue = "";
-        } else {
+        }
+        else {
             trimmedValue = value.trim();
         }
         return trimmedValue;

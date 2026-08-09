@@ -653,50 +653,6 @@ public final class MediaReviewsPanel extends JPanel
     }
 
     /**
-     * Clears the selected review when writing a new review.
-     */
-    private final class WriteReviewListener implements ActionListener {
-        @Override
-        public void actionPerformed(final ActionEvent event) {
-            final MediaReviewsState state = mediaReviewsViewModel.getState();
-            state.setSelectedReviewId("");
-            if (mediaReviewsController != null && hasCurrentUser()) {
-                final boolean canCreateReview =
-                        mediaReviewsController.canCreateReview(
-                                state.getMediaId(), state.getMediaType(),
-                                currentUsername);
-                if (canCreateReview) {
-                    final Double rating =
-                            promptForRating("Rating percentage:");
-                    if (rating != null) {
-                        final String reviewText =
-                                JOptionPane.showInputDialog(
-                                        MediaReviewsPanel.this,
-                                        "Review text:");
-                        mediaReviewsController.createReview(
-                                state.getMediaId(), state.getMediaType(),
-                                state.getMediaTitle(),
-                                state.getReleaseYear(),
-                                state.getPosterPath(), currentUsername,
-                                currentDisplayName, rating, reviewText);
-                        if (isBlank(mediaReviewsViewModel.getState()
-                                .getMediaReviewsError())) {
-                            mediaReviewsController.loadMediaReviews(
-                                    state.getMediaId(),
-                                    state.getMediaType());
-                        }
-                    }
-                }
-                else {
-                    JOptionPane.showMessageDialog(MediaReviewsPanel.this,
-                            getReviewPermissionMessage());
-                }
-            }
-            mediaReviewsViewModel.firePropertyChanged();
-        }
-    }
-
-    /**
      * Returns the review permission message shown before writing a review.
      * @return the review permission message
      */
@@ -711,49 +667,6 @@ public final class MediaReviewsPanel extends JPanel
             message = errorMessage;
         }
         return message;
-    }
-
-    /**
-     * Selects a review in the view model state.
-     */
-    private final class SelectReviewListener implements ActionListener {
-        /**
-         * The review id.
-         */
-        private final String reviewId;
-
-        private SelectReviewListener(final String inputReviewId) {
-            this.reviewId = inputReviewId;
-        }
-
-        @Override
-        public void actionPerformed(final ActionEvent event) {
-            final MediaReviewsState state = mediaReviewsViewModel.getState();
-            state.setSelectedReviewId(reviewId);
-            if (mediaReviewsController != null && !isBlank(currentUsername)) {
-                final String command =
-                        ((JButton) event.getSource()).getText();
-                if (MediaReviewsViewModel.DELETE_BUTTON_LABEL.equals(command)) {
-                    mediaReviewsController.deleteReview(reviewId,
-                            currentUsername);
-                }
-                else {
-                    final Double rating =
-                            promptForRating("New rating percentage:");
-                    if (rating != null) {
-                        final String reviewText =
-                                JOptionPane.showInputDialog(
-                                        MediaReviewsPanel.this,
-                                        "New review text:");
-                        mediaReviewsController.editReview(reviewId,
-                                currentUsername, rating, reviewText);
-                    }
-                }
-                mediaReviewsController.loadMediaReviews(state.getMediaId(),
-                        state.getMediaType());
-            }
-            mediaReviewsViewModel.firePropertyChanged();
-        }
     }
 
     /**
@@ -812,6 +725,50 @@ public final class MediaReviewsPanel extends JPanel
             rating = null;
         }
         return rating;
+    }
+
+    /**
+     * Clears the selected review when writing a new review.
+     */
+    private final class WriteReviewListener implements ActionListener {
+        @Override
+        public void actionPerformed(final ActionEvent event) {
+            final MediaReviewsState state = mediaReviewsViewModel.getState();
+            state.setSelectedReviewId("");
+            if (mediaReviewsController != null && hasCurrentUser()) {
+                final boolean canCreateReview =
+                        mediaReviewsController.canCreateReview(
+                                state.getMediaId(), state.getMediaType(),
+                                currentUsername);
+                if (canCreateReview) {
+                    final Double rating =
+                            promptForRating("Rating percentage:");
+                    if (rating != null) {
+                        final String reviewText =
+                                JOptionPane.showInputDialog(
+                                        MediaReviewsPanel.this,
+                                        "Review text:");
+                        mediaReviewsController.createReview(
+                                state.getMediaId(), state.getMediaType(),
+                                state.getMediaTitle(),
+                                state.getReleaseYear(),
+                                state.getPosterPath(), currentUsername,
+                                currentDisplayName, rating, reviewText);
+                        if (isBlank(mediaReviewsViewModel.getState()
+                                .getMediaReviewsError())) {
+                            mediaReviewsController.loadMediaReviews(
+                                    state.getMediaId(),
+                                    state.getMediaType());
+                        }
+                    }
+                }
+                else {
+                    JOptionPane.showMessageDialog(MediaReviewsPanel.this,
+                            getReviewPermissionMessage());
+                }
+            }
+            mediaReviewsViewModel.firePropertyChanged();
+        }
     }
 
     private final class RatingValidationListener implements DocumentListener {
@@ -1012,6 +969,49 @@ public final class MediaReviewsPanel extends JPanel
                 commentsViewModel.getState().setSelectedCommentId(commentId);
                 commentsViewModel.firePropertyChanged();
             }
+        }
+    }
+
+    /**
+     * Selects a review in the view model state.
+     */
+    private final class SelectReviewListener implements ActionListener {
+        /**
+         * The review id.
+         */
+        private final String reviewId;
+
+        private SelectReviewListener(final String inputReviewId) {
+            this.reviewId = inputReviewId;
+        }
+
+        @Override
+        public void actionPerformed(final ActionEvent event) {
+            final MediaReviewsState state = mediaReviewsViewModel.getState();
+            state.setSelectedReviewId(reviewId);
+            if (mediaReviewsController != null && !isBlank(currentUsername)) {
+                final String command =
+                        ((JButton) event.getSource()).getText();
+                if (MediaReviewsViewModel.DELETE_BUTTON_LABEL.equals(command)) {
+                    mediaReviewsController.deleteReview(reviewId,
+                            currentUsername);
+                }
+                else {
+                    final Double rating =
+                            promptForRating("New rating percentage:");
+                    if (rating != null) {
+                        final String reviewText =
+                                JOptionPane.showInputDialog(
+                                        MediaReviewsPanel.this,
+                                        "New review text:");
+                        mediaReviewsController.editReview(reviewId,
+                                currentUsername, rating, reviewText);
+                    }
+                }
+                mediaReviewsController.loadMediaReviews(state.getMediaId(),
+                        state.getMediaType());
+            }
+            mediaReviewsViewModel.firePropertyChanged();
         }
     }
 }

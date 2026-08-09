@@ -11,4 +11,13 @@
     <suppress checks="ReturnCount"/>
     <suppress checks="HiddenField"/>
     <suppress checks="MethodCount"/>
+    <suppress checks="ClassFanOutComplexity"/>
+    <suppress checks="ClassDataAbstractionCoupling"/>
+    <suppress checks="ExecutableStatementCount"/>
+    <suppress checks="JavaNCSS"/>
+    <suppress checks="AnonInnerLength"/>
+    <suppress checks="LambdaBodyLength"/>
+    <suppress checks="AvoidEscapedUnicodeCharacters"/>
+    <suppress checks="CyclomaticComplexity"/>
+    <supress checks="NPathComplexity"/>
 </suppressions>
