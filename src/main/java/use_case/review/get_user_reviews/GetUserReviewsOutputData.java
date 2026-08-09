@@ -1,8 +1,8 @@
 package use_case.review.get_user_reviews;
 
+import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.List;
-import java.time.ZonedDateTime;
 
 /**
  * Output data for loading reviews written by one user.

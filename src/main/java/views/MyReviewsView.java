@@ -4,8 +4,8 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Cursor;
-import java.awt.Dimension;
 import java.awt.Dialog;
+import java.awt.Dimension;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -36,16 +36,16 @@ import javax.swing.SwingWorker;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 
-import interface_adapter.user_reviews.UserCommentRow;
-import interface_adapter.user_reviews.UserReviewRow;
-import interface_adapter.user_reviews.UserReviewsController;
-import interface_adapter.user_reviews.UserReviewsState;
-import interface_adapter.user_reviews.UserReviewsViewModel;
 import interface_adapter.comments.CommentsState;
 import interface_adapter.comments.CommentsViewModel;
 import interface_adapter.media_detail.MediaDetailController;
 import interface_adapter.media_reviews.MediaReviewsState;
 import interface_adapter.media_reviews.MediaReviewsViewModel;
+import interface_adapter.user_reviews.UserCommentRow;
+import interface_adapter.user_reviews.UserReviewRow;
+import interface_adapter.user_reviews.UserReviewsController;
+import interface_adapter.user_reviews.UserReviewsState;
+import interface_adapter.user_reviews.UserReviewsViewModel;
 
 /**
  * Swing view for a user's reviews.
