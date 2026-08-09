@@ -11,10 +11,10 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.WindowConstants;
 
-import views.*;
-
 import database.*;
-
+import entity.StandardUserFactory;
+import entity.UserFactory;
+import interface_adapter.ViewManagerModel;
 import interface_adapter.change_display_name.ChangeDisplayNameController;
 import interface_adapter.change_display_name.ChangeDisplayNamePresenter;
 import interface_adapter.change_display_name.ChangeDisplayNameViewModel;
@@ -34,60 +34,63 @@ import interface_adapter.get_lists.GetListsPresenter;
 import interface_adapter.get_lists.GetListsViewModel;
 import interface_adapter.home_page.HomePageController;
 import interface_adapter.home_page.HomePagePresenter;
+import interface_adapter.home_page.HomePageViewModel;
 import interface_adapter.log_media.LogMediaController;
 import interface_adapter.log_media.LogMediaPresenter;
 import interface_adapter.log_media.LogMediaViewModel;
+import interface_adapter.logged_in.LoggedInViewModel;
+import interface_adapter.login.LoginController;
+import interface_adapter.login.LoginPresenter;
+import interface_adapter.login.LoginViewModel;
+import interface_adapter.logout.LogoutController;
+import interface_adapter.logout.LogoutPresenter;
+import interface_adapter.logout.LogoutViewModel;
 import interface_adapter.media_detail.MediaDetailController;
 import interface_adapter.media_detail.MediaDetailPresenter;
 import interface_adapter.media_detail.MediaDetailViewModel;
 import interface_adapter.media_reviews.MediaReviewsController;
 import interface_adapter.media_reviews.MediaReviewsPresenter;
 import interface_adapter.media_reviews.MediaReviewsViewModel;
+import interface_adapter.messaging.MessagingController;
+import interface_adapter.messaging.MessagingPresenter;
+import interface_adapter.messaging.MessagingViewModel;
 import interface_adapter.other_account.OtherAccountController;
 import interface_adapter.other_account.OtherAccountPresenter;
 import interface_adapter.other_account.OtherAccountViewModel;
 import interface_adapter.personal_account.PersonalAccountController;
 import interface_adapter.personal_account.PersonalAccountPresenter;
 import interface_adapter.personal_account.PersonalAccountViewModel;
+import interface_adapter.recommendation.RecommendationViewModel;
 import interface_adapter.reset_password.ResetPasswordController;
 import interface_adapter.reset_password.ResetPasswordPresenter;
 import interface_adapter.reset_password.ResetPasswordViewModel;
-import use_case.change_display_name.ChangeDisplayNameInputBoundary;
-import use_case.change_display_name.ChangeDisplayNameInteractor;
-import use_case.change_display_name.ChangeDisplayNameOutputBoundary;
-import use_case.change_username.ChangeUsernameInputBoundary;
-import use_case.change_username.ChangeUsernameInteractor;
-import use_case.change_username.ChangeUsernameOutputBoundary;
-import interface_adapter.search_user.SearchUserViewModel;
 import interface_adapter.search.SearchViewModel;
-import interface_adapter.recommendation.RecommendationViewModel;
 import interface_adapter.search_result.SearchResultViewModel;
-import interface_adapter.settings.SettingsController;
-import interface_adapter.settings.SettingsPresenter;
-import interface_adapter.settings.SettingsViewModel;
-import use_case.settings.SettingsInputBoundary;
-import use_case.settings.SettingsInteractor;
-import use_case.settings.SettingsOutputBoundary;
+import interface_adapter.search_user.SearchUserViewModel;
 import interface_adapter.security_question.SecurityQuestionController;
 import interface_adapter.security_question.SecurityQuestionPresenter;
 import interface_adapter.security_question.SecurityQuestionViewModel;
-import entity.StandardUserFactory;
-import entity.UserFactory;
-import interface_adapter.ViewManagerModel;
-import interface_adapter.home_page.HomePageViewModel;
-import interface_adapter.login.LoginController;
-import interface_adapter.login.LoginPresenter;
-import interface_adapter.login.LoginViewModel;
-import interface_adapter.logged_in.LoggedInViewModel;
-import interface_adapter.logout.LogoutController;
-import interface_adapter.logout.LogoutPresenter;
-import interface_adapter.logout.LogoutViewModel;
+import interface_adapter.settings.SettingsController;
+import interface_adapter.settings.SettingsPresenter;
+import interface_adapter.settings.SettingsViewModel;
 import interface_adapter.signup.SignupController;
 import interface_adapter.signup.SignupPresenter;
 import interface_adapter.signup.SignupViewModel;
 import interface_adapter.user_reviews.UserReviewsController;
 import interface_adapter.user_reviews.UserReviewsPresenter;
 import interface_adapter.user_reviews.UserReviewsViewModel;
+import use_case.access_message_chat.AccessMessageChatInputBoundary;
+import use_case.access_message_chat.AccessMessageChatInteractor;
+import use_case.access_message_chat.AccessMessageChatOutputBoundary;
+import use_case.block_user.BlockUserInputBoundary;
+import use_case.block_user.BlockUserInteractor;
+import use_case.block_user.BlockUserOutputBoundary;
+import use_case.change_display_name.ChangeDisplayNameInputBoundary;
+import use_case.change_display_name.ChangeDisplayNameInteractor;
+import use_case.change_display_name.ChangeDisplayNameOutputBoundary;
+import use_case.change_username.ChangeUsernameInputBoundary;
+import use_case.change_username.ChangeUsernameInteractor;
+import use_case.change_username.ChangeUsernameOutputBoundary;
 import use_case.comment.create_comment.CreateCommentInteractor;
 import use_case.comment.delete_comment.DeleteCommentInteractor;
 import use_case.comment.get_review_comments.GetReviewCommentsInteractor;
@@ -95,8 +98,12 @@ import use_case.comment.get_user_comments.GetUserCommentsInputBoundary;
 import use_case.comment.get_user_comments.GetUserCommentsInteractor;
 import use_case.comment.like_comment.LikeCommentInteractor;
 import use_case.comment.unlike_comment.UnlikeCommentInteractor;
-import use_case.block_user.BlockUserInputBoundary;
-import use_case.block_user.BlockUserInteractor;
+import use_case.delete_account.DeleteAccountInputBoundary;
+import use_case.delete_account.DeleteAccountInteractor;
+import use_case.delete_account.DeleteAccountOutputBoundary;
+import use_case.fetch_chat_history.FetchChatHistoryInputBoundary;
+import use_case.fetch_chat_history.FetchChatHistoryInteractor;
+import use_case.fetch_chat_history.FetchChatHistoryOutputBoundary;
 import use_case.filter.FilterInputBoundary;
 import use_case.filter.FilterInteractor;
 import use_case.filter.FilterOutputBoundary;
@@ -106,30 +113,27 @@ import use_case.get_lists.get_blocked_users.GetBlockedUsersOutputBoundary;
 import use_case.get_lists.get_watch_history.GetWatchHistoryInputBoundary;
 import use_case.get_lists.get_watch_history.GetWatchHistoryInteractor;
 import use_case.get_lists.get_watch_history.GetWatchHistoryOutputBoundary;
+import use_case.get_lists.get_watchlist.GetWatchlistInputBoundary;
+import use_case.get_lists.get_watchlist.GetWatchlistInteractor;
 import use_case.get_lists.get_watchlist.GetWatchlistOutputBoundary;
 import use_case.get_profile.GetProfileInputBoundary;
 import use_case.get_profile.GetProfileInteractor;
 import use_case.get_profile.GetProfileOutputBoundary;
-import use_case.delete_account.DeleteAccountInputBoundary;
-import use_case.delete_account.DeleteAccountInteractor;
-import use_case.delete_account.DeleteAccountOutputBoundary;
-import use_case.get_lists.get_watchlist.GetWatchlistInputBoundary;
-import use_case.get_lists.get_watchlist.GetWatchlistInteractor;
 import use_case.get_security_question.GetSecurityQuestionInputBoundary;
 import use_case.get_security_question.GetSecurityQuestionInteractor;
 import use_case.get_security_question.GetSecurityQuestionOutputBoundary;
-import use_case.media_detail.MediaDetailInputBoundary;
-import use_case.media_detail.MediaDetailInteractor;
-import use_case.media_detail.MediaDetailOutputBoundary;
-import use_case.login.LoginInputBoundary;
-import use_case.login.LoginInteractor;
-import use_case.login.LoginOutputBoundary;
 import use_case.log_media.LogMediaInputBoundary;
 import use_case.log_media.LogMediaInteractor;
 import use_case.log_media.LogMediaOutputBoundary;
+import use_case.login.LoginInputBoundary;
+import use_case.login.LoginInteractor;
+import use_case.login.LoginOutputBoundary;
 import use_case.logout.LogoutInputBoundary;
 import use_case.logout.LogoutInteractor;
 import use_case.logout.LogoutOutputBoundary;
+import use_case.media_detail.MediaDetailInputBoundary;
+import use_case.media_detail.MediaDetailInteractor;
+import use_case.media_detail.MediaDetailOutputBoundary;
 import use_case.reset_password.ResetPasswordInputBoundary;
 import use_case.reset_password.ResetPasswordInteractor;
 import use_case.reset_password.ResetPasswordOutputBoundary;
@@ -149,9 +153,16 @@ import use_case.review.unlike_review.UnlikeReviewInteractor;
 import use_case.security_question.SecurityQuestionInputBoundary;
 import use_case.security_question.SecurityQuestionInteractor;
 import use_case.security_question.SecurityQuestionOutputBoundary;
+import use_case.send_message.SendMessageInputBoundary;
+import use_case.send_message.SendMessageInteractor;
+import use_case.send_message.SendMessageOutputBoundary;
+import use_case.settings.SettingsInputBoundary;
+import use_case.settings.SettingsInteractor;
+import use_case.settings.SettingsOutputBoundary;
 import use_case.signup.SignupInputBoundary;
 import use_case.signup.SignupInteractor;
 import use_case.signup.SignupOutputBoundary;
+import views.*;
 
 /**
  * The AppBuilder class is responsible for putting together the pieces of
@@ -188,6 +199,8 @@ public class AppBuilder {
             new MongoReviewDataAccessObject();
     private final MongoCommentDataAccessObject commentDataAccessObject =
             new MongoCommentDataAccessObject();
+    private final MongoMessagesDataAccessObject mongoMessagesDataAccessObject =
+            new MongoMessagesDataAccessObject();
 
     // Counts failed security answers and holds lock-outs. One shared instance, so
     // every attempt on the same account is counted together.
@@ -219,6 +232,8 @@ public class AppBuilder {
     private PersonalAccountViewModel personalAccountViewModel;
     private ResetPasswordView resetPasswordView;
     private ResetPasswordViewModel resetPasswordViewModel;
+    private MessagingView messagingView;
+    private MessagingViewModel messagingViewModel;
     private MyReviewsView userReviewsView;
     private UserReviewsViewModel userReviewsViewModel;
     private SecurityQuestionView securityQuestionView;
@@ -368,12 +383,14 @@ public class AppBuilder {
         // The presenter accepts a reviews view model but currently discards it,
         // so this is inert until that part of the presenter is finished.
         final OtherAccountPresenter otherAccountPresenter = new OtherAccountPresenter(viewManagerModel,
-                otherAccountViewModel);
+                otherAccountViewModel, messagingViewModel);
         final BlockUserInputBoundary blockUserInteractor = new BlockUserInteractor(userDataAccessObject,
                 otherAccountPresenter);
+        final AccessMessageChatInteractor accessMessageChatInteractor = new AccessMessageChatInteractor(
+                userDataAccessObject, mongoMessagesDataAccessObject, otherAccountPresenter);
 
         final OtherAccountController otherAccountController = new OtherAccountController(viewManagerModel,
-                blockUserInteractor, createGetListsController(), null);
+                blockUserInteractor, createGetListsController(), accessMessageChatInteractor);
         otherAccountView.setOtherAccountController(otherAccountController);
         return this;
     }
@@ -499,7 +516,7 @@ public class AppBuilder {
         final DeleteAccountOutputBoundary deleteAccountOutputBoundary = new DeleteAccountPresenter(viewManagerModel,
                 deleteAccountViewModel, signupViewModel, personalAccountViewModel);
         final DeleteAccountInputBoundary deleteAccountInteractor = new DeleteAccountInteractor(
-                userDataAccessObject, deleteAccountOutputBoundary, userFactory);
+                userDataAccessObject, mongoMessagesDataAccessObject, deleteAccountOutputBoundary, userFactory);
 
         final DeleteAccountController deleteAccountController = new DeleteAccountController(deleteAccountInteractor);
         deleteAccountView.setDeleteAccountController(deleteAccountController);
@@ -816,6 +833,67 @@ public class AppBuilder {
                 userDataAccessObject,
                 reviewDataAccessObject,
                 contentPreferences);
+        return this;
+    }
+
+    /**
+     * Adds the Messaging View to the app.
+     * @return this builder
+     */
+    public AppBuilder addMessagingView() {
+        messagingViewModel = new MessagingViewModel();
+        messagingView = new MessagingView(messagingViewModel, viewManagerModel);
+
+        cardPanel.add(
+                messagingView,
+                messagingView.getViewName()
+        );
+
+        return this;
+    }
+
+    /**
+     * Adds access message chat use case to this app.
+     * @return this builder
+     */
+    public AppBuilder addAccessMessageChatUseCase() {
+        final AccessMessageChatOutputBoundary userPresenter = new OtherAccountPresenter(viewManagerModel,
+                otherAccountViewModel, messagingViewModel);
+        final AccessMessageChatInputBoundary accessMessageChatInteractor = new AccessMessageChatInteractor(
+                userDataAccessObject, mongoMessagesDataAccessObject, userPresenter);
+        final BlockUserInputBoundary blockUserInteractor = new BlockUserInteractor(userDataAccessObject,
+                (BlockUserOutputBoundary) userPresenter);
+        final OtherAccountController otherAccountController = new OtherAccountController(viewManagerModel,
+                blockUserInteractor, createGetListsController(), accessMessageChatInteractor);
+        otherAccountView.setOtherAccountController(otherAccountController);
+        return this;
+    }
+
+    public AppBuilder addBlockUserUseCase() {
+        final BlockUserOutputBoundary userPresenter = new OtherAccountPresenter(viewManagerModel,
+                otherAccountViewModel, messagingViewModel);
+        final BlockUserInputBoundary blockUserInteractor = new BlockUserInteractor(userDataAccessObject, userPresenter);
+        final AccessMessageChatInputBoundary accessMessageChatInteractor = new AccessMessageChatInteractor(
+                userDataAccessObject, mongoMessagesDataAccessObject, (AccessMessageChatOutputBoundary) userPresenter);
+        final OtherAccountController otherAccountController = new OtherAccountController(viewManagerModel, blockUserInteractor, createGetListsController(), accessMessageChatInteractor);
+        otherAccountView.setOtherAccountController(otherAccountController);
+        return this;
+    }
+
+    /**
+     * Adds use cases associated with messaging to this app.
+     * @return this builder
+     */
+    public AppBuilder addMessagingUseCases() {
+        final FetchChatHistoryOutputBoundary userPresenter = new MessagingPresenter(viewManagerModel,
+                messagingViewModel, otherAccountViewModel);
+        final FetchChatHistoryInputBoundary fetchChatHistoryInteractor = new FetchChatHistoryInteractor(
+                mongoMessagesDataAccessObject, userPresenter);
+        final SendMessageInputBoundary sendMessageInteractor = new SendMessageInteractor(mongoMessagesDataAccessObject,
+                (SendMessageOutputBoundary) userPresenter);
+        final MessagingController messagingController = new MessagingController(viewManagerModel, sendMessageInteractor,
+                fetchChatHistoryInteractor, otherAccountView.getViewName());
+        messagingView.setMessagingController(messagingController);
         return this;
     }
 

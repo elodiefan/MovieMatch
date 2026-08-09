@@ -14,6 +14,7 @@ public class DeleteAccountInteractor implements DeleteAccountInputBoundary {
     private static final int INCORRECT_LIMIT = 3;
 
     private final DeleteAccountUserDataAccessInterface userDataAccessObject;
+    private final DeleteAccountMessageDataAccessInterface messageDataAccessObject;
     private final DeleteAccountOutputBoundary userPresenter;
     private final UserFactory userFactory;
 
@@ -21,10 +22,12 @@ public class DeleteAccountInteractor implements DeleteAccountInputBoundary {
 
     private int incorrectCount;
 
-    public DeleteAccountInteractor(DeleteAccountUserDataAccessInterface deleteAccountDataAccessInterface,
+    public DeleteAccountInteractor(DeleteAccountUserDataAccessInterface deleteAccountUserDataAccessInterface,
+                                   DeleteAccountMessageDataAccessInterface deleteAccountMessageDataAccessInterface,
                                    DeleteAccountOutputBoundary deleteAccountOutputBoundary,
                                    UserFactory userFactory) {
-        this.userDataAccessObject = deleteAccountDataAccessInterface;
+        this.userDataAccessObject = deleteAccountUserDataAccessInterface;
+        this.messageDataAccessObject = deleteAccountMessageDataAccessInterface;
         this.userPresenter = deleteAccountOutputBoundary;
         this.userFactory = userFactory;
     }
@@ -57,6 +60,7 @@ public class DeleteAccountInteractor implements DeleteAccountInputBoundary {
                 userDataAccessObject.setCurrentUsername(null);
                 final DeleteAccountOutputData deleteAccountOutputData = new DeleteAccountOutputData(username, false);
                 userDataAccessObject.deleteAccount(user);
+                messageDataAccessObject.deleteChatHistory(username);
                 userPresenter.prepareSuccessView(deleteAccountOutputData);
             }
         }

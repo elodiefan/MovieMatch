@@ -8,11 +8,13 @@ public class GetProfileOutputData {
 
     private String username;
     private String displayName;
+    private boolean isBlocked;
     private boolean useCaseFailed;
 
-    public GetProfileOutputData(String username, String displayName, boolean useCaseFailed) {
+    public GetProfileOutputData(String username, String displayName, boolean isBlocked, boolean useCaseFailed) {
         this.username = username;
         this.displayName = displayName;
+        this.isBlocked = isBlocked;
         this.useCaseFailed = useCaseFailed;
     }
 
@@ -22,6 +24,10 @@ public class GetProfileOutputData {
 
     public String getDisplayName() {
         return displayName;
+    }
+
+    public boolean isBlocked() {
+        return isBlocked;
     }
 
     public boolean isUseCaseFailed() {

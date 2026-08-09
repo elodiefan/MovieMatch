@@ -16,8 +16,8 @@ import javax.swing.JTextField;
 
 import interface_adapter.search_user.SearchUserController;
 import interface_adapter.search_user.SearchUserState;
-import interface_adapter.search_user.UserSearchRow;
 import interface_adapter.search_user.SearchUserViewModel;
+import interface_adapter.search_user.UserSearchRow;
 
 /**
  * The View for searching for other users.

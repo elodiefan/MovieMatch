@@ -35,6 +35,7 @@ public class OtherAccountView extends JPanel implements PropertyChangeListener {
     private final JButton watchHistoryButton;
     private final JButton messageButton;
     private final JButton backButton;
+    private final JButton blockButton;
 
     public OtherAccountView(OtherAccountViewModel otherAccountViewModel) {
         this.otherAccountViewModel = otherAccountViewModel;
@@ -57,10 +58,12 @@ public class OtherAccountView extends JPanel implements PropertyChangeListener {
         watchlistButton = new JButton(OtherAccountViewModel.WATCHLIST_BUTTON);
         watchHistoryButton = new JButton(OtherAccountViewModel.WATCH_HISTORY_BUTTON);
         messageButton = new JButton(OtherAccountViewModel.MESSAGE_BUTTON);
+        blockButton = new JButton();
         backButton = new JButton(OtherAccountViewModel.BACK_BUTTON);
         accountOptionsPanel.add(watchlistButton);
         accountOptionsPanel.add(watchHistoryButton);
         accountOptionsPanel.add(messageButton);
+        accountOptionsPanel.add(blockButton);
         accountOptionsPanel.add(backButton);
 
         watchlistButton.addActionListener(
@@ -102,6 +105,18 @@ public class OtherAccountView extends JPanel implements PropertyChangeListener {
                 }
         );
 
+        blockButton.addActionListener(
+                evt -> {
+                    if (evt.getSource().equals(blockButton)) {
+                        final OtherAccountState currentState = otherAccountViewModel.getState();
+
+                        this.otherAccountController.executeBlockUser(
+                                currentState.getUsername()
+                        );
+                    }
+                }
+        );
+
         this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 
         this.add(title);
@@ -116,9 +131,15 @@ public class OtherAccountView extends JPanel implements PropertyChangeListener {
             title.setText(state.getDisplayName() + otherAccountViewModel.TITLE_LABEL);
             username.setText(otherAccountViewModel.USERNAME_LABEL + state.getUsername());
             displayName.setText(otherAccountViewModel.DISPLAY_NAME_LABEL + state.getDisplayName());
-            if (state.getViewMessageError() != null) {
+            blockButton.setText(state.getBlockStatus());
+            if (state.getViewMessageError() != null && state.getViewMessageError()
+                    .equals("Cannot message this user.")) {
                 JOptionPane.showMessageDialog(this, state.getViewMessageError());
             }
+        }
+        else if (evt.getPropertyName().equals("changed block state")) {
+            final OtherAccountState state = otherAccountViewModel.getState();
+            blockButton.setText(state.getBlockStatus());
         }
         else if (evt.getPropertyName().equals("cannot message")) {
             JOptionPane.showMessageDialog(this, "Cannot message this user.");

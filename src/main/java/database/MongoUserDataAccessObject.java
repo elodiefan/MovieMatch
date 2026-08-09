@@ -4,11 +4,11 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Properties;
-import java.util.regex.Pattern;
-import java.util.LinkedHashSet;
 import java.util.Set;
+import java.util.regex.Pattern;
 
 import org.bson.Document;
 import org.bson.conversions.Bson;
@@ -338,12 +338,6 @@ public class MongoUserDataAccessObject implements UserDataAccessObject {
     }
 
     // ---------- Get user profile ----------
-    // ---------- Get user profile ----------
-    @Override
-    public String getDisplayName() {
-        return currentUserField(DISPLAY_NAME);
-    }
-
     @Override
     public String getDisplayName(String username) {
         return userField(username, DISPLAY_NAME);
