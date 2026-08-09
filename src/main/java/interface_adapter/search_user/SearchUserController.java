@@ -8,7 +8,6 @@ import use_case.search_user.SearchUserInputData;
 
 /**
  * The controller for the Search User Use Case.
- * <p>
  * Opening a result reuses the Get Profile use case, which already decides
  * between the personal and other-account views, so search does not need
  * navigation logic of its own.

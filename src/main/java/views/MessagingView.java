@@ -1,13 +1,20 @@
 package views;
 
-import java.awt.*;
+import java.awt.BorderLayout;
+import java.awt.Component;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.time.LocalDateTime;
 
-import javax.swing.*;
+import javax.swing.BoxLayout;
+import javax.swing.JButton;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTextArea;
+import javax.swing.JTextField;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 
@@ -77,7 +84,6 @@ public class MessagingView extends JPanel implements PropertyChangeListener {
                 evt -> {
                     if (evt.getSource().equals(refresh)) {
                         final MessagingState state = messagingViewModel.getState();
-
                         this.messagingController.executeFetchUpdateChatHistory(
                                 state.getUsername(),
                                 state.getOtherUsername(),

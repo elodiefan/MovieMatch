@@ -30,7 +30,7 @@ class DatabaseSearchMediaDataAccessTest {
         final DatabaseSearchMediaDataAccess dataAccess =
                 new DatabaseSearchMediaDataAccess(
                         new LocalMovieDatabase(List.of(movie(1, "Dark Knight Rises"))),
-                        new LocalTvShowDatabase(List.of(show(2, "Knight of the Dark"),
+                        new LocalTVShowDatabase(List.of(show(2, "Knight of the Dark"),
                                 show(3, "Dark Matter"))));
 
         final List<Media> results = dataAccess.search("DARK knight");
@@ -44,7 +44,7 @@ class DatabaseSearchMediaDataAccessTest {
         final DatabaseSearchMediaDataAccess dataAccess =
                 new DatabaseSearchMediaDataAccess(
                         new LocalMovieDatabase(List.of(movie(1, "Star Wars"))),
-                        new LocalTvShowDatabase(List.of(show(2, "Star Trek"))));
+                        new LocalTVShowDatabase(List.of(show(2, "Star Trek"))));
 
         final MediaPage first = dataAccess.searchPage("star", 1);
         final MediaPage second = dataAccess.searchPage("star", 2);

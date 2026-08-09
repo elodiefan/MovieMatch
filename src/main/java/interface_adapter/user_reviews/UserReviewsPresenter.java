@@ -122,7 +122,8 @@ public final class UserReviewsPresenter implements GetUserReviewsOutputBoundary,
         final String displayError;
         if (isBlank(errorMessage)) {
             displayError = "Unable to load reviews.";
-        } else {
+        }
+        else {
             displayError = errorMessage.trim();
         }
         final UserReviewsState state = userReviewsViewModel.getState();

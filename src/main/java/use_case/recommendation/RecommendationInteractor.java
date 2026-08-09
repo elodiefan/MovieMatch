@@ -18,14 +18,8 @@ import entity.recommendation.WeightedScoreCalculator;
  * Produces recommendations by running the seven steps of the algorithm.
  */
 public class RecommendationInteractor implements RecommendationInputBoundary {
-
-    /**
-     * How many extra candidates beyond the limit are offered to the adjuster.
-     */
+    private static final String NO_CANDIDATES = "No recommendations yet — rate a few titles and check back.";
     private static final int SHORTLIST_MARGIN = 5;
-
-    private static final String NO_CANDIDATES =
-            "No recommendations yet — rate a few titles and check back.";
 
     private final RecommendationDataAccessInterface userDataAccess;
     private final MediaCatalogueDataAccessInterface catalogue;
@@ -110,8 +104,8 @@ public class RecommendationInteractor implements RecommendationInputBoundary {
     }
 
     /**
-     * Turns the user's ratings into a taste profile, ignoring anything they rated below the threshold and anything the catalogue no longer holds.
-     *
+     * Turns the user's ratings into a taste profile, ignoring anything they rated below the threshold
+     * and anything the catalogue no longer holds.
      * @param ratings the ratings
      * @return the build profile
      */

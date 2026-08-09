@@ -38,8 +38,7 @@ public final class CommentsController {
 
     /**
      * Creates a controller for comment actions.
-     * @param inputGetReviewCommentsInteractor the interactor for loading
-     * comments
+     * @param inputGetReviewCommentsInteractor the interactor for loading comments
      * @param inputCreateCommentInteractor the interactor for creating comments
      * @param inputDeleteCommentInteractor the interactor for deleting comments
      * @param inputEditCommentInteractor the interactor for editing comments

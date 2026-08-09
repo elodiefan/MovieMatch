@@ -66,7 +66,8 @@ public class LogMediaInteractor implements LogMediaInputBoundary {
                     getCurrentTorontoTimestamp());
             presenter.prepareSuccessView(new LogMediaOutputData(
                     inputData.getMediaTitle(), WATCHLIST_MESSAGE));
-        } else {
+        }
+        else {
             presenter.prepareFailView(error);
         }
     }
@@ -81,7 +82,8 @@ public class LogMediaInteractor implements LogMediaInputBoundary {
         final String error;
         if (inputError == null) {
             error = validateNotAlreadyWatched(inputData);
-        } else {
+        }
+        else {
             error = inputError;
         }
         return error;
@@ -98,7 +100,8 @@ public class LogMediaInteractor implements LogMediaInputBoundary {
         if (dataAccessObject.hasWatchedMedia(username, inputData.getMediaId(),
                 trimToEmpty(inputData.getMediaType()))) {
             error = ALREADY_WATCHED_MESSAGE;
-        } else {
+        }
+        else {
             error = null;
         }
         return error;
@@ -116,7 +119,8 @@ public class LogMediaInteractor implements LogMediaInputBoundary {
                     getCurrentTorontoTimestamp());
             presenter.prepareSuccessView(new LogMediaOutputData(
                     inputData.getMediaTitle(), WATCH_HISTORY_MESSAGE));
-        } else {
+        }
+        else {
             presenter.prepareFailView(error);
         }
     }
@@ -130,9 +134,11 @@ public class LogMediaInteractor implements LogMediaInputBoundary {
         final String error;
         if (inputData == null) {
             error = "No media selected.";
-        } else if (isBlank(dataAccessObject.getCurrentUsername())) {
+        }
+        else if (isBlank(dataAccessObject.getCurrentUsername())) {
             error = "Please log in before saving media.";
-        } else {
+        }
+        else {
             error = validateMedia(inputData);
         }
         return error;
@@ -147,11 +153,14 @@ public class LogMediaInteractor implements LogMediaInputBoundary {
         final String error;
         if (inputData.getMediaId() < MIN_MEDIA_ID) {
             error = "No media selected.";
-        } else if (isBlank(inputData.getMediaType())) {
+        }
+        else if (isBlank(inputData.getMediaType())) {
             error = "Media type is missing.";
-        } else if (isBlank(inputData.getMediaTitle())) {
+        }
+        else if (isBlank(inputData.getMediaTitle())) {
             error = "Media title is missing.";
-        } else {
+        }
+        else {
             error = null;
         }
         return error;
@@ -183,7 +192,8 @@ public class LogMediaInteractor implements LogMediaInputBoundary {
         final String trimmedValue;
         if (value == null) {
             trimmedValue = "";
-        } else {
+        }
+        else {
             trimmedValue = value.trim();
         }
         return trimmedValue;

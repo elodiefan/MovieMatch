@@ -68,7 +68,7 @@ public class MongoUserDataAccessObject implements UserDataAccessObject {
 
     private final MongoClient mongoClient;
     private final MongoCollection<Document> users;
-    private final TmdbApiClient tmdbApiClient = new TmdbApiClient();
+    private final TMDBAPIClient tmdbApiClient = new TMDBAPIClient();
     private final ObjectMapper objectMapper = new ObjectMapper();
 
     /**
@@ -391,7 +391,8 @@ public class MongoUserDataAccessObject implements UserDataAccessObject {
 
         if (!currentUserBlockList.contains(otherUsername)) {
             currentUserBlockList.add(otherUsername);
-            users.updateOne(Filters.eq(USERNAME, getCurrentUsername()), Updates.set(BLOCKED_USERS, currentUserBlockList));
+            users.updateOne(Filters.eq(USERNAME, getCurrentUsername()),
+                    Updates.set(BLOCKED_USERS, currentUserBlockList));
         }
     }
 
@@ -401,7 +402,8 @@ public class MongoUserDataAccessObject implements UserDataAccessObject {
 
         if (currentUserBlockList.contains(otherUsername)) {
             currentUserBlockList.remove(otherUsername);
-            users.updateOne(Filters.eq(USERNAME, getCurrentUsername()), Updates.set(BLOCKED_USERS, currentUserBlockList));
+            users.updateOne(Filters.eq(USERNAME, getCurrentUsername()),
+                    Updates.set(BLOCKED_USERS, currentUserBlockList));
         }
     }
 
@@ -538,11 +540,13 @@ public class MongoUserDataAccessObject implements UserDataAccessObject {
             if (MOVIE_TYPE.equals(mediaType)) {
                 detailsJson = tmdbApiClient.getMovieDetails(mediaId);
                 posterPath = parsePosterPath(detailsJson);
-            } else if (TV_TYPE.equals(mediaType)) {
-                detailsJson = tmdbApiClient.getTvShowDetails(mediaId);
+            }
+            else if (TV_TYPE.equals(mediaType)) {
+                detailsJson = tmdbApiClient.getTVShowDetails(mediaId);
                 posterPath = parsePosterPath(detailsJson);
             }
-        } catch (IOException | IllegalStateException exception) {
+        }
+        catch (IOException | IllegalStateException exception) {
             posterPath = "";
         }
         return posterPath;

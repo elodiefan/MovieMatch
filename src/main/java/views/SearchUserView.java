@@ -21,7 +21,6 @@ import interface_adapter.search_user.UserSearchRow;
 
 /**
  * The View for searching for other users.
- * <p>
  * Results are drawn straight onto this panel rather than a separate results
  * view, so you can refine a keyword without navigating back and forth.
  */

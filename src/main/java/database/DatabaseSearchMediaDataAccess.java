@@ -15,11 +15,11 @@ public class DatabaseSearchMediaDataAccess
         implements SearchMediaDataAccess {
 
     private final LocalMovieDatabase movieDatabase;
-    private final LocalTvShowDatabase tvShowDatabase;
+    private final LocalTVShowDatabase tvShowDatabase;
 
     public DatabaseSearchMediaDataAccess(
             LocalMovieDatabase movieDatabase,
-            LocalTvShowDatabase tvShowDatabase
+            LocalTVShowDatabase tvShowDatabase
     ) {
         this.movieDatabase = movieDatabase;
         this.tvShowDatabase = tvShowDatabase;

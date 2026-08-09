@@ -55,10 +55,12 @@ public final class DeleteReviewInteractor implements DeleteReviewInputBoundary {
                     inputData.getUsername());
             if (deleted) {
                 presenter.prepareSuccessView(true);
-            } else {
+            }
+            else {
                 presenter.prepareFailView("Review could not be deleted.");
             }
-        } catch (IllegalArgumentException | IllegalStateException error) {
+        }
+        catch (IllegalArgumentException | IllegalStateException error) {
             if (presenter != null) {
                 presenter.prepareFailView(error.getMessage());
             }
@@ -84,7 +86,8 @@ public final class DeleteReviewInteractor implements DeleteReviewInputBoundary {
                 && canDeleteReview(review.get(), trimmedReviewId,
                 trimmedUsername)) {
             deleted = reviewDataAccessObject.deleteReview(trimmedReviewId);
-        } else {
+        }
+        else {
             deleted = false;
         }
         return deleted;
@@ -101,9 +104,11 @@ public final class DeleteReviewInteractor implements DeleteReviewInputBoundary {
                                           final String username) {
         if (isBlank(reviewId)) {
             throw new IllegalArgumentException("Review id cannot be empty.");
-        } else if (isBlank(username)) {
+        }
+        else if (isBlank(username)) {
             throw new IllegalArgumentException("Username cannot be empty.");
-        } else if (reviewDataAccessObject == null) {
+        }
+        else if (reviewDataAccessObject == null) {
             throw new IllegalStateException(
                     "Review data access object has not been configured.");
         }
@@ -128,7 +133,8 @@ public final class DeleteReviewInteractor implements DeleteReviewInputBoundary {
         final boolean canDelete;
         if (review == null) {
             canDelete = false;
-        } else {
+        }
+        else {
             canDelete = review.getReviewId().equals(reviewId)
                     && review.getAuthorUsername().equals(username);
         }
@@ -153,7 +159,8 @@ public final class DeleteReviewInteractor implements DeleteReviewInputBoundary {
         final String trimmedValue;
         if (value == null) {
             trimmedValue = "";
-        } else {
+        }
+        else {
             trimmedValue = value.trim();
         }
         return trimmedValue;

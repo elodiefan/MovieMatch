@@ -50,7 +50,8 @@ public final class LikeCommentInteractor implements LikeCommentInputBoundary {
             final boolean liked = likeComment(inputData.getCommentId(),
                     inputData.getUsername());
             presenter.prepareSuccessView(liked);
-        } catch (IllegalArgumentException | IllegalStateException error) {
+        }
+        catch (IllegalArgumentException | IllegalStateException error) {
             if (presenter != null) {
                 presenter.prepareFailView(error.getMessage());
             }
@@ -82,9 +83,11 @@ public final class LikeCommentInteractor implements LikeCommentInputBoundary {
                                          final String username) {
         if (isBlank(commentId)) {
             throw new IllegalArgumentException("Comment id cannot be empty.");
-        } else if (isBlank(username)) {
+        }
+        else if (isBlank(username)) {
             throw new IllegalArgumentException("Username cannot be empty.");
-        } else if (commentDataAccessObject == null) {
+        }
+        else if (commentDataAccessObject == null) {
             throw new IllegalStateException(
                     "Comment data access object has not been configured.");
         }
@@ -115,7 +118,8 @@ public final class LikeCommentInteractor implements LikeCommentInputBoundary {
         final String trimmedValue;
         if (value == null) {
             trimmedValue = "";
-        } else {
+        }
+        else {
             trimmedValue = value.trim();
         }
         return trimmedValue;

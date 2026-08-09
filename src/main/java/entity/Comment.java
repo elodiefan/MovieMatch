@@ -6,7 +6,7 @@ import java.util.Set;
 /**
  * Represents a comment reply of a review on a piece of media.
  */
-public class Comment extends UserContent {
+public class Comment extends AbstractUserContent {
     private final String reviewId;
     private final String parentCommentId;
     private String commentText;

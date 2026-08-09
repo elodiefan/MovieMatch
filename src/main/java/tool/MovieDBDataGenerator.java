@@ -1,4 +1,4 @@
-package Tool;
+package tool;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -11,12 +11,12 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
-import database.TmdbApiClient;
+import database.TMDBAPIClient;
 
 /**
  * Generates local movie and TV-show databases from TMDB.
  */
-public class MoviedbDataGenerator {
+public class MovieDBDataGenerator {
 
     private static final int MOVIE_TARGET = 100;
     private static final int TV_SHOW_TARGET = 100;
@@ -49,6 +49,8 @@ public class MoviedbDataGenerator {
     private static final String TMDB_NUMBER_OF_EPISODES_FIELD = "number_of_episodes";
     private static final String POPULARITY_PATH = "?sort_by=popularity.desc";
     private static final String PAGE_PATH = "&page=";
+    private static final String MOVIE_PATH_PREFIX = "/discover/movie";
+    private static final String TV_PATH_PREFIX = "/discover/tv";
 
     private static final Path MOVIES_FILE = Paths.get(
             "src", "main", "resources", "movies.json"
@@ -57,7 +59,7 @@ public class MoviedbDataGenerator {
             "src", "main", "resources", "tvshows.json"
     );
 
-    private final TmdbApiClient tmdbApiClient;
+    private final TMDBAPIClient tmdbApiClient;
     private final ObjectMapper objectMapper;
 
     /**
@@ -65,7 +67,7 @@ public class MoviedbDataGenerator {
      *
      * @param tmdbApiClient client used to communicate with TMDB
      */
-    public MoviedbDataGenerator(TmdbApiClient tmdbApiClient) {
+    public MovieDBDataGenerator(TMDBAPIClient tmdbApiClient) {
         this.tmdbApiClient = tmdbApiClient;
         this.objectMapper = new ObjectMapper();
     }
@@ -74,11 +76,11 @@ public class MoviedbDataGenerator {
      * Generates local JSON files containing 200 media items.
      *
      * @param args command-line arguments
+     * @throws IllegalStateException the exception thrown
      */
-    // This is the main method used to generate the local JSON databases.
     public static void main(String[] args) {
-        final MoviedbDataGenerator generator =
-                new MoviedbDataGenerator(new TmdbApiClient());
+        final MovieDBDataGenerator generator =
+                new MovieDBDataGenerator(new TMDBAPIClient());
 
         try {
             generator.generateDatabases();
@@ -123,19 +125,19 @@ public class MoviedbDataGenerator {
                 POPULAR_AMOUNT, movies, movieIds);
         addMovies("/movie/top_rated?language=en-US&page=",
                 TOP_RATED_AMOUNT, movies, movieIds);
-        addMovies("/discover/movie" + POPULARITY_PATH
+        addMovies(MOVIE_PATH_PREFIX + POPULARITY_PATH
                         + "&primary_release_date.lte=1989-12-31" + PAGE_PATH,
                 EARLY_AMOUNT, movies, movieIds);
-        addMovies("/discover/movie" + POPULARITY_PATH
+        addMovies(MOVIE_PATH_PREFIX + POPULARITY_PATH
                         + "&with_original_language=fr" + PAGE_PATH,
                 NON_ENGLISH_AMOUNT / 2, movies, movieIds);
-        addMovies("/discover/movie" + POPULARITY_PATH
+        addMovies(MOVIE_PATH_PREFIX + POPULARITY_PATH
                         + "&with_original_language=ko" + PAGE_PATH,
                 NON_ENGLISH_AMOUNT / 2, movies, movieIds);
-        addMovies("/discover/movie" + POPULARITY_PATH
+        addMovies(MOVIE_PATH_PREFIX + POPULARITY_PATH
                         + "&with_genres=99" + PAGE_PATH,
                 GENRE_AMOUNT / 2, movies, movieIds);
-        addMovies("/discover/movie" + POPULARITY_PATH
+        addMovies(MOVIE_PATH_PREFIX + POPULARITY_PATH
                         + "&with_genres=16" + PAGE_PATH,
                 GENRE_AMOUNT / 2, movies, movieIds);
         fillRemainingMovies(movies, movieIds);
@@ -157,19 +159,19 @@ public class MoviedbDataGenerator {
                 POPULAR_AMOUNT, tvShows, tvShowIds);
         addTvShows("/tv/top_rated?language=en-US&page=",
                 TOP_RATED_AMOUNT, tvShows, tvShowIds);
-        addTvShows("/discover/tv" + POPULARITY_PATH
+        addTvShows(TV_PATH_PREFIX + POPULARITY_PATH
                         + "&first_air_date.lte=1989-12-31" + PAGE_PATH,
                 EARLY_AMOUNT, tvShows, tvShowIds);
-        addTvShows("/discover/tv" + POPULARITY_PATH
+        addTvShows(TV_PATH_PREFIX + POPULARITY_PATH
                         + "&with_original_language=ja" + PAGE_PATH,
                 NON_ENGLISH_AMOUNT / 2, tvShows, tvShowIds);
-        addTvShows("/discover/tv" + POPULARITY_PATH
+        addTvShows(TV_PATH_PREFIX + POPULARITY_PATH
                         + "&with_original_language=es" + PAGE_PATH,
                 NON_ENGLISH_AMOUNT / 2, tvShows, tvShowIds);
-        addTvShows("/discover/tv" + POPULARITY_PATH
+        addTvShows(TV_PATH_PREFIX + POPULARITY_PATH
                         + "&with_genres=99" + PAGE_PATH,
                 GENRE_AMOUNT / 2, tvShows, tvShowIds);
-        addTvShows("/discover/tv" + POPULARITY_PATH
+        addTvShows(TV_PATH_PREFIX + POPULARITY_PATH
                         + "&with_genres=10764" + PAGE_PATH,
                 GENRE_AMOUNT / 2, tvShows, tvShowIds);
         fillRemainingTvShows(tvShows, tvShowIds);
@@ -231,7 +233,7 @@ public class MoviedbDataGenerator {
 
         while (added < amount && tvShows.size() < TV_SHOW_TARGET) {
             final JsonNode results = readResults(
-                    tmdbApiClient.getTvShows(pathPrefix + page)
+                    tmdbApiClient.getTVShows(pathPrefix + page)
             );
             if (!results.isArray() || results.isEmpty()) {
                 break;
@@ -291,7 +293,7 @@ public class MoviedbDataGenerator {
             throws IOException {
         final int remaining = TV_SHOW_TARGET - tvShows.size();
         if (remaining > 0) {
-            addTvShows("/discover/tv" + POPULARITY_PATH + PAGE_PATH,
+            addTvShows(TV_PATH_PREFIX + POPULARITY_PATH + PAGE_PATH,
                     remaining, tvShows, tvShowIds);
         }
     }
@@ -336,7 +338,7 @@ public class MoviedbDataGenerator {
      */
     private ObjectNode createTvShowNode(int tvShowId) throws IOException {
         final JsonNode details = objectMapper.readTree(
-                tmdbApiClient.getTvShowDetails(tvShowId)
+                tmdbApiClient.getTVShowDetails(tvShowId)
         );
         final ObjectNode tvShow = objectMapper.createObjectNode();
 

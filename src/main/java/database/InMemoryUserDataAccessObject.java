@@ -18,6 +18,7 @@ import entity.UserLists;
 public class InMemoryUserDataAccessObject implements UserDataAccessObject {
 
     private final Map<String, User> users = new HashMap<>();
+    private String currentUsername;
 
     /**
      * Watchlist and watch history ids, kept per user for the offline store.
@@ -33,8 +34,6 @@ public class InMemoryUserDataAccessObject implements UserDataAccessObject {
     public Set<Integer> findEngagedMediaIds(String username) {
         return new LinkedHashSet<>(engagedMediaIds.getOrDefault(username, new LinkedHashSet<>()));
     }
-
-    private String currentUsername;
 
     // ---------- Signup + Login ----------
 
@@ -304,7 +303,8 @@ public class InMemoryUserDataAccessObject implements UserDataAccessObject {
     }
 
     /**
-     * Remembers the id as well as the display line, since the lists themselves are kept as text and recommendations need something to match on.
+     * Remembers the id as well as the display line, since the lists themselves are kept as text
+     * and recommendations need something to match on.
      *
      * @param username the username
      * @param mediaId the media id

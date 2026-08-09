@@ -3,7 +3,7 @@ package app;
 import javax.swing.JFrame;
 
 import views.ErrorReporter;
-import views.UiTheme;
+import views.UITheme;
 
 /**
  * The Main class of our application.
@@ -21,7 +21,7 @@ public class Main {
 
         // Swing bakes fonts and colours in at construction time, so the theme
         // has to be installed before the first view is created.
-        UiTheme.install();
+        UITheme.install();
 
         final AppBuilder appBuilder = new AppBuilder();
         final JFrame application = appBuilder
@@ -52,7 +52,6 @@ public class Main {
                 .addMessagingUseCases()
                 .addPersonalAccountUseCase()
                 .addResetPasswordUseCase()
-//                .addReviewsUseCase()
                 .addSearchUserUseCase()
                 .addSecurityQuestionUseCase()
                 .addSignupUseCase()

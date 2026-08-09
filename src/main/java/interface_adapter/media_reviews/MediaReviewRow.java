@@ -116,6 +116,11 @@ public final class MediaReviewRow {
         return likeCount;
     }
 
+    /**
+     * Returns whether a review is liked by the given user.
+     * @param username the given user
+     * @return true if it has been liked; false otherwise
+     */
     public boolean isLikedBy(final String username) {
         return username != null && likedByUsernames.contains(username);
     }

@@ -66,7 +66,7 @@ class FallbackSearchMediaDataAccessTest {
     private static FallbackSearchMediaDataAccess create(SearchMediaDataAccess primary) {
         return new FallbackSearchMediaDataAccess(primary,
                 new LocalMovieDatabase(List.of(movie(1, "Star Wars"))),
-                new LocalTvShowDatabase(List.of(show(2, "Star Trek"))));
+                new LocalTVShowDatabase(List.of(show(2, "Star Trek"))));
     }
 
     private static class StubSearchDataAccess implements SearchMediaDataAccess {

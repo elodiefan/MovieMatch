@@ -35,6 +35,7 @@ public final class DeleteCommentInputData {
      * Handles this review or comment operation.
      * @return the result
      */
+
     public String getUsername() {
         return username;
     }

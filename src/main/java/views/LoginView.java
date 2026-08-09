@@ -68,29 +68,17 @@ public class LoginView extends JPanel implements ActionListener, PropertyChangeL
         buttons.add(forgotPassword);
 
         logIn.addActionListener(
-//                new ActionListener() {
-//                    public void actionPerformed(ActionEvent evt) {
-//                        if (evt.getSource().equals(logIn)) {
-//                            final LoginState currentState = loginViewModel.getState();
-//
-//                            loginController.execute(
-//                                    currentState.getUsername(),
-//                                    currentState.getPassword()
-//                            );
-//                        }
-//                    }
-//                }
-                new ActionListener() {
-                    @Override
-                    public void actionPerformed(ActionEvent e) {
-                        final LoginState currentState = loginViewModel.getState();
+            new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    final LoginState currentState = loginViewModel.getState();
 
-                        loginController.execute(
-                                currentState.getUsername(),
-                                currentState.getPassword()
-                        );
-                    }
+                    loginController.execute(
+                            currentState.getUsername(),
+                            currentState.getPassword()
+                    );
                 }
+            }
         );
 
         signUp.addActionListener(
@@ -102,8 +90,6 @@ public class LoginView extends JPanel implements ActionListener, PropertyChangeL
                 }
         );
 
-        // Opening the recovery screen is navigation only â€” there is nothing to
-        // look up or validate yet â€” so it does not go through a use case.
         forgotPassword.addActionListener(
                 new ActionListener() {
                     @Override
@@ -182,7 +168,6 @@ public class LoginView extends JPanel implements ActionListener, PropertyChangeL
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
         if (evt.getPropertyName().equals("log in")) {
-//            final LoginState state = (LoginState) evt.getNewValue();
             clearFields();
         }
         else {

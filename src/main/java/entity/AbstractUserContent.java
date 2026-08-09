@@ -8,9 +8,9 @@ import java.util.Set;
 /**
  * Represents content created by a user, such as a review or comment.
  */
-public abstract class UserContent {
-    private static final ZoneId TORONTO_ZONE = ZoneId.of("America/Toronto");
+public abstract class AbstractUserContent {
 
+    private static final ZoneId TORONTO_ZONE = ZoneId.of("America/Toronto");
     private final String contentId;
     private final String authorUsername;
     private final String authorDisplayName;
@@ -25,8 +25,8 @@ public abstract class UserContent {
      * @param createdAt the time this content was created
      * @param likedByUsernames the usernames of users who liked this content
      */
-    public UserContent(String contentId, String authorUsername, String authorDisplayName,
-                       ZonedDateTime createdAt, Set<String> likedByUsernames) {
+    public AbstractUserContent(String contentId, String authorUsername, String authorDisplayName,
+                               ZonedDateTime createdAt, Set<String> likedByUsernames) {
         this.contentId = contentId;
         this.authorUsername = authorUsername;
         this.authorDisplayName = authorDisplayName;

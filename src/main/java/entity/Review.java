@@ -6,7 +6,7 @@ import java.util.Set;
 /**
  * Represents a user's review on a piece of media.
  */
-public class Review extends UserContent {
+public class Review extends AbstractUserContent {
     private final int mediaId;
     private final String mediaType;
     private final String mediaTitle;

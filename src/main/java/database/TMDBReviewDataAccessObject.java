@@ -14,7 +14,7 @@ import use_case.review.get_media_reviews.GetMediaReviewsDataAccessInterface;
 /**
  * Loads read-only review data from TMDB.
  */
-public final class TmdbReviewDataAccessObject
+public final class TMDBReviewDataAccessObject
         implements GetMediaReviewsDataAccessInterface {
     /**
      * Movie media type.
@@ -48,7 +48,7 @@ public final class TmdbReviewDataAccessObject
     /**
      * TMDB API client.
      */
-    private final TmdbApiClient tmdbApiClient;
+    private final TMDBAPIClient tmdbApiClient;
     /**
      * JSON mapper.
      */
@@ -57,11 +57,11 @@ public final class TmdbReviewDataAccessObject
     /**
      * Creates a TMDB review data access object.
      *
-     * @param inputTmdbApiClient the TMDB API client
+     * @param inputTMDBAPIClient the TMDB API client
      */
-    public TmdbReviewDataAccessObject(
-            final TmdbApiClient inputTmdbApiClient) {
-        this.tmdbApiClient = inputTmdbApiClient;
+    public TMDBReviewDataAccessObject(
+            final TMDBAPIClient inputTMDBAPIClient) {
+        this.tmdbApiClient = inputTMDBAPIClient;
     }
 
     @Override
@@ -72,7 +72,8 @@ public final class TmdbReviewDataAccessObject
             try {
                 reviews.addAll(parseReviews(mediaId, mediaType,
                         getReviewsJson(mediaId, mediaType)));
-            } catch (IOException exception) {
+            }
+            catch (IOException exception) {
                 throw new IllegalStateException(
                         "Unable to load TMDB reviews.", exception);
             }
@@ -93,8 +94,9 @@ public final class TmdbReviewDataAccessObject
         final String reviewsJson;
         if (MOVIE_TYPE.equals(mediaType)) {
             reviewsJson = tmdbApiClient.getMovieReviews(mediaId);
-        } else {
-            reviewsJson = tmdbApiClient.getTvShowReviews(mediaId);
+        }
+        else {
+            reviewsJson = tmdbApiClient.getTVShowReviews(mediaId);
         }
         return reviewsJson;
     }
@@ -160,9 +162,11 @@ public final class TmdbReviewDataAccessObject
         if (ratingNode == null || ratingNode.isMissingNode()
                 || ratingNode.isNull()) {
             rating = 0.0;
-        } else if (ratingNode.asDouble() <= TMDB_MAX_RATING) {
+        }
+        else if (ratingNode.asDouble() <= TMDB_MAX_RATING) {
             rating = ratingNode.asDouble() * PERCENT_MULTIPLIER;
-        } else {
+        }
+        else {
             rating = ratingNode.asDouble();
         }
         return rating;
@@ -178,7 +182,8 @@ public final class TmdbReviewDataAccessObject
         final ZonedDateTime parsedTime;
         if (isBlank(value)) {
             parsedTime = ZonedDateTime.now();
-        } else {
+        }
+        else {
             parsedTime = ZonedDateTime.parse(value);
         }
         return parsedTime;
@@ -197,9 +202,11 @@ public final class TmdbReviewDataAccessObject
         final String value;
         if (!isBlank(first)) {
             value = first.trim();
-        } else if (!isBlank(second)) {
+        }
+        else if (!isBlank(second)) {
             value = second.trim();
-        } else {
+        }
+        else {
             value = fallback;
         }
         return value;

@@ -4,7 +4,6 @@ import interface_adapter.StateModel;
 
 /**
  * View model for the Security Question view.
- * <p>
  * Follows the same shape as {@code LoginViewModel}: it names the view and holds
  * an initial {@link SecurityQuestionState}. The view registers as a listener and
  * repaints whenever the presenter calls {@code firePropertyChanged()}.

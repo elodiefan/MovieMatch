@@ -63,7 +63,8 @@ public final class GetUserReviewsInteractor
                     getUserReviews(inputData.getUsername());
             userReviewsPresenter.prepareUserReviewsSuccessView(
                     toOutputData(matchingReviews));
-        } catch (IllegalArgumentException | IllegalStateException error) {
+        }
+        catch (IllegalArgumentException | IllegalStateException error) {
             if (userReviewsPresenter != null) {
                 userReviewsPresenter.prepareFailView(error.getMessage());
             }
@@ -95,7 +96,8 @@ public final class GetUserReviewsInteractor
     private void validateUsername(final String username) {
         if (isBlank(username)) {
             throw new IllegalArgumentException("Username cannot be empty.");
-        } else if (reviewDataAccessObject == null) {
+        }
+        else if (reviewDataAccessObject == null) {
             throw new IllegalStateException(
                     "Review data access object has not been configured.");
         }
@@ -130,7 +132,8 @@ public final class GetUserReviewsInteractor
         final String trimmedValue;
         if (value == null) {
             trimmedValue = "";
-        } else {
+        }
+        else {
             trimmedValue = value.trim();
         }
         return trimmedValue;

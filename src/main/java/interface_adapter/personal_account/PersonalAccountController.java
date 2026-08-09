@@ -1,7 +1,6 @@
 package interface_adapter.personal_account;
 
 import interface_adapter.ViewManagerModel;
-import interface_adapter.change_display_name.ChangeDisplayNameController;
 import interface_adapter.change_display_name.ChangeDisplayNameState;
 import interface_adapter.change_display_name.ChangeDisplayNameViewModel;
 import interface_adapter.change_username.ChangeUsernameState;
@@ -55,7 +54,6 @@ public class PersonalAccountController {
 
     /**
      * Switches to the logout confirmation view.
-     *
      * The confirm view needs to know who is logging out, so the username is
      * carried across in the logout state before the view is shown.
      *

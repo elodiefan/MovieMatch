@@ -12,7 +12,6 @@ public class MediaDetailViewModel extends StateModel<MediaDetailState> {
     public static final String TITLE_LABEL = "Media Detail";
     public static final String BACK_BUTTON_LABEL = "Back";
 
-
     public MediaDetailViewModel() {
         super(VIEW_NAME);
         setState(new MediaDetailState());
