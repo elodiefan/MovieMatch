@@ -66,7 +66,7 @@ class SecurityQuestionInteractorTest {
         final RecordingPresenter presenter = new RecordingPresenter();
 
         new SecurityQuestionInteractor(dataAccess, presenter, new InMemoryTracker())
-                .loadSecurityQuestion(new SecurityQuestionInputData("yidan", ""));
+                .loadSecurityQuestion(new SecurityQuestionInputData("bob", ""));
 
         assertEquals("First pet?", presenter.question.getSecurityQuestion());
         assertFalse(presenter.question.isUseCaseFailed());
@@ -95,15 +95,15 @@ class SecurityQuestionInteractorTest {
     void correctAnswerIgnoresCaseAndWhitespaceAndResetsFailures() {
         final FakeDataAccess dataAccess = userDataAccess();
         final InMemoryTracker tracker = new InMemoryTracker();
-        tracker.forUser("yidan").recordFailedAttempt();
+        tracker.forUser("bob").recordFailedAttempt();
         final RecordingPresenter presenter = new RecordingPresenter();
 
         new SecurityQuestionInteractor(dataAccess, presenter, tracker)
-                .verifyAnswer(new SecurityQuestionInputData("yidan", "  MOCHI "));
+                .verifyAnswer(new SecurityQuestionInputData("bob", "  MOCHI "));
 
         assertNull(presenter.failure);
         assertFalse(presenter.success.isUseCaseFailed());
-        assertEquals(AccountLockout.MAX_ATTEMPTS, tracker.forUser("yidan").remainingAttempts());
+        assertEquals(AccountLockout.MAX_ATTEMPTS, tracker.forUser("bob").remainingAttempts());
     }
 
     @Test
@@ -115,7 +115,7 @@ class SecurityQuestionInteractorTest {
         for (int attempt = 1; attempt <= AccountLockout.MAX_ATTEMPTS; attempt++) {
             final RecordingPresenter presenter = new RecordingPresenter();
             new SecurityQuestionInteractor(dataAccess, presenter, tracker)
-                    .verifyAnswer(new SecurityQuestionInputData("yidan", "wrong"));
+                    .verifyAnswer(new SecurityQuestionInputData("bob", "wrong"));
             lastFailure = presenter.failure;
             if (attempt < AccountLockout.MAX_ATTEMPTS) {
                 assertFalse(lastFailure.isLockedOut());
@@ -131,7 +131,7 @@ class SecurityQuestionInteractorTest {
 
     private static FakeDataAccess userDataAccess() {
         final FakeDataAccess dataAccess = new FakeDataAccess();
-        dataAccess.user = new StandardUser("yidan", "Yidan", "password1", "First pet?", "Mochi");
+        dataAccess.user = new StandardUser("bob", "Bob", "password1", "First pet?", "Mochi");
         return dataAccess;
     }
 }

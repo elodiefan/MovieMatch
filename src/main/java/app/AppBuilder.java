@@ -571,7 +571,7 @@ public class AppBuilder {
         return this;
     }
 
-//    // TODO: For Yidan/Kiersten -> Implement search view files.
+//    // TODO: For Bob/Kiersten -> Implement search view files.
     /**
      * Adds the Home Page Use Case to the application.
      *
@@ -599,7 +599,7 @@ public class AppBuilder {
      * Adds the Search User Use Case to the application.
      *
      * The assembly lives in SearchUserUseCaseFactory, following the
-     * convention Yidan set with SearchUseCaseFactory.
+     * convention Bob set with SearchUseCaseFactory.
      *
      * @return the add search user use case
      */
