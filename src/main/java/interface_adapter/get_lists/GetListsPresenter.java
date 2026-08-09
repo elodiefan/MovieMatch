@@ -8,14 +8,14 @@ import interface_adapter.other_account.OtherAccountState;
 import interface_adapter.other_account.OtherAccountViewModel;
 import interface_adapter.personal_account.PersonalAccountState;
 import interface_adapter.personal_account.PersonalAccountViewModel;
-import use_case.get_blocked_users.GetBlockedUsersOutputBoundary;
-import use_case.get_blocked_users.GetBlockedUsersOutputData;
-import use_case.get_watch_history.GetWatchHistoryOutputBoundary;
-import use_case.get_watch_history.GetWatchHistoryOutputData;
-import use_case.get_watch_history.WatchHistoryItemData;
-import use_case.get_watchlist.GetWatchlistOutputBoundary;
-import use_case.get_watchlist.GetWatchlistOutputData;
-import use_case.get_watchlist.WatchlistItemData;
+import use_case.get_lists.get_blocked_users.GetBlockedUsersOutputBoundary;
+import use_case.get_lists.get_blocked_users.GetBlockedUsersOutputData;
+import use_case.get_lists.get_watch_history.GetWatchHistoryOutputBoundary;
+import use_case.get_lists.get_watch_history.GetWatchHistoryOutputData;
+import use_case.get_lists.get_watch_history.WatchHistoryItemData;
+import use_case.get_lists.get_watchlist.GetWatchlistOutputBoundary;
+import use_case.get_lists.get_watchlist.GetWatchlistOutputData;
+import use_case.get_lists.get_watchlist.WatchlistItemData;
 
 public class GetListsPresenter implements GetWatchlistOutputBoundary, GetWatchHistoryOutputBoundary,
         GetBlockedUsersOutputBoundary {

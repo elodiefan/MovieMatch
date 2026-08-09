@@ -3,15 +3,15 @@ package interface_adapter.user_reviews;
 import java.util.ArrayList;
 import java.util.List;
 
-import use_case.get_user_comments.GetUserCommentsOutputBoundary;
-import use_case.get_user_comments.GetUserCommentsOutputData;
-import use_case.delete_review.DeleteReviewOutputBoundary;
-import use_case.edit_review.EditReviewOutputBoundary;
-import use_case.edit_review.EditReviewOutputData;
-import use_case.get_user_reviews.GetUserReviewsOutputBoundary;
-import use_case.get_user_reviews.GetUserReviewsOutputData;
-import use_case.like_review.LikeReviewOutputBoundary;
-import use_case.unlike_review.UnlikeReviewOutputBoundary;
+import use_case.comment.get_user_comments.GetUserCommentsOutputBoundary;
+import use_case.comment.get_user_comments.GetUserCommentsOutputData;
+import use_case.review.delete_review.DeleteReviewOutputBoundary;
+import use_case.review.edit_review.EditReviewOutputBoundary;
+import use_case.review.edit_review.EditReviewOutputData;
+import use_case.review.get_user_reviews.GetUserReviewsOutputBoundary;
+import use_case.review.get_user_reviews.GetUserReviewsOutputData;
+import use_case.review.like_review.LikeReviewOutputBoundary;
+import use_case.review.unlike_review.UnlikeReviewOutputBoundary;
 
 /**
  * Presenter for the user reviews view.

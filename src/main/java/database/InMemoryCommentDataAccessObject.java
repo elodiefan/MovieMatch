@@ -7,12 +7,12 @@ import java.util.Map;
 import java.util.Optional;
 
 import entity.Comment;
-import use_case.create_comment.CreateCommentDataAccessInterface;
-import use_case.delete_comment.DeleteCommentDataAccessInterface;
-import use_case.get_review_comments.GetReviewCommentsDataAccessInterface;
-import use_case.get_user_comments.GetUserCommentsDataAccessInterface;
-import use_case.like_comment.LikeCommentDataAccessInterface;
-import use_case.unlike_comment.UnlikeCommentDataAccessInterface;
+import use_case.comment.create_comment.CreateCommentDataAccessInterface;
+import use_case.comment.delete_comment.DeleteCommentDataAccessInterface;
+import use_case.comment.get_review_comments.GetReviewCommentsDataAccessInterface;
+import use_case.comment.get_user_comments.GetUserCommentsDataAccessInterface;
+import use_case.comment.like_comment.LikeCommentDataAccessInterface;
+import use_case.comment.unlike_comment.UnlikeCommentDataAccessInterface;
 
 /**
  * In-memory data access object for comment data.
