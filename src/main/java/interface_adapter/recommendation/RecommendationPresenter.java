@@ -63,7 +63,8 @@ public class RecommendationPresenter implements RecommendationOutputBoundary {
                     outputData.getRecommendationReleaseYear(index),
                     outputData.getRecommendationScore(index),
                     outputData.getRecommendationPrimaryGenre(index),
-                    outputData.getRecommendationExplanation(index)
+                    outputData.getRecommendationExplanation(index),
+                    outputData.getRecommendationPosterPath(index)
             ));
         }
         return rows;
@@ -96,7 +97,8 @@ public class RecommendationPresenter implements RecommendationOutputBoundary {
                     outputData.getSectionRecommendationReleaseYear(sectionIndex, index),
                     outputData.getSectionRecommendationScore(sectionIndex, index),
                     outputData.getSectionRecommendationPrimaryGenre(sectionIndex, index),
-                    outputData.getSectionRecommendationExplanation(sectionIndex, index)
+                    outputData.getSectionRecommendationExplanation(sectionIndex, index),
+                    outputData.getSectionRecommendationPosterPath(sectionIndex, index)
             ));
         }
         return rows;

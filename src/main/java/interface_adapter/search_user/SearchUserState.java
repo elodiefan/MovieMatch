@@ -3,23 +3,21 @@ package interface_adapter.search_user;
 import java.util.ArrayList;
 import java.util.List;
 
-import use_case.search_user.UserSummary;
-
 /**
  * The state for the Search User View Model.
  */
 public class SearchUserState {
 
-    private List<UserSummary> results = new ArrayList<>();
+    private List<UserSearchRow> results = new ArrayList<>();
     private String keyword = "";
     private String searchError;
     private boolean searched;
 
-    public List<UserSummary> getResults() {
+    public List<UserSearchRow> getResults() {
         return results;
     }
 
-    public void setResults(List<UserSummary> results) {
+    public void setResults(List<UserSearchRow> results) {
         this.results = results;
     }
 

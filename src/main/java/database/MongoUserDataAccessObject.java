@@ -13,12 +13,15 @@ import java.util.Set;
 import org.bson.Document;
 import org.bson.conversions.Bson;
 
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.mongodb.client.MongoClient;
 import com.mongodb.client.MongoClients;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
 import com.mongodb.client.model.Filters;
 import com.mongodb.client.model.Updates;
+import entity.MediaListItem;
 import entity.StandardUser;
 import entity.User;
 import entity.UserLists;
@@ -42,6 +45,8 @@ public class MongoUserDataAccessObject implements UserDataAccessObject {
      * Mongo's regex option for ignoring case.
      */
     private static final String CASE_INSENSITIVE = "i";
+    private static final String MOVIE_TYPE = "movie";
+    private static final String TV_TYPE = "tv";
 
     // Field names exactly as stored in MongoDB. Case matters.
     private static final String USERNAME = "username";
@@ -54,6 +59,7 @@ public class MongoUserDataAccessObject implements UserDataAccessObject {
     private static final String MEDIA_ID = "mediaId";
     private static final String MEDIA_TYPE = "mediaType";
     private static final String MEDIA_TITLE = "mediaTitle";
+    private static final String POSTER_PATH = "posterPath";
     private static final String ADDED_AT = "addedAt";
     private static final String WATCHED_AT = "watchedAt";
     private static final String REVIEWS = "reviews";
@@ -62,6 +68,8 @@ public class MongoUserDataAccessObject implements UserDataAccessObject {
 
     private final MongoClient mongoClient;
     private final MongoCollection<Document> users;
+    private final TmdbApiClient tmdbApiClient = new TmdbApiClient();
+    private final ObjectMapper objectMapper = new ObjectMapper();
 
     /**
      * Who is logged in right now.
@@ -226,10 +234,11 @@ public class MongoUserDataAccessObject implements UserDataAccessObject {
 
     @Override
     public void addToWatchlist(String username, int mediaId, String mediaType,
-                               String mediaTitle, String addedAt) {
+                               String mediaTitle, String posterPath,
+                               String addedAt) {
         ensureUserListFields(username);
         final Document mediaDocument = createMediaListDocument(mediaId,
-                mediaType, mediaTitle, ADDED_AT, addedAt);
+                mediaType, mediaTitle, posterPath, ADDED_AT, addedAt);
         replaceMediaListItem(username, WATCHLIST, mediaId, mediaType,
                 mediaDocument);
     }
@@ -237,12 +246,25 @@ public class MongoUserDataAccessObject implements UserDataAccessObject {
     @Override
     public void addToWatchHistory(String username, int mediaId,
                                   String mediaType, String mediaTitle,
-                                  String watchedAt) {
+                                  String posterPath, String watchedAt) {
         ensureUserListFields(username);
         final Document mediaDocument = createMediaListDocument(mediaId,
-                mediaType, mediaTitle, WATCHED_AT, watchedAt);
+                mediaType, mediaTitle, posterPath, WATCHED_AT, watchedAt);
+        removeMediaListItem(username, WATCHLIST, mediaId, mediaType);
         replaceMediaListItem(username, WATCH_HISTORY, mediaId, mediaType,
                 mediaDocument);
+    }
+
+    @Override
+    public boolean hasWatchedMedia(String username, int mediaId,
+                                   String mediaType) {
+        ensureUserListFields(username);
+        final Bson watchedMediaFilter = Filters.and(
+                Filters.eq(USERNAME, username),
+                Filters.elemMatch(WATCH_HISTORY,
+                        Filters.and(Filters.eq(MEDIA_ID, mediaId),
+                                Filters.eq(MEDIA_TYPE, mediaType))));
+        return users.find(watchedMediaFilter).first() != null;
     }
 
     private static List<String> getBlockedUsers(Document doc) {
@@ -457,27 +479,112 @@ public class MongoUserDataAccessObject implements UserDataAccessObject {
         final String userWatchlist = MongoDataCleaning.convertWatchlistToString(watchlist);
         final String userWatchHistory = MongoDataCleaning.convertWatchHistoryToString(watchHistory);
         final String userBlockedUsers = MongoDataCleaning.convertBlockedUsersToString(blockedUsers);
-        return new UserLists(username, userWatchlist, userWatchHistory, userBlockedUsers);
+        return new UserLists(username, userWatchlist, userWatchHistory,
+                userBlockedUsers, toMediaListItems(username, WATCHLIST,
+                watchlist, ADDED_AT), toMediaListItems(username,
+                WATCH_HISTORY, watchHistory, WATCHED_AT));
     }
 
     private Document createMediaListDocument(int mediaId, String mediaType,
                                              String mediaTitle,
+                                             String posterPath,
                                              String dateField,
                                              String loggedAt) {
         return new Document(MEDIA_ID, mediaId)
                 .append(MEDIA_TYPE, mediaType)
                 .append(MEDIA_TITLE, mediaTitle)
+                .append(POSTER_PATH, posterPath)
                 .append(dateField, loggedAt);
+    }
+
+    private List<MediaListItem> toMediaListItems(String username,
+                                                 String listField,
+                                                 List<Document> documents,
+                                                 String dateField) {
+        final List<MediaListItem> mediaListItems = new ArrayList<>();
+        if (documents != null) {
+            for (Document document : documents) {
+                mediaListItems.add(toMediaListItem(username, listField,
+                        document, dateField));
+            }
+        }
+        return mediaListItems;
+    }
+
+    private MediaListItem toMediaListItem(String username, String listField,
+                                          Document document,
+                                          String dateField) {
+        final int mediaId = document.getInteger(MEDIA_ID);
+        final String mediaType = document.getString(MEDIA_TYPE);
+        final String posterPath = getPosterPath(username, listField, mediaId,
+                mediaType, document.getString(POSTER_PATH));
+        return new MediaListItem(mediaId, mediaType,
+                document.getString(MEDIA_TITLE),
+                document.getString(dateField),
+                posterPath);
+    }
+
+    private String getPosterPath(String username, String listField,
+                                 int mediaId, String mediaType,
+                                 String savedPosterPath) {
+        String posterPath = savedPosterPath;
+        if (posterPath == null || posterPath.isEmpty()) {
+            posterPath = loadPosterPath(mediaId, mediaType);
+            cachePosterPath(username, listField, mediaId, mediaType,
+                    posterPath);
+        }
+        return posterPath;
+    }
+
+    private String loadPosterPath(int mediaId, String mediaType) {
+        String posterPath = "";
+        try {
+            final String detailsJson;
+            if (MOVIE_TYPE.equals(mediaType)) {
+                detailsJson = tmdbApiClient.getMovieDetails(mediaId);
+                posterPath = parsePosterPath(detailsJson);
+            } else if (TV_TYPE.equals(mediaType)) {
+                detailsJson = tmdbApiClient.getTvShowDetails(mediaId);
+                posterPath = parsePosterPath(detailsJson);
+            }
+        } catch (IOException | IllegalStateException exception) {
+            posterPath = "";
+        }
+        return posterPath;
+    }
+
+    private String parsePosterPath(String detailsJson) throws IOException {
+        final JsonNode details = objectMapper.readTree(detailsJson);
+        return details.path("poster_path").asText("");
+    }
+
+    private void cachePosterPath(String username, String listField,
+                                 int mediaId, String mediaType,
+                                 String posterPath) {
+        if (posterPath != null && !posterPath.isEmpty()) {
+            users.updateOne(Filters.and(Filters.eq(USERNAME, username),
+                            Filters.elemMatch(listField,
+                                    Filters.and(Filters.eq(MEDIA_ID, mediaId),
+                                            Filters.eq(MEDIA_TYPE,
+                                                    mediaType)))),
+                    Updates.set(listField + ".$." + POSTER_PATH,
+                            posterPath));
+        }
     }
 
     private void replaceMediaListItem(String username, String listField,
                                       int mediaId, String mediaType,
                                       Document mediaDocument) {
+        removeMediaListItem(username, listField, mediaId, mediaType);
+        users.updateOne(Filters.eq(USERNAME, username),
+                Updates.push(listField, mediaDocument));
+    }
+
+    private void removeMediaListItem(String username, String listField,
+                                     int mediaId, String mediaType) {
         users.updateOne(Filters.eq(USERNAME, username),
                 Updates.pull(listField, new Document(MEDIA_ID, mediaId)
                         .append(MEDIA_TYPE, mediaType)));
-        users.updateOne(Filters.eq(USERNAME, username),
-                Updates.push(listField, mediaDocument));
     }
 
     @Override

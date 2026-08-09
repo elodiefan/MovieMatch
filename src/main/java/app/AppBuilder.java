@@ -11,6 +11,7 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.WindowConstants;
 
+import interface_adapter.messaging.MessagingViewModel;
 import views.*;
 
 import database.*;
@@ -43,9 +44,6 @@ import interface_adapter.media_detail.MediaDetailViewModel;
 import interface_adapter.media_reviews.MediaReviewsController;
 import interface_adapter.media_reviews.MediaReviewsPresenter;
 import interface_adapter.media_reviews.MediaReviewsViewModel;
-import interface_adapter.messaging.MessagingController;
-import interface_adapter.messaging.MessagingPresenter;
-import interface_adapter.messaging.MessagingViewModel;
 import interface_adapter.other_account.OtherAccountController;
 import interface_adapter.other_account.OtherAccountPresenter;
 import interface_adapter.other_account.OtherAccountViewModel;
@@ -55,24 +53,12 @@ import interface_adapter.personal_account.PersonalAccountViewModel;
 import interface_adapter.reset_password.ResetPasswordController;
 import interface_adapter.reset_password.ResetPasswordPresenter;
 import interface_adapter.reset_password.ResetPasswordViewModel;
-import use_case.access_message_chat.AccessMessageChatInputBoundary;
-import use_case.access_message_chat.AccessMessageChatInteractor;
-import use_case.access_message_chat.AccessMessageChatOutputBoundary;
-import use_case.block_user.BlockUserInputBoundary;
-import use_case.block_user.BlockUserInteractor;
-import use_case.block_user.BlockUserOutputBoundary;
 import use_case.change_display_name.ChangeDisplayNameInputBoundary;
 import use_case.change_display_name.ChangeDisplayNameInteractor;
 import use_case.change_display_name.ChangeDisplayNameOutputBoundary;
 import use_case.change_username.ChangeUsernameInputBoundary;
 import use_case.change_username.ChangeUsernameInteractor;
 import use_case.change_username.ChangeUsernameOutputBoundary;
-import use_case.fetch_chat_history.FetchChatHistoryInputBoundary;
-import use_case.fetch_chat_history.FetchChatHistoryInteractor;
-import use_case.fetch_chat_history.FetchChatHistoryOutputBoundary;
-import use_case.send_message.SendMessageInputBoundary;
-import use_case.send_message.SendMessageInteractor;
-import use_case.send_message.SendMessageOutputBoundary;
 import interface_adapter.search_user.SearchUserViewModel;
 import interface_adapter.search.SearchViewModel;
 import interface_adapter.recommendation.RecommendationViewModel;
@@ -103,31 +89,33 @@ import interface_adapter.signup.SignupViewModel;
 import interface_adapter.user_reviews.UserReviewsController;
 import interface_adapter.user_reviews.UserReviewsPresenter;
 import interface_adapter.user_reviews.UserReviewsViewModel;
-import use_case.create_comment.CreateCommentInteractor;
-import use_case.delete_comment.DeleteCommentInteractor;
-import use_case.get_review_comments.GetReviewCommentsInteractor;
-import use_case.get_user_comments.GetUserCommentsInputBoundary;
-import use_case.get_user_comments.GetUserCommentsInteractor;
-import use_case.like_comment.LikeCommentInteractor;
-import use_case.unlike_comment.UnlikeCommentInteractor;
+import use_case.comment.create_comment.CreateCommentInteractor;
+import use_case.comment.delete_comment.DeleteCommentInteractor;
+import use_case.comment.get_review_comments.GetReviewCommentsInteractor;
+import use_case.comment.get_user_comments.GetUserCommentsInputBoundary;
+import use_case.comment.get_user_comments.GetUserCommentsInteractor;
+import use_case.comment.like_comment.LikeCommentInteractor;
+import use_case.comment.unlike_comment.UnlikeCommentInteractor;
+import use_case.block_user.BlockUserInputBoundary;
+import use_case.block_user.BlockUserInteractor;
 import use_case.filter.FilterInputBoundary;
 import use_case.filter.FilterInteractor;
 import use_case.filter.FilterOutputBoundary;
-import use_case.get_blocked_users.GetBlockedUsersInputBoundary;
-import use_case.get_blocked_users.GetBlockedUsersInteractor;
-import use_case.get_blocked_users.GetBlockedUsersOutputBoundary;
-import use_case.get_watch_history.GetWatchHistoryInputBoundary;
-import use_case.get_watch_history.GetWatchHistoryInteractor;
-import use_case.get_watch_history.GetWatchHistoryOutputBoundary;
-import use_case.get_watchlist.GetWatchlistOutputBoundary;
+import use_case.get_lists.get_blocked_users.GetBlockedUsersInputBoundary;
+import use_case.get_lists.get_blocked_users.GetBlockedUsersInteractor;
+import use_case.get_lists.get_blocked_users.GetBlockedUsersOutputBoundary;
+import use_case.get_lists.get_watch_history.GetWatchHistoryInputBoundary;
+import use_case.get_lists.get_watch_history.GetWatchHistoryInteractor;
+import use_case.get_lists.get_watch_history.GetWatchHistoryOutputBoundary;
+import use_case.get_lists.get_watchlist.GetWatchlistOutputBoundary;
 import use_case.get_profile.GetProfileInputBoundary;
 import use_case.get_profile.GetProfileInteractor;
 import use_case.get_profile.GetProfileOutputBoundary;
 import use_case.delete_account.DeleteAccountInputBoundary;
 import use_case.delete_account.DeleteAccountInteractor;
 import use_case.delete_account.DeleteAccountOutputBoundary;
-import use_case.get_watchlist.GetWatchlistInputBoundary;
-import use_case.get_watchlist.GetWatchlistInteractor;
+import use_case.get_lists.get_watchlist.GetWatchlistInputBoundary;
+import use_case.get_lists.get_watchlist.GetWatchlistInteractor;
 import use_case.get_security_question.GetSecurityQuestionInputBoundary;
 import use_case.get_security_question.GetSecurityQuestionInteractor;
 import use_case.get_security_question.GetSecurityQuestionOutputBoundary;
@@ -146,19 +134,19 @@ import use_case.logout.LogoutOutputBoundary;
 import use_case.reset_password.ResetPasswordInputBoundary;
 import use_case.reset_password.ResetPasswordInteractor;
 import use_case.reset_password.ResetPasswordOutputBoundary;
-import use_case.create_review.CreateReviewInteractor;
-import use_case.delete_review.DeleteReviewInputBoundary;
-import use_case.delete_review.DeleteReviewInteractor;
-import use_case.edit_review.EditReviewInputBoundary;
-import use_case.edit_review.EditReviewInteractor;
-import use_case.get_media_reviews.GetMediaReviewsInteractor;
-import use_case.get_user_reviews.GetUserReviewsInputBoundary;
-import use_case.get_user_reviews.GetUserReviewsInteractor;
-import use_case.get_user_reviews.GetUserReviewsOutputBoundary;
-import use_case.like_review.LikeReviewInputBoundary;
-import use_case.like_review.LikeReviewInteractor;
-import use_case.unlike_review.UnlikeReviewInputBoundary;
-import use_case.unlike_review.UnlikeReviewInteractor;
+import use_case.review.create_review.CreateReviewInteractor;
+import use_case.review.delete_review.DeleteReviewInputBoundary;
+import use_case.review.delete_review.DeleteReviewInteractor;
+import use_case.review.edit_review.EditReviewInputBoundary;
+import use_case.review.edit_review.EditReviewInteractor;
+import use_case.review.get_media_reviews.GetMediaReviewsInteractor;
+import use_case.review.get_user_reviews.GetUserReviewsInputBoundary;
+import use_case.review.get_user_reviews.GetUserReviewsInteractor;
+import use_case.review.get_user_reviews.GetUserReviewsOutputBoundary;
+import use_case.review.like_review.LikeReviewInputBoundary;
+import use_case.review.like_review.LikeReviewInteractor;
+import use_case.review.unlike_review.UnlikeReviewInputBoundary;
+import use_case.review.unlike_review.UnlikeReviewInteractor;
 import use_case.security_question.SecurityQuestionInputBoundary;
 import use_case.security_question.SecurityQuestionInteractor;
 import use_case.security_question.SecurityQuestionOutputBoundary;
@@ -234,9 +222,9 @@ public class AppBuilder {
     private PersonalAccountViewModel personalAccountViewModel;
     private ResetPasswordView resetPasswordView;
     private ResetPasswordViewModel resetPasswordViewModel;
-    private MyReviewsView userReviewsView;
     private MessagingView messagingView;
     private MessagingViewModel messagingViewModel;
+    private MyReviewsView userReviewsView;
     private UserReviewsViewModel userReviewsViewModel;
     private SecurityQuestionView securityQuestionView;
     private SecurityQuestionViewModel securityQuestionViewModel;
@@ -252,6 +240,12 @@ public class AppBuilder {
     private SettingsViewModel settingsViewModel;
     private RecommendationView recommendationView;
     private HomeRecommendationsPanel homeRecommendationsPanel;
+
+    /**
+     * Shared by the settings and recommendation use cases: one writes the
+     * content preference, the other reads it.
+     */
+    private final InMemoryContentPreferences contentPreferences = new InMemoryContentPreferences();
 
     /**
      * One per screen, because the strip and the full list show different amounts.
@@ -379,14 +373,12 @@ public class AppBuilder {
         // The presenter accepts a reviews view model but currently discards it,
         // so this is inert until that part of the presenter is finished.
         final OtherAccountPresenter otherAccountPresenter = new OtherAccountPresenter(viewManagerModel,
-                otherAccountViewModel, messagingViewModel);
+                otherAccountViewModel);
         final BlockUserInputBoundary blockUserInteractor = new BlockUserInteractor(userDataAccessObject,
                 otherAccountPresenter);
-        final AccessMessageChatInputBoundary accessMessageChatInteractor = new AccessMessageChatInteractor(
-                userDataAccessObject, mongoMessagesDataAccessObject,otherAccountPresenter);
 
         final OtherAccountController otherAccountController = new OtherAccountController(viewManagerModel,
-                blockUserInteractor, createGetListsController(), accessMessageChatInteractor);
+                blockUserInteractor, createGetListsController(), null);
         otherAccountView.setOtherAccountController(otherAccountController);
         return this;
     }
@@ -567,6 +559,7 @@ public class AppBuilder {
         return this;
     }
 
+//    // TODO: For Yidan/Kiersten -> Implement search view files.
     /**
      * Adds the Home Page Use Case to the application.
      *
@@ -826,7 +819,8 @@ public class AppBuilder {
                 homeRecommendationsPanel,
                 recommendationView,
                 userDataAccessObject,
-                reviewDataAccessObject);
+                reviewDataAccessObject,
+                contentPreferences);
         return this;
     }
 
@@ -911,7 +905,10 @@ public class AppBuilder {
      */
     public AppBuilder addSettingsUseCase() {
         final SettingsOutputBoundary settingsOutputBoundary = new SettingsPresenter(settingsViewModel);
-        final SettingsInputBoundary settingsInteractor = new SettingsInteractor(settingsOutputBoundary);
+        // The same object the recommendation use case reads from, so turning
+        // the checkbox off is what the next set of suggestions is built on.
+        final SettingsInputBoundary settingsInteractor =
+                new SettingsInteractor(settingsOutputBoundary, contentPreferences);
 
         final SettingsController settingsController = new SettingsController(settingsInteractor);
         settingsView.setSettingsController(settingsController);
@@ -1017,6 +1014,16 @@ public class AppBuilder {
         searchResultView.setMediaDetailController(
                 mediaDetailController
         );
+        getListsView.setMediaDetailController(
+                mediaDetailController
+        );
+        userReviewsView.setMediaDetailController(
+                mediaDetailController
+        );
+        userReviewsView.setMediaReviewTargets(mediaReviewsViewModel,
+                commentsViewModel);
+
+        getListsView.setMediaDetailController(mediaDetailController);
 
         mediaDetailView.setMediaDetailController(
                 mediaDetailController
@@ -1056,6 +1063,8 @@ public class AppBuilder {
                 UiTheme.padScreen((JComponent) card);
             }
             UiTheme.applyTo(card);
+            // Before the heading is styled, so the heading keeps its own size.
+            UiTheme.applyDefaultTextSize(card);
             UiTheme.styleFirstLabelAsTitle((Container) card);
             if (card instanceof JPanel) {
                 UiTheme.tidyVerticalScreen((JPanel) card);
@@ -1106,7 +1115,7 @@ public class AppBuilder {
                         mediaReviewsPresenter);
         final CreateReviewInteractor createReviewInteractor =
                 new CreateReviewInteractor(reviewDataAccessObject,
-                        mediaReviewsPresenter);
+                        userDataAccessObject, mediaReviewsPresenter);
         final EditReviewInteractor editReviewInteractor =
                 new EditReviewInteractor(reviewDataAccessObject,
                         mediaReviewsPresenter);

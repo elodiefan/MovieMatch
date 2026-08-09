@@ -3,8 +3,7 @@ package use_case.filter;
 import java.util.ArrayList;
 import java.util.List;
 
-import entity.Genre;
-import entity.Media;
+import use_case.search.MediaResultData;
 
 /**
  * The Filter Interactor.
@@ -20,13 +19,13 @@ public class FilterInteractor implements FilterInputBoundary {
         this.filterPresenter = filterPresenter;
     }
 
-    private List<Media> filterMedia(
-            List<Media> originalResults,
+    private List<MediaResultData> filterMedia(
+            List<MediaResultData> originalResults,
             FilterCriteria criteria) {
 
-        final List<Media> filteredResults = new ArrayList<>();
+        final List<MediaResultData> filteredResults = new ArrayList<>();
 
-        for (Media media : originalResults) {
+        for (MediaResultData media : originalResults) {
             if (matchesLanguages(media, criteria)
                     && matchesMinimumRating(media, criteria)
                     && matchesGenres(media, criteria)
@@ -46,7 +45,7 @@ public class FilterInteractor implements FilterInputBoundary {
             );
         }
         else {
-            final List<Media> originalResults =
+            final List<MediaResultData> originalResults =
                     inputData.getOriginalResults();
             final FilterCriteria criteria =
                     inputData.getCriteria();
@@ -72,7 +71,7 @@ public class FilterInteractor implements FilterInputBoundary {
                 );
             }
             else {
-                final List<Media> filteredResults =
+                final List<MediaResultData> filteredResults =
                         filterMedia(originalResults, criteria);
 
                 final FilterOutputData outputData =
@@ -84,7 +83,7 @@ public class FilterInteractor implements FilterInputBoundary {
     }
 
     private boolean matchesLanguages(
-            Media media,
+            MediaResultData media,
             FilterCriteria criteria) {
 
         final List<String> languages = criteria.getLanguages();
@@ -103,7 +102,7 @@ public class FilterInteractor implements FilterInputBoundary {
     }
 
     private boolean matchesMinimumRating(
-            Media media,
+            MediaResultData media,
             FilterCriteria criteria) {
 
         final Double minimumRating = criteria.getMinimumRating();
@@ -113,7 +112,7 @@ public class FilterInteractor implements FilterInputBoundary {
     }
 
     private boolean matchesGenres(
-            Media media,
+            MediaResultData media,
             FilterCriteria criteria) {
 
         final List<Integer> selectedGenreIds =
@@ -122,13 +121,14 @@ public class FilterInteractor implements FilterInputBoundary {
                 || selectedGenreIds.isEmpty();
 
         if (!matches) {
-            final List<Genre> mediaGenres = media.getGenres();
+            final List<Integer> mediaGenreIds = media.getGenreIds();
 
-            if (mediaGenres != null) {
-                for (Genre genre : mediaGenres) {
-                    if (genre != null
-                            && selectedGenreIds.contains(genre.getId())) {
-                        matches = true;
+            if (mediaGenreIds != null) {
+                for (Integer genreId : mediaGenreIds) {
+                    matches = genreId != null
+                            && selectedGenreIds.contains(genreId);
+                    if (matches) {
+                        break;
                     }
                 }
             }
@@ -138,7 +138,7 @@ public class FilterInteractor implements FilterInputBoundary {
     }
 
     private boolean matchesYearRange(
-            Media media,
+            MediaResultData media,
             FilterCriteria criteria) {
 
         final Integer earliestYear = criteria.getEarliestYear();

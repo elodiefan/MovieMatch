@@ -162,22 +162,7 @@ public class HomeRecommendationsPanel extends JPanel implements PropertyChangeLi
     }
 
     private void addRow(RecommendationRow media) {
-        final JPanel row = new JPanel();
-        row.setLayout(new BoxLayout(row, BoxLayout.Y_AXIS));
-        row.setAlignmentX(Component.LEFT_ALIGNMENT);
-
-        row.add(new JLabel(media.getTitle() + " (" + media.getReleaseYear() + ")"
-                + "  -  " + media.getPrimaryGenre()));
-
-        // Only present once Gemini has had a look; the deterministic ranking
-        // alone leaves it blank, which is a valid result rather than a fault.
-        if (media.getExplanation() != null && !media.getExplanation().isBlank()) {
-            final JLabel why = new JLabel(media.getExplanation());
-            why.setForeground(UiTheme.MUTED_TEXT);
-            row.add(why);
-        }
-
-        rows.add(row);
+        rows.add(new RecommendationRowPanel(media));
     }
 
     /**

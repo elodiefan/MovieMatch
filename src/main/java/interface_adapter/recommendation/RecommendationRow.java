@@ -11,17 +11,19 @@ public class RecommendationRow {
     private final double score;
     private final String primaryGenre;
     private final String explanation;
+    private final String posterPath;
 
     public RecommendationRow(final int mediaId, final String title,
                              final int releaseYear, final double score,
                              final String primaryGenre,
-                             final String explanation) {
+                             final String explanation, final String posterPath) {
         this.mediaId = mediaId;
         this.title = title;
         this.releaseYear = releaseYear;
         this.score = score;
         this.primaryGenre = primaryGenre;
         this.explanation = explanation;
+        this.posterPath = posterPath;
     }
 
     public int getMediaId() {
@@ -46,5 +48,14 @@ public class RecommendationRow {
 
     public String getExplanation() {
         return explanation;
+    }
+
+    /**
+     * Returns the poster path, or blank when the title has no artwork.
+     *
+     * @return the poster path
+     */
+    public String getPosterPath() {
+        return posterPath;
     }
 }

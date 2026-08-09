@@ -1,7 +1,11 @@
 package interface_adapter.search_user;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import use_case.search_user.SearchUserOutputBoundary;
 import use_case.search_user.SearchUserOutputData;
+import use_case.search_user.UserSummary;
 
 /**
  * The Presenter for the Search User Use Case.
@@ -21,7 +25,7 @@ public class SearchUserPresenter implements SearchUserOutputBoundary {
     @Override
     public void prepareSuccessView(SearchUserOutputData outputData) {
         final SearchUserState state = searchUserViewModel.getState();
-        state.setResults(outputData.getResults());
+        state.setResults(toUserSearchRows(outputData.getResults()));
         state.setKeyword(outputData.getKeyword());
         state.setSearchError(null);
         state.setSearched(true);
@@ -37,5 +41,14 @@ public class SearchUserPresenter implements SearchUserOutputBoundary {
 
         searchUserViewModel.setState(state);
         searchUserViewModel.firePropertyChanged();
+    }
+
+    private List<UserSearchRow> toUserSearchRows(List<UserSummary> users) {
+        final List<UserSearchRow> rows = new ArrayList<>();
+        for (UserSummary user : users) {
+            rows.add(new UserSearchRow(user.getUsername(),
+                    user.getDisplayName()));
+        }
+        return rows;
     }
 }

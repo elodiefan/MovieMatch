@@ -222,4 +222,25 @@ public class RecommendationOutputData {
     public boolean isEmpty() {
         return this.recommendations.isEmpty();
     }
+
+    /**
+     * Returns the poster path for one suggestion.
+     * @param index the recommendation index
+     * @return the poster path
+     */
+    public String getRecommendationPosterPath(final int index) {
+        return recommendations.get(index).getPosterPath();
+    }
+
+    /**
+     * Returns the poster path for one suggestion in a section.
+     * @param sectionIndex the section index
+     * @param recommendationIndex the recommendation index
+     * @return the poster path
+     */
+    public String getSectionRecommendationPosterPath(final int sectionIndex,
+                                                      final int recommendationIndex) {
+        return sections.get(sectionIndex).getRecommendations()
+                .get(recommendationIndex).getPosterPath();
+    }
 }

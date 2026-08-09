@@ -3,6 +3,7 @@ package use_case.search;
 import java.util.ArrayList;
 import java.util.List;
 
+import entity.Genre;
 import entity.Media;
 
 /**
@@ -71,7 +72,38 @@ public class SearchInteractor implements SearchInputBoundary {
             }
 
             searchPresenter.prepareSuccessView(new SearchOutputData(
-                    results, keyword, page, page <= totalPages, appending, totalResults));
+                    toMediaResultData(results), keyword, page,
+                    page <= totalPages, appending, totalResults));
         }
+    }
+
+    private List<MediaResultData> toMediaResultData(List<Media> mediaResults) {
+        final List<MediaResultData> rows = new ArrayList<>();
+        for (Media media : mediaResults) {
+            rows.add(new MediaResultData(media.getID(),
+                    media.getMediaType().name().toLowerCase(),
+                    media.getTitle(), media.getReleaseYear(),
+                    media.getAverageRating(),
+                    toGenreNames(media.getGenres()),
+                    toGenreIds(media.getGenres()), media.getLanguage(),
+                    media.getOverview(), media.getPosterPath()));
+        }
+        return rows;
+    }
+
+    private List<String> toGenreNames(List<Genre> genres) {
+        final List<String> names = new ArrayList<>();
+        for (Genre genre : genres) {
+            names.add(genre.getName());
+        }
+        return names;
+    }
+
+    private List<Integer> toGenreIds(List<Genre> genres) {
+        final List<Integer> ids = new ArrayList<>();
+        for (Genre genre : genres) {
+            ids.add(genre.getId());
+        }
+        return ids;
     }
 }

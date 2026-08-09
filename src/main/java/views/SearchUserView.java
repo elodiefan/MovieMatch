@@ -14,8 +14,8 @@ import javax.swing.JTextField;
 
 import interface_adapter.search_user.SearchUserController;
 import interface_adapter.search_user.SearchUserState;
+import interface_adapter.search_user.UserSearchRow;
 import interface_adapter.search_user.SearchUserViewModel;
-import use_case.search_user.UserSummary;
 
 /**
  * The View for searching for other users.
@@ -99,7 +99,7 @@ public class SearchUserView extends JPanel implements PropertyChangeListener {
         this.repaint();
     }
 
-    private void addUserResult(UserSummary user) {
+    private void addUserResult(UserSearchRow user) {
         final JPanel userPanel = new JPanel();
         userPanel.add(new JLabel(user.getDisplayName() + " (" + user.getUsername() + ")"));
 

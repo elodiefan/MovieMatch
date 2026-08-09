@@ -26,7 +26,7 @@ public class FetchChatHistoryInteractor implements FetchChatHistoryInputBoundary
             }
             else {
                 final String newMessages = messageDataAccessObject.getNewMessages(username, otherUsername,
-                         fetchChatHistoryInputData.getDate());
+                        fetchChatHistoryInputData.getDate());
                 prevMessages.append(newMessages);
             }
         }

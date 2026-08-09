@@ -4,11 +4,10 @@ import interface_adapter.ViewManagerModel;
 import interface_adapter.get_lists.GetListsController;
 import interface_adapter.search_user.SearchUserViewModel;
 import use_case.access_message_chat.AccessMessageChatInputBoundary;
-import use_case.access_message_chat.AccessMessageChatInputData;
 import use_case.block_user.BlockUserInputBoundary;
 import use_case.block_user.BlockUserInputData;
-//import use_case.get_watchlist.GetWatchlistInputBoundary;
-//import use_case.get_watch_history.GetWatchHistoryInputBoundary;
+//import use_case.get_lists.get_watchlist.GetWatchlistInputBoundary;
+//import use_case.get_lists.get_watch_history.GetWatchHistoryInputBoundary;
 //import use_case.get_reviews.GetReviews.InputBoundary;
 //import use_case.send_message.SendMessageInputBoundary;
 
@@ -21,6 +20,9 @@ public class OtherAccountController {
     private final GetListsController getListsController;
     private final ViewManagerModel viewManagerModel;
     private final String getListsViewName = "view lists";
+    //private final GetWatchlistInputBoundary getWatchlistInteractor;
+    //private final GetWatchHistoryInputBoundary getWatchHistoryInteractor;
+    //private final GetReviewsInputBoundary getReviewsInteractor;
     private final AccessMessageChatInputBoundary accessMessageChatInteractor;
 
     public OtherAccountController(ViewManagerModel viewManagerModel,
