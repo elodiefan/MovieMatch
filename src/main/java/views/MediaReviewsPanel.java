@@ -464,8 +464,6 @@ public final class MediaReviewsPanel extends JPanel
         final String selectedReviewId = mediaReviewsViewModel.getState()
                 .getSelectedReviewId();
         if (review.getReviewId().equals(selectedReviewId)) {
-            card.setOpaque(true);
-            card.setBackground(new Color(255, 249, 196));
             card.setBorder(BorderFactory.createLineBorder(Color.RED));
         }
     }
@@ -609,8 +607,6 @@ public final class MediaReviewsPanel extends JPanel
                                           final CommentRow comment) {
         if (commentsViewModel != null && comment.getCommentId().equals(
                 commentsViewModel.getState().getSelectedCommentId())) {
-            card.setOpaque(true);
-            card.setBackground(new Color(255, 249, 196));
             card.setBorder(BorderFactory.createCompoundBorder(
                     BorderFactory.createLineBorder(Color.RED),
                     BorderFactory.createEmptyBorder(0,
