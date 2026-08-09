@@ -22,9 +22,9 @@ public class GetWatchHistoryInteractor implements GetWatchHistoryInputBoundary {
     }
 
     @Override
-    public void execute(GetWatchHistoryInputData getListsInputData) {
-        final String username = getListsInputData.getUsername();
-        final String displayName = getListsInputData.getDisplayName();
+    public void execute(GetWatchHistoryInputData getWatchHistoryInputData) {
+        final String username = getWatchHistoryInputData.getUsername();
+        final String displayName = getWatchHistoryInputData.getDisplayName();
         final UserLists userLists = userDataAccessObject.getLists(username);
         final String watchHistory = userLists.getWatchHistory();
         final GetWatchHistoryOutputData getWatchHistoryOutputData = new GetWatchHistoryOutputData(username,
