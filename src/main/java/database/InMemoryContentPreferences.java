@@ -21,7 +21,7 @@ public class InMemoryContentPreferences
      * background thread while recommendations load, so the two threads have to
      * agree on its value.
      */
-    private volatile boolean adultContentAllowed;
+    private boolean adultContentAllowed;
 
     @Override
     public void setAdultContentAllowed(boolean allowed) {

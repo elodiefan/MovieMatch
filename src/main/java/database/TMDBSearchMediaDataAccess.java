@@ -17,7 +17,7 @@ import use_case.search.SearchMediaDataAccess;
  * Accesses TMDB search data and converts the responses into Media entities.
  * String literals defined for avoiding multiple times of using same string.
  */
-public class TmdbSearchMediaDataAccess
+public class TMDBSearchMediaDataAccess
         implements SearchMediaDataAccess {
 
     private static final String ID_FIELD = "id";
@@ -33,7 +33,7 @@ public class TmdbSearchMediaDataAccess
     private static final String POSTER_PATH_FIELD = "poster_path";
     private static final String NAME_FIELD = "name";
 
-    private final TmdbApiClient tmdbApiClient;
+    private final TMDBAPIClient tmdbApiClient;
     private final ObjectMapper objectMapper;
 
     /**
@@ -42,8 +42,8 @@ public class TmdbSearchMediaDataAccess
      *
      * @param tmdbApiClient the tmdb api client
      */
-    public TmdbSearchMediaDataAccess(
-            TmdbApiClient tmdbApiClient) {
+    public TMDBSearchMediaDataAccess(
+            TMDBAPIClient tmdbApiClient) {
         this.tmdbApiClient = tmdbApiClient;
         this.objectMapper = new ObjectMapper();
     }
@@ -81,7 +81,7 @@ public class TmdbSearchMediaDataAccess
                 final JsonNode movies =
                         objectMapper.readTree(tmdbApiClient.searchMovies(keyword, page));
                 final JsonNode shows =
-                        objectMapper.readTree(tmdbApiClient.searchTvShows(keyword, page));
+                        objectMapper.readTree(tmdbApiClient.searchTVShows(keyword, page));
 
                 addMediaFromPage(movies, results, true);
                 addMediaFromPage(shows, results, false);
@@ -191,7 +191,7 @@ public class TmdbSearchMediaDataAccess
      */
     private TVShow getTvShow(int tvShowId) throws IOException {
         final String detailsJson =
-                tmdbApiClient.getTvShowDetails(tvShowId);
+                tmdbApiClient.getTVShowDetails(tvShowId);
         final JsonNode details =
                 objectMapper.readTree(detailsJson);
 

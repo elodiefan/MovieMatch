@@ -1,5 +1,6 @@
 package views;
 
+import java.awt.Component;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -34,6 +35,7 @@ public class OtherAccountView extends JPanel implements PropertyChangeListener {
     private final JButton watchHistoryButton;
     private final JButton messageButton;
     private final JButton backButton;
+    private final JButton blockButton;
 
     public OtherAccountView(OtherAccountViewModel otherAccountViewModel) {
         this.otherAccountViewModel = otherAccountViewModel;
@@ -56,10 +58,12 @@ public class OtherAccountView extends JPanel implements PropertyChangeListener {
         watchlistButton = new JButton(OtherAccountViewModel.WATCHLIST_BUTTON);
         watchHistoryButton = new JButton(OtherAccountViewModel.WATCH_HISTORY_BUTTON);
         messageButton = new JButton(OtherAccountViewModel.MESSAGE_BUTTON);
+        blockButton = new JButton();
         backButton = new JButton(OtherAccountViewModel.BACK_BUTTON);
         accountOptionsPanel.add(watchlistButton);
         accountOptionsPanel.add(watchHistoryButton);
         accountOptionsPanel.add(messageButton);
+        accountOptionsPanel.add(blockButton);
         accountOptionsPanel.add(backButton);
 
         watchlistButton.addActionListener(
@@ -97,6 +101,18 @@ public class OtherAccountView extends JPanel implements PropertyChangeListener {
                         final OtherAccountState currentState = otherAccountViewModel.getState();
 
                         this.otherAccountController.goToMessages(currentState.getUsername());
+                    }
+                }
+        );
+
+        blockButton.addActionListener(
+                evt -> {
+                    if (evt.getSource().equals(blockButton)) {
+                        final OtherAccountState currentState = otherAccountViewModel.getState();
+
+                        this.otherAccountController.executeBlockUser(
+                                currentState.getUsername()
+                        );
                     }
                 }
         );

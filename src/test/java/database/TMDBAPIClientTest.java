@@ -12,14 +12,14 @@ import java.net.http.HttpRequest;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 
-class TmdbApiClientTest {
+class TMDBAPIClientTest {
 
     @Test
     void successfulSearchReturnsBodyAndBuildsAuthenticatedRequest()
             throws IOException {
         final FakeRequestSender sender = new FakeRequestSender();
         sender.body = "{\"results\":[]}";
-        final TmdbApiClient client = new TmdbApiClient(sender, "test-token");
+        final TMDBAPIClient client = new TMDBAPIClient(sender, "test-token");
 
         final String result = client.searchMovies("  star wars/hope  ", 2);
 
@@ -40,10 +40,10 @@ class TmdbApiClientTest {
         final FakeRequestSender blankTokenSender = new FakeRequestSender();
 
         final IOException nullException = assertThrows(IOException.class,
-                () -> new TmdbApiClient(nullTokenSender, null)
+                () -> new TMDBAPIClient(nullTokenSender, null)
                         .searchMovies("inception", 1));
         final IOException blankException = assertThrows(IOException.class,
-                () -> new TmdbApiClient(blankTokenSender, "  ")
+                () -> new TMDBAPIClient(blankTokenSender, "  ")
                         .searchMovies("inception", 1));
 
         assertEquals("Tmdb_Read_Access environment variable is missing.",
@@ -58,7 +58,7 @@ class TmdbApiClientTest {
     void non200ResponseBecomesIOException() {
         final FakeRequestSender sender = new FakeRequestSender();
         sender.statusCode = 503;
-        final TmdbApiClient client = new TmdbApiClient(sender, "token");
+        final TMDBAPIClient client = new TMDBAPIClient(sender, "token");
 
         final IOException exception = assertThrows(IOException.class,
                 () -> client.getPopularMovies(4));
@@ -71,10 +71,10 @@ class TmdbApiClientTest {
     void interruptedRequestRestoresFlagAndBecomesIOException() {
         final FakeRequestSender sender = new FakeRequestSender();
         sender.interrupted = true;
-        final TmdbApiClient client = new TmdbApiClient(sender, "token");
+        final TMDBAPIClient client = new TMDBAPIClient(sender, "token");
 
         final IOException exception = assertThrows(IOException.class,
-                () -> client.getPopularTvShows(3));
+                () -> client.getPopularTVShows(3));
 
         assertEquals("TMDB request was interrupted.", exception.getMessage());
         assertTrue(Thread.currentThread().isInterrupted());
@@ -89,26 +89,26 @@ class TmdbApiClientTest {
     @Test
     void everyEndpointBuildsTheExpectedPath() throws IOException {
         final FakeRequestSender sender = new FakeRequestSender();
-        final TmdbApiClient client = new TmdbApiClient(sender, "token");
+        final TMDBAPIClient client = new TMDBAPIClient(sender, "token");
 
         client.searchMulti("star wars", 2);
         assertPath(sender, "/search/multi?query=star+wars&page=2");
 
-        client.searchTvShows("the bear", 3);
+        client.searchTVShows("the bear", 3);
         assertPath(sender, "/search/tv?query=the+bear&page=3");
 
         client.discoverMovies("18,35", 4);
         assertPath(sender, "/discover/movie?with_genres=18,35"
                 + "&sort_by=popularity.desc&page=4");
 
-        client.discoverTvShows("99", 5);
+        client.discoverTVShows("99", 5);
         assertPath(sender, "/discover/tv?with_genres=99"
                 + "&sort_by=popularity.desc&page=5");
 
         client.getMovieGenres();
         assertPath(sender, "/genre/movie/list?language=en-US");
 
-        client.getTvGenres();
+        client.getTVGenres();
         assertPath(sender, "/genre/tv/list?language=en-US");
 
         client.getMovieDetails(101);
@@ -117,16 +117,16 @@ class TmdbApiClientTest {
         client.getMovieReviews(101);
         assertPath(sender, "/movie/101/reviews");
 
-        client.getTvShowDetails(202);
+        client.getTVShowDetails(202);
         assertPath(sender, "/tv/202?append_to_response=credits");
 
-        client.getTvShowReviews(202);
+        client.getTVShowReviews(202);
         assertPath(sender, "/tv/202/reviews");
 
         client.getMovies("/movie/now_playing?page=6");
         assertPath(sender, "/movie/now_playing?page=6");
 
-        client.getTvShows("/tv/top_rated?page=7");
+        client.getTVShows("/tv/top_rated?page=7");
         assertPath(sender, "/tv/top_rated?page=7");
     }
 
@@ -136,7 +136,7 @@ class TmdbApiClientTest {
     }
 
     private static class FakeRequestSender
-            implements TmdbApiClient.RequestSender {
+            implements TMDBAPIClient.RequestSender {
         private int statusCode = 200;
         private String body = "{}";
         private boolean interrupted;
@@ -146,14 +146,14 @@ class TmdbApiClientTest {
                 new InterruptedException("controlled interruption");
 
         @Override
-        public TmdbApiClient.Response send(HttpRequest sentRequest)
+        public TMDBAPIClient.Response send(HttpRequest sentRequest)
                 throws InterruptedException {
             called = true;
             request = sentRequest;
             if (interrupted) {
                 throw interruption;
             }
-            return new TmdbApiClient.Response(statusCode, body);
+            return new TMDBAPIClient.Response(statusCode, body);
         }
     }
 }

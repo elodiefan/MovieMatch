@@ -13,13 +13,13 @@ import entity.Movie;
 import entity.TVShow;
 import use_case.search.MediaPage;
 
-class TmdbSearchMediaDataAccessTest {
+class TMDBSearchMediaDataAccessTest {
 
     @Test
     void convertsMovieAndTvDetailsAndCombinesPageMetadata() {
-        final RecordingTmdbApiClient client = new RecordingTmdbApiClient();
-        final TmdbSearchMediaDataAccess dataAccess =
-                new TmdbSearchMediaDataAccess(client);
+        final RecordingTMDBAPIClient client = new RecordingTMDBAPIClient();
+        final TMDBSearchMediaDataAccess dataAccess =
+                new TMDBSearchMediaDataAccess(client);
 
         final MediaPage page = dataAccess.searchPage("space", 3);
 
@@ -47,17 +47,17 @@ class TmdbSearchMediaDataAccessTest {
 
     @Test
     void searchDelegatesToTheFirstPage() {
-        final RecordingTmdbApiClient client = new RecordingTmdbApiClient();
+        final RecordingTMDBAPIClient client = new RecordingTMDBAPIClient();
 
-        assertEquals(2, new TmdbSearchMediaDataAccess(client).search("space").size());
+        assertEquals(2, new TMDBSearchMediaDataAccess(client).search("space").size());
         assertEquals(1, client.page);
     }
 
     @Test
-    void blankKeywordDoesNotCallTmdb() {
-        final RecordingTmdbApiClient client = new RecordingTmdbApiClient();
+    void blankKeywordDoesNotCallTMDB() {
+        final RecordingTMDBAPIClient client = new RecordingTMDBAPIClient();
 
-        final MediaPage page = new TmdbSearchMediaDataAccess(client).searchPage("  ", 1);
+        final MediaPage page = new TMDBSearchMediaDataAccess(client).searchPage("  ", 1);
 
         assertTrue(page.getMedia().isEmpty());
         assertEquals(0, page.getTotalPages());
@@ -66,11 +66,11 @@ class TmdbSearchMediaDataAccessTest {
 
     @Test
     void invalidOrMissingDatesBecomeYearZero() {
-        final RecordingTmdbApiClient client = new RecordingTmdbApiClient();
+        final RecordingTMDBAPIClient client = new RecordingTMDBAPIClient();
         client.movieDate = "unknown";
         client.showDate = "";
 
-        final MediaPage page = new TmdbSearchMediaDataAccess(client).searchPage("x", 1);
+        final MediaPage page = new TMDBSearchMediaDataAccess(client).searchPage("x", 1);
 
         assertEquals(0, page.getMedia().get(0).getReleaseYear());
         assertEquals(0, page.getMedia().get(1).getReleaseYear());
@@ -78,16 +78,16 @@ class TmdbSearchMediaDataAccessTest {
 
     @Test
     void ioFailureIsTranslatedForTheFallbackLayer() {
-        final RecordingTmdbApiClient client = new RecordingTmdbApiClient();
+        final RecordingTMDBAPIClient client = new RecordingTMDBAPIClient();
         client.fail = true;
 
         final IllegalStateException exception = assertThrows(IllegalStateException.class,
-                () -> new TmdbSearchMediaDataAccess(client).search("space"));
+                () -> new TMDBSearchMediaDataAccess(client).search("space"));
 
         assertInstanceOf(IOException.class, exception.getCause());
     }
 
-    private static class RecordingTmdbApiClient extends TmdbApiClient {
+    private static class RecordingTMDBAPIClient extends TMDBAPIClient {
         private String keyword;
         private int page;
         private int calls;
@@ -103,7 +103,7 @@ class TmdbSearchMediaDataAccessTest {
         }
 
         @Override
-        public String searchTvShows(String requestedKeyword, int requestedPage)
+        public String searchTVShows(String requestedKeyword, int requestedPage)
                 throws IOException {
             record(requestedKeyword, requestedPage);
             return "{\"results\":[{\"id\":202}],\"total_pages\":5,\"total_results\":6}";
@@ -120,7 +120,7 @@ class TmdbSearchMediaDataAccessTest {
         }
 
         @Override
-        public String getTvShowDetails(int tvShowId) {
+        public String getTVShowDetails(int tvShowId) {
             return "{\"id\":202,\"name\":\"Test Show\",\"first_air_date\":\""
                     + showDate + "\",\"vote_average\":7.4,\"genres\":[],"
                     + "\"original_language\":\"fr\",\"credits\":{\"cast\":[]},"

@@ -18,7 +18,7 @@ import org.junit.jupiter.api.Test;
  * filtering on that flag alone changes nothing. Excluding the keywords is what
  * actually works, and these tests pin that to the URL that gets sent.
  */
-class TmdbAdultFilterTest {
+class TMDBAdultFilterTest {
 
     /** hentai, ecchi, softcore, erotic, animated porn, pornography. */
     private static final String BLOCKED_IDS =
@@ -27,13 +27,13 @@ class TmdbAdultFilterTest {
     /**
      * Captures the request instead of sending it.
      */
-    private static class CapturingSender implements TmdbApiClient.RequestSender {
+    private static class CapturingSender implements TMDBAPIClient.RequestSender {
         private HttpRequest request;
 
         @Override
-        public TmdbApiClient.Response send(HttpRequest sentRequest) {
+        public TMDBAPIClient.Response send(HttpRequest sentRequest) {
             this.request = sentRequest;
-            return new TmdbApiClient.Response(200, "{\"results\":[]}");
+            return new TMDBAPIClient.Response(200, "{\"results\":[]}");
         }
 
         private String uri() {
@@ -42,11 +42,11 @@ class TmdbAdultFilterTest {
     }
 
     private CapturingSender sender;
-    private TmdbApiClient client;
+    private TMDBAPIClient client;
 
     private void given() {
         sender = new CapturingSender();
-        client = new TmdbApiClient(sender, "test-token");
+        client = new TMDBAPIClient(sender, "test-token");
     }
 
     @Test
@@ -64,10 +64,10 @@ class TmdbAdultFilterTest {
 
     @Test
     @DisplayName("discovering shows with the setting off excludes the adult keywords")
-    void tvDiscoveryFiltersWhenNotAllowed() throws IOException {
+    void TVDiscoveryFiltersWhenNotAllowed() throws IOException {
         given();
 
-        client.discoverTvShows("16", 1, false);
+        client.discoverTVShows("16", 1, false);
 
         assertTrue(sender.uri().contains("without_keywords=" + BLOCKED_IDS));
         assertTrue(sender.uri().contains("include_adult=false"));
@@ -83,7 +83,7 @@ class TmdbAdultFilterTest {
         assertFalse(sender.uri().contains("include_adult"));
 
         given();
-        client.discoverTvShows("16", 1, true);
+        client.discoverTVShows("16", 1, true);
         assertFalse(sender.uri().contains("without_keywords"));
     }
 
@@ -98,7 +98,7 @@ class TmdbAdultFilterTest {
         assertTrue(sender.uri().contains("sort_by=popularity.desc"));
 
         given();
-        client.discoverPopularTvShows(1, false);
+        client.discoverPopularTVShows(1, false);
         assertTrue(sender.uri().contains("without_keywords=" + BLOCKED_IDS));
         assertTrue(sender.uri().contains("sort_by=popularity.desc"));
     }
@@ -114,7 +114,7 @@ class TmdbAdultFilterTest {
                 "the plain popular endpoint cannot be filtered, so discover is used");
 
         given();
-        client.discoverPopularTvShows(2, false);
+        client.discoverPopularTVShows(2, false);
         assertTrue(sender.uri().startsWith("https://api.themoviedb.org/3/discover/tv"));
     }
 
@@ -141,7 +141,7 @@ class TmdbAdultFilterTest {
                 + "?with_genres=18,35&sort_by=popularity.desc&page=4", sender.uri());
 
         given();
-        client.discoverTvShows("99", 5);
+        client.discoverTVShows("99", 5);
         assertEquals("https://api.themoviedb.org/3/discover/tv"
                 + "?with_genres=99&sort_by=popularity.desc&page=5", sender.uri());
     }

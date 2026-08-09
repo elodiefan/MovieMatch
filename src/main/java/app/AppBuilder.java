@@ -18,8 +18,8 @@ import database.MongoCommentDataAccessObject;
 import database.MongoMessagesDataAccessObject;
 import database.MongoReviewDataAccessObject;
 import database.MongoUserDataAccessObject;
-import database.TmdbApiClient;
-import database.TmdbReviewDataAccessObject;
+import database.TMDBAPIClient;
+import database.TMDBReviewDataAccessObject;
 import database.UserDataAccessObject;
 import entity.StandardUserFactory;
 import entity.UserFactory;
@@ -235,8 +235,8 @@ public class AppBuilder {
     // Counts failed security answers and holds lock-outs. One shared instance, so
     // every attempt on the same account is counted together.
     private final InMemoryLockoutTracker lockoutTracker = new InMemoryLockoutTracker();
-    private final TmdbReviewDataAccessObject tmdbReviewDataAccessObject =
-            new TmdbReviewDataAccessObject(new TmdbApiClient());
+    private final TMDBReviewDataAccessObject tmdbReviewDataAccessObject =
+            new TMDBReviewDataAccessObject(new TMDBAPIClient());
     private final CombinedMediaReviewDataAccessObject
             mediaReviewDataAccessObject =
             new CombinedMediaReviewDataAccessObject(tmdbReviewDataAccessObject,

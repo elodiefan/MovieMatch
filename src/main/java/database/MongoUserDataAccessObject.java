@@ -68,7 +68,7 @@ public class MongoUserDataAccessObject implements UserDataAccessObject {
 
     private final MongoClient mongoClient;
     private final MongoCollection<Document> users;
-    private final TmdbApiClient tmdbApiClient = new TmdbApiClient();
+    private final TMDBAPIClient tmdbApiClient = new TMDBAPIClient();
     private final ObjectMapper objectMapper = new ObjectMapper();
 
     /**
@@ -542,7 +542,7 @@ public class MongoUserDataAccessObject implements UserDataAccessObject {
                 posterPath = parsePosterPath(detailsJson);
             }
             else if (TV_TYPE.equals(mediaType)) {
-                detailsJson = tmdbApiClient.getTvShowDetails(mediaId);
+                detailsJson = tmdbApiClient.getTVShowDetails(mediaId);
                 posterPath = parsePosterPath(detailsJson);
             }
         }

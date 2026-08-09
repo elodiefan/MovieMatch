@@ -6,8 +6,8 @@ import java.util.concurrent.Executor;
 import database.ClampingScoreAdjuster;
 import database.GeminiScoreAdjuster;
 import database.NoOpScoreAdjuster;
-import database.TmdbApiClient;
-import database.TmdbMediaCatalogue;
+import database.TMDBAPIClient;
+import database.TMDBMediaCatalogue;
 import database.UserActivityRecommendationDataAccess;
 import interface_adapter.ViewManagerModel;
 import interface_adapter.home_page.HomePageViewModel;
@@ -58,8 +58,8 @@ public final class RecommendationUseCaseFactory {
 
         // Swing lives in the view layer, so the presenter only sees an Executor.
         final Executor uiExecutor = new SwingUiExecutor();
-        final TmdbApiClient tmdbApiClient = new TmdbApiClient();
-        final MediaCatalogueDataAccessInterface catalogue = new TmdbMediaCatalogue(tmdbApiClient);
+        final TMDBAPIClient tmdbApiClient = new TMDBAPIClient();
+        final MediaCatalogueDataAccessInterface catalogue = new TMDBMediaCatalogue(tmdbApiClient);
         final RecommendationDataAccessInterface userDataAccess =
                 new UserActivityRecommendationDataAccess(watchedMediaDataAccess, reviewDataAccess);
 

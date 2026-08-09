@@ -11,7 +11,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
-import database.TmdbApiClient;
+import database.TMDBAPIClient;
 
 /**
  * Generates local movie and TV-show databases from TMDB.
@@ -59,7 +59,7 @@ public class MoviedbDataGenerator {
             "src", "main", "resources", "tvshows.json"
     );
 
-    private final TmdbApiClient tmdbApiClient;
+    private final TMDBAPIClient tmdbApiClient;
     private final ObjectMapper objectMapper;
 
     /**
@@ -67,7 +67,7 @@ public class MoviedbDataGenerator {
      *
      * @param tmdbApiClient client used to communicate with TMDB
      */
-    public MoviedbDataGenerator(TmdbApiClient tmdbApiClient) {
+    public MoviedbDataGenerator(TMDBAPIClient tmdbApiClient) {
         this.tmdbApiClient = tmdbApiClient;
         this.objectMapper = new ObjectMapper();
     }
@@ -80,7 +80,7 @@ public class MoviedbDataGenerator {
      */
     public static void main(String[] args) {
         final MoviedbDataGenerator generator =
-                new MoviedbDataGenerator(new TmdbApiClient());
+                new MoviedbDataGenerator(new TMDBAPIClient());
 
         try {
             generator.generateDatabases();
@@ -233,7 +233,7 @@ public class MoviedbDataGenerator {
 
         while (added < amount && tvShows.size() < TV_SHOW_TARGET) {
             final JsonNode results = readResults(
-                    tmdbApiClient.getTvShows(pathPrefix + page)
+                    tmdbApiClient.getTVShows(pathPrefix + page)
             );
             if (!results.isArray() || results.isEmpty()) {
                 break;
@@ -338,7 +338,7 @@ public class MoviedbDataGenerator {
      */
     private ObjectNode createTvShowNode(int tvShowId) throws IOException {
         final JsonNode details = objectMapper.readTree(
-                tmdbApiClient.getTvShowDetails(tvShowId)
+                tmdbApiClient.getTVShowDetails(tvShowId)
         );
         final ObjectNode tvShow = objectMapper.createObjectNode();
 

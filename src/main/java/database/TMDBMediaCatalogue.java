@@ -20,7 +20,7 @@ import use_case.recommendation.MediaCatalogueDataAccessInterface;
 /**
  * Supplies recommendation candidates from TMDB.
  */
-public class TmdbMediaCatalogue implements MediaCatalogueDataAccessInterface {
+public class TMDBMediaCatalogue implements MediaCatalogueDataAccessInterface {
 
     /**
      * How many pages of candidates to gather.
@@ -36,7 +36,7 @@ public class TmdbMediaCatalogue implements MediaCatalogueDataAccessInterface {
     private static final String POSTER_PATH = "poster_path";
     private static final String NAME = "name";
 
-    private final TmdbApiClient tmdbApiClient;
+    private final TMDBAPIClient tmdbApiClient;
     private final ObjectMapper objectMapper = new ObjectMapper();
 
     /**
@@ -44,7 +44,7 @@ public class TmdbMediaCatalogue implements MediaCatalogueDataAccessInterface {
      */
     private Map<Integer, String> genreNames;
 
-    public TmdbMediaCatalogue(TmdbApiClient tmdbApiClient) {
+    public TMDBMediaCatalogue(TMDBAPIClient tmdbApiClient) {
         this.tmdbApiClient = tmdbApiClient;
     }
 
@@ -59,7 +59,7 @@ public class TmdbMediaCatalogue implements MediaCatalogueDataAccessInterface {
                     // No taste profile to narrow with, so show what is popular.
                     collect(tmdbApiClient.discoverPopularMovies(page, allowAdultContent),
                             candidates, true);
-                    collect(tmdbApiClient.discoverPopularTvShows(page, allowAdultContent),
+                    collect(tmdbApiClient.discoverPopularTVShows(page, allowAdultContent),
                             candidates, false);
                 }
                 else {
@@ -70,7 +70,7 @@ public class TmdbMediaCatalogue implements MediaCatalogueDataAccessInterface {
                             .collect(Collectors.joining("%7C"));
                     collect(tmdbApiClient.discoverMovies(ids, page, allowAdultContent),
                             candidates, true);
-                    collect(tmdbApiClient.discoverTvShows(ids, page, allowAdultContent),
+                    collect(tmdbApiClient.discoverTVShows(ids, page, allowAdultContent),
                             candidates, false);
                 }
             }
@@ -206,7 +206,7 @@ public class TmdbMediaCatalogue implements MediaCatalogueDataAccessInterface {
             genreNames = new HashMap<>();
             try {
                 addGenreNames(tmdbApiClient.getMovieGenres());
-                addGenreNames(tmdbApiClient.getTvGenres());
+                addGenreNames(tmdbApiClient.getTVGenres());
             }
             catch (IOException exception) {
                 // Names are only for display; ids still drive the scoring, so a

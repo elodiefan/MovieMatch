@@ -14,7 +14,7 @@ import use_case.review.get_media_reviews.GetMediaReviewsDataAccessInterface;
 /**
  * Loads read-only review data from TMDB.
  */
-public final class TmdbReviewDataAccessObject
+public final class TMDBReviewDataAccessObject
         implements GetMediaReviewsDataAccessInterface {
     /**
      * Movie media type.
@@ -48,7 +48,7 @@ public final class TmdbReviewDataAccessObject
     /**
      * TMDB API client.
      */
-    private final TmdbApiClient tmdbApiClient;
+    private final TMDBAPIClient tmdbApiClient;
     /**
      * JSON mapper.
      */
@@ -57,11 +57,11 @@ public final class TmdbReviewDataAccessObject
     /**
      * Creates a TMDB review data access object.
      *
-     * @param inputTmdbApiClient the TMDB API client
+     * @param inputTMDBAPIClient the TMDB API client
      */
-    public TmdbReviewDataAccessObject(
-            final TmdbApiClient inputTmdbApiClient) {
-        this.tmdbApiClient = inputTmdbApiClient;
+    public TMDBReviewDataAccessObject(
+            final TMDBAPIClient inputTMDBAPIClient) {
+        this.tmdbApiClient = inputTMDBAPIClient;
     }
 
     @Override
@@ -96,7 +96,7 @@ public final class TmdbReviewDataAccessObject
             reviewsJson = tmdbApiClient.getMovieReviews(mediaId);
         }
         else {
-            reviewsJson = tmdbApiClient.getTvShowReviews(mediaId);
+            reviewsJson = tmdbApiClient.getTVShowReviews(mediaId);
         }
         return reviewsJson;
     }

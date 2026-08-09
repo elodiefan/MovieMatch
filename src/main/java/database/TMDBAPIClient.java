@@ -12,7 +12,7 @@ import java.nio.charset.StandardCharsets;
  * Sends HTTP requests to the TMDB API.
  * The source link annotation regarding the API usage method is in Javadoc for reference.
  */
-public class TmdbApiClient {
+public class TMDBAPIClient {
 
     private static final String PAGE_EQUALS = "&page=";
     private static final String BASE_URL =
@@ -34,7 +34,7 @@ public class TmdbApiClient {
     /**
      * Creates a client for accessing the TMDB API.
      */
-    public TmdbApiClient() {
+    public TMDBAPIClient() {
         this(createDefaultSender(), System.getenv("Tmdb_Read_Access"));
     }
 
@@ -43,7 +43,7 @@ public class TmdbApiClient {
      * @param requestSender sender used for HTTP requests
      * @param accessToken TMDB bearer token
      */
-    TmdbApiClient(RequestSender requestSender, String accessToken) {
+    TMDBAPIClient(RequestSender requestSender, String accessToken) {
         this.requestSender = requestSender;
         this.accessToken = accessToken;
     }
@@ -104,7 +104,7 @@ public class TmdbApiClient {
      * @return the search tv shows
      * @throws IOException if the operation fails
      */
-    public String searchTvShows(String keyword, int page) throws IOException {
+    public String searchTVShows(String keyword, int page) throws IOException {
         return sendGetRequest("/search/tv?query=" + encode(keyword) + PAGE_EQUALS + page);
     }
 
@@ -151,8 +151,8 @@ public class TmdbApiClient {
      * @return the discover tv shows
      * @throws IOException if the operation fails
      */
-    public String discoverTvShows(String genreIds, int page) throws IOException {
-        return sendGetRequest(discoverTvPath(genreIds, page));
+    public String discoverTVShows(String genreIds, int page) throws IOException {
+        return sendGetRequest(discoverTVPath(genreIds, page));
     }
 
     /**
@@ -163,12 +163,12 @@ public class TmdbApiClient {
      * @return the discover tv shows
      * @throws IOException if the operation fails
      */
-    public String discoverTvShows(String genreIds, int page, boolean allowAdultContent)
+    public String discoverTVShows(String genreIds, int page, boolean allowAdultContent)
             throws IOException {
-        return sendGetRequest(discoverTvPath(genreIds, page) + adultFilter(allowAdultContent));
+        return sendGetRequest(discoverTVPath(genreIds, page) + adultFilter(allowAdultContent));
     }
 
-    private static String discoverTvPath(String genreIds, int page) {
+    private static String discoverTVPath(String genreIds, int page) {
         return "/discover/tv?with_genres=" + genreIds
                 + "&sort_by=popularity.desc&page=" + page;
     }
@@ -191,7 +191,7 @@ public class TmdbApiClient {
      * @return the popular tv shows
      * @throws IOException if the operation fails
      */
-    public String getPopularTvShows(int page) throws IOException {
+    public String getPopularTVShows(int page) throws IOException {
         return sendGetRequest("/tv/popular?page=" + page);
     }
 
@@ -217,7 +217,7 @@ public class TmdbApiClient {
      * @return the popular tv shows
      * @throws IOException if the operation fails
      */
-    public String discoverPopularTvShows(int page, boolean allowAdultContent) throws IOException {
+    public String discoverPopularTVShows(int page, boolean allowAdultContent) throws IOException {
         return sendGetRequest("/discover/tv?sort_by=popularity.desc&page=" + page
                 + adultFilter(allowAdultContent));
     }
@@ -256,7 +256,7 @@ public class TmdbApiClient {
      * @return the get tv genres
      * @throws IOException if the operation fails
      */
-    public String getTvGenres() throws IOException {
+    public String getTVGenres() throws IOException {
         return sendGetRequest(
                 "/genre/tv/list?language=en-US"
         );
@@ -348,7 +348,7 @@ public class TmdbApiClient {
      * @return the get tv show details
      * @throws IOException if the operation fails
      */
-    public String getTvShowDetails(int tvShowId) throws IOException {
+    public String getTVShowDetails(int tvShowId) throws IOException {
         final String path =
                 "/tv/" + tvShowId
                         + "?append_to_response=credits";
@@ -362,7 +362,7 @@ public class TmdbApiClient {
      * @return the get tv show reviews
      * @throws IOException if the operation fails
      */
-    public String getTvShowReviews(int tvShowId) throws IOException {
+    public String getTVShowReviews(int tvShowId) throws IOException {
         return sendGetRequest("/tv/" + tvShowId + "/reviews");
     }
 
@@ -382,7 +382,7 @@ public class TmdbApiClient {
      * @return the TV-show-list JSON response
      * @throws IOException if the request cannot be completed
      */
-    public String getTvShows(String categoryPath) throws IOException {
+    public String getTVShows(String categoryPath) throws IOException {
         return sendGetRequest(categoryPath);
     }
 

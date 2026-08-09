@@ -11,7 +11,7 @@ import org.junit.jupiter.api.Test;
 
 import entity.TVShow;
 
-class LocalTvShowDatabaseTest {
+class LocalTVShowDatabaseTest {
 
     private static TVShow show(int id, String title) {
         return new TVShow(id, title, 2010, 8.0, new ArrayList<>(),
@@ -20,7 +20,7 @@ class LocalTvShowDatabaseTest {
 
     @Test
     void searchIgnoresCaseAndSurroundingWhitespace() {
-        final LocalTvShowDatabase database = new LocalTvShowDatabase(List.of(
+        final LocalTVShowDatabase database = new LocalTVShowDatabase(List.of(
                 show(1, "Breaking Bad"), show(2, "The Bear")));
 
         final List<TVShow> results = database.search("  BREAKING bad ");
@@ -31,8 +31,8 @@ class LocalTvShowDatabaseTest {
 
     @Test
     void nullBlankAndUnknownKeywordsReturnNoShows() {
-        final LocalTvShowDatabase database =
-                new LocalTvShowDatabase(List.of(show(1, "The Bear")));
+        final LocalTVShowDatabase database =
+                new LocalTVShowDatabase(List.of(show(1, "The Bear")));
 
         assertTrue(database.search(null).isEmpty());
         assertTrue(database.search(" ").isEmpty());
@@ -43,7 +43,7 @@ class LocalTvShowDatabaseTest {
     void constructorAndGetterDefensivelyCopyTheList() {
         final List<TVShow> source = new ArrayList<>();
         source.add(show(1, "The Bear"));
-        final LocalTvShowDatabase database = new LocalTvShowDatabase(source);
+        final LocalTVShowDatabase database = new LocalTVShowDatabase(source);
         source.clear();
 
         final List<TVShow> firstRead = database.getTvShows();
@@ -55,6 +55,6 @@ class LocalTvShowDatabaseTest {
 
     @Test
     void defaultConstructorLoadsTvShowsResource() {
-        assertTrue(new LocalTvShowDatabase().getTvShows().size() > 0);
+        assertTrue(new LocalTVShowDatabase().getTvShows().size() > 0);
     }
 }

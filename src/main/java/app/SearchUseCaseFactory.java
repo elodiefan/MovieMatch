@@ -2,9 +2,9 @@ package app;
 
 import database.FallbackSearchMediaDataAccess;
 import database.LocalMovieDatabase;
-import database.LocalTvShowDatabase;
-import database.TmdbApiClient;
-import database.TmdbSearchMediaDataAccess;
+import database.LocalTVShowDatabase;
+import database.TMDBAPIClient;
+import database.TMDBSearchMediaDataAccess;
 import interface_adapter.ViewManagerModel;
 import interface_adapter.search.SearchController;
 import interface_adapter.search.SearchPresenter;
@@ -44,17 +44,17 @@ public final class SearchUseCaseFactory {
             SearchView searchView,
             SearchResultView searchResultView) {
 
-        final TmdbApiClient tmdbApiClient =
-                new TmdbApiClient();
+        final TMDBAPIClient tmdbApiClient =
+                new TMDBAPIClient();
 
         final SearchMediaDataAccess tmdbSearchDataAccess =
-                new TmdbSearchMediaDataAccess(tmdbApiClient);
+                new TMDBSearchMediaDataAccess(tmdbApiClient);
 
         final LocalMovieDatabase localMovieDatabase =
                 new LocalMovieDatabase();
 
-        final LocalTvShowDatabase localTvShowDatabase =
-                new LocalTvShowDatabase();
+        final LocalTVShowDatabase localTvShowDatabase =
+                new LocalTVShowDatabase();
 
         final SearchMediaDataAccess searchDataAccess =
                 new FallbackSearchMediaDataAccess(

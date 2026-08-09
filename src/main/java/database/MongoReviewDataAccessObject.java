@@ -72,7 +72,7 @@ public class MongoReviewDataAccessObject implements
     private final MongoClient mongoClient;
     private final MongoCollection<Document> reviews;
     private final MongoCollection<Document> reviewLikes;
-    private final TmdbApiClient tmdbApiClient = new TmdbApiClient();
+    private final TMDBAPIClient tmdbApiClient = new TMDBAPIClient();
     private final ObjectMapper objectMapper = new ObjectMapper();
 
     /**
@@ -357,7 +357,7 @@ public class MongoReviewDataAccessObject implements
                 mediaMetadata = parseMovieMetadata(detailsJson);
             }
             else if (TV_TYPE.equals(mediaType)) {
-                detailsJson = tmdbApiClient.getTvShowDetails(mediaId);
+                detailsJson = tmdbApiClient.getTVShowDetails(mediaId);
                 mediaMetadata = parseTvMetadata(detailsJson);
             }
         }
