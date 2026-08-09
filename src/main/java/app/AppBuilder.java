@@ -93,6 +93,8 @@ import use_case.change_username.ChangeUsernameInteractor;
 import use_case.change_username.ChangeUsernameOutputBoundary;
 import use_case.comment.create_comment.CreateCommentInteractor;
 import use_case.comment.delete_comment.DeleteCommentInteractor;
+import use_case.comment.edit_comment.EditCommentInputBoundary;
+import use_case.comment.edit_comment.EditCommentInteractor;
 import use_case.comment.get_review_comments.GetReviewCommentsInteractor;
 import use_case.comment.get_user_comments.GetUserCommentsInputBoundary;
 import use_case.comment.get_user_comments.GetUserCommentsInteractor;
@@ -705,13 +707,21 @@ public class AppBuilder {
                 userReviewsPresenter);
         final GetUserCommentsInputBoundary userCommentsInteractor = new GetUserCommentsInteractor(commentDataAccessObject,
                 reviewDataAccessObject, userReviewsPresenter);
+        final DeleteCommentInteractor deleteCommentsInteractor =
+                new DeleteCommentInteractor(commentDataAccessObject,
+                        userReviewsPresenter);
+        final EditCommentInputBoundary editCommentsInteractor =
+                new EditCommentInteractor(commentDataAccessObject,
+                        userReviewsPresenter);
 
         final UserReviewsController userReviewsController = new UserReviewsController(userReviewsInteractor,
                 editReviewsInteractor,
                 deleteReviewsInteractor,
                 likeReviewsInteractor,
                 unlikeReviewsInteractor,
-                userCommentsInteractor);
+                userCommentsInteractor,
+                deleteCommentsInteractor,
+                editCommentsInteractor);
         userReviewsView.setUserReviewsController(userReviewsController);
         return this;
     }
@@ -1159,6 +1169,9 @@ public class AppBuilder {
         final DeleteCommentInteractor deleteCommentInteractor =
                 new DeleteCommentInteractor(commentDataAccessObject,
                         commentsPresenter);
+        final EditCommentInteractor editCommentInteractor =
+                new EditCommentInteractor(commentDataAccessObject,
+                        commentsPresenter);
         final LikeCommentInteractor likeCommentInteractor =
                 new LikeCommentInteractor(commentDataAccessObject,
                         commentsPresenter);
@@ -1168,6 +1181,7 @@ public class AppBuilder {
 
         return new CommentsController(getReviewCommentsInteractor,
                 createCommentInteractor, deleteCommentInteractor,
+                editCommentInteractor,
                 likeCommentInteractor, unlikeCommentInteractor);
     }
 

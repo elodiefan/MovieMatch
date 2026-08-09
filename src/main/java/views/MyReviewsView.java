@@ -361,6 +361,7 @@ public final class MyReviewsView extends JPanel
                 + formatTime(comment.getCreatedAt())));
         detailPanel.add(new JLabel("Likes: " + comment.getLikeCount()));
         detailPanel.add(new JLabel(comment.getCommentText()));
+        detailPanel.add(createCommentButtonPanel(comment));
 
         final JLabel posterLabel = createPosterLabel(comment.getPosterPath());
         addCommentNavigation(posterLabel, comment);
@@ -368,6 +369,30 @@ public final class MyReviewsView extends JPanel
         card.add(detailPanel, BorderLayout.CENTER);
 
         return card;
+    }
+
+    /**
+     * Creates the action buttons for one comment row.
+     * @param comment the comment row
+     * @return the button panel
+     */
+    private Component createCommentButtonPanel(final UserCommentRow comment) {
+        final JPanel buttonPanel = new JPanel();
+        buttonPanel.setLayout(new BoxLayout(buttonPanel, BoxLayout.X_AXIS));
+        buttonPanel.setAlignmentX(Component.LEFT_ALIGNMENT);
+        final JButton editButton =
+                new JButton(UserReviewsViewModel.EDIT_BUTTON_LABEL);
+        final JButton deleteButton =
+                new JButton(UserReviewsViewModel.DELETE_BUTTON_LABEL);
+
+        editButton.addActionListener(new SelectCommentListener(
+                comment.getCommentId()));
+        deleteButton.addActionListener(new SelectCommentListener(
+                comment.getCommentId()));
+
+        buttonPanel.add(editButton);
+        buttonPanel.add(deleteButton);
+        return buttonPanel;
     }
 
     /**
@@ -627,6 +652,42 @@ public final class MyReviewsView extends JPanel
                     }
                 }
                 userReviewsController.loadUserReviews(state.getUsername());
+            }
+            userReviewsViewModel.firePropertyChanged();
+        }
+    }
+
+    /**
+     * Selects a comment in the view model state.
+     */
+    private final class SelectCommentListener implements ActionListener {
+        /**
+         * The comment id.
+         */
+        private final String commentId;
+
+        private SelectCommentListener(final String inputCommentId) {
+            this.commentId = inputCommentId;
+        }
+
+        @Override
+        public void actionPerformed(final ActionEvent event) {
+            final UserReviewsState state = userReviewsViewModel.getState();
+            if (userReviewsController != null
+                    && !isBlank(state.getUsername())) {
+                final String command = ((JButton) event.getSource()).getText();
+                if (UserReviewsViewModel.DELETE_BUTTON_LABEL.equals(command)) {
+                    userReviewsController.deleteComment(commentId,
+                            state.getUsername());
+                } else {
+                    final String commentText = JOptionPane.showInputDialog(
+                            MyReviewsView.this, "New comment text:");
+                    if (!isBlank(commentText)) {
+                        userReviewsController.editComment(commentId,
+                                state.getUsername(), commentText);
+                    }
+                }
+                userReviewsController.loadUserComments(state.getUsername());
             }
             userReviewsViewModel.firePropertyChanged();
         }

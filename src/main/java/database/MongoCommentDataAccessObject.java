@@ -22,6 +22,7 @@ import com.mongodb.client.model.Updates;
 import entity.Comment;
 import use_case.comment.create_comment.CreateCommentDataAccessInterface;
 import use_case.comment.delete_comment.DeleteCommentDataAccessInterface;
+import use_case.comment.edit_comment.EditCommentDataAccessInterface;
 import use_case.comment.get_review_comments.GetReviewCommentsDataAccessInterface;
 import use_case.comment.get_user_comments.GetUserCommentsDataAccessInterface;
 import use_case.comment.like_comment.LikeCommentDataAccessInterface;
@@ -32,8 +33,9 @@ import use_case.comment.unlike_comment.UnlikeCommentDataAccessInterface;
  */
 public class MongoCommentDataAccessObject implements
         CreateCommentDataAccessInterface, DeleteCommentDataAccessInterface,
-        GetReviewCommentsDataAccessInterface, GetUserCommentsDataAccessInterface,
-        LikeCommentDataAccessInterface, UnlikeCommentDataAccessInterface {
+        EditCommentDataAccessInterface, GetReviewCommentsDataAccessInterface,
+        GetUserCommentsDataAccessInterface, LikeCommentDataAccessInterface,
+        UnlikeCommentDataAccessInterface {
 
     private static final String DEFAULT_PROPERTIES = "mongo.properties";
     private static final String DEFAULT_COLLECTION = "comments";
