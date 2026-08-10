@@ -17,9 +17,12 @@ class DeleteAccountInteractorTest {
     void correctSecurityAnswerDeletesAccountAndChatHistory() {
         final RecordingUserDao userDao = new RecordingUserDao("blue");
         final RecordingMessageDao messageDao = new RecordingMessageDao();
+        final RecordingReviewDao reviewDao = new RecordingReviewDao();
+        final RecordingCommentDao commentDao = new RecordingCommentDao();
         final RecordingPresenter presenter = new RecordingPresenter();
         final DeleteAccountInteractor interactor = new DeleteAccountInteractor(
-                userDao, messageDao, presenter, new StandardUserFactory());
+                userDao, messageDao, reviewDao, commentDao, presenter,
+                new StandardUserFactory());
 
         interactor.execute(input("blue"));
 
@@ -27,6 +30,8 @@ class DeleteAccountInteractorTest {
         assertEquals("bob", userDao.deletedUser.getUsername());
         assertNull(userDao.currentUsername);
         assertEquals("bob", messageDao.deletedUsername);
+        assertEquals("bob", reviewDao.deletedUsername);
+        assertEquals("bob", commentDao.deletedUsername);
         assertNotNull(presenter.success);
         assertNull(presenter.failure);
     }
@@ -35,14 +40,19 @@ class DeleteAccountInteractorTest {
     void incorrectSecurityAnswerIsReportedWithoutDeletingAccount() {
         final RecordingUserDao userDao = new RecordingUserDao("blue");
         final RecordingMessageDao messageDao = new RecordingMessageDao();
+        final RecordingReviewDao reviewDao = new RecordingReviewDao();
+        final RecordingCommentDao commentDao = new RecordingCommentDao();
         final RecordingPresenter presenter = new RecordingPresenter();
         final DeleteAccountInteractor interactor = new DeleteAccountInteractor(
-                userDao, messageDao, presenter, new StandardUserFactory());
+                userDao, messageDao, reviewDao, commentDao, presenter,
+                new StandardUserFactory());
 
         interactor.execute(input("wrong"));
 
         assertNull(userDao.deletedUser);
         assertNull(messageDao.deletedUsername);
+        assertNull(reviewDao.deletedUsername);
+        assertNull(commentDao.deletedUsername);
         assertNull(presenter.success);
         assertEquals("Incorrect security answer.", presenter.failure);
     }
@@ -51,7 +61,8 @@ class DeleteAccountInteractorTest {
     void switchToPersonalAccountViewIsPassedToPresenter() {
         final RecordingPresenter presenter = new RecordingPresenter();
         final DeleteAccountInteractor interactor = new DeleteAccountInteractor(
-                new RecordingUserDao("blue"), new RecordingMessageDao(), presenter,
+                new RecordingUserDao("blue"), new RecordingMessageDao(),
+                new RecordingReviewDao(), new RecordingCommentDao(), presenter,
                 new StandardUserFactory());
 
         interactor.switchToPersonalAccountView();
@@ -97,6 +108,26 @@ class DeleteAccountInteractorTest {
         @Override
         public void deleteChatHistory(final String username) {
             deletedUsername = username;
+        }
+    }
+
+    private static final class RecordingReviewDao
+            implements DeleteAccountReviewDataAccessInterface {
+        private String deletedUsername;
+
+        @Override
+        public void deleteAllReviews(final String authorUsername) {
+            deletedUsername = authorUsername;
+        }
+    }
+
+    private static final class RecordingCommentDao
+            implements DeleteAccountCommentDataAccessInterface {
+        private String deletedUsername;
+
+        @Override
+        public void deleteAllComments(final String authorUsername) {
+            deletedUsername = authorUsername;
         }
     }
 
