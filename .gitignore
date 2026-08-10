@@ -1,5 +1,7 @@
 # --- Secrets ---
 mongo.properties
+MovieMatch-MongoDB-Commands.pdf
+MovieMatch-MongoDB-Guide.pdf
 
 # --- Build output ---
 target/
@@ -13,6 +15,7 @@ out/
 # API keys / secrets
 config.properties
 tmdb.properties
+tmdb.properties.example
 
 # Local UML diagrams
 *.puml
