@@ -31,7 +31,7 @@ class GetUserCommentsInteractorTest {
                 username -> new ArrayList<>(List.of(comment)),
                 reviewId -> Optional.of(review), presenter);
 
-        interactor.execute("  bob  ");
+        interactor.execute(new GetUserCommentsInputData("  bob  "));
 
         assertNotNull(presenter.success);
         assertNull(presenter.failure);
@@ -48,7 +48,7 @@ class GetUserCommentsInteractorTest {
         final GetUserCommentsInteractor interactor = new GetUserCommentsInteractor(
                 username -> new ArrayList<>(), reviewId -> Optional.empty(), presenter);
 
-        interactor.execute("   ");
+        interactor.execute(new GetUserCommentsInputData("   "));
 
         assertNull(presenter.success);
         assertEquals("Username cannot be empty.", presenter.failure);
@@ -63,7 +63,7 @@ class GetUserCommentsInteractorTest {
 
         new GetUserCommentsInteractor(
                 username -> new ArrayList<>(List.of(comment)),
-                reviewId -> Optional.empty(), presenter).execute("bob");
+                reviewId -> Optional.empty(), presenter).execute(new GetUserCommentsInputData("bob"));
 
         final GetUserCommentsOutputData.UserCommentData result =
                 presenter.success.getComments().get(0);

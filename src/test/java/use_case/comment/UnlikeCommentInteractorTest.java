@@ -6,6 +6,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.junit.jupiter.api.Test;
 
+import use_case.comment.unlike_comment.UnlikeCommentInputData;
 import use_case.comment.unlike_comment.UnlikeCommentInteractor;
 import use_case.comment.unlike_comment.UnlikeCommentOutputBoundary;
 
@@ -21,7 +22,7 @@ class UnlikeCommentInteractorTest {
             return true;
         }, presenter);
 
-        interactor.execute(" comment-1 ", " bob ");
+        interactor.execute(new UnlikeCommentInputData(" comment-1 ", " bob "));
 
         assertEquals("comment-1", received[0]);
         assertEquals("bob", received[1]);
@@ -37,7 +38,7 @@ class UnlikeCommentInteractorTest {
             return true;
         }, presenter);
 
-        interactor.execute("comment-1", "  ");
+        interactor.execute(new UnlikeCommentInputData("comment-1", "  "));
 
         assertEquals("Username cannot be empty.", presenter.failure);
         assertFalse(called[0]);
@@ -47,14 +48,14 @@ class UnlikeCommentInteractorTest {
     void blankCommentIdPresentsFailure() {
         final RecordingPresenter presenter = new RecordingPresenter();
         new UnlikeCommentInteractor((id, username) -> true, presenter)
-                .execute(" ", "bob");
+                .execute(new UnlikeCommentInputData(" ", "bob"));
         assertEquals("Comment id cannot be empty.", presenter.failure);
     }
 
     @Test
     void missingDataAccessIsReportedAsFailure() {
         final RecordingPresenter presenter = new RecordingPresenter();
-        new UnlikeCommentInteractor(null, presenter).execute("comment-1", "bob");
+        new UnlikeCommentInteractor(null, presenter).execute(new UnlikeCommentInputData("comment-1", "bob"));
         assertEquals("Comment data access object has not been configured.", presenter.failure);
     }
 
@@ -62,7 +63,7 @@ class UnlikeCommentInteractorTest {
     void nullUsernameIsReportedAsFailure() {
         final RecordingPresenter presenter = new RecordingPresenter();
         new UnlikeCommentInteractor((id, username) -> true, presenter)
-                .execute("comment-1", null);
+                .execute(new UnlikeCommentInputData("comment-1", null));
         assertEquals("Username cannot be empty.", presenter.failure);
     }
 

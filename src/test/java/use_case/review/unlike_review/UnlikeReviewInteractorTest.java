@@ -18,7 +18,7 @@ class UnlikeReviewInteractorTest {
             return true;
         }, presenter);
 
-        interactor.execute(" review-1 ", " bob ");
+        interactor.execute(new UnlikeReviewInputData(" review-1 ", " bob "));
 
         assertEquals("review-1", received[0]);
         assertEquals("bob", received[1]);
@@ -34,7 +34,7 @@ class UnlikeReviewInteractorTest {
             return true;
         }, presenter);
 
-        interactor.execute("review-1", "  ");
+        interactor.execute(new UnlikeReviewInputData("review-1", "  "));
 
         assertEquals("Username cannot be empty.", presenter.failure);
         assertFalse(called[0]);
@@ -44,14 +44,14 @@ class UnlikeReviewInteractorTest {
     void blankReviewIdPresentsFailure() {
         final RecordingPresenter presenter = new RecordingPresenter();
         new UnlikeReviewInteractor((id, username) -> true, presenter)
-                .execute(" ", "bob");
+                .execute(new UnlikeReviewInputData(" ", "bob"));
         assertEquals("Review id cannot be empty.", presenter.failure);
     }
 
     @Test
     void missingDataAccessIsReportedAsFailure() {
         final RecordingPresenter presenter = new RecordingPresenter();
-        new UnlikeReviewInteractor(null, presenter).execute("review-1", "bob");
+        new UnlikeReviewInteractor(null, presenter).execute(new UnlikeReviewInputData("review-1", "bob"));
         assertEquals("Review data access object has not been configured.", presenter.failure);
     }
 
@@ -59,7 +59,7 @@ class UnlikeReviewInteractorTest {
     void nullUsernameIsReportedAsFailure() {
         final RecordingPresenter presenter = new RecordingPresenter();
         new UnlikeReviewInteractor((id, username) -> true, presenter)
-                .execute("review-1", null);
+                .execute(new UnlikeReviewInputData("review-1", null));
         assertEquals("Username cannot be empty.", presenter.failure);
     }
 

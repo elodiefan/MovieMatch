@@ -18,7 +18,7 @@ class LikeReviewInteractorTest {
             return true;
         }, presenter);
 
-        interactor.execute(" review-1 ", " bob ");
+        interactor.execute(new LikeReviewInputData(" review-1 ", " bob "));
 
         assertEquals("review-1", received[0]);
         assertEquals("bob", received[1]);
@@ -34,7 +34,7 @@ class LikeReviewInteractorTest {
             return true;
         }, presenter);
 
-        interactor.execute("  ", "bob");
+        interactor.execute(new LikeReviewInputData("  ", "bob"));
 
         assertEquals("Review id cannot be empty.", presenter.failure);
         assertFalse(called[0]);
@@ -44,21 +44,21 @@ class LikeReviewInteractorTest {
     void blankUsernamePresentsFailure() {
         final RecordingPresenter presenter = new RecordingPresenter();
         new LikeReviewInteractor((id, username) -> true, presenter)
-                .execute("review-1", " ");
+                .execute(new LikeReviewInputData("review-1", " "));
         assertEquals("Username cannot be empty.", presenter.failure);
     }
 
     @Test
     void missingDataAccessIsReportedAsFailure() {
         final RecordingPresenter presenter = new RecordingPresenter();
-        new LikeReviewInteractor(null, presenter).execute("review-1", "bob");
+        new LikeReviewInteractor(null, presenter).execute(new LikeReviewInputData("review-1", "bob"));
         assertEquals("Review data access object has not been configured.", presenter.failure);
     }
 
     @Test
     void nullReviewIdIsReportedAsFailure() {
         final RecordingPresenter presenter = new RecordingPresenter();
-        new LikeReviewInteractor((id, username) -> true, presenter).execute(null, "bob");
+        new LikeReviewInteractor((id, username) -> true, presenter).execute(new LikeReviewInputData(null, "bob"));
         assertEquals("Review id cannot be empty.", presenter.failure);
     }
 

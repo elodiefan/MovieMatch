@@ -9,6 +9,7 @@ import org.junit.jupiter.api.Test;
 
 import entity.Comment;
 import use_case.comment.create_comment.CreateCommentDataAccessInterface;
+import use_case.comment.create_comment.CreateCommentInputData;
 import use_case.comment.create_comment.CreateCommentInteractor;
 import use_case.comment.create_comment.CreateCommentOutputBoundary;
 
@@ -23,7 +24,7 @@ class CreateCommentInteractorTest {
         final RecordingPresenter presenter = new RecordingPresenter();
         final CreateCommentInteractor interactor = new CreateCommentInteractor(dao, presenter);
 
-        interactor.execute(" review-1 ", null, " bob ", " Bob ", " Nice review! ");
+        interactor.execute(new CreateCommentInputData(" review-1 ", null, " bob ", " Bob ", " Nice review! "));
 
         assertNotNull(dao.savedComment);
         assertEquals("review-1", dao.savedComment.getReviewId());
@@ -39,7 +40,7 @@ class CreateCommentInteractorTest {
         final RecordingPresenter presenter = new RecordingPresenter();
         final CreateCommentInteractor interactor = new CreateCommentInteractor(dao, presenter);
 
-        interactor.execute("review-1", null, "bob", "Bob", "   ");
+        interactor.execute(new CreateCommentInputData("review-1", null, "bob", "Bob", "   "));
 
         assertNull(dao.savedComment);
         assertEquals("Comment text cannot be empty.", presenter.failure);
@@ -74,7 +75,7 @@ class CreateCommentInteractorTest {
         final RecordingPresenter presenter = new RecordingPresenter();
 
         new CreateCommentInteractor(null, presenter).execute(
-                "review-1", null, "bob", "Bob", "Text");
+                new CreateCommentInputData("review-1", null, "bob", "Bob", "Text"));
 
         assertEquals("Comment data access object has not been configured.",
                 presenter.failure);
@@ -86,7 +87,7 @@ class CreateCommentInteractorTest {
         final RecordingPresenter presenter = new RecordingPresenter();
 
         new CreateCommentInteractor(dao, presenter).execute(
-                "review-1", " parent-1 ", "bob", "Bob", "Reply");
+                new CreateCommentInputData("review-1", " parent-1 ", "bob", "Bob", "Reply"));
 
         assertEquals("parent-1", dao.savedComment.getParentCommentId());
     }
@@ -97,7 +98,7 @@ class CreateCommentInteractorTest {
         final RecordingPresenter presenter = new RecordingPresenter();
 
         new CreateCommentInteractor(new RecordingCommentDao(), presenter).execute(
-                reviewId, null, username, displayName, text);
+                new CreateCommentInputData(reviewId, null, username, displayName, text));
 
         assertEquals(expectedMessage, presenter.failure);
     }

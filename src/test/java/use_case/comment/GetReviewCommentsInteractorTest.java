@@ -11,6 +11,7 @@ import java.util.Set;
 import org.junit.jupiter.api.Test;
 
 import entity.Comment;
+import use_case.comment.get_review_comments.GetReviewCommentsInputData;
 import use_case.comment.get_review_comments.GetReviewCommentsInteractor;
 import use_case.comment.get_review_comments.GetReviewCommentsOutputBoundary;
 import use_case.comment.get_review_comments.GetReviewCommentsOutputData;
@@ -26,7 +27,7 @@ class GetReviewCommentsInteractorTest {
         final RecordingPresenter presenter = new RecordingPresenter();
 
         new GetReviewCommentsInteractor(reviewId -> new ArrayList<>(List.of(second, first)), presenter)
-                .execute(" review-1 ");
+                .execute(new GetReviewCommentsInputData(" review-1 "));
 
         assertEquals("review-1", presenter.success.getReviewId().trim());
         assertEquals("comment-1", presenter.success.getComments().get(0).getCommentId());
@@ -38,7 +39,7 @@ class GetReviewCommentsInteractorTest {
     void blankReviewIdPresentsFailure() {
         final RecordingPresenter presenter = new RecordingPresenter();
 
-        new GetReviewCommentsInteractor(reviewId -> List.of(), presenter).execute("  ");
+        new GetReviewCommentsInteractor(reviewId -> List.of(), presenter).execute(new GetReviewCommentsInputData("  "));
 
         assertEquals("Review id cannot be empty.", presenter.failure);
     }

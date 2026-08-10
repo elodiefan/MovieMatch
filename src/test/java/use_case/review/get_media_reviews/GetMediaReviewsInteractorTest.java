@@ -23,7 +23,7 @@ class GetMediaReviewsInteractorTest {
         final RecordingPresenter presenter = new RecordingPresenter();
 
         new GetMediaReviewsInteractor((id, type) -> new ArrayList<>(List.of(first, second)), presenter)
-                .execute(101, " movie ");
+                .execute(new GetMediaReviewsInputData(101, " movie "));
 
         assertEquals("review-2", presenter.success.getReviews().get(0).getReviewId());
         assertEquals("review-1", presenter.success.getReviews().get(1).getReviewId());
@@ -34,7 +34,7 @@ class GetMediaReviewsInteractorTest {
     void negativeMediaIdPresentsFailure() {
         final RecordingPresenter presenter = new RecordingPresenter();
 
-        new GetMediaReviewsInteractor((id, type) -> List.of(), presenter).execute(-1, "movie");
+        new GetMediaReviewsInteractor((id, type) -> List.of(), presenter).execute(new GetMediaReviewsInputData(-1, "movie"));
 
         assertEquals("Media id cannot be negative.", presenter.failure);
     }

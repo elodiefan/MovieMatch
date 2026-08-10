@@ -20,7 +20,7 @@ class DeleteReviewInteractorTest {
         final RecordingDataAccess dataAccess = new RecordingDataAccess(review, true);
         final RecordingPresenter presenter = new RecordingPresenter();
 
-        new DeleteReviewInteractor(dataAccess, presenter).execute(" review-1 ", " bob ");
+        new DeleteReviewInteractor(dataAccess, presenter).execute(new DeleteReviewInputData(" review-1 ", " bob "));
 
         assertEquals("review-1", dataAccess.deletedId);
         assertTrue(presenter.success);
@@ -32,7 +32,7 @@ class DeleteReviewInteractorTest {
                 reviewWrittenBy("alice"), true);
         final RecordingPresenter presenter = new RecordingPresenter();
 
-        new DeleteReviewInteractor(dataAccess, presenter).execute("review-1", "bob");
+        new DeleteReviewInteractor(dataAccess, presenter).execute(new DeleteReviewInputData("review-1", "bob"));
 
         assertEquals("Review could not be deleted.", presenter.failure);
         assertFalse(dataAccess.deleteCalled);
@@ -43,7 +43,7 @@ class DeleteReviewInteractorTest {
         final RecordingDataAccess dataAccess = new RecordingDataAccess(null, true);
         final RecordingPresenter presenter = new RecordingPresenter();
 
-        new DeleteReviewInteractor(dataAccess, presenter).execute("review-1", "bob");
+        new DeleteReviewInteractor(dataAccess, presenter).execute(new DeleteReviewInputData("review-1", "bob"));
 
         assertEquals("Review could not be deleted.", presenter.failure);
         assertFalse(dataAccess.deleteCalled);
@@ -54,7 +54,7 @@ class DeleteReviewInteractorTest {
         final RecordingPresenter presenter = new RecordingPresenter();
 
         new DeleteReviewInteractor(new RecordingDataAccess(reviewWrittenBy("bob"), false),
-                presenter).execute("review-1", "bob");
+                presenter).execute(new DeleteReviewInputData("review-1", "bob"));
 
         assertEquals("Review could not be deleted.", presenter.failure);
     }
@@ -82,7 +82,7 @@ class DeleteReviewInteractorTest {
     @Test
     void missingDataAccessIsReportedAsFailure() {
         final RecordingPresenter presenter = new RecordingPresenter();
-        new DeleteReviewInteractor(null, presenter).execute("review-1", "bob");
+        new DeleteReviewInteractor(null, presenter).execute(new DeleteReviewInputData("review-1", "bob"));
         assertEquals("Review data access object has not been configured.",
                 presenter.failure);
     }
@@ -90,7 +90,7 @@ class DeleteReviewInteractorTest {
     private void assertFailure(String reviewId, String username, String expectedMessage) {
         final RecordingPresenter presenter = new RecordingPresenter();
         new DeleteReviewInteractor(new RecordingDataAccess(null, true), presenter)
-                .execute(reviewId, username);
+                .execute(new DeleteReviewInputData(reviewId, username));
         assertEquals(expectedMessage, presenter.failure);
     }
 

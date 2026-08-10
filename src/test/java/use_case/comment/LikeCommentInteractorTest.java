@@ -6,6 +6,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.junit.jupiter.api.Test;
 
+import use_case.comment.like_comment.LikeCommentInputData;
 import use_case.comment.like_comment.LikeCommentInteractor;
 import use_case.comment.like_comment.LikeCommentOutputBoundary;
 
@@ -21,7 +22,7 @@ class LikeCommentInteractorTest {
             return true;
         }, presenter);
 
-        interactor.execute(" comment-1 ", " bob ");
+        interactor.execute(new LikeCommentInputData(" comment-1 ", " bob "));
 
         assertEquals("comment-1", received[0]);
         assertEquals("bob", received[1]);
@@ -37,7 +38,7 @@ class LikeCommentInteractorTest {
             return true;
         }, presenter);
 
-        interactor.execute("  ", "bob");
+        interactor.execute(new LikeCommentInputData("  ", "bob"));
 
         assertEquals("Comment id cannot be empty.", presenter.failure);
         assertFalse(called[0]);
@@ -47,21 +48,21 @@ class LikeCommentInteractorTest {
     void blankUsernamePresentsFailure() {
         final RecordingPresenter presenter = new RecordingPresenter();
         new LikeCommentInteractor((id, username) -> true, presenter)
-                .execute("comment-1", " ");
+                .execute(new LikeCommentInputData("comment-1", " "));
         assertEquals("Username cannot be empty.", presenter.failure);
     }
 
     @Test
     void missingDataAccessIsReportedAsFailure() {
         final RecordingPresenter presenter = new RecordingPresenter();
-        new LikeCommentInteractor(null, presenter).execute("comment-1", "bob");
+        new LikeCommentInteractor(null, presenter).execute(new LikeCommentInputData("comment-1", "bob"));
         assertEquals("Comment data access object has not been configured.", presenter.failure);
     }
 
     @Test
     void nullCommentIdIsReportedAsFailure() {
         final RecordingPresenter presenter = new RecordingPresenter();
-        new LikeCommentInteractor((id, username) -> true, presenter).execute(null, "bob");
+        new LikeCommentInteractor((id, username) -> true, presenter).execute(new LikeCommentInputData(null, "bob"));
         assertEquals("Comment id cannot be empty.", presenter.failure);
     }
 

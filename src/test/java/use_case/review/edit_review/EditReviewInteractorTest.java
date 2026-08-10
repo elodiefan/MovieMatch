@@ -26,7 +26,7 @@ class EditReviewInteractorTest {
         final RecordingPresenter presenter = new RecordingPresenter();
         final EditReviewInteractor interactor = new EditReviewInteractor(dao, presenter);
 
-        interactor.execute("review-1", "bob", 90.0, "Even better");
+        interactor.execute(new EditReviewInputData("review-1", "bob", 90.0, "Even better"));
 
         assertTrue(dao.edited);
         assertEquals(90.0, review.getRating());
@@ -41,7 +41,7 @@ class EditReviewInteractorTest {
         final RecordingPresenter presenter = new RecordingPresenter();
         final EditReviewInteractor interactor = new EditReviewInteractor(dao, presenter);
 
-        interactor.execute("review-1", "alice", 90.0, "Changed");
+        interactor.execute(new EditReviewInputData("review-1", "alice", 90.0, "Changed"));
 
         assertFalse(dao.edited);
         assertNull(presenter.success);
@@ -53,7 +53,7 @@ class EditReviewInteractorTest {
         final RecordingPresenter presenter = new RecordingPresenter();
 
         new EditReviewInteractor(new RecordingReviewDao(null), presenter).execute(
-                "review-1", "bob", 80.0, "Text");
+                new EditReviewInputData("review-1", "bob", 80.0, "Text"));
 
         assertEquals("Review could not be edited.", presenter.failure);
     }
@@ -79,7 +79,7 @@ class EditReviewInteractorTest {
         final RecordingPresenter presenter = new RecordingPresenter();
 
         new EditReviewInteractor(new RecordingReviewDao(reviewByBob()), presenter).execute(
-                reviewId, username, rating, "Text");
+                new EditReviewInputData(reviewId, username, rating, "Text"));
 
         assertEquals(expectedMessage, presenter.failure);
     }
