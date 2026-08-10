@@ -12,6 +12,7 @@ import org.junit.jupiter.api.Test;
 
 import entity.Comment;
 import use_case.comment.delete_comment.DeleteCommentDataAccessInterface;
+import use_case.comment.delete_comment.DeleteCommentInputData;
 import use_case.comment.delete_comment.DeleteCommentInteractor;
 import use_case.comment.delete_comment.DeleteCommentOutputBoundary;
 
@@ -24,7 +25,7 @@ class DeleteCommentInteractorTest {
         final RecordingDataAccess dataAccess = new RecordingDataAccess(comment, true);
         final RecordingPresenter presenter = new RecordingPresenter();
 
-        new DeleteCommentInteractor(dataAccess, presenter).execute(" comment-1 ", " bob ");
+        new DeleteCommentInteractor(dataAccess, presenter).execute(new DeleteCommentInputData(" comment-1 ", " bob "));
 
         assertEquals("comment-1", dataAccess.deletedId);
         assertTrue(presenter.success);
@@ -37,7 +38,7 @@ class DeleteCommentInteractorTest {
         final RecordingDataAccess dataAccess = new RecordingDataAccess(comment, true);
         final RecordingPresenter presenter = new RecordingPresenter();
 
-        new DeleteCommentInteractor(dataAccess, presenter).execute("comment-1", "bob");
+        new DeleteCommentInteractor(dataAccess, presenter).execute(new DeleteCommentInputData("comment-1", "bob"));
 
         assertEquals("Comment could not be deleted.", presenter.failure);
         assertFalse(dataAccess.deleteCalled);
@@ -48,7 +49,7 @@ class DeleteCommentInteractorTest {
         final RecordingDataAccess dataAccess = new RecordingDataAccess(null, true);
         final RecordingPresenter presenter = new RecordingPresenter();
 
-        new DeleteCommentInteractor(dataAccess, presenter).execute("comment-1", "bob");
+        new DeleteCommentInteractor(dataAccess, presenter).execute(new DeleteCommentInputData("comment-1", "bob"));
 
         assertEquals("Comment could not be deleted.", presenter.failure);
         assertFalse(dataAccess.deleteCalled);
@@ -61,7 +62,7 @@ class DeleteCommentInteractorTest {
         final RecordingPresenter presenter = new RecordingPresenter();
 
         new DeleteCommentInteractor(new RecordingDataAccess(comment, false), presenter)
-                .execute("comment-1", "bob");
+                .execute(new DeleteCommentInputData("comment-1", "bob"));
 
         assertEquals("Comment could not be deleted.", presenter.failure);
     }
@@ -89,7 +90,7 @@ class DeleteCommentInteractorTest {
     @Test
     void missingDataAccessIsReportedAsFailure() {
         final RecordingPresenter presenter = new RecordingPresenter();
-        new DeleteCommentInteractor(null, presenter).execute("comment-1", "bob");
+        new DeleteCommentInteractor(null, presenter).execute(new DeleteCommentInputData("comment-1", "bob"));
         assertEquals("Comment data access object has not been configured.",
                 presenter.failure);
     }
@@ -98,7 +99,7 @@ class DeleteCommentInteractorTest {
                                       final String expectedMessage) {
         final RecordingPresenter presenter = new RecordingPresenter();
         new DeleteCommentInteractor(new RecordingDataAccess(null, true), presenter)
-                .execute(commentId, username);
+                .execute(new DeleteCommentInputData(commentId, username));
         assertEquals(expectedMessage, presenter.failure);
     }
 

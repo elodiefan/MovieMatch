@@ -23,7 +23,7 @@ class GetUserReviewsInteractorTest {
         final RecordingPresenter presenter = new RecordingPresenter();
 
         new GetUserReviewsInteractor(username -> new ArrayList<>(List.of(first, second)), presenter)
-                .execute(" bob ");
+                .execute(new GetUserReviewsInputData(" bob "));
 
         assertEquals("review-2", presenter.success.getReviews().get(0).getReviewId());
         assertEquals("review-1", presenter.success.getReviews().get(1).getReviewId());
@@ -34,7 +34,7 @@ class GetUserReviewsInteractorTest {
     void blankUsernamePresentsFailure() {
         final RecordingPresenter presenter = new RecordingPresenter();
 
-        new GetUserReviewsInteractor(username -> List.of(), presenter).execute("  ");
+        new GetUserReviewsInteractor(username -> List.of(), presenter).execute(new GetUserReviewsInputData("  "));
 
         assertEquals("Username cannot be empty.", presenter.failure);
     }

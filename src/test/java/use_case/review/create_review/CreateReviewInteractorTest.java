@@ -20,8 +20,8 @@ class CreateReviewInteractorTest {
         final CreateReviewInteractor interactor = new CreateReviewInteractor(
                 dao, (username, mediaId, mediaType) -> true, presenter);
 
-        interactor.execute(42, " movie ", " Example Movie ", 2025,
-                "/poster.jpg", " bob ", " Bob ", 85.0, " Enjoyed it ");
+        interactor.execute(new CreateReviewInputData(42, " movie ", " Example Movie ", 2025,
+                "/poster.jpg", " bob ", " Bob ", 85.0, " Enjoyed it "));
 
         assertNotNull(dao.savedReview);
         assertEquals("bob", dao.savedReview.getAuthorUsername());
@@ -37,8 +37,8 @@ class CreateReviewInteractorTest {
         final CreateReviewInteractor interactor = new CreateReviewInteractor(
                 dao, (username, mediaId, mediaType) -> false, presenter);
 
-        interactor.execute(42, "movie", "Example Movie", 2025,
-                "/poster.jpg", "bob", "Bob", 85.0, "Enjoyed it");
+        interactor.execute(new CreateReviewInputData(42, "movie", "Example Movie", 2025,
+                "/poster.jpg", "bob", "Bob", 85.0, "Enjoyed it"));
 
         assertNull(dao.savedReview);
         assertNull(presenter.success);
@@ -88,7 +88,7 @@ class CreateReviewInteractorTest {
         final CreateReviewInteractor interactor = new CreateReviewInteractor(
                 new RecordingReviewDao(), (username, id, type) -> true, presenter);
 
-        assertEquals(true, interactor.canCreateReview(1, " movie ", " bob "));
+        assertEquals(true, interactor.canCreateReview(new CreateReviewInputData(1, " movie ", " bob ")));
         assertNull(presenter.failure);
     }
 
@@ -98,8 +98,8 @@ class CreateReviewInteractorTest {
         final CreateReviewInteractor interactor = new CreateReviewInteractor(
                 null, (username, id, type) -> true, presenter);
 
-        interactor.execute(1, "movie", "Title", 2025, "", "bob", "Bob",
-                80.0, "Text");
+        interactor.execute(new CreateReviewInputData(1, "movie", "Title", 2025, "", "bob", "Bob",
+                80.0, "Text"));
 
         assertEquals("Review data access object has not been configured.",
                 presenter.failure);
@@ -124,8 +124,8 @@ class CreateReviewInteractorTest {
         final CreateReviewInteractor interactor = new CreateReviewInteractor(
                 new RecordingReviewDao(), (user, id, type) -> true, presenter);
 
-        interactor.execute(mediaId, mediaType, title, 2025, "", username,
-                displayName, rating, "Text");
+        interactor.execute(new CreateReviewInputData(mediaId, mediaType, title, 2025, "", username,
+                displayName, rating, "Text"));
 
         assertEquals(expectedMessage, presenter.failure);
     }

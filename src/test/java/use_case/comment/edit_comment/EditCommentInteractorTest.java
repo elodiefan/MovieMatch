@@ -21,8 +21,8 @@ class EditCommentInteractorTest {
         final RecordingDao dao = new RecordingDao(commentByBob());
         final RecordingPresenter presenter = new RecordingPresenter();
 
-        new EditCommentInteractor(dao, presenter).execute(
-                " comment-1 ", " bob ", " Updated comment ");
+        new EditCommentInteractor(dao, presenter).execute(new EditCommentInputData(
+                " comment-1 ", " bob ", " Updated comment "));
 
         assertTrue(dao.edited);
         assertEquals("comment-1", dao.commentId);
@@ -36,8 +36,8 @@ class EditCommentInteractorTest {
         final RecordingDao dao = new RecordingDao(commentByBob());
         final RecordingPresenter presenter = new RecordingPresenter();
 
-        new EditCommentInteractor(dao, presenter).execute(
-                "comment-1", "alice", "Changed");
+        new EditCommentInteractor(dao, presenter).execute(new EditCommentInputData(
+                "comment-1", "alice", "Changed"));
 
         assertFalse(dao.edited);
         assertFalse(presenter.success);
@@ -48,8 +48,8 @@ class EditCommentInteractorTest {
     void missingCommentIsReportedAsFailure() {
         final RecordingPresenter presenter = new RecordingPresenter();
 
-        new EditCommentInteractor(new RecordingDao(null), presenter).execute(
-                "comment-1", "bob", "Changed");
+        new EditCommentInteractor(new RecordingDao(null), presenter).execute(new EditCommentInputData(
+                "comment-1", "bob", "Changed"));
 
         assertEquals("Comment could not be edited.", presenter.failure);
     }
@@ -58,8 +58,8 @@ class EditCommentInteractorTest {
     void blankCommentTextIsReportedAsFailure() {
         final RecordingPresenter presenter = new RecordingPresenter();
 
-        new EditCommentInteractor(new RecordingDao(commentByBob()), presenter).execute(
-                "comment-1", "bob", "   ");
+        new EditCommentInteractor(new RecordingDao(commentByBob()), presenter).execute(new EditCommentInputData(
+                "comment-1", "bob", "   "));
 
         assertEquals("Comment text cannot be empty.", presenter.failure);
     }
