@@ -109,6 +109,13 @@ For more information, please check our presentation slides.
 MovieMatch has been tested on macOS and Windows
 
 ### Installation Steps
+1. Prepare your own mongo.properties file and TMDB API Read Access Token.
+2. Install Java JDK 17 and Apache Maven.
+3. Clone or download the MovieMatch repository.
+4. Place mongo.properties in the project’s root folder.
+5. Build the executable MovieMatch JAR using Maven.
+6. Set the TMDB Read Access Token as an environment variable.
+7. Run the JAR from the project’s root folder.
 
 ### Common Issues
 - MongoDB connection errors
