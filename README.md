@@ -116,10 +116,36 @@ MovieMatch has been tested on macOS and Windows
 - Incorrect JAVA version
 
 ## Feedback
+We welcome feedback that can help to improve MovieMatch. If you encounter a bug,
+have a feature suggestion, or notice an issue with the documentation, please
+open an issue in the
+[MovieMatch GitHub repository](https://github.com/elodiefan/MovieMatch/issues).
+
+A valid feedback should include: a clear description of problem, any idea of fixing
+that and the expected behavior.
+
+Before creating new issue, please check whether a similar issue has already reported.
 
 ## Contributing
+Contributions of MovieMatch are welcomed. You may contribute by fixing bugs, adding
+features or updating documentents.
+
+Steps of forking reposity:
+1. Open the
+[MovieMatch GitHub repository](https://github.com/elodiefan/MovieMatch).
+2. Select **Fork** in the upper-right corner of the GitHub page.
+3. Choose your GitHub account as the owner and select **Create fork**.
+4. Clone your fork:
+
+   ```bash
+   git clone https://github.com/<your-username>/MovieMatch.git
+   cd MovieMatch
+   ```
 
 ## License
+
+MovieMatch is licensed under the [MIT License](LICENSE).
+
 
 ## Authors and contributors
 Elodie， Enzo， Kiersten， Lily， Yidan
