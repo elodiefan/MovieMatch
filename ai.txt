@@ -1,0 +1,59 @@
+AI Declaration
+
+**Yidan**
+
+During the development of this project, I used ChatGPT/Codex for assistance of the following tasks:
+
+- Replaced the overly broad Exception with more specific IOException and fixed related exception-handling issues.
+- Improved the method for identifying and processing single-word queries in DatabaseSearchMediaDataAccess within the search implementation.
+- Clarified the overall structure for connecting to the API, transferring data, and organizing the relevant data models.
+- Obtained and learned Git commands needed during development.
+- Fixed an issue where genre IDs were displayed instead of genre names.
+- Checked test coverage of interactor-related use cases and reviewed the missing test updatesAreSubmittedToConfiduredUiExcetor().
+- Fixed import ordering and spacing issues throughout the project.
+- Added the missing test class AccessMessageChatTest.
+- Generated and fixed some tests related to the data access layer.
+- Reviewed all tests to make sure they are actually working.
+
+All AI-generated suggestions and code were reviewed, understood, and tested before being incorporated into the project.
+
+**Enzo**
+
+During the development of this project, I used Claude/Claude Code for assistance of the following tasks:
+
+- Getting mvn clean compile to run and pass on my machine, including working around Maven not being on my PATH by using IntelliJ's bundled mvn.cmd, and reading the build output correctly so that a failed compile was not mistaken for a successful one.
+- Specific syntax help with Javadoc comments, including writing the @param and @return tags, shortening overly long Javadocs across the project, and removing HTML tags from comments so the style checks passed.
+- Structuring the recommendation engine: splitting the scoring into separate sub-score entities, including genre overlap, cast overlap, friend ratings, popularity, and recency, the weighted score calculator, and the taste profile builder.
+- Wiring the Gemini score adjuster from Section 7 of the recommendation algorithm document, including batching the whole shortlist into a single API call instead of one call per title.
+- Fixing the genre ID encoding so recommendations worked once a use.
+- Keeping Swing out of the presenters so the interface adapter layer follows Clean Architecture.
+- Paging the media search instead of fetching every result at once, and showing the result count while pages load.
+- Testing and verifying test case coverage.
+
+All AI-generated suggestions and code were reviewed, understood, and tested before being incorporated into the project.
+
+**Elodie**
+
+During the development of this project, I used ChatGPT/Codex for assistance of the following tasks:
+
+- To help debug UI issues in Java Swing, such as button behavior, layout alignment, scroll behavior, pop-up positioning, and validation messages.
+- To help understand how to integrate MongoDB and TMDB API into our files.
+- To revise the Javadocs in Signup, Review, Comment, Watch history, and Watchlist, for classes, interfaces, constructors, and methods.
+- To help plan the order of files to implement for my assigned features.
+- To debug my sign-up work, review/comment features, watchlist/watch history logging, and MongoDB connection logic.
+- To help interpret compiler errors, CAVE warnings for Clean Architecture, and merge conflicts throughout the project for our team.
+- To help create PlantUML diagrams in IntelliJ.
+- To help improve exception handling by replacing overly broad or vague errors with more specific validation failures and user-facing messages.
+- To help decide when to use IllegalArgumentException for invalid user input, such as empty usernames, invalid ratings, missing review IDs, or blank comment text.
+- To help decide when to use IllegalStateException for setup/configuration problems, such as a missing presenter or unconfigured data access object.
+- To help understand Java syntax.
+
+All AI-generated suggestions and code were reviewed, understood, and tested before being incorporated into the project.
+
+**Kiersten**
+
+While developing this project, I used Claude/Claude Code to help initialize the database class MongoMessagesDataAccessObject and explain the code it provided. The code was then tested and validated before being included into the project.
+
+**Lily**
+
+The implementation of the log in, log out, change username, and change display name use cases were written using source code from CSC207 Homework 5. Codex was used on the accessing watchlist and watch history use cases to connect each movie/TV show title to its associated poster and media details page.
