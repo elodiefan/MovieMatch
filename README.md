@@ -25,7 +25,7 @@ For more information, please check our presentation slides.
 
 - The signup page is the first screen that shows up when the program runs successfully. 
 - The signup and login pages allow users to create and access their MovieMatch accounts. 
-- During sign-up, users enter a username, display name, password, repeated password, security question, and security answer. The security question is used later if the user needs to reset their password. 
+- During sign-up, users enter a username, display name, password, repeated password, security question, and security answer. The security question is used later if the user forgets their password. 
 - After creating an account, users can go to the login page and sign in with their username and password.
 
 2. Homepage and Recommendations
