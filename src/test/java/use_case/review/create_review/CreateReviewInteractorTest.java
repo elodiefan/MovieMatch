@@ -88,7 +88,9 @@ class CreateReviewInteractorTest {
         final CreateReviewInteractor interactor = new CreateReviewInteractor(
                 new RecordingReviewDao(), (username, id, type) -> true, presenter);
 
-        assertEquals(true, interactor.canCreateReview(new CreateReviewInputData(1, " movie ", " bob ")));
+        assertEquals(true, interactor.canCreateReview(new CreateReviewInputData(
+                1, " movie ", "Title", 2025, "", " bob ", "Bob", 80.0,
+                "Text")));
         assertNull(presenter.failure);
     }
 
@@ -111,7 +113,9 @@ class CreateReviewInteractorTest {
         final CreateReviewInteractor interactor = new CreateReviewInteractor(
                 new RecordingReviewDao(), null, presenter);
 
-        assertEquals(false, interactor.canCreateReview(1, "movie", "bob"));
+        assertEquals(false, interactor.canCreateReview(new CreateReviewInputData(
+                1, "movie", "Title", 2025, "", "bob", "Bob", 80.0,
+                "Text")));
         assertEquals("User data access object has not been configured.",
                 presenter.failure);
     }
