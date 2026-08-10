@@ -1,7 +1,7 @@
 # MovieMatch
-MovieMatch is a social meida-logging application that allows users to search for movies and TV shows, receive 
-personalized recommendations, and share their opinions. The project was created to address the difficultey of 
-finding trustworthy media reccomentations and meaningful spaces for discussion. It provides a supportive community 
+MovieMatch is a social media-logging application that allows users to search for movies and TV shows, receive 
+personalized recommendations, and share their opinions. The project was created to address the difficulty of 
+finding trustworthy media recommendations and meaningful spaces for discussion. It provides a supportive community 
 where users can discuver reliable reviews and connect with others through messaging and social interactions.
 
 For more information, please check our presentation slides.
@@ -128,7 +128,7 @@ Before creating new issue, please check whether a similar issue has already repo
 
 ## Contributing
 Contributions of MovieMatch are welcomed. You may contribute by fixing bugs, adding
-features or updating documentents.
+features or updating documentation.
 
 Steps of forking reposity:
 1. Open the
