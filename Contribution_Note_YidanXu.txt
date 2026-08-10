@@ -1,0 +1,15 @@
+Contribution Summary
+
+Some of my earlier commits were made using a local Git email address that was
+not connected to my GitHub account. So my contributions before Augest 7th are
+not displayed on GitHub's contribution graph.
+
+The statistics below include commits made with both my previous local Git
+identity and my current GitHub identity:
+
+Java commits: 35
+Java additions: 12855
+Java deletions: 498
+
+Only Java files were counted. Generated reports, datasets,
+resources, configuration files, and merge commits were excluded.

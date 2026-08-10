@@ -61,7 +61,7 @@ public class TMDBAPIClient {
 
     /**
      * Searches for movies and TV shows from TMDB.
-     * <a href="https://developer.themoviedb.org/reference/search-multi?utm_source=chatgpt.com">...</a>
+     * <a href="https://developer.themoviedb.org/reference/search-multi">...</a>
      * @param keyword the title entered by the user
      * @param page the result page requested from TMDB
      * @return the complete JSON response from TMDB

@@ -1,0 +1,52 @@
+@startuml
+left to right direction
+
+skinparam shadowing false
+skinparam linetype ortho
+skinparam nodesep 8
+skinparam ranksep 12
+skinparam classAttributeIconSize 0
+skinparam defaultFontSize 10
+skinparam class {
+  Padding 2
+}
+
+class SignupView
+class SignupController
+class SignupInputData
+interface SignupInputBoundary
+class SignupInteractor
+interface SignupUserDataAccessInterface
+interface UserFactory
+interface User
+class StandardUser
+class SignupOutputData
+interface SignupOutputBoundary
+class SignupPresenter
+class SignupViewModel
+class SignupState
+
+SignupView --> SignupController
+SignupView --> SignupViewModel
+SignupView --> SignupState
+
+SignupController --> SignupInputData
+SignupController --> SignupInputBoundary
+
+SignupInteractor ..|> SignupInputBoundary
+SignupInteractor --> SignupInputData
+SignupInteractor --> SignupUserDataAccessInterface
+SignupInteractor --> UserFactory
+SignupInteractor --> User
+SignupInteractor --> SignupOutputData
+SignupInteractor --> SignupOutputBoundary
+
+UserFactory --> User
+StandardUser ..|> User
+
+SignupPresenter ..|> SignupOutputBoundary
+SignupPresenter --> SignupOutputData
+SignupPresenter --> SignupViewModel
+SignupPresenter --> SignupState
+
+@enduml

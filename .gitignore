@@ -16,3 +16,6 @@ out/
 config.properties
 tmdb.properties
 tmdb.properties.example
+
+# Local UML diagrams
+*.puml
