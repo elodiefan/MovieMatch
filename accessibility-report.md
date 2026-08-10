@@ -18,7 +18,7 @@
    - In the future, we may implement zoom capabilities in our settings to add legibility.
   
 5. Tolerance for Error
-   - Incorrect passwords display a warning and only lock out after three incorrect attempts.
+   - Incorrect security question answers display a warning and only lock out after three incorrect attempts.
    - In the future, we may implement spell check for search queries to allow for more spelling error tolerance.
   
 6. Low Physical Effort
