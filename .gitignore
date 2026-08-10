@@ -15,7 +15,11 @@ out/
 # API keys / secrets
 config.properties
 tmdb.properties
+<<<<<<< HEAD
 tmdb.properties.example
 
 # Local UML diagrams
 *.puml
+=======
+tmdb.properties.example
+>>>>>>> f185eea (cleaning up files)
